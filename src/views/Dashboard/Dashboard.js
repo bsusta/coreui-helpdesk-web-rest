@@ -4,17 +4,18 @@ class Dashboard extends Component {
   render() {
     return (
       <div class="card">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover table-sm">
           <thead class="thead-inverse">
             <tr>
-              <th>#</th>
-              <th>Status</th>
+              <th style={{ width: "3%" }}>#</th>
+              <th style={{ width: "5%" }}>Status</th>
               <th>Názov</th>
-              <th>Zadal</th>
-              <th>Firma</th>
-              <th>Rieši</th>
-              <th>Projekt</th>
-              <th>Created</th>
+              <th style={{ width: "10%" }}>Zadal</th>
+              <th style={{ width: "10%" }}>Firma</th>
+              <th style={{ width: "10%" }}>Rieši</th>
+              <th style={{ width: "10%" }}>Projekt</th>
+              <th style={{ width: "10%" }}>Created</th>
+              <th style={{ width: "10%" }}>Due Date</th>
             </tr>
           </thead>
           <tbody>
@@ -29,6 +30,7 @@ class Dashboard extends Component {
               <td>amichalica</td>
               <td>Hotline</td>
               <td>15:37 9.12.2017</td>
+              <td>15:37 9.12.2017</td>
             </tr>
             <tr>
               <td>2</td>
@@ -41,6 +43,7 @@ class Dashboard extends Component {
               <td>amichalica</td>
               <td>Hotline</td>
               <td>15:37 9.12.2017</td>
+              <td>15:37 9.12.2017</td>
             </tr>
             <tr>
               <td>3</td>
@@ -52,6 +55,7 @@ class Dashboard extends Component {
               <td>LAN Systems</td>
               <td>amichalica</td>
               <td>Hotline</td>
+              <td>15:37 9.12.2017</td>
               <td>15:37 9.12.2017</td>
             </tr>
           </tbody>
