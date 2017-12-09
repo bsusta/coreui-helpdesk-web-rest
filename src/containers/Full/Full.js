@@ -30,7 +30,7 @@ class Full extends Component {
                 <Route exact path="/newTask" name="New task" component={NewTask}/>
                 <Route exact path="/unitsList" name="Units list" component={UnitsList}/>
                 <Route exact path="/unit/add" name="Unit add" component={UnitAdd}/>
-                <Route path="/unit/edit/:id" name="Unit edit" component={UnitEdit}/>
+                <Route exact path="/unit/edit/:id" name="Unit edit" component={UnitEdit}/>
               </Switch>
             </Container>
           </main>

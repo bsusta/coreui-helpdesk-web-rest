@@ -27,6 +27,12 @@ class UnitEdit extends Component {
         <div class="card-body">
           <div class="list-group">
             <form onSubmit={(event,value)=>{event.preventDefault();this.props.history.goBack();}}>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" checked={this.state.active} onChange={()=>this.setState({active:!this.state.active})} class="form-check-input"/>
+                  Active
+                </label>
+              </div>
               <div class="form-group">
                 <label for="title">Unit title</label>
                 <input class="form-control" id="title" value={this.state.title} onChange={(event)=>this.setState({title:event.target.value})} placeholder="Enter title"/>
@@ -34,12 +40,6 @@ class UnitEdit extends Component {
               <div class="form-group">
                 <label for="shortcut">Shortcut</label>
                 <input class="form-control" id="shortcut" value={this.state.shortcut} onChange={(event)=>this.setState({shortcut:event.target.value})} placeholder="Enter shortcut"/>
-              </div>
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input type="checkbox" checked={this.state.active} onChange={()=>this.setState({active:!this.state.active})} class="form-check-input"/>
-                  Active
-                </label>
               </div>
             </form>
             <div class="card-footer">
