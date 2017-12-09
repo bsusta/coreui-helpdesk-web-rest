@@ -1,5 +1,7 @@
 const routes = {
   '/': 'Home',
-  '/dashboard': 'Dashboard'
+  '/dashboard': 'Dashboard',
+  '/settings': 'Settings',
+  '/newTask': 'New Task',
 };
 export default routes;

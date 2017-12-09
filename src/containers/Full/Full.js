@@ -8,20 +8,23 @@ import Aside from '../../components/Aside/';
 import Footer from '../../components/Footer/';
 
 import Dashboard from '../../views/Dashboard/';
+import Settings from '../../views/Settings/';
+import NewTask from '../../views/newTask/';
 
 class Full extends Component {
   render() {
     return (
       <div className="app">
-        <Header />
+        <Header history={this.props.history} />
         <div className="app-body">
           <Sidebar {...this.props}/>
           <main className="main">
             <Breadcrumb />
             <Container fluid>
               <Switch>
-                <Route path="/dashboard" name="Dashboard" component={Dashboard}/>
-                <Redirect from="/" to="/dashboard"/>
+                <Route exact path="/dashboard" name="Dashboard" component={Dashboard}/>
+                  <Route exact path="/settings" name="Settings" component={Settings}/>
+                    <Route exact path="/newTask" name="New task" component={NewTask}/>
               </Switch>
             </Container>
           </main>

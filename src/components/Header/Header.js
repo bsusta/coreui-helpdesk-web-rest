@@ -38,6 +38,10 @@ class Header extends Component {
         <NavbarToggler className="d-md-down-none mr-auto" onClick={this.sidebarToggle}>
           <span className="navbar-toggler-icon"></span>
         </NavbarToggler>
+        <button type="button" class="btn btn-link" onClick={()=>this.props.history.push('./newTask')}>Add task</button>
+        <NavbarToggler className="d-md-down-none" onClick={()=>this.props.history.push('./settings')}>
+          <i className="icon-settings"></i>
+        </NavbarToggler>
         <NavbarToggler className="d-md-down-none" onClick={this.asideToggle}>
           <span className="navbar-toggler-icon"></span>
         </NavbarToggler>
