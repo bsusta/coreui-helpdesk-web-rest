@@ -72,7 +72,6 @@ class Full extends Component {
           </main>
           <Aside />
         </div>
-        <Footer />
       </div>
     );
   }
