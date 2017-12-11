@@ -7,12 +7,12 @@ import Breadcrumb from "../../components/Breadcrumb/";
 import Aside from "../../components/Aside/";
 import Footer from "../../components/Footer/";
 
-import Dashboard from '../../views/Dashboard/';
-import Settings from '../../views/Settings/';
-import NewTask from '../../views/newTask/';
-import UnitsList from '../../views/unitsList';
-import UnitAdd from '../../views/unitAdd';
-import UnitEdit from '../../views/unitEdit';
+import Dashboard from "../../views/Dashboard/";
+import Settings from "../../views/Settings/";
+import NewTask from "../../views/newTask/";
+import UnitsList from "../../views/unitsList";
+import UnitAdd from "../../views/unitAdd";
+import UnitEdit from "../../views/unitEdit";
 import MyTasks from "../../views/MyTasks/";
 class Full extends Component {
   render() {
@@ -25,25 +25,11 @@ class Full extends Component {
             <Breadcrumb />
             <Container fluid>
               <Switch>
-<<<<<<< HEAD
-                <Route exact path="/dashboard" name="Dashboard" component={Dashboard}/>
-                <Route exact path="/settings" name="Settings" component={Settings}/>
-                <Route exact path="/newTask" name="New task" component={NewTask}/>
-                <Route exact path="/unitsList" name="Units list" component={UnitsList}/>
-                <Route exact path="/unit/add" name="Unit add" component={UnitAdd}/>
-                <Route exact path="/unit/edit/:id" name="Unit edit" component={UnitEdit}/>
-=======
                 <Route
                   exact
                   path="/dashboard"
                   name="Dashboard"
                   component={Dashboard}
-                />
-                <Route
-                  exact
-                  path="/mytasks"
-                  name="MyTasks"
-                  component={MyTasks}
                 />
                 <Route
                   exact
@@ -57,7 +43,30 @@ class Full extends Component {
                   name="New task"
                   component={NewTask}
                 />
->>>>>>> BS-TaskList+EditTasks
+                <Route
+                  exact
+                  path="/unitsList"
+                  name="Units list"
+                  component={UnitsList}
+                />
+                <Route
+                  exact
+                  path="/unit/add"
+                  name="Unit add"
+                  component={UnitAdd}
+                />
+                <Route
+                  exact
+                  path="/unit/edit/:id"
+                  name="Unit edit"
+                  component={UnitEdit}
+                />
+                <Route
+                  exact
+                  path="/mytasks"
+                  name="MyTasks"
+                  component={MyTasks}
+                />
               </Switch>
             </Container>
           </main>
