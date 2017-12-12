@@ -18,8 +18,10 @@ const getPaths = (pathname) => {
   return paths;
 };
 
+
 const BreadcrumbsItem = ({...rest, match}) => {
   const routeName = findRouteName(match.url);
+
   if (routeName) {
     return (
       match.isExact ?
@@ -37,6 +39,7 @@ const BreadcrumbsItem = ({...rest, match}) => {
   }
   return null;
 };
+
 
 const Breadcrumbs = ({...rest, location : {pathname}, match}) => {
   const paths = getPaths(pathname);

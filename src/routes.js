@@ -7,6 +7,6 @@ const routes = {
   "/unit/add": "Unit add",
   "/unit/edit": "Unit edit",
   "/mytasks": "MyTasks",
-  "/mytasks": "MyTasks"
+  "/Project": "Project"
 };
 export default routes;

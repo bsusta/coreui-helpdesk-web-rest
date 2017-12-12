@@ -13,7 +13,10 @@ import NewTask from "../../views/newTask/";
 import UnitsList from "../../views/unitsList";
 import UnitAdd from "../../views/unitAdd";
 import UnitEdit from "../../views/unitEdit";
-import MyTasks from "../../views/MyTasks/";
+import MyTasks from "../../views/MyTasks";
+import Project from "../../views/Project";
+import EditTask from "../../views/EditTask";
+
 class Full extends Component {
   render() {
     return (
@@ -21,8 +24,8 @@ class Full extends Component {
         <Header history={this.props.history} />
         <div className="app-body">
           <Sidebar {...this.props} />
-          <main className="main">
-            <Breadcrumb />
+          <main className="main" style={{ backgroundColor: "white" }}>
+            {/*<Breadcrumb />*/}
             <Container fluid>
               <Switch>
                 <Route
@@ -66,6 +69,18 @@ class Full extends Component {
                   path="/mytasks"
                   name="MyTasks"
                   component={MyTasks}
+                />
+                <Route
+                  exact
+                  path="/project"
+                  name="Project"
+                  component={Project}
+                />
+                <Route
+                  exact
+                  path="/edittask"
+                  name="EditTask"
+                  component={EditTask}
                 />
               </Switch>
             </Container>

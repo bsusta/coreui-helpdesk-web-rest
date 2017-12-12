@@ -17,6 +17,15 @@ export default {
         variant: "info",
         text: "4"
       }
+    },
+    {
+      name: "Project",
+      url: "/project",
+      icon: "icon-folder",
+      badge: {
+        variant: "info",
+        text: "4"
+      }
     }
   ]
 };

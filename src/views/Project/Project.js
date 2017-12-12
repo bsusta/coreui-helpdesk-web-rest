@@ -21,13 +21,13 @@ import {
   InputGroupButton
 } from "reactstrap";
 
-class Dashboard extends Component {
+class Project extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ marginTop: 25 }}>Dashboard</h2>
+        <h2 style={{ marginTop: 25 }}>Project</h2>
         <div className="card" style={{ border: "0px" }}>
-          <table className="table table-striped table-hover table-sm">
+          <table class="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
               <tr>
                 <th style={{ width: "3%", borderTop: "0px" }}>#</th>
@@ -36,43 +36,14 @@ class Dashboard extends Component {
                 <th style={{ width: "10%", borderTop: "0px" }}>Zadal</th>
                 <th style={{ width: "10%", borderTop: "0px" }}>Firma</th>
                 <th style={{ width: "10%", borderTop: "0px" }}>Rieši</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>Projekt</th>
+
                 <th style={{ width: "10%", borderTop: "0px" }}>Created</th>
                 <th style={{ width: "10%", borderTop: "0px" }}>Due Date</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-              </tr>
-              <tr>
-                <td style={{ verticalAlign: "center" }}>1</td>
+                <td>1</td>
                 <td>
                   <span class="badge badge-success">NEW</span>
                 </td>
@@ -88,7 +59,6 @@ class Dashboard extends Component {
                 <td>bsusta</td>
                 <td>LAN Systems</td>
                 <td>amichalica</td>
-                <td>Hotline</td>
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>
@@ -109,7 +79,7 @@ class Dashboard extends Component {
                 <td>bsusta</td>
                 <td>LAN Systems</td>
                 <td>amichalica</td>
-                <td>Hotline</td>
+
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>
@@ -130,7 +100,6 @@ class Dashboard extends Component {
                 <td>bsusta</td>
                 <td>LAN Systems</td>
                 <td>amichalica</td>
-                <td>Hotline</td>
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>
@@ -142,4 +111,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default Project;

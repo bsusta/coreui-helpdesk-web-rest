@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
+import Comments from "./Comments";
+import AddComment from "./AddComment";
 
 let mockOptions = [
   { id: 0, title: "Moznost 1", color: "#57b141" },
@@ -9,7 +11,7 @@ let mockOptions = [
   { id: 4, title: "Moznost 5", color: "#7329b1" }
 ];
 
-class NewTask extends Component {
+class EditTask extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,11 +38,11 @@ class NewTask extends Component {
               <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
                 <form>
                   <div class="form-group">
-                    <label for="title">Task name</label>
+                    <label for="title">Task Name</label>
                     <input
                       class="form-control"
                       id="title"
-                      placeholder="Enter task name"
+                      placeholder="Oprava PC"
                     />
                   </div>
                   <div class="form-group">
@@ -60,7 +62,10 @@ class NewTask extends Component {
                     />
                   </div>
                 </form>
+                <AddComment />
+                <Comments />
               </div>
+
               <div className="col-4">
                 <form>
                   <div class="form-group">
@@ -149,4 +154,4 @@ class NewTask extends Component {
   }
 }
 
-export default NewTask;
+export default EditTask;

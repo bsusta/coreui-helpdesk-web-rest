@@ -48,7 +48,7 @@ class Header extends Component {
           <i className="icon-settings" />
         </NavbarToggler>
         <NavbarToggler className="d-md-down-none" onClick={this.asideToggle}>
-          <span className="navbar-toggler-icon" />
+          <i className="fa fa-filter" />
         </NavbarToggler>
       </header>
     );
