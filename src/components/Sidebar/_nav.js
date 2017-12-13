@@ -26,6 +26,15 @@ export default {
         variant: "info",
         text: "4"
       }
+    },
+    {
+      name: "Pausal",
+      url: "/project",
+      icon: "icon-folder",
+      badge: {
+        variant: "info",
+        text: "4"
+      }
     }
   ]
 };

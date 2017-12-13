@@ -12,8 +12,12 @@ class AddComment extends Component {
     return (
       <div>
         <div class="form-group">
-          <label for="description">Add Comment</label>
-          <textarea class="form-control" id="description" placeholder="" />
+          <label>Add comment</label>
+          <textarea
+            class="form-control"
+            id="description"
+            placeholder="add comment"
+          />
         </div>
         <div className="form-group">
           <button type="submit" className="btn btn-success mr-1">

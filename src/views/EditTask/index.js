@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  ButtonGroup
+} from "reactstrap";
 import Comments from "./Comments";
 import AddComment from "./AddComment";
+import Subtask from "./Subtasks";
 
 let mockOptions = [
   { id: 0, title: "Moznost 1", color: "#57b141" },
@@ -11,26 +19,65 @@ let mockOptions = [
   { id: 4, title: "Moznost 5", color: "#7329b1" }
 ];
 
+let mockStatus = [
+  { id: 0, title: "Novy", color: "#6495ed" },
+  { id: 1, title: "Riesit", color: "#458b74" },
+  { id: 2, title: "Odložené", color: "#d68a00" },
+  { id: 3, title: "Zavreté", color: "#7b7e8b" }
+];
+
+let mockPausal = [
+  { id: 0, title: "Ano", color: "#57b141" },
+  { id: 1, title: "Nie", color: "#8ebfbe" }
+];
+
+let mockRepeat = [
+  { id: 0, title: "day", color: "#57b141" },
+  { id: 1, title: "week", color: "#8ebfbe" },
+  { id: 2, title: "month", color: "#d68a00" },
+  { id: 3, title: "year", color: "#7b7e8b" }
+];
+
+let mockTypPrace = [
+  { id: 0, title: "Servis IT", color: "#57b141" },
+  { id: 1, title: "Programovanie", color: "#8ebfbe" }
+];
+
 class EditTask extends Component {
   constructor(props) {
     super(props);
+    this.toggle = this.toggle.bind(this);
     this.state = {
-      selected: 0
+      selected: 0,
+      dropdownOpen: false
     };
+  }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
   }
   render() {
     return (
       <div style={{ marginTop: 30 }}>
         <Card style={{ maxWidth: 1380, margin: "auto" }}>
           <CardHeader>
-            <button class="btn btn-primary mr-1">
-              <i class="fa fa-save" /> Save
+            <button class="btn btn-success mr-1">
+              <i class="fa fa-play" /> Riesit
             </button>
+            <button class="btn btn-warning mr-1">
+              <i class="fa fa-pause" /> Odlozit
+            </button>
+            <button class="btn btn-secondary mr-1">
+              <i class="fa fa-check" /> Zatvoriť
+            </button>
+
             <button class="btn btn-primary mr-1">
               <i class="fa fa-print" /> Print
             </button>
             <button class="btn btn-danger mr-1">
-              <i class="fa fa-ban" /> Cancel
+              <i class="fa fa-remove" /> Vymazať
             </button>
           </CardHeader>
           <CardBody>
@@ -62,6 +109,7 @@ class EditTask extends Component {
                     />
                   </div>
                 </form>
+                <Subtask />
                 <AddComment />
                 <Comments />
               </div>
@@ -82,7 +130,7 @@ class EditTask extends Component {
                         this.setState({ selected: event.target.value });
                       }}
                     >
-                      {mockOptions.map(opt => (
+                      {mockStatus.map(opt => (
                         <option
                           key={opt.id}
                           style={{ color: "white", backgroundColor: opt.color }}
@@ -137,12 +185,76 @@ class EditTask extends Component {
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="worktime">Add work time</label>
-                    <input
-                      class="form-control"
-                      id="worktime"
-                      placeholder="Enter work time"
-                    />
+                    <label for="assigned">Typ práce</label>
+                    <select class="form-control" id="assigned">
+                      {mockTypPrace.map(opt => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="assigned">Pausal</label>
+                    <select class="form-control" id="assigned">
+                      {mockPausal.map(opt => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="assigned">Opakovanie</label>
+
+                    <Dropdown
+                      isOpen={this.state.dropdownOpen}
+                      toggle={this.toggle}
+                    >
+                      <DropdownToggle caret>no repeat</DropdownToggle>
+                      <DropdownMenu>
+                        <form class="px-4 py-3">
+                          <div class="form-group">
+                            <label for="exampleDropdownFormEmail1">
+                              Repeat every
+                            </label>
+                            <input
+                              type="email"
+                              class="form-control"
+                              id="exampleDropdownFormEmail1"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <select class="form-control" id="assigned">
+                              {mockRepeat.map(opt => (
+                                <option key={opt.id} value={opt.id}>
+                                  {opt.title}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleDropdownFormEmail1">
+                              Start date
+                            </label>
+                            <input
+                              type="email"
+                              class="form-control"
+                              id="exampleDropdownFormEmail1"
+                            />
+                          </div>
+                          <button type="submit" class="btn btn-primary">
+                            Save
+                          </button>
+                        </form>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
+                  <div class="form-group">
+                    <label for="assigned">Prílohy</label>
+                    <button class="btn btn-primary btn-block" type="submit">
+                      Add prílohu
+                    </button>
                   </div>
                 </form>
               </div>

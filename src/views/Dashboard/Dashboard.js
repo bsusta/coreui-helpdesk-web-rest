@@ -76,7 +76,7 @@ class Dashboard extends Component {
                 <td>
                   <span class="badge badge-success">NEW</span>
                 </td>
-                <td>
+                <td onClick={() => this.props.history.push("/editTask")}>
                   Oprava PC
                   <p>
                     <span class="badge badge-primary mr-1">Primary</span>
