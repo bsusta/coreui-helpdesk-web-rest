@@ -16,6 +16,7 @@ import UnitEdit from "../../views/unitEdit";
 import MyTasks from "../../views/MyTasks";
 import Project from "../../views/Project";
 import EditTask from "../../views/EditTask";
+import TrojStlpec from "../../views/TrojStlpec";
 
 class Full extends Component {
   render() {
@@ -81,6 +82,12 @@ class Full extends Component {
                   path="/edittask"
                   name="EditTask"
                   component={EditTask}
+                />
+                <Route
+                  exact
+                  path="/trojstlpec"
+                  name="TrojStlpec"
+                  component={TrojStlpec}
                 />
               </Switch>
             </Container>

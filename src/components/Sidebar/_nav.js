@@ -35,6 +35,15 @@ export default {
         variant: "info",
         text: "4"
       }
+    },
+    {
+      name: "Trojstlpec",
+      url: "/trojstlpec",
+      icon: "icon-folder",
+      badge: {
+        variant: "info",
+        text: "4"
+      }
     }
   ]
 };

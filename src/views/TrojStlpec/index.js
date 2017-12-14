@@ -43,7 +43,7 @@ let mockTypPrace = [
   { id: 1, title: "Programovanie", color: "#8ebfbe" }
 ];
 
-class EditTask extends Component {
+class TrojStlpec extends Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
@@ -60,59 +60,39 @@ class EditTask extends Component {
   }
   render() {
     return (
-      <div style={{ marginTop: 30 }}>
-        <Card style={{ maxWidth: 1380, margin: "auto" }}>
-          <CardHeader>
-            <button class="btn btn-success mr-1">
-              <i class="fa fa-save" /> Ulozit
-            </button>
-            <button class="btn btn-warning mr-1">
-              <i class="fa fa-ban" /> Cancel
-            </button>
+      <div className="row">
+        <div className="col-4" />
+        <div className="col-8">
+          <Card>
+            <CardHeader>
+              <button class="btn btn-success mr-1">
+                <i class="fa fa-save" /> Ulozit
+              </button>
+              <button class="btn btn-warning mr-1">
+                <i class="fa fa-ban" /> Cancel
+              </button>
 
-            <button class="btn btn-primary mr-1">
-              <i class="fa fa-print" /> Print
-            </button>
-            <button class="btn btn-danger mr-1">
-              <i class="fa fa-remove" /> Vymazať
-            </button>
-          </CardHeader>
-          <CardBody>
-            <div className="row">
-              <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
-                <form>
-                  <div class="form-group">
-                    <label for="title">Task Name</label>
-                    <input
-                      class="form-control"
-                      id="title"
-                      placeholder="Oprava PC"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="tags">Tags</label>
-                    <input
-                      class="form-control"
-                      id="tags"
-                      placeholder="Enter tags"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea
-                      class="form-control"
-                      id="description"
-                      placeholder="Enter description"
-                    />
-                  </div>
-                </form>
-                <Subtask />
-                <AddComment />
-                <Comments />
-              </div>
+              <button class="btn btn-primary mr-1">
+                <i class="fa fa-print" /> Print
+              </button>
+              <button class="btn btn-danger mr-1">
+                <i class="fa fa-remove" /> Vymazať
+              </button>
+            </CardHeader>
+            <CardBody>
+              <form>
+                <div class="form-group">
+                  <label for="title">Task Name</label>
+                  <input
+                    class="form-control"
+                    id="title"
+                    placeholder="Oprava PC"
+                  />
+                </div>
+              </form>
 
-              <div className="col-4">
-                <form>
+              <div className="row">
+                <div className="col">
                   <div class="form-group">
                     <label for="status">Status</label>
                     <select
@@ -130,7 +110,10 @@ class EditTask extends Component {
                       {mockStatus.map(opt => (
                         <option
                           key={opt.id}
-                          style={{ color: "white", backgroundColor: opt.color }}
+                          style={{
+                            color: "white",
+                            backgroundColor: opt.color
+                          }}
                           value={opt.id}
                         >
                           {opt.title}
@@ -138,18 +121,8 @@ class EditTask extends Component {
                       ))}
                     </select>
                   </div>
-
-                  <div class="form-group">
-                    <label for="project">Project</label>
-                    <select class="form-control" id="project">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
+                </div>
+                <div className="col">
                   <div class="form-group">
                     <label for="requester">Requester</label>
                     <select class="form-control" id="requester">
@@ -160,7 +133,29 @@ class EditTask extends Component {
                       ))}
                     </select>
                   </div>
-
+                </div>
+                <div className="col">
+                  <div class="form-group">
+                    <label for="title">Due date</label>
+                    <input class="form-control" id="title" />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <div class="form-group">
+                    <label for="project">Project</label>
+                    <select class="form-control" id="project">
+                      {mockOptions.map(opt => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="col">
+                  {" "}
                   <div class="form-group">
                     <label for="company">Company</label>
                     <select class="form-control" id="company">
@@ -171,20 +166,9 @@ class EditTask extends Component {
                       ))}
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label for="assigned">Assigned</label>
-                    <select class="form-control" id="assigned">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="title">Due date</label>
-                    <input class="form-control" id="title" />
-                  </div>
+                </div>
+                <div className="col">
+                  {" "}
                   <div class="form-group">
                     <label for="assigned">Typ práce</label>
                     <select class="form-control" id="assigned">
@@ -195,6 +179,11 @@ class EditTask extends Component {
                       ))}
                     </select>
                   </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  {" "}
                   <div class="form-group">
                     <label for="assigned">Pausal</label>
                     <select class="form-control" id="assigned">
@@ -205,6 +194,22 @@ class EditTask extends Component {
                       ))}
                     </select>
                   </div>
+                </div>
+                <div className="col">
+                  {" "}
+                  <div class="form-group">
+                    <label for="assigned">Assigned</label>
+                    <select class="form-control" id="assigned">
+                      {mockOptions.map(opt => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="col">
+                  {" "}
                   <div class="form-group">
                     <label for="assigned">Opakovanie</label>
 
@@ -251,20 +256,43 @@ class EditTask extends Component {
                       </DropdownMenu>
                     </Dropdown>
                   </div>
-                  <div class="form-group">
-                    <label for="assigned">Prílohy</label>
-                    <button class="btn btn-primary btn-block" type="submit">
-                      Add prílohu
-                    </button>
-                  </div>
-                </form>
+                </div>
               </div>
-            </div>
-          </CardBody>
-        </Card>
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  placeholder="Enter description"
+                />
+              </div>
+              <div class="form-group">
+                <label for="tags">Tags</label>
+                <input
+                  class="form-control"
+                  id="tags"
+                  placeholder="Enter tags"
+                />
+              </div>
+
+              <Subtask />
+              <AddComment />
+              <Comments />
+
+              <form>
+                <div class="form-group">
+                  <label for="assigned">Prílohy</label>
+                  <button class="btn btn-primary btn-block" type="submit">
+                    Add prílohu
+                  </button>
+                </div>
+              </form>
+            </CardBody>
+          </Card>
+        </div>
       </div>
     );
   }
 }
 
-export default EditTask;
+export default TrojStlpec;

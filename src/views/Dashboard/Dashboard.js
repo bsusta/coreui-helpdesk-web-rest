@@ -25,7 +25,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ marginTop: 25 }}>Dashboard</h2>
+        <h2 style={{ marginTop: 20 }}>Dashboard</h2>
         <div className="card" style={{ border: "0px" }}>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
