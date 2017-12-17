@@ -4,7 +4,7 @@ class MyTasks extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ marginTop: 20 }}>MyTasks</h2>
+        <h2 style={{ marginTop: 20 }}>Filter</h2>
 
         <button type="button" class="btn btn-link pl-0">
           <i className="fa fa-filter" />

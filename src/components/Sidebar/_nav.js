@@ -1,9 +1,9 @@
 export default {
   items: [
     {
-      name: "MyTask",
+      name: "Filter",
       url: "/mytasks",
-      icon: "icon-speedometer",
+      icon: "fa fa-filter",
       badge: {
         variant: "info",
         text: "4"

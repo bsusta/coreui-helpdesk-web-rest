@@ -60,8 +60,8 @@ class EditTask extends Component {
   }
   render() {
     return (
-      <div style={{ marginTop: 30 }}>
-        <Card style={{ maxWidth: 1380, margin: "auto" }}>
+      <div>
+        <Card style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}>
           <CardHeader>
             <button class="btn btn-success mr-1">
               <i class="fa fa-save" /> Ulozit
