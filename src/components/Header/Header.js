@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Nav, NavItem, NavbarToggler, NavbarBrand } from "reactstrap";
+import SidebarMinimizer from "./../SidebarMinimizer";
 
 class Header extends Component {
   sidebarToggle(e) {

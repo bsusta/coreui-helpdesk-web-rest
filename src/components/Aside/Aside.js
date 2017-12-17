@@ -59,6 +59,17 @@ class Aside extends Component {
           <div class="container-fluid" style={{ marginTop: 20 }}>
             <h4>Filter</h4>
           </div>
+
+          <button type="button" class="btn btn-link">
+            Apply
+          </button>
+          <button type="button" class="btn btn-link">
+            Save
+          </button>
+          <button type="button" class="btn btn-link">
+            Reset
+          </button>
+
           <div
             class="container-fluid"
             style={{
@@ -183,20 +194,36 @@ class Aside extends Component {
               marginTop: 10
             }}
           >
+            <label>Tags</label>
+            <Select
+              name="form-field-name2"
+              value={this.state.value}
+              options={options}
+              onChange={this.saveChanges}
+              multi
+              style={{ width: "100%" }}
+            />
+          </div>
+          <div
+            class="container-fluid"
+            style={{
+              marginTop: 10
+            }}
+          >
             <label>Created</label>
 
             <div class="d-flex flex-row justify-content-between">
-              <label>From:</label>
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleChange}
+              <input
+                type="text"
+                id="name"
+                class="form-control mr-2"
+                placeholder="From"
               />
-            </div>
-            <div class="d-flex flex-row justify-content-between">
-              <label>To:</label>
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleChange}
+              <input
+                type="text"
+                id="name"
+                class="form-control ml-2"
+                placeholder="To"
               />
             </div>
           </div>
@@ -208,17 +235,17 @@ class Aside extends Component {
           >
             <label>Due Date</label>
             <div class="d-flex flex-row justify-content-between">
-              <label>From:</label>
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleChange}
+              <input
+                type="text"
+                id="name"
+                class="form-control mr-2"
+                placeholder="From"
               />
-            </div>
-            <div class="d-flex flex-row justify-content-between">
-              <label>To:</label>
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleChange}
+              <input
+                type="text"
+                id="name"
+                class="form-control ml-2"
+                placeholder="To"
               />
             </div>
           </div>
@@ -230,17 +257,17 @@ class Aside extends Component {
           >
             <label>Closed</label>
             <div class="d-flex flex-row justify-content-between">
-              <label>From:</label>
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleChange}
+              <input
+                type="text"
+                id="name"
+                class="form-control mr-2"
+                placeholder="From"
               />
-            </div>
-            <div class="d-flex flex-row justify-content-between">
-              <label>To:</label>
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleChange}
+              <input
+                type="text"
+                id="name"
+                class="form-control ml-2"
+                placeholder="To"
               />
             </div>
           </div>

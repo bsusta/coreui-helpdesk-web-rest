@@ -4,68 +4,127 @@ class MyTasks extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ marginTop: 25, marginBottom: 25 }}>MyTasks</h2>
-        <div class="card">
-          <div class="d-flex justify-content-end">
-            <div class="mr-auto p-2">Oprava PC</div>
-            <div class="p-2">
-              {" "}
-              <span class="badge badge-success">Success</span>
-            </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <div class="mr-auto p-2">
-              Zadal: Branislav Šusta, LAN Systems s.r.o.
-            </div>
-            <div class="p-2"> Created: 14:00 27.4.2017 </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <div class="mr-auto p-2">Rieši: Branislav Šusta</div>
-            <div class="p-2"> Deadline: 14:00 27.4.2017 </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <div class="mr-auto p-2">
-              <span class="badge badge-primary mr-1">Primary</span>
-              <span class="badge badge-secondary mr-1">Secondary</span>
-              <span class="badge badge-success mr-1">Success</span>
-              <span class="badge badge-danger mr-1">Danger</span>
-              <span class="badge badge-warning mr-1">Warning</span>
-              <span class="badge badge-info mr-1">Info</span>
-              <span class="badge badge-light mr-1">Light</span>
-              <span class="badge badge-dark mr-1">Dark</span>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="d-flex justify-content-end">
-            <div class="mr-auto p-2">Oprava PC</div>
-            <div class="p-2">
-              {" "}
-              <span class="badge badge-success">Success</span>
-            </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <div class="mr-auto p-2">
-              Zadal: Branislav Šusta, LAN Systems s.r.o.
-            </div>
-            <div class="p-2"> Created: 14:00 27.4.2017 </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <div class="mr-auto p-2">Rieši: Branislav Šusta</div>
-            <div class="p-2"> Deadline: 14:00 27.4.2017 </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <div class="mr-auto p-2">
-              <span class="badge badge-primary mr-1">Primary</span>
-              <span class="badge badge-secondary mr-1">Secondary</span>
-              <span class="badge badge-success mr-1">Success</span>
-              <span class="badge badge-danger mr-1">Danger</span>
-              <span class="badge badge-warning mr-1">Warning</span>
-              <span class="badge badge-info mr-1">Info</span>
-              <span class="badge badge-light mr-1">Light</span>
-              <span class="badge badge-dark mr-1">Dark</span>
-            </div>
-          </div>
+        <h2 style={{ marginTop: 20 }}>MyTasks</h2>
+
+        <button type="button" class="btn btn-link pl-0">
+          <i className="fa fa-filter" />
+        </button>
+
+        <button type="button" class="btn btn-link float-right pr-0">
+          <i className="fa fa-columns" />
+        </button>
+
+        <div className="card" style={{ border: "0px" }}>
+          <table className="table table-striped table-hover table-sm">
+            <thead className="thead-inverse">
+              <tr>
+                <th style={{ width: "3%", borderTop: "0px" }}>#</th>
+                <th style={{ width: "5%", borderTop: "0px" }}>Status</th>
+                <th style={{ borderTop: "0px" }}>Názov</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>Zadal</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>Firma</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>Rieši</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>Projekt</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>Created</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>Due Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+              </tr>
+
+              <tr>
+                <td style={{ verticalAlign: "center" }}>1</td>
+                <td>
+                  <span class="badge badge-success">NEW</span>
+                </td>
+                <td onClick={() => this.props.history.push("/editTask")}>
+                  Oprava PC
+                  <p>
+                    <span class="badge badge-primary mr-1">Primary</span>
+                    <span class="badge badge-secondary mr-1">Secondary</span>
+                    <span class="badge badge-success mr-1">Success</span>
+                    <span class="badge badge-danger mr-1">Danger</span>
+                  </p>
+                </td>
+                <td>bsusta</td>
+                <td>LAN Systems</td>
+                <td>amichalica</td>
+                <td>Hotline</td>
+                <td>15:37 9.12.2017</td>
+                <td>15:37 9.12.2017</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>
+                  <span class="badge badge-success">NEW</span>
+                </td>
+                <td>
+                  Oprava PC
+                  <p>
+                    <span class="badge badge-primary mr-1">Primary</span>
+                    <span class="badge badge-secondary mr-1">Secondary</span>
+                    <span class="badge badge-success mr-1">Success</span>
+                    <span class="badge badge-danger mr-1">Danger</span>
+                  </p>
+                </td>
+                <td>bsusta</td>
+                <td>LAN Systems</td>
+                <td>amichalica</td>
+                <td>Hotline</td>
+                <td>15:37 9.12.2017</td>
+                <td>15:37 9.12.2017</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>
+                  <span class="badge badge-success">NEW</span>
+                </td>
+                <td>
+                  Oprava PC
+                  <p>
+                    <span class="badge badge-primary mr-1">Primary</span>
+                    <span class="badge badge-secondary mr-1">Secondary</span>
+                    <span class="badge badge-success mr-1">Success</span>
+                    <span class="badge badge-danger mr-1">Danger</span>
+                  </p>
+                </td>
+                <td>bsusta</td>
+                <td>LAN Systems</td>
+                <td>amichalica</td>
+                <td>Hotline</td>
+                <td>15:37 9.12.2017</td>
+                <td>15:37 9.12.2017</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     );

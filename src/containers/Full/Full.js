@@ -31,12 +31,6 @@ class Full extends Component {
               <Switch>
                 <Route
                   exact
-                  path="/dashboard"
-                  name="Dashboard"
-                  component={Dashboard}
-                />
-                <Route
-                  exact
                   path="/settings"
                   name="Settings"
                   component={Settings}

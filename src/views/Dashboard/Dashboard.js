@@ -26,6 +26,27 @@ class Dashboard extends Component {
     return (
       <div>
         <h2 style={{ marginTop: 20 }}>Dashboard</h2>
+
+        <button type="button" class="btn btn-link pl-0">
+          <i className="fa fa-filter" />
+        </button>
+        <button type="button" class="btn btn-link">
+          My Active
+        </button>
+        <button type="button" class="btn btn-link">
+          All Active
+        </button>
+        <button type="button" class="btn btn-link">
+          Closed
+        </button>
+        <button type="button" class="btn btn-link">
+          All
+        </button>
+
+        <button type="button" class="btn btn-link float-right pr-0">
+          <i className="fa fa-columns" />
+        </button>
+
         <div className="card" style={{ border: "0px" }}>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
@@ -71,6 +92,7 @@ class Dashboard extends Component {
                   <input type="text" id="name" class="form-control" />
                 </td>
               </tr>
+
               <tr>
                 <td style={{ verticalAlign: "center" }}>1</td>
                 <td>

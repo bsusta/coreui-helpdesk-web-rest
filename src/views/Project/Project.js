@@ -25,9 +25,30 @@ class Project extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ marginTop: 25 }}>Project</h2>
+        <h2 style={{ marginTop: 20 }}>Project</h2>
+
+        <button type="button" class="btn btn-link pl-0">
+          <i className="fa fa-filter" />
+        </button>
+        <button type="button" class="btn btn-link">
+          My Active
+        </button>
+        <button type="button" class="btn btn-link">
+          All Active
+        </button>
+        <button type="button" class="btn btn-link">
+          Closed
+        </button>
+        <button type="button" class="btn btn-link">
+          All
+        </button>
+
+        <button type="button" class="btn btn-link float-right pr-0">
+          <i className="fa fa-columns" />
+        </button>
+
         <div className="card" style={{ border: "0px" }}>
-          <table class="table table-striped table-hover table-sm">
+          <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
               <tr>
                 <th style={{ width: "3%", borderTop: "0px" }}>#</th>
@@ -36,18 +57,48 @@ class Project extends Component {
                 <th style={{ width: "10%", borderTop: "0px" }}>Zadal</th>
                 <th style={{ width: "10%", borderTop: "0px" }}>Firma</th>
                 <th style={{ width: "10%", borderTop: "0px" }}>Rieši</th>
-
+                <th style={{ width: "10%", borderTop: "0px" }}>Projekt</th>
                 <th style={{ width: "10%", borderTop: "0px" }}>Created</th>
                 <th style={{ width: "10%", borderTop: "0px" }}>Due Date</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>1</td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+                <td>
+                  <input type="text" id="name" class="form-control" />
+                </td>
+              </tr>
+
+              <tr>
+                <td style={{ verticalAlign: "center" }}>1</td>
                 <td>
                   <span class="badge badge-success">NEW</span>
                 </td>
-                <td>
+                <td onClick={() => this.props.history.push("/editTask")}>
                   Oprava PC
                   <p>
                     <span class="badge badge-primary mr-1">Primary</span>
@@ -59,6 +110,7 @@ class Project extends Component {
                 <td>bsusta</td>
                 <td>LAN Systems</td>
                 <td>amichalica</td>
+                <td>Hotline</td>
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>
@@ -79,7 +131,7 @@ class Project extends Component {
                 <td>bsusta</td>
                 <td>LAN Systems</td>
                 <td>amichalica</td>
-
+                <td>Hotline</td>
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>
@@ -100,6 +152,7 @@ class Project extends Component {
                 <td>bsusta</td>
                 <td>LAN Systems</td>
                 <td>amichalica</td>
+                <td>Hotline</td>
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>

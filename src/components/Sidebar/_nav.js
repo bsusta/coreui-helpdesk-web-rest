@@ -1,15 +1,6 @@
 export default {
   items: [
     {
-      name: "Dashboard",
-      url: "/dashboard",
-      icon: "icon-speedometer",
-      badge: {
-        variant: "info",
-        text: "3"
-      }
-    },
-    {
       name: "MyTask",
       url: "/mytasks",
       icon: "icon-speedometer",
@@ -27,15 +18,7 @@ export default {
         text: "4"
       }
     },
-    {
-      name: "Pausal",
-      url: "/project",
-      icon: "icon-folder",
-      badge: {
-        variant: "info",
-        text: "4"
-      }
-    },
+
     {
       name: "Trojstlpec",
       url: "/trojstlpec",
