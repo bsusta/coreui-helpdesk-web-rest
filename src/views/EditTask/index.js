@@ -140,6 +140,11 @@ class EditTask extends Component {
                   </div>
 
                   <div class="form-group">
+                    <label for="title">Due date</label>
+                    <input class="form-control" id="title" />
+                  </div>
+
+                  <div class="form-group">
                     <label for="project">Project</label>
                     <select class="form-control" id="project">
                       {mockOptions.map(opt => (
@@ -182,7 +187,7 @@ class EditTask extends Component {
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="title">Due date</label>
+                    <label for="title">Odpracované hodiny</label>
                     <input class="form-control" id="title" />
                   </div>
                   <div class="form-group">

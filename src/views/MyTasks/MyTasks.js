@@ -1,23 +1,49 @@
 import React, { Component } from "react";
-import Aside from '../../components/newAside';
+import Aside from "../../components/newAside";
+
+import {
+  Badge,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
+  Table,
+  Pagination,
+  PaginationItem,
+  PaginationLink
+} from "reactstrap";
+
+let mockOptions = [
+  { id: 0, title: "20" },
+  { id: 1, title: "50" },
+  { id: 2, title: "100" },
+  { id: 3, title: "all" }
+];
 class MyTasks extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      asideOpen:false
-    }
+    this.state = {
+      asideOpen: false
+    };
   }
 
   render() {
     return (
       <div>
-        {this.state.asideOpen && <div className="filterDiv">
-          <Aside/>
-        </div>}
-        <div style={{marginLeft:this.state.asideOpen?275:0}}>
+        {this.state.asideOpen && (
+          <div className="filterDiv">
+            <Aside />
+          </div>
+        )}
+        <div style={{ marginLeft: this.state.asideOpen ? 275 : 0 }}>
           <h2 style={{ marginTop: 20 }}>Filter</h2>
 
-          <button type="button" class="btn btn-link pl-0" onClick={()=>this.setState({asideOpen:!this.state.asideOpen})}>
+          <button
+            type="button"
+            class="btn btn-link pl-0"
+            onClick={() => this.setState({ asideOpen: !this.state.asideOpen })}
+          >
             <i className="fa fa-filter" />
           </button>
 
@@ -41,6 +67,7 @@ class MyTasks extends Component {
                 </tr>
               </thead>
               <tbody>
+                {/*
                 <tr>
                   <td>
                     <input type="text" id="name" class="form-control" />
@@ -70,7 +97,7 @@ class MyTasks extends Component {
                     <input type="text" id="name" class="form-control" />
                   </td>
                 </tr>
-
+*/}
                 <tr>
                   <td style={{ verticalAlign: "center" }}>1</td>
                   <td>
@@ -136,6 +163,53 @@ class MyTasks extends Component {
                 </tr>
               </tbody>
             </table>
+
+            <div class="row">
+              <div class="col">
+                <Pagination>
+                  <PaginationItem>Page 1 of 5</PaginationItem>
+                </Pagination>
+              </div>
+              <div className="col">
+                <Pagination className="float-right">
+                  <PaginationItem style={{ marginRight: 10 }}>
+                    <select
+                      class="form-control"
+                      id="project"
+                      style={{ maxWidth: 70 }}
+                    >
+                      {mockOptions.map(opt => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink previous href="#">
+                      Prev
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem active>
+                    <PaginationLink href="#">1</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem className="page-item">
+                    <PaginationLink href="#">2</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">3</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">4</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink next href="#">
+                      Next
+                    </PaginationLink>
+                  </PaginationItem>
+                </Pagination>
+              </div>
+            </div>
           </div>
         </div>
       </div>

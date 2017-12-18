@@ -23,11 +23,13 @@ class Subtasks extends Component {
         <table class="table table-striped table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ width: "3%", borderTop: "0px" }}>#</th>
+              <th style={{ width: "5%", borderTop: "0px" }}>#</th>
 
               <th style={{ borderTop: "0px" }}>Práce</th>
+              {/*
               <th style={{ width: "20%", borderTop: "0px" }}>Riesi</th>
               <th style={{ width: "10%", borderTop: "0px" }}>Hodin</th>
+              */}
               <th style={{ width: "13%", borderTop: "0px" }}>Actions</th>
             </tr>
           </thead>
@@ -44,23 +46,7 @@ class Subtasks extends Component {
                   placeholder="instalacia klavesnice"
                 />
               </td>
-              <td>
-                <select class="form-control" id="project">
-                  {mockOptions.map(opt => (
-                    <option key={opt.id} value={opt.id}>
-                      {opt.title}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  id="name"
-                  class="form-control"
-                  placeholder="1"
-                />
-              </td>
+
               <td>
                 <div className="row">
                   <button className="btn btn-sm btn-danger mr-1 ml-3">
@@ -79,20 +65,12 @@ class Subtasks extends Component {
               <td>
                 <input type="text" id="name" class="form-control" />
               </td>
-              <td>
-                <input type="text" id="name" class="form-control" />
-              </td>
-              <td>
-                <input type="text" id="name" class="form-control" />
-              </td>
+
               <td>
                 <button className="btn btn-sm btn-primary mr-1">
                   <i className="fa fa-plus " />
                 </button>
               </td>
-            </tr>
-            <tr className="table-info">
-              <td colSpan="5">Hodin spolu: 1</td>
             </tr>
           </tbody>
         </table>
@@ -158,7 +136,14 @@ class Subtasks extends Component {
               </td>
             </tr>
             <tr className="table-info">
-              <td colSpan="5">Cena spolu bez DPH: 10</td>
+              <td style={{ textAlign: "right" }} colSpan="5">
+                Cena spolu bez DPH: 10
+              </td>
+            </tr>
+            <tr className="table-info">
+              <td style={{ borderTop: 0, textAlign: "right" }} colSpan="5">
+                Cena spolu s DPH: 12
+              </td>
             </tr>
           </tbody>
         </table>

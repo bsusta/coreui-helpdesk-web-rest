@@ -63,6 +63,7 @@ class Dashboard extends Component {
               </tr>
             </thead>
             <tbody>
+              {/*
               <tr>
                 <td>
                   <input type="text" id="name" class="form-control" />
@@ -92,7 +93,7 @@ class Dashboard extends Component {
                   <input type="text" id="name" class="form-control" />
                 </td>
               </tr>
-
+*/}
               <tr>
                 <td style={{ verticalAlign: "center" }}>1</td>
                 <td>

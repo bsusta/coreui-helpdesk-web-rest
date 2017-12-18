@@ -32,6 +32,7 @@ var options = [
   { value: "F1", label: "LAN Systems s.r.o." },
   { value: "F2", label: "Pozagas a.s." }
 ];
+
 class Aside extends Component {
   constructor(props) {
     super(props);
@@ -69,7 +70,15 @@ class Aside extends Component {
           <button type="button" class="btn btn-link">
             Reset
           </button>
-
+          <div
+            class="container-fluid"
+            style={{
+              marginTop: 10
+            }}
+          >
+            <label>Task name</label>
+            <input type="text" id="name" class="form-control mr-2" />
+          </div>
           <div
             class="container-fluid"
             style={{
