@@ -37,7 +37,7 @@ class MyTasks extends Component {
           </div>
         )}
         <div style={{ marginLeft: this.state.asideOpen ? 275 : 0 }}>
-          <h2 style={{ marginTop: 20 }}>Filter</h2>
+          <h2 style={{ marginTop: 20 }}> Add Filter</h2>
 
           <button
             type="button"
@@ -142,7 +142,7 @@ class MyTasks extends Component {
                 </Pagination>
               </div>
               <div className="col">
-                <Pagination>
+                <Pagination className="justify-content-center">
                   <PaginationItem>
                     <PaginationLink previous href="#">
                       Prev

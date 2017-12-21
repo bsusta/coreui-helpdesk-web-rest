@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Nav, NavItem, NavbarToggler, NavbarBrand } from "reactstrap";
+import {
+  Nav,
+  NavItem,
+  NavbarToggler,
+  NavbarBrand,
+  InputGroup,
+  InputGroupAddon,
+  Input
+} from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
 
 class Header extends Component {
@@ -32,6 +40,21 @@ class Header extends Component {
         <NavbarBrand href="#" />
         <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
           <span className="navbar-toggler-icon" />
+        </NavbarToggler>
+
+        <NavbarToggler className="d-md-down-none ml-4">
+          <InputGroup>
+            <Input
+              type="text"
+              id="input1-group1"
+              name="input1-group1"
+              placeholder="Search"
+              style={{ borderRight: "0" }}
+            />
+            <InputGroupAddon style={{ background: "white", borderLeft: "" }}>
+              <i className="fa fa-search" />
+            </InputGroupAddon>
+          </InputGroup>
         </NavbarToggler>
         <NavbarToggler className="d-md-down-none mr-auto">
           <button
