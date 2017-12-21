@@ -67,37 +67,6 @@ class MyTasks extends Component {
                 </tr>
               </thead>
               <tbody>
-                {/*
-                <tr>
-                  <td>
-                    <input type="text" id="name" class="form-control" />
-                  </td>
-                  <td>
-                    <input type="text" id="name" class="form-control" />
-                  </td>
-                  <td>
-                    <input type="text" id="name" class="form-control" />
-                  </td>
-                  <td>
-                    <input type="text" id="name" class="form-control" />
-                  </td>
-                  <td>
-                    <input type="text" id="name" class="form-control" />
-                  </td>
-                  <td>
-                    <input type="text" id="name" class="form-control" />
-                  </td>
-                  <td>
-                    <input type="text" id="name" class="form-control" />
-                  </td>
-                  <td>
-                    <input type="text" id="name" class="form-control" />
-                  </td>
-                  <td>
-                    <input type="text" id="name" class="form-control" />
-                  </td>
-                </tr>
-*/}
                 <tr>
                   <td style={{ verticalAlign: "center" }}>1</td>
                   <td>
@@ -167,24 +136,13 @@ class MyTasks extends Component {
             <div class="row">
               <div class="col">
                 <Pagination>
-                  <PaginationItem>Page 1 of 5</PaginationItem>
+                  <PaginationItem style={{ margin: 5 }}>
+                    Page 1 of 5
+                  </PaginationItem>
                 </Pagination>
               </div>
               <div className="col">
-                <Pagination className="float-right">
-                  <PaginationItem style={{ marginRight: 10 }}>
-                    <select
-                      class="form-control"
-                      id="project"
-                      style={{ maxWidth: 70 }}
-                    >
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </PaginationItem>
+                <Pagination>
                   <PaginationItem>
                     <PaginationLink previous href="#">
                       Prev
@@ -206,6 +164,26 @@ class MyTasks extends Component {
                     <PaginationLink next href="#">
                       Next
                     </PaginationLink>
+                  </PaginationItem>
+                </Pagination>
+              </div>
+              <div className="col">
+                <Pagination className="float-right">
+                  <PaginationItem style={{ margin: 5 }}>
+                    Items per page
+                  </PaginationItem>
+                  <PaginationItem style={{ marginRight: 10 }}>
+                    <select
+                      class="form-control"
+                      id="project"
+                      style={{ maxWidth: 70 }}
+                    >
+                      {mockOptions.map(opt => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
                   </PaginationItem>
                 </Pagination>
               </div>

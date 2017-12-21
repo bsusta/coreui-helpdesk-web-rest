@@ -64,36 +64,6 @@ class Project extends Component {
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-                <td>
-                  <input type="text" id="name" class="form-control" />
-                </td>
-              </tr>
-
-              <tr>
                 <td style={{ verticalAlign: "center" }}>1</td>
                 <td>
                   <span class="badge badge-success">NEW</span>
