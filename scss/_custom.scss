@@ -6,6 +6,8 @@
 .filterDivInside {
   padding-bottom: 35px;
   padding: 0;
+  padding-top: 20px;
+  padding-right: 15px;
 }
 
 .filterDiv {
@@ -14,4 +16,8 @@
   border-right: 1px solid #c2cfd6;
   height: 100%;
   padding: 0;
+}
+
+.main .container-fluid {
+  padding: 0 15px;
 }

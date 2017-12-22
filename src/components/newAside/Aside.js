@@ -58,7 +58,7 @@ class Aside extends Component {
         <div>
           <h2>Filter</h2>
 
-          <button type="button" class="btn btn-link">
+          <button type="button" class="btn btn-link" style={{ paddingLeft: 0 }}>
             Apply
           </button>
           <button type="button" class="btn btn-link">
