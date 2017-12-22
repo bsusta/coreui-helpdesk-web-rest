@@ -4,11 +4,14 @@
 }
 
 .filterDivInside {
-  border: 1px solid black;
   padding-bottom: 35px;
+  padding: 0;
 }
 
 .filterDiv {
   width: 250px;
   position: fixed;
+  border-right: 1px solid #c2cfd6;
+  height: 100%;
+  padding: 0;
 }
