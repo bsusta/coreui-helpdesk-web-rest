@@ -11,7 +11,8 @@ import {
   Table,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  Input
 } from "reactstrap";
 
 let mockOptions = [
@@ -67,6 +68,71 @@ class MyTasks extends Component {
                 </tr>
               </thead>
               <tbody>
+                <tr>
+                  <th>
+                    <Input
+                      type="text"
+                      id="input1-group1"
+                      name="input1-group1"
+                    />
+                  </th>
+                  <th>
+                    <Input
+                      type="text"
+                      id="input1-group1"
+                      name="input1-group1"
+                    />
+                  </th>
+                  <th>
+                    <Input
+                      type="text"
+                      id="input1-group1"
+                      name="input1-group1"
+                    />
+                  </th>
+                  <th>
+                    <Input
+                      type="text"
+                      id="input1-group1"
+                      name="input1-group1"
+                    />
+                  </th>
+                  <th>
+                    <Input
+                      type="text"
+                      id="input1-group1"
+                      name="input1-group1"
+                    />
+                  </th>
+                  <th>
+                    <Input
+                      type="text"
+                      id="input1-group1"
+                      name="input1-group1"
+                    />
+                  </th>
+                  <th>
+                    <Input
+                      type="text"
+                      id="input1-group1"
+                      name="input1-group1"
+                    />
+                  </th>
+                  <th>
+                    <Input
+                      type="text"
+                      id="input1-group1"
+                      name="input1-group1"
+                    />
+                  </th>
+                  <th>
+                    <Input
+                      type="text"
+                      id="input1-group1"
+                      name="input1-group1"
+                    />
+                  </th>
+                </tr>
                 <tr>
                   <td style={{ verticalAlign: "center" }}>1</td>
                   <td>

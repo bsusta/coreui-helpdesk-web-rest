@@ -64,6 +64,35 @@ class Project extends Component {
             </thead>
             <tbody>
               <tr>
+                <th>
+                  <Input type="text" id="input1-group1" name="input1-group1" />
+                </th>
+                <th>
+                  <Input type="text" id="input1-group1" name="input1-group1" />
+                </th>
+                <th>
+                  <Input type="text" id="input1-group1" name="input1-group1" />
+                </th>
+                <th>
+                  <Input type="text" id="input1-group1" name="input1-group1" />
+                </th>
+                <th>
+                  <Input type="text" id="input1-group1" name="input1-group1" />
+                </th>
+                <th>
+                  <Input type="text" id="input1-group1" name="input1-group1" />
+                </th>
+                <th>
+                  <Input type="text" id="input1-group1" name="input1-group1" />
+                </th>
+                <th>
+                  <Input type="text" id="input1-group1" name="input1-group1" />
+                </th>
+                <th>
+                  <Input type="text" id="input1-group1" name="input1-group1" />
+                </th>
+              </tr>
+              <tr>
                 <td style={{ verticalAlign: "center" }}>1</td>
                 <td>
                   <span class="badge badge-success">NEW</span>

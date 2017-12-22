@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
+import { InputGroup, InputGroupAddon, Input } from "reactstrap";
 const mockData = [
   { id: 1, active: true, title: "Centimeter", shortcut: "cm" },
   { id: 2, active: false, title: "Kilometer", shortcut: "km" },
@@ -33,6 +34,17 @@ class UnitsList extends Component {
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <th>
+                <Input type="text" id="input1-group1" name="input1-group1" />
+              </th>
+              <th>
+                <Input type="text" id="input1-group1" name="input1-group1" />
+              </th>
+              <th>
+                <Input type="text" id="input1-group1" name="input1-group1" />
+              </th>
+            </tr>
             {mockData.map(unit => (
               <tr
                 key={unit.id}
