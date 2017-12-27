@@ -25,7 +25,7 @@ class Project extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ marginTop: 20 }}>Project</h2>
+        <h2 style={{ marginTop: 20 }}>Project <a href="#/project/0" class="fa fa-info-circle fa-lg" style={{border:'none',backgroundColor:'white',color:'grey',textDecoration:"none"}}></a></h2>
 
         <button type="button" class="btn btn-link pl-0">
           <i className="fa fa-filter" />

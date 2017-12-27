@@ -15,6 +15,8 @@ import UnitAdd from "../../views/unitAdd";
 import UnitEdit from "../../views/unitEdit";
 import MyTasks from "../../views/MyTasks";
 import Project from "../../views/Project";
+import ProjectInfo from "../../views/ProjectInfo";
+import ProjectEdit from "../../views/ProjectEdit";
 import EditTask from "../../views/EditTask";
 import TrojStlpec from "../../views/TrojStlpec";
 import Messages from "../../views/Messages";
@@ -83,6 +85,18 @@ class Full extends Component {
                   path="/project"
                   name="Project"
                   component={Project}
+                />
+                <Route
+                  exact
+                  path="/project/:id"
+                  name="Project info"
+                  component={ProjectInfo}
+                />
+                <Route
+                  exact
+                  path="/project/:id/edit"
+                  name="Project edit"
+                  component={ProjectEdit}
                 />
                 <Route
                   exact
