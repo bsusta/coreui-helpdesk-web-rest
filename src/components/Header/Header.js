@@ -9,6 +9,8 @@ import {
   Input
 } from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
+import MessagesDropdown from './MessagesDropdown';
+
 
 class Header extends Component {
   sidebarToggle(e) {
@@ -60,14 +62,18 @@ class Header extends Component {
           <button
             type="button"
             class="btn btn-link"
-            onClick={() => this.props.history.push("./newTask")}
+            onClick={() => this.props.history.push("/newTask")}
           >
             Add task
           </button>
         </NavbarToggler>
+        <Nav className="ml-auto" navbar>
+          <MessagesDropdown/>
+        </Nav>
+
         <NavbarToggler
           className="d-md-down-none"
-          onClick={() => this.props.history.push("./settings")}
+          onClick={() => this.props.history.push("/settings")}
         >
           <i className="icon-settings" />
         </NavbarToggler>
