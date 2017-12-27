@@ -17,6 +17,7 @@ import MyTasks from "../../views/MyTasks";
 import Project from "../../views/Project";
 import EditTask from "../../views/EditTask";
 import TrojStlpec from "../../views/TrojStlpec";
+import Messages from "../../views/Messages";
 
 class Full extends Component {
   render() {
@@ -58,6 +59,18 @@ class Full extends Component {
                   path="/unit/edit/:id"
                   name="Unit edit"
                   component={UnitEdit}
+                />
+                <Route
+                  exact
+                  path="/messages/:id"
+                  name="Message"
+                  component={Messages}
+                />
+                <Route
+                  exact
+                  path="/messages"
+                  name="Messages"
+                  component={Messages}
                 />
                 <Route
                   exact
