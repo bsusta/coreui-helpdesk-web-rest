@@ -91,21 +91,21 @@ class Messages extends Component {
                 <input className="mt-2" type="checkbox" />
                 <button
                   type="button"
-                  class="btn btn-danger"
+                  class="btn btn-danger btn-sm"
                   style={{ color: "white", marginLeft: 5 }}
                 >
                   Delete
                 </button>
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="btn btn-primary btn-sm"
                   style={{ color: "white", marginLeft: 5 }}
                 >
                   Mark as read
                 </button>
                 <button
                   type="button"
-                  class="btn btn-info"
+                  class="btn btn-info btn-sm"
                   style={{ color: "white", marginLeft: 5 }}
                 >
                   Mark as unread

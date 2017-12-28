@@ -60,7 +60,7 @@ class Header extends Component {
         <NavbarToggler className="d-md-down-none mr-auto">
           <button
             type="button"
-            class="btn btn-link"
+            className="btn btn-link"
             onClick={() => this.props.history.push("/newTask")}
           >
             Add task

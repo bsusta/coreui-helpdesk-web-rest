@@ -61,13 +61,13 @@ class Aside extends Component {
             <h4>Filter</h4>
           </div>
 
-          <button type="button" class="btn btn-link">
+          <button type="button" className="btn btn-link">
             Apply
           </button>
-          <button type="button" class="btn btn-link">
+          <button type="button" className="btn btn-link">
             Save
           </button>
-          <button type="button" class="btn btn-link">
+          <button type="button" className="btn btn-link">
             Reset
           </button>
           <div
@@ -77,7 +77,7 @@ class Aside extends Component {
             }}
           >
             <label>Task name</label>
-            <input type="text" id="name" class="form-control mr-2" />
+            <input type="text" id="name" className="form-control mr-2" />
           </div>
           <div
             class="container-fluid"
@@ -134,7 +134,7 @@ class Aside extends Component {
             </FormGroup>
           </div>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}
@@ -150,7 +150,7 @@ class Aside extends Component {
             />
           </div>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}
@@ -166,7 +166,7 @@ class Aside extends Component {
             />
           </div>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}
@@ -182,7 +182,7 @@ class Aside extends Component {
             />
           </div>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}
@@ -198,7 +198,7 @@ class Aside extends Component {
             />
           </div>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}
@@ -214,68 +214,68 @@ class Aside extends Component {
             />
           </div>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}
           >
             <label>Created</label>
 
-            <div class="d-flex flex-row justify-content-between">
+            <div className="d-flex flex-row justify-content-between">
               <input
                 type="text"
                 id="name"
-                class="form-control mr-2"
+                className="form-control mr-2"
                 placeholder="From"
               />
               <input
                 type="text"
                 id="name"
-                class="form-control ml-2"
+                className="form-control ml-2"
                 placeholder="To"
               />
             </div>
           </div>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}
           >
             <label>Due Date</label>
-            <div class="d-flex flex-row justify-content-between">
+            <div className="d-flex flex-row justify-content-between">
               <input
                 type="text"
                 id="name"
-                class="form-control mr-2"
+                className="form-control mr-2"
                 placeholder="From"
               />
               <input
                 type="text"
                 id="name"
-                class="form-control ml-2"
+                className="form-control ml-2"
                 placeholder="To"
               />
             </div>
           </div>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}
           >
             <label>Closed</label>
-            <div class="d-flex flex-row justify-content-between">
+            <div className="d-flex flex-row justify-content-between">
               <input
                 type="text"
                 id="name"
-                class="form-control mr-2"
+                className="form-control mr-2"
                 placeholder="From"
               />
               <input
                 type="text"
                 id="name"
-                class="form-control ml-2"
+                className="form-control ml-2"
                 placeholder="To"
               />
             </div>
