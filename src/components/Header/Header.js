@@ -9,8 +9,7 @@ import {
   Input
 } from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
-import MessagesDropdown from './MessagesDropdown';
-
+import MessagesDropdown from "./MessagesDropdown";
 
 class Header extends Component {
   sidebarToggle(e) {
@@ -50,7 +49,7 @@ class Header extends Component {
               type="text"
               id="input1-group1"
               name="input1-group1"
-              placeholder="Search"
+              placeholder="Search task"
               style={{ borderRight: "0" }}
             />
             <InputGroupAddon style={{ background: "white", borderLeft: "" }}>
@@ -68,7 +67,7 @@ class Header extends Component {
           </button>
         </NavbarToggler>
         <Nav className="ml-auto" navbar>
-          <MessagesDropdown/>
+          <MessagesDropdown />
         </Nav>
 
         <NavbarToggler
