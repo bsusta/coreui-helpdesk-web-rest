@@ -34,7 +34,10 @@ class ProjectEdit extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ paddingTop: 20 }}> Editing {mockData.title}</h2>
+        <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
+          {" "}
+          Editing {mockData.title}
+        </h2>
 
         <div>
           <button
@@ -97,7 +100,10 @@ class ProjectEdit extends Component {
           </form>
         </div>
 
-        <h2 style={{ paddingTop: 20 }}> Project permissions</h2>
+        <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
+          {" "}
+          Project permissions
+        </h2>
 
         <div className="form-inline">
           <input

@@ -15,7 +15,7 @@ class ProjectInfo extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ paddingTop: 20 }}> {mockData.title}</h2>
+        <h2 style={{ paddingTop: 20, marginBottom: 20 }}> {mockData.title}</h2>
 
         <button
           type="button"
