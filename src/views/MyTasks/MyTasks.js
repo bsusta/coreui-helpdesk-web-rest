@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Aside from "../../components/newAside";
-
+import ModalTask from "./ModalTask";
 import {
   Badge,
   Row,
@@ -25,13 +25,20 @@ class MyTasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      asideOpen: false
+      asideOpen: false,
+      modalTaskOpen: false,
     };
+    this.toggleModal.bind(this);
+  }
+
+  toggleModal(){
+    this.setState({modalTaskOpen:!this.state.modalTaskOpen});
   }
 
   render() {
     return (
-      <div>
+      <div style={{minHeight:720}}>
+        <ModalTask open = {this.state.modalTaskOpen} toggle={this.toggleModal.bind(this)}/>
         {this.state.asideOpen && (
           <div className="filterDiv">
             <Aside />
@@ -133,12 +140,12 @@ class MyTasks extends Component {
                     />
                   </th>
                 </tr>
-                <tr>
+                <tr onClick={() => this.props.history.push("/editTask")} style={{cursor:'pointer'}}>
                   <td style={{ verticalAlign: "center" }}>1</td>
                   <td>
                     <span class="badge badge-success">NEW</span>
                   </td>
-                  <td onClick={() => this.props.history.push("/editTask")}>
+                  <td>
                     Oprava PC
                     <p>
                       <span class="badge badge-primary mr-1">Primary</span>
@@ -154,7 +161,7 @@ class MyTasks extends Component {
                   <td>15:37 9.12.2017</td>
                   <td>15:37 9.12.2017</td>
                 </tr>
-                <tr>
+                <tr onClick={this.toggleModal.bind(this)} style={{cursor:'pointer'}}>
                   <td>2</td>
                   <td>
                     <span class="badge badge-success">NEW</span>
@@ -175,7 +182,7 @@ class MyTasks extends Component {
                   <td>15:37 9.12.2017</td>
                   <td>15:37 9.12.2017</td>
                 </tr>
-                <tr>
+                <tr style={{cursor:'pointer'}}>
                   <td>3</td>
                   <td>
                     <span class="badge badge-success">NEW</span>

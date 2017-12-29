@@ -12,10 +12,10 @@
 
 .filterDiv {
   width: 250px;
-  position: fixed;
+  position: absolute;
   border-right: 1px solid #c2cfd6;
-  height: 100%;
-  padding: 0;
+  flex-direction: row;
+  min-height: 95%;
 }
 
 .main .container-fluid {

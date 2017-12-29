@@ -74,7 +74,7 @@ export default {
         },
         {
           name: "Project",
-          url: "/addProject",
+          url: "/project/add",
           icon: "fa fa-plus"
         }
       ]
