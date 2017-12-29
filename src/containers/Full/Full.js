@@ -17,6 +17,7 @@ import MyTasks from "../../views/MyTasks";
 import Project from "../../views/Project";
 import ProjectInfo from "../../views/ProjectInfo";
 import ProjectEdit from "../../views/ProjectEdit";
+import ProjectAdd from "../../views/ProjectAdd";
 import EditTask from "../../views/EditTask";
 import TrojStlpec from "../../views/TrojStlpec";
 import Messages from "../../views/Messages";
@@ -85,6 +86,12 @@ class Full extends Component {
                   path="/project"
                   name="Project"
                   component={Project}
+                />
+                <Route
+                  exact
+                  path="/project/add"
+                  name="Project add"
+                  component={ProjectAdd}
                 />
                 <Route
                   exact

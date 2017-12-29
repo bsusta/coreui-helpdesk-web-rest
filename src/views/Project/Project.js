@@ -92,7 +92,7 @@ class Project extends Component {
                   <Input type="text" id="input1-group1" name="input1-group1" />
                 </th>
               </tr>
-              <tr>
+              <tr style={{cursor:'pointer'}}>
                 <td style={{ verticalAlign: "center" }}>1</td>
                 <td>
                   <span class="badge badge-success">NEW</span>
@@ -113,7 +113,7 @@ class Project extends Component {
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>
-              <tr>
+              <tr style={{cursor:'pointer'}}>
                 <td>2</td>
                 <td>
                   <span class="badge badge-success">NEW</span>
@@ -134,7 +134,7 @@ class Project extends Component {
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>
-              <tr>
+              <tr style={{cursor:'pointer'}}>
                 <td>3</td>
                 <td>
                   <span class="badge badge-success">NEW</span>
