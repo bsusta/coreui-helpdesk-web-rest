@@ -56,8 +56,6 @@ class Aside extends Component {
     return (
       <div className="filterDivInside">
         <div>
-          <h2>Filter</h2>
-
           <button type="button" class="btn btn-link" style={{ paddingLeft: 0 }}>
             Apply
           </button>

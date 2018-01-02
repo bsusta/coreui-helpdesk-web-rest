@@ -21,6 +21,8 @@ label             //text that will be displayed above all selected items and use
 labelStyle        //set the labels style
 onChange          //enter function, that will recieve two parameters, ids and items
 title             //select window title
+renderItem        //function for one render of selected item
+toggleStyle       //style of toggle button
 
 example:
 <MultiSelect
@@ -88,12 +90,12 @@ export default class MultiSelect extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{display:this.props.display=="row"?"flex":"block"}}>
       <Dropdown
       isOpen={this.state.opened}
       toggle={()=>{this.setState({opened:!this.state.opened});}}
       >
-      <DropdownToggle caret style={this.props.labelStyle?this.props.labelStyle:null}>{this.props.label?this.props.label:''}</DropdownToggle>
+      <DropdownToggle caret style={this.props.labelStyle?this.props.labelStyle:null} style={this.props.toggleStyle?this.props.toggleStyle:{}}>{this.props.label?this.props.label:''}</DropdownToggle>
       <DropdownMenu>
       <div class="list-group">
       <div  class="list-group-item active">
@@ -106,7 +108,7 @@ export default class MultiSelect extends Component {
       {this.props.data.filter((item)=>(item[this.state.filterBy]+"").toLowerCase().includes(this.state.filter.toLowerCase())).map((item)=>(
         <div class="list-group-item list-group-item-action"
         onClick={(value)=>{this.onChange(item[this.state.idValue]+"")}}
-        style={{flex:1,display:"flex",backgroundColor:this.state.coloredcolored?item.color:'white',color:this.state.coloredcolored?'white':'black',...this.state.menuItemStyle}}>
+        style={{flex:1,display:"flex",backgroundColor:this.state.colored?item.color:'white',color:this.state.colored?'white':'black',...this.state.menuItemStyle,cursor:'pointer'}}>
         <input
         checked={this.state.selected.includes(item[this.state.idValue]+"")}
         type="checkbox"
@@ -123,10 +125,15 @@ export default class MultiSelect extends Component {
       <div style={{...this.state.displayBoxStyle,display:this.props.display=="row"?"flex":"block"}}>
       {
         this.props.data.filter((item)=>this.state.selected.includes(item[this.state.idValue]+"")).map((item)=>
-        <div style={{backgroundColor:this.state.coloredcolored?item.color:'white',color:this.state.coloredcolored?'white':'black',...this.state.displayItemStyle}}>
+        {
+          if(this.props.renderItem){
+            return this.props.renderItem(item);
+          }
+          return(
+        <div style={{backgroundColor:this.state.colored?item.color:'white',color:this.state.colored?'white':'black',...this.state.displayItemStyle}}>
         {item[this.state.displayValue]}
-        </div>
-      )
+        </div>)
+      })
     }
     </div>
     </div>)
