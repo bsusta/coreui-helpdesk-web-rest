@@ -75,7 +75,7 @@ class Aside extends Component {
                   id="checkbox1"
                   name="checkbox1"
                   value="option1"
-                />{" "}
+                />
                 New
               </Label>
             </div>
@@ -86,7 +86,7 @@ class Aside extends Component {
                   id="checkbox2"
                   name="checkbox2"
                   value="option2"
-                />{" "}
+                />
                 Open
               </Label>
             </div>
@@ -97,7 +97,7 @@ class Aside extends Component {
                   id="checkbox3"
                   name="checkbox3"
                   value="option3"
-                />{" "}
+                />
                 Pending
               </Label>
             </div>
@@ -108,13 +108,13 @@ class Aside extends Component {
                   id="Closed"
                   name="Closed"
                   value="Closed"
-                />{" "}
+                />
                 Closed
               </Label>
             </div>
           </FormGroup>
 
-          <label>Zadal</label>
+          <label className="mt-1">Zadal</label>
           <Select
             name="form-field-name2"
             value={this.state.value}
@@ -124,7 +124,7 @@ class Aside extends Component {
             style={{ width: "100%" }}
           />
 
-          <label>Firma</label>
+          <label className="mt-2">Firma</label>
           <Select
             name="form-field-name2"
             value={this.state.value}
@@ -134,7 +134,7 @@ class Aside extends Component {
             style={{ width: "100%" }}
           />
 
-          <label>Riesi</label>
+          <label className="mt-2">Riesi</label>
           <Select
             name="form-field-name2"
             value={this.state.value}
@@ -144,7 +144,7 @@ class Aside extends Component {
             style={{ width: "100%" }}
           />
 
-          <label>Projekt</label>
+          <label className="mt-2">Projekt</label>
           <Select
             name="form-field-name2"
             value={this.state.value}
@@ -154,7 +154,7 @@ class Aside extends Component {
             style={{ width: "100%" }}
           />
 
-          <label>Tags</label>
+          <label className="mt-2">Tags</label>
           <Select
             name="form-field-name2"
             value={this.state.value}
@@ -164,7 +164,7 @@ class Aside extends Component {
             style={{ width: "100%" }}
           />
 
-          <label>Created</label>
+          <label className="mt-2">Created</label>
 
           <div class="d-flex flex-row justify-content-between">
             <input
@@ -181,7 +181,7 @@ class Aside extends Component {
             />
           </div>
 
-          <label>Due Date</label>
+          <label className="mt-2">Due Date</label>
           <div class="d-flex flex-row justify-content-between">
             <input
               type="text"
@@ -197,7 +197,7 @@ class Aside extends Component {
             />
           </div>
 
-          <label>Closed</label>
+          <label className="mt-2">Closed</label>
           <div class="d-flex flex-row justify-content-between">
             <input
               type="text"

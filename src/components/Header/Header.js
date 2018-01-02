@@ -90,9 +90,7 @@ class Header extends Component {
         >
           <i className="icon-settings" />
         </NavbarToggler>
-        <NavbarToggler className="d-md-down-none" onClick={this.asideToggle}>
-          <i className="fa fa-filter" />
-        </NavbarToggler>
+
       </header>
     );
   }
