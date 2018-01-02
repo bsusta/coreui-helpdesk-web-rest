@@ -20,12 +20,10 @@ class Subtasks extends Component {
   render() {
     return (
       <div>
-        <table class="table table-striped table-hover table-sm">
+        <table class="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ width: "5%", borderTop: "0px" }}>#</th>
-
-              <th style={{ borderTop: "0px" }}>Práce</th>
+              <th style={{ borderTop: "0px" }}>Subtasks</th>
               {/*
               <th style={{ width: "20%", borderTop: "0px" }}>Riesi</th>
               <th style={{ width: "10%", borderTop: "0px" }}>Hodin</th>
@@ -35,15 +33,14 @@ class Subtasks extends Component {
           </thead>
           <tbody>
             <tr>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td>
+              <td style={{display:'flex'}}>
+                <input type="checkbox" style={{margin:'auto'}} />
                 <input
                   type="text"
                   id="name"
                   class="form-control"
                   placeholder="instalacia klavesnice"
+                  style={{border:'none'}}
                 />
               </td>
 
@@ -60,10 +57,10 @@ class Subtasks extends Component {
             </tr>
             <tr>
               <td>
-                <input type="checkbox" />
+                <input type="checkbox" style={{border:'none'}} />
               </td>
               <td>
-                <input type="text" id="name" class="form-control" />
+                <input type="text" id="name" class="form-control" style={{border:'none'}}/>
               </td>
 
               <td>
@@ -75,7 +72,7 @@ class Subtasks extends Component {
           </tbody>
         </table>
 
-        <table class="table table-striped table-hover table-sm">
+        <table class="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
               <th style={{ borderTop: "0px" }}>Material</th>
@@ -89,6 +86,7 @@ class Subtasks extends Component {
             <tr>
               <td>
                 <input
+                  style={{border:'none'}}
                   type="text"
                   id="name"
                   class="form-control"
@@ -97,6 +95,7 @@ class Subtasks extends Component {
               </td>
               <td>
                 <input
+                  style={{border:'none'}}
                   type="text"
                   id="name"
                   class="form-control"
