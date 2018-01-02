@@ -34,7 +34,7 @@ class Subtasks extends Component {
           <tbody>
             <tr>
               <td style={{display:'flex'}}>
-                <input type="checkbox" style={{margin:'auto'}} />
+                <input type="checkbox" style={{margin:'auto',marginRight:10}} />
                 <input
                   type="text"
                   id="name"
@@ -56,11 +56,9 @@ class Subtasks extends Component {
               </td>
             </tr>
             <tr>
-              <td>
-                <input type="checkbox" style={{border:'none'}} />
-              </td>
-              <td>
-                <input type="text" id="name" class="form-control" style={{border:'none'}}/>
+              <td style={{display:'flex'}}>
+                <input type="checkbox" style={{margin:'auto',marginRight:10}} />
+                <input type="text" id="name" class="form-control"/>
               </td>
 
               <td>
@@ -104,6 +102,7 @@ class Subtasks extends Component {
               </td>
               <td>
                 <input
+                  style={{border:'none'}}
                   type="text"
                   id="name"
                   class="form-control"
