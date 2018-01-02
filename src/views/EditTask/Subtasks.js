@@ -24,16 +24,13 @@ class Subtasks extends Component {
           <thead className="thead-inverse">
             <tr>
               <th style={{ borderTop: "0px" }}>Subtasks</th>
-              {/*
-              <th style={{ width: "20%", borderTop: "0px" }}>Riesi</th>
-              <th style={{ width: "10%", borderTop: "0px" }}>Hodin</th>
-              */}
               <th style={{ width: "13%", borderTop: "0px" }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{display:'flex'}}>
+              <td>
+                <div  style={{display:'flex'}}>
                 <input type="checkbox" style={{margin:'auto',marginRight:10}} />
                 <input
                   type="text"
@@ -42,6 +39,7 @@ class Subtasks extends Component {
                   placeholder="instalacia klavesnice"
                   style={{border:'none'}}
                 />
+            </div>
               </td>
 
               <td>
@@ -56,9 +54,11 @@ class Subtasks extends Component {
               </td>
             </tr>
             <tr>
-              <td style={{display:'flex'}}>
+              <td>
+                <div  style={{display:'flex'}}>
                 <input type="checkbox" style={{margin:'auto',marginRight:10}} />
                 <input type="text" id="name" class="form-control"/>
+                </div>
               </td>
 
               <td>
