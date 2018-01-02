@@ -11,6 +11,7 @@ import SidebarMinimizer from "./../SidebarMinimizer";
 class Sidebar extends Component {
   handleClick(e) {
     e.preventDefault();
+    console.log(e.target.parentElement.classList);
     e.target.parentElement.classList.toggle("open");
   }
 
@@ -122,7 +123,7 @@ class Sidebar extends Component {
     // nav dropdown
     const navDropdown = (item, key) => {
       return (
-        <li key={key} className={activeRoute(item.url, props)}>
+        <li key={key} className={activeRoute(item.url, props)+" open"}>
           <a
             className="nav-link nav-dropdown-toggle"
             href="#"

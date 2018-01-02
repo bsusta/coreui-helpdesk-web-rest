@@ -18,9 +18,19 @@
   min-height: 95%;
 }
 
-.main .container-fluid {
-  padding: 0 15px;
+.newEditCard {
+  max-width: 1380px;
+  border-top: 0px;
 }
+
+.underlined-input {
+  border:none;
+  border-bottom: 1px solid #C2CFD6;
+  border-width: 1px;
+  background-color: white;
+
+}
+
 
 .sidebar .nav-link i,
 .sidebar .navbar .dropdown-toggle i,

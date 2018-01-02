@@ -10,8 +10,21 @@ import {
 } from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
 import MessagesDropdown from "./MessagesDropdown";
+import NewTask from "../../views/newTask";
 
 class Header extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      addingTask:false,
+    }
+    this.addTaskToggle.bind(this);
+  }
+
+  addTaskToggle(){
+    this.setState({addingTask:!this.state.addingTask})
+  }
+
   sidebarToggle(e) {
     e.preventDefault();
     document.body.classList.toggle("sidebar-hidden");
@@ -35,6 +48,7 @@ class Header extends Component {
   render() {
     return (
       <header className="app-header navbar">
+        <NewTask toggle={this.addTaskToggle.bind(this)} open={this.state.addingTask}/>
         <NavbarToggler className="d-lg-none" onClick={this.mobileSidebarToggle}>
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
@@ -61,7 +75,7 @@ class Header extends Component {
           <button
             type="button"
             className="btn btn-link"
-            onClick={() => this.props.history.push("/newTask")}
+            onClick={this.addTaskToggle.bind(this)}
           >
             Add task
           </button>

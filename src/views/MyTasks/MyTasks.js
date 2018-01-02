@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Aside from "../../components/newAside";
+import Filter from "../Filter";
 import ModalTask from "./ModalTask";
 import {
   Badge,
@@ -37,15 +37,16 @@ class MyTasks extends Component {
 
   render() {
     return (
-      <div style={{minHeight:720}}>
+      <div>
+        <h2 style={{ paddingTop: 20 }}> Add Filter</h2>
+      <div style={{minHeight:920}}>
         <ModalTask open = {this.state.modalTaskOpen} toggle={this.toggleModal.bind(this)}/>
         {this.state.asideOpen && (
           <div className="filterDiv">
-            <Aside />
+            <Filter />
           </div>
         )}
         <div style={{ marginLeft: this.state.asideOpen ? 275 : 0 }}>
-          <h2 style={{ paddingTop: 20 }}> Add Filter</h2>
 
           <button
             type="button"
@@ -146,7 +147,7 @@ class MyTasks extends Component {
                     <span class="badge badge-success">NEW</span>
                   </td>
                   <td>
-                    Oprava PC
+                    Oprava PC - normal
                     <p>
                       <span class="badge badge-primary mr-1">Primary</span>
                       <span class="badge badge-secondary mr-1">Secondary</span>
@@ -167,7 +168,7 @@ class MyTasks extends Component {
                     <span class="badge badge-success">NEW</span>
                   </td>
                   <td>
-                    Oprava PC
+                    Oprava PC - modal
                     <p>
                       <span class="badge badge-primary mr-1">Primary</span>
                       <span class="badge badge-secondary mr-1">Secondary</span>
@@ -182,13 +183,13 @@ class MyTasks extends Component {
                   <td>15:37 9.12.2017</td>
                   <td>15:37 9.12.2017</td>
                 </tr>
-                <tr style={{cursor:'pointer'}}>
+                <tr onClick={() => this.props.history.push("/secondEditTask")} style={{cursor:'pointer'}}>
                   <td>3</td>
                   <td>
                     <span class="badge badge-success">NEW</span>
                   </td>
                   <td>
-                    Oprava PC
+                    Oprava PC - second
                     <p>
                       <span class="badge badge-primary mr-1">Primary</span>
                       <span class="badge badge-secondary mr-1">Secondary</span>
@@ -264,6 +265,8 @@ class MyTasks extends Component {
           </div>
         </div>
       </div>
+    </div>
+
     );
   }
 }
