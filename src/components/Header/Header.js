@@ -76,7 +76,6 @@ class Header extends Component {
         >
           <i className="icon-settings" />
         </NavbarToggler>
-
       </header>
     );
   }
