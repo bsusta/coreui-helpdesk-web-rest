@@ -61,21 +61,97 @@ class TrojStlpec extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-4" />
-        <div className="col-8">
-          <Card>
-            <CardHeader>
-              <button class="btn btn-success mr-1">
+        <div className="col-4" style={{ padding: 0 }}>
+          <Card
+            style={{
+              borderTop: 0,
+              borderRight: 0,
+              borderBottom: 0
+            }}
+          >
+            <CardHeader
+              style={{
+                borderRight: 0,
+                paddingLeft: 0,
+                paddingRight: 0
+              }}
+            >
+              <div class="d-flex justify-content-end">
+                <div class="mr-auto">
+                  <button class="btn btn-link active">
+                    <i class="fa fa-filter " /> Active
+                  </button>
+                </div>
+                <div class="">
+                  <i class="fa fa-sort text-primary" />
+                  <button class="btn btn-link active">Podla: Status</button>
+                </div>
+              </div>
+            </CardHeader>
+
+            <CardBody
+              style={{
+                borderBottom: 0,
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingBottom: 0,
+                paddingTop: 0
+              }}
+            >
+              <div
+                class="pt-3 pb-3"
+                style={{ borderBottom: "1px solid #c2cfd6" }}
+              >
+                <div class="d-flex justify-content-end ">
+                  <div class="mr-auto">
+                    <h6 className="m-0">
+                      9482: Odtestovať email round-trip monitoring
+                    </h6>
+                  </div>
+                  <div class="p-1" />
+                </div>
+                <div class="d-flex justify-content-end">
+                  <div class="mr-auto text-muted">Zadal: bsusta</div>
+                  <div class="">
+                    <span class="badge badge-success">NEW</span>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <div class="mr-auto text-muted">Riesi: bsusta</div>
+                  <div class="">
+                    <i class="fa fa-asterisk text-muted" /> 14:00 22.12.2017
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <div class="mr-auto text-muted">Projekt: Projekt 1</div>
+                  <div class="">
+                    <i class="fa fa-clock-o text-muted" /> 14:00 22.12.2017
+                  </div>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+        <div className="col-8" style={{ padding: 0 }}>
+          <Card style={{ borderTop: "0" }}>
+            <CardHeader
+              style={{
+                borderLeft: 0,
+                paddingLeft: 0,
+                paddingRight: 0
+              }}
+            >
+              <button class="btn btn-link active">
                 <i class="fa fa-save" /> Ulozit
               </button>
-              <button class="btn btn-warning mr-1">
+              <button class="btn btn-link active">
                 <i class="fa fa-ban" /> Cancel
               </button>
 
-              <button class="btn btn-primary mr-1">
+              <button class="btn btn-link active">
                 <i class="fa fa-print" /> Print
               </button>
-              <button class="btn btn-danger mr-1">
+              <button class="btn btn-link active">
                 <i class="fa fa-remove" /> Vymazať
               </button>
             </CardHeader>
