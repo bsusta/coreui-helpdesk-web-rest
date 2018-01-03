@@ -157,105 +157,156 @@ class EditTask extends Component {
                       </select>
                     </InputGroup>
                   </FormGroup>
-
-                  <div class="form-group">
+                  <FormGroup>
                     <label for="title">Due date</label>
-                    <input class="form-control" id="title" />
-                  </div>
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <i className="fa fa-clock-o" />
+                      </InputGroupAddon>
+                      <input class="form-control" id="title" />
+                    </InputGroup>
+                  </FormGroup>
 
-                  <div class="form-group">
+                  <FormGroup>
                     <label for="project">Project</label>
-                    <select class="form-control" id="project">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <i className="fa fa-folder-o" />
+                      </InputGroupAddon>
+                      <select class="form-control" id="project">
+                        {mockOptions.map(opt => (
+                          <option key={opt.id} value={opt.id}>
+                            {opt.title}
+                          </option>
+                        ))}
+                      </select>
+                    </InputGroup>
+                  </FormGroup>
 
-                  <div class="form-group">
+                  <FormGroup>
                     <label for="requester">Requester</label>
-                    <select class="form-control" id="requester">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <i className="fa fa-user-o" />
+                      </InputGroupAddon>
+                      <select class="form-control" id="requester">
+                        {mockOptions.map(opt => (
+                          <option key={opt.id} value={opt.id}>
+                            {opt.title}
+                          </option>
+                        ))}
+                      </select>
+                    </InputGroup>
+                  </FormGroup>
 
-                  <div class="form-group">
+                  <FormGroup>
                     <label for="company">Company</label>
-                    <select class="form-control" id="company">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="form-group">
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <i className="fa fa-building-o" />
+                      </InputGroupAddon>
+                      <select class="form-control" id="company">
+                        {mockOptions.map(opt => (
+                          <option key={opt.id} value={opt.id}>
+                            {opt.title}
+                          </option>
+                        ))}
+                      </select>
+                    </InputGroup>
+                  </FormGroup>
+
+                  <FormGroup>
                     <label for="assigned">Assigned</label>
-                    <select class="form-control" id="assigned">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="form-group">
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <i className="fa fa-user-plus" />
+                      </InputGroupAddon>
+                      <select class="form-control" id="assigned">
+                        {mockOptions.map(opt => (
+                          <option key={opt.id} value={opt.id}>
+                            {opt.title}
+                          </option>
+                        ))}
+                      </select>
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup>
                     <label for="title">Odpracované hodiny</label>
-                    <input class="form-control" id="title" />
-                  </div>
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <i className="fa fa-hourglass-o" />
+                      </InputGroupAddon>
+                      <input class="form-control" id="title" />
+                    </InputGroup>
+                  </FormGroup>
 
-                  <div class="form-group">
+                  <FormGroup>
                     <label for="assigned">Opakovanie</label>
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <i className="fa fa-repeat" />
+                      </InputGroupAddon>
+                      <Dropdown
+                        isOpen={this.state.dropdownOpen}
+                        toggle={this.toggle}
+                        style={{ width: "100%" }}
+                      >
+                        <DropdownToggle
+                          style={{
+                            width: "100%",
+                            textAlign: "left",
+                            backgroundColor: "white"
+                          }}
+                          caret
+                        >
+                          no repeat
+                        </DropdownToggle>
+                        <DropdownMenu style={{ width: "100%" }}>
+                          <form class="px-4 py-3" style={{ width: "100%" }}>
+                            <div class="form-group" style={{ width: "100%" }}>
+                              <label for="exampleDropdownFormEmail1">
+                                Repeat every
+                              </label>
+                              <input
+                                type="email"
+                                class="form-control"
+                                id="exampleDropdownFormEmail1"
+                                style={{ width: "100%" }}
+                              />
+                            </div>
+                            <div class="form-group">
+                              <select
+                                class="form-control"
+                                id="assigned"
+                                style={{ width: "100%" }}
+                              >
+                                {mockRepeat.map(opt => (
+                                  <option key={opt.id} value={opt.id}>
+                                    {opt.title}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleDropdownFormEmail1">
+                                Start date
+                              </label>
+                              <input
+                                type="email"
+                                class="form-control"
+                                id="exampleDropdownFormEmail1"
+                                style={{ width: "100%" }}
+                              />
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                              Save
+                            </button>
+                          </form>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </InputGroup>
+                  </FormGroup>
 
-                    <Dropdown
-                      isOpen={this.state.dropdownOpen}
-                      toggle={this.toggle}
-                    >
-                      <DropdownToggle caret>no repeat</DropdownToggle>
-                      <DropdownMenu>
-                        <form class="px-4 py-3">
-                          <div class="form-group">
-                            <label for="exampleDropdownFormEmail1">
-                              Repeat every
-                            </label>
-                            <input
-                              type="email"
-                              class="form-control"
-                              id="exampleDropdownFormEmail1"
-                            />
-                          </div>
-                          <div class="form-group">
-                            <select class="form-control" id="assigned">
-                              {mockRepeat.map(opt => (
-                                <option key={opt.id} value={opt.id}>
-                                  {opt.title}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="exampleDropdownFormEmail1">
-                              Start date
-                            </label>
-                            <input
-                              type="email"
-                              class="form-control"
-                              id="exampleDropdownFormEmail1"
-                            />
-                          </div>
-                          <button type="submit" class="btn btn-primary">
-                            Save
-                          </button>
-                        </form>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
                   <div class="form-group">
                     <label for="assigned">Prílohy</label>
                     <button class="btn btn-primary btn-block" type="submit">
