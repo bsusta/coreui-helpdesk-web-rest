@@ -5,7 +5,12 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  ButtonGroup
+  ButtonGroup,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  Input,
+  FormGroup
 } from "reactstrap";
 import Comments from "./Comments";
 import AddComment from "./AddComment";
@@ -118,31 +123,40 @@ class EditTask extends Component {
 
               <div className="col-4">
                 <form>
-                  <div class="form-group">
+                  <FormGroup>
                     <label for="status">Status</label>
-                    <select
-                      class="form-control"
-                      style={{
-                        color: "white",
-                        backgroundColor: mockOptions[this.state.selected].color
-                      }}
-                      selected={this.state}
-                      id="status"
-                      onChange={(event, value) => {
-                        this.setState({ selected: event.target.value });
-                      }}
-                    >
-                      {mockStatus.map(opt => (
-                        <option
-                          key={opt.id}
-                          style={{ color: "white", backgroundColor: opt.color }}
-                          value={opt.id}
-                        >
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    <InputGroup>
+                      <InputGroupAddon>
+                        <i className="fa fa-list" />
+                      </InputGroupAddon>
+                      <select
+                        class="form-control"
+                        style={{
+                          color: "white",
+                          backgroundColor:
+                            mockOptions[this.state.selected].color
+                        }}
+                        selected={this.state}
+                        id="status"
+                        onChange={(event, value) => {
+                          this.setState({ selected: event.target.value });
+                        }}
+                      >
+                        {mockStatus.map(opt => (
+                          <option
+                            key={opt.id}
+                            style={{
+                              color: "white",
+                              backgroundColor: opt.color
+                            }}
+                            value={opt.id}
+                          >
+                            {opt.title}
+                          </option>
+                        ))}
+                      </select>
+                    </InputGroup>
+                  </FormGroup>
 
                   <div class="form-group">
                     <label for="title">Due date</label>
