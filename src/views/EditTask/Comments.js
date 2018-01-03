@@ -12,7 +12,7 @@ class Comments extends Component {
     return (
       <div className="animated fadeIn">
         <div className="email-app mb-4" style={{ border: 0 }}>
-          <main className="inbox">
+          <main className="inbox" style={{ padding: 0 }}>
             <ul className="messages">
               <li
                 className="message unread"
@@ -21,20 +21,14 @@ class Comments extends Component {
                 <a href="#">
                   <div className="actions">
                     <span className="action">
-                      <i className="fa fa-square-o" />
-                    </span>
-                    <span className="action">
-                      <i className="fa fa-star-o" />
+                      <i className="fa fa-comment" />
                     </span>
                   </div>
                   <div className="header">
-                    <span className="from">Lukasz Holeczek</span>
+                    <span className="from">Lukasz Holeczek wrote comment</span>
                     <span className="date">
                       <span className="fa fa-paper-clip" /> Today, 3:47 PM
                     </span>
-                  </div>
-                  <div className="title">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   </div>
                   <div className="description">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
@@ -50,14 +44,13 @@ class Comments extends Component {
                 <a href="#">
                   <div className="actions">
                     <span className="action">
-                      <i className="fa fa-square-o" />
-                    </span>
-                    <span className="action">
-                      <i className="fa fa-star-o" />
+                      <i className="fa fa-mail-forward" />
                     </span>
                   </div>
                   <div className="header">
-                    <span className="from">Lukasz Holeczek</span>
+                    <span className="from">
+                      Lukasz Holeczek send email to:susta@lansystems.sk
+                    </span>
                     <span className="date">
                       <span className="fa fa-paper-clip" /> Today, 3:47 PM
                     </span>
@@ -81,176 +74,13 @@ class Comments extends Component {
                 <a href="#">
                   <div className="actions">
                     <span className="action">
-                      <i className="fa fa-square-o" />
-                    </span>
-                    <span className="action">
-                      <i className="fa fa-star-o" />
+                      <i className="fa fa-envelope-o" />
                     </span>
                   </div>
                   <div className="header">
-                    <span className="from">Lukasz Holeczek</span>
-                    <span className="date">Today, 3:47 PM</span>
-                  </div>
-                  <div className="title">Lorem ipsum dolor sit amet.</div>
-                  <div className="description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </div>
-                </a>
-              </li>
-              <li className="message unread">
-                <a href="#">
-                  <div className="actions">
-                    <span className="action">
-                      <i className="fa fa-square-o" />
+                    <span className="from">
+                      email from branislav.susta@gmail.com
                     </span>
-                    <span className="action">
-                      <i className="fa fa-star-o" />
-                    </span>
-                  </div>
-                  <div className="header">
-                    <span className="from">Lukasz Holeczek</span>
-                    <span className="date">Today, 3:47 PM</span>
-                  </div>
-                  <div className="title">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  </div>
-                  <div className="description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </div>
-                </a>
-              </li>
-              <li className="message">
-                <a href="#">
-                  <div className="actions">
-                    <span className="action">
-                      <i className="fa fa-square-o" />
-                    </span>
-                    <span className="action">
-                      <i className="fa fa-star-o" />
-                    </span>
-                  </div>
-                  <div className="header">
-                    <span className="from">Lukasz Holeczek</span>
-                    <span className="date">Today, 3:47 PM</span>
-                  </div>
-                  <div className="title">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </div>
-                  <div className="description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </div>
-                </a>
-              </li>
-              <li className="message">
-                <a href="#">
-                  <div className="actions">
-                    <span className="action">
-                      <i className="fa fa-square-o" />
-                    </span>
-                    <span className="action">
-                      <i className="fa fa-star-o" />
-                    </span>
-                  </div>
-                  <div className="header">
-                    <span className="from">Lukasz Holeczek</span>
-                    <span className="date">Today, 3:47 PM</span>
-                  </div>
-                  <div className="title">Lorem ipsum dolor sit amet.</div>
-                  <div className="description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </div>
-                </a>
-              </li>
-              <li className="message unread">
-                <a href="#">
-                  <div className="actions">
-                    <span className="action">
-                      <i className="fa fa-square-o" />
-                    </span>
-                    <span className="action">
-                      <i className="fa fa-star-o" />
-                    </span>
-                  </div>
-                  <div className="header">
-                    <span className="from">Lukasz Holeczek</span>
-                    <span className="date">Today, 3:47 PM</span>
-                  </div>
-                  <div className="title">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  </div>
-                  <div className="description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </div>
-                </a>
-              </li>
-              <li className="message">
-                <a href="#">
-                  <div className="actions">
-                    <span className="action">
-                      <i className="fa fa-square-o" />
-                    </span>
-                    <span className="action">
-                      <i className="fa fa-star-o" />
-                    </span>
-                  </div>
-                  <div className="header">
-                    <span className="from">Lukasz Holeczek</span>
-                    <span className="date">Today, 3:47 PM</span>
-                  </div>
-                  <div className="title">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </div>
-                  <div className="description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </div>
-                </a>
-              </li>
-              <li className="message">
-                <a href="#">
-                  <div className="actions">
-                    <span className="action">
-                      <i className="fa fa-square-o" />
-                    </span>
-                    <span className="action">
-                      <i className="fa fa-star-o" />
-                    </span>
-                  </div>
-                  <div className="header">
-                    <span className="from">Lukasz Holeczek</span>
                     <span className="date">Today, 3:47 PM</span>
                   </div>
                   <div className="title">Lorem ipsum dolor sit amet.</div>

@@ -24,30 +24,37 @@ class Subtasks extends Component {
           <thead className="thead-inverse">
             <tr>
               <th style={{ borderTop: "0px" }}>Subtasks</th>
-              <th style={{ width: "13%", borderTop: "0px" }}>Actions</th>
+              <th
+                style={{ width: "13%", borderTop: "0px", textAlign: "right" }}
+              >
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <div  style={{display:'flex'}}>
-                <input type="checkbox" style={{margin:'auto',marginRight:10}} />
-                <input
-                  type="text"
-                  id="name"
-                  class="form-control"
-                  placeholder="instalacia klavesnice"
-                  style={{border:'none'}}
-                />
-            </div>
+                <div style={{ display: "flex" }}>
+                  <input
+                    type="checkbox"
+                    style={{ margin: "auto", marginRight: 10 }}
+                  />
+                  <input
+                    type="text"
+                    id="name"
+                    class="form-control"
+                    placeholder="instalacia klavesnice"
+                    style={{ border: "none" }}
+                  />
+                </div>
               </td>
 
               <td>
                 <div className="row">
-                  <button className="btn btn-sm btn-danger mr-1 ml-3">
+                  <button className="btn btn-sm btn-danger mr-1 ml-3 ">
                     <i className="fa fa-remove" />
                   </button>
-                  <button className="btn  btn-sm btn-primary">
+                  <button className="btn  btn-sm btn-primary ">
                     <i className="fa fa-arrows" />
                   </button>
                 </div>
@@ -55,9 +62,13 @@ class Subtasks extends Component {
             </tr>
             <tr>
               <td>
-                <div  style={{display:'flex'}}>
-                <input type="checkbox" style={{margin:'auto',marginRight:10}} />
-                <input type="text" id="name" class="form-control"/>
+                <div style={{ display: "flex" }}>
+                  <input
+                    type="text"
+                    id="name"
+                    class="form-control"
+                    placeholder="add subtask"
+                  />
                 </div>
               </td>
 
@@ -76,7 +87,7 @@ class Subtasks extends Component {
               <th style={{ borderTop: "0px" }}>Material</th>
               <th style={{ width: "10%", borderTop: "0px" }}>Pocet</th>
               <th style={{ width: "10%", borderTop: "0px" }}>Cena/ks</th>
-              <th style={{ width: "10%", borderTop: "0px" }}>Spolu</th>
+
               <th style={{ width: "10%", borderTop: "0px" }}>Actions</th>
             </tr>
           </thead>
@@ -84,7 +95,7 @@ class Subtasks extends Component {
             <tr>
               <td>
                 <input
-                  style={{border:'none'}}
+                  style={{ border: "none" }}
                   type="text"
                   id="name"
                   class="form-control"
@@ -93,7 +104,7 @@ class Subtasks extends Component {
               </td>
               <td>
                 <input
-                  style={{border:'none'}}
+                  style={{ border: "none" }}
                   type="text"
                   id="name"
                   class="form-control"
@@ -102,14 +113,14 @@ class Subtasks extends Component {
               </td>
               <td>
                 <input
-                  style={{border:'none'}}
+                  style={{ border: "none" }}
                   type="text"
                   id="name"
                   class="form-control"
                   placeholder="5"
                 />
               </td>
-              <td>5</td>
+
               <td>
                 <button className="btn  btn-sm btn-danger mr-1">
                   <i className="fa fa-remove" />
@@ -126,7 +137,7 @@ class Subtasks extends Component {
               <td>
                 <input type="text" id="name" class="form-control" />
               </td>
-              <td />
+
               <td>
                 <button className=" btn-sm btn btn-primary mr-1">
                   <i className="fa fa-plus" />

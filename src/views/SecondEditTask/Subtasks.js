@@ -25,12 +25,12 @@ class Subtasks extends Component {
             <tr>
               <th style={{ width: "5%", borderTop: "0px" }}>#</th>
 
-              <th style={{ borderTop: "0px" }}>Práce</th>
+              <th style={{ borderTop: "0px" }}>Subtasks</th>
               {/*
               <th style={{ width: "20%", borderTop: "0px" }}>Riesi</th>
               <th style={{ width: "10%", borderTop: "0px" }}>Hodin</th>
               */}
-              <th style={{ width: "13%", borderTop: "0px" }}>Actions</th>
+              <th style={{ width: "13%", borderTop: "0px" }} />
             </tr>
           </thead>
           <tbody>

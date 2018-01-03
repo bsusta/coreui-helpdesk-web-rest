@@ -83,12 +83,17 @@ class EditTask extends Component {
                 <form>
                   <div class="form-group">
                     <label for="title">Task Name</label>
+                    <label className="float-right">
+                      Vytvoril: bsusta (susta@lansystems.sk) 27.12.17 12:46
+                    </label>
                     <input
                       class="form-control"
                       id="title"
                       placeholder="Oprava PC"
+                      style={{ fontSize: 18 }}
                     />
                   </div>
+
                   <div class="form-group">
                     <label for="tags">Tags</label>
                     <input
