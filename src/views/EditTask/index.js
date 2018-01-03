@@ -195,26 +195,7 @@ class EditTask extends Component {
                     <label for="title">Odpracované hodiny</label>
                     <input class="form-control" id="title" />
                   </div>
-                  <div class="form-group">
-                    <label for="assigned">Typ práce</label>
-                    <select class="form-control" id="assigned">
-                      {mockTypPrace.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="assigned">Pausal</label>
-                    <select class="form-control" id="assigned">
-                      {mockPausal.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+
                   <div class="form-group">
                     <label for="assigned">Opakovanie</label>
 
@@ -266,6 +247,26 @@ class EditTask extends Component {
                     <button class="btn btn-primary btn-block" type="submit">
                       Add prílohu
                     </button>
+                  </div>
+                  <div class="form-group">
+                    <label for="assigned">Typ práce</label>
+                    <select class="form-control" id="assigned">
+                      {mockTypPrace.map(opt => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="assigned">Pausal</label>
+                    <select class="form-control" id="assigned">
+                      {mockPausal.map(opt => (
+                        <option key={opt.id} value={opt.id}>
+                          {opt.title}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </form>
               </div>

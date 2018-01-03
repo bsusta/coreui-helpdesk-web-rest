@@ -26,9 +26,7 @@ class Subtasks extends Component {
               <th style={{ borderTop: "0px" }}>Subtasks</th>
               <th
                 style={{ width: "13%", borderTop: "0px", textAlign: "right" }}
-              >
-                Actions
-              </th>
+              />
             </tr>
           </thead>
           <tbody>
@@ -50,18 +48,21 @@ class Subtasks extends Component {
               </td>
 
               <td>
-                <div className="row">
-                  <button className="btn btn-sm btn-danger mr-1 ml-3 ">
-                    <i className="fa fa-remove" />
-                  </button>
-                  <button className="btn  btn-sm btn-primary ">
+                <div
+                  style={{ float: "right", paddingRight: 20 }}
+                  className="row"
+                >
+                  <button className="btn  btn-sm btn-primary mr-1 ml-3 ">
                     <i className="fa fa-arrows" />
+                  </button>
+                  <button className="btn btn-sm btn-danger  ">
+                    <i className="fa fa-remove" />
                   </button>
                 </div>
               </td>
             </tr>
             <tr>
-              <td>
+              <td colspan="3">
                 <div style={{ display: "flex" }}>
                   <input
                     type="text"
@@ -69,13 +70,13 @@ class Subtasks extends Component {
                     class="form-control"
                     placeholder="add subtask"
                   />
+                  <button
+                    style={{ float: "right" }}
+                    className="btn btn-sm btn-primary mr-1"
+                  >
+                    <i className="fa fa-plus " />
+                  </button>
                 </div>
-              </td>
-
-              <td>
-                <button className="btn btn-sm btn-primary mr-1">
-                  <i className="fa fa-plus " />
-                </button>
               </td>
             </tr>
           </tbody>
@@ -88,7 +89,9 @@ class Subtasks extends Component {
               <th style={{ width: "10%", borderTop: "0px" }}>Pocet</th>
               <th style={{ width: "10%", borderTop: "0px" }}>Cena/ks</th>
 
-              <th style={{ width: "10%", borderTop: "0px" }}>Actions</th>
+              <th
+                style={{ width: "10%", borderTop: "0px", textAlign: "right" }}
+              />
             </tr>
           </thead>
           <tbody>
@@ -122,7 +125,10 @@ class Subtasks extends Component {
               </td>
 
               <td>
-                <button className="btn  btn-sm btn-danger mr-1">
+                <button
+                  style={{ float: "right" }}
+                  className="btn  btn-sm btn-danger mr-1"
+                >
                   <i className="fa fa-remove" />
                 </button>
               </td>
@@ -139,7 +145,10 @@ class Subtasks extends Component {
               </td>
 
               <td>
-                <button className=" btn-sm btn btn-primary mr-1">
+                <button
+                  style={{ float: "right" }}
+                  className="btn-sm btn btn-primary mr-1"
+                >
                   <i className="fa fa-plus" />
                 </button>
               </td>
