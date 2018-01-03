@@ -73,7 +73,12 @@ class AddComment extends Component {
           </NavItem>
         </Nav>
         <TabContent
-          style={{ borderLeft: 0, borderRight: 0, borderBottom: 0 }}
+          style={{
+            borderLeft: 0,
+            borderRight: 0,
+            borderBottom: 0,
+            backgroundColor: "#f0f3f5"
+          }}
           activeTab={this.state.activeTab}
         >
           <TabPane tabId="1" style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -111,7 +116,14 @@ class AddComment extends Component {
               </button>
             </div>
           </TabPane>
-          <TabPane tabId="2" style={{ paddingLeft: 0, paddingRight: 0 }}>
+          <TabPane
+            tabId="2"
+            style={{
+              paddingLeft: 0,
+              paddingRight: 0,
+              backgroundColor: "#f0f3f5"
+            }}
+          >
             <FormGroup row>
               <Col md="2">
                 <Label htmlFor="text-input">To:</Label>

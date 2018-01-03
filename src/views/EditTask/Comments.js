@@ -12,7 +12,10 @@ class Comments extends Component {
     return (
       <div className="animated fadeIn">
         <div className="email-app mb-4" style={{ border: 0 }}>
-          <main className="inbox" style={{ padding: 0 }}>
+          <main
+            className="inbox"
+            style={{ padding: 0, backgroundColor: "#f0f3f5" }}
+          >
             <ul className="messages">
               <li
                 className="message unread"
