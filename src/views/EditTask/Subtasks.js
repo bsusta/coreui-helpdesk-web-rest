@@ -25,7 +25,7 @@ class Subtasks extends Component {
             <tr>
               <th style={{ borderTop: "0px" }}>Subtasks</th>
               <th
-                style={{ width: "13%", borderTop: "0px", textAlign: "right" }}
+                style={{ width: "80px", borderTop: "0px", textAlign: "right" }}
               />
             </tr>
           </thead>
