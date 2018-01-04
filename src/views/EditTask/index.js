@@ -49,7 +49,8 @@ class EditTask extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       selected: 0,
-      dropdownOpen: false
+      dropdownOpen: false,
+      attachements:[]
     };
   }
 
@@ -61,178 +62,115 @@ class EditTask extends Component {
   render() {
     return (
       <div>
-        <Card style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}>
+        <Card style={{ maxWidth: 1380, minWidth:800, margin: "auto", borderTop: "0" }}>
           <CardHeader>
             <button class="btn btn-success mr-1">
               <i class="fa fa-save" /> Ulozit
-            </button>
-            <button class="btn btn-warning mr-1">
-              <i class="fa fa-ban" /> Cancel
-            </button>
+              </button>
+              <button class="btn btn-warning mr-1">
+                <i class="fa fa-ban" /> Cancel
+                </button>
 
-            <button class="btn btn-primary mr-1">
-              <i class="fa fa-print" /> Print
-            </button>
-            <button class="btn btn-danger mr-1">
-              <i class="fa fa-remove" /> Vymazať
-            </button>
-          </CardHeader>
-          <CardBody>
-            <div className="row">
-              <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
-                <form>
-                  <div class="form-group">
-                    <label for="title">Task Name</label>
-                    <input
-                      class="form-control"
-                      id="title"
-                      placeholder="Oprava PC"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="tags">Tags</label>
-                    <input
-                      class="form-control"
-                      id="tags"
-                      placeholder="Enter tags"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea
-                      class="form-control"
-                      id="description"
-                      placeholder="Enter description"
-                    />
-                  </div>
-                </form>
-                <Subtask />
-                <AddComment />
-                <Comments />
-              </div>
-
-              <div className="col-4">
-                <form>
-                  <div class="form-group">
-                    <label for="status">Status</label>
-                    <select
-                      class="form-control"
-                      style={{
-                        color: "white",
-                        backgroundColor: mockOptions[this.state.selected].color
-                      }}
-                      selected={this.state}
-                      id="status"
-                      onChange={(event, value) => {
-                        this.setState({ selected: event.target.value });
-                      }}
-                    >
-                      {mockStatus.map(opt => (
-                        <option
-                          key={opt.id}
-                          style={{ color: "white", backgroundColor: opt.color }}
-                          value={opt.id}
-                        >
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="title">Due date</label>
-                    <input class="form-control" id="title" />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="project">Project</label>
-                    <select class="form-control" id="project">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="requester">Requester</label>
-                    <select class="form-control" id="requester">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="company">Company</label>
-                    <select class="form-control" id="company">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="assigned">Assigned</label>
-                    <select class="form-control" id="assigned">
-                      {mockOptions.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="title">Odpracované hodiny</label>
-                    <input class="form-control" id="title" />
-                  </div>
-                  <div class="form-group">
-                    <label for="assigned">Typ práce</label>
-                    <select class="form-control" id="assigned">
-                      {mockTypPrace.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="assigned">Pausal</label>
-                    <select class="form-control" id="assigned">
-                      {mockPausal.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="assigned">Opakovanie</label>
-
-                    <Dropdown
-                      isOpen={this.state.dropdownOpen}
-                      toggle={this.toggle}
-                    >
-                      <DropdownToggle caret>no repeat</DropdownToggle>
-                      <DropdownMenu>
-                        <form class="px-4 py-3">
+                <button class="btn btn-primary mr-1">
+                  <i class="fa fa-print" /> Print
+                  </button>
+                  <button class="btn btn-danger mr-1">
+                    <i class="fa fa-remove" /> Vymazať
+                    </button>
+                  </CardHeader>
+                  <CardBody>
+                    <div className="row">
+                      <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
+                        <form>
                           <div class="form-group">
-                            <label for="exampleDropdownFormEmail1">
-                              Repeat every
-                            </label>
+                            <label for="title">Task Name</label>
                             <input
-                              type="email"
                               class="form-control"
-                              id="exampleDropdownFormEmail1"
-                            />
+                              id="title"
+                              placeholder="Oprava PC"
+                              />
                           </div>
                           <div class="form-group">
-                            <select class="form-control" id="assigned">
-                              {mockRepeat.map(opt => (
+                            <label for="tags">Tags</label>
+                            <input
+                              class="form-control"
+                              id="tags"
+                              placeholder="Enter tags"
+                              />
+                          </div>
+                          <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea
+                              class="form-control"
+                              id="description"
+                              placeholder="Enter description"
+                              />
+                          </div>
+                        </form>
+                        <Subtask />
+                        <AddComment />
+                        <Comments />
+                      </div>
+
+                      <div className="col-4">
+                        <form>
+                          <div class="form-group">
+                            <label for="status">Status</label>
+                            <select
+                              class="form-control"
+                              style={{
+                                color: "white",
+                                backgroundColor: mockOptions[this.state.selected].color
+                              }}
+                              selected={this.state}
+                              id="status"
+                              onChange={(event, value) => {
+                                this.setState({ selected: event.target.value });
+                              }}
+                              >
+                              {mockStatus.map(opt => (
+                                <option
+                                  key={opt.id}
+                                  style={{ color: "white", backgroundColor: opt.color }}
+                                  value={opt.id}
+                                  >
+                                  {opt.title}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="title">Due date</label>
+                            <input class="form-control" id="title" />
+                          </div>
+
+                          <div class="form-group">
+                            <label for="project">Project</label>
+                            <select class="form-control" id="project">
+                              {mockOptions.map(opt => (
+                                <option key={opt.id} value={opt.id}>
+                                  {opt.title}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="requester">Requester</label>
+                            <select class="form-control" id="requester">
+                              {mockOptions.map(opt => (
+                                <option key={opt.id} value={opt.id}>
+                                  {opt.title}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="company">Company</label>
+                            <select class="form-control" id="company">
+                              {mockOptions.map(opt => (
                                 <option key={opt.id} value={opt.id}>
                                   {opt.title}
                                 </option>
@@ -240,36 +178,119 @@ class EditTask extends Component {
                             </select>
                           </div>
                           <div class="form-group">
-                            <label for="exampleDropdownFormEmail1">
-                              Start date
-                            </label>
-                            <input
-                              type="email"
-                              class="form-control"
-                              id="exampleDropdownFormEmail1"
-                            />
+                            <label for="assigned">Assigned</label>
+                            <select class="form-control" id="assigned">
+                              {mockOptions.map(opt => (
+                                <option key={opt.id} value={opt.id}>
+                                  {opt.title}
+                                </option>
+                              ))}
+                            </select>
                           </div>
-                          <button type="submit" class="btn btn-primary">
-                            Save
-                          </button>
-                        </form>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                  <div class="form-group">
-                    <label for="assigned">Prílohy</label>
-                    <button class="btn btn-primary btn-block" type="submit">
-                      Add prílohu
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      </div>
-    );
-  }
-}
+                          <div class="form-group">
+                            <label for="title">Odpracované hodiny</label>
+                            <input class="form-control" id="title" />
+                          </div>
+                          <div class="form-group">
+                            <label for="assigned">Typ práce</label>
+                            <select class="form-control" id="assigned">
+                              {mockTypPrace.map(opt => (
+                                <option key={opt.id} value={opt.id}>
+                                  {opt.title}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="assigned">Pausal</label>
+                            <select class="form-control" id="assigned">
+                              {mockPausal.map(opt => (
+                                <option key={opt.id} value={opt.id}>
+                                  {opt.title}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="assigned">Opakovanie</label>
 
-export default EditTask;
+                            <Dropdown
+                              isOpen={this.state.dropdownOpen}
+                              toggle={this.toggle}
+                              >
+                              <DropdownToggle caret>no repeat</DropdownToggle>
+                              <DropdownMenu>
+                                <form class="px-4 py-3">
+                                  <div class="form-group">
+                                    <label for="exampleDropdownFormEmail1">
+                                      Repeat every
+                                    </label>
+                                    <input
+                                      type="email"
+                                      class="form-control"
+                                      id="exampleDropdownFormEmail1"
+                                      />
+                                  </div>
+                                  <div class="form-group">
+                                    <select class="form-control" id="assigned">
+                                      {mockRepeat.map(opt => (
+                                        <option key={opt.id} value={opt.id}>
+                                          {opt.title}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleDropdownFormEmail1">
+                                      Start date
+                                    </label>
+                                    <input
+                                      type="email"
+                                      class="form-control"
+                                      id="exampleDropdownFormEmail1"
+                                      />
+                                  </div>
+                                  <button type="submit" class="btn btn-primary">
+                                    Save
+                                  </button>
+                                </form>
+                              </DropdownMenu>
+                            </Dropdown>
+                          </div>
+                          <div class="form-group">
+                            <label for="assigned">Prílohy</label>
+                            <button class="btn btn-primary btn-block" type="submit" onClick={(e)=>{e.preventDefault(); this.setState({attachements:[{name:"priloha "+this.state.attachements.length,size:""+Math.floor((Math.random() * 700) + 1)},...this.state.attachements]})}}>
+                              Add prílohu
+                            </button>
+                            <div style={{paddingTop:5,paddingRight:10}}>
+                              {
+                                this.state.attachements.map((item)=>
+                                <span class="badge" style={{backgroundColor:'#d3d3d3',color:'white', paddingLeft:10,paddingRight:10,paddingTop:5,paddingBottom:5, marginLeft:5,marginTop:1,width:'100%',display:'flex'}}>
+                                  <div style={{marginTop:'auto',marginBottom:'auto'}}>{item.name}</div>
+                                  <div style={{flex:1}}></div>
+                                  <div style={{marginTop:'auto',marginBottom:'auto'}}>{item.size}kb</div>
+                                  <button type="button" class="close" aria-label="Close" style={{marginTop:'auto',marginBottom:'auto'}} onClick={()=>{
+                                      let newItems=[...this.state.attachements];
+                                      newItems.splice(newItems.findIndex((at)=>at.name==item.name),1);
+                                      this.setState({attachements:newItems});
+
+                                    }}>
+                                    <span aria-hidden="true" style={{color:'white',padding:5,paddingBottom:10,margin:0}}>&times;</span>
+                                  </button>
+                                </span>
+
+                              )
+                            }
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          );
+        }
+      }
+
+      export default EditTask;
