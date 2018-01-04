@@ -47,7 +47,7 @@ class Header extends Component {
 
   render() {
     return (
-      <header className="app-header navbar" style={{maxWidth:1600}}>
+      <header className="app-header navbar">
         <NewTask toggle={this.addTaskToggle.bind(this)} open={this.state.addingTask}/>
         <NavbarToggler className="d-lg-none" onClick={this.mobileSidebarToggle}>
           <span className="navbar-toggler-icon" />

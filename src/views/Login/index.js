@@ -14,7 +14,7 @@ class Login extends Component {
   }
   render() {
     if(this.state.loggedIn){
-      return <div style={{maxWidth:1600,margin:'auto'}}><Full {...this.props} /></div>;
+      return <Full {...this.props} />;
     }
     return (
       <div className="app flex-row align-items-center">
