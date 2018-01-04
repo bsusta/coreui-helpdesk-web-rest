@@ -76,7 +76,7 @@ class Messages extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ paddingTop: 20 }}> Messages</h2>
 
         <div style={{ paddingBottom: 10, marginTop: 10 }}>

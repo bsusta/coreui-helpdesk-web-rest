@@ -55,7 +55,7 @@ class EditTask extends Component {
     this.state = {
       selected: 0,
       dropdownOpen: false,
-      attachements:[]
+      attachements: []
     };
   }
 
@@ -69,10 +69,9 @@ class EditTask extends Component {
       <div>
         <Card
           style={{
-            maxWidth: 1380,
             margin: "auto",
             borderTop: "0",
-            minWidth:800,
+            minWidth: 800,
             backgroundColor: "#f0f3f5"
           }}
         >
@@ -317,30 +316,82 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <div class="form-group">
-                  <label for="assigned">Prílohy</label>
-                  <button class="btn btn-primary btn-block" type="submit" onClick={(e)=>{e.preventDefault(); this.setState({attachements:[{name:"priloha "+this.state.attachements.length,size:""+Math.floor((Math.random() * 700) + 1)},...this.state.attachements]})}}>
-                  Add prílohu
-                  </button>
-                  <div style={{paddingTop:5,paddingRight:10}}>
-                  {
-                    this.state.attachements.map((item)=>
-                    <span class="badge" style={{backgroundColor:'#d3eef6',color:'black', paddingLeft:10,paddingRight:10,paddingTop:5,paddingBottom:5, marginLeft:5,marginTop:1,width:'100%',display:'flex'}}>
-                    <div style={{marginTop:'auto',marginBottom:'auto'}}>{item.name}</div>
-                    <div style={{flex:1}}></div>
-                    <div style={{marginTop:'auto',marginBottom:'auto'}}>{item.size}kb</div>
-                    <button type="button" class="close" aria-label="Close" style={{marginTop:'auto',marginBottom:'auto'}} onClick={()=>{
-                      let newItems=[...this.state.attachements];
-                      newItems.splice(newItems.findIndex((at)=>at.name==item.name),1);
-                      this.setState({attachements:newItems});
-
-                    }}>
-                    <span aria-hidden="true" style={{color:'black',padding:5,paddingBottom:10,margin:0}}>&times;</span>
+                    <label for="assigned">Prílohy</label>
+                    <button
+                      class="btn btn-primary btn-block"
+                      type="submit"
+                      onClick={e => {
+                        e.preventDefault();
+                        this.setState({
+                          attachements: [
+                            {
+                              name: "priloha " + this.state.attachements.length,
+                              size: "" + Math.floor(Math.random() * 700 + 1)
+                            },
+                            ...this.state.attachements
+                          ]
+                        });
+                      }}
+                    >
+                      Add prílohu
                     </button>
-                    </span>
-
-                  )
-                }
-                </div>
+                    <div style={{ paddingTop: 5, paddingRight: 10 }}>
+                      {this.state.attachements.map(item => (
+                        <span
+                          class="badge"
+                          style={{
+                            backgroundColor: "#d3eef6",
+                            color: "black",
+                            paddingLeft: 10,
+                            paddingRight: 10,
+                            paddingTop: 5,
+                            paddingBottom: 5,
+                            marginLeft: 5,
+                            marginTop: 1,
+                            width: "100%",
+                            display: "flex"
+                          }}
+                        >
+                          <div
+                            style={{ marginTop: "auto", marginBottom: "auto" }}
+                          >
+                            {item.name}
+                          </div>
+                          <div style={{ flex: 1 }} />
+                          <div
+                            style={{ marginTop: "auto", marginBottom: "auto" }}
+                          >
+                            {item.size}kb
+                          </div>
+                          <button
+                            type="button"
+                            class="close"
+                            aria-label="Close"
+                            style={{ marginTop: "auto", marginBottom: "auto" }}
+                            onClick={() => {
+                              let newItems = [...this.state.attachements];
+                              newItems.splice(
+                                newItems.findIndex(at => at.name == item.name),
+                                1
+                              );
+                              this.setState({ attachements: newItems });
+                            }}
+                          >
+                            <span
+                              aria-hidden="true"
+                              style={{
+                                color: "black",
+                                padding: 5,
+                                paddingBottom: 10,
+                                margin: 0
+                              }}
+                            >
+                              &times;
+                            </span>
+                          </button>
+                        </span>
+                      ))}
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="assigned">Typ práce</label>

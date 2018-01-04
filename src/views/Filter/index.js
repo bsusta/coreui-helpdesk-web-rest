@@ -55,7 +55,7 @@ class Aside extends Component {
   render() {
     return (
       <div className="filterDivInside">
-        <div>
+        <div style={{ paddingLeft: 20 }}>
           <button type="button" class="btn btn-link" style={{ paddingLeft: 0 }}>
             Apply
           </button>

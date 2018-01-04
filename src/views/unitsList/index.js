@@ -12,7 +12,7 @@ const mockData = [
 class UnitsList extends Component {
   render() {
     return (
-      <div>
+      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ marginTop: 20 }} className="mb-3">
           Unit list
         </h2>

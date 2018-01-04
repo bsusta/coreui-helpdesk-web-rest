@@ -24,8 +24,20 @@ import {
 class Project extends Component {
   render() {
     return (
-      <div>
-        <h2 style={{ marginTop: 20 }}>Project <a href="#/project/0" class="fa fa-info-circle fa-lg" style={{border:'none',backgroundColor:'white',color:'grey',textDecoration:"none"}}></a></h2>
+      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
+        <h2 style={{ marginTop: 20 }}>
+          Project{" "}
+          <a
+            href="#/project/0"
+            class="fa fa-info-circle fa-lg"
+            style={{
+              border: "none",
+              backgroundColor: "white",
+              color: "grey",
+              textDecoration: "none"
+            }}
+          />
+        </h2>
 
         <button type="button" class="btn btn-link pl-0">
           <i className="fa fa-filter" />
@@ -92,7 +104,7 @@ class Project extends Component {
                   <Input type="text" id="input1-group1" name="input1-group1" />
                 </th>
               </tr>
-              <tr style={{cursor:'pointer'}}>
+              <tr style={{ cursor: "pointer" }}>
                 <td style={{ verticalAlign: "center" }}>1</td>
                 <td>
                   <span class="badge badge-success">NEW</span>
@@ -113,7 +125,7 @@ class Project extends Component {
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>
-              <tr style={{cursor:'pointer'}}>
+              <tr style={{ cursor: "pointer" }}>
                 <td>2</td>
                 <td>
                   <span class="badge badge-success">NEW</span>
@@ -134,7 +146,7 @@ class Project extends Component {
                 <td>15:37 9.12.2017</td>
                 <td>15:37 9.12.2017</td>
               </tr>
-              <tr style={{cursor:'pointer'}}>
+              <tr style={{ cursor: "pointer" }}>
                 <td>3</td>
                 <td>
                   <span class="badge badge-success">NEW</span>

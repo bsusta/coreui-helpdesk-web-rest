@@ -13,16 +13,16 @@ import MessagesDropdown from "./MessagesDropdown";
 import NewTask from "../../views/newTask";
 
 class Header extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      addingTask:false,
-    }
+    this.state = {
+      addingTask: false
+    };
     this.addTaskToggle.bind(this);
   }
 
-  addTaskToggle(){
-    this.setState({addingTask:!this.state.addingTask})
+  addTaskToggle() {
+    this.setState({ addingTask: !this.state.addingTask });
   }
 
   sidebarToggle(e) {
@@ -47,8 +47,11 @@ class Header extends Component {
 
   render() {
     return (
-      <header className="app-header navbar"  style={{maxWidth:1600}}>
-        <NewTask toggle={this.addTaskToggle.bind(this)} open={this.state.addingTask}/>
+      <header className="app-header navbar" style={{ maxWidth: 1920 }}>
+        <NewTask
+          toggle={this.addTaskToggle.bind(this)}
+          open={this.state.addingTask}
+        />
         <NavbarToggler className="d-lg-none" onClick={this.mobileSidebarToggle}>
           <span className="navbar-toggler-icon" />
         </NavbarToggler>

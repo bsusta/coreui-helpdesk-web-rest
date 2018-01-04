@@ -32,7 +32,7 @@ class Full extends Component {
           <Sidebar {...this.props} />
           <main className="main" style={{ backgroundColor: "white" }}>
             {/*<Breadcrumb />*/}
-            <Container fluid>
+            <Container fluid style={{ padding: 0 }}>
               <Switch>
                 <Route
                   exact

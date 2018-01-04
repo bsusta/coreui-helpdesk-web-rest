@@ -33,7 +33,7 @@ class ProjectEdit extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
           {" "}
           Editing {mockData.title}

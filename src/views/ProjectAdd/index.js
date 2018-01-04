@@ -14,11 +14,8 @@ class ProjectAdd extends Component {
 
   render() {
     return (
-      <div>
-        <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
-          {" "}
-          Add new project
-        </h2>
+      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
+        <h2 style={{ paddingTop: 20, marginBottom: 20 }}> Add new project</h2>
 
         <div>
           <button

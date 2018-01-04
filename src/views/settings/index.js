@@ -24,22 +24,22 @@ import {
 class Settings extends Component {
   render() {
     return (
-      <div>
+      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 className="mb-3" style={{ marginTop: 20 }}>
           Settings
         </h2>
         <Table hover striped responsive>
           <tbody>
-            <tr style={{cursor:'pointer'}}>
+            <tr style={{ cursor: "pointer" }}>
               <td>Users</td>
             </tr>
-            <tr style={{cursor:'pointer'}}>
+            <tr style={{ cursor: "pointer" }}>
               <td>Companies</td>
             </tr>
-            <tr style={{cursor:'pointer'}}>
+            <tr style={{ cursor: "pointer" }}>
               <td>Statuses</td>
             </tr>
-            <tr style={{cursor:'pointer'}}>
+            <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./unitsList")}>
                 Units
               </td>
