@@ -76,10 +76,10 @@ class EditTask extends Component {
           }}
         >
           <CardHeader>
-            <button class="btn btn-success mr-1">
+            <button class="btn btn-success mr-1" onClick={this.props.toggle}>
               <i class="fa fa-save" /> Ulozit
             </button>
-            <button class="btn btn-warning mr-1">
+            <button class="btn btn-warning mr-1" onClick={this.props.toggle}>
               <i class="fa fa-ban" /> Cancel
             </button>
 
