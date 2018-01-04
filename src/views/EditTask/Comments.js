@@ -19,21 +19,22 @@ class Comments extends Component {
             <ul className="messages">
               <li
                 className="message unread"
-                style={{ borderTop: "1px solid #c2cfd6" }}
+                style={{ borderTop: "1px solid #c2cfd6", paddingLeft:5 }}
               >
-                <a href="#">
-                  <div className="actions">
-                    <span className="action">
-                      <i className="fa fa-comment" />
-                    </span>
-                  </div>
                   <div className="header">
+                    <img src={'img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" style={{height:35,marginRight:10}} onClick={(e)=>e.preventDefault()}/>
                     <span className="from">Lukasz Holeczek wrote comment</span>
                     <span className="date">
                       <span className="fa fa-paper-clip" /> Today, 3:47 PM
                     </span>
                   </div>
-                  <div className="description">
+                  <div className="description" style={{display:'flex',paddingLeft:23}}>
+                    <div className="actions" style={{marginTop:'auto',marginBottom:'auto'}}>
+                      <span className="action">
+                        <i className="fa fa-comment" />
+                      </span>
+                    </div>
+
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                     sed do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -41,16 +42,11 @@ class Comments extends Component {
                     Duis aute irure dolor in reprehenderit in voluptate velit
                     esse cillum dolore eu fugiat nulla pariatur.
                   </div>
-                </a>
               </li>
-              <li className="message">
-                <a href="#">
-                  <div className="actions">
-                    <span className="action">
-                      <i className="fa fa-mail-forward" />
-                    </span>
-                  </div>
+              <li className="message"
+                style={{ paddingLeft:5 }}>
                   <div className="header">
+                    <img src={'img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" style={{height:30,marginRight:10}} onClick={(e)=>e.preventDefault()}/>
                     <span className="from">
                       Lukasz Holeczek send email to:susta@lansystems.sk
                     </span>
@@ -63,7 +59,12 @@ class Comments extends Component {
                     sed do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua.
                   </div>
-                  <div className="description">
+                  <div className="description" style={{display:'flex',paddingLeft:23}}>
+                    <div className="actions" style={{marginTop:'auto',marginBottom:'auto'}}>
+                      <span className="action">
+                        <i className="fa fa-mail-forward" />
+                      </span>
+                    </div>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                     sed do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -71,23 +72,22 @@ class Comments extends Component {
                     Duis aute irure dolor in reprehenderit in voluptate velit
                     esse cillum dolore eu fugiat nulla pariatur.
                   </div>
-                </a>
               </li>
-              <li className="message">
-                <a href="#">
-                  <div className="actions">
-                    <span className="action">
-                      <i className="fa fa-envelope-o" />
-                    </span>
-                  </div>
+              <li className="message" style={{ paddingLeft:5 }}>
                   <div className="header">
+                    <img src={'img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" style={{height:25,marginRight:10}} onClick={(e)=>e.preventDefault()}/>
                     <span className="from">
                       email from branislav.susta@gmail.com
                     </span>
                     <span className="date">Today, 3:47 PM</span>
                   </div>
                   <div className="title">Lorem ipsum dolor sit amet.</div>
-                  <div className="description">
+                    <div className="description" style={{display:'flex',paddingLeft:23}}>
+                      <div className="actions" style={{marginTop:'auto',marginBottom:'auto'}}>
+                        <span className="action">
+                          <i className="fa fa-envelope-o" />
+                        </span>
+                      </div>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                     sed do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -95,7 +95,6 @@ class Comments extends Component {
                     Duis aute irure dolor in reprehenderit in voluptate velit
                     esse cillum dolore eu fugiat nulla pariatur.
                   </div>
-                </a>
               </li>
             </ul>
           </main>
