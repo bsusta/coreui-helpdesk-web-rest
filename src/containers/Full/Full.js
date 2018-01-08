@@ -37,9 +37,15 @@ import RoleEdit from "../../views/settings/roleEdit";
 import SMTPsList from "../../views/settings/smtpsList";
 import SMTPAdd from "../../views/settings/smtpAdd";
 import SMTPEdit from "../../views/settings/smtpEdit";
+import AutomaticTasksList from "../../views/settings/automaticTasksList";
+import AutomaticTaskAdd from "../../views/settings/automaticTaskAdd";
+import AutomaticTaskEdit from "../../views/settings/automaticTaskEdit";
 import StatusesList from "../../views/settings/statusesList";
 import StatusAdd from "../../views/settings/statusAdd";
 import StatusEdit from "../../views/settings/statusEdit";
+import TriggersList from "../../views/settings/triggersList";
+import TriggerAdd from "../../views/settings/triggerAdd";
+import TriggerEdit from "../../views/settings/triggerEdit";
 import MyTasks from "../../views/MyTasks";
 import Project from "../../views/Project";
 import ProjectInfo from "../../views/ProjectInfo";
@@ -216,6 +222,42 @@ class Full extends Component {
                   path="/role/edit/:id"
                   name="Role edit"
                   component={RoleEdit}
+                />
+                <Route
+                  exact
+                  path="/triggersList"
+                  name="Triggers list"
+                  component={TriggersList}
+                />
+                <Route
+                  exact
+                  path="/trigger/add"
+                  name="Trigger add"
+                  component={TriggerAdd}
+                />
+                <Route
+                  exact
+                  path="/trigger/edit/:id"
+                  name="Trigger edit"
+                  component={TriggerEdit}
+                />
+                <Route
+                  exact
+                  path="/automaticTasksList"
+                  name="Automatic tasks list"
+                  component={AutomaticTasksList}
+                />
+                <Route
+                  exact
+                  path="/automaticTask/add"
+                  name="Automatic task add"
+                  component={AutomaticTaskAdd}
+                />
+                <Route
+                  exact
+                  path="/automaticTask/edit/:id"
+                  name="Automatic task edit"
+                  component={AutomaticTaskEdit}
                 />
                 <Route
                   exact

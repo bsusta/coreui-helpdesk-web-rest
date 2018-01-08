@@ -31,6 +31,9 @@ class Settings extends Component {
         <Table hover striped responsive>
           <tbody>
             <tr style={{ cursor: "pointer" }}>
+              <td  onClick={() => this.props.history.push("./automaticTasksList")}>Automatic tasks</td>
+            </tr>
+            <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./companiesList")}>
                 Companies
               </td>
@@ -54,6 +57,9 @@ class Settings extends Component {
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td  onClick={() => this.props.history.push("./taskAttributesList")}>Task custom fields</td>
+            </tr>
+            <tr style={{ cursor: "pointer" }}>
+              <td  onClick={() => this.props.history.push("./triggersList")}>Triggers</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./unitsList")}>
