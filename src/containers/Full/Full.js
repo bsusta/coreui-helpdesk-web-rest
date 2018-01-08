@@ -19,6 +19,12 @@ import UserEdit from "../../views/settings/userEdit";
 import UserAttributesList from "../../views/settings/userAttributesList";
 import UserAttributeAdd from "../../views/settings/userAttributeAdd";
 import UserAttributeEdit from "../../views/settings/userAttributeEdit";
+import TaskAttributesList from "../../views/settings/taskAttributesList";
+import TaskAttributeAdd from "../../views/settings/taskAttributeAdd";
+import TaskAttributeEdit from "../../views/settings/taskAttributeEdit";
+import CompanyAttributesList from "../../views/settings/companyAttributesList";
+import CompanyAttributeAdd from "../../views/settings/companyAttributeAdd";
+import CompanyAttributeEdit from "../../views/settings/companyAttributeEdit";
 import CompaniesList from "../../views/settings/companiesList";
 import CompanyAdd from "../../views/settings/companyAdd";
 import CompanyEdit from "../../views/settings/companyEdit";
@@ -102,6 +108,42 @@ class Full extends Component {
                   path="/userAttribute/edit/:id"
                   name="User attribute edit"
                   component={UserAttributeEdit}
+                />
+                <Route
+                  exact
+                  path="/taskAttributesList"
+                  name="Task attributes list"
+                  component={TaskAttributesList}
+                />
+                <Route
+                  exact
+                  path="/taskAttribute/add"
+                  name="Task attribute add"
+                  component={TaskAttributeAdd}
+                />
+                <Route
+                  exact
+                  path="/taskAttribute/edit/:id"
+                  name="Task attribute edit"
+                  component={TaskAttributeEdit}
+                />
+                <Route
+                  exact
+                  path="/companyAttributesList"
+                  name="Company attributes list"
+                  component={CompanyAttributesList}
+                />
+                <Route
+                  exact
+                  path="/companyAttribute/add"
+                  name="Company attribute add"
+                  component={CompanyAttributeAdd}
+                />
+                <Route
+                  exact
+                  path="/companyAttribute/edit/:id"
+                  name="Company attribute edit"
+                  component={CompanyAttributeEdit}
                 />
                 <Route
                   exact

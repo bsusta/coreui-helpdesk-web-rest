@@ -7,7 +7,7 @@ class SMTPAdd extends Component {
         class="card"
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
       >
-        <h4 class="card-header">Add IMap</h4>
+        <h4 class="card-header">Add SMTP</h4>
         <div class="card-body">
           <form
             onSubmit={(event, value) => {

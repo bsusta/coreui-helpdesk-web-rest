@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-class UserAdd extends Component {
+class CompanyEdit extends Component {
   render() {
     return (
       <div
         class="card"
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
       >
-        <h4 class="card-header">Add company</h4>
+        <h4 class="card-header">Edit company</h4>
         <div class="card-body">
           <form
             onSubmit={(event, value) => {
@@ -104,4 +104,4 @@ class UserAdd extends Component {
   }
 }
 
-export default UserAdd;
+export default CompanyEdit;
