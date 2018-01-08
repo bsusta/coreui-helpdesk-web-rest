@@ -22,6 +22,9 @@ import UserAttributeEdit from "../../views/settings/userAttributeEdit";
 import CompaniesList from "../../views/settings/companiesList";
 import CompanyAdd from "../../views/settings/companyAdd";
 import CompanyEdit from "../../views/settings/companyEdit";
+import ImapsList from "../../views/settings/imapsList";
+import ImapAdd from "../../views/settings/imapAdd";
+import ImapEdit from "../../views/settings/imapEdit";
 import MyTasks from "../../views/MyTasks";
 import Project from "../../views/Project";
 import ProjectInfo from "../../views/ProjectInfo";
@@ -126,6 +129,24 @@ class Full extends Component {
                   path="/company/edit/:id"
                   name="Company edit"
                   component={CompanyEdit}
+                />
+                <Route
+                  exact
+                  path="/imapsList"
+                  name="IMaps list"
+                  component={ImapsList}
+                />
+                <Route
+                  exact
+                  path="/imap/add"
+                  name="IMap add"
+                  component={ImapAdd}
+                />
+                <Route
+                  exact
+                  path="/imap/edit/:id"
+                  name="IMap edit"
+                  component={ImapEdit}
                 />
                 <Route
                   exact

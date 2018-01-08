@@ -41,7 +41,7 @@ class Settings extends Component {
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td onClick={() => this.props.history.push("./imapList")}>Imap</td>
+              <td onClick={() => this.props.history.push("./imapsList")}>Imap</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td  onClick={() => this.props.history.push("./rolesList")}>Roles</td>
