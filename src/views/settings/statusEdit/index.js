@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-class UserAdd extends Component {
+class StatusEdit extends Component {
   render() {
     return (
       <div
         class="card"
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
       >
-        <h4 class="card-header">Add company</h4>
+        <h4 class="card-header">Edit status</h4>
         <div class="card-body">
           <form
             onSubmit={(event, value) => {
@@ -23,74 +23,29 @@ class UserAdd extends Component {
             </div>
 
             <div class="form-group">
-              <label for="title">Company name</label>
+              <label for="title">Status name</label>
               <input
                 class="form-control"
                 id="title"
-              placeholder="Enter company name"
+              placeholder="Enter status name"
               />
             </div>
 
             <div class="form-group">
-              <label for="ICO">ICO</label>
+              <label for="ICO">Description</label>
               <input
                 class="form-control"
                 id="title"
-              placeholder="Enter ICO number"
+              placeholder="Enter status description"
               />
             </div>
 
             <div class="form-group">
-              <label for="DIC">DIC</label>
-              <input
-                class="form-control"
-                id="DIC"
-              placeholder="Enter DIC"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="Phone">Phone</label>
-              <input
-                class="form-control"
-                id="Phone"
-              placeholder="Enter phone"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="street">Street</label>
-              <input
-                class="form-control"
-                id="street"
-              placeholder="Enter street"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="city">City</label>
-              <input
-                class="form-control"
-                id="city"
-              placeholder="Enter city"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="PSC">PSC</label>
-              <input
-                class="form-control"
-                id="PSC"
-              placeholder="Enter PSC"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="country">Country</label>
+              <label for="country">Color</label>
               <input
                 class="form-control"
                 id="country"
-              placeholder="Enter country"
+              placeholder="Enter hex color"
               />
             </div>
 
@@ -104,4 +59,4 @@ class UserAdd extends Component {
   }
 }
 
-export default UserAdd;
+export default StatusEdit;
