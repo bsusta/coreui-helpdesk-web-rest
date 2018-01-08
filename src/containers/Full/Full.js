@@ -10,9 +10,15 @@ import Footer from "../../components/Footer/";
 import Dashboard from "../../views/Dashboard/";
 import Settings from "../../views/Settings/";
 import NewTask from "../../views/newTask/";
-import UnitsList from "../../views/unitsList";
-import UnitAdd from "../../views/unitAdd";
-import UnitEdit from "../../views/unitEdit";
+import UnitsList from "../../views/settings/unitsList";
+import UnitAdd from "../../views/settings/unitAdd";
+import UnitEdit from "../../views/settings/unitEdit";
+import UsersList from "../../views/settings/usersList";
+import UserAdd from "../../views/settings/userAdd";
+import UserEdit from "../../views/settings/userEdit";
+import UserAttributesList from "../../views/settings/userAttributesList";
+import UserAttributeAdd from "../../views/settings/userAttributeAdd";
+import UserAttributeEdit from "../../views/settings/userAttributeEdit";
 import MyTasks from "../../views/MyTasks";
 import Project from "../../views/Project";
 import ProjectInfo from "../../views/ProjectInfo";
@@ -45,6 +51,42 @@ class Full extends Component {
                   path="/newTask"
                   name="New task"
                   component={NewTask}
+                />
+                <Route
+                  exact
+                  path="/usersList"
+                  name="Users list"
+                  component={UsersList}
+                />
+                <Route
+                  exact
+                  path="/user/add"
+                  name="User add"
+                  component={UserAdd}
+                />
+                <Route
+                  exact
+                  path="/user/edit/:id"
+                  name="User edit"
+                  component={UserEdit}
+                />
+                <Route
+                  exact
+                  path="/userAttributesList"
+                  name="Users attributes list"
+                  component={UserAttributesList}
+                />
+                <Route
+                  exact
+                  path="/userAttribute/add"
+                  name="User attribute add"
+                  component={UserAttributeAdd}
+                />
+                <Route
+                  exact
+                  path="/userAttribute/edit/:id"
+                  name="User attribute edit"
+                  component={UserAttributeEdit}
                 />
                 <Route
                   exact

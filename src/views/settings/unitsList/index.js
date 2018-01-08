@@ -10,6 +10,23 @@ const mockData = [
   { id: 6, active: true, title: "Gram", shortcut: "g" }
 ];
 class UnitsList extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      title:'',
+      shortcut:'',
+      activated:'',
+    }
+    this.getFilteredData.bind(this);
+  }
+
+  getFilteredData(){
+    return mockData.filter((item)=>item.title.toLowerCase().includes(this.state.title.toLowerCase()))
+    .filter((item)=>item.shortcut.toLowerCase().includes(this.state.shortcut.toLowerCase()))
+    .filter((item)=>item.active == (this.state.activated.toLowerCase().includes('y')||this.state.activated.toLowerCase().includes('t')||this.state.activated.toLowerCase().includes('c'))||this.state.activated=='')
+    .sort((item,item2)=>item.title>item2.title);
+  }
+
   render() {
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
@@ -36,16 +53,16 @@ class UnitsList extends Component {
           <tbody>
             <tr>
               <th>
-                <Input type="text" id="input1-group1" name="input1-group1" />
+                <Input type="text" id="input1-group1" value={this.state.title} name="input1-group1" onChange={(e)=>this.setState({title:e.target.value})} />
               </th>
               <th>
-                <Input type="text" id="input1-group1" name="input1-group1" />
+                <Input type="text" id="input1-group1" value={this.state.shortcut} name="input1-group1" onChange={(e)=>this.setState({shortcut:e.target.value})} />
               </th>
               <th>
-                <Input type="text" id="input1-group1" name="input1-group1" />
+                <Input type="text" id="input1-group1" value={this.state.activated} name="input1-group1" onChange={(e)=>this.setState({activated:e.target.value})} />
               </th>
             </tr>
-            {mockData.map(unit => (
+            {this.getFilteredData().map(unit => (
               <tr
                 key={unit.id}
                 onClick={() => this.props.history.push("/unit/edit/" + unit.id)}

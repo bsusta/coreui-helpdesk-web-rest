@@ -31,17 +31,39 @@ class Settings extends Component {
         <Table hover striped responsive>
           <tbody>
             <tr style={{ cursor: "pointer" }}>
-              <td>Users</td>
+              <td>Companies</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td>Companies</td>
+              <td>Companies custom fields</td>
+            </tr>
+            <tr style={{ cursor: "pointer" }}>
+              <td>Imap</td>
+            </tr>
+            <tr style={{ cursor: "pointer" }}>
+              <td>Roles</td>
+            </tr>
+            <tr style={{ cursor: "pointer" }}>
+              <td>SMTP</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td>Statuses</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
+              <td>Task custom fields</td>
+            </tr>
+            <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./unitsList")}>
                 Units
+              </td>
+            </tr>
+            <tr style={{ cursor: "pointer" }}>
+              <td onClick={() => this.props.history.push("./usersList")}>
+                Users
+              </td>
+            </tr>
+            <tr style={{ cursor: "pointer" }}>
+              <td onClick={() => this.props.history.push("./userAttributesList")}>
+                Users custom fields
               </td>
             </tr>
           </tbody>
