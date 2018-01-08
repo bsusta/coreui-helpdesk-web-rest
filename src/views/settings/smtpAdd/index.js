@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-class UserAdd extends Component {
+class SMTPAdd extends Component {
   render() {
     return (
       <div
         class="card"
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
       >
-        <h4 class="card-header">Edit company</h4>
+        <h4 class="card-header">Add IMap</h4>
         <div class="card-body">
           <form
             onSubmit={(event, value) => {
@@ -23,77 +23,87 @@ class UserAdd extends Component {
             </div>
 
             <div class="form-group">
-              <label for="title">Company name</label>
+              <label for="email">E-mail</label>
               <input
                 class="form-control"
-                id="title"
-              placeholder="Enter company name"
+                id="email"
+              placeholder="Enter email"
               />
             </div>
 
             <div class="form-group">
-              <label for="ICO">ICO</label>
+              <label for="server">Server IP</label>
               <input
                 class="form-control"
-                id="title"
-              placeholder="Enter ICO number"
+                id="server"
+              placeholder="Enter server"
               />
             </div>
 
             <div class="form-group">
-              <label for="DIC">DIC</label>
+              <label for="port">Port</label>
               <input
                 class="form-control"
-                id="DIC"
-              placeholder="Enter DIC"
+                id="port"
+              placeholder="Enter port number"
               />
             </div>
 
             <div class="form-group">
-              <label for="Phone">Phone</label>
+              <label for="login">Login</label>
               <input
                 class="form-control"
-                id="Phone"
-              placeholder="Enter phone"
+                id="login"
+              placeholder="Enter login"
               />
             </div>
 
             <div class="form-group">
-              <label for="street">Street</label>
+              <label for="pass">Password</label>
               <input
                 class="form-control"
-                id="street"
-              placeholder="Enter street"
+                id="pass"
+              placeholder="Enter password"
               />
             </div>
 
             <div class="form-group">
-              <label for="city">City</label>
+              <label for="project">Select project</label>
               <input
                 class="form-control"
-                id="city"
-              placeholder="Enter city"
+                id="project"
+              placeholder="Enter project"
               />
             </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" />
+                TSL
+              </label>
+            </div>
+
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" />
+                SSL
+              </label>
+            </div>
+            <h3>Test SMTP</h3>
 
             <div class="form-group">
-              <label for="PSC">PSC</label>
-              <input
+              <label for="project">E-mail for testing</label>
+              <textarea
                 class="form-control"
-                id="PSC"
-              placeholder="Enter PSC"
+                id="project"
+              placeholder="Enter e-mail"
               />
             </div>
 
-            <div class="form-group">
-              <label for="country">Country</label>
-              <input
-                class="form-control"
-                id="country"
-              placeholder="Enter country"
-              />
-            </div>
 
+
+            <button type="submit" class="btn btn-secondary">
+              SEND TEST E-MAIL
+            </button>
             <button type="submit" class="btn btn-primary">
               Submit
             </button>
@@ -104,4 +114,4 @@ class UserAdd extends Component {
   }
 }
 
-export default UserAdd;
+export default SMTPAdd;

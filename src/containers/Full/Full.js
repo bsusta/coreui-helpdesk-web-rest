@@ -25,6 +25,15 @@ import CompanyEdit from "../../views/settings/companyEdit";
 import ImapsList from "../../views/settings/imapsList";
 import ImapAdd from "../../views/settings/imapAdd";
 import ImapEdit from "../../views/settings/imapEdit";
+import RolesList from "../../views/settings/rolesList";
+import RoleAdd from "../../views/settings/roleAdd";
+import RoleEdit from "../../views/settings/roleEdit";
+import SMTPsList from "../../views/settings/smtpsList";
+import SMTPAdd from "../../views/settings/smtpAdd";
+import SMTPEdit from "../../views/settings/smtpEdit";
+import StatusesList from "../../views/settings/statusesList";
+import StatusAdd from "../../views/settings/statusAdd";
+import StatusEdit from "../../views/settings/statusEdit";
 import MyTasks from "../../views/MyTasks";
 import Project from "../../views/Project";
 import ProjectInfo from "../../views/ProjectInfo";
@@ -147,6 +156,60 @@ class Full extends Component {
                   path="/imap/edit/:id"
                   name="IMap edit"
                   component={ImapEdit}
+                />
+                <Route
+                  exact
+                  path="/rolesList"
+                  name="Roles list"
+                  component={RolesList}
+                />
+                <Route
+                  exact
+                  path="/role/add"
+                  name="Role add"
+                  component={RoleAdd}
+                />
+                <Route
+                  exact
+                  path="/role/edit/:id"
+                  name="Role edit"
+                  component={RoleEdit}
+                />
+                <Route
+                  exact
+                  path="/smtpsList"
+                  name="SMTP list"
+                  component={SMTPsList}
+                />
+                <Route
+                  exact
+                  path="/smtp/add"
+                  name="SMTP add"
+                  component={SMTPAdd}
+                />
+                <Route
+                  exact
+                  path="/smtp/edit/:id"
+                  name="SMTP edit"
+                  component={SMTPEdit}
+                />
+                <Route
+                  exact
+                  path="/statusesList"
+                  name="Statuses list"
+                  component={StatusesList}
+                />
+                <Route
+                  exact
+                  path="/status/add"
+                  name="Status add"
+                  component={StatusAdd}
+                />
+                <Route
+                  exact
+                  path="/status/edit/:id"
+                  name="Status edit"
+                  component={StatusEdit}
                 />
                 <Route
                   exact

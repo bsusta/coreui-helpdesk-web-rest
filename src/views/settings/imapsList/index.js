@@ -27,7 +27,7 @@ class IMapsList extends Component {
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ marginTop: 20 }} className="mb-3">
-          Companies list
+          IMAPs list
         </h2>
 
         <button

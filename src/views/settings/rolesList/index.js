@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input } from "reactstrap";
 const mockData = [
-  { id: 1, active: true, name: 'Lansystems' },
-  { id: 2, active: false, name: 'Preston' },
-  { id: 4, active: true, name: 'Microsoft'},
+  { id: 1, active: true, name: 'Customer' },
+  { id: 2, active: false, name: 'Agent' },
+  { id: 4, active: true, name: 'Admin'},
 ];
-class CompaniesList extends Component {
+class RolesList extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -29,15 +29,15 @@ class CompaniesList extends Component {
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ marginTop: 20 }} className="mb-3">
-          Companies list
+          Roles list
         </h2>
 
         <button
           type="button"
           class="btn btn-success"
-          onClick={() => this.props.history.push("/company/add")}
+          onClick={() => this.props.history.push("/role/add")}
           >
-          Add new company
+          Add new role
         </button>
 
         <table class="table table-striped table-hover">
@@ -56,14 +56,14 @@ class CompaniesList extends Component {
                 <Input type="text" id="input1-group1" value={this.state.active} name="input1-group1" onChange={(e)=>this.setState({active:e.target.value})} />
               </th>
             </tr>
-            {this.getFilteredData().map(company => (
+            {this.getFilteredData().map(role => (
               <tr
-                key={company.id}
-                onClick={() => this.props.history.push("/company/edit/" + company.id)}
+                key={role.id}
+                onClick={() => this.props.history.push("/role/edit/" + role.id)}
                 >
-                <td>{company.name}</td>
+                <td>{role.name}</td>
                 <td>
-                  {company.active ? (
+                  {role.active ? (
                     <span class="badge badge-success">Yes</span>
                   ) : (
                     <span class="badge badge-danger">No</span>
@@ -78,4 +78,4 @@ class CompaniesList extends Component {
   }
 }
 
-export default CompaniesList;
+export default RolesList;
