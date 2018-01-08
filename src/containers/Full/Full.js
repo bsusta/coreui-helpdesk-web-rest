@@ -19,6 +19,9 @@ import UserEdit from "../../views/settings/userEdit";
 import UserAttributesList from "../../views/settings/userAttributesList";
 import UserAttributeAdd from "../../views/settings/userAttributeAdd";
 import UserAttributeEdit from "../../views/settings/userAttributeEdit";
+import CompaniesList from "../../views/settings/companiesList";
+import CompanyAdd from "../../views/settings/companyAdd";
+import CompanyEdit from "../../views/settings/companyEdit";
 import MyTasks from "../../views/MyTasks";
 import Project from "../../views/Project";
 import ProjectInfo from "../../views/ProjectInfo";
@@ -105,6 +108,24 @@ class Full extends Component {
                   path="/unit/edit/:id"
                   name="Unit edit"
                   component={UnitEdit}
+                />
+                <Route
+                  exact
+                  path="/companiesList"
+                  name="Companies list"
+                  component={CompaniesList}
+                />
+                <Route
+                  exact
+                  path="/company/add"
+                  name="Company add"
+                  component={CompanyAdd}
+                />
+                <Route
+                  exact
+                  path="/company/edit/:id"
+                  name="Company edit"
+                  component={CompanyEdit}
                 />
                 <Route
                   exact

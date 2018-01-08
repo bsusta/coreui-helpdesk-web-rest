@@ -31,25 +31,29 @@ class Settings extends Component {
         <Table hover striped responsive>
           <tbody>
             <tr style={{ cursor: "pointer" }}>
-              <td>Companies</td>
+              <td onClick={() => this.props.history.push("./companiesList")}>
+                Companies
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td>Companies custom fields</td>
+              <td onClick={() => this.props.history.push("./companyAttributesList")}>
+                Companies custom fields
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td>Imap</td>
+              <td onClick={() => this.props.history.push("./imapList")}>Imap</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td>Roles</td>
+              <td  onClick={() => this.props.history.push("./rolesList")}>Roles</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td>SMTP</td>
+              <td  onClick={() => this.props.history.push("./smtpList")}>SMTP</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td>Statuses</td>
+              <td  onClick={() => this.props.history.push("./statusesList")}>Statuses</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td>Task custom fields</td>
+              <td  onClick={() => this.props.history.push("./taskAttributesList")}>Task custom fields</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./unitsList")}>
