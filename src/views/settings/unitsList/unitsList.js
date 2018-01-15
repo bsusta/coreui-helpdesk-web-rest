@@ -18,7 +18,7 @@ class UnitsList extends Component {
   getFilteredData(){
     return this.props.units.filter((item)=>item.title.toLowerCase().includes(this.state.title.toLowerCase()))
     .filter((item)=>item.shortcut.toLowerCase().includes(this.state.shortcut.toLowerCase()))
-    .filter((item)=>item.active == (this.state.activated.toLowerCase().includes('y')||this.state.activated.toLowerCase().includes('t')||this.state.activated.toLowerCase().includes('c'))||this.state.activated=='')
+    .filter((item)=>item.is_active == (this.state.activated.toLowerCase().includes('y')||this.state.activated.toLowerCase().includes('t')||this.state.activated.toLowerCase().includes('c'))||this.state.activated=='')
     .sort((item,item2)=>item.title>item2.title);
   }
 
@@ -65,7 +65,7 @@ class UnitsList extends Component {
                 <td>{unit.title}</td>
                 <td>{unit.shortcut}</td>
                 <td>
-                  {unit.active ? (
+                  {unit.is_active ? (
                     <span class="badge badge-success">Yes</span>
                   ) : (
                     <span class="badge badge-danger">No</span>

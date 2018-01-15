@@ -10,7 +10,7 @@ class UnitsListLoader extends Component {
     this.props.getUnits(this.props.token);
   }
   render(){
-    if(this.props.unitsLoaded){
+    if(!this.props.unitsLoaded){
       return(<div>Loading...</div>)
     }
     return <UnitsList history={this.props.history}/>
