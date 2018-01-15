@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Full from "../../containers/Full";
+import { connect } from 'react-redux';
+import {loginUser} from '../../redux/actions';
 import {
   Container,
   Row,
@@ -17,14 +19,14 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false,
       login: true,
-      loginName: "",
+      loginName: "admin",
+      loginPassword:"admin",
       resetName: ""
     };
   }
   render() {
-    if (this.state.loggedIn) {
+    if (this.props.authenticated) {
       return (
         <div style={{ maxWidth: 1920, margin: "auto" }}>
           <Full {...this.props} />
@@ -72,15 +74,20 @@ class Login extends Component {
                         <InputGroupAddon>
                           <i className="icon-lock" />
                         </InputGroupAddon>
-                        <Input type="password" placeholder="Password" />
+                        <Input type="password" placeholder="Password" value={this.state.loginPassword} onChange={(value)=>this.setState({loginPassword:value.target.value})} />
                       </InputGroup>
                     )}
+                    {
+                      this.state.login && (
+                        <div style={{color:'red',fontSize:15, paddingBottom:15}}>{this.props.error}</div>
+                      )
+                    }
                     <Button
                       color="primary"
                       style={{ width: "100%" }}
                       onClick={() => {
                         if (this.state.login) {
-                          this.setState({ loggedIn: true });
+                          this.props.loginUser(this.state.loginName,this.state.loginPassword);
                         } else {
                           this.setState({ login: true });
                         }
@@ -108,4 +115,10 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = ({ login }) => {
+  const { authenticated,error, loading } = login;
+  return {authenticated,error, loading};
+};
+
+
+export default connect(mapStateToProps, {loginUser})(Login);

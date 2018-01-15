@@ -1,6 +1,21 @@
 import React, { Component } from "react";
-
+import { connect } from 'react-redux';
+import {addUnit} from '../../../redux/actions';
 class UnitAdd extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      isActive:true,
+      title:'',
+      shortcut:''
+    }
+  }
+
+  submit(){
+    this.props.addUnit({...this.state},this.props.token);
+    this.props.history.goBack();
+  }
+
   render() {
     return (
       <div
@@ -17,7 +32,7 @@ class UnitAdd extends Component {
           >
             <div class="form-check">
               <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" />
+                <input type="checkbox" class="form-check-input" value={this.state.isActive} onChange={()=>this.setState({isActive:!this.state.isActive})} />
                 Active
               </label>
             </div>
@@ -27,6 +42,8 @@ class UnitAdd extends Component {
                 class="form-control"
                 id="title"
                 placeholder="Enter title"
+                value={this.state.title}
+                onChange={(value)=>this.setState({title:value.target.value})}
               />
             </div>
             <div class="form-group">
@@ -35,9 +52,11 @@ class UnitAdd extends Component {
                 class="form-control"
                 id="shortcut"
                 placeholder="Enter shortcut"
+                value={this.state.shortcut}
+                onChange={(value)=>this.setState({shortcut:value.target.value})}
               />
             </div>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary" onClick={this.submit.bind(this)}>
               Submit
             </button>
           </form>
@@ -47,4 +66,10 @@ class UnitAdd extends Component {
   }
 }
 
-export default UnitAdd;
+const mapStateToProps = ({login}) => {
+  const {token} = login;
+  return {token};
+};
+
+
+export default connect(mapStateToProps, {addUnit})(UnitAdd);

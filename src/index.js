@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter, Route, Switch} from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 // Styles
 // Import Font Awesome Icons Set
@@ -16,10 +17,16 @@ import '../scss/core/_dropdown-menu-right.scss'
 import Full from './containers/Full/'
 import Login from './views/Login/'
 
+import createStore from './redux/store';
+
+const store=createStore();
+
 ReactDOM.render((
-  <HashRouter>
-    <Switch>
-      <Route path="/" name="Home" component={Login}/>
-    </Switch>
-  </HashRouter>
+  <Provider store={store}>
+    <HashRouter>
+      <Switch>
+        <Route path="/" name="Home" component={Login}/>
+      </Switch>
+    </HashRouter>
+  </Provider>
 ), document.getElementById('root'));
