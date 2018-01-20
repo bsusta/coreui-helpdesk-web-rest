@@ -12,9 +12,9 @@ class UnitsList extends Component {
       activated:'',
     }
     this.getFilteredData.bind(this);
-    console.log(this.props);
   }
 
+//filters all available data according to the inputs over the table (local filter)
   getFilteredData(){
     return this.props.units.filter((item)=>item.title.toLowerCase().includes(this.state.title.toLowerCase()))
     .filter((item)=>item.shortcut.toLowerCase().includes(this.state.shortcut.toLowerCase()))
@@ -79,6 +79,8 @@ class UnitsList extends Component {
     );
   }
 }
+
+//all below is just redux storage
 
 const mapStateToProps = ({ unitsReducer }) => {
   const { units } = unitsReducer;

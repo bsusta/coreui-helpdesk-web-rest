@@ -11,8 +11,10 @@ class UnitAdd extends Component {
     }
   }
 
-  submit(){
-    this.props.addUnit({...this.state},this.props.token);
+  //gets the state and send API request to add newly defined unit
+  submit(e){
+    e.preventDefault();
+    this.props.addUnit({title:this.state.title,shortcut:this.state.shortcut},this.props.token);
     this.props.history.goBack();
   }
 
@@ -30,12 +32,6 @@ class UnitAdd extends Component {
               this.props.history.goBack();
             }}
           >
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" value={this.state.isActive} onChange={()=>this.setState({isActive:!this.state.isActive})} />
-                Active
-              </label>
-            </div>
             <div class="form-group">
               <label for="title">Unit title</label>
               <input
