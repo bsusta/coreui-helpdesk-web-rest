@@ -7,8 +7,7 @@ const initialState = {
   unitLoaded:false,
 };
 
-export default function loginReducer(state = initialState, action) {
-  console.log(action);
+export default function unitsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_UNITS:
       return { ...state, units:action.units };
