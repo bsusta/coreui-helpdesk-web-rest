@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { InputGroup, InputGroupAddon, Input } from "reactstrap";
+import { InputGroup, InputGroupAddon, Input, Pagination,PaginationItem, PaginationLink } from "reactstrap";
 import { connect } from 'react-redux';
+import {getUsers } from '../../../redux/actions';
 
+const mockOptions=[{title:20,value:20},{title:50,value:50},{title:100,value:100},{title:'all',value:999}]
 class UsersList extends Component {
   constructor(props){
     super(props);
@@ -10,8 +12,11 @@ class UsersList extends Component {
       active:'',
       name:'',
       email:'',
-      company:''
+      company:'',
+      pagination:this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20,
+      pageNumber:this.props.match.params.p?this.props.match.params.p:1
     }
+    console.log(props);
     this.getFilteredData.bind(this);
   }
 
@@ -84,15 +89,75 @@ class UsersList extends Component {
             ))}
           </tbody>
         </table>
+        <div class="row">
+          <div class="col">
+            <Pagination>
+              <PaginationItem style={{ margin: 5 }}>
+                Page {this.state.pageNumber} of {this.props.usersLinks.numberOfPages}
+              </PaginationItem>
+            </Pagination>
+          </div>
+          <div className="col">
+            <Pagination className="justify-content-center">
+              <PaginationItem disabled={this.state.pageNumber==1}>
+                <PaginationLink previous href="#">
+                  Prev
+                </PaginationLink>
+              </PaginationItem>
+              {
+                this.props.usersLinks.numberOfPages<10 &&
+                Array.from({length:this.props.usersLinks.numberOfPages},(v,k)=>k+1).map((pageNumber)=>
+                <PaginationItem active={pageNumber==this.state.pageNumber}>
+                  <PaginationLink href={"#/usersList/"+pageNumber+","+this.state.pagination}>{pageNumber}</PaginationLink>
+                </PaginationItem>
+                )
+              }
+              <PaginationItem>
+                <PaginationLink next href={"#/usersList/"+this.state.pageNumber+1+","+this.state.pagination} disabled={this.state.pageNumber==this.props.usersLinks.numberOfPages}>
+                  Next
+                </PaginationLink>
+              </PaginationItem>
+            </Pagination>
+          </div>
+          <div className="col">
+            <Pagination className="float-right">
+              <PaginationItem style={{ margin: 5 }}>
+                Items per page
+              </PaginationItem>
+              <PaginationItem style={{ marginRight: 10 }}>
+                <select
+                  class="form-control"
+                  id="project"
+                  value={this.state.pagination}
+                  onChange={(value)=>{
+                    this.props.history.push("#/usersList/"+this.state.pageNumber+","+value.target.value);
+                    this.setState({pagination:value.target.value});
+                    this.props.getUsers(this.state.pagination,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token);
+                    this.forceUpdate();
+              }}
+                  style={{ maxWidth: 70 }}
+
+                >
+                  {mockOptions.map(opt => (
+                    <option key={opt.title} value={opt.value}>
+                      {opt.title}
+                    </option>
+                  ))}
+                </select>
+              </PaginationItem>
+            </Pagination>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ usersReducer }) => {
-  const { users } = usersReducer;
-  return { users };
+const mapStateToProps = ({ usersReducer, login }) => {
+  const { users, usersLinks } = usersReducer;
+  const { token } = login;
+  return { users, usersLinks, token };
 };
 
 
-export default connect(mapStateToProps, {})(UsersList);
+export default connect(mapStateToProps, {getUsers})(UsersList);

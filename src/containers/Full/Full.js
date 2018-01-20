@@ -85,6 +85,14 @@ class Full extends Component {
                   name="Users list"
                   component={UsersList}
                 />
+
+                <Route
+                  exact
+                  path="/usersList/:p,:nop"
+                  name="Users list"
+                  component={UsersList}
+                />
+
                 <Route
                   exact
                   path="/user/add"

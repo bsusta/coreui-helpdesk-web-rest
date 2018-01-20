@@ -308,8 +308,8 @@ class UserEdit extends Component {
             <div class="form-group">
               <label for="company">Company</label>
               <select
-                value={this.state.company}
                 id="company"
+                value={this.state.company}
                 onChange={(value)=>this.setState({company:value.target.value})}
                 class="form-control">
                 {this.props.companies.map(opt => (

@@ -14,9 +14,9 @@ export const startUsersLoading = () => {
  * Gets all users available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getUsers= (token) => {
+export const getUsers= (limit,page,token) => {
   return (dispatch) => {
-      fetch(USERS_LIST+'?limit=999', {
+      fetch(USERS_LIST+'?limit='+limit+'&page='+page, {
         method: 'get',
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -24,7 +24,10 @@ export const getUsers= (token) => {
         }
       }).then((response) =>{
       response.json().then((data) => {
-        dispatch({type: SET_USERS, users:data.data});
+        console.log(data);
+        let links=data._links;
+        links['numberOfPages']=data.numberOfPages;
+        dispatch({type: SET_USERS, users:data.data,links});
         dispatch({ type: SET_USERS_LOADING, usersLoaded:true });
       });
     }

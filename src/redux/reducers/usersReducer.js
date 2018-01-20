@@ -5,12 +5,13 @@ const initialState = {
   usersLoaded:false,
   users:null,
   userLoaded:false,
+  usersLinks:null,
 };
 
 export default function usersReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USERS:
-      return { ...state, users:action.users };
+      return { ...state, users:action.users, usersLinks:action.links };
     case ADD_USER:
       return { ...state, users:[action.user,...state.users] };
       case SET_USERS_LOADING:

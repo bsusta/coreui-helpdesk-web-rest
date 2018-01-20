@@ -8,13 +8,13 @@ class UsersListLoader extends Component {
   //before loader page is loaded, we send requests to get all available users
   componentWillMount(){
     this.props.startUsersLoading();
-    this.props.getUsers(this.props.token);
+    this.props.getUsers(this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token);
   }
   render(){
     if(!this.props.usersLoaded){
       return(<div>Loading...</div>)
     }
-    return <UsersList history={this.props.history}/>
+    return <UsersList history={this.props.history} match={this.props.match}/>
   }
 }
 
