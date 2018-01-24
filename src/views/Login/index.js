@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Full from "../../containers/Full";
+import Navigation from "../../navigation";
 import { connect } from 'react-redux';
 import {loginUser} from '../../redux/actions';
 import {
@@ -29,7 +29,7 @@ class Login extends Component {
     if (this.props.authenticated) {
       return (
         <div style={{ maxWidth: 1920, margin: "auto" }}>
-          <Full {...this.props} />
+          <Navigation {...this.props} />
         </div>
       );
     }

@@ -1,60 +1,58 @@
 import React, { Component } from "react";
 import { Link, Switch, Route, Redirect } from "react-router-dom";
 import { Container } from "reactstrap";
-import Header from "../../components/Header/";
-import Sidebar from "../../components/Sidebar/";
-import Breadcrumb from "../../components/Breadcrumb/";
-import Aside from "../../components/Aside/";
-import Footer from "../../components/Footer/";
+import Header from "./components/Header/";
+import Sidebar from "./components/Sidebar/";
+import Aside from "./components/Aside/";
 
-import Dashboard from "../../views/Dashboard/";
-import Settings from "../../views/Settings/";
-import NewTask from "../../views/newTask/";
-import UnitsList from "../../views/settings/unitsList";
-import UnitAdd from "../../views/settings/unitAdd";
-import UnitEdit from "../../views/settings/unitEdit";
-import UsersList from "../../views/settings/usersList";
-import UserAdd from "../../views/settings/userAdd";
-import UserEdit from "../../views/settings/userEdit";
-import UserAttributesList from "../../views/settings/userAttributesList";
-import UserAttributeAdd from "../../views/settings/userAttributeAdd";
-import UserAttributeEdit from "../../views/settings/userAttributeEdit";
-import TaskAttributesList from "../../views/settings/taskAttributesList";
-import TaskAttributeAdd from "../../views/settings/taskAttributeAdd";
-import TaskAttributeEdit from "../../views/settings/taskAttributeEdit";
-import CompanyAttributesList from "../../views/settings/companyAttributesList";
-import CompanyAttributeAdd from "../../views/settings/companyAttributeAdd";
-import CompanyAttributeEdit from "../../views/settings/companyAttributeEdit";
-import CompaniesList from "../../views/settings/companiesList";
-import CompanyAdd from "../../views/settings/companyAdd";
-import CompanyEdit from "../../views/settings/companyEdit";
-import ImapsList from "../../views/settings/imapsList";
-import ImapAdd from "../../views/settings/imapAdd";
-import ImapEdit from "../../views/settings/imapEdit";
-import RolesList from "../../views/settings/rolesList";
-import RoleAdd from "../../views/settings/roleAdd";
-import RoleEdit from "../../views/settings/roleEdit";
-import SMTPsList from "../../views/settings/smtpsList";
-import SMTPAdd from "../../views/settings/smtpAdd";
-import SMTPEdit from "../../views/settings/smtpEdit";
-import AutomaticTasksList from "../../views/settings/automaticTasksList";
-import AutomaticTaskAdd from "../../views/settings/automaticTaskAdd";
-import AutomaticTaskEdit from "../../views/settings/automaticTaskEdit";
-import StatusesList from "../../views/settings/statusesList";
-import StatusAdd from "../../views/settings/statusAdd";
-import StatusEdit from "../../views/settings/statusEdit";
-import TriggersList from "../../views/settings/triggersList";
-import TriggerAdd from "../../views/settings/triggerAdd";
-import TriggerEdit from "../../views/settings/triggerEdit";
-import MyTasks from "../../views/MyTasks";
-import Project from "../../views/Project";
-import ProjectInfo from "../../views/ProjectInfo";
-import ProjectEdit from "../../views/ProjectEdit";
-import ProjectAdd from "../../views/ProjectAdd";
-import EditTask from "../../views/EditTask";
-import SecondEditTask from "../../views/SecondEditTask";
-import TrojStlpec from "../../views/TrojStlpec";
-import Messages from "../../views/Messages";
+import Dashboard from "./views/Dashboard/";
+import Settings from "./views/Settings/";
+import NewTask from "./views/newTask/";
+import UnitsList from "./views/settings/unitsList";
+import UnitAdd from "./views/settings/unitAdd";
+import UnitEdit from "./views/settings/unitEdit";
+import UsersList from "./views/settings/usersList";
+import UserAdd from "./views/settings/userAdd";
+import UserEdit from "./views/settings/userEdit";
+import UserAttributesList from "./views/settings/userAttributesList";
+import UserAttributeAdd from "./views/settings/userAttributeAdd";
+import UserAttributeEdit from "./views/settings/userAttributeEdit";
+import TaskAttributesList from "./views/settings/taskAttributesList";
+import TaskAttributeAdd from "./views/settings/taskAttributeAdd";
+import TaskAttributeEdit from "./views/settings/taskAttributeEdit";
+import CompanyAttributesList from "./views/settings/companyAttributesList";
+import CompanyAttributeAdd from "./views/settings/companyAttributeAdd";
+import CompanyAttributeEdit from "./views/settings/companyAttributeEdit";
+import CompaniesList from "./views/settings/companiesList";
+import CompanyAdd from "./views/settings/companyAdd";
+import CompanyEdit from "./views/settings/companyEdit";
+import ImapsList from "./views/settings/imapsList";
+import ImapAdd from "./views/settings/imapAdd";
+import ImapEdit from "./views/settings/imapEdit";
+import RolesList from "./views/settings/rolesList";
+import RoleAdd from "./views/settings/roleAdd";
+import RoleEdit from "./views/settings/roleEdit";
+import SMTPsList from "./views/settings/smtpsList";
+import SMTPAdd from "./views/settings/smtpAdd";
+import SMTPEdit from "./views/settings/smtpEdit";
+import AutomaticTasksList from "./views/settings/automaticTasksList";
+import AutomaticTaskAdd from "./views/settings/automaticTaskAdd";
+import AutomaticTaskEdit from "./views/settings/automaticTaskEdit";
+import StatusesList from "./views/settings/statusesList";
+import StatusAdd from "./views/settings/statusAdd";
+import StatusEdit from "./views/settings/statusEdit";
+import TriggersList from "./views/settings/triggersList";
+import TriggerAdd from "./views/settings/triggerAdd";
+import TriggerEdit from "./views/settings/triggerEdit";
+import MyTasks from "./views/MyTasks";
+import Project from "./views/Project";
+import ProjectInfo from "./views/ProjectInfo";
+import ProjectEdit from "./views/ProjectEdit";
+import ProjectAdd from "./views/ProjectAdd";
+import EditTask from "./views/EditTask";
+import SecondEditTask from "./views/SecondEditTask";
+import TrojStlpec from "./views/TrojStlpec";
+import Messages from "./views/Messages";
 
 class Full extends Component {
   render() {
@@ -64,7 +62,6 @@ class Full extends Component {
         <div className="app-body">
           <Sidebar {...this.props} />
           <main className="main" style={{ backgroundColor: "white" }}>
-            {/*<Breadcrumb />*/}
             <Container fluid style={{ padding: 0 }}>
               <Switch>
                 <Route
