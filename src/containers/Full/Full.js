@@ -185,6 +185,12 @@ class Full extends Component {
                 />
                 <Route
                   exact
+                  path="/companiesList/:p,:nop"
+                  name="Companies list"
+                  component={CompaniesList}
+                />
+                <Route
+                  exact
                   path="/company/add"
                   name="Company add"
                   component={CompanyAdd}

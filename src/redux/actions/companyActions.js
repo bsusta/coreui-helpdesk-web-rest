@@ -14,9 +14,9 @@ export const startCompaniesLoading = () => {
  * Gets all companies available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getCompanies= (token) => {
+export const getCompanies= (limit,page,token) => {
   return (dispatch) => {
-      fetch(COMPANIES_LIST+'?limit=999', {
+      fetch(COMPANIES_LIST+'?limit='+limit+'&page='+page, {
         method: 'get',
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -24,7 +24,9 @@ export const getCompanies= (token) => {
         }
       }).then((response) =>{
       response.json().then((data) => {
-        dispatch({type: SET_COMPANIES, companies:data.data});
+        let links=data._links;
+        links['numberOfPages']=data.numberOfPages;
+        dispatch({type: SET_COMPANIES, companies:data.data,links});
         dispatch({ type: SET_COMPANIES_LOADING, companiesLoaded:true });
       });
     }

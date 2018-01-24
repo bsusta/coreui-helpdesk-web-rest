@@ -2,49 +2,45 @@ import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input, Pagination,PaginationItem, PaginationLink } from "reactstrap";
 import { connect } from 'react-redux';
-import {getUsers } from '../../../redux/actions';
+import {getCompanies } from '../../../redux/actions';
 
 const mockOptions=[{title:20,value:20},{title:50,value:50},{title:100,value:100},{title:'all',value:999}]
-class UsersList extends Component {
+class CompaniesList extends Component {
   constructor(props){
     super(props);
     this.state={
       active:'',
-      name:'',
-      email:'',
-      company:'',
-      pagination:this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20,
-      pageNumber:this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,
+      title:'',
       id:'',
+      pagination:this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20,
+      pageNumber:this.props.match.params.p?parseInt(this.props.match.params.p, 10):1
     }
     this.getFilteredData.bind(this);
   }
 
   getFilteredData(){
-    return this.props.users.filter((item)=>(item.detailData.name+' '+item.detailData.surname).toLowerCase().includes(this.state.name.toLowerCase()))
-    .filter((item)=>item.email.toLowerCase().includes(this.state.email.toLowerCase()))
+    return this.props.companies.filter((item)=>item.title.toLowerCase().includes(this.state.title.toLowerCase()))
     .filter((item)=>item.id.toString().toLowerCase().includes(this.state.id.toLowerCase()))
-    .filter((item)=>item.company.title.toLowerCase().includes(this.state.company.toLowerCase()))
     .filter((item)=>item.is_active == (this.state.active.toLowerCase().includes('y')||
     this.state.active.toLowerCase().includes('t')||
     this.state.active.toLowerCase().includes('c'))||
     this.state.active=='')
-    .sort((item,item2)=>item.detailData.surname>item2.detailData.surname);
+    .sort((item,item2)=>item.title>item2.title);
   }
 
   render() {
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ marginTop: 20 }} className="mb-3">
-          Users list
+          Companies list
         </h2>
 
         <button
           type="button"
           class="btn btn-success"
-          onClick={() => this.props.history.push("/user/add")}
+          onClick={() => this.props.history.push("/companies/add")}
           >
-          Add new user
+          Add new companies
         </button>
 
         <table class="table table-striped table-hover">
@@ -52,9 +48,7 @@ class UsersList extends Component {
             <tr>
               <th style={{ borderTop: "0px" }}>ID</th>
               <th style={{ borderTop: "0px" }}>Activated</th>
-              <th style={{ borderTop: "0px" }}>Name</th>
-              <th style={{ borderTop: "0px" }}>E-mail</th>
-              <th style={{ borderTop: "0px" }}>Company</th>
+              <th style={{ borderTop: "0px" }}>Title</th>
             </tr>
           </thead>
           <tbody>
@@ -66,31 +60,23 @@ class UsersList extends Component {
                 <Input type="text" id="input1-group1" value={this.state.active} name="input1-group1" onChange={(e)=>this.setState({active:e.target.value})} />
               </th>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.name} name="input1-group1" onChange={(e)=>this.setState({name:e.target.value})} />
-              </th>
-              <th>
-                <Input type="text" id="input1-group1" value={this.state.email} name="input1-group1" onChange={(e)=>this.setState({email:e.target.value})} />
-              </th>
-              <th>
-                <Input type="text" id="input1-group1" value={this.state.company} name="input1-group1" onChange={(e)=>this.setState({company:e.target.value})} />
+                <Input type="text" id="input1-group1" value={this.state.title} name="input1-group1" onChange={(e)=>this.setState({title:e.target.value})} />
               </th>
             </tr>
-            {this.getFilteredData().map(user => (
+            {this.getFilteredData().map(company => (
               <tr
-                key={user.id}
-                onClick={() => this.props.history.push("/user/edit/" + user.id)}
+                key={company.id}
+                onClick={() => this.props.history.push("/company/edit/" + company.id)}
                 >
-                <td>{user.id}</td>
+                <td>{company.id}</td>
                 <td>
-                  {user.is_active ? (
+                  {company.is_active ? (
                     <span class="badge badge-success">Yes</span>
                   ) : (
                     <span class="badge badge-danger">No</span>
                   )}
                 </td>
-                <td>{user.detailData.surname} {user.detailData.name}</td>
-                <td>{user.email}</td>
-                <td>{user.company.title}</td>
+                <td>{company.title}</td>
               </tr>
             ))}
           </tbody>
@@ -112,22 +98,22 @@ class UsersList extends Component {
                     if(this.state.pageNumber<=1){
                       return;
                     }
-                    this.props.history.push("/usersList/"+(this.state.pageNumber-1)+","+this.state.pagination);
-                    this.props.getUsers(this.state.pagination,this.state.pageNumber-1,this.props.token);
+                    this.props.history.push("/companiesList/"+(this.state.pageNumber-1)+","+this.state.pagination);
+                    this.props.getCompanies(this.state.pagination,this.state.pageNumber-1,this.props.token);
                     this.setState({pageNumber:this.state.pageNumber-1});
                     }
                   }
-                  href={1>=this.state.pageNumber?null:("/usersList/"+(this.state.pageNumber-1)+","+this.state.pagination)}
+                  href={1>=this.state.pageNumber?null:("/companiesList/"+(this.state.pageNumber-1)+","+this.state.pagination)}
                   >
                   Prev
                 </PaginationLink>
               </PaginationItem>
               <PaginationItem active={1==this.state.pageNumber}>
-                <PaginationLink href={"/usersList/1,"+this.state.pagination}
+                <PaginationLink href={"/companiesList/1,"+this.state.pagination}
                   onClick={(e)=>{
                     e.preventDefault();
-                    this.props.history.push("/usersList/1,"+this.state.pagination);
-                    this.props.getUsers(this.state.pagination,1,this.props.token);
+                    this.props.history.push("/companiesList/1,"+this.state.pagination);
+                    this.props.getCompanies(this.state.pagination,1,this.props.token);
                     this.setState({pageNumber:1});
                     }
                   }>{1}
@@ -144,84 +130,92 @@ class UsersList extends Component {
               {
                 this.state.pageNumber>3 &&
                 <PaginationItem>
-                  <PaginationLink href={"/usersList/"+(this.state.pageNumber-2)+","+this.state.pagination}
+                  <PaginationLink href={"/companiesList/"+(this.state.pageNumber-2)+","+this.state.pagination}
                     onClick={(e)=>{
                       e.preventDefault();
-                      this.props.history.push("/usersList/"+(this.state.pageNumber-2)+","+this.state.pagination);
-                      this.props.getUsers(this.state.pagination,this.state.pageNumber-2,this.props.token);
+                      this.props.history.push("/companiesList/"+(this.state.pageNumber-2)+","+this.state.pagination);
+                      this.props.getCompanies(this.state.pagination,this.state.pageNumber-2,this.props.token);
                       this.setState({pageNumber:this.state.pageNumber-2});
                     }
                   }>{this.state.pageNumber-2}
                 </PaginationLink>
               </PaginationItem>
               }
+
               {
                 this.state.pageNumber>2 &&
                 <PaginationItem>
-                  <PaginationLink href={"/usersList/"+(this.state.pageNumber-1)+","+this.state.pagination}
+                  <PaginationLink href={"/companiesList/"+(this.state.pageNumber-1)+","+this.state.pagination}
                     onClick={(e)=>{
                       e.preventDefault();
-                      this.props.history.push("/usersList/"+(this.state.pageNumber-1)+","+this.state.pagination);
-                      this.props.getUsers(this.state.pagination,this.state.pageNumber-1,this.props.token);
+                      this.props.history.push("/companiesList/"+(this.state.pageNumber-1)+","+this.state.pagination);
+                      this.props.getCompanies(this.state.pagination,this.state.pageNumber-1,this.props.token);
                       this.setState({pageNumber:this.state.pageNumber-1});
                     }
                   }>{this.state.pageNumber-1}
                 </PaginationLink>
               </PaginationItem>
               }
+
+
               {
                 this.state.pageNumber!=1 && this.state.pageNumber!=this.props.numberOfPages &&
                 <PaginationItem active={true}>
-                  <PaginationLink href={"/usersList/"+this.state.pageNumber+","+this.state.pagination}
+                  <PaginationLink href={"/companiesList/"+this.state.pageNumber+","+this.state.pagination}
                     onClick={(e)=>{
                       e.preventDefault();
-                      this.props.history.push("/usersList/"+this.state.pageNumber+","+this.state.pagination);
-                      this.props.getUsers(this.state.pagination,this.state.pageNumber,this.props.token);
+                      this.props.history.push("/companiesList/"+this.state.pageNumber+","+this.state.pagination);
+                      this.props.getCompanies(this.state.pagination,this.state.pageNumber,this.props.token);
                     }
                   }>{this.state.pageNumber}
                 </PaginationLink>
               </PaginationItem>
               }
+
               {
                 this.props.numberOfPages-this.state.pageNumber>1 &&
                 <PaginationItem>
-                  <PaginationLink href={"/usersList/"+(this.state.pageNumber+1)+","+this.state.pagination}
+                  <PaginationLink href={"/companiesList/"+(this.state.pageNumber+1)+","+this.state.pagination}
                     onClick={(e)=>{
                       e.preventDefault();
-                      this.props.history.push("/usersList/"+(this.state.pageNumber+1)+","+this.state.pagination);
-                      this.props.getUsers(this.state.pagination,this.state.pageNumber+1,this.props.token);
+                      this.props.history.push("/companiesList/"+(this.state.pageNumber+1)+","+this.state.pagination);
+                      this.props.getCompanies(this.state.pagination,this.state.pageNumber+1,this.props.token);
                       this.setState({pageNumber:this.state.pageNumber+1});
                     }
                   }>{this.state.pageNumber+1}
                 </PaginationLink>
               </PaginationItem>
               }
+
               {
                 this.props.numberOfPages-this.state.pageNumber>2 &&
                 <PaginationItem>
-                  <PaginationLink href={"/usersList/"+(this.state.pageNumber+2)+","+this.state.pagination}
+                  <PaginationLink href={"/companiesList/"+(this.state.pageNumber+2)+","+this.state.pagination}
                     onClick={(e)=>{
                       e.preventDefault();
-                      this.props.history.push("/usersList/"+(this.state.pageNumber+2)+","+this.state.pagination);
-                      this.props.getUsers(this.state.pagination,this.state.pageNumber+2,this.props.token);
+                      this.props.history.push("/companiesList/"+(this.state.pageNumber+2)+","+this.state.pagination);
+                      this.props.getCompanies(this.state.pagination,this.state.pageNumber+2,this.props.token);
                       this.setState({pageNumber:this.state.pageNumber+2});
                     }
                   }>{this.state.pageNumber+2}
                 </PaginationLink>
               </PaginationItem>
               }
+
+
               {
                 this.props.numberOfPages-this.state.pageNumber>3 &&
                 <PaginationItem>
                   ...
                 </PaginationItem>
               }
+
               <PaginationItem active={this.props.numberOfPages==this.state.pageNumber}>
-                <PaginationLink href={"/usersList/"+this.props.numberOfPages+","+this.state.pagination}
+                <PaginationLink href={"/companiesList/"+this.props.numberOfPages+","+this.state.pagination}
                   onClick={(e)=>{
                     e.preventDefault();
-                    this.props.history.push("/usersList/"+this.props.numberOfPages+","+this.state.pagination);
-                    this.props.getUsers(this.state.pagination,this.props.numberOfPages,this.props.token);
+                    this.props.history.push("/companiesList/"+this.props.numberOfPages+","+this.state.pagination);
+                    this.props.getCompanies(this.state.pagination,this.props.numberOfPages,this.props.token);
                     this.setState({pageNumber:this.props.numberOfPages});
                     }
                   }>{this.props.numberOfPages}
@@ -235,12 +229,12 @@ class UsersList extends Component {
                     if(this.state.pageNumber>=this.props.numberOfPages){
                       return;
                     }
-                    this.props.history.push("/usersList/"+(this.state.pageNumber+1)+","+this.state.pagination);
-                    this.props.getUsers(this.state.pagination,this.state.pageNumber+1,this.props.token);
+                    this.props.history.push("/companiesList/"+(this.state.pageNumber+1)+","+this.state.pagination);
+                    this.props.getCompanies(this.state.pagination,this.state.pageNumber+1,this.props.token);
                     this.setState({pageNumber:this.state.pageNumber+1});
                     }
                   }
-                  href={this.state.pageNumber>=this.props.numberOfPages?null:("/usersList/"+(this.state.pageNumber+1)+","+this.state.pagination)}
+                  href={this.state.pageNumber>=this.props.numberOfPages?null:("/companiesList/"+(this.state.pageNumber+1)+","+this.state.pagination)}
                   >
                   Next
                 </PaginationLink>
@@ -259,8 +253,8 @@ class UsersList extends Component {
                   value={this.state.pagination}
                   onChange={(value)=>{
                     this.setState({pagination:value.target.value});
-                    this.props.getUsers(value.target.value,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token);
-                    this.props.history.push("/usersList/"+this.state.pageNumber+","+value.target.value);
+                    this.props.getCompanies(value.target.value,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token);
+                    this.props.history.push("/companiesList/"+this.state.pageNumber+","+value.target.value);
               }}
                   style={{ maxWidth: 70 }}
 
@@ -280,11 +274,10 @@ class UsersList extends Component {
   }
 }
 
-const mapStateToProps = ({ usersReducer, login }) => {
-  const { users, usersLinks } = usersReducer;
+const mapStateToProps = ({ companiesReducer, login }) => {
+  const { companies, companiesLinks } = companiesReducer;
   const { token } = login;
-  return { users, numberOfPages:usersLinks.numberOfPages, token };
+  return { companies, numberOfPages:companiesLinks.numberOfPages, token };
 };
 
-
-export default connect(mapStateToProps, {getUsers})(UsersList);
+export default connect(mapStateToProps, {getCompanies})(CompaniesList);

@@ -24,7 +24,6 @@ export const getUsers= (limit,page,token) => {
         }
       }).then((response) =>{
       response.json().then((data) => {
-        console.log(data);
         let links=data._links;
         links['numberOfPages']=data.numberOfPages;
         dispatch({type: SET_USERS, users:data.data,links});
