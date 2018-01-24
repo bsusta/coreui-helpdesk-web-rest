@@ -1,28 +1,27 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import {addCompany } from '../../../redux/actions';
+import {editCompany } from '../../../redux/actions';
 //city,country, dic, ic_dph,ico,is_active,street,title, zip
 
-class CompanyAdd extends Component {
+class CompanyEdit extends Component {
   constructor(props){
     super(props);
     this.state={
-      is_active:true,
-      title:'',
-      city:'',
-      country:'',
-      dic:'',
-      ic_dph:'',
-      ico:'',
-      street:'',
-      zip:''
+      is_active:this.props.company.is_active,
+      title:this.props.company.title?this.props.company.title:'',
+      city:this.props.company.city?this.props.company.city:'',
+      country:this.props.company.country?this.props.company.country:'',
+      dic:this.props.company.dic?this.props.company.dic:'',
+      ic_dph:this.props.company.ic_dph?this.props.company.ic_dph:'',
+      ico:this.props.company.ico?this.props.company.ico:'',
+      street:this.props.company.street?this.props.company.street:'',
+      zip:this.props.company.zip?this.props.company.zip:''
     }
   }
   submit(e){
     e.preventDefault(); //prevent default form behaviour
-    this.props.addCompany(
-      {
-        title:this.state.title,
+    this.props.editCompany(
+      {title:this.state.title,
         city:this.state.city,
         country:this.state.country,
         dic:this.state.dic,
@@ -31,6 +30,8 @@ class CompanyAdd extends Component {
         street:this.state.street,
         zip:this.state.zip
       },
+        this.state.is_active,
+        this.props.company.id,
         this.props.token);
     this.props.history.goBack();
   }
@@ -41,7 +42,7 @@ class CompanyAdd extends Component {
         class="card"
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
       >
-        <h4 class="card-header">Add company</h4>
+        <h4 class="card-header">Edit company</h4>
         <div class="card-body">
           <form
             onSubmit={(event, value) => {
@@ -155,9 +156,10 @@ class CompanyAdd extends Component {
 }
 
 // All below is just redux storage
-const mapStateToProps = ({ login }) => {
+const mapStateToProps = ({companiesReducer, login }) => {
+  const {company} = companiesReducer;
   const {token} = login;
-  return {token};
+  return {company,token};
 };
 
-export default connect(mapStateToProps, {addCompany})(CompanyAdd);
+export default connect(mapStateToProps, {editCompany})(CompanyEdit);

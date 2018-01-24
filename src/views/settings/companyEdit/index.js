@@ -1,107 +1,30 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 
-class CompanyEdit extends Component {
-  render() {
-    return (
-      <div
-        class="card"
-        style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
-      >
-        <h4 class="card-header">Edit company</h4>
-        <div class="card-body">
-          <form
-            onSubmit={(event, value) => {
-              event.preventDefault();
-              this.props.history.goBack();
-            }}
-          >
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" />
-                Active
-              </label>
-            </div>
+import {getCompany, startCompanyLoading } from '../../../redux/actions';
+import CompanyEdit from './companyEdit';
 
-            <div class="form-group">
-              <label for="title">Company name</label>
-              <input
-                class="form-control"
-                id="title"
-              placeholder="Enter company name"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="ICO">ICO</label>
-              <input
-                class="form-control"
-                id="title"
-              placeholder="Enter ICO number"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="DIC">DIC</label>
-              <input
-                class="form-control"
-                id="DIC"
-              placeholder="Enter DIC"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="Phone">Phone</label>
-              <input
-                class="form-control"
-                id="Phone"
-              placeholder="Enter phone"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="street">Street</label>
-              <input
-                class="form-control"
-                id="street"
-              placeholder="Enter street"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="city">City</label>
-              <input
-                class="form-control"
-                id="city"
-              placeholder="Enter city"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="PSC">PSC</label>
-              <input
-                class="form-control"
-                id="PSC"
-              placeholder="Enter PSC"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="country">Country</label>
-              <input
-                class="form-control"
-                id="country"
-              placeholder="Enter country"
-              />
-            </div>
-
-            <button type="submit" class="btn btn-primary">
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    );
+class CompanyEditLoader extends Component {
+  //before loader page is loaded, we send requests to get all user information
+  componentWillMount(){
+    this.props.startCompanyLoading();
+    this.props.getCompany( parseInt(this.props.match.params.id, 10),this.props.token);
+  }
+  render(){
+    if(!this.props.companyLoaded){
+      return(<div>Loading...</div>)
+    }
+    return <CompanyEdit history={this.props.history}/>
   }
 }
 
-export default CompanyEdit;
+//all below is just redux storage
+
+const mapStateToProps = ({ companiesReducer, login }) => {
+  const {companyLoaded} = companiesReducer;
+  const {token} = login;
+  return {token,companyLoaded};
+};
+
+
+export default connect(mapStateToProps, {getCompany, startCompanyLoading })(CompanyEditLoader);

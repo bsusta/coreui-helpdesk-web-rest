@@ -38,7 +38,7 @@ class CompaniesList extends Component {
         <button
           type="button"
           class="btn btn-success"
-          onClick={() => this.props.history.push("/companies/add")}
+          onClick={() => this.props.history.push("/company/add")}
           >
           Add new companies
         </button>
@@ -253,8 +253,15 @@ class CompaniesList extends Component {
                   value={this.state.pagination}
                   onChange={(value)=>{
                     this.setState({pagination:value.target.value});
-                    this.props.getCompanies(value.target.value,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token);
-                    this.props.history.push("/companiesList/"+this.state.pageNumber+","+value.target.value);
+                    if(value.target.value==999){
+                      this.setState({pageNumber:1});
+                      this.props.getCompanies(value.target.value,1,this.props.token);
+                      this.props.history.push("/companiesList/"+1+","+value.target.value);
+                    }
+                    else{
+                      this.props.getCompanies(value.target.value,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token);
+                      this.props.history.push("/companiesList/"+this.state.pageNumber+","+value.target.value);
+                    }
               }}
                   style={{ maxWidth: 70 }}
 

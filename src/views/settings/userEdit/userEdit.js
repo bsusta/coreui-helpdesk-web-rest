@@ -7,6 +7,7 @@ class UserEdit extends Component {
     super(props);
     const user = this.props.user;
     this.state={
+      is_active:user.is_active,
       username:user.username?user.username:'',
       password:'',
       email:user.email?user.email:'',
@@ -65,7 +66,7 @@ class UserEdit extends Component {
       body['password']=this.state.password;
     }
     this.props.editUser(body,
-    this.state.company,this.state.userRole,this.props.user.id,this.props.token);
+    this.state.company,this.state.userRole,this.props.user.id,this.state.is_active,this.props.token);
     this.props.history.goBack();
   }
   render() {
@@ -82,6 +83,12 @@ class UserEdit extends Component {
               this.props.history.goBack();
             }}
             >
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" checked={this.state.is_active} onChange={()=>this.setState({is_active:!this.state.is_active})} />
+                Active
+              </label>
+            </div>
 
             <div class="form-group">
               <label for="username">Username</label>

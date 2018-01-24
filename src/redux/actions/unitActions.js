@@ -118,7 +118,7 @@ export const editUnit = (body,isActive,id,token) => {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
           }
-        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then((response1,response2)=>{
+        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
           dispatch({type: EDIT_UNIT, unit:response1.data});
         }))
         .catch(function (error) {

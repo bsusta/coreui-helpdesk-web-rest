@@ -102,23 +102,30 @@ export const getUser = (id,token) => {
  * @param  {int}  id       id of the user
  * @param  {string}  token    universal token for API comunication
  */
- export const editUser = (body,company,role,id,token) => {
+
+ export const editUser = (body,company,role,id,isActive,token) => {
    return (dispatch) => {
-       fetch(USERS_LIST + '/'+id+'/user-role/' + role + '/company/' + company,{
-         headers: {
-           'Content-Type': 'application/json',
-           'Authorization': 'Bearer ' + token
-         },
-         method: 'PUT',
-         body:JSON.stringify(body),
-       })
-     .then((response)=>{
-     response.json().then((response)=>{
-       dispatch({type: ADD_USER, user:response.data});
-     })})
-     .catch(function (error) {
-       console.log(error);
-     });
+       Promise.all([
+         fetch(USERS_LIST + '/'+id+'/user-role/' + role + '/company/' + company, {
+           method: 'put',
+           headers: {
+             'Authorization': 'Bearer ' + token,
+             'Content-Type': 'application/json'
+           },
+           body:JSON.stringify(body)
+         }),
+         fetch(USERS_LIST+'/'+id+(isActive?'/restore':'/inactivate'), {
+           method: 'put',
+           headers: {
+             'Authorization': 'Bearer ' + token,
+             'Content-Type': 'application/json'
+           }
+         })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+           dispatch({type: EDIT_USER, user:response1.data});
+         }))
+         .catch(function (error) {
+           console.log(error);
+       });
 
    };
  };

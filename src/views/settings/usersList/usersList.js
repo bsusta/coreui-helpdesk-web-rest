@@ -259,8 +259,15 @@ class UsersList extends Component {
                   value={this.state.pagination}
                   onChange={(value)=>{
                     this.setState({pagination:value.target.value});
-                    this.props.getUsers(value.target.value,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token);
-                    this.props.history.push("/usersList/"+this.state.pageNumber+","+value.target.value);
+                    if(value.target.value==999){
+                      this.setState({pageNumber:1});
+                      this.props.getCompanies(value.target.value,1,this.props.token);
+                      this.props.history.push("/usersList/"+1+","+value.target.value);
+                    }
+                    else{
+                      this.props.getCompanies(value.target.value,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token);
+                      this.props.history.push("/usersList/"+this.state.pageNumber+","+value.target.value);
+                    }
               }}
                   style={{ maxWidth: 70 }}
 
