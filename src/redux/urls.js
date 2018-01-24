@@ -13,3 +13,5 @@ export const TAG_LIST = BASE_URL + '/task-bundle/tags';
 export const FILTER_LIST = BASE_URL + '/task-bundle/filters';
 export const ROLES_LIST = BASE_URL + '/task-bundle/user-roles';
 export const ASSIGNERS_LIST = BASE_URL + '/task-bundle/project/assigners';
+
+export const SMTPS_LIST = BASE_URL + '/task-bundle/smtp';

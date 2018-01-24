@@ -1,6 +1,18 @@
 import React, { Component } from "react";
 
 class SMTPAdd extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      email:'',
+      host:'',
+      name:'',
+      password:'',
+      port:'',
+      sll:false,
+      tls:false,
+    }
+  }
   render() {
     return (
       <div

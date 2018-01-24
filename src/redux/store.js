@@ -6,6 +6,7 @@ import unitsReducer from './reducers/unitsReducer';
 import usersReducer from './reducers/usersReducer';
 import companiesReducer from './reducers/companiesReducer';
 import userRolesReducer from './reducers/userRolesReducer';
+import SMTPsReducer from './reducers/smtpsReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -13,6 +14,7 @@ const reducers = combineReducers({
     usersReducer,
     companiesReducer,
     userRolesReducer,
+    SMTPsReducer,
   });
 
 const enhancers = compose(

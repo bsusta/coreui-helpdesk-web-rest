@@ -34,3 +34,11 @@ export const ADD_USER_ROLE = 'ADD_USER_ROLE';
 export const SET_USER_ROLE = 'SET_USER_ROLE';
 export const SET_USER_ROLE_LOADING = 'SET_USER_ROLE_LOADING';
 export const EDIT_USER_ROLE = 'EDIT_USER_ROLE';
+
+//all constants for smtps actions
+export const SET_SMTPS = 'SET_SMTPS';
+export const SET_SMTPS_LOADING = 'SET_SMTPS_LOADING';
+export const ADD_SMTP = 'ADD_SMTP';
+export const SET_SMTP = 'SET_SMTP';
+export const SET_SMTP_LOADING = 'SET_SMTP_LOADING';
+export const EDIT_SMTP = 'EDIT_SMTP';

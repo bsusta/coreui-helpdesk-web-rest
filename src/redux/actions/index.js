@@ -4,3 +4,4 @@ export * from './unitActions';
 export * from './userActions';
 export * from './companyActions';
 export * from './userRoleActions';
+export * from './smtpActions';
