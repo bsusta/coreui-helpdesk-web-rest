@@ -10,7 +10,6 @@ class SMTPsList extends Component {
       email:''
     }
     this.getFilteredData.bind(this);
-    console.log(this.props.SMTPs);
   }
 
   getFilteredData(){

@@ -100,7 +100,7 @@ export const getSMTP = (token,id) => {
  * @param  {int}  id       id of the SMTP
  * @param  {string}  token    universal token for API comunication
  */
-export const editSMTP = (body,isActive,id,token) => {
+export const editSMTP = (body,id,token) => {
   return (dispatch) => {
 
       Promise.all([
@@ -111,14 +111,7 @@ export const editSMTP = (body,isActive,id,token) => {
             'Content-Type': 'application/json'
           },
           body:JSON.stringify(body)
-        }),
-        fetch(SMTPS_LIST+'/'+id+(isActive?'/restore':'/inactivate'), {
-          method: 'put',
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-          }
-        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+        })]).then(([response1])=>Promise.all([response1.json()]).then(([response1])=>{
           dispatch({type: EDIT_SMTP, SMTP:response1.data});
         }))
         .catch(function (error) {
