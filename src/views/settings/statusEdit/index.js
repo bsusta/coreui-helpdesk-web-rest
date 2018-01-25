@@ -1,62 +1,27 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 
-class StatusEdit extends Component {
-  render() {
-    return (
-      <div
-        class="card"
-        style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
-      >
-        <h4 class="card-header">Edit status</h4>
-        <div class="card-body">
-          <form
-            onSubmit={(event, value) => {
-              event.preventDefault();
-              this.props.history.goBack();
-            }}
-          >
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" />
-                Active
-              </label>
-            </div>
+import {getStatus, startStatusLoading } from '../../../redux/actions';
+import StatusEdit from './statusEdit';
 
-            <div class="form-group">
-              <label for="title">Status name</label>
-              <input
-                class="form-control"
-                id="title"
-              placeholder="Enter status name"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="ICO">Description</label>
-              <input
-                class="form-control"
-                id="title"
-              placeholder="Enter status description"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="country">Color</label>
-              <input
-                class="form-control"
-                id="country"
-              placeholder="Enter hex color"
-              />
-            </div>
-
-            <button type="submit" class="btn btn-primary">
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    );
+class StatusEditLoader extends Component {
+  componentWillMount(){
+    this.props.startStatusLoading();  // first it sets, that status hasnt been loaded
+    this.props.getStatus(this.props.token,parseInt(this.props.match.params.id, 10));  //send request for download and storing of the status data
+  }
+  render(){
+    if(!this.props.statusLoaded){ //data hasnt been loaded yet
+      return(<div>Loading...</div>)
+    }
+    return <StatusEdit history={this.props.history}/>
   }
 }
 
-export default StatusEdit;
+//All below is redux information storage
+const mapStateToProps = ({statusesReducer, login }) => {
+  const {statusLoaded} = statusesReducer;
+  const {token} = login;
+  return {statusLoaded,token};
+};
+
+export default connect(mapStateToProps, {getStatus, startStatusLoading})(StatusEditLoader);

@@ -58,3 +58,11 @@ export const ADD_PROJECT = 'ADD_PROJECT';
 export const SET_PROJECT = 'SET_PROJECT';
 export const SET_PROJECT_LOADING = 'SET_PROJECT_LOADING';
 export const EDIT_PROJECT = 'EDIT_PROJECT';
+
+//all constants for STATUSES actions
+export const SET_STATUSES = 'SET_STATUSES';
+export const SET_STATUSES_LOADING = 'SET_STATUSES_LOADING';
+export const ADD_STATUS = 'ADD_STATUS';
+export const SET_STATUS = 'SET_STATUS';
+export const SET_STATUS_LOADING = 'SET_STATUS_LOADING';
+export const EDIT_STATUS = 'EDIT_STATUS';

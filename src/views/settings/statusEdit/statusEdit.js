@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { addStatus } from '../../../redux/actions';
+import { editStatus } from '../../../redux/actions';
 import { SketchPicker } from 'react-color';
 
 const funcOptions=[{value:'new_task',title:'New task'}, {value:'in_progress_task',title:'Task in progress'}, {value:'completed_task',title:'Completed task'}, {value:'closed_task',title:"Closed task"}]
 
-class StatusAdd extends Component {
+class StatusEdit extends Component {
   constructor(props){
     super(props);
     this.state={
-      is_active:true,
-      title:'',
-      description:'',
-      order:5,
-      func:'new_task',
-      color:'#156EEB',
+      is_active:this.props.status.is_active,
+      title:this.props.status.title,
+      description:this.props.status.description,
+      order:this.props.status.order,
+      func:this.props.status.function,
+      color:this.props.status.color
     }
   }
 
@@ -23,26 +23,24 @@ class StatusAdd extends Component {
     if(isNaN(parseInt(this.state.order))||parseInt(this.state.order)<4){
       return;
     }
-
-    this.props.addStatus({
+    this.props.editStatus({
       is_active:this.state.is_active,
       title:this.state.title,
       description:this.state.description,
       order:this.state.order,
       function:this.state.func,
       color:this.state.color
-    },this.props.token);
+    },this.props.status.id,this.props.token);
     this.props.history.goBack();
   }
 
-  //color, default ???, description, function, id, is_active, title, order
   render() {
     return (
       <div
         class="card"
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
       >
-        <h4 class="card-header">Add status</h4>
+        <h4 class="card-header">Edit status</h4>
         <div class="card-body">
           <form
             onSubmit={(event, value) => {
@@ -126,9 +124,10 @@ class StatusAdd extends Component {
   }
 }
 
-const mapStateToProps = ({login}) => {
+const mapStateToProps = ({login, statusesReducer}) => {
   const {token} = login;
-  return {token};
+  const {status} = statusesReducer;
+  return {token,status};
 };
 
-export default connect(mapStateToProps, {addStatus})(StatusAdd);
+export default connect(mapStateToProps, {editStatus})(StatusEdit);

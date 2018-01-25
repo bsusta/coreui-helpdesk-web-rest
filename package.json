@@ -45,6 +45,7 @@
     "react-bootstrap-table": "4.2.0",
     "react-chartjs-2": "2.6.4",
     "react-codemirror2": "3.0.7",
+    "react-color": "^2.13.8",
     "react-datepicker": "^0.62.0",
     "react-dates": "15.3.0",
     "react-dom": "16.2.0",

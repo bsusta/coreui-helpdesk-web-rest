@@ -7,3 +7,4 @@ export * from './userRoleActions';
 export * from './smtpActions';
 export * from './imapsActions';
 export * from './projectsActions';
+export * from './statusesActions';
