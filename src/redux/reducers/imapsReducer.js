@@ -1,4 +1,4 @@
-import { SET_IMAPS, SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP_LOADING, SET_IMAP, EDIT_IMAP } from '../types'
+import { SET_IMAPS, SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP_LOADING, SET_IMAP, EDIT_IMAP, DELETE_IMAP } from '../types'
 
 const initialState = {
   imaps:[],
@@ -24,6 +24,11 @@ export default function imapsReducer(state = initialState, action) {
         let newImaps=[...state.imaps];
         newImaps[newImaps.findIndex((imap)=>imap.id==action.imap.id)]=action.imap;
         return { ...state, imaps:newImaps };
+      }
+      case DELETE_IMAP:{
+        let newImaps=[...state.imaps];
+          newImaps.splice(newImaps[newImaps.findIndex((imap)=>imap.id==action.id)],1);
+          return { ...state, imaps:newImaps };
       }
     default:
       return state;

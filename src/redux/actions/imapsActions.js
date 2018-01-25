@@ -1,4 +1,4 @@
-import { SET_IMAPS,SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP, SET_IMAP_LOADING, EDIT_IMAP } from '../types';
+import { SET_IMAPS,SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP, SET_IMAP_LOADING, EDIT_IMAP, DELETE_IMAP } from '../types';
 import { IMAPS_LIST } from '../urls';
 
 /**
@@ -50,7 +50,6 @@ export const addImap = (body,project,token) => {
       })
     .then((response)=>{
     response.json().then((response)=>{
-      console.log(response);
       dispatch({type: ADD_IMAP, imap:response.data});
     })})
     .catch(function (error) {
@@ -101,30 +100,40 @@ export const getImap = (token,id) => {
  * @param  {int}  id       id of the imap
  * @param  {string}  token    universal token for API comunication
  */
-export const editImap = (body,isActive,id,token) => {
+export const editImap = (body,project,id,token) => {
   return (dispatch) => {
 
       Promise.all([
-        fetch(IMAPS_LIST+'/'+id, {
+        fetch(IMAPS_LIST+'/'+id+'/project/'+project, {
           method: 'put',
           headers: {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
           },
           body:JSON.stringify(body)
-        }),
-        fetch(IMAPS_LIST+'/'+id+(isActive?'/restore':'/inactivate'), {
-          method: 'put',
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-          }
-        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+        })]).then(([response1])=>Promise.all([response1.json()]).then(([response1])=>{
+          console.log(response1);
           dispatch({type: EDIT_IMAP, imap:response1.data});
         }))
         .catch(function (error) {
           console.log(error);
       });
-
   };
 };
+
+export const deleteImap = (id,token) => {
+  return (dispatch) => {
+      fetch(IMAPS_LIST+'/'+id, {
+        method: 'delete',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        dispatch({type: DELETE_IMAP, id});
+    }
+  ).catch(function (error) {
+    console.log(error);
+  });
+}
+}

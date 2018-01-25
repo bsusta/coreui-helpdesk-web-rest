@@ -50,6 +50,7 @@ export const ADD_IMAP = 'ADD_IMAP';
 export const SET_IMAP = 'SET_IMAP';
 export const SET_IMAP_LOADING = 'SET_IMAP_LOADING';
 export const EDIT_IMAP = 'EDIT_IMAP';
+export const DELETE_IMAP = 'DELETE_IMAP';
 
 //all constants for PROJECTS actions
 export const SET_PROJECTS = 'SET_PROJECTS';

@@ -19,7 +19,7 @@ import Login from './views/Login/'
 import createStore from './redux/store';
 
 const store=createStore();
-
+console.disableYellowBox = true;
 ReactDOM.render((
   <Provider store={store}>
     <HashRouter>
