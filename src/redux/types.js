@@ -42,3 +42,19 @@ export const ADD_SMTP = 'ADD_SMTP';
 export const SET_SMTP = 'SET_SMTP';
 export const SET_SMTP_LOADING = 'SET_SMTP_LOADING';
 export const EDIT_SMTP = 'EDIT_SMTP';
+
+//all constants for IMAPS actions
+export const SET_IMAPS = 'SET_IMAPS';
+export const SET_IMAPS_LOADING = 'SET_IMAPS_LOADING';
+export const ADD_IMAP = 'ADD_IMAP';
+export const SET_IMAP = 'SET_IMAP';
+export const SET_IMAP_LOADING = 'SET_IMAP_LOADING';
+export const EDIT_IMAP = 'EDIT_IMAP';
+
+//all constants for PROJECTS actions
+export const SET_PROJECTS = 'SET_PROJECTS';
+export const SET_PROJECTS_LOADING = 'SET_PROJECTS_LOADING';
+export const ADD_PROJECT = 'ADD_PROJECT';
+export const SET_PROJECT = 'SET_PROJECT';
+export const SET_PROJECT_LOADING = 'SET_PROJECT_LOADING';
+export const EDIT_PROJECT = 'EDIT_PROJECT';

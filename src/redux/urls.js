@@ -4,7 +4,7 @@ export const LOGIN_URL = BASE_URL + '/token-authentication';
 export const UNITS_LIST = BASE_URL + '/task-bundle/units';
 
 export const TASK_LIST = BASE_URL + '/task-bundle/tasks';
-export const PROJECT_LIST = BASE_URL + '/task-bundle/projects';
+export const PROJECTS_LIST = BASE_URL + '/task-bundle/projects';
 export const COMPANIES_LIST = BASE_URL + '/core-bundle/companies';
 export const USERS_LIST = BASE_URL + '/core-bundle/users';
 export const USER_ROLES_LIST = BASE_URL + '/task-bundle/user-roles';
@@ -15,3 +15,4 @@ export const ROLES_LIST = BASE_URL + '/task-bundle/user-roles';
 export const ASSIGNERS_LIST = BASE_URL + '/task-bundle/project/assigners';
 
 export const SMTPS_LIST = BASE_URL + '/task-bundle/smtp';
+export const IMAPS_LIST = BASE_URL + '/task-bundle/imap';

@@ -7,6 +7,8 @@ import usersReducer from './reducers/usersReducer';
 import companiesReducer from './reducers/companiesReducer';
 import userRolesReducer from './reducers/userRolesReducer';
 import SMTPsReducer from './reducers/smtpsReducer';
+import imapsReducer from './reducers/imapsReducer';
+import projectsReducer from './reducers/projectsReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -15,6 +17,8 @@ const reducers = combineReducers({
     companiesReducer,
     userRolesReducer,
     SMTPsReducer,
+    imapsReducer,
+    projectsReducer
   });
 
 const enhancers = compose(

@@ -57,7 +57,7 @@ class Aside extends Component {
     return (
       <aside className="aside-menu">
         <div>
-          <div class="container-fluid" style={{ marginTop: 20 }}>
+          <div className="container-fluid" style={{ marginTop: 20 }}>
             <h4>Filter</h4>
           </div>
 
@@ -71,7 +71,7 @@ class Aside extends Component {
             Reset
           </button>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}
@@ -80,7 +80,7 @@ class Aside extends Component {
             <input type="text" id="name" className="form-control mr-2" />
           </div>
           <div
-            class="container-fluid"
+            className="container-fluid"
             style={{
               marginTop: 10
             }}

@@ -1,106 +1,27 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 
-class ImapEdit extends Component {
-  render() {
-    return (
-      <div
-        class="card"
-        style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
-      >
-        <h4 class="card-header">Edit IMap</h4>
-        <div class="card-body">
-          <form
-            onSubmit={(event, value) => {
-              event.preventDefault();
-              this.props.history.goBack();
-            }}
-          >
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" />
-                Active
-              </label>
-            </div>
+import {getImap, startImapLoading } from '../../../redux/actions';
+import ImapEdit from './ImapEdit';
 
-            <div class="form-group">
-              <label for="email">E-mail</label>
-              <input
-                class="form-control"
-                id="email"
-              placeholder="Enter email"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="server">Server IP</label>
-              <input
-                class="form-control"
-                id="server"
-              placeholder="Enter server"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="port">Port</label>
-              <input
-                class="form-control"
-                id="port"
-              placeholder="Enter port number"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="login">Login</label>
-              <input
-                class="form-control"
-                id="login"
-              placeholder="Enter login"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="pass">Password</label>
-              <input
-                class="form-control"
-                id="pass"
-              placeholder="Enter password"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="project">Select project</label>
-              <input
-                class="form-control"
-                id="project"
-              placeholder="Enter project"
-              />
-            </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" />
-                Ignore certificate
-              </label>
-            </div>
-
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" />
-                SSL
-              </label>
-            </div>
-
-
-            <button type="submit" class="btn btn-secondary">
-              Test connection
-            </button>
-            <button type="submit" class="btn btn-primary">
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    );
+class ImapEditLoader extends Component {
+  componentWillMount(){
+    this.props.startImapLoading();  // first it sets, that unit hasnt been loaded
+    this.props.getImap(this.props.token,parseInt(this.props.match.params.id, 10));  //send request for download and storing of the units data
+  }
+  render(){
+    if(!this.props.ImapLoaded){ //data hasnt been loaded yet
+      return(<div>Loading...</div>)
+    }
+    return <ImapEdit history={this.props.history}/>
   }
 }
 
-export default ImapEdit;
+//All below is redux information storage
+const mapStateToProps = ({imapsReducer, login }) => {
+  const {imapLoaded} = imapsReducer;
+  const {token} = login;
+  return {imapLoaded,token};
+};
+
+export default connect(mapStateToProps, {getImap, startImapLoading})(ImapEditLoader);
