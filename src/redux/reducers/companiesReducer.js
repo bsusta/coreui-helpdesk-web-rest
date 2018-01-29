@@ -3,7 +3,7 @@ import { SET_COMPANIES, SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY_LOADING,
 const initialState = {
   companies:[],
   companiesLoaded:false,
-  companies:null,
+  company:null,
   companyLoaded:false,
   companiesLinks:null,
 };

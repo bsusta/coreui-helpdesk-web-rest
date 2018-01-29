@@ -14,9 +14,9 @@ export const startCompaniesLoading = () => {
  * Gets all companies available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getCompanies= (limit,page,token) => {
+export const getCompanies= (limit,page,filter,token) => {
   return (dispatch) => {
-      fetch(COMPANIES_LIST+'?limit='+limit+'&page='+page, {
+      fetch(COMPANIES_LIST+'/search?limit='+limit+'&page='+page+'&term='+filter, {
         method: 'get',
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -141,8 +141,14 @@ export const getCompany = (id,token) => {
              'Content-Type': 'application/json'
            },
            body:JSON.stringify(body)
-         })
-]).then(([response1])=>Promise.all([response1.json()]).then(([response1])=>{
+         }),
+         fetch(COMPANIES_LIST+'/'+id+(isActive?'/restore':'/inactivate'), {
+           method: 'put',
+           headers: {
+             'Authorization': 'Bearer ' + token,
+             'Content-Type': 'application/json'
+           }
+         })]).then(([response1])=>Promise.all([response1.json()]).then(([response1])=>{
            dispatch({type: EDIT_COMPANY, company:response1.data});
          }))
          .catch(function (error) {

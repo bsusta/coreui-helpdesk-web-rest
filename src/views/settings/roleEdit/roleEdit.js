@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import {addUserRole } from '../../../redux/actions';
+import {editUserRole } from '../../../redux/actions';
 const ACLs=[
   {value:'login_to_system',title:'Log into system'},
   {value:'share_filters',title:'Share filters'},
@@ -24,16 +24,16 @@ const ACLs=[
   {value:'smtp_settings',title:'SMTP settings'}
 ]
 
-class RoleAdd extends Component {
+class RoleEdit extends Component {
   constructor(props){
     super(props);
     this.state={
-      is_active:false,
-      title:'',
-      description:'',
-      homepage:'',
-      order:'',
-      acl:[],
+      is_active:this.props.userRole.is_active?true:false,
+      title:this.props.userRole.title?this.props.userRole.title:'',
+      description:this.props.userRole.description?this.props.userRole.description:'',
+      homepage:this.props.userRole.homepage?this.props.userRole.homepage:'',
+      order:this.props.userRole.order?this.props.userRole.order:'',
+      acl:this.props.userRole.acl?this.props.userRole.acl:[],
     }
     this.aclChange.bind(this);
   }
@@ -51,14 +51,13 @@ class RoleAdd extends Component {
 
   submit(e){
     e.preventDefault();
-    this.props.addUserRole({
+    this.props.editUserRole({
       title:this.state.title,
       description:this.state.description,
       homepage:this.state.homepage,
       order:this.state.order,
       acl:this.state.acl,
-      is_active:this.state.is_active,
-    },this.props.token);
+    },this.state.is_active,this.props.userRole.id,this.props.token);
   }
 
   render() {
@@ -149,9 +148,10 @@ class RoleAdd extends Component {
 }
 }
 
-const mapStateToProps = ({ login }) => {
+const mapStateToProps = ({ userRolesReducer, login }) => {
+  const { userRole } = userRolesReducer;
   const { token } = login;
-  return { token };
+  return { userRole, token };
 };
 
-export default connect(mapStateToProps, {addUserRole})(RoleAdd);
+export default connect(mapStateToProps, {editUserRole})(RoleEdit);

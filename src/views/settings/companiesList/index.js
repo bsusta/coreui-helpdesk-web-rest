@@ -8,7 +8,7 @@ class CompaniesListLoader extends Component {
   //before loader page is loaded, we send requests to get all available users
   componentWillMount(){
     this.props.startCompaniesLoading();
-    this.props.getCompanies(this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token);
+    this.props.getCompanies(this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,"",this.props.token);
   }
   render(){
     if(!this.props.companiesLoaded){

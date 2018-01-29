@@ -7,7 +7,6 @@ class CompanyAdd extends Component {
   constructor(props){
     super(props);
     this.state={
-      is_active:true,
       title:'',
       city:'',
       country:'',
@@ -30,8 +29,7 @@ class CompanyAdd extends Component {
         ico:this.state.ico,
         street:this.state.street,
         zip:this.state.zip
-      },
-        this.props.token);
+      }, this.props.token);
     this.props.history.goBack();
   }
 
@@ -49,13 +47,6 @@ class CompanyAdd extends Component {
               this.props.history.goBack();
             }}
           >
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" checked={this.state.is_active} onChange={()=>this.setState({is_active:!this.state.is_active})} />
-                Active
-              </label>
-            </div>
-
             <div class="form-group">
               <label for="title">Company name</label>
               <input

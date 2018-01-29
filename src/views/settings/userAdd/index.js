@@ -9,7 +9,7 @@ class UserAddLoader extends Component {
   componentWillMount(){
     this.props.startCompaniesLoading();
     this.props.startUserRolesLoading();
-    this.props.getCompanies(999,1,this.props.token);
+    this.props.getCompanies(999,1,"",this.props.token);
     this.props.getUserRoles(this.props.token);
   }
   render(){

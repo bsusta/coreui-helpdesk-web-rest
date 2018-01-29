@@ -11,18 +11,15 @@ class CompaniesList extends Component {
       active:'',
       title:'',
       id:'',
+      filter:'',
+      confirmedFilter:'',
+      pageNumber:this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,
     }
-    this.getFilteredData.bind(this);
+    this.setPage.bind(this);
   }
 
-  getFilteredData(){
-    return this.props.companies.filter((item)=>item.title.toLowerCase().includes(this.state.title.toLowerCase()))
-    .filter((item)=>item.id.toString().toLowerCase().includes(this.state.id.toLowerCase()))
-    .filter((item)=>item.is_active == (this.state.active.toLowerCase().includes('y')||
-    this.state.active.toLowerCase().includes('t')||
-    this.state.active.toLowerCase().includes('c'))||
-    this.state.active=='')
-    .sort((item,item2)=>item.title>item2.title);
+  setPage(number){
+    this.setState({pageNumber:number});
   }
 
   render() {
@@ -40,6 +37,22 @@ class CompaniesList extends Component {
           Add new companies
         </button>
 
+
+        <div style={{display:'flex', marginTop:20}}>
+        <Input type="text" id="filter" value={this.state.filter} onChange={(e)=>this.setState({filter:e.target.value})} />
+          <button
+            type="button"
+            class="btn btn-primary"
+            onClick={() => {
+              this.setState({confirmedFilter:this.state.filter,pageNumber:1});
+              this.props.getCompanies(this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20,1,this.state.filter,this.props.token);
+              this.props.history.push(1+","+(this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20));
+          }}
+            >
+            Filter
+          </button>
+      </div>
+
         <table class="table table-striped table-hover">
           <thead>
             <tr>
@@ -49,18 +62,7 @@ class CompaniesList extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>
-                <Input type="text" id="input1-group1" value={this.state.id} name="input1-group1" onChange={(e)=>this.setState({id:e.target.value})} />
-              </th>
-              <th>
-                <Input type="text" id="input1-group1" value={this.state.active} name="input1-group1" onChange={(e)=>this.setState({active:e.target.value})} />
-              </th>
-              <th>
-                <Input type="text" id="input1-group1" value={this.state.title} name="input1-group1" onChange={(e)=>this.setState({title:e.target.value})} />
-              </th>
-            </tr>
-            {this.getFilteredData().map(company => (
+            {this.props.companies.map(company => (
               <tr
                 key={company.id}
                 onClick={() => this.props.history.push("/company/edit/" + company.id)}
@@ -78,13 +80,15 @@ class CompaniesList extends Component {
             ))}
           </tbody>
         </table>
-        <Pagination 
+        <Pagination
           link="companiesList"
           history={this.props.history}
           numberOfPages={this.props.numberOfPages}
           refetchData={this.props.getCompanies}
           token={this.props.token}
-          pageNumber={this.props.match.params.p?parseInt(this.props.match.params.p, 10):1}
+          filter={this.state.confirmedFilter}
+          pageNumber={this.state.pageNumber}
+          setPageNumber={this.setPage.bind(this)}
           pagination={this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20}
           />
       </div>
