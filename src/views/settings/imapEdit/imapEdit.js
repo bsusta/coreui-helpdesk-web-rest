@@ -5,8 +5,9 @@ import { editImap, deleteImap } from '../../../redux/actions';
 class ImapEdit extends Component {
   constructor(props){
     super(props);
+    console.log(this.props.imap);
     this.state={
-      is_active:this.props.imap.is_active?this.props.imap.is_active:true,
+      is_active:this.props.imap.is_active?true:false,
       description:this.props.imap.description?this.props.imap.description:'',
       inbox_email:this.props.imap.inbox_email?this.props.imap.inbox_email:'',
       move_email:this.props.imap.move_email?this.props.imap.move_email:'',
@@ -29,8 +30,9 @@ class ImapEdit extends Component {
       name:this.state.name,
       password:this.state.password,
       ignore_certificate:this.state.ignore_certificate,
+      description:this.state.description,
       ssl:this.state.ssl
-    },this.state.project,this.props.imap.id,this.props.token);
+    },this.state.project,this.props.imap.id,this.state.is_active,this.props.token);
     this.props.history.goBack();
   }
 

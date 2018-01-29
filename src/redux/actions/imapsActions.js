@@ -50,6 +50,7 @@ export const addImap = (body,project,token) => {
       })
     .then((response)=>{
     response.json().then((response)=>{
+      console.log(response);
       dispatch({type: ADD_IMAP, imap:response.data});
     })})
     .catch(function (error) {
@@ -100,7 +101,7 @@ export const getImap = (token,id) => {
  * @param  {int}  id       id of the imap
  * @param  {string}  token    universal token for API comunication
  */
-export const editImap = (body,project,id,token) => {
+export const editImap = (body,project,id,isActive,token) => {
   return (dispatch) => {
 
       Promise.all([
@@ -111,8 +112,15 @@ export const editImap = (body,project,id,token) => {
             'Content-Type': 'application/json'
           },
           body:JSON.stringify(body)
-        })]).then(([response1])=>Promise.all([response1.json()]).then(([response1])=>{
-          console.log(response1);
+        }),
+        fetch(IMAPS_LIST+'/'+id+(isActive?'/restore':'/inactivate'), {
+          method: 'put',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          }
+        })
+      ]).then(([response1,response2])=>Promise.all([response1.json()]).then(([response1])=>{
           dispatch({type: EDIT_IMAP, imap:response1.data});
         }))
         .catch(function (error) {

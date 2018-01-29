@@ -25,6 +25,7 @@ class ImapAdd extends Component {
     this.props.addImap({
       inbox_email:this.state.inbox_email,
       move_email:this.state.move_email,
+      description:this.state.description,
       host:this.state.host,
       port:this.state.port,
       name:this.state.name,

@@ -48,7 +48,7 @@ class SMTPEdit extends Component {
               <input
                 class="form-control"
                 value={this.state.email}
-                onClick={(e)=>this.setState({email:e.target.value})}
+                onChange={(e)=>this.setState({email:e.target.value})}
                 id="email"
                 placeholder="Enter email"
               />
@@ -60,7 +60,7 @@ class SMTPEdit extends Component {
                 class="form-control"
                 id="server"
                 value={this.state.host}
-                onClick={(e)=>this.setState({host:e.target.value})}
+                onChange={(e)=>this.setState({host:e.target.value})}
               placeholder="Enter server"
               />
             </div>
@@ -71,7 +71,7 @@ class SMTPEdit extends Component {
                 class="form-control"
                 id="port"
                 value={this.state.port}
-                onClick={(e)=>this.setState({port:e.target.value})}
+                onChange={(e)=>this.setState({port:e.target.value})}
               placeholder="Enter port number"
               />
             </div>
@@ -82,7 +82,7 @@ class SMTPEdit extends Component {
                 class="form-control"
                 id="login"
                 value={this.state.name}
-                onClick={(e)=>this.setState({name:e.target.value})}
+                onChange={(e)=>this.setState({name:e.target.value})}
 
               placeholder="Enter login"
               />
@@ -94,7 +94,7 @@ class SMTPEdit extends Component {
                 class="form-control"
                 id="pass"
                 value={this.state.password}
-                onClick={(e)=>this.setState({password:e.target.value})}
+                onChange={(e)=>this.setState({password:e.target.value})}
               placeholder="Enter password"
               />
             </div>

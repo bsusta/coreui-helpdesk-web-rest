@@ -100,7 +100,7 @@ export const getStatus = (token,id) => {
  * @param  {int}  id       id of the status
  * @param  {string}  token    universal token for API comunication
  */
-export const editStatus = (body,id,token) => {
+export const editStatus = (body,id,isActive,token) => {
   return (dispatch) => {
 
       Promise.all([
@@ -111,8 +111,14 @@ export const editStatus = (body,id,token) => {
             'Content-Type': 'application/json'
           },
           body:JSON.stringify(body)
-        })]).then(([response1])=>Promise.all([response1.json()]).then(([response1])=>{
-          console.log(response1);
+        }),
+        fetch(STATUSES_LIST+'/'+id+(isActive?'/restore':'/inactivate'), {
+          method: 'put',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          }
+        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
           dispatch({type: EDIT_STATUS, status:response1.data});
         }))
         .catch(function (error) {

@@ -23,6 +23,13 @@ class SMTPsList extends Component {
         <h2 style={{ marginTop: 20 }} className="mb-3">
           SMTPs list
         </h2>
+        <button
+          type="button"
+          class="btn btn-success"
+          onClick={() => this.props.history.push("/smtp/add")}
+          >
+          Add new SMTP
+        </button>
 
         <table class="table table-striped table-hover">
           <thead>

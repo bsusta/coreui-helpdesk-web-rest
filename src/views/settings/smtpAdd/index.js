@@ -1,17 +1,32 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { addSMTP } from '../../../redux/actions';
 
 class SMTPAdd extends Component {
   constructor(props){
     super(props);
     this.state={
-      email:'',
-      host:'',
-      name:'',
-      password:'',
-      port:'',
-      sll:false,
+      email:'t.email@gmai.com',
+      host:'hosting14.sk',
+      name:'username14',
+      password:'password14',
+      port:'4488',
+      ssl:true,
       tls:false,
     }
+  }
+  submit(e){
+    e.preventDefault();
+    this.props.addSMTP({
+      email:this.state.email,
+      host:this.state.host,
+      name:this.state.name,
+      password:this.state.password,
+      port:this.state.port,
+      ssl:this.state.ssl,
+      tls:this.state.tls
+    },this.props.token);
+    this.props.history.goBack();
   }
   render() {
     return (
@@ -27,19 +42,15 @@ class SMTPAdd extends Component {
               this.props.history.goBack();
             }}
           >
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" />
-                Active
-              </label>
-            </div>
 
             <div class="form-group">
               <label for="email">E-mail</label>
               <input
                 class="form-control"
+                value={this.state.email}
+                onChange={(e)=>this.setState({ email: event.target.value })}
                 id="email"
-              placeholder="Enter email"
+                placeholder="Enter email"
               />
             </div>
 
@@ -48,6 +59,8 @@ class SMTPAdd extends Component {
               <input
                 class="form-control"
                 id="server"
+                value={this.state.host}
+                onChange={(e)=>this.setState({host:e.target.value })}
               placeholder="Enter server"
               />
             </div>
@@ -57,6 +70,8 @@ class SMTPAdd extends Component {
               <input
                 class="form-control"
                 id="port"
+                value={this.state.port}
+                onChange={(e)=>this.setState({port:e.target.value})}
               placeholder="Enter port number"
               />
             </div>
@@ -66,6 +81,9 @@ class SMTPAdd extends Component {
               <input
                 class="form-control"
                 id="login"
+                value={this.state.name}
+                onChange={(e)=>this.setState({name:e.target.value})}
+
               placeholder="Enter login"
               />
             </div>
@@ -75,48 +93,26 @@ class SMTPAdd extends Component {
               <input
                 class="form-control"
                 id="pass"
+                value={this.state.password}
+                onChange={(e)=>this.setState({password:e.target.value})}
               placeholder="Enter password"
               />
             </div>
 
-            <div class="form-group">
-              <label for="project">Select project</label>
-              <input
-                class="form-control"
-                id="project"
-              placeholder="Enter project"
-              />
-            </div>
             <div class="form-check">
               <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" />
-                TSL
+                <input type="checkbox" class="form-check-input" checked={this.state.tls} onChange={()=>this.setState({tls:!this.state.tls})} />
+                TLS
               </label>
             </div>
 
             <div class="form-check">
               <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" />
+                <input type="checkbox" class="form-check-input" checked={this.state.ssl} onChange={()=>this.setState({ssl:!this.state.ssl})} />
                 SSL
               </label>
             </div>
-            <h3>Test SMTP</h3>
-
-            <div class="form-group">
-              <label for="project">E-mail for testing</label>
-              <textarea
-                class="form-control"
-                id="project"
-              placeholder="Enter e-mail"
-              />
-            </div>
-
-
-
-            <button type="submit" class="btn btn-secondary">
-              SEND TEST E-MAIL
-            </button>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary" onClick={this.submit.bind(this)}>
               Submit
             </button>
           </form>
@@ -126,4 +122,10 @@ class SMTPAdd extends Component {
   }
 }
 
-export default SMTPAdd;
+const mapStateToProps = ({ login }) => {
+  const { token } = login;
+  return { token };
+};
+
+
+export default connect(mapStateToProps, {addSMTP})(SMTPAdd);

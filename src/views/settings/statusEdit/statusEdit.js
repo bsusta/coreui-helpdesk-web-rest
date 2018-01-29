@@ -24,13 +24,12 @@ class StatusEdit extends Component {
       return;
     }
     this.props.editStatus({
-      is_active:this.state.is_active,
       title:this.state.title,
       description:this.state.description,
       order:this.state.order,
       function:this.state.func,
       color:this.state.color
-    },this.props.status.id,this.props.token);
+    },this.props.status.id,this.state.is_active,this.props.token);
     this.props.history.goBack();
   }
 

@@ -68,10 +68,10 @@ class ImapsList extends Component {
                 >
                 <td>{imap.inbox_email}</td>
                 <td>{imap.project.title}</td>
-                <td>NOT IMPLEMENTED</td>
+                <td>{imap.description}</td>
                 <td>
-                  {true ? (
-                    <span class="badge badge-success">Not implemented</span>
+                  {imap.is_active ? (
+                    <span class="badge badge-success">Yes</span>
                   ) : (
                     <span class="badge badge-danger">No</span>
                   )}
