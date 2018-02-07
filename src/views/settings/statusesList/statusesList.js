@@ -57,7 +57,7 @@ class StatusesList extends Component {
                 <Input type="text" id="input1-group1" value={this.state.description} name="input1-group1" onChange={(e)=>this.setState({description:e.target.value})} />
               </th>
               <th>
-                <Input type="text" id="input1-group1" name="input1-group1" />
+                <Input type="text" id="input1-group1" name="input1-group1" disabled={true} style={{display:'none'}} />
               </th>
               <th>
                 <Input type="text" id="input1-group1" value={this.state.active} name="input1-group1" onChange={(e)=>this.setState({active:e.target.value})} />
