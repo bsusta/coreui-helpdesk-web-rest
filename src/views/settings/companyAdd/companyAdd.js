@@ -44,14 +44,14 @@ class CompanyAdd extends Component {
     }
     )
     this.state={
-      title:'Company with attributes',
-      city:'City with attributes',
-      country:'Country  with attributes',
-      dic:'123',
-      ic_dph:'456',
-      ico:'789',
-      street:'111',
-      zip:'222',
+      title:'',
+      city:'',
+      country:'',
+      dic:'',
+      ic_dph:'',
+      ico:'',
+      street:'',
+      zip:'',
       company_data,
     }
   }

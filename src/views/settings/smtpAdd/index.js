@@ -6,11 +6,11 @@ class SMTPAdd extends Component {
   constructor(props){
     super(props);
     this.state={
-      email:'t.email@gmai.com',
-      host:'hosting14.sk',
-      name:'username14',
-      password:'password14',
-      port:'4488',
+      email:'',
+      host:'',
+      name:'',
+      password:'',
+      port:'',
       ssl:true,
       tls:false,
     }
