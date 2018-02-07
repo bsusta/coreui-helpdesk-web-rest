@@ -69,7 +69,7 @@ class RoleAdd extends Component {
       class="card"
       style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
       >
-      <h4 class="card-header">Edit role</h4>
+      <h4 class="card-header">Add role</h4>
       <div class="card-body">
       <form
       onSubmit={(event, value) => {

@@ -28,6 +28,9 @@ class CompanyAttributeAdd extends Component {
   //gets all data from the state and sends it to the API
   submit(e){
     e.preventDefault(); //prevent default form behaviour
+    if ((this.state.type=="simple_select"||this.state.type=="multi_select")&&this.state.options.length==0){
+      return;
+    }
     this.props.addCompanyAttribute({
       title:this.state.title,
       type:this.state.type,

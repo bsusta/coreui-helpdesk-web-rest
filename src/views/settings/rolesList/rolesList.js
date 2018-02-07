@@ -15,7 +15,7 @@ class RolesList extends Component {
 
   getFilteredData(){
     return this.props.userRoles.filter((item)=>item.title.toLowerCase().includes(this.state.name.toLowerCase()))
-    .filter((item)=>item.active == (this.state.active.toLowerCase().includes('y')||
+    .filter((item)=>item.is_active == (this.state.active.toLowerCase().includes('y')||
     this.state.active.toLowerCase().includes('t')||
     this.state.active.toLowerCase().includes('c'))||
     this.state.active=='')
