@@ -6,13 +6,13 @@ class ImapAdd extends Component {
   constructor(props){
     super(props);
     this.state={
-      inbox_email:'testmail1@gmail.sk',
-      move_email:'testmail2@gmail.sk',
-      host:'116.91.20.143',
-      port:'25000',
-      name:'patrak',
-      password:'123abckra',
-      description:'popisok',
+      inbox_email:'',
+      move_email:'',
+      host:'',
+      port:'',
+      name:'',
+      password:'',
+      description:'',
       project:this.props.projects[0].id,
       ignore_certificate:false,
       ssl:false,

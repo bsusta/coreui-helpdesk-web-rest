@@ -19,20 +19,17 @@ class CompanyAttributeEdit extends Component {
     super(props);
     this.state = {
       changed:false,
-      active: this.props.companyAttribute.active?this.props.companyAttribute.active:false,
+      is_active: this.props.companyAttribute.is_active?this.props.companyAttribute.is_active:false,
       title: this.props.companyAttribute.title?this.props.companyAttribute.title:'',
       type: this.props.companyAttribute.type?this.props.companyAttribute.type:'',
       options:((this.props.companyAttribute.type=="simple_select"||this.props.companyAttribute.type=="multi_select") &&this.props.companyAttribute.options)?this.props.companyAttribute.options:[]
     };
-    console.log(this.props.companyAttribute);
-    console.log(this.state.type);
   }
 
   compareChanges(change,val){
-    var original = mockData[parseInt(this.props.match.params.id, 10) - 1];
     var newState = {...this.state};
     newState[change]=val;
-    this.setState({changed:newState.active!=original.active||newState.title!=original.title||newState.type!=original.type||newState.options.length!=original.options.length});
+    this.setState({changed:newState.is_active!=this.props.companyAttribute.is_active||newState.title!=this.props.companyAttribute.title||newState.type!=this.props.companyAttribute.type||newState.options.length!=this.props.companyAttribute.options.length});
   }
 
   componentWillMount(){
@@ -57,10 +54,10 @@ class CompanyAttributeEdit extends Component {
                 <label class="form-check-label">
                   <input
                     type="checkbox"
-                    checked={this.state.active}
+                    checked={this.state.is_active}
                     onChange={() =>{
-                      this.compareChanges("active",!this.state.active);
-                      this.setState({ active: !this.state.active })
+                      this.compareChanges("is_active",!this.state.is_active);
+                      this.setState({ is_active: !this.state.is_active })
                     }
                   }
                   class="form-check-input"
@@ -87,15 +84,15 @@ class CompanyAttributeEdit extends Component {
           <label for="title">Type</label>
         <select
           class="form-control"
-          selected={this.state.type}
-          onChange={(event, value) => {
+          value={this.state.type}
+          onChange={(event) => {
             this.setState({ type: event.target.value });
           }}
         >
           {options.map(opt => (
             <option
               key={opt.id}
-              value={opt.title}
+              value={opt.id}
             >
               {opt.title}
             </option>

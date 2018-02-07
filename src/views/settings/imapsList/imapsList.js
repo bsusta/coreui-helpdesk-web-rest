@@ -8,10 +8,11 @@ class ImapsList extends Component {
   constructor(props){
     super(props);
     this.state={
+      is_active:'',
       email:'',
       project:'',
+      description:''
     }
-    console.log(this.props.imaps);
     this.getFilteredData.bind(this);
   }
 
@@ -19,6 +20,8 @@ class ImapsList extends Component {
     return this.props.imaps
     .filter((item)=>item.inbox_email.toLowerCase().includes(this.state.email.toLowerCase()))
     .filter((item)=>item.project.title.toLowerCase().includes(this.state.project.toLowerCase()))
+    .filter((item)=>item.description.toLowerCase().includes(this.state.description.toLowerCase()))
+    .filter((item)=>item.is_active == (this.state.is_active.toLowerCase().includes('y')||this.state.is_active.toLowerCase().includes('t')||this.state.is_active.toLowerCase().includes('c'))||this.state.is_active=='')
     .sort((item,item2)=>item.inbox_email>item2.inbox_email);
   }
 
@@ -55,10 +58,10 @@ class ImapsList extends Component {
                 <Input type="text" id="input1-group1" value={this.state.project} onChange={(e)=>this.setState({project:e.target.value})} name="input1-group1"/>
               </th>
               <th>
-                <Input type="text" id="input1-group1" name="input1-group1"/>
+                <Input type="text" id="input1-group1" value={this.state.description} onChange={(e)=>this.setState({description:e.target.value})} name="input1-group1"/>
               </th>
               <th>
-                <Input type="text" id="input1-group1" name="input1-group1"/>
+                <Input type="text" id="input1-group1" value={this.state.is_active} onChange={(e)=>this.setState({is_active:e.target.value})} name="input1-group1"/>
               </th>
             </tr>
             {this.getFilteredData().map(imap => (
