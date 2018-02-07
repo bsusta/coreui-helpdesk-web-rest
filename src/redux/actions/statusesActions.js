@@ -119,7 +119,7 @@ export const editStatus = (body,id,isActive,token) => {
             'Content-Type': 'application/json'
           }
         })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
-          dispatch({type: EDIT_STATUS, status:response1.data});
+          dispatch({type: EDIT_STATUS, status:{...response1.data,is_active:isActive}});
         }))
         .catch(function (error) {
           console.log(error);

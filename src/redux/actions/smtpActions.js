@@ -113,7 +113,7 @@ export const editSMTP = (body,id,token) => {
           },
           body:JSON.stringify(body)
         })]).then(([response1])=>Promise.all([response1.json()]).then(([response1])=>{
-          dispatch({type: EDIT_SMTP, SMTP:response1.data});
+          dispatch({type: EDIT_SMTP, SMTP:{...response1.data,is_active:isActive}});
         }))
         .catch(function (error) {
           console.log(error);

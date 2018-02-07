@@ -121,7 +121,7 @@ export const getUser = (id,token) => {
              'Content-Type': 'application/json'
            }
          })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
-           dispatch({type: EDIT_USER, user:response1.data});
+           dispatch({type: EDIT_USER, user:{...response1.data,is_active:isActive}});
          }))
          .catch(function (error) {
            console.log(error);

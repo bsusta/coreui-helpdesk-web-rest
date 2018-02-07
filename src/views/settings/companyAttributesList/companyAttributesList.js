@@ -64,7 +64,7 @@ class CompanyAttributesList extends Component {
                 <td>{companyAttribute.title}</td>
                 <td>{companyAttribute.type}</td>
                 <td>
-                  {companyAttribute.active ? (
+                  {companyAttribute.is_active ? (
                     <span class="badge badge-success">Yes</span>
                   ) : (
                     <span class="badge badge-danger">No</span>

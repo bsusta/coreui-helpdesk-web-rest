@@ -121,7 +121,7 @@ export const editImap = (body,project,id,isActive,token) => {
           }
         })
       ]).then(([response1,response2])=>Promise.all([response1.json()]).then(([response1])=>{
-          dispatch({type: EDIT_IMAP, imap:response1.data});
+          dispatch({type: EDIT_IMAP, imap:{...response1.data,is_active:isActive}});
         }))
         .catch(function (error) {
           console.log(error);

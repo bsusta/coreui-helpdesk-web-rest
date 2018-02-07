@@ -8,7 +8,7 @@ const options=[
   {id:'text_area',title:'text area'},
   {id:'simple_select',title:'simple select'},
   {id:'multi_select',title:'multi select'},
-  {id:'Date',title:'date'},
+  {id:'date',title:'date'},
   {id:'decimal_number',title:'decimal number'},
   {id:'integer_number',title:'integer number'},
   {id:'checkbox',title:'checkbox'},
@@ -19,9 +19,10 @@ class CompanyAttributeEdit extends Component {
     super(props);
     this.state = {
       changed:false,
-      is_active: this.props.companyAttribute.is_active?this.props.companyAttribute.is_active:false,
+      is_active: this.props.companyAttribute.is_active?true:false,
       title: this.props.companyAttribute.title?this.props.companyAttribute.title:'',
       type: this.props.companyAttribute.type?this.props.companyAttribute.type:'',
+      newOption:'',
       options:((this.props.companyAttribute.type=="simple_select"||this.props.companyAttribute.type=="multi_select") &&this.props.companyAttribute.options)?this.props.companyAttribute.options:[]
     };
   }
@@ -29,8 +30,25 @@ class CompanyAttributeEdit extends Component {
   compareChanges(change,val){
     var newState = {...this.state};
     newState[change]=val;
-    this.setState({changed:newState.is_active!=this.props.companyAttribute.is_active||newState.title!=this.props.companyAttribute.title||newState.type!=this.props.companyAttribute.type||newState.options.length!=this.props.companyAttribute.options.length});
+    this.setState({changed:
+      newState.is_active!=this.props.companyAttribute.is_active||
+      newState.title!=this.props.companyAttribute.title||
+      newState.type!=this.props.companyAttribute.type
+    })
   }
+
+  //gets all data from the state and sends it to the API
+  submit(e){
+    e.preventDefault(); //prevent default form behaviour
+    this.props.editCompanyAttribute({
+      title:this.state.title,
+      type:this.state.type,
+      options:(this.state.type=="simple_select"||this.state.type=="multi_select")?JSON.stringify(this.state.options):'null',
+    },this.state.is_active,this.props.companyAttribute.id,this.props.token);
+    this.setState({changed:false});
+    this.props.history.goBack();
+  }
+
 
   componentWillMount(){
     let self = this;
@@ -86,6 +104,7 @@ class CompanyAttributeEdit extends Component {
           class="form-control"
           value={this.state.type}
           onChange={(event) => {
+            this.compareChanges("type",event.target.value);
             this.setState({ type: event.target.value });
           }}
         >
@@ -99,7 +118,8 @@ class CompanyAttributeEdit extends Component {
           ))}
         </select>
         </div>
-
+        {
+          (this.state.type=="simple_select" ||this.state.type=="multi_select")&&
         <table class="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
@@ -120,6 +140,12 @@ class CompanyAttributeEdit extends Component {
                     class="form-control"
                     placeholder="select value"
                     value={value}
+                    onChange={(e)=>{
+                      let newOptions=[...this.state.options];
+                      newOptions[newOptions.findIndex((item)=>item==value)]=e.target.value;
+                      this.setState({options:newOptions});
+                  }
+                }
                     style={{ border: "none" }}
                   />
               </td>
@@ -129,7 +155,12 @@ class CompanyAttributeEdit extends Component {
                   style={{ float: "right", paddingRight: 20 }}
                   className="row"
                 >
-                  <button className="btn btn-sm btn-danger  ">
+                  <button className="btn btn-sm btn-danger"
+                  onClick={()=>{
+                    let newOptions=[...this.state.options];
+                    newOptions.splice(newOptions.indexOf(value),1);
+                    this.setState({options:newOptions});
+                  }}>
                     <i className="fa fa-remove" />
                   </button>
                 </div>
@@ -143,12 +174,14 @@ class CompanyAttributeEdit extends Component {
                     type="text"
                     id="title"
                     class="form-control"
+                    value={this.state.newOption}
+                    onChange={(e)=>this.setState({newOption:e.target.value})}
                     placeholder="Select value name"
                   />
                   <button
                     style={{ float: "right" }}
                     className="btn btn-sm btn-primary mr-1"
-                    onClick={()=>console.log(this.state.options)}
+                    onClick={()=>this.setState({options:[...this.state.options,this.state.newOption],newOption:''})}
                   >
                     <i className="fa fa-plus " />
                   </button>
@@ -157,12 +190,9 @@ class CompanyAttributeEdit extends Component {
             </tr>
           </tbody>
         </table>
+        }
         <div class="row">
-        <button
-          type="submit"
-          class="btn btn-primary mr-2"
-          onClick={() => this.props.history.goBack()}
-          >
+        <button type="submit" class="btn btn-primary mr-2" onClick={this.submit.bind(this)}>
           Submit
         </button>
         <button
