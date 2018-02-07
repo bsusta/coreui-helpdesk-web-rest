@@ -21,7 +21,7 @@ class CompanyAttributeEdit extends Component {
       changed:false,
       is_active: this.props.companyAttribute.is_active?true:false,
       title: this.props.companyAttribute.title?this.props.companyAttribute.title:'',
-      type: this.props.companyAttribute.type?this.props.companyAttribute.type:'',
+      type: this.props.companyAttribute.type?this.props.companyAttribute.type:'input',
       newOption:'',
       options:((this.props.companyAttribute.type=="simple_select"||this.props.companyAttribute.type=="multi_select") &&this.props.companyAttribute.options)?this.props.companyAttribute.options:[]
     };
