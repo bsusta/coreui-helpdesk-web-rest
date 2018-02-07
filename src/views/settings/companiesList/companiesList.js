@@ -46,7 +46,7 @@ class CompaniesList extends Component {
             onClick={() => {
               this.setState({confirmedFilter:this.state.filter,pageNumber:1});
               this.props.getCompanies(this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20,1,this.state.filter,this.props.token);
-              this.props.history.push(1+","+(this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20));
+              this.props.history.push('/companiesList/'+1+","+(this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20));
           }}
             >
             Filter

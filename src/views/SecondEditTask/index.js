@@ -102,12 +102,14 @@ class EditTask extends Component {
                             title= "Select tags"
                             display="row"
                             displayBoxStyle={{width:100}}
+                            menuItemStyle={{marginLeft:7,marginRight:7,marginTop:2,marginBottom:2,paddingTop:2,paddingBottom:2}}
                             renderItem={(item)=><span class="badge" style={{backgroundColor:item.color,color:'white', margin:'auto',paddingLeft:10,paddingRight:10,paddingTop:5,paddingBottom:5, marginLeft:5}}>{item.title}</span>}
-                            menuItemStyle={{padding:3}}
                             colored={true}
+                            titleStyle={{backgroundColor:'white',color:'black',size:15}}
                             toggleStyle={{backgroundColor:'white',border:'none',padding:0}}
                             label={"+Tags"}
-                            labelStyle={{}}
+                            labelStyle={{marginLeft:10}}
+                            searchStyle={{margin:5}}
                             onChange={(ids,items)=>{this.setState(ids);}}
                             />
                         </div>

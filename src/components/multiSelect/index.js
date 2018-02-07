@@ -72,20 +72,21 @@ export default class MultiSelect extends Component {
   }
 
   onChange(id){
+    let returnIds=[];
     if(this.state.selected.includes(id)){
-      let newSelected=[...this.state.selected];
-      newSelected.splice(newSelected.findIndex((item)=>item==id),1);
-      this.setState({selected:newSelected});
+      returnIds=[...this.state.selected];
+      returnIds.splice(returnIds.findIndex((item)=>item==id),1);
     }
     else{
-      this.setState({selected:[id,...this.state.selected]})
+      returnIds=[id,...this.state.selected];
     }
     if(this.props.onChange){
-      this.props.onChange(this.state.selected,this.props.data.filter((item)=>this.state.selected.includes(item[this.state.idValue]+"")));
+      this.props.onChange(returnIds,this.props.data.filter((item)=>returnIds.includes(item[this.state.idValue]+"")));
     }
     else{
       console.log('implement onChange func, returns (ids,values)');
     }
+    this.setState({selected:returnIds})
   }
 
   render() {
@@ -95,26 +96,30 @@ export default class MultiSelect extends Component {
       isOpen={this.state.opened}
       toggle={()=>{this.setState({opened:!this.state.opened});}}
       >
-      <DropdownToggle caret style={this.props.labelStyle?this.props.labelStyle:null} style={this.props.toggleStyle?this.props.toggleStyle:{}}>{this.props.label?this.props.label:''}</DropdownToggle>
+      <DropdownToggle caret style={this.props.toggleStyle?this.props.toggleStyle:{}}>{this.props.label?this.props.label:''}</DropdownToggle>
       <DropdownMenu>
       <div class="list-group">
-      <div  class="list-group-item active">
+      <div  class="list-group-item" style={this.props.titleStyle?this.props.titleStyle:{}}>
       {this.props.title?this.props.title:''}
       </div>
       <input
       placeholder="Filter"
+      style={this.props.searchStyle?this.props.searchStyle:{}}
       onChange={(value)=>this.setState({filter:value.target.value})}
       />
       {this.props.data.filter((item)=>(item[this.state.filterBy]+"").toLowerCase().includes(this.state.filter.toLowerCase())).map((item)=>(
         <div class="list-group-item list-group-item-action"
         onClick={(value)=>{this.onChange(item[this.state.idValue]+"")}}
-        style={{flex:1,display:"flex",backgroundColor:this.state.colored?item.color:'white',color:this.state.colored?'white':'black',...this.state.menuItemStyle,cursor:'pointer'}}>
+        style={{width:'auto',flex:1,display:"flex",backgroundColor:this.state.colored?item.color:'white',color:this.state.colored?'white':'black',...this.state.menuItemStyle,cursor:'pointer'}}>
         <input
         checked={this.state.selected.includes(item[this.state.idValue]+"")}
         type="checkbox"
         value={item[this.state.idValue]+""}
+        style={{marginTop:'auto',marginBottom:'auto',paddingLeft:3}}
         onClick={(value)=>{this.onChange(value.target.value)}} />
+      <div style={this.props.labelStyle?this.props.labelStyle:{}} >
         {item[this.state.displayValue]}
+      </div>
         </div>)
 
       )}

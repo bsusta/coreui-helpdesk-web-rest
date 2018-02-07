@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getCompanyAttributes, startCompanyAttributesLoading } from '../../../redux/actions';
+import {getActiveCompanyAttributes, startCompanyAttributesLoading } from '../../../redux/actions';
 import CompanyAdd from './companyAdd';
 
 class companyAddLoader extends Component {
   //before loader page is loaded, we send requests to get all available companyAttributes
   componentWillMount(){
     this.props.startCompanyAttributesLoading();
-    this.props.getCompanyAttributes(this.props.token);
+    this.props.getActiveCompanyAttributes(this.props.token);
   }
   render(){
     if(!this.props.companyAttributesLoaded){
@@ -27,4 +27,4 @@ const mapStateToProps = ({companyAttributesReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getCompanyAttributes, startCompanyAttributesLoading})(companyAddLoader);
+export default connect(mapStateToProps, {getActiveCompanyAttributes, startCompanyAttributesLoading})(companyAddLoader);

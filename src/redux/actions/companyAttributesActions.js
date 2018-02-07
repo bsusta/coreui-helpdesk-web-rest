@@ -14,25 +14,50 @@ export const startCompanyAttributesLoading = () => {
  * Gets all companyAttributes available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getCompanyAttributes= (token) => {
-  return (dispatch) => {
-      fetch(COMPANY_ATTRIBUTES_LIST+'?limit=999', {
-        method: 'get',
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        }
-      }).then((response) =>{
-      response.json().then((data) => {
-        dispatch({type: SET_COMPANY_ATTRIBUTES, companyAttributes:data.data});
-        dispatch({ type: SET_COMPANY_ATTRIBUTES_LOADING, companyAttributesLoaded:true });
-      });
-    }
-  ).catch(function (error) {
-    console.log(error);
-  });
-}
-}
+ export const getCompanyAttributes= (token) => {
+   return (dispatch) => {
+       fetch(COMPANY_ATTRIBUTES_LIST+'?limit=999', {
+         method: 'get',
+         headers: {
+           'Authorization': 'Bearer ' + token,
+           'Content-Type': 'application/json'
+         }
+       }).then((response) =>{
+       response.json().then((data) => {
+         dispatch({type: SET_COMPANY_ATTRIBUTES, companyAttributes:data.data});
+         dispatch({ type: SET_COMPANY_ATTRIBUTES_LOADING, companyAttributesLoaded:true });
+       });
+     }
+   ).catch(function (error) {
+     console.log(error);
+   });
+ }
+ }
+
+ /**
+  * Gets all active companyAttributes available with no pagination
+  * @param {string} token universal token for API comunication
+  */
+  export const getActiveCompanyAttributes= (token) => {
+    return (dispatch) => {
+        fetch(COMPANY_ATTRIBUTES_LIST+'?limit=999&isActive=true', {
+          method: 'get',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          }
+        }).then((response) =>{
+        response.json().then((data) => {
+          dispatch({type: SET_COMPANY_ATTRIBUTES, companyAttributes:data.data});
+          dispatch({ type: SET_COMPANY_ATTRIBUTES_LOADING, companyAttributesLoaded:true });
+        });
+      }
+    ).catch(function (error) {
+      console.log(error);
+    });
+  }
+  }
+
 /**
  * Adds new companyAttribute
  * @param {object} body  All parameters in an object of the new companyAttribute
