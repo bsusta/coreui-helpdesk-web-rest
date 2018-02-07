@@ -7,7 +7,7 @@ import UnitEdit from './unitEdit';
 class UnitEditLoader extends Component {
   componentWillMount(){
     this.props.startUnitLoading();  // first it sets, that unit hasnt been loaded
-    this.props.getUnit(this.props.token,parseInt(this.props.match.params.id, 10));  //send request for download and storing of the units data
+    this.props.getUnit(parseInt(this.props.match.params.id, 10),this.props.token);  //send request for download and storing of the units data
   }
   render(){
     if(!this.props.unitLoaded){ //data hasnt been loaded yet

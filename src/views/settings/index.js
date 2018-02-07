@@ -62,19 +62,10 @@ class Settings extends Component {
               <td  onClick={() => this.props.history.push("./triggersList")}>Triggers</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td onClick={() => this.props.history.push("./unitsList")}>
-                Units
-              </td>
+              <td onClick={() => this.props.history.push("./unitsList")}>Units</td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td onClick={() => this.props.history.push("./usersList")}>
-                Users
-              </td>
-            </tr>
-            <tr style={{ cursor: "pointer" }}>
-              <td onClick={() => this.props.history.push("./userAttributesList")}>
-                Users custom fields
-              </td>
+              <td onClick={() => this.props.history.push("./usersList")}>Users</td>
             </tr>
           </tbody>
         </Table>

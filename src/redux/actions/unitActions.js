@@ -73,7 +73,7 @@ export const startUnitLoading = () => {
  * @param  {string} token universal token for API comunication
  * @param  {int} id    interger, that is ID of the unit that we want to load
  */
-export const getUnit = (token,id) => {
+export const getUnit = (id,token) => {
   return (dispatch) => {
       fetch(UNITS_LIST+'/'+id, {
         method: 'get',

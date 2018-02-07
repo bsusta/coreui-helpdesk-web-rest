@@ -1,35 +1,38 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
+import { editCompanyAttribute } from '../../../redux/actions';
+import { connect } from 'react-redux';
 
-const mockData = [
-  { id: 1, active: true, name: "middlename", description: "If person does have a middle name...", type: "input", values: [] },
-  { id: 2, active: true, name: "birthDate", description: "When was user born", type: "datetime", values: [] },
-  { id: 3, active: false, name: "kids", description: "How many kids does person have", type: "number", values: [] },
-  { id: 4, active: false, name: "married", description: "Is this person married", type: "checkbox", values: [] },
-  { id: 5, active: true, name: "gender", description: "What's your gender?", type: "select", values: ['male','female','elf','otter','other'] },
-];
-const mockOptions=[{id:0,title:'input'},{id:1,title:'textArea'},{id:2,title:'select'},{id:3,title:'checkbox'},{id:4,title:'datetime'},{id:5,title:'number'}];
+const options=[
+  {id:'input',title:'input'},
+  {id:'text_area',title:'text area'},
+  {id:'simple_select',title:'simple select'},
+  {id:'multi_select',title:'multi select'},
+  {id:'Date',title:'date'},
+  {id:'decimal_number',title:'decimal number'},
+  {id:'integer_number',title:'integer number'},
+  {id:'checkbox',title:'checkbox'},
+  ];
 
-class UserAttributeEdit extends Component {
+class CompanyAttributeEdit extends Component {
   constructor(props) {
     super(props);
-    let original = mockData[parseInt(this.props.match.params.id, 10) - 1];
     this.state = {
       changed:false,
-      active: original.active,
-      name: original.name,
-      description: original.description,
-      type: original.type,
-      values: original.values
+      active: this.props.companyAttribute.active?this.props.companyAttribute.active:false,
+      title: this.props.companyAttribute.title?this.props.companyAttribute.title:'',
+      type: this.props.companyAttribute.type?this.props.companyAttribute.type:'',
+      options:((this.props.companyAttribute.type=="simple_select"||this.props.companyAttribute.type=="multi_select") &&this.props.companyAttribute.options)?this.props.companyAttribute.options:[]
     };
-    console.log(original.type);
+    console.log(this.props.companyAttribute);
+    console.log(this.state.type);
   }
 
   compareChanges(change,val){
     var original = mockData[parseInt(this.props.match.params.id, 10) - 1];
     var newState = {...this.state};
     newState[change]=val;
-    this.setState({changed:newState.active!=original.active||newState.name!=original.name||newState.description!=original.description||newState.type!=original.type||newState.values.length!=original.values.length});
+    this.setState({changed:newState.active!=original.active||newState.title!=original.title||newState.type!=original.type||newState.options.length!=original.options.length});
   }
 
   componentWillMount(){
@@ -47,7 +50,7 @@ class UserAttributeEdit extends Component {
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0",border:this.state.changed?'1px solid red':null }}
         >
 
-        <h4 class="card-header">Edit user attribute</h4>
+        <h4 class="card-header">Edit company attribute</h4>
         <div class="card-body">
           <div class="list-group">
               <div class="form-check">
@@ -70,29 +73,15 @@ class UserAttributeEdit extends Component {
               <input
                 class="form-control"
                 id="title"
-                value={this.state.name}
+                value={this.state.title}
                 onChange={event =>{
-                  this.compareChanges("name",event.target.value);
-                  this.setState({ name: event.target.value })
+                  this.compareChanges("title",event.target.value);
+                  this.setState({ title: event.target.value })
                 }
               }
-              placeholder="Enter name"
+              placeholder="Enter title"
               />
           </div>
-          <div class="form-group">
-            <label for="title">Description</label>
-            <input
-              class="form-control"
-              id="title"
-              value={this.state.description}
-              onChange={event =>{
-                this.compareChanges("description",event.target.value);
-                this.setState({ description: event.target.value })
-              }
-            }
-            placeholder="Enter description"
-            />
-        </div>
 
         <div class="form-group">
           <label for="title">Type</label>
@@ -103,7 +92,7 @@ class UserAttributeEdit extends Component {
             this.setState({ type: event.target.value });
           }}
         >
-          {mockOptions.map(opt => (
+          {options.map(opt => (
             <option
               key={opt.id}
               value={opt.title}
@@ -117,7 +106,7 @@ class UserAttributeEdit extends Component {
         <table class="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ borderTop: "0px" }}>Select values</th>
+              <th style={{ borderTop: "0px" }}>Select options</th>
               <th
                 style={{ width: "80px", borderTop: "0px", textAlign: "right" }}
               />
@@ -125,12 +114,12 @@ class UserAttributeEdit extends Component {
           </thead>
           <tbody>
             {
-              this.state.values.map((value)=>
+              this.state.options.map((value)=>
             <tr>
               <td>
                   <input
                     type="text"
-                    id="name"
+                    id={value}
                     class="form-control"
                     placeholder="select value"
                     value={value}
@@ -155,14 +144,14 @@ class UserAttributeEdit extends Component {
                 <div style={{ display: "flex" }}>
                   <input
                     type="text"
-                    id="name"
+                    id="title"
                     class="form-control"
                     placeholder="Select value name"
                   />
                   <button
                     style={{ float: "right" }}
                     className="btn btn-sm btn-primary mr-1"
-                    onClick={()=>console.log(this.state.values)}
+                    onClick={()=>console.log(this.state.options)}
                   >
                     <i className="fa fa-plus " />
                   </button>
@@ -194,4 +183,11 @@ class UserAttributeEdit extends Component {
 }
 }
 
-export default UserAttributeEdit;
+const mapStateToProps = ({companyAttributesReducer, login }) => {
+  const {companyAttribute} = companyAttributesReducer;
+  const {token} = login;
+  return {companyAttribute,token};
+};
+
+
+export default connect(mapStateToProps, {editCompanyAttribute})(CompanyAttributeEdit);

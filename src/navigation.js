@@ -14,9 +14,6 @@ import UnitEdit from "./views/settings/unitEdit";
 import UsersList from "./views/settings/usersList";
 import UserAdd from "./views/settings/userAdd";
 import UserEdit from "./views/settings/userEdit";
-import UserAttributesList from "./views/settings/userAttributesList";
-import UserAttributeAdd from "./views/settings/userAttributeAdd";
-import UserAttributeEdit from "./views/settings/userAttributeEdit";
 import TaskAttributesList from "./views/settings/taskAttributesList";
 import TaskAttributeAdd from "./views/settings/taskAttributeAdd";
 import TaskAttributeEdit from "./views/settings/taskAttributeEdit";
@@ -101,24 +98,6 @@ class Full extends Component {
                   path="/user/edit/:id"
                   name="User edit"
                   component={UserEdit}
-                />
-                <Route
-                  exact
-                  path="/userAttributesList"
-                  name="Users attributes list"
-                  component={UserAttributesList}
-                />
-                <Route
-                  exact
-                  path="/userAttribute/add"
-                  name="User attribute add"
-                  component={UserAttributeAdd}
-                />
-                <Route
-                  exact
-                  path="/userAttribute/edit/:id"
-                  name="User attribute edit"
-                  component={UserAttributeEdit}
                 />
                 <Route
                   exact

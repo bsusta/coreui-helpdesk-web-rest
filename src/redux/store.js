@@ -10,6 +10,7 @@ import SMTPsReducer from './reducers/smtpsReducer';
 import imapsReducer from './reducers/imapsReducer';
 import projectsReducer from './reducers/projectsReducer';
 import statusesReducer from './reducers/statusesReducer';
+import companyAttributesReducer from './reducers/companyAttributesReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -21,6 +22,7 @@ const reducers = combineReducers({
     imapsReducer,
     projectsReducer,
     statusesReducer,
+    companyAttributesReducer,
   });
 
 const enhancers = compose(
