@@ -51,13 +51,20 @@ class RoleEdit extends Component {
 
   submit(e){
     e.preventDefault();
-    this.props.editUserRole({
+    let body ={
       title:this.state.title,
       description:this.state.description,
       homepage:this.state.homepage,
       order:this.state.order,
-      acl:this.state.acl,
-    },this.state.is_active,this.props.userRole.id,this.props.token);
+    }
+    if(this.state.acl.length>0){
+      body['acl']=JSON.stringify(this.state.acl);
+    }
+    else{
+      body['acl']="null";
+    }
+    this.props.editUserRole(body,this.state.is_active,this.props.userRole.id,this.props.token);
+    this.props.history.goBack();
   }
 
   render() {

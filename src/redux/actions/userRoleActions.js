@@ -51,6 +51,8 @@ export const addUserRole = (body,token) => {
     })
     .then((response)=>{
       response.json().then((response)=>{
+        console.log('ABC');
+        console.log(response);
         dispatch({type: ADD_USER_ROLE, userRole:response.data});
       })})
       .catch(function (error) {
@@ -120,7 +122,7 @@ export const editUserRole = (body,isActive,id,token) => {
           'Content-Type': 'application/json'
         }
       })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
-        dispatch({type: EDIT_USER_ROLE, userRole:response1.data});
+        dispatch({type: EDIT_USER_ROLE, userRole:response2.data});
       }))
       .catch(function (error) {
         console.log(error);

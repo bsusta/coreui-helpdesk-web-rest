@@ -9,7 +9,6 @@ class StatusAdd extends Component {
   constructor(props){
     super(props);
     this.state={
-      is_active:true,
       title:'',
       description:'',
       order:5,
@@ -25,7 +24,6 @@ class StatusAdd extends Component {
     }
 
     this.props.addStatus({
-      is_active:this.state.is_active,
       title:this.state.title,
       description:this.state.description,
       order:this.state.order,
@@ -50,12 +48,6 @@ class StatusAdd extends Component {
               this.props.history.goBack();
             }}
           >
-          <div class="form-check">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" checked={this.state.is_active} onChange={()=>this.setState({is_active:!this.state.is_active})}/>
-              Active
-            </label>
-          </div>
 
           <div class="form-group">
             <label for="title">Status name</label>

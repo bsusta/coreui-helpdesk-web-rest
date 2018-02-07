@@ -28,7 +28,6 @@ class RoleAdd extends Component {
   constructor(props){
     super(props);
     this.state={
-      is_active:false,
       title:'',
       description:'',
       homepage:'',
@@ -51,14 +50,17 @@ class RoleAdd extends Component {
 
   submit(e){
     e.preventDefault();
-    this.props.addUserRole({
+    let body ={
       title:this.state.title,
       description:this.state.description,
       homepage:this.state.homepage,
       order:this.state.order,
-      acl:this.state.acl,
-      is_active:this.state.is_active,
-    },this.props.token);
+    }
+    if(this.state.acl.length>0){
+      body['acl']=JSON.stringify(this.state.acl);
+    }
+    this.props.addUserRole(body,this.props.token);
+    this.props.history.goBack();
   }
 
   render() {
@@ -75,12 +77,6 @@ class RoleAdd extends Component {
         this.props.history.goBack();
       }}
       >
-      <div class="form-check">
-      <label class="form-check-label">
-      <input type="checkbox" checked={this.state.is_active} onChange={()=>this.setState({is_active:!this.state.is_active})} class="form-check-input" />
-      Active
-      </label>
-      </div>
 
       <div class="form-group">
       <label for="title">Role name</label>

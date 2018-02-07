@@ -6,7 +6,6 @@ class ImapAdd extends Component {
   constructor(props){
     super(props);
     this.state={
-      is_active:false,
       inbox_email:'testmail1@gmail.sk',
       move_email:'testmail2@gmail.sk',
       host:'116.91.20.143',
@@ -21,7 +20,6 @@ class ImapAdd extends Component {
   }
   submit(e){
     e.preventDefault();
-    console.log(this.state.project);
     this.props.addImap({
       inbox_email:this.state.inbox_email,
       move_email:this.state.move_email,
@@ -50,13 +48,6 @@ class ImapAdd extends Component {
               this.props.history.goBack();
             }}
           >
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" checked={this.state.is_active} onChange={()=>this.setState({is_active:!this.state.is_active})} />
-                Active
-              </label>
-            </div>
-
             <div class="form-group">
               <label for="inboxemail">Inbox e-mail</label>
               <input

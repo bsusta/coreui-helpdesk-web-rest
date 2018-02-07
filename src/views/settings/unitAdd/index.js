@@ -5,7 +5,6 @@ class UnitAdd extends Component {
   constructor(props){
     super(props);
     this.state={
-      isActive:true,
       title:'',
       shortcut:''
     }
