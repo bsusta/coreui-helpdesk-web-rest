@@ -14,8 +14,13 @@ class UsersList extends Component {
       email:'',
       company:'',
       id:'',
+      pageNumber:this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,
+
     }
     this.getFilteredData.bind(this);
+  }
+  setPage(number){
+    this.setState({pageNumber:number});
   }
 
   getFilteredData(){
@@ -99,7 +104,9 @@ class UsersList extends Component {
           numberOfPages={this.props.numberOfPages}
           refetchData={this.props.getUsers}
           token={this.props.token}
-          pageNumber={this.props.match.params.p?parseInt(this.props.match.params.p, 10):1}
+          filter=""
+          pageNumber={this.state.pageNumber}
+          setPageNumber={this.setPage.bind(this)}
           pagination={this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20}
           />
       </div>

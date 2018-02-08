@@ -29,7 +29,9 @@ class UserAdd extends Component {
       google:'',
       image:'',
       userRole:'',
-      company:''
+      company:'',
+      image:null,
+      imageURL:null,
     }
 
   }
@@ -62,7 +64,7 @@ class UserAdd extends Component {
         google:this.state.google
       }
     },
-    this.state.company,this.state.userRole,this.props.token);
+    this.state.company,this.state.userRole,this.state.image, this.props.token);
     this.props.history.goBack();
   }
   render() {
@@ -76,10 +78,57 @@ class UserAdd extends Component {
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
-              this.props.history.goBack();
             }}
             >
-
+            <label for="avatar">Avatar upload</label>
+            <label for="avatar" style={{fontSize:10}}>Your image will be resized to 50x50 px</label>
+            <div class="form-group"  style={{marginBottom:0}}>
+              <input
+                type="file"
+                accept="image/x-png,image/gif,image/jpeg,image/jpg"
+                onChange={(e)=>{ //check sufix,resize image, save to store
+                      let value= e.target.files[0];
+                      let extFile = value.name.substr(value.name.lastIndexOf('.')+1, value.name.length).toLowerCase();
+                      if (extFile=="gif" || extFile=="jpeg" || extFile=="png" || extFile=="jpg"){
+                        let reader = new FileReader();
+                        let img = new Image();
+                        let self=this;
+                        reader.onloadend = () => {
+                          img.onload = function() {
+                            let canvas = document.createElement("canvas");
+                            canvas.width=50;
+                            canvas.height=50;
+                            let ctx = canvas.getContext("2d");
+                            ctx.drawImage(img, 0, 0,50,50);
+                            let imageURL = canvas.toDataURL("image/png");
+                            //converts it to file ready for upload
+                            function dataURLtoFile(dataurl, filename) {
+                                var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                                    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+                                while(n--){
+                                    u8arr[n] = bstr.charCodeAt(n);
+                                }
+                                return new File([u8arr], filename, {type:mime});
+                            }
+                            let image = dataURLtoFile(imageURL,value.name);
+                            self.setState({
+                              image,
+                              imageURL,
+                            });
+                            console.log('DONE');
+                          };
+                          img.src = reader.result;
+                        }
+                        reader.readAsDataURL(value);
+                      }else{
+                          alert("Only jpg/jpeg and png files are allowed!");
+                      }
+                }}
+                />
+                {
+                  this.state.image && <img style={{maxWidth:50,maxHeight:50}} src={this.state.imageURL} />
+              }
+            </div>
             <div class="form-group">
               <label for="username">Username</label>
               <input
@@ -289,16 +338,6 @@ class UserAdd extends Component {
                 value={this.state.google}
                 onChange={(target)=>this.setState({google:target.target.value}) }
                 placeholder="Enter google"
-                />
-            </div>
-            <div class="form-group">
-              <label for="image">Image</label>
-              <input
-                class="form-control"
-                id="image"
-                value={this.state.image}
-                onChange={(target)=>this.setState({image:target.target.value}) }
-                placeholder="Enter image"
                 />
             </div>
 

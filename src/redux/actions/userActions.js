@@ -1,5 +1,5 @@
 import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER } from '../types';
-import { USERS_LIST } from '../urls';
+import { USERS_LIST, IMAGE_UPLOAD } from '../urls';
 
 /**
  * Sets status if users are loaded to false
@@ -14,7 +14,7 @@ export const startUsersLoading = () => {
  * Gets all users available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getUsers= (limit,page,token) => {
+export const getUsers= (limit,page,filter,token) => {
   return (dispatch) => {
       fetch(USERS_LIST+'?limit='+limit+'&page='+page, {
         method: 'get',
@@ -40,8 +40,42 @@ export const getUsers= (limit,page,token) => {
  * @param {object} body  All parameters in an object of the new user
  * @param {string} token universal token for API comunication
  */
-export const addUser = (body,company,role,token) => {
+export const addUser = (body,company,role,image,token) => {
   return (dispatch) => {
+    if(image){
+      let formData = new FormData();
+      formData.append("file", image);
+      fetch(IMAGE_UPLOAD,{
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
+        method: 'POST',
+        body:formData,
+      })
+      .then((response)=>{
+        response.json().then((response)=>{
+          body['image']=response.data.slug;
+          fetch(USERS_LIST + '/user-role/' + role + '/company/' + company,{
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            method: 'POST',
+            body:JSON.stringify(body),
+          }).then((response)=>{
+            response.json().then((response)=>{
+              dispatch({type: ADD_USER, user:response.data});
+            })})
+            .catch(function (error) {
+              console.log(error);
+            });
+
+          })})
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
+    else{
       fetch(USERS_LIST + '/user-role/' + role + '/company/' + company,{
         headers: {
           'Content-Type': 'application/json',
@@ -49,15 +83,19 @@ export const addUser = (body,company,role,token) => {
         },
         method: 'POST',
         body:JSON.stringify(body),
-      })
-    .then((response)=>{
-    response.json().then((response)=>{
-      dispatch({type: ADD_USER, user:response.data});
-    })})
-    .catch(function (error) {
-      console.log(error);
-    });
+      }).then((response)=>{
+        response.json().then((response)=>{
+          dispatch({type: ADD_USER, user:response.data});
+        })})
+        .catch(function (error) {
+          console.log(error);
+        });
 
+      })})
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
   };
 };
 

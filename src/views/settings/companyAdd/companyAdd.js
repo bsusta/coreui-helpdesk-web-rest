@@ -6,6 +6,8 @@ import MultiSelect from "../../../components/multiSelect";
 class CompanyAdd extends Component {
   constructor(props){
     super(props);
+
+    //creates company_data state for each field
     let company_data={};
     this.props.companyAttributes.map((attribute)=>
     {
@@ -40,7 +42,6 @@ class CompanyAdd extends Component {
 
       }
       company_data[attribute.id]=value;
-      console.log(this.props.companyAttributes);
     }
     )
     this.state={
@@ -52,43 +53,37 @@ class CompanyAdd extends Component {
       ico:'',
       street:'',
       zip:'',
-      company_data,
+      company_data,//adds it to the others here
     }
   }
+
   submit(e){
     e.preventDefault(); //prevent default form behaviour
-    let company_data={...this.state.company_data};
+    let company_data={...this.state.company_data};  //create copy of company data
     for (let key in company_data){
-      let companyAttribute=this.props.companyAttributes[this.props.companyAttributes.findIndex((item)=>item.id==key)];
+      let companyAttribute=this.props.companyAttributes[this.props.companyAttributes.findIndex((item)=>item.id==key)]; //from ID find out everything about the field
       switch (companyAttribute.type) {
-        case 'multi_select':
+        case 'multi_select': //its array of IDs, we need array if values
           let newMulti=[];
           company_data[key].map((item)=>newMulti.push(companyAttribute.options[parseInt(item)]));
           company_data[key]=newMulti;
           break;
-        case 'date':
+        case 'date':        //date should be formatted into miliseconds since 1970, divided by 1000 because of PHP/Javascript difference
           let date=(new Date(company_data[key])).getTime()/1000
-          if(isNaN(date)){
+          if(isNaN(date)){  //if there is no date
             company_data[key]='null';
             break;
           }
           company_data[key]=date;
           break;
+        case 'checkbox':
+          company_data[key]=company_data[key].toString();
+          break;
         default:
           break;
           }
         }
-      console.log(JSON.stringify({
-        title:this.state.title,
-        city:this.state.city,
-        country:this.state.country,
-        dic:this.state.dic,
-        ic_dph:this.state.ic_dph,
-        ico:this.state.ico,
-        street:this.state.street,
-        zip:this.state.zip,
-        company_data:JSON.stringify(company_data),
-      }));
+
     this.props.addCompany(
       {
         title:this.state.title,
@@ -287,7 +282,6 @@ class CompanyAdd extends Component {
                         labelStyle={{marginLeft:10}}
                         searchStyle={{margin:5}}
                         onChange={(ids,items)=>{
-                          console.log(ids);
                           let newData={...this.state.company_data};
                           newData[attribute.id]=ids;
                           this.setState({company_data:newData});
