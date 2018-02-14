@@ -20,7 +20,12 @@ class CompanyEdit extends Component {
           value='';
         break;
         case 'simple_select':
-          value=attribute.options[0];
+          if(attribute.required){
+            value=attribute.options[0];
+          }
+          else{
+            value='null';
+          }
         break;
         case 'multi_select':
           value=[];
@@ -97,15 +102,20 @@ class CompanyEdit extends Component {
     for (let key in company_data){
       let companyAttribute=this.props.companyAttributes[this.props.companyAttributes.findIndex((item)=>item.id==key)]; //from ID find out everything about the field
       switch (companyAttribute.type) {
-        case 'multi_select': //its array of IDs, we need array if values
+        case 'multi_select':{ //its array of IDs, we need array if values
+          if(company_data[key].length===0){
+            company_data[key]='null';
+            break;
+          }
           let newMulti=[];
           company_data[key].map((item)=>newMulti.push(companyAttribute.options[parseInt(item)]));
           company_data[key]=newMulti;
           break;
+        }
         case 'date':        //date should be formatted into miliseconds since 1970, divided by 1000 because of PHP/Javascript difference
           let date=((new Date(company_data[key])).getTime()-((new Date()).getTimezoneOffset()*60000))/1000
           if(isNaN(date)){  //if there is no date
-            company_data[key]="null";
+            company_data[key]='null';
             break;
           }
           company_data[key]=date;
@@ -113,6 +123,27 @@ class CompanyEdit extends Component {
         case 'checkbox':
           company_data[key]=company_data[key].toString();
           break;
+        case 'input':
+          if(company_data[key]===''){
+            company_data[key]='null';
+          }
+          break;
+        case 'text_area':
+          if(company_data[key]===''){
+            company_data[key]='null';
+          }
+          break;
+        break;
+        case 'decimal_number':
+        if(isNaN(parseFloat(this.state.company_data[key]))){
+            company_data[key]='null';
+          }
+        break;
+        case 'integer_number':
+        if(isNaN(parseFloat(this.state.company_data[key]))){
+            company_data[key]='null';
+          }
+        break;
         default:
           break;
           }
@@ -291,6 +322,12 @@ class CompanyEdit extends Component {
                                 this.setState({company_data:newData});
                               }}
                             >
+                            {!attribute.required && <option
+                                key='null'
+                                value='null'
+                                >
+                              </option>
+                            }
                               {attribute.options.map(opt => (
                                 <option
                                   key={opt}

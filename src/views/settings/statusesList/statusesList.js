@@ -16,7 +16,7 @@ class StatusesList extends Component {
 
   getFilteredData(){
     return this.props.statuses.filter((item)=>item.title.toLowerCase().includes(this.state.name.toLowerCase()))
-    .filter((item)=>item.description.toLowerCase().includes(this.state.description.toLowerCase()))
+    .filter((item)=>!item.description||item.description.toLowerCase().includes(this.state.description.toLowerCase()))
     .filter((item)=>item.is_active == (this.state.active.toLowerCase().includes('y')||
     this.state.active.toLowerCase().includes('t')||
     this.state.active.toLowerCase().includes('c'))||

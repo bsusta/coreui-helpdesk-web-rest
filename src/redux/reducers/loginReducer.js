@@ -1,4 +1,4 @@
-import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN_LOGOUT} from '../types'
+import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN_LOGOUT,TOKEN_CHECKED} from '../types'
 
 const initialState = {
   authenticated: false,
@@ -6,6 +6,7 @@ const initialState = {
   error:'',
   token: null,
   user: null,
+  tokenChecked:false,
 };
 
 export default function loginReducer(state = initialState, action) {
@@ -28,6 +29,8 @@ export default function loginReducer(state = initialState, action) {
         error: 'Login failed, invalid name or password',
         loading:false,
       };
+      case TOKEN_CHECKED:
+        return { ...state, tokenChecked: true };
     case LOGIN_LOGOUT:
       return {
         ...state,

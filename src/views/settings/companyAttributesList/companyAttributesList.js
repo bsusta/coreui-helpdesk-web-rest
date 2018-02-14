@@ -10,6 +10,7 @@ class CompanyAttributesList extends Component {
       title:'',
       type:'',
       active:'',
+      required:'',
     }
     this.getFilteredData.bind(this);
   }
@@ -17,7 +18,8 @@ class CompanyAttributesList extends Component {
   getFilteredData(){
     return this.props.companyAttributes.filter((item)=>item.title.toLowerCase().includes(this.state.title.toLowerCase()))
     .filter((item)=>item.type.toLowerCase().includes(this.state.type.toLowerCase()))
-    .filter((item)=>item.active == (this.state.active.toLowerCase().includes('y')||this.state.active.toLowerCase().includes('t')||this.state.active.toLowerCase().includes('c'))||this.state.active=='')
+    .filter((item)=>item.is_active == (this.state.active.toLowerCase().includes('y')||this.state.active.toLowerCase().includes('t')||this.state.active.toLowerCase().includes('c'))||this.state.active=='')
+    .filter((item)=>item.required == (this.state.required.toLowerCase().includes('y')||this.state.required.toLowerCase().includes('t')||this.state.required.toLowerCase().includes('c'))||this.state.required=='')
     .sort((item,item2)=>item.title>item2.title);
   }
 
@@ -42,6 +44,7 @@ class CompanyAttributesList extends Component {
               <th style={{ borderTop: "0px" }}>Custom field name</th>
               <th style={{ borderTop: "0px" }}>Type</th>
               <th style={{ borderTop: "0px" }}>Active</th>
+              <th style={{ borderTop: "0px" }}>Required</th>
             </tr>
           </thead>
           <tbody>
@@ -55,6 +58,9 @@ class CompanyAttributesList extends Component {
               <th>
                 <Input type="text" id="input1-group1" value={this.state.active} name="input1-group1" onChange={(e)=>this.setState({active:e.target.value})} />
               </th>
+              <th>
+                <Input type="text" id="input1-group1" value={this.state.required} name="input1-group1" onChange={(e)=>this.setState({required:e.target.value})} />
+              </th>
             </tr>
             {this.getFilteredData().map(companyAttribute => (
               <tr
@@ -65,6 +71,13 @@ class CompanyAttributesList extends Component {
                 <td>{companyAttribute.type}</td>
                 <td>
                   {companyAttribute.is_active ? (
+                    <span class="badge badge-success">Yes</span>
+                  ) : (
+                    <span class="badge badge-danger">No</span>
+                  )}
+                </td>
+                <td>
+                  {companyAttribute.required ? (
                     <span class="badge badge-success">Yes</span>
                   ) : (
                     <span class="badge badge-danger">No</span>

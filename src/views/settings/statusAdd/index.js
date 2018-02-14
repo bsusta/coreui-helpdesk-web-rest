@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addStatus } from '../../../redux/actions';
 import { SketchPicker } from 'react-color';
 
-const funcOptions=[{value:'new_task',title:'New task'}, {value:'in_progress_task',title:'Task in progress'}, {value:'completed_task',title:'Completed task'}, {value:'closed_task',title:"Closed task"}]
+const funcOptions=[{value:'null',title:'None'},{value:'new_task',title:'New task'}, {value:'in_progress_task',title:'Task in progress'}, {value:'completed_task',title:'Completed task'}, {value:'closed_task',title:"Closed task"}]
 
 class StatusAdd extends Component {
   constructor(props){
@@ -12,7 +12,7 @@ class StatusAdd extends Component {
       title:'',
       description:'',
       order:5,
-      func:'new_task',
+      func:'null',
       color:'#156EEB',
     }
   }
@@ -22,18 +22,20 @@ class StatusAdd extends Component {
     if(isNaN(parseInt(this.state.order))||parseInt(this.state.order)<4){
       return;
     }
-
-    this.props.addStatus({
+    let body = {
       title:this.state.title,
       description:this.state.description,
       order:this.state.order,
-      function:this.state.func,
       color:this.state.color
-    },this.props.token);
+    }
+    if(this.state.func!=='null'){
+      body['function']=this.state.func
+    }
+
+    this.props.addStatus(body,this.props.token);
     this.props.history.goBack();
   }
 
-  //color, default ???, description, function, id, is_active, title, order
   render() {
     return (
       <div

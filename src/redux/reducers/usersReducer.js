@@ -19,7 +19,7 @@ export default function usersReducer(state = initialState, action) {
       case SET_USER_LOADING:
         return { ...state, userLoaded:action.userLoaded };
       case SET_USER:
-        return { ...state, user:action.user };
+        return { ...state, user:action.user,userLoaded:true };
       case EDIT_USER:{
         //finds location of the current user and replaces it with newer version
         let newUsers=[...state.users];

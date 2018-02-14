@@ -38,12 +38,10 @@ class UserAdd extends Component {
 
   submit(e){
     e.preventDefault();
-    this.props.addUser({
+    let body={
       username:this.state.username,
       password:this.state.password,
       email:this.state.email,
-      language:this.state.language,
-      image:this.state.image,
       detail_data:{
         name:this.state.name,
         surname:this.state.surname,
@@ -63,7 +61,8 @@ class UserAdd extends Component {
         linkdin:this.state.linkdin,
         google:this.state.google
       }
-    },
+    }
+    this.props.addUser(body,
     this.state.company,this.state.userRole,this.state.image, this.props.token);
     this.props.history.goBack();
   }
@@ -80,7 +79,7 @@ class UserAdd extends Component {
               event.preventDefault();
             }}
             >
-            <label for="avatar">Avatar upload</label>
+            <label for="avatar">Avatar upload </label>
             <label for="avatar" style={{fontSize:10}}>Your image will be resized to 50x50 px</label>
             <div class="form-group"  style={{marginBottom:0}}>
               <input
@@ -115,7 +114,6 @@ class UserAdd extends Component {
                               image,
                               imageURL,
                             });
-                            console.log('DONE');
                           };
                           img.src = reader.result;
                         }

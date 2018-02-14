@@ -50,7 +50,6 @@ export const addImap = (body,project,token) => {
       })
     .then((response)=>{
     response.json().then((response)=>{
-      console.log(response);
       dispatch({type: ADD_IMAP, imap:response.data});
     })})
     .catch(function (error) {

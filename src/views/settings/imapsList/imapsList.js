@@ -20,7 +20,7 @@ class ImapsList extends Component {
     return this.props.imaps
     .filter((item)=>item.inbox_email.toLowerCase().includes(this.state.email.toLowerCase()))
     .filter((item)=>item.project.title.toLowerCase().includes(this.state.project.toLowerCase()))
-    .filter((item)=>item.description.toLowerCase().includes(this.state.description.toLowerCase()))
+    .filter((item)=>!item.description||item.description.toLowerCase().includes(this.state.description.toLowerCase()))
     .filter((item)=>item.is_active == (this.state.is_active.toLowerCase().includes('y')||this.state.is_active.toLowerCase().includes('t')||this.state.is_active.toLowerCase().includes('c'))||this.state.is_active=='')
     .sort((item,item2)=>item.inbox_email>item2.inbox_email);
   }

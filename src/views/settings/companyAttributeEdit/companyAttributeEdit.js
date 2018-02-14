@@ -22,6 +22,8 @@ class CompanyAttributeEdit extends Component {
       is_active: this.props.companyAttribute.is_active?true:false,
       title: this.props.companyAttribute.title?this.props.companyAttribute.title:'',
       type: this.props.companyAttribute.type?this.props.companyAttribute.type:'input',
+      required:this.props.companyAttribute.required,
+      description:this.props.companyAttribute.description?this.props.companyAttribute.description:'',
       newOption:'',
       options:((this.props.companyAttribute.type=="simple_select"||this.props.companyAttribute.type=="multi_select") &&this.props.companyAttribute.options)?this.props.companyAttribute.options:[]
     };
@@ -33,7 +35,9 @@ class CompanyAttributeEdit extends Component {
     this.setState({changed:
       newState.is_active!=this.props.companyAttribute.is_active||
       newState.title!=this.props.companyAttribute.title||
-      newState.type!=this.props.companyAttribute.type
+      newState.description!=(this.props.companyAttribute.description?this.props.companyAttribute.description:'')||
+      newState.type!=this.props.companyAttribute.type||
+      newState.required!=this.props.companyAttribute.required
     })
   }
 
@@ -47,12 +51,13 @@ class CompanyAttributeEdit extends Component {
     this.props.editCompanyAttribute({
       title:this.state.title,
       type:this.state.type,
+      required:this.state.required,
+      description:this.state.description===''?'null':this.state.description,
       options:(this.state.type=="simple_select"||this.state.type=="multi_select")?JSON.stringify(this.state.options):'null',
     },this.state.is_active,this.props.companyAttribute.id,this.props.token);
     this.setState({changed:false});
     this.props.history.goBack();
   }
-
 
   componentWillMount(){
     let self = this;
@@ -72,35 +77,66 @@ class CompanyAttributeEdit extends Component {
         <h4 class="card-header">Edit company attribute</h4>
         <div class="card-body">
           <div class="list-group">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input
-                    type="checkbox"
-                    checked={this.state.is_active}
-                    onChange={() =>{
-                      this.compareChanges("is_active",!this.state.is_active);
-                      this.setState({ is_active: !this.state.is_active })
-                    }
+
+            <div class="form-check">
+              <label class="form-check-label">
+                <input
+                  type="checkbox"
+                  checked={this.state.required}
+                  onChange={() =>{
+                    this.compareChanges("required",!this.state.required);
+                    this.setState({ required: !this.state.required })
                   }
-                  class="form-check-input"
-                  />
-                Active
-              </label>
-            </div>
-            <div class="form-group">
-              <label for="title">Name</label>
-              <input
-                class="form-control"
-                id="title"
-                value={this.state.title}
-                onChange={event =>{
-                  this.compareChanges("title",event.target.value);
-                  this.setState({ title: event.target.value })
                 }
-              }
-              placeholder="Enter title"
-              />
+                class="form-check-input"
+                />
+              Required
+            </label>
           </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input
+                  type="checkbox"
+                  checked={this.state.is_active}
+                  onChange={() =>{
+                    this.compareChanges("is_active",!this.state.is_active);
+                    this.setState({ is_active: !this.state.is_active })
+                  }
+                }
+                class="form-check-input"
+                />
+              Active
+            </label>
+          </div>
+          <div class="form-group">
+            <label for="title">Name</label>
+            <input
+              class="form-control"
+              id="title"
+              value={this.state.title}
+              onChange={event =>{
+                this.compareChanges("title",event.target.value);
+                this.setState({ title: event.target.value })
+              }
+            }
+            placeholder="Enter title"
+            />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea
+            class="form-control"
+            id="description"
+            value={this.state.description}
+            onChange={event =>{
+              this.compareChanges("description",event.target.value);
+              this.setState({ description: event.target.value })
+            }
+          }
+          placeholder="Enter description"
+          />
+      </div>
 
         <div class="form-group">
           <label for="title">Type</label>

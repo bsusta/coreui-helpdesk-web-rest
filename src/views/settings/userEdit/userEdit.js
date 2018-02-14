@@ -29,9 +29,10 @@ class UserEdit extends Component {
       twitter:user.detailData.twitter?user.detailData.twitter:'',
       linkdin:user.detailData.linkdin?user.detailData.linkdin:'',
       google:user.detailData.google?user.detailData.google:'',
-      image:user.image?user.image:'',
+      image:null,
       userRole:user.user_role.id?user.user_role.id:'',
-      company:user.company.id?user.company.id:''
+      company:user.company.id?user.company.id:'',
+      imageURL:null
     }
   }
 
@@ -40,33 +41,32 @@ class UserEdit extends Component {
     let body={
       username:this.state.username,
       email:this.state.email,
-      language:this.state.language,
-      image:this.state.image,
+      language:this.state.language===''?'null':this.state.language,
       detail_data:{
-        name:this.state.name,
-        surname:this.state.surname,
-        title_before:this.state.title_before,
-        title_after:this.state.title_after,
-        function:this.state.func,
-        mobile:this.state.mobile,
-        tel:this.state.tel,
-        fax:this.state.fax,
-        signature:this.state.signature,
-        street:this.state.street,
-        city:this.state.city,
-        zip:this.state.zip,
-        country:this.state.country,
-        facebook:this.state.facebook,
-        twitter:this.state.twitter,
-        linkdin:this.state.linkdin,
-        google:this.state.google
+        name:this.state.name===''?'null':this.state.name,
+        surname:this.state.surname===''?'null':this.state.surname,
+        title_before:this.state.title_before===''?'null':this.state.title_before,
+        title_after:this.state.title_after===''?'null':this.state.title_after,
+        function:this.state.func===''?'null':this.state.func,
+        mobile:this.state.mobile===''?'null':this.state.mobile,
+        tel:this.state.tel===''?'null':this.state.tel,
+        fax:this.state.fax===''?'null':this.state.fax,
+        signature:this.state.signature===''?'null':this.state.signature,
+        street:this.state.street===''?'null':this.state.street,
+        city:this.state.city===''?'null':this.state.city,
+        zip:this.state.zip===''?'null':this.state.zip,
+        country:this.state.country===''?'null':this.state.country,
+        facebook:this.state.facebook===''?'null':this.state.facebook,
+        twitter:this.state.twitter===''?'null':this.state.twitter,
+        linkdin:this.state.linkdin===''?'null':this.state.linkdin,
+        google:this.state.google===''?'null':this.state.google
       }
     }
     if(this.state.password!=''){
       body['password']=this.state.password;
     }
     this.props.editUser(body,
-    this.state.company,this.state.userRole,this.props.user.id,this.state.is_active,this.props.token);
+    this.state.company,this.state.userRole,this.props.user.id,this.state.is_active,this.state.image,this.props.token);
     this.props.history.goBack();
   }
   render() {
@@ -75,7 +75,7 @@ class UserEdit extends Component {
         class="card"
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
         >
-        <h4 class="card-header">Add user</h4>
+        <h4 class="card-header">Edit user</h4>
         <div class="card-body">
           <form
             onSubmit={(event, value) => {
@@ -88,6 +88,64 @@ class UserEdit extends Component {
                 <input type="checkbox" class="form-check-input" checked={this.state.is_active} onChange={()=>this.setState({is_active:!this.state.is_active})} />
                 Active
               </label>
+            </div>
+
+            <div class="form-group">
+              <label for="image">Image</label>
+              <input
+                class="form-control"
+                id="image"
+                value={this.props.user.image}
+                />
+            </div>
+
+            <label for="avatar">Avatar upload </label>
+            <label for="avatar" style={{fontSize:10}}>Your image will be resized to 50x50 px</label>
+            <div class="form-group"  style={{marginBottom:0}}>
+              <input
+                type="file"
+                accept="image/x-png,image/gif,image/jpeg,image/jpg"
+                onChange={(e)=>{ //check sufix,resize image, save to store
+                      let value= e.target.files[0];
+                      let extFile = value.name.substr(value.name.lastIndexOf('.')+1, value.name.length).toLowerCase();
+                      if (extFile=="gif" || extFile=="jpeg" || extFile=="png" || extFile=="jpg"){
+                        let reader = new FileReader();
+                        let img = new Image();
+                        let self=this;
+                        reader.onloadend = () => {
+                          img.onload = function() {
+                            let canvas = document.createElement("canvas");
+                            canvas.width=50;
+                            canvas.height=50;
+                            let ctx = canvas.getContext("2d");
+                            ctx.drawImage(img, 0, 0,50,50);
+                            let imageURL = canvas.toDataURL("image/png");
+                            //converts it to file ready for upload
+                            function dataURLtoFile(dataurl, filename) {
+                                var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                                    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+                                while(n--){
+                                    u8arr[n] = bstr.charCodeAt(n);
+                                }
+                                return new File([u8arr], filename, {type:mime});
+                            }
+                            let image = dataURLtoFile(imageURL,value.name);
+                            self.setState({
+                              image,
+                              imageURL,
+                            });
+                          };
+                          img.src = reader.result;
+                        }
+                        reader.readAsDataURL(value);
+                      }else{
+                          alert("Only jpg/jpeg and png files are allowed!");
+                      }
+                }}
+                />
+                {
+                  this.state.image && <img style={{maxWidth:50,maxHeight:50}} src={this.state.imageURL} />
+              }
             </div>
 
             <div class="form-group">
@@ -299,16 +357,6 @@ class UserEdit extends Component {
                 value={this.state.google}
                 onChange={(target)=>this.setState({google:target.target.value}) }
                 placeholder="Enter google"
-                />
-            </div>
-            <div class="form-group">
-              <label for="image">Image</label>
-              <input
-                class="form-control"
-                id="image"
-                value={this.state.image}
-                onChange={(target)=>this.setState({image:target.target.value}) }
-                placeholder="Enter image"
                 />
             </div>
 

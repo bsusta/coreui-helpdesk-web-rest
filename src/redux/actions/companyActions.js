@@ -131,7 +131,6 @@ export const getCompany = (id,token) => {
  };
 
  export const editCompany = (body,isActive,id,token) => {
-   console.log(body);
    return (dispatch) => {
        Promise.all([
          fetch(COMPANIES_LIST+'/'+id, {

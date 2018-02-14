@@ -59,6 +59,9 @@ class RoleAdd extends Component {
     if(this.state.acl.length>0){
       body['acl']=JSON.stringify(this.state.acl);
     }
+    else{
+      body['acl']='null';
+    }
     this.props.addUserRole(body,this.props.token);
     this.props.history.goBack();
   }

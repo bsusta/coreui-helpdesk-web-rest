@@ -83,7 +83,6 @@ export const getSMTP = (token,id) => {
         }
       }).then((response) =>{
       response.json().then((data) => {
-        console.log(data);
         dispatch({type: SET_SMTP, SMTP:data.data});
         dispatch({ type: SET_SMTP_LOADING, SMTPLoaded:true });
       });

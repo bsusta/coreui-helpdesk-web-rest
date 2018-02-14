@@ -53,7 +53,7 @@ class RoleEdit extends Component {
     e.preventDefault();
     let body ={
       title:this.state.title,
-      description:this.state.description,
+      description:this.state.description==''?'null':this.state.description,
       homepage:this.state.homepage,
       order:this.state.order,
     }

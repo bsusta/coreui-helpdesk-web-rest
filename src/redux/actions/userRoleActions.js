@@ -51,8 +51,6 @@ export const addUserRole = (body,token) => {
     })
     .then((response)=>{
       response.json().then((response)=>{
-        console.log('ABC');
-        console.log(response);
         dispatch({type: ADD_USER_ROLE, userRole:response.data});
       })})
       .catch(function (error) {

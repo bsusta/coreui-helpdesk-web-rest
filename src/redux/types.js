@@ -2,6 +2,7 @@ export const LOGIN_START = 'AUTH_LOGIN_START';
 export const LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'AUTH_LOGIN_FAIL';
 export const LOGIN_LOGOUT = 'AUTH_LOGOUT';
+export const TOKEN_CHECKED = 'TOKEN_CHECKED';
 
 //all constants for units actions
 export const SET_UNITS = 'SET_UNITS';

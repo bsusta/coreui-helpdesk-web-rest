@@ -20,7 +20,12 @@ class CompanyAdd extends Component {
           value='';
         break;
         case 'simple_select':
+        if(attribute.required){
           value=attribute.options[0];
+        }
+        else{
+          value='null';
+        }
         break;
         case 'multi_select':
           value=[];
@@ -59,25 +64,57 @@ class CompanyAdd extends Component {
 
   submit(e){
     e.preventDefault(); //prevent default form behaviour
-    let company_data={...this.state.company_data};  //create copy of company data
-    for (let key in company_data){
+    let company_data={};  //create empty company data
+    for (let key in this.state.company_data){ //add them if they have value
       let companyAttribute=this.props.companyAttributes[this.props.companyAttributes.findIndex((item)=>item.id==key)]; //from ID find out everything about the field
       switch (companyAttribute.type) {
-        case 'multi_select': //its array of IDs, we need array if values
-          let newMulti=[];
-          company_data[key].map((item)=>newMulti.push(companyAttribute.options[parseInt(item)]));
-          company_data[key]=newMulti;
-          break;
-        case 'date':        //date should be formatted into miliseconds since 1970, divided by 1000 because of PHP/Javascript difference
-          let date=(new Date(company_data[key])).getTime()/1000
-          if(isNaN(date)){  //if there is no date
-            company_data[key]='null';
+        case 'input':{
+          if(this.state.company_data[key]!==''){
+              company_data[key]=this.state.company_data[key];
+            }
             break;
           }
-          company_data[key]=date;
+          case 'text_area':{
+            if(this.state.company_data[key]!==''){
+                company_data[key]=this.state.company_data[key];
+              }
+              break;
+            }
+        case 'simple_select':{
+          if(this.state.company_data[key]!=='null'){
+              company_data[key]=this.state.company_data[key];
+            }
+            break;
+        }
+        case 'multi_select':{ //its array of IDs, we need array if values
+          if(this.state.company_data[key].length!=0){
+            let newMulti=[];
+            this.state.company_data[key].map((item)=>newMulti.push(companyAttribute.options[parseInt(item)]));
+            company_data[key]=newMulti;
+          }
           break;
+          }
+        case 'date':{        //date should be formatted into miliseconds since 1970, divided by 1000 because of PHP/Javascript difference
+          let date=(new Date(this.state.company_data[key])).getTime()/1000
+          if(!isNaN(date)){  //if there is date
+            company_data[key]=date;
+          }
+          break;
+          }
+          case 'decimal_number':{
+            if(!isNaN(parseFloat(this.state.company_data[key]))){
+                company_data[key]=parseFloat(this.state.company_data[key]).toString();
+              }
+            break;
+          }
+          case 'integer_number':{
+            if(!isNaN(parseFloat(this.state.company_data[key]))){
+                company_data[key]=parseFloat(this.state.company_data[key]).toString();
+              }
+            break;
+        }
         case 'checkbox':
-          company_data[key]=company_data[key].toString();
+          company_data[key]=this.state.company_data[key].toString();
           break;
         default:
           break;
@@ -87,13 +124,13 @@ class CompanyAdd extends Component {
     this.props.addCompany(
       {
         title:this.state.title,
-        city:this.state.city,
-        country:this.state.country,
-        dic:this.state.dic,
-        ic_dph:this.state.ic_dph,
-        ico:this.state.ico,
-        street:this.state.street,
-        zip:this.state.zip,
+        city:this.state.city===''?'null':this.state.city,
+        country:this.state.country===''?'null':this.state.country,
+        dic:this.state.dic===''?'null':this.state.dic,
+        ic_dph:this.state.ic_dph===''?'null':this.state.ic_dph,
+        ico:this.state.ico===''?'null':this.state.ico,
+        street:this.state.street===''?'null':this.state.street,
+        zip:this.state.zip===''?'null':this.state.zip,
         company_data:JSON.stringify(company_data),
       }, this.props.token);
     this.props.history.goBack();
@@ -249,6 +286,12 @@ class CompanyAdd extends Component {
                                 this.setState({company_data:newData});
                               }}
                             >
+                            {!attribute.required && <option
+                              key='null'
+                              value='null'
+                            >
+                            </option>
+                            }
                               {attribute.options.map(opt => (
                                 <option
                                   key={opt}

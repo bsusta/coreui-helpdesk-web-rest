@@ -20,8 +20,10 @@ class CompanyAttributeAdd extends Component {
     this.state = {
       title: '',
       type: 'input',
+      required: false,
       newOption:'',
-      options:[]
+      description:'',
+    options:[]
     };
   }
 
@@ -34,7 +36,9 @@ class CompanyAttributeAdd extends Component {
     this.props.addCompanyAttribute({
       title:this.state.title,
       type:this.state.type,
+      description:this.state.description,
       options:(this.state.type=="simple_select"||this.state.type=="multi_select")?JSON.stringify(this.state.options):'null',
+      required:this.state.required,
     },this.props.token);
     this.props.history.goBack();
   }
@@ -49,6 +53,13 @@ class CompanyAttributeAdd extends Component {
         <h4 class="card-header">Add company attribute</h4>
         <div class="card-body">
           <div class="list-group">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" checked={this.state.required} onChange={()=>this.setState({required:!this.state.required})}/>
+                Required
+              </label>
+            </div>
+
             <div class="form-group">
               <label for="title">Name</label>
               <input
@@ -62,6 +73,17 @@ class CompanyAttributeAdd extends Component {
               placeholder="Enter title"
               />
           </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              class="form-control"
+              id="description"
+              value={this.state.description}
+              onChange={event =>this.setState({ description: event.target.value })}
+            placeholder="Enter description"
+            />
+        </div>
 
         <div class="form-group">
           <label for="title">Type</label>

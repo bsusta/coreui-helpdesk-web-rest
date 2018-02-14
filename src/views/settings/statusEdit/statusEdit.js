@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { editStatus } from '../../../redux/actions';
 import { SketchPicker } from 'react-color';
 
-const funcOptions=[{value:'new_task',title:'New task'}, {value:'in_progress_task',title:'Task in progress'}, {value:'completed_task',title:'Completed task'}, {value:'closed_task',title:"Closed task"}]
+const funcOptions=[{value:'null',title:'None'}, {value:'new_task',title:'New task'}, {value:'in_progress_task',title:'Task in progress'}, {value:'completed_task',title:'Completed task'}, {value:'closed_task',title:"Closed task"}]
 
 class StatusEdit extends Component {
   constructor(props){
@@ -13,7 +13,7 @@ class StatusEdit extends Component {
       title:this.props.status.title,
       description:this.props.status.description,
       order:this.props.status.order,
-      func:this.props.status.function,
+      func:this.props.status.function?this.props.status.function:'null',
       color:this.props.status.color
     }
   }
@@ -25,7 +25,7 @@ class StatusEdit extends Component {
     }
     this.props.editStatus({
       title:this.state.title,
-      description:this.state.description,
+      description:this.state.description===''?'null':this.state.description,
       order:this.state.order,
       function:this.state.func,
       color:this.state.color

@@ -11,7 +11,6 @@ import SidebarMinimizer from "./../SidebarMinimizer";
 class Sidebar extends Component {
   handleClick(e) {
     e.preventDefault();
-    console.log(e.target.parentElement.classList);
     e.target.parentElement.classList.toggle("open");
   }
 

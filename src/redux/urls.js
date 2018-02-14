@@ -18,3 +18,4 @@ export const SMTPS_LIST = BASE_URL + '/task-bundle/smtp';
 export const IMAPS_LIST = BASE_URL + '/task-bundle/imap';
 export const COMPANY_ATTRIBUTES_LIST = BASE_URL + '/task-bundle/company-attributes';
 export const IMAGE_UPLOAD = BASE_URL + '/core-bundle/cdn/upload-image';
+export const GET_IMAGE_URL = BASE_URL + '/core-bundle/cdn/';
