@@ -11,6 +11,7 @@ import imapsReducer from './reducers/imapsReducer';
 import projectsReducer from './reducers/projectsReducer';
 import statusesReducer from './reducers/statusesReducer';
 import companyAttributesReducer from './reducers/companyAttributesReducer';
+import sidebarReducer from './reducers/sidebarReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -23,6 +24,7 @@ const reducers = combineReducers({
     projectsReducer,
     statusesReducer,
     companyAttributesReducer,
+    sidebarReducer
   });
 
 const enhancers = compose(

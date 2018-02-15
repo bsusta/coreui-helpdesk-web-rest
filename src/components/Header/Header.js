@@ -74,7 +74,6 @@ class Header extends Component {
             </InputGroupAddon>
           </InputGroup>
         </NavbarToggler>
-        <NavbarToggler className="d-md-down-none mr-auto">
           <button
             type="button"
             className="btn btn-link"
@@ -82,7 +81,6 @@ class Header extends Component {
           >
             Add task
           </button>
-        </NavbarToggler>
         <Nav className="ml-auto" navbar>
           <MessagesDropdown />
         </Nav>

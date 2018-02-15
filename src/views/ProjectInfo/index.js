@@ -1,46 +1,27 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 
-const mockData = {
-  id: 0,
-  title: "Project title",
-  archived: false,
-  description: `This is the first project that we have ever created.  Why? We dont know.`
-};
+import {getProject, startProjectLoading } from '../../redux/actions';
+import ProjectInfo from './projectInfo';
 
-class ProjectInfo extends Component {
-  constructor(props) {
-    super(props);
+class ProjectInfoLoader extends Component {
+  componentWillMount(){
+    this.props.startProjectLoading();  // first it sets, that project hasnt been loaded
+    this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.token);  //send request for download and storing of the projects data
   }
-
-  render() {
-    return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ paddingTop: 20, marginBottom: 20 }}> {mockData.title}</h2>
-
-        <button
-          type="button"
-          className="btn btn-danger btn-sm"
-          style={{ color: "white" }}
-          onClick={this.props.history.goBack}
-        >
-          Close
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary btn-sm"
-          style={{ color: "white", marginLeft: 5 }}
-          onClick={() => this.props.history.push(mockData.id + "/edit")}
-        >
-          Edit
-        </button>
-        <div style={{ marginTop: 10 }}>
-          <p>Status: {mockData.archived ? "Active" : "Archived"}</p>
-
-          <div className="card-text">{mockData.description}</div>
-        </div>
-      </div>
-    );
+  render(){
+    if(!this.props.projectLoaded){ //data hasnt been loaded yet
+      return(<div>Loading...</div>)
+    }
+    return <ProjectInfo history={this.props.history}/>
   }
 }
 
-export default ProjectInfo;
+//All below is redux information storage
+const mapStateToProps = ({projectsReducer, login }) => {
+  const {projectLoaded} = projectsReducer;
+  const {token} = login;
+  return {projectLoaded,token};
+};
+
+export default connect(mapStateToProps, {getProject, startProjectLoading})(ProjectInfoLoader);

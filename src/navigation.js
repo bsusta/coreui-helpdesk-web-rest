@@ -303,27 +303,27 @@ class Full extends Component {
                   name="MyTasks"
                   component={MyTasks}
                 />
+              <Route
+                exact
+                path="/project/add"
+                name="Project add"
+                component={ProjectAdd}
+                />
                 <Route
                   exact
-                  path="/project"
+                  path="/project/:id"
                   name="Project"
                   component={Project}
                 />
                 <Route
                   exact
-                  path="/project/add"
-                  name="Project add"
-                  component={ProjectAdd}
-                />
-                <Route
-                  exact
-                  path="/project/:id"
+                  path="/project/info/:id"
                   name="Project info"
                   component={ProjectInfo}
                 />
                 <Route
                   exact
-                  path="/project/:id/edit"
+                  path="/project/edit/:id"
                   name="Project edit"
                   component={ProjectEdit}
                 />

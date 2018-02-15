@@ -2,16 +2,22 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { Badge, Nav, NavItem, NavLink as RsNavLink } from "reactstrap";
 import classNames from "classnames";
+import { connect } from 'react-redux';
+
 import nav from "./_nav";
 import SidebarFooter from "./../SidebarFooter";
 import SidebarForm from "./../SidebarForm";
 import SidebarHeader from "./../SidebarHeader";
 import SidebarMinimizer from "./../SidebarMinimizer";
+import {getSidebar} from '../../redux/actions';
 
 class Sidebar extends Component {
   handleClick(e) {
     e.preventDefault();
     e.target.parentElement.classList.toggle("open");
+  }
+  componentWillMount(){
+    this.props.getSidebar(this.props.token);
   }
 
   activeRoute(routeName, props) {
@@ -162,7 +168,7 @@ class Sidebar extends Component {
         <SidebarHeader />
         <SidebarForm />
         <nav className="sidebar-nav">
-          <Nav>{navList(nav.items)}</Nav>
+          <Nav>{navList(nav.items.concat(this.props.sidebar))}</Nav>
         </nav>
         <SidebarFooter />
         <SidebarMinimizer />
@@ -171,4 +177,11 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+const mapStateToProps = ({sidebarReducer, login }) => {
+  const {sidebar} = sidebarReducer;
+  const {token} = login;
+  return {sidebar,token};
+};
+
+
+export default connect(mapStateToProps, {getSidebar})(Sidebar);

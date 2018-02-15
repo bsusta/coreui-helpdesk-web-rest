@@ -19,3 +19,6 @@ export const IMAPS_LIST = BASE_URL + '/task-bundle/imap';
 export const COMPANY_ATTRIBUTES_LIST = BASE_URL + '/task-bundle/company-attributes';
 export const IMAGE_UPLOAD = BASE_URL + '/core-bundle/cdn/upload-image';
 export const GET_IMAGE_URL = BASE_URL + '/core-bundle/cdn/';
+
+export const SIDEBAR_DATA = BASE_URL + '/task-bundle/left-menu-params';
+export const UPDATE_PROJECT_ACL = BASE_URL + '/task-bundle/project/';

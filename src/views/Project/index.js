@@ -28,7 +28,7 @@ class Project extends Component {
         <h2 style={{ marginTop: 20 }}>
           Project{" "}
           <a
-            href="#/project/0"
+            href={"#/project/info/"+parseInt(this.props.match.params.id, 10)}
             class="fa fa-info-circle fa-lg"
             style={{
               border: "none",

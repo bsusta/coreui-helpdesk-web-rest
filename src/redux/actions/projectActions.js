@@ -1,5 +1,5 @@
-import { SET_PROJECTS,SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT, SET_PROJECT_LOADING, EDIT_PROJECT } from '../types';
-import { PROJECTS_LIST } from '../urls';
+import { SET_PROJECTS,SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT, SET_PROJECT_LOADING, EDIT_PROJECT, SET_PERMISSIONS_SAVED } from '../types';
+import { PROJECTS_LIST,UPDATE_PROJECT_ACL } from '../urls';
 
 /**
  * Sets status if projects are loaded to false
@@ -73,7 +73,7 @@ export const startProjectLoading = () => {
  * @param  {string} token universal token for API comunication
  * @param  {int} id    interger, that is ID of the project that we want to load
  */
-export const getProject = (token,id) => {
+export const getProject = (id,token) => {
   return (dispatch) => {
       fetch(PROJECTS_LIST+'/'+id, {
         method: 'get',
@@ -119,11 +119,36 @@ export const editProject = (body,isActive,id,token) => {
             'Content-Type': 'application/json'
           }
         })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
-          dispatch({type: EDIT_PROJECT, project:response1.data});
+          dispatch({type: EDIT_PROJECT, project:{...response1.data,is_archived:isActive}});
         }))
         .catch(function (error) {
           console.log(error);
       });
+
+  };
+};
+
+export const savePermissions = (permissions,projectID,token) => {
+  return (dispatch) => {
+      let body={usersAcl:{}};
+      permissions.map((perm)=>body.usersAcl[perm.user.id.toString()]=JSON.stringify(perm.acl));
+      console.log(JSON.stringify(body));
+      fetch(UPDATE_PROJECT_ACL+projectID+'/process-more-acl',{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        method: 'PUT',
+        body:JSON.stringify(body),
+      })
+    .then((response)=>{
+    response.json().then((response)=>{
+      dispatch({type: SET_PERMISSIONS_SAVED, permissionsSaved:true});
+      setTimeout(function(){ dispatch({type: SET_PERMISSIONS_SAVED, permissionsSaved:false});}, 3000);
+    })})
+    .catch(function (error) {
+      console.log(error);
+    });
 
   };
 };
