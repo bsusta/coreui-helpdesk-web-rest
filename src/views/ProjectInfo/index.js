@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import {getProject, startProjectLoading } from '../../redux/actions';
-import ProjectInfo from './projectInfo';
+import ProjectInfo from './ProjectInfo';
 
 class ProjectInfoLoader extends Component {
   componentWillMount(){

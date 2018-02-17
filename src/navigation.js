@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar/";
 import Aside from "./components/Aside/";
 
 import Dashboard from "./views/Dashboard/";
-import Settings from "./views/Settings/";
+import Settings from "./views/settings";
 import NewTask from "./views/newTask/";
 import UnitsList from "./views/settings/unitsList";
 import UnitAdd from "./views/settings/unitAdd";
