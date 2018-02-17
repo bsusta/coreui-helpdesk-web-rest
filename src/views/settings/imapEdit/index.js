@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import {getImap, startImapLoading, getProjects, startProjectsLoading } from '../../../redux/actions';
-import ImapEdit from './ImapEdit';
+import ImapEdit from './imapEdit';
 
 class ImapEditLoader extends Component {
   componentWillMount(){

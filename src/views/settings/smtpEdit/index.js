@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import {getSMTP, startSMTPLoading } from '../../../redux/actions';
-import SMTPEdit from './SMTPEdit';
+import SMTPEdit from './smtpEdit';
 
 class SMTPEditLoader extends Component {
   componentWillMount(){
