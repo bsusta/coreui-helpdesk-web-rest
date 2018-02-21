@@ -12,27 +12,20 @@ class UsersList extends Component {
       active:'',
       name:'',
       email:'',
-      company:'',
-      id:'',
-      pageNumber:this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,
-
+      id:''
     }
     this.getFilteredData.bind(this);
   }
-  setPage(number){
-    this.setState({pageNumber:number});
-  }
 
   getFilteredData(){
-    return this.props.users.filter((item)=>(item.detailData.name+' '+item.detailData.surname).toLowerCase().includes(this.state.name.toLowerCase()))
+    return this.props.users.filter((item)=>(item.name+' '+item.surname).toLowerCase().includes(this.state.name.toLowerCase()))
     .filter((item)=>item.email.toLowerCase().includes(this.state.email.toLowerCase()))
     .filter((item)=>item.id.toString().toLowerCase().includes(this.state.id.toLowerCase()))
-    .filter((item)=>item.company.title.toLowerCase().includes(this.state.company.toLowerCase()))
     .filter((item)=>item.is_active == (this.state.active.toLowerCase().includes('y')||
     this.state.active.toLowerCase().includes('t')||
     this.state.active.toLowerCase().includes('c'))||
     this.state.active=='')
-    .sort((item,item2)=>item.detailData.surname>item2.detailData.surname);
+    .sort((item,item2)=>item.surname>item2.surname);
   }
 
   render() {
@@ -57,7 +50,6 @@ class UsersList extends Component {
               <th style={{ borderTop: "0px" }}>Activated</th>
               <th style={{ borderTop: "0px" }}>Name</th>
               <th style={{ borderTop: "0px" }}>E-mail</th>
-              <th style={{ borderTop: "0px" }}>Company</th>
             </tr>
           </thead>
           <tbody>
@@ -74,9 +66,6 @@ class UsersList extends Component {
               <th>
                 <Input type="text" id="input1-group1" value={this.state.email} name="input1-group1" onChange={(e)=>this.setState({email:e.target.value})} />
               </th>
-              <th>
-                <Input type="text" id="input1-group1" value={this.state.company} name="input1-group1" onChange={(e)=>this.setState({company:e.target.value})} />
-              </th>
             </tr>
             {this.getFilteredData().map(user => (
               <tr
@@ -91,14 +80,14 @@ class UsersList extends Component {
                     <span class="badge badge-danger">No</span>
                   )}
                 </td>
-                <td>{user.detailData.surname} {user.detailData.name}</td>
+                <td>{user.surname} {user.name}</td>
                 <td>{user.email}</td>
-                <td>{user.company.title}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        <Pagination
+        {
+        /*<Pagination
           link="usersList"
           history={this.props.history}
           numberOfPages={this.props.numberOfPages}
@@ -108,7 +97,8 @@ class UsersList extends Component {
           pageNumber={this.state.pageNumber}
           setPageNumber={this.setPage.bind(this)}
           pagination={this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20}
-          />
+          />*/
+        }
       </div>
     );
   }
@@ -117,7 +107,7 @@ class UsersList extends Component {
 const mapStateToProps = ({ usersReducer, login }) => {
   const { users, usersLinks } = usersReducer;
   const { token } = login;
-  return { users, numberOfPages:usersLinks.numberOfPages, token };
+  return { users, token };
 };
 
 

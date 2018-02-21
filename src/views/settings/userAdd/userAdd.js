@@ -28,8 +28,8 @@ class UserAdd extends Component {
       linkdin:'',
       google:'',
       image:'',
-      userRole:'',
-      company:'',
+      userRole:this.props.userRoles[0].id,
+      company:this.props.companies[0].id,
       image:null,
       imageURL:null,
     }

@@ -12,6 +12,7 @@ import projectsReducer from './reducers/projectsReducer';
 import statusesReducer from './reducers/statusesReducer';
 import companyAttributesReducer from './reducers/companyAttributesReducer';
 import sidebarReducer from './reducers/sidebarReducer';
+import taskAttributesReducer from './reducers/taskAttributesReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -24,7 +25,8 @@ const reducers = combineReducers({
     projectsReducer,
     statusesReducer,
     companyAttributesReducer,
-    sidebarReducer
+    sidebarReducer,
+    taskAttributesReducer
   });
 
 const enhancers = compose(

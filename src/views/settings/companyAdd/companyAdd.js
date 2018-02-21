@@ -6,8 +6,8 @@ import MultiSelect from "../../../components/multiSelect";
 class CompanyAdd extends Component {
   constructor(props){
     super(props);
-
     //creates company_data state for each field
+    console.log(this.props.companyAttributes);
     let company_data={};
     this.props.companyAttributes.map((attribute)=>
     {
@@ -21,7 +21,12 @@ class CompanyAdd extends Component {
         break;
         case 'simple_select':
         if(attribute.required){
-          value=attribute.options[0];
+          if(Array.isArray(attribute.options)){
+            value=attribute.options[0];            
+          }
+          else{
+            value=Object.keys(attribute.options)[0];
+          }
         }
         else{
           value='null';
@@ -292,14 +297,23 @@ class CompanyAdd extends Component {
                             >
                             </option>
                             }
-                              {attribute.options.map(opt => (
-                                <option
-                                  key={opt}
-                                  value={opt}
-                                >
-                                  {opt}
-                                </option>
-                              ))}
+                            {Array.isArray(attribute.options) && attribute.options.map(opt => (
+                              <option
+                                key={opt}
+                                value={opt}
+                              >
+                                {opt}
+                              </option>
+                            ))}
+                            {!Array.isArray(attribute.options) && Object.keys(attribute.options).map(key =>
+                              <option
+                              key={key}
+                              value={key}
+                              >
+                              {key}
+                              </option>
+                            )}
+
                             </select>
                             </div>
                   case 'multi_select':

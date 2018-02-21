@@ -323,19 +323,28 @@ class CompanyEdit extends Component {
                               }}
                             >
                             {!attribute.required && <option
-                                key='null'
-                                value='null'
-                                >
-                              </option>
+                              key='null'
+                              value='null'
+                            >
+                            </option>
                             }
-                              {attribute.options.map(opt => (
-                                <option
-                                  key={opt}
-                                  value={opt}
-                                >
-                                  {opt}
-                                </option>
-                              ))}
+                            {Array.isArray(attribute.options) && attribute.options.map(opt => (
+                              <option
+                                key={opt}
+                                value={opt}
+                              >
+                                {opt}
+                              </option>
+                            ))}
+                            {!Array.isArray(attribute.options) && Object.keys(attribute.options).map(key =>
+                              <option
+                              key={key}
+                              value={key}
+                              >
+                              {key}
+                              </option>
+                            )}
+
                             </select>
                             </div>
                   case 'multi_select':

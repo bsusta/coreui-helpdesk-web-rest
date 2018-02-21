@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { editCompanyAttribute } from '../../../redux/actions';
+import { editTaskAttribute } from '../../../redux/actions';
 import { connect } from 'react-redux';
 
 const options=[
@@ -14,21 +14,21 @@ const options=[
   {id:'checkbox',title:'checkbox'},
   ];
 
-class CompanyAttributeEdit extends Component {
+class TaskAttributeEdit extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.companyAttribute);
+    console.log(this.props.taskAttribute);
     this.state = {
       changed:false,
-      is_active: this.props.companyAttribute.is_active?true:false,
-      title: this.props.companyAttribute.title?this.props.companyAttribute.title:'',
-      type: this.props.companyAttribute.type?this.props.companyAttribute.type:'input',
-      required:this.props.companyAttribute.required,
-      description:this.props.companyAttribute.description?this.props.companyAttribute.description:'',
+      is_active: this.props.taskAttribute.is_active?true:false,
+      title: this.props.taskAttribute.title?this.props.taskAttribute.title:'',
+      type: this.props.taskAttribute.type?this.props.taskAttribute.type:'input',
+      required:this.props.taskAttribute.required,
+      description:this.props.taskAttribute.description?this.props.taskAttribute.description:'',
       newOption:'',
-      options:((this.props.companyAttribute.type=="simple_select"||this.props.companyAttribute.type=="multi_select") &&this.props.companyAttribute.options)?(Array.isArray(this.props.companyAttribute.options) ?this.props.companyAttribute.options:Object.keys(this.props.companyAttribute.options)):[]
+      options:((this.props.taskAttribute.type=="simple_select"||this.props.taskAttribute.type=="multi_select") &&this.props.taskAttribute.options)?(Array.isArray(this.props.taskAttribute.options) ?this.props.taskAttribute.options:Object.keys(this.props.taskAttribute.options)):[]
     };
-    let meh=[...this.props.companyAttribute.options];
+    let meh=[...this.props.taskAttribute.options];
     console.log(meh);
     console.log(typeof meh);
   }
@@ -37,11 +37,11 @@ class CompanyAttributeEdit extends Component {
     var newState = {...this.state};
     newState[change]=val;
     this.setState({changed:
-      newState.is_active!=this.props.companyAttribute.is_active||
-      newState.title!=this.props.companyAttribute.title||
-      newState.description!=(this.props.companyAttribute.description?this.props.companyAttribute.description:'')||
-      newState.type!=this.props.companyAttribute.type||
-      newState.required!=this.props.companyAttribute.required
+      newState.is_active!=this.props.taskAttribute.is_active||
+      newState.title!=this.props.taskAttribute.title||
+      newState.description!=(this.props.taskAttribute.description?this.props.taskAttribute.description:'')||
+      newState.type!=this.props.taskAttribute.type||
+      newState.required!=this.props.taskAttribute.required
     })
   }
 
@@ -51,13 +51,13 @@ class CompanyAttributeEdit extends Component {
     if ((this.state.type=="simple_select"||this.state.type=="multi_select")&&this.state.options.length==0){
       return;
     }
-    this.props.editCompanyAttribute({
+    this.props.editTaskAttribute({
       title:this.state.title,
       type:this.state.type,
       required:this.state.required,
       description:this.state.description===''?'null':this.state.description,
       options:(this.state.type=="simple_select"||this.state.type=="multi_select")?JSON.stringify(this.state.options):'null',
-    },this.state.is_active,this.props.companyAttribute.id,this.props.token);
+    },this.state.is_active,this.props.taskAttribute.id,this.props.token);
     this.setState({changed:false});
     this.props.history.goBack();
   }
@@ -77,7 +77,7 @@ class CompanyAttributeEdit extends Component {
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0",border:this.state.changed?'1px solid red':null }}
         >
 
-        <h4 class="card-header">Edit company attribute</h4>
+        <h4 class="card-header">Edit task attribute</h4>
         <div class="card-body">
           <div class="list-group">
 
@@ -253,11 +253,11 @@ class CompanyAttributeEdit extends Component {
 }
 }
 
-const mapStateToProps = ({companyAttributesReducer, login }) => {
-  const {companyAttribute} = companyAttributesReducer;
+const mapStateToProps = ({taskAttributesReducer, login }) => {
+  const {taskAttribute} = taskAttributesReducer;
   const {token} = login;
-  return {companyAttribute,token};
+  return {taskAttribute,token};
 };
 
 
-export default connect(mapStateToProps, {editCompanyAttribute})(CompanyAttributeEdit);
+export default connect(mapStateToProps, {editTaskAttribute})(TaskAttributeEdit);

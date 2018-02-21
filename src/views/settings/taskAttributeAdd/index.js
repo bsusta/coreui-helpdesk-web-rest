@@ -1,69 +1,86 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-const mockOptions=[{id:0,title:'input'},{id:1,title:'textArea'},{id:2,title:'select'},{id:3,title:'checkbox'},{id:4,title:'datetime'},{id:5,title:'number'}];
+import { addTaskAttribute } from '../../../redux/actions';
+import { connect } from 'react-redux';
+
+const options=[
+  {id:'input',title:'input'},
+  {id:'text_area',title:'text area'},
+  {id:'simple_select',title:'simple select'},
+  {id:'multi_select',title:'multi select'},
+  {id:'date',title:'date'},
+  {id:'decimal_number',title:'decimal number'},
+  {id:'integer_number',title:'integer number'},
+  {id:'checkbox',title:'checkbox'},
+  ];
 
 class TaskAttributeAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: false,
-      name: '',
-      description: '',
-      type: '',
-      values: []
+      title: '',
+      type: 'input',
+      required: false,
+      newOption:'',
+      description:'',
+    options:[]
     };
+  }
+
+  //gets all data from the state and sends it to the API
+  submit(e){
+    e.preventDefault(); //prevent default form behaviour
+    if ((this.state.type=="simple_select"||this.state.type=="multi_select")&&this.state.options.length==0){
+      return;
+    }
+    this.props.addTaskAttribute({
+      title:this.state.title,
+      type:this.state.type,
+      description:this.state.description,
+      options:(this.state.type=="simple_select"||this.state.type=="multi_select")?JSON.stringify(this.state.options):'null',
+      required:this.state.required,
+    },this.props.token);
+    this.props.history.goBack();
   }
 
   render() {
     return (
       <div
         class="card"
-        style={{ maxWidth: 1380, margin: "auto", borderTop: "0",border:this.state.changed?'1px solid red':null }}
+        style={{ maxWidth: 1380, margin: "auto", borderTop: "0"}}
         >
 
         <h4 class="card-header">Add task attribute</h4>
         <div class="card-body">
           <div class="list-group">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input
-                    type="checkbox"
-                    checked={this.state.active}
-                    onChange={() =>{
-                      this.compareChanges("active",!this.state.active);
-                      this.setState({ active: !this.state.active })
-                    }
-                  }
-                  class="form-check-input"
-                  />
-                Active
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" checked={this.state.required} onChange={()=>this.setState({required:!this.state.required})}/>
+                Required
               </label>
             </div>
+
             <div class="form-group">
               <label for="title">Name</label>
               <input
                 class="form-control"
                 id="title"
-                value={this.state.name}
+                value={this.state.title}
                 onChange={event =>{
-                  this.compareChanges("name",event.target.value);
-                  this.setState({ name: event.target.value })
+                  this.setState({ title: event.target.value })
                 }
               }
-              placeholder="Enter name"
+              placeholder="Enter title"
               />
           </div>
+
           <div class="form-group">
-            <label for="title">Description</label>
-            <input
+            <label for="description">Description</label>
+            <textarea
               class="form-control"
-              id="title"
+              id="description"
               value={this.state.description}
-              onChange={event =>{
-                this.compareChanges("description",event.target.value);
-                this.setState({ description: event.target.value })
-              }
-            }
+              onChange={event =>this.setState({ description: event.target.value })}
             placeholder="Enter description"
             />
         </div>
@@ -72,26 +89,27 @@ class TaskAttributeAdd extends Component {
           <label for="title">Type</label>
         <select
           class="form-control"
-          selected={this.state.type}
-          onChange={(event, value) => {
+          value={this.state.type}
+          onChange={(event) => {
             this.setState({ type: event.target.value });
           }}
         >
-          {mockOptions.map(opt => (
+          {options.map(opt => (
             <option
               key={opt.id}
-              value={opt.title}
+              value={opt.id}
             >
               {opt.title}
             </option>
           ))}
         </select>
         </div>
-
+        {
+          (this.state.type=="simple_select" ||this.state.type=="multi_select")&&
         <table class="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ borderTop: "0px" }}>Select values</th>
+              <th style={{ borderTop: "0px" }}>Select options</th>
               <th
                 style={{ width: "80px", borderTop: "0px", textAlign: "right" }}
               />
@@ -99,15 +117,21 @@ class TaskAttributeAdd extends Component {
           </thead>
           <tbody>
             {
-              this.state.values.map((value)=>
+              this.state.options.map((value)=>
             <tr>
               <td>
                   <input
                     type="text"
-                    id="name"
+                    id={value}
                     class="form-control"
                     placeholder="select value"
                     value={value}
+                    onChange={(e)=>{
+                      let newOptions=[...this.state.options];
+                      newOptions[newOptions.findIndex((item)=>item==value)]=e.target.value;
+                      this.setState({options:newOptions});
+                  }
+                }
                     style={{ border: "none" }}
                   />
               </td>
@@ -117,7 +141,12 @@ class TaskAttributeAdd extends Component {
                   style={{ float: "right", paddingRight: 20 }}
                   className="row"
                 >
-                  <button className="btn btn-sm btn-danger  ">
+                  <button className="btn btn-sm btn-danger"
+                  onClick={()=>{
+                    let newOptions=[...this.state.options];
+                    newOptions.splice(newOptions.indexOf(value),1);
+                    this.setState({options:newOptions});
+                  }}>
                     <i className="fa fa-remove" />
                   </button>
                 </div>
@@ -129,14 +158,16 @@ class TaskAttributeAdd extends Component {
                 <div style={{ display: "flex" }}>
                   <input
                     type="text"
-                    id="name"
+                    id="title"
                     class="form-control"
+                    value={this.state.newOption}
+                    onChange={(e)=>this.setState({newOption:e.target.value})}
                     placeholder="Select value name"
                   />
                   <button
                     style={{ float: "right" }}
                     className="btn btn-sm btn-primary mr-1"
-                    onClick={()=>console.log(this.state.values)}
+                    onClick={()=>this.setState({options:[...this.state.options,this.state.newOption],newOption:''})}
                   >
                     <i className="fa fa-plus " />
                   </button>
@@ -145,12 +176,9 @@ class TaskAttributeAdd extends Component {
             </tr>
           </tbody>
         </table>
+        }
         <div class="row">
-        <button
-          type="submit"
-          class="btn btn-primary mr-2"
-          onClick={() => this.props.history.goBack()}
-          >
+        <button type="submit" class="btn btn-primary mr-2" onClick={this.submit.bind(this)}>
           Submit
         </button>
         <button
@@ -168,4 +196,11 @@ class TaskAttributeAdd extends Component {
 }
 }
 
-export default TaskAttributeAdd;
+const mapStateToProps = ({taskAttributesReducer, login }) => {
+  const {taskAttribute} = taskAttributesReducer;
+  const {token} = login;
+  return {taskAttribute,token};
+};
+
+
+export default connect(mapStateToProps, {addTaskAttribute})(TaskAttributeAdd);

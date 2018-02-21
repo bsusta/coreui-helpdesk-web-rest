@@ -5,13 +5,29 @@ const initialState = {
   usersLoaded:false,
   users:null,
   userLoaded:false,
-  usersLinks:null,
+  updateDate:null,
 };
 
 export default function usersReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_USERS:
-      return { ...state, users:action.users, usersLinks:action.links };
+    case SET_USERS:{
+      if(!state.updateDate){
+        return { ...state, users:action.users, updateDate:action.updateDate };
+      }
+      console.log(action);
+      let newUsers=[...state.users];
+      action.users.map((user)=>{
+        let index= newUsers.findIndex((item)=>item.id===user.id);
+        if(index!=-1){
+          newUsers[index]=user;
+        }
+        else{
+          newUsers.push(user);
+        }
+      });
+      return { ...state, users:newUsers, updateDate:action.updateDate };
+
+    }
     case ADD_USER:
       return { ...state, users:[action.user,...state.users] };
       case SET_USERS_LOADING:

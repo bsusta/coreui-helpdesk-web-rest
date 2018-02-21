@@ -9,7 +9,7 @@ class ProjectEditLoader extends Component {
     this.props.startProjectLoading();  // first it sets, that project hasnt been loaded
     this.props.startUsersLoading();
     this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.token);  //send request for download and storing of the projects data
-    this.props.getUsers(999,1,"",this.props.token);
+    this.props.getUsers(this.props.updateDate,this.props.token);
   }
   render(){
     if(!this.props.projectLoaded||!this.props.usersLoaded){ //data hasnt been loaded yet
@@ -23,7 +23,7 @@ class ProjectEditLoader extends Component {
 const mapStateToProps = ({projectsReducer,usersReducer, login }) => {
   const {projectLoaded} = projectsReducer;
   const {token} = login;
-  const {usersLoaded} = usersReducer;
+  const {usersLoaded, updateDate} = usersReducer;
   return {projectLoaded,usersLoaded,token};
 };
 

@@ -10,3 +10,4 @@ export * from './projectActions';
 export * from './statusActions';
 export * from './companyAttributeActions';
 export * from './sidebarActions';
+export * from './taskAttributeActions';

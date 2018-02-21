@@ -128,18 +128,23 @@ export const editProject = (body,isActive,id,token) => {
   };
 };
 
-export const savePermissions = (permissions,projectID,token) => {
+export const savePermissions = (permissions,prev,projectID,token) => {
   return (dispatch) => {
-      let body={usersAcl:{}};
-      permissions.map((perm)=>body.usersAcl[perm.user.id.toString()]=JSON.stringify(perm.acl));
-      console.log(JSON.stringify(body));
+      let body={};
+      prev.map((item)=>{
+        if(permissions.findIndex((per)=>per.user.id===item.user.id)===-1){
+          body[item.user.id.toString()]='null'
+        }
+      })
+      permissions.map((perm)=>body[perm.user.id.toString()]=perm.acl);
+      console.log(body);
       fetch(UPDATE_PROJECT_ACL+projectID+'/process-more-acl',{
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         },
         method: 'PUT',
-        body:JSON.stringify(body),
+        body:JSON.stringify({usersAcl:body}),
       })
     .then((response)=>{
     response.json().then((response)=>{

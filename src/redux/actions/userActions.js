@@ -1,5 +1,5 @@
 import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER } from '../types';
-import { USERS_LIST, IMAGE_UPLOAD, GET_IMAGE_URL } from '../urls';
+import { USERS_LIST, IMAGE_UPLOAD, GET_IMAGE_LOC, GET_IMAGE } from '../urls';
 
 /**
  * Sets status if users are loaded to false
@@ -14,9 +14,9 @@ export const startUsersLoading = () => {
  * Gets all users available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getUsers= (limit,page,filter,token) => {
+export const getUsers= (updateDate,token) => {
   return (dispatch) => {
-      fetch(USERS_LIST+'?limit='+limit+'&page='+page, {
+      fetch(USERS_LIST+'/all'+(updateDate?'/'+updateDate:''), {
         method: 'get',
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -24,9 +24,7 @@ export const getUsers= (limit,page,filter,token) => {
         }
       }).then((response) =>{
       response.json().then((data) => {
-        let links=data._links;
-        links['numberOfPages']=data.numberOfPages;
-        dispatch({type: SET_USERS, users:data.data,links});
+        dispatch({type: SET_USERS, users:data.data,updateDate:data.date.toString()});
         dispatch({ type: SET_USERS_LOADING, usersLoaded:true });
       });
     }
@@ -119,16 +117,27 @@ export const getUser = (id,token) => {
       }).then((response) =>{
       response.json().then((data) => {
         if(data.data.image){
-          fetch(GET_IMAGE_URL+data.data.image+'/load-image', {
+          fetch(GET_IMAGE_LOC+data.data.image+'/download-location', {
             method: 'get',
             headers: {
               'Authorization': 'Bearer ' + token,
               'Content-Type': 'application/json'
             }
           }).then((response2)=>response2.json().then((data2)=>{
-              let user = {...data.data};
-              user['image']=data2.data.url;
-              dispatch({type: SET_USER, user});
+            fetch(GET_IMAGE+data2.data.fileDir+'/'+data2.data.fileName, {
+              method: 'get',
+              headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+              }
+            }).then((response3) =>response3.json().then((data3)=>{
+              console.log(data3);
+                let user = {...data.data};
+                user['image']=data3;
+                dispatch({type: SET_USER, user});
+              })).catch(function (error) {
+                console.log(error);
+              });
             }).catch(function (error) {
               console.log(error);
             })

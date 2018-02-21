@@ -7,7 +7,7 @@ class ProjectEdit extends Component {
     super(props);
     let filteredUsers = [...this.props.users];
     this.props.project.userHasProjects.map((user)=>filteredUsers.splice(filteredUsers.findIndex((item)=>item.id===user.user.id),1));
-
+    filteredUsers.splice(filteredUsers.findIndex((item)=>item.id===this.props.user.id),1);
     this.state = {
       title: this.props.project.title?this.props.project.title:'',
       description: this.props.project.description?this.props.project.description:'',
@@ -15,6 +15,7 @@ class ProjectEdit extends Component {
       permissions:this.props.project.userHasProjects?this.props.project.userHasProjects:[],
       newUser: filteredUsers.length===0?'':filteredUsers[0].id,
       filteredUsers,
+      lastSavedPermissions:this.props.project.userHasProjects?this.props.project.userHasProjects:[]
     };
     this.setPermission.bind(this);
     console.log(this.props.project);
@@ -224,7 +225,8 @@ class ProjectEdit extends Component {
           type="button"
           class="btn btn-primary"
           onClick={()=>{
-            this.props.savePermissions(this.state.permissions,this.props.project.id,this.props.token);
+            this.props.savePermissions(this.state.permissions,this.state.lastSavedPermissions,this.props.project.id,this.props.token);
+            this.setState({lastSavedPermissions:this.state.permissions});
           }}
           style={{ color: "white", marginLeft: 5 }}
         >
