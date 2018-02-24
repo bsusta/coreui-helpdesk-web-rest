@@ -9,7 +9,6 @@ export const COMPANIES_LIST = BASE_URL + '/core-bundle/companies';
 export const USERS_LIST = BASE_URL + '/core-bundle/users';
 export const USER_ROLES_LIST = BASE_URL + '/task-bundle/user-roles';
 export const STATUSES_LIST = BASE_URL + '/task-bundle/status';
-export const TAG_LIST = BASE_URL + '/task-bundle/tags';
 export const FILTER_LIST = BASE_URL + '/task-bundle/filters';
 export const ROLES_LIST = BASE_URL + '/task-bundle/user-roles';
 export const ASSIGNERS_LIST = BASE_URL + '/task-bundle/project/assigners';
@@ -25,3 +24,5 @@ export const GET_IMAGE = HOST_URL + '/uploads/';
 
 export const SIDEBAR_DATA = BASE_URL + '/task-bundle/left-menu-params';
 export const UPDATE_PROJECT_ACL = BASE_URL + '/task-bundle/project/';
+
+export const TAGS_LIST = BASE_URL + '/task-bundle/tags';

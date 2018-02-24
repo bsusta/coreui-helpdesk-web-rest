@@ -46,6 +46,9 @@ import Project from "./views/Project";
 import ProjectInfo from "./views/ProjectInfo";
 import ProjectEdit from "./views/ProjectEdit";
 import ProjectAdd from "./views/ProjectAdd";
+import Tag from "./views/Tag";
+import TagAdd from "./views/TagAdd";
+import TagEdit from "./views/TagEdit";
 import EditTask from "./views/EditTask";
 import SecondEditTask from "./views/SecondEditTask";
 import TrojStlpec from "./views/TrojStlpec";
@@ -327,6 +330,24 @@ class Full extends Component {
                   name="Project edit"
                   component={ProjectEdit}
                 />
+                <Route
+                  exact
+                  path="/tag/add"
+                  name="Tag add"
+                  component={TagAdd}
+                  />
+                  <Route
+                    exact
+                    path="/tag/:id"
+                    name="Tag"
+                    component={Tag}
+                  />
+                  <Route
+                    exact
+                    path="/tag/edit/:id"
+                    name="Tag edit"
+                    component={TagEdit}
+                  />
                 <Route
                   exact
                   path="/edittask"

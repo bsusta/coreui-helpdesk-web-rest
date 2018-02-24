@@ -36,9 +36,14 @@ export const getSidebar= (token) => {
         };
         data.tags.map((tag)=>tags.children.push({
           name: tag.title,
-          url: "/tags/"+tag.id.toString(),
+          url: "/tag/"+tag.id.toString(),
           icon: "fa fa-play"
         }));
+        tags.children.push({
+            name: "Tag",
+            url: "/tag/add",
+            icon: "fa fa-plus"
+        })
 
         let filters = {
           name: "Filters",

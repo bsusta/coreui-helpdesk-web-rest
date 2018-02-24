@@ -14,12 +14,17 @@ export default function usersReducer(state = initialState, action) {
       if(!state.updateDate){
         return { ...state, users:action.users, updateDate:action.updateDate };
       }
-      console.log(action);
       let newUsers=[...state.users];
       action.users.map((user)=>{
         let index= newUsers.findIndex((item)=>item.id===user.id);
         if(index!=-1){
-          newUsers[index]=user;
+          if(!user.is_active){
+            newUsers.splice(index,1);
+          }
+          else{
+
+            newUsers[index]=user;
+          }
         }
         else{
           newUsers.push(user);
@@ -39,7 +44,12 @@ export default function usersReducer(state = initialState, action) {
       case EDIT_USER:{
         //finds location of the current user and replaces it with newer version
         let newUsers=[...state.users];
-        newUsers[newUsers.findIndex((user)=>user.id==action.user.id)]=action.user;
+        if(action.user.is_active){
+          newUsers[newUsers.findIndex((user)=>user.id==action.user.id)]=action.user;
+        }
+        else{          
+          newUsers.splice(newUsers.findIndex((user)=>user.id==action.user.id),1);
+        }
         return { ...state, users:newUsers };
       }
     default:

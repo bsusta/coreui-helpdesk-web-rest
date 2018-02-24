@@ -88,3 +88,12 @@ export const ADD_TASK_ATTRIBUTE = 'ADD_TASK_ATTRIBUTE';
 export const SET_TASK_ATTRIBUTE = 'SET_TASK_ATTRIBUTE';
 export const SET_TASK_ATTRIBUTE_LOADING = 'SET_TASK_ATTRIBUTE_LOADING';
 export const EDIT_TASK_ATTRIBUTE = 'EDIT_TASK_ATTRIBUTE';
+
+//all constants for TAGS actions
+export const SET_TAGS = 'SET_TAGS';
+export const SET_TAGS_LOADING = 'SET_TAGS_LOADING';
+export const ADD_TAG = 'ADD_TAG';
+export const SET_TAG = 'SET_TAG';
+export const SET_TAG_LOADING = 'SET_TAG_LOADING';
+export const EDIT_TAG = 'EDIT_TAG';
+export const DELETE_TAG = 'DELETE_TAG';
