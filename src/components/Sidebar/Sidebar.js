@@ -168,7 +168,7 @@ class Sidebar extends Component {
         <SidebarHeader />
         <SidebarForm />
         <nav className="sidebar-nav">
-          <Nav>{navList(nav.items.concat(this.props.sidebar))}</Nav>
+          <Nav>{navList(this.props.sidebar.concat(nav.items))}</Nav>
         </nav>
         <SidebarFooter />
         <SidebarMinimizer />

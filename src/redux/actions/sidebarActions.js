@@ -31,18 +31,17 @@ export const getSidebar= (token) => {
         let tags = {
           name: "Tags",
           url: "",
-          icon: "fa fa-filter",
+          icon: "fa fa-tags",
           children:[]
         };
         data.tags.map((tag)=>tags.children.push({
           name: tag.title,
-          url: "/tag/"+tag.id.toString(),
-          icon: "fa fa-play"
+          url: "/tag/"+tag.id.toString()
         }));
         tags.children.push({
             name: "Tag",
             url: "/tag/add",
-            icon: "fa fa-plus"
+            icon: "fa fa-plus",
         })
 
         let filters = {
@@ -60,7 +59,7 @@ export const getSidebar= (token) => {
             name: "Filter",
             url: "/mytasks",
             icon: "fa fa-plus"
-        })
+        });
 
 
 

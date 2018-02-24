@@ -14,7 +14,7 @@ export const startCompaniesLoading = () => {
  * Gets all companies available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getCompanies= (limit,page,filter,token) => {
+export const getCompanies= (limit,page,token,filter) => {
   return (dispatch) => {
       fetch(COMPANIES_LIST+'/search?limit='+limit+'&page='+page+'&term='+filter, {
         method: 'get',

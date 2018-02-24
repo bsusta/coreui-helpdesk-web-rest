@@ -1,223 +1,36 @@
 import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  Button,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Card,
-  CardHeader,
-  CardFooter,
-  CardBody,
-  Form,
-  FormGroup,
-  FormText,
-  Label,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton
-} from "reactstrap";
-import DatePicker from "react-datepicker";
-import moment from "moment";
+import { connect } from 'react-redux';
 
-import Select from "react-select";
+import {getFilteredTasks, startFilterTasksLoading } from '../../redux/actions';
+import Filter from './Filter';
 
-import "react-datepicker/dist/react-datepicker.css";
-import "../../../scss/vendors/react-select/react-select.scss";
-
-var options = [
-  { value: "F1", label: "LAN Systems s.r.o." },
-  { value: "F2", label: "Pozagas a.s." }
-];
-class Aside extends Component {
-  constructor(props) {
-    super(props);
-    this.saveChanges = this.saveChanges.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      value: "UT",
-      startDate: moment()
-    };
+class FilterLoader extends Component {
+  //before loader page is loaded, we send requests to get all available units
+  componentWillMount(){
+    this.props.startFilterTasksLoading();
+    this.props.getFilteredTasks(this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,this.props.token,parseInt(this.props.match.params.id, 10));
   }
-
-  handleChange(date) {
-    this.setState({
-      startDate: date
-    });
+  componentDidUpdate(){
+    if(this.props.filterID!==parseInt(this.props.match.params.id, 10) && this.props.filterTasksLoaded){
+      this.props.startFilterTasksLoading();
+      this.props.getFilteredTasks(this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,this.props.token,parseInt(this.props.match.params.id, 10));
+    }
   }
-
-  saveChanges(value) {
-    this.setState({ value });
-  }
-  render() {
-    return (
-      <div className="filterDivInside">
-        <div style={{ paddingLeft: 20 }}>
-          <button type="button" class="btn btn-link" style={{ paddingLeft: 0 }}>
-            Apply
-          </button>
-          <button type="button" class="btn btn-link">
-            Save
-          </button>
-          <button type="button" class="btn btn-link">
-            Reset
-          </button>
-
-          <p>Status</p>
-          <FormGroup check>
-            <div className="checkbox">
-              <Label check htmlFor="New">
-                <Input
-                  type="checkbox"
-                  id="checkbox1"
-                  name="checkbox1"
-                  value="option1"
-                />
-                New
-              </Label>
-            </div>
-            <div className="checkbox">
-              <Label check htmlFor="Open">
-                <Input
-                  type="checkbox"
-                  id="checkbox2"
-                  name="checkbox2"
-                  value="option2"
-                />
-                Open
-              </Label>
-            </div>
-            <div className="checkbox">
-              <Label check htmlFor="Pending">
-                <Input
-                  type="checkbox"
-                  id="checkbox3"
-                  name="checkbox3"
-                  value="option3"
-                />
-                Pending
-              </Label>
-            </div>
-            <div className="checkbox">
-              <Label check htmlFor="Closed">
-                <Input
-                  type="checkbox"
-                  id="Closed"
-                  name="Closed"
-                  value="Closed"
-                />
-                Closed
-              </Label>
-            </div>
-          </FormGroup>
-
-          <label className="mt-1">Zadal</label>
-          <Select
-            name="form-field-name2"
-            value={this.state.value}
-            options={options}
-            onChange={this.saveChanges}
-            multi
-            style={{ width: "100%" }}
-          />
-
-          <label className="mt-2">Firma</label>
-          <Select
-            name="form-field-name2"
-            value={this.state.value}
-            options={options}
-            onChange={this.saveChanges}
-            multi
-            style={{ width: "100%" }}
-          />
-
-          <label className="mt-2">Riesi</label>
-          <Select
-            name="form-field-name2"
-            value={this.state.value}
-            options={options}
-            onChange={this.saveChanges}
-            multi
-            style={{ width: "100%" }}
-          />
-
-          <label className="mt-2">Projekt</label>
-          <Select
-            name="form-field-name2"
-            value={this.state.value}
-            options={options}
-            onChange={this.saveChanges}
-            multi
-            style={{ width: "100%" }}
-          />
-
-          <label className="mt-2">Tags</label>
-          <Select
-            name="form-field-name2"
-            value={this.state.value}
-            options={options}
-            onChange={this.saveChanges}
-            multi
-            style={{ width: "100%" }}
-          />
-
-          <label className="mt-2">Created</label>
-
-          <div class="d-flex flex-row justify-content-between">
-            <input
-              type="text"
-              id="name"
-              class="form-control mr-2"
-              placeholder="From"
-            />
-            <input
-              type="text"
-              id="name"
-              class="form-control ml-2"
-              placeholder="To"
-            />
-          </div>
-
-          <label className="mt-2">Due Date</label>
-          <div class="d-flex flex-row justify-content-between">
-            <input
-              type="text"
-              id="name"
-              class="form-control mr-2"
-              placeholder="From"
-            />
-            <input
-              type="text"
-              id="name"
-              class="form-control ml-2"
-              placeholder="To"
-            />
-          </div>
-
-          <label className="mt-2">Closed</label>
-          <div class="d-flex flex-row justify-content-between">
-            <input
-              type="text"
-              id="name"
-              class="form-control mr-2"
-              placeholder="From"
-            />
-            <input
-              type="text"
-              id="name"
-              class="form-control ml-2"
-              placeholder="To"
-            />
-          </div>
-
-          {/*Aside Menu*/}
-        </div>
-      </div>
-    );
+  render(){
+    if(!this.props.filterTasksLoaded){
+      return(<div>Loading...</div>)
+    }
+    return <Filter history={this.props.history} match={this.props.match}/>
   }
 }
 
-export default Aside;
+//all below is just redux storage
+
+const mapStateToProps = ({tasksReducer, login }) => {
+  const {filterTasksLoaded} = tasksReducer;
+  const {token} = login;
+  return {filterTasksLoaded,filterID:tasksReducer.filterLinks?tasksReducer.filterLinks.id:null,token};
+};
+
+
+export default connect(mapStateToProps, {getFilteredTasks, startFilterTasksLoading})(FilterLoader);

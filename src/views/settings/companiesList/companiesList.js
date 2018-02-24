@@ -86,7 +86,7 @@ class CompaniesList extends Component {
           numberOfPages={this.props.numberOfPages}
           refetchData={this.props.getCompanies}
           token={this.props.token}
-          filter={this.state.confirmedFilter}
+          refetchParameters={[this.state.confirmedFilter]}
           pageNumber={this.state.pageNumber}
           setPageNumber={this.setPage.bind(this)}
           pagination={this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20}

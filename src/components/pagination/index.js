@@ -11,14 +11,8 @@ export default class Pag extends Component {
     };
     this.refetch.bind(this);
   }
-
   refetch(pagination,pageNumber){
-    if(this.props.filter){
-      this.props.refetchData(pagination, pageNumber,this.props.filter,this.props.token);
-    }
-    else{
-      this.props.refetchData(pagination, pageNumber,"",this.props.token);
-    }
+      this.props.refetchData(pagination, pageNumber,this.props.token,...this.props.refetchParameters);
   }
 
   render() {

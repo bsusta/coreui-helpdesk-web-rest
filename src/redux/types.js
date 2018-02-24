@@ -97,3 +97,15 @@ export const SET_TAG = 'SET_TAG';
 export const SET_TAG_LOADING = 'SET_TAG_LOADING';
 export const EDIT_TAG = 'EDIT_TAG';
 export const DELETE_TAG = 'DELETE_TAG';
+
+//all constants for TASKS actions
+export const SET_TASKS = 'SET_TASKS';
+export const SET_TASKS_LOADING = 'SET_TASKS_LOADING';
+export const SET_PROJECT_TASKS_LOADING = 'SET_PROJECT_TASKS_LOADING';
+export const SET_FILTER_TASKS_LOADING = 'SET_FILTER_TASKS_LOADING';
+export const ADD_TASK = 'ADD_TASK';
+export const SET_TASK = 'SET_TASK';
+export const SET_TASK_LOADING = 'SET_TASK_LOADING';
+export const EDIT_TASK = 'EDIT_TASK';
+export const SET_FILTER_LINKS = 'SET_FILTER_LINKS';
+export const SET_PROJECT_LINKS = 'SET_PROJECT_LINKS';

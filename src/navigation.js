@@ -53,7 +53,7 @@ import EditTask from "./views/EditTask";
 import SecondEditTask from "./views/SecondEditTask";
 import TrojStlpec from "./views/TrojStlpec";
 import Messages from "./views/Messages";
-
+import Filter from "./views/Filter";
 class Full extends Component {
   render() {
     return (
@@ -315,7 +315,13 @@ class Full extends Component {
                 <Route
                   exact
                   path="/project/:id"
-                  name="Project"
+                  name="Projects"
+                  component={Project}
+                />
+                <Route
+                  exact
+                  path="/project/:id/:page,:count"
+                  name="Project task list"
                   component={Project}
                 />
                 <Route
@@ -366,6 +372,19 @@ class Full extends Component {
                   name="TrojStlpec"
                   component={TrojStlpec}
                 />
+                <Route
+                  exact
+                  path="/filter/:id/:page,:count"
+                  name="Filtered task list"
+                  component={Filter}
+                />
+                <Route
+                  exact
+                  path="/filter/:id"
+                  name="Filtered task list"
+                  component={Filter}
+                />
+
               </Switch>
             </Container>
           </main>
