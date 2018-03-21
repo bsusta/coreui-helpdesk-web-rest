@@ -1,4 +1,4 @@
-import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING, EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,SET_FILTER_TASKS_LOADING } from '../types';
+import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING, EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,SET_FILTER_TASKS_LOADING, SET_TAG_LINKS, SET_TAG_TASKS_LOADING } from '../types';
 import { TASKS_LIST } from '../urls';
 
 /**
@@ -73,6 +73,27 @@ import { TASKS_LIST } from '../urls';
  }
  }
 
+ export const getTagTasks= (limit,page,token,id) => {
+   return (dispatch) => {
+       fetch(TASKS_LIST+'?limit='+limit+'&page='+page+'&order=title=>asc'+'&tag='+id, {
+         method: 'get',
+         headers: {
+           'Authorization': 'Bearer ' + token,
+           'Content-Type': 'application/json'
+         }
+       }).then((response) =>{
+       response.json().then((data) => {
+         dispatch({type: SET_TASKS, tasks:data.data});
+         dispatch({type: SET_TAG_LINKS, tagLinks:{numberOfPages:data.numberOfPages,id}});
+         dispatch({ type: SET_TAG_TASKS_LOADING, tagTasksLoaded:true });
+       });
+     }
+   ).catch(function (error) {
+     console.log(error);
+   });
+ }
+ }
+
 /**
  * Adds new task
  * @param {object} body  All parameters in an object of the new task
@@ -103,6 +124,12 @@ export const addTask = (body,token) => {
  * Sets status if task is loaded to false
  */
 export const startTaskLoading = () => {
+  return (dispatch) => {
+    dispatch({ type: SET_TASK_LOADING, taskLoaded:false });
+  }
+};
+
+export const startTagTasksLoading = () => {
   return (dispatch) => {
     dispatch({ type: SET_TASK_LOADING, taskLoaded:false });
   }

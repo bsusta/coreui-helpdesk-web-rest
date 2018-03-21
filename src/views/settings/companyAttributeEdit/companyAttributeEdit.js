@@ -17,7 +17,6 @@ const options=[
 class CompanyAttributeEdit extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.companyAttribute);
     this.state = {
       changed:false,
       is_active: this.props.companyAttribute.is_active?true:false,
@@ -28,9 +27,6 @@ class CompanyAttributeEdit extends Component {
       newOption:'',
       options:((this.props.companyAttribute.type=="simple_select"||this.props.companyAttribute.type=="multi_select") &&this.props.companyAttribute.options)?(Array.isArray(this.props.companyAttribute.options) ?this.props.companyAttribute.options:Object.keys(this.props.companyAttribute.options)):[]
     };
-    let meh=[...this.props.companyAttribute.options];
-    console.log(meh);
-    console.log(typeof meh);
   }
 
   compareChanges(change,val){

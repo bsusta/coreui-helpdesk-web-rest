@@ -104,7 +104,7 @@ class Project extends Component {
                 <td>
                   <span class="badge badge-success">{task.status.title}</span>
                 </td>
-                <td onClick={() => this.props.history.push("/editTask")}>
+                <td onClick={() => this.props.history.push("/task/edit/"+task.id)}>
                   {task.title}
                   <p>
                     <span class="badge badge-primary mr-1">Primary</span>

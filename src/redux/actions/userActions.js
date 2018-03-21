@@ -124,12 +124,14 @@ export const addUser = (body,company,role,image,token) => {
                     'Content-Type': 'application/json'
                   }
                 }).then((response2)=>response2.json().then((data2)=>{
+                  console.log('Bearer ' + token);
                   fetch(GET_IMAGE+data2.data.fileDir+'/'+data2.data.fileName, {
                     method: 'get',
                     headers: {
-                      'Authorization': 'Bearer ' + token
+                      'Authorization': 'Bearer ' + token,
                     }
                   }).then((response3) =>response3.json().then((data3)=>{
+                    console.log('response3');
                     console.log(data3);
                     let user = {...data.data};
                     user['image']=data3;

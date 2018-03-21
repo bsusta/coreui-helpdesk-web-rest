@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import {getFilteredTasks} from '../../redux/actions';
+import {getTagTasks} from '../../redux/actions';
 import {
   Row,
   Col,
@@ -24,7 +24,7 @@ import {
 } from "reactstrap";
 import Pagination from '../../components/pagination';
 
-class Project extends Component {
+class Tag extends Component {
   constructor(props) {
     super(props);
     this.state={
@@ -40,9 +40,9 @@ class Project extends Component {
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ marginTop: 20 }}>
-          {this.props.filters[this.props.filters.findIndex((filter)=>filter.url.includes(this.props.match.params.id))].name} {" "}
+          {this.props.tags[this.props.tags.findIndex((tag)=>tag.url.includes(this.props.match.params.id))].name} {" "}
           <a
-            href={"#/project/info/"+parseInt(this.props.match.params.id, 10)}
+            href={"#/tag/info/"+parseInt(this.props.match.params.id, 10)}
             class="fa fa-info-circle fa-lg"
             style={{
               border: "none",
@@ -107,16 +107,14 @@ class Project extends Component {
                 <td onClick={() => this.props.history.push("/task/edit/"+task.id)}>
                   {task.title}
                   <p>
-                    <span class="badge badge-primary mr-1">Primary</span>
-                    <span class="badge badge-secondary mr-1">Secondary</span>
-                    <span class="badge badge-success mr-1">Success</span>
-                    <span class="badge badge-danger mr-1">Danger</span>
+                    {task.tags.map((tag)=><span class="badge mr-1" style={{backgroundColor:'#'+tag.color, color:'white'}}>{tag.title}</span>
+                    )}
                   </p>
                 </td>
                 <td>{task.requestedBy.username}</td>
                 <td>{task.company.title}</td>
-                <td>{task.taskHasAssignedUsers.length===0?'None':task.taskHasAssignedUsers.map((assignedTo)=>assignedTo.username+' ')}</td>
-                <td>{task.project.title}</td>
+                <td>{task.taskHasAssignedUsers.length===0?'None':'Someone'}</td>
+                <td>{task.project?task.project.title:'No project'}</td>
                 <td>{(new Date(task.createdAt*1000)).getHours()+":"+(new Date(task.createdAt*1000)).getMinutes()+" "+(new Date(task.createdAt*1000)).getDate()+"."+(new Date(task.createdAt*1000)).getMonth()+"."+(new Date(task.createdAt*1000)).getFullYear()}</td>
                 <td>{task.deadline?(new Date(task.deadline*1000)).getHours()+":"+(new Date(task.deadline*1000)).getMinutes()+" "+(new Date(task.deadline*1000)).getDate()+"."+(new Date(task.deadline*1000)).getMonth()+"."+(new Date(task.deadline*1000)).getFullYear():'None'}</td>
               </tr>
@@ -124,10 +122,10 @@ class Project extends Component {
           </tbody>
         </table>
         <Pagination
-          link={"filter/"+this.props.match.params.id}
+          link={"tag/"+this.props.match.params.id}
           history={this.props.history}
           numberOfPages={this.props.numberOfPages}
-          refetchData={this.props.getFilteredTasks}
+          refetchData={this.props.getTagTasks}
           token={this.props.token}
           refetchParameters={[parseInt(this.props.match.params.id, 10)]}
           pageNumber={this.state.pageNumber}
@@ -142,11 +140,11 @@ class Project extends Component {
 }
 
 const mapStateToProps = ({ tasksReducer, sidebarReducer , login}) => {
-  const { tasks, filterLinks } = tasksReducer;
+  const { tasks, tagLinks } = tasksReducer;
   const {sidebar} = sidebarReducer;
   const {token} = login;
-  return { tasks, filters:sidebar[sidebar.findIndex((item)=>item.name==='Filters')].children,numberOfPages:filterLinks.numberOfPages, token };
+  return { tasks, tags:sidebar[sidebar.findIndex((item)=>item.name==='Tags')].children,numberOfPages:tagLinks.numberOfPages,tagID:tagLinks.id, token };
 };
 
 
-export default connect(mapStateToProps, {getFilteredTasks})(Project);
+export default connect(mapStateToProps, {getTagTasks})(Tag);

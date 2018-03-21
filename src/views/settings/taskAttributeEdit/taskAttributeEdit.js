@@ -28,9 +28,6 @@ class TaskAttributeEdit extends Component {
       newOption:'',
       options:((this.props.taskAttribute.type=="simple_select"||this.props.taskAttribute.type=="multi_select") &&this.props.taskAttribute.options)?(Array.isArray(this.props.taskAttribute.options) ?this.props.taskAttribute.options:Object.keys(this.props.taskAttribute.options)):[]
     };
-    let meh=[...this.props.taskAttribute.options];
-    console.log(meh);
-    console.log(typeof meh);
   }
 
   compareChanges(change,val){

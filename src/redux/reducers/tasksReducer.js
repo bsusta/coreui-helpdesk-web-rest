@@ -1,14 +1,16 @@
-import { SET_TASKS, SET_TASKS_LOADING, ADD_TASK, SET_TASK_LOADING, SET_TASK, EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,SET_FILTER_TASKS_LOADING } from '../types'
+import { SET_TASKS, SET_TASKS_LOADING, ADD_TASK, SET_TASK_LOADING, SET_TASK, EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,SET_FILTER_TASKS_LOADING,SET_TAG_TASKS_LOADING,SET_TAG_LINKS } from '../types'
 
 const initialState = {
   tasks:[],
   tasksLoaded:false,
-  tasks:null,
+  task:null,
   taskLoaded:false,
   filterLinks:null,
-  projectLinks:null,
   filterTasksLoaded:false,
+  projectLinks:null,
   projectTasksLoaded:false,
+  tagLinks:null,
+  tagTasksLoaded:false,
 };
 
 export default function tasksReducer(state = initialState, action) {
@@ -29,6 +31,10 @@ export default function tasksReducer(state = initialState, action) {
         return { ...state, filterLinks:action.filterLinks };
       case SET_PROJECT_LINKS:
         return { ...state, projectLinks:action.projectLinks };
+      case SET_TAG_TASKS_LOADING:
+        return { ...state, tagTasksLoaded:action.tagTasksLoaded };
+      case SET_TAG_LINKS:
+        return { ...state, tagLinks:action.tagLinks };
       case SET_TASK:
         return { ...state, task:action.task };
       case EDIT_TASK:{

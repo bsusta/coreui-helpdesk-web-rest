@@ -105,7 +105,7 @@ class UsersList extends Component {
 }
 
 const mapStateToProps = ({ usersReducer, login }) => {
-  const { users, usersLinks } = usersReducer;
+  const { users } = usersReducer;
   const { token } = login;
   return { users, token };
 };

@@ -10,9 +10,9 @@ class UserAddLoader extends Component {
     this.props.startCompaniesLoading();
     this.props.startUserRolesLoading();
     this.props.startUserLoading();
-    this.props.getCompanies(999,1,"",this.props.token);
+    this.props.getCompanies(999,1,this.props.token,"");
     this.props.getUserRoles(this.props.token);
-    this.props.getUser( parseInt(this.props.match.params.id, 10),this.props.token)
+    this.props.getUser( parseInt(this.props.match.params.id, 10),this.props.token);
   }
   render(){
     if(!this.props.companiesLoaded || !this.props.userRolesLoaded||!this.props.userLoaded){
