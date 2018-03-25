@@ -9,7 +9,7 @@ class UserAddLoader extends Component {
   componentWillMount(){
     this.props.startCompaniesLoading();
     this.props.startUserRolesLoading();
-    this.props.getCompanies(999,1,"",this.props.token);
+    this.props.getCompanies(this.props.updateDate,this.props.token);
     this.props.getUserRoles(this.props.token);
   }
   render(){
@@ -23,10 +23,10 @@ class UserAddLoader extends Component {
 //all below is just redux storage
 
 const mapStateToProps = ({ companiesReducer, login, userRolesReducer }) => {
-  const {companiesLoaded} = companiesReducer;
+  const {companiesLoaded,updateDate} = companiesReducer;
   const {userRolesLoaded} = userRolesReducer;
   const {token} = login;
-  return {token,companiesLoaded,userRolesLoaded};
+  return {token,companiesLoaded,updateDate,userRolesLoaded};
 };
 
 

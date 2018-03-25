@@ -8,9 +8,9 @@ class CompaniesListLoader extends Component {
   //before loader page is loaded, we send requests to get all available users
   componentWillMount(){
     this.props.startCompaniesLoading();
-    this.props.getCompanies(this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20,this.props.match.params.p?parseInt(this.props.match.params.p, 10):1,this.props.token,"");
+    this.props.getCompanies(this.props.updateDate,this.props.token);
   }
-  
+
   render(){
     if(!this.props.companiesLoaded){
       return(<div>Loading...</div>)
@@ -21,9 +21,9 @@ class CompaniesListLoader extends Component {
 
 //all below is just redux storage
 const mapStateToProps = ({companiesReducer, login }) => {
-  const {companiesLoaded} = companiesReducer;
+  const {companiesLoaded,updateDate} = companiesReducer;
   const {token} = login;
-  return {companiesLoaded,token};
+  return {companiesLoaded,updateDate,token};
 };
 
 export default connect(mapStateToProps, {getCompanies, startCompaniesLoading})(CompaniesListLoader);

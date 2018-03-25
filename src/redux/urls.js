@@ -5,6 +5,7 @@ export const UNITS_LIST = BASE_URL + '/task-bundle/units';
 
 export const TASKS_LIST = BASE_URL + '/task-bundle/tasks';
 export const PROJECTS_LIST = BASE_URL + '/task-bundle/projects';
+export const PROJECT_LIST = BASE_URL + '/task-bundle/project';
 export const COMPANIES_LIST = BASE_URL + '/core-bundle/companies';
 export const USERS_LIST = BASE_URL + '/core-bundle/users';
 export const USER_ROLES_LIST = BASE_URL + '/task-bundle/user-roles';

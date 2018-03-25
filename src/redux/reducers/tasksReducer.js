@@ -1,4 +1,11 @@
-import { SET_TASKS, SET_TASKS_LOADING, ADD_TASK, SET_TASK_LOADING, SET_TASK, EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,SET_FILTER_TASKS_LOADING,SET_TAG_TASKS_LOADING,SET_TAG_LINKS } from '../types'
+import { SET_TASKS, SET_TASKS_LOADING, ADD_TASK, SET_TASK_LOADING, SET_TASK,
+  EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,
+  SET_FILTER_TASKS_LOADING,
+  SET_TAG_TASKS_LOADING,SET_TAG_LINKS,
+  SET_TASK_PROJECTS, SET_TASK_PROJECTS_LOADING,
+  SET_TASKS_ATTRIBUTES,SET_TASKS_ATTRIBUTES_LOADING,
+  SET_TASK_SOLVERS, DELETE_TASK_SOLVERS
+} from '../types'
 
 const initialState = {
   tasks:[],
@@ -11,6 +18,11 @@ const initialState = {
   projectTasksLoaded:false,
   tagLinks:null,
   tagTasksLoaded:false,
+  taskProjects:[],
+  taskProjectsLoaded:false,
+  taskAttributes:[],
+  taskAttributesLoaded:false,
+  taskSolvers:[],
 };
 
 export default function tasksReducer(state = initialState, action) {
@@ -43,6 +55,18 @@ export default function tasksReducer(state = initialState, action) {
         newTasks[newTasks.findIndex((task)=>task.id==action.task.id)]=action.task;
         return { ...state, tasks:newTasks };
       }
+      case SET_TASK_PROJECTS:
+        return { ...state, taskProjects:action.taskProjects };
+      case SET_TASK_PROJECTS_LOADING:
+        return { ...state, taskProjectsLoaded:action.taskProjectsLoaded };
+        case SET_TASK_SOLVERS:
+          return { ...state, taskSolvers:action.taskSolvers };
+      case DELETE_TASK_SOLVERS:
+        return { ...state, taskSolvers:[] };
+      case SET_TASKS_ATTRIBUTES:
+        return { ...state, taskAttributes:action.taskAttributes };
+      case SET_TASKS_ATTRIBUTES_LOADING:
+        return { ...state, taskAttributesLoaded:action.taskAttributesLoaded };
     default:
       return state;
   }

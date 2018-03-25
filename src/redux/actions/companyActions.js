@@ -14,27 +14,25 @@ export const startCompaniesLoading = () => {
  * Gets all companies available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getCompanies= (limit,page,token,filter) => {
-  return (dispatch) => {
-      fetch(COMPANIES_LIST+'/search?limit='+limit+'&page='+page+'&term='+filter, {
-        method: 'get',
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        }
-      }).then((response) =>{
-      response.json().then((data) => {
-        let links=data._links;
-        links['numberOfPages']=data.numberOfPages;
-        dispatch({type: SET_COMPANIES, companies:data.data,links});
-        dispatch({ type: SET_COMPANIES_LOADING, companiesLoaded:true });
-      });
-    }
-  ).catch(function (error) {
-    console.log(error);
-  });
-}
-}
+ export const getCompanies= (updateDate,token) => {
+   return (dispatch) => {
+     fetch(COMPANIES_LIST+'/all'+(updateDate?'/'+updateDate:''), {
+       method: 'get',
+       headers: {
+         'Authorization': 'Bearer ' + token,
+         'Content-Type': 'application/json'
+       }
+     }).then((response) =>{
+       response.json().then((data) => {
+         dispatch({type: SET_COMPANIES, companies:data.data,updateDate:data.date.toString()});
+         dispatch({ type: SET_COMPANIES_LOADING, companiesLoaded:true });
+       });
+     }
+   ).catch(function (error) {
+     console.log(error);
+   });
+ }
+ }
 
 /**
  * Adds new company

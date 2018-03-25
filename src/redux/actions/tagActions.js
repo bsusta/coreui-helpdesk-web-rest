@@ -16,7 +16,7 @@ export const startTagsLoading = () => {
  */
 export const getTags= (token) => {
   return (dispatch) => {
-      fetch(TAGS_LIST+'?limit=999', {
+      fetch(TAGS_LIST+'/all', {
         method: 'get',
         headers: {
           'Authorization': 'Bearer ' + token,

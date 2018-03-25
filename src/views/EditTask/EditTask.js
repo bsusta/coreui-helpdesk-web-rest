@@ -16,7 +16,7 @@ import Comments from "./Comments";
 import AddComment from "./AddComment";
 import Subtask from "./Subtasks";
 import { connect } from 'react-redux';
-
+import {getTaskSolvers,deleteTaskSolvers } from '../../redux/actions';
 
 let mockOptions = [
   { id: 0, title: "Moznost 1", color: "#57b141" },
@@ -53,7 +53,7 @@ let mockTypPrace = [
 class EditTask extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.task);
+    console.log(this.props);
     this.toggle = this.toggle.bind(this);
     this.state = {
       company:this.props.task.company.id,
@@ -73,12 +73,17 @@ class EditTask extends Component {
     };
   }
 
+  componentWillMount(){
+    this.props.getTaskSolvers(this.props.task.project.id,this.props.token);
+  }
+
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
   }
   render() {
+    console.log(this.props.taskSolvers);
     return (
       <div>
         <Card
@@ -439,10 +444,15 @@ class EditTask extends Component {
   }
 }
 
-const mapStateToProps = ({tasksReducer}) => {
-  const {task} = tasksReducer;
-  return {task};
+const mapStateToProps = ({tasksReducer,statusesReducer, companiesReducer, tagsReducer, unitsReducer, login}) => {
+  const {task, taskProjects, taskAttributes, taskSolvers} = tasksReducer;
+  const {statuses} = statusesReducer;
+  const {companies} = companiesReducer;
+  const {tags} = tagsReducer;
+  const {units} = unitsReducer;
+  const {token} = login;
+  return {task,taskProjects,companies,taskAttributes,statuses, tags, units, taskSolvers, token};
 };
 
 
-export default connect(mapStateToProps, {})(EditTask);
+export default connect(mapStateToProps, {getTaskSolvers,deleteTaskSolvers})(EditTask);

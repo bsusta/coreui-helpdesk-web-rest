@@ -1,5 +1,10 @@
-import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING, EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,SET_FILTER_TASKS_LOADING, SET_TAG_LINKS, SET_TAG_TASKS_LOADING } from '../types';
-import { TASKS_LIST } from '../urls';
+import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
+  EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,
+  SET_FILTER_TASKS_LOADING, SET_TAG_LINKS, SET_TAG_TASKS_LOADING,
+  SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,
+  SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING,
+  DELETE_TASK_SOLVERS, SET_TASK_SOLVERS } from '../types';
+import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST } from '../urls';
 
 /**
  * Sets status if tasks are loaded to false
@@ -194,3 +199,81 @@ export const editTask = (body,isActive,id,token) => {
 
   };
 };
+
+export const startTaskProjectsLoading = () => {
+  return (dispatch) => {
+    dispatch({ type: SET_TASK_PROJECTS_LOADING, taskProjectsLoaded:false });
+  }
+};
+
+export const getTaskProjects= (token) => {
+  return (dispatch) => {
+      fetch(PROJECTS_LIST+'/create-tasks', {
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+      response.json().then((data) => {
+        dispatch({type: SET_TASK_PROJECTS, taskProjects:data.data});
+        dispatch({ type: SET_TASK_PROJECTS_LOADING, taskProjectsLoaded:true });
+      });
+    }
+  ).catch(function (error) {
+    console.log(error);
+  });
+}
+}
+
+
+export const startTasksAttributesLoading = () => {
+  return (dispatch) => {
+    dispatch({ type: SET_TASKS_ATTRIBUTES_LOADING, taskAttributesLoaded:false });
+  }
+};
+
+export const getTasksAttributes = (token) => {
+  return (dispatch) => {
+      fetch(TASK_ATTRIBUTES_LIST+'/all', {
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+      response.json().then((data) => {
+        dispatch({type: SET_TASKS_ATTRIBUTES, taskAttributes:data.data});
+        dispatch({ type: SET_TASKS_ATTRIBUTES_LOADING, taskAttributesLoaded:true });
+      });
+    }
+  ).catch(function (error) {
+    console.log(error);
+  });
+}
+}
+
+export const deleteTaskSolvers = () => {
+  return (dispatch) => {
+    dispatch({ type: DELETE_TASK_SOLVERS });
+  }
+};
+
+export const getTaskSolvers = (projectID,token) => {
+  return (dispatch) => {
+      fetch(PROJECT_LIST+'/'+projectID+'/assign-user', {
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+      response.json().then((data) => {
+        dispatch({type: SET_TASK_SOLVERS, taskSolvers:data.data});
+      });
+    }
+  ).catch(function (error) {
+    console.log(error);
+  });
+}
+}

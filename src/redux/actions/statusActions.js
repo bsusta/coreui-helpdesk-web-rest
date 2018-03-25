@@ -14,9 +14,9 @@ export const startStatusesLoading = () => {
  * Gets all statuses available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getStatuses= (token) => {
+export const getStatuses= (updateDate,token) => {
   return (dispatch) => {
-      fetch(STATUSES_LIST+'?limit=999', {
+      fetch(STATUSES_LIST+'/all'+(updateDate?'/'+updateDate:''), {
         method: 'get',
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -24,7 +24,7 @@ export const getStatuses= (token) => {
         }
       }).then((response) =>{
       response.json().then((data) => {
-        dispatch({type: SET_STATUSES, statuses:data.data});
+        dispatch({type: SET_STATUSES, statuses:data.data,updateDate:data.date.toString()});
         dispatch({ type: SET_STATUSES_LOADING, statusesLoaded:true });
       });
     }
