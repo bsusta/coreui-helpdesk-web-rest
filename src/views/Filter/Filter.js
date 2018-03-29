@@ -23,6 +23,8 @@ import {
   InputGroupButton
 } from "reactstrap";
 import Pagination from '../../components/pagination';
+import {timestampToString} from '../../helperFunctions';
+
 
 class Project extends Component {
   constructor(props) {
@@ -117,8 +119,8 @@ class Project extends Component {
                 <td>{task.company.title}</td>
                 <td>{task.taskHasAssignedUsers.length===0?'None':task.taskHasAssignedUsers.map((assignedTo)=>assignedTo.username+' ')}</td>
                 <td>{task.project.title}</td>
-                <td>{(new Date(task.createdAt*1000)).getHours()+":"+(new Date(task.createdAt*1000)).getMinutes()+" "+(new Date(task.createdAt*1000)).getDate()+"."+(new Date(task.createdAt*1000)).getMonth()+"."+(new Date(task.createdAt*1000)).getFullYear()}</td>
-                <td>{task.deadline?(new Date(task.deadline*1000)).getHours()+":"+(new Date(task.deadline*1000)).getMinutes()+" "+(new Date(task.deadline*1000)).getDate()+"."+(new Date(task.deadline*1000)).getMonth()+"."+(new Date(task.deadline*1000)).getFullYear():'None'}</td>
+                <td>{timestampToString(task.createdAt)}</td>
+                <td>{task.deadline?timestampToString(task.deadline):'None'}</td>
               </tr>
             )}
           </tbody>

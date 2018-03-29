@@ -23,6 +23,7 @@ import {
   InputGroupButton
 } from "reactstrap";
 import Pagination from '../../components/pagination';
+import {timestampToString} from '../../helperFunctions';
 
 class Tag extends Component {
   constructor(props) {
@@ -30,10 +31,20 @@ class Tag extends Component {
     this.state={
       pageNumber:this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,
     }
+    console.log(this.props.tasks);
   }
 
   setPage(number){
     this.setState({pageNumber:number});
+  }
+
+  usersToString(users){
+    if(users.length===0){
+      return 'None';
+    }
+    let text='';
+    Object.values(users).map((solver)=>text=text+(solver.user.username+' '));
+    return text;
   }
 
   render() {
@@ -113,10 +124,10 @@ class Tag extends Component {
                 </td>
                 <td>{task.requestedBy.username}</td>
                 <td>{task.company.title}</td>
-                <td>{task.taskHasAssignedUsers.length===0?'None':'Someone'}</td>
+                <td>{this.usersToString(task.taskHasAssignedUsers)}</td>
                 <td>{task.project?task.project.title:'No project'}</td>
-                <td>{(new Date(task.createdAt*1000)).getHours()+":"+(new Date(task.createdAt*1000)).getMinutes()+" "+(new Date(task.createdAt*1000)).getDate()+"."+(new Date(task.createdAt*1000)).getMonth()+"."+(new Date(task.createdAt*1000)).getFullYear()}</td>
-                <td>{task.deadline?(new Date(task.deadline*1000)).getHours()+":"+(new Date(task.deadline*1000)).getMinutes()+" "+(new Date(task.deadline*1000)).getDate()+"."+(new Date(task.deadline*1000)).getMonth()+"."+(new Date(task.deadline*1000)).getFullYear():'None'}</td>
+                <td>{timestampToString(task.createdAt)}</td>
+                <td>{task.deadline?timestampToString(task.deadline):'None'}</td>
               </tr>
             )}
           </tbody>

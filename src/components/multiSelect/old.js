@@ -46,6 +46,10 @@ example:
 export default class MultiSelect extends Component {
   constructor(props){
     super(props);
+    let selected=[];
+    if(this.props.selectedIds){
+      this.props.selectedIds.map((item)=>selected.push(item+""));
+    }
     let idValue=this.props.idValue?this.props.idValue:'id';
     let displayValue = this.props.displayValue?this.props.displayValue:idValue;
     let filterBy = this.props.filterBy?this.props.filterBy:idValue;
@@ -53,6 +57,7 @@ export default class MultiSelect extends Component {
     let displayItemStyle = this.props.displayItemStyle?this.props.displayItemStyle:{};
     let menuItemStyle = this.props.menuItemStyle?this.props.menuItemStyle:{};
     this.state={
+      selected,
       displayBoxStyle,
       opened:false,
       filter:'',
@@ -68,24 +73,25 @@ export default class MultiSelect extends Component {
 
   onChange(id){
     let returnIds=[];
-    if(this.props.selectedIds.includes(id)){
-      returnIds=[...this.props.selectedIds];
+    if(this.state.selected.includes(id)){
+      returnIds=[...this.state.selected];
       returnIds.splice(returnIds.findIndex((item)=>item==id),1);
     }
     else{
-      returnIds=[id,...this.props.selectedIds];
+      returnIds=[id,...this.state.selected];
     }
     if(this.props.onChange){
-      this.props.onChange(returnIds,this.props.data.filter((item)=>returnIds.includes(item[this.state.idValue])));
+      this.props.onChange(returnIds,this.props.data.filter((item)=>returnIds.includes(item[this.state.idValue]+"")));
     }
     else{
       console.log('implement onChange func, returns (ids,values)');
     }
+    this.setState({selected:returnIds})
   }
 
   render() {
     return (
-      <div style={{display:this.props.display=="row"?"flex":"block",marginTop:'auto',marginBottom:'auto'}}>
+      <div style={{display:this.props.display=="row"?"flex":"block"}}>
       <Dropdown
       isOpen={this.state.opened}
       toggle={()=>{this.setState({opened:!this.state.opened});}}
@@ -103,12 +109,12 @@ export default class MultiSelect extends Component {
       />
       {this.props.data.filter((item)=>(item[this.state.filterBy]+"").toLowerCase().includes(this.state.filter.toLowerCase())).map((item)=>(
         <div class="list-group-item list-group-item-action"
-        onClick={(value)=>{this.onChange(item[this.state.idValue])}}
-        style={{width:'auto',flex:1,display:"flex",backgroundColor:this.state.colored?((item.color.includes('#')?'':'#')+item.color):'white',color:this.state.colored?'white':'black',...this.state.menuItemStyle,cursor:'pointer'}}>
+        onClick={(value)=>{this.onChange(item[this.state.idValue]+"")}}
+        style={{width:'auto',flex:1,display:"flex",backgroundColor:this.state.colored?item.color:'white',color:this.state.colored?'white':'black',...this.state.menuItemStyle,cursor:'pointer'}}>
         <input
-        checked={this.props.selectedIds.includes(item[this.state.idValue])}
+        checked={this.state.selected.includes(item[this.state.idValue]+"")}
         type="checkbox"
-        value={item[this.state.idValue]}
+        value={item[this.state.idValue]+""}
         style={{marginTop:'auto',marginBottom:'auto',paddingLeft:3}}
         onClick={(value)=>{this.onChange(value.target.value)}} />
       <div style={this.props.labelStyle?this.props.labelStyle:{}} >
@@ -123,7 +129,7 @@ export default class MultiSelect extends Component {
       </Dropdown>
       <div style={{...this.state.displayBoxStyle,display:this.props.display=="row"?"flex":"block"}}>
       {
-        this.props.data.filter((item)=>this.props.selectedIds.includes(item[this.state.idValue])).map((item)=>
+        this.props.data.filter((item)=>this.state.selected.includes(item[this.state.idValue]+"")).map((item)=>
         {
           if(this.props.renderItem){
             return this.props.renderItem(item);

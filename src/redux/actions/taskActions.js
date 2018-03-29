@@ -171,31 +171,75 @@ export const getTask = (id,token) => {
  * @param  {Boolean} isActive is active task parameter
  * @param  {int}  id       id of the task
  * @param  {string}  token    universal token for API comunication
+ *
+ * /api/v1/task-bundle/tasks/{taskId}/project/{projectId}/status/{statusId}/requester/{requesterId}/company/{companyId}
  */
-export const editTask = (body,isActive,id,token) => {
-  return (dispatch) => {
 
-      Promise.all([
-        fetch(TASKS_LIST+'/'+id, {
-          method: 'put',
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-          },
-          body:JSON.stringify(body)
-        }),
-        fetch(TASKS_LIST+'/'+id+(isActive?'/restore':'/inactivate'), {
-          method: 'put',
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-          }
-        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
-          dispatch({type: EDIT_TASK, task:{...response1.data,is_active:isActive}});
-        }))
-        .catch(function (error) {
-          console.log(error);
+export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,token) => {
+  return (dispatch) => {
+    console.log('sending');
+    if(!taskID||!projectID||!statusID){
+      console.log('necessary ids missing');
+      return;
+    }
+
+    console.log(JSON.stringify(data));
+
+    if(requesterID && companyID){
+      fetch(TASKS_LIST+'/'+taskID+'/project/'+projectID+'/status/'+statusID+'/requester/'+requesterID+'/company/'+companyID, {
+        method: 'put',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(data)
+      }).then((response)=>response.json().then((response)=>console.log(response.data.taskHasAssignedUsers)))
+      .catch(function (error) {
+        console.log(error);
       });
+
+    }
+    else if(requesterID && !companyID){
+      fetch(TASKS_LIST+'/'+taskID+'/project/'+projectID+'/status/'+statusID+'/requester/'+requesterID, {
+        method: 'put',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(data)
+      }).then((response)=>response.json().then((response)=>console.log(response.data.taskHasAssignedUsers)))
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    }
+    else if(!requesterID && companyID){
+      fetch(TASKS_LIST+'/'+taskID+'/project/'+projectID+'/status/'+statusID+'/company/'+companyID, {
+        method: 'put',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(data)
+      }).then((response)=>response.json().then((response)=>console.log(response.data.taskHasAssignedUsers)))
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    }
+    else{
+      fetch(TASKS_LIST+'/'+taskID+'/project/'+projectID+'/status/'+statusID, {
+        method: 'put',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(data)
+      }).then((response)=>response.json().then((response)=>console.log(response.data.taskHasAssignedUsers)))
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
 
   };
 };
