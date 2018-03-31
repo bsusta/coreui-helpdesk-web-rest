@@ -3,7 +3,7 @@ import { SET_UNITS, SET_UNITS_LOADING, ADD_UNIT, SET_UNIT_LOADING, SET_UNIT, EDI
 const initialState = {
   units:[],
   unitsLoaded:false,
-  units:null,
+  unit:null,
   unitLoaded:false,
 };
 

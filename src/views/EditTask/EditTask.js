@@ -14,9 +14,9 @@ import {
 } from "reactstrap";
 import Comments from "./Comments";
 import AddComment from "./AddComment";
-import Subtask from "./Subtasks";
+import SubtasksLoader from "./SubtasksLoader";
 import { connect } from 'react-redux';
-import {getTaskSolvers,deleteTaskSolvers, editTask } from '../../redux/actions';
+import {getTaskSolvers,deleteTaskSolvers, editTask, deleteTask, uploadFile,removeFile } from '../../redux/actions';
 import {timestampToString} from '../../helperFunctions';
 import MultiSelect from '../../components/multiSelect';
 class EditTask extends Component {
@@ -34,12 +34,7 @@ class EditTask extends Component {
           value='';
         break;
         case 'simple_select':
-          if(attribute.required){
-            value=attribute.options[0];
-          }
-          else{
-            value='null';
-          }
+          value=attribute.options[0];
         break;
         case 'multi_select':
           value=[];
@@ -145,7 +140,16 @@ class EditTask extends Component {
       task_data
     };
     this.autoSubmit.bind(this);
-    console.log(this.props.task);
+  }
+
+  delete(e){
+    e.preventDefault();
+    if (confirm("Are you sure you wish to delete this task?")) {
+        this.props.deleteTask(this.props.task.id,this.props.token);
+    } else {
+        return;
+    }
+    this.props.history.goBack();
   }
 
   componentWillMount(){
@@ -227,7 +231,7 @@ class EditTask extends Component {
       }
       let tags=[];
       state.tags.map((addTag)=>tags.push(this.props.tags.concat(state.newTags).find((tag)=>tag.id==addTag).title));
-      console.log(state.taskSolver);
+
       this.props.editTask(
         {
           title:state.title,
@@ -240,6 +244,8 @@ class EditTask extends Component {
           workTime:state.workTime.length==0?undefined:state.workTime,
           tag:JSON.stringify(tags),
           assigned:state.taskSolver!='null'?JSON.stringify([{userId:parseInt(state.taskSolver)}]):null,
+          attachement:this.props.attachements.length===0?undefined:this.props.attachements.map((attachement)=>attachement.id),
+          assigned:null,
           taskData:JSON.stringify(task_data),
         },
           this.props.task.id,
@@ -270,7 +276,7 @@ class EditTask extends Component {
             <button class="btn btn-primary mr-1">
               <i class="fa fa-print" /> Print
             </button>
-            <button class="btn btn-danger mr-1">
+            <button class="btn btn-danger mr-1" onClick={this.delete.bind(this)}>
               <i class="fa fa-remove" /> Vymazať
             </button>
           </CardHeader>
@@ -350,8 +356,8 @@ class EditTask extends Component {
                   </div>
                 </form>
                 {
+                  <SubtasksLoader taskID={this.props.task.id} />
                   /*
-                  <Subtask />
                   <AddComment />
                   <Comments />
 
@@ -548,10 +554,7 @@ class EditTask extends Component {
                         type="number"
                         id="workTime"
                         value={this.state.workTime}
-                        onChange={(e)=>{
-                          this.setState({workTime:e.target.value});
-                        }
-                      }
+                        onChange={(e)=>this.setState({workTime:e.target.value})}
                       placeholder={"Input work time"}
                       />
                     </InputGroup>
@@ -638,17 +641,7 @@ class EditTask extends Component {
                     style={{display:'none'}}
                     onChange={(e)=>{
                           let file= e.target.files[0];
-                          console.log(file);
-                          this.setState({
-                         attachements: [
-                           {
-                             name: file.name,
-                             size: file.size,
-                             file
-                           },
-                           ...this.state.attachements
-                         ]
-                       });
+                          this.props.uploadFile(file,this.props.token);
                       }
                     }
                     />
@@ -658,7 +651,7 @@ class EditTask extends Component {
 
                   <div class="form-group">
                     <div style={{ paddingTop: 5, paddingRight: 10 }}>
-                      {this.state.attachements.map(item => (
+                      {this.props.attachements.map(item => (
                         <span
                           class="badge"
                           style={{
@@ -677,13 +670,13 @@ class EditTask extends Component {
                           <div
                             style={{ marginTop: "auto", marginBottom: "auto" }}
                           >
-                            {item.name}
+                            {item.file.name}
                           </div>
                           <div style={{ flex: 1 }} />
                           <div
                             style={{ marginTop: "auto", marginBottom: "auto" }}
                           >
-                            {item.size}kb
+                            {item.file.size}kb
                           </div>
 
                           <button
@@ -692,12 +685,7 @@ class EditTask extends Component {
                             aria-label="Close"
                             style={{ marginTop: "auto", marginBottom: "auto" }}
                             onClick={() => {
-                              let newItems = [...this.state.attachements];
-                              newItems.splice(
-                                newItems.findIndex(at => at.name == item.name),
-                                1
-                              );
-                              this.setState({ attachements: newItems });
+                              this.props.removeFile(item.id,this.props.token);
                             }}
                           >
                             <span
@@ -764,12 +752,6 @@ class EditTask extends Component {
                                       this.setState({task_data:newData});
                                     }}
                                   >
-                                  {!attribute.required && <option
-                                    key='null'
-                                    value='null'
-                                  >
-                                  </option>
-                                  }
                                   {Array.isArray(attribute.options) && attribute.options.map(opt => (
                                     <option
                                       key={opt}
@@ -901,16 +883,17 @@ class EditTask extends Component {
   }
 }
 
-const mapStateToProps = ({tasksReducer,statusesReducer, companiesReducer, tagsReducer, unitsReducer, login,usersReducer}) => {
+const mapStateToProps = ({tasksReducer,statusesReducer, companiesReducer, tagsReducer, unitsReducer, login,usersReducer,attachementsReducer}) => {
   const {task, taskProjects, taskAttributes, taskSolvers} = tasksReducer;
   const {statuses} = statusesReducer;
   const {companies} = companiesReducer;
   const {tags} = tagsReducer;
   const {units} = unitsReducer;
   const {users} = usersReducer;
+  const {attachements} = attachementsReducer;
   const {token} = login;
-  return {task,taskProjects,companies,taskAttributes,statuses, tags, units, taskSolvers,users, token};
+  return {task,taskProjects,companies,taskAttributes,statuses, tags, units, taskSolvers,users,attachements, token};
 };
 
 
-export default connect(mapStateToProps, {getTaskSolvers,deleteTaskSolvers,editTask})(EditTask);
+export default connect(mapStateToProps, {getTaskSolvers,deleteTaskSolvers,editTask,deleteTask, uploadFile,removeFile})(EditTask);

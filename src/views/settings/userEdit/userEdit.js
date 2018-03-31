@@ -90,15 +90,6 @@ class UserEdit extends Component {
               </label>
             </div>
 
-            <div class="form-group">
-              <label for="image">Image</label>
-              <input
-                class="form-control"
-                id="image"
-                value={this.props.user.image}
-                />
-            </div>
-
             <label for="avatar">Avatar upload </label>
             <label for="avatar" style={{fontSize:10}}>Your image will be resized to 50x50 px</label>
             <div class="form-group"  style={{marginBottom:0}}>
@@ -107,6 +98,9 @@ class UserEdit extends Component {
                 accept="image/x-png,image/gif,image/jpeg,image/jpg"
                 onChange={(e)=>{ //check sufix,resize image, save to store
                       let value= e.target.files[0];
+                      if(!value){
+                        return;
+                      }
                       let extFile = value.name.substr(value.name.lastIndexOf('.')+1, value.name.length).toLowerCase();
                       if (extFile=="gif" || extFile=="jpeg" || extFile=="png" || extFile=="jpg"){
                         let reader = new FileReader();
@@ -146,6 +140,9 @@ class UserEdit extends Component {
                 {
                   this.state.image && <img style={{maxWidth:50,maxHeight:50}} src={this.state.imageURL} />
               }
+              {
+                !this.state.image && this.props.user.image && <img style={{maxWidth:50,maxHeight:50}} src={this.props.user.image} />
+            }
             </div>
 
             <div class="form-group">

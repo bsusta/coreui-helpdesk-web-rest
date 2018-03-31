@@ -1,19 +1,15 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
-
-let mockOptions = [
-  { id: 0, title: "bsusta", color: "#57b141" },
-  { id: 1, title: "ppatoprsty", color: "#8ebfbe" },
-  { id: 2, title: "amichalica", color: "#a8bbbc" },
-  { id: 3, title: "Moznost 4", color: "#0eb2ac" },
-  { id: 4, title: "Moznost 5", color: "#7329b1" }
-];
+import { connect } from 'react-redux';
+import {addSubtask,editSubtask,deleteSubtask} from '../../redux/actions';
 
 class Subtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: 0
+      newSubtask:'',
+      editedSubtask:'',
+      focusedSubtask:null,
     };
   }
 
@@ -25,54 +21,68 @@ class Subtasks extends Component {
             <tr>
               <th style={{ borderTop: "0px" }}>Subtasks</th>
               <th
-                style={{ width: "80px", borderTop: "0px", textAlign: "right" }}
+                style={{ width: "40px", borderTop: "0px", textAlign: "right" }}
               />
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <div style={{ display: "flex" }}>
-                  <input
-                    type="checkbox"
-                    style={{ margin: "auto", marginRight: 10 }}
-                  />
-                  <input
-                    type="text"
-                    id="name"
-                    class="form-control"
-                    placeholder="instalacia klavesnice"
-                    style={{ border: "none" }}
-                  />
-                </div>
-              </td>
+            {
+              this.props.subtasks.map((subtask)=><tr>
+                  <td>
+                    <div style={{ display: "flex" }}>
+                      <input
+                        key={subtask}
+                        type="checkbox"
+                        checked={subtask.done}
+                        onChange={()=>this.props.editSubtask({done:!subtask.done,title:subtask.title},subtask.id,this.props.taskID,this.props.token)}
+                        style={{ margin: "auto", marginRight: 10 }}
+                        />
+                      <input
+                        type="text"
+                        id="name"
+                        value={subtask.id===this.state.focusedSubtask?this.state.editedSubtask:subtask.title}
+                        onBlur={()=>{this.props.editSubtask({done:subtask.done,title:this.state.editedSubtask},subtask.id,this.props.taskID,this.props.token);this.setState({focusedSubtask:null});}}
+                        onFocus={()=>{this.setState({editedSubtask:subtask.title,focusedSubtask:subtask.id});}}
+                        onChange={(e)=>this.setState({editedSubtask:e.target.value})}
+                        class="form-control"
+                        placeholder="Enter subtask"
+                        style={{ border: "none" }}
+                        />
+                    </div>
+                  </td>
 
-              <td>
-                <div
-                  style={{ float: "right", paddingRight: 20 }}
-                  className="row"
-                >
-                  <button className="btn  btn-sm btn-primary mr-1 ml-3 ">
-                    <i className="fa fa-arrows" />
-                  </button>
-                  <button className="btn btn-sm btn-danger  ">
-                    <i className="fa fa-remove" />
-                  </button>
-                </div>
-              </td>
-            </tr>
+                  <td>
+                    <div
+                      style={{ float: "right", paddingRight: 20 }}
+                      className="row"
+                      >
+                      <button className="btn btn-sm btn-danger"
+                        onClick={()=>{this.props.deleteSubtask(subtask.id,this.props.taskID,this.props.token);}}>
+                        <i className="fa fa-remove" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              )
+            }
             <tr>
-              <td colspan="3">
+              <td colSpan="3">
                 <div style={{ display: "flex" }}>
                   <input
                     type="text"
                     id="name"
                     class="form-control"
-                    placeholder="add subtask"
+                    placeholder="Enter new subtask"
+                    value={this.state.newSubtask}
+                    onChange={(e)=>this.setState({newSubtask:e.target.value})}
                   />
                   <button
                     style={{ float: "right" }}
                     className="btn btn-sm btn-primary mr-1"
+                    onClick={()=>{
+                      this.props.addSubtask({done:false,title:this.state.newSubtask},this.props.taskID,this.props.token);
+                      this.setState({newSubtask:''});
+                    }}
                   >
                     <i className="fa fa-plus " />
                   </button>
@@ -81,7 +91,7 @@ class Subtasks extends Component {
             </tr>
           </tbody>
         </table>
-
+        {/*
         <table class="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
@@ -164,10 +174,17 @@ class Subtasks extends Component {
               </td>
             </tr>
           </tbody>
-        </table>
+        </table>*/}
       </div>
     );
   }
 }
 
-export default Subtasks;
+const mapStateToProps = ({subtasksReducer,login}) => {
+  const {subtasks} = subtasksReducer;
+  const {token} = login;
+  return {subtasks, token};
+};
+
+
+export default connect(mapStateToProps, {addSubtask,editSubtask,deleteSubtask})(Subtasks);

@@ -13,3 +13,5 @@ export * from './sidebarActions';
 export * from './taskAttributeActions';
 export * from './tagActions';
 export * from './taskActions';
+export * from './attachementActions';
+export * from './subtaskActions';

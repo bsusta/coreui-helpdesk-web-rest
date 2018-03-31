@@ -27,3 +27,5 @@ export const SIDEBAR_DATA = BASE_URL + '/task-bundle/left-menu-params';
 export const UPDATE_PROJECT_ACL = BASE_URL + '/task-bundle/project/';
 
 export const TAGS_LIST = BASE_URL + '/task-bundle/tags';
+
+export const UPLOAD_FILE =  BASE_URL + '/core-bundle/cdn/upload';

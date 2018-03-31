@@ -87,6 +87,10 @@ class UserAdd extends Component {
                 accept="image/x-png,image/gif,image/jpeg,image/jpg"
                 onChange={(e)=>{ //check sufix,resize image, save to store
                       let value= e.target.files[0];
+                      if(!value){
+                        return;
+                      }
+
                       let extFile = value.name.substr(value.name.lastIndexOf('.')+1, value.name.length).toLowerCase();
                       if (extFile=="gif" || extFile=="jpeg" || extFile=="png" || extFile=="jpg"){
                         let reader = new FileReader();

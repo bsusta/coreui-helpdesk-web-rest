@@ -321,3 +321,20 @@ export const getTaskSolvers = (projectID,token) => {
   });
 }
 }
+
+
+export const deleteTask = (id,token) => {
+  return (dispatch) => {
+      fetch(TASKS_LIST+'/'+id, {
+        method: 'delete',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+    }
+  ).catch(function (error) {
+    console.log(error);
+  });
+}
+}
