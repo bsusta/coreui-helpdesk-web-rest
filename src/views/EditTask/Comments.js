@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
+import { connect } from 'react-redux';
 
 class Comments extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ class Comments extends Component {
     this.state = {
       selected: 0
     };
+    console.log(this.props);
   }
   render() {
     return (
@@ -104,4 +106,11 @@ class Comments extends Component {
   }
 }
 
-export default Comments;
+const mapStateToProps = ({commentsReducer, login }) => {
+  const {comments } = commentsReducer;
+  const {token} = login;
+  return {comments, token};
+};
+
+
+export default connect(mapStateToProps, {})(Comments);

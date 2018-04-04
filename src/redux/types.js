@@ -131,3 +131,17 @@ export const SET_SUBTASKS_LOADING = 'SET_SUBTASKS_LOADING';
 export const ADD_SUBTASK = 'ADD_SUBTASK';
 export const EDIT_SUBTASK = 'EDIT_SUBTASK';
 export const DELETE_SUBTASK = 'DELETE_SUBTASK';
+
+//all constants for ITEMS actions
+export const SET_ITEMS = 'SET_ITEMS';
+export const SET_ITEMS_LOADING = 'SET_ITEMS_LOADING';
+export const ADD_ITEM = 'ADD_ITEM';
+export const EDIT_ITEM = 'EDIT_ITEM';
+export const DELETE_ITEM = 'DELETE_ITEM';
+
+//all constants for COMMENTS actions
+export const SET_COMMENTS = 'SET_COMMENTS';
+export const SET_COMMENTS_LOADING = 'SET_COMMENTS_LOADING';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
