@@ -24,7 +24,6 @@ class taskAttributesList extends Component {
   }
 
   render() {
-    console.log(this.props.taskAttributes);
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ marginTop: 20 }} className="mb-3">

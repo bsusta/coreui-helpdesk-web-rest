@@ -31,7 +31,6 @@ class Tag extends Component {
     this.state={
       pageNumber:this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,
     }
-    console.log(this.props.tasks);
   }
 
   setPage(number){

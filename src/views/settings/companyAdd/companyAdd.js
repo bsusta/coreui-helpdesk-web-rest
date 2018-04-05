@@ -7,7 +7,6 @@ class CompanyAdd extends Component {
   constructor(props){
     super(props);
     //creates company_data state for each field
-    console.log(this.props.companyAttributes);
     let company_data={};
     this.props.companyAttributes.map((attribute)=>
     {
@@ -22,7 +21,7 @@ class CompanyAdd extends Component {
         case 'simple_select':
         if(attribute.required){
           if(Array.isArray(attribute.options)){
-            value=attribute.options[0];            
+            value=attribute.options[0];
           }
           else{
             value=Object.keys(attribute.options)[0];

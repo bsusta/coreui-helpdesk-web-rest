@@ -22,7 +22,6 @@ import MultiSelect from '../../components/multiSelect';
 class EditTask extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     let task_data={};
     this.props.taskAttributes.map((attribute)=>
     {
@@ -356,7 +355,6 @@ class EditTask extends Component {
                   </div>
                 </form>
                 <SubtasksLoader taskID={this.props.task.id} units={this.props.units.filter((unit)=>unit.is_active)} />
-                <AddComment taskID={this.props.task.id} />
                 <CommentsLoader taskID={this.props.task.id} />
               </div>
 

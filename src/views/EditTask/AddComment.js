@@ -27,15 +27,15 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { connect } from 'react-redux';
-import {addComment,addCommentsComment} from '../../redux/actions';
-
+import {addComment,addCommentsComment,uploadCommentFile,removeCommentFile} from '../../redux/actions';
+{/*displayAttachements*/}
 class AddComment extends Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: "1",
-      message:'',
+      message:this.props.message?('\n\n------Original Message------\n'+this.props.message):'',
       to:this.props.emails?this.props.emails:[],
       newTo:'',
       cc:[],
@@ -45,6 +45,7 @@ class AddComment extends Component {
       subject:'',
       internal:false,
     };
+    this.getSlug.bind(this);
   }
 
   toggle(tab) {
@@ -53,6 +54,13 @@ class AddComment extends Component {
         activeTab: tab
       });
     }
+  }
+
+  getSlug(){
+    if(!this.displayAttachements){
+      return undefined;
+    }
+    return this.props.displayAttachements.map((attachement)=>attachement.id);
   }
 
   stringifyArray(array){
@@ -65,6 +73,7 @@ class AddComment extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <Nav tabs>
@@ -102,16 +111,27 @@ class AddComment extends Component {
               <textarea
                 class="form-control"
                 id="message"
+                rows="4"
                 value={this.state.message}
                 onChange={(e)=>this.setState({message:e.target.value})}
                 placeholder="Write message here"
               />
             </div>
             <div className="form-group">
-              <Button color="link" size="sm">
+              <input
+                type="file"
+                id={this.props.commentID?("addAttachement"+this.props.commentID):"addAttachement"}
+                style={{display:'none'}}
+                onChange={(e)=>{
+                      let file= e.target.files[0];
+                      this.props.uploadCommentFile(file,this.props.token);
+                  }
+                }
+                />
+              <label className="text-info" size="sm" htmlFor={this.props.commentID?("addAttachement"+this.props.commentID):"addAttachement"} style={{cursor:'pointer',textDecoration:'underline'}}>
                 <i className="fa fa-paperclip" />&nbsp;Add atachments
-              </Button>
-              <Label check htmlFor={this.props.commentID?("internal"+this.props.commentID):"internal"} className="align-middle">
+              </label>
+              <Label check htmlFor={this.props.commentID?("internal"+this.props.commentID):"internal"} style={{marginLeft:5}} className="align-middle">
                 <Input
                   type="checkbox"
                   id={this.props.commentID?("internal"+this.props.commentID):"internal"}
@@ -124,11 +144,23 @@ class AddComment extends Component {
                 className="btn btn-sm btn-success mr-2 ml-2 float-right"
                 onClick={()=>{
                   if(this.props.commentID){
-                    this.props.addCommentsComment({body:this.state.message,internal:this.state.internal,title:'Comment'},this.props.commentID,this.props.token);
+                    this.props.addCommentsComment({body:this.state.message,internal:this.state.internal,title:'Comment',slug:this.getSlug()},this.props.commentID,this.props.token);
                   }
                   else{
                     this.props.addComment({body:this.state.message,internal:this.state.internal,title:'Comment'},this.props.taskID,this.props.token);
-                  }}}
+                  }
+                  this.props.removeAllCommentFiles();
+                  this.setState({
+                    message:this.props.message?('\n\n------Original Message------\n'+this.props.message):'',
+                    to:this.props.emails?this.props.emails:[],
+                    newTo:'',
+                    cc:[],
+                    newCC:'',
+                    bcc:[],
+                    newBCC:'',
+                    subject:''
+                  });
+                }}
               >
                 Send
               </button>
@@ -139,6 +171,58 @@ class AddComment extends Component {
                 Discard
               </button>
             </div>
+
+
+            <div class="form-group" style={{display:this.props.displayAttachements?"block":"none"}}>
+              <div style={{ paddingTop: 5, paddingRight: 10 }}>
+                {this.props.commentAttachements.map(item => (
+                  <span
+                    class="badge"
+                    style={{
+                      backgroundColor: "#d3eef6",
+                      color: "black",
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      paddingTop: 5,
+                      paddingBottom: 5,
+                      marginLeft: 5,
+                      marginTop: 1
+                    }}
+                  >
+                    <div
+                      style={{ marginTop: "auto", marginBottom: "auto" }}
+                    >
+                      {item.file.name}
+                    </div>
+                    <div style={{ flex: 1 }} />
+                    <div
+                      style={{ marginLeft: "auto", marginRight: "auto" }}
+                    >
+                      {item.file.size}kb
+                    </div>
+                    <div>
+                    <button
+                      type="button"
+                      class="close center-block text-center m-*-auto"
+                      style={{width:'100%'}}
+                      aria-label="Close"
+                      onClick={() => {
+                        this.props.removeCommentFile(item.id,this.props.token);
+                      }}
+                    >
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          color: "black",marginRight:'auto',marginLeft:'auto',
+                          padding: 5}}
+                      >&times;</span>
+                    </button>
+                  </div>
+                  </span>
+                ))}
+              </div>
+            </div>
+
           </TabPane>
           <TabPane
             tabId="2"
@@ -147,6 +231,7 @@ class AddComment extends Component {
               paddingRight: 0,
               backgroundColor: "#f0f3f5"
             }}>
+
             <FormGroup row>
               <Col md="2">
                 <Label htmlFor="to">To:</Label>
@@ -311,6 +396,17 @@ class AddComment extends Component {
                         email_bcc:JSON.stringify(this.state.bcc),
                       },this.props.taskID,this.props.token);
                     }
+                    this.props.removeAllCommentFiles();
+                    this.setState({
+                      message:this.props.message?('\n\n------Original Message------\n'+this.props.message):'',
+                      to:this.props.emails?this.props.emails:[],
+                      newTo:'',
+                      cc:[],
+                      newCC:'',
+                      bcc:[],
+                      newBCC:'',
+                      subject:''
+                    });
                   }
                 }
               >
@@ -330,10 +426,12 @@ class AddComment extends Component {
   }
 }
 
-const mapStateToProps = ({login }) => {
+const mapStateToProps = ({login,usersReducer, commentAttachementsReducer }) => {
+  const{users} = usersReducer;
+  const {commentAttachements} = commentAttachementsReducer;
   const {token} = login;
-  return { token};
+  return { token, users,commentAttachements};
 };
 
 
-export default connect(mapStateToProps, {addComment,addCommentsComment})(AddComment);
+export default connect(mapStateToProps, {addComment,addCommentsComment,uploadCommentFile,removeCommentFile})(AddComment);

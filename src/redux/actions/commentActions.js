@@ -24,6 +24,8 @@ export const getComments= (taskID,token) => {
         }
       }).then((response) =>{
       response.json().then((data) => {
+        dispatch({ type: SET_COMMENTS_LOADING, commentsLoaded:true });
+        dispatch({type: SET_COMMENTS, comments:data.data});
         data.data.map((comment)=>{
         if(comment.createdBy.avatarSlug){
           let newComment=comment;
@@ -52,8 +54,6 @@ export const getComments= (taskID,token) => {
             console.log(error);
           });
         }})
-        dispatch({type: SET_COMMENTS, comments:data.data});
-        dispatch({ type: SET_COMMENTS_LOADING, commentsLoaded:true });
       });
     }
   ).catch(function (error) {

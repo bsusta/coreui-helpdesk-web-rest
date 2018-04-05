@@ -17,7 +17,6 @@ const options=[
 class TaskAttributeEdit extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.taskAttribute);
     this.state = {
       changed:false,
       is_active: this.props.taskAttribute.is_active?true:false,

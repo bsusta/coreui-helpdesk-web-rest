@@ -24,7 +24,6 @@ class CompanyAttributesList extends Component {
   }
 
   render() {
-    console.log(this.props.companyAttributes);
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ marginTop: 20 }} className="mb-3">

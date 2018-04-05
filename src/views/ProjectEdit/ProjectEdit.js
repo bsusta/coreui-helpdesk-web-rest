@@ -18,7 +18,6 @@ class ProjectEdit extends Component {
       lastSavedPermissions:this.props.project.userHasProjects?this.props.project.userHasProjects:[]
     };
     this.setPermission.bind(this);
-    console.log(this.props.project);
   }
 
   submit(){

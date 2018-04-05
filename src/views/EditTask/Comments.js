@@ -3,14 +3,14 @@ import { Card, CardHeader, CardBody } from "reactstrap";
 import { connect } from 'react-redux';
 
 import AddComment from "./AddComment";
+import {removeAllCommentFiles} from '../../redux/actions';
 import {timestampToString} from '../../helperFunctions';
 class Comments extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment:null,
+      comment:null
     };
-    console.log(this.props);
   }
 
   stringifyArray(array){
@@ -23,25 +23,20 @@ class Comments extends Component {
   }
 
   render() {
-    let data = [...this.props.comments];
-    data.sort((message1,message2)=>{
+    let comments = [...this.props.comments];
+    comments.sort((message1,message2)=>{
       if(message1.createdAt>message2.createdAt){
         return 1;
       }
       return -1;
     });
-    let comments = [];
-    data.map((item)=>{
-      if(!item.hasParent){
-        comments.push(item);
-      }
-      else{
-        comments.splice(comments.findIndex((comment)=>comment.id===item.parentId),0,item);
-      }
-    });
     comments=comments.reverse();
 
     return (
+      <div>
+        <div onClick={()=>{if(this.state.comment){this.setState({comment:null});this.props.removeAllCommentFiles();}}}>
+          <AddComment taskID={this.props.taskID} displayAttachements={this.state.comment===null} />
+        </div>
       <div className="animated fadeIn">
         <div className="email-app mb-4" style={{ border: 0 }}>
           <main
@@ -53,11 +48,11 @@ class Comments extends Component {
                 comments.map((comment)=><li className="message"
                   style={{ paddingLeft:5 }}>
                   <div
-                    style={comment.hasParent?{paddingLeft:20}:{}}
                     onClick={()=>{
                       if(comment.id===this.state.comment){
                         this.setState({comment:null});
                       } else {
+                        this.props.removeAllCommentFiles();
                         this.setState({comment:comment.id});
                         }
                       }}>
@@ -80,17 +75,17 @@ class Comments extends Component {
                         <span style={{fontWeight:'bold'}}>Predmet:</span> {comment.title}
                       </div>
                     }
-                    <div className="description" style={{display:'flex',paddingLeft:23}}>
+                    <div className="description" style={{display:'flex',paddingLeft:23,whiteSpace: "pre-line"}}>
                       <div className="actions" style={{marginTop:'auto',marginBottom:'auto'}}>
                         <span className="action">
-                          <i style={comment.hasParent?{paddingLeft:20}:{}} className={comment.hasParent?"fa fa-mail-forward":(comment.email?"fa fa-envelope-o":"fa fa-comment")} />
+                          <i className={comment.hasParent?"fa fa-mail-forward":(comment.email?"fa fa-envelope-o":"fa fa-comment")} />
                         </span>
                       </div>
                       {comment.body}
                     </div>
                   </div>
                     {
-                      comment.id===this.state.comment && <AddComment taskID={this.props.taskID} emails={comment.email_to} commentID={comment.id} />
+                      comment.id===this.state.comment && <AddComment taskID={this.props.taskID} emails={comment.email_to} commentID={comment.id} message={comment.body} displayAttachements={this.state.comment===comment.id} />
                     }
                 </li>
               )}
@@ -178,6 +173,7 @@ class Comments extends Component {
           </main>
         </div>
       </div>
+    </div>
     );
   }
 }
@@ -189,4 +185,4 @@ const mapStateToProps = ({commentsReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {})(Comments);
+export default connect(mapStateToProps, {removeAllCommentFiles})(Comments);

@@ -19,6 +19,7 @@ import attachementsReducer from './reducers/attachementsReducer';
 import subtasksReducer from './reducers/subtasksReducer';
 import itemsReducer from './reducers/itemsReducer';
 import commentsReducer from './reducers/commentsReducer';
+import commentAttachementsReducer from './reducers/commentAttachementsReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -38,7 +39,8 @@ const reducers = combineReducers({
     attachementsReducer,
     subtasksReducer,
     itemsReducer,
-    commentsReducer
+    commentsReducer,
+    commentAttachementsReducer
   });
 
 const enhancers = compose(
