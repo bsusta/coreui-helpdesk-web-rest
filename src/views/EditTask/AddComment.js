@@ -27,7 +27,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { connect } from 'react-redux';
-import {addComment} from '../../redux/actions';
+import {addComment,addCommentsComment} from '../../redux/actions';
 
 class AddComment extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class AddComment extends Component {
     this.state = {
       activeTab: "1",
       message:'',
-      to:[],
+      to:this.props.emails?this.props.emails:[],
       newTo:'',
       cc:[],
       newCC:'',
@@ -111,10 +111,10 @@ class AddComment extends Component {
               <Button color="link" size="sm">
                 <i className="fa fa-paperclip" />&nbsp;Add atachments
               </Button>
-              <Label check htmlFor="internal" className="align-middle">
+              <Label check htmlFor={this.props.commentID?("internal"+this.props.commentID):"internal"} className="align-middle">
                 <Input
                   type="checkbox"
-                  id="internal"
+                  id={this.props.commentID?("internal"+this.props.commentID):"internal"}
                   checked={this.state.internal}
                   onChange={()=>this.setState({internal:!this.state.internal})}
                 />
@@ -124,7 +124,7 @@ class AddComment extends Component {
                 className="btn btn-sm btn-success mr-2 ml-2 float-right"
                 onClick={()=>{
                   if(this.props.commentID){
-                    this.props.addCommentsComment({body:this.state.message,internal:this.state.internal,title:'Comment'},this.props.commentID,this.props.taskID,this.props.token);
+                    this.props.addCommentsComment({body:this.state.message,internal:this.state.internal,title:'Comment'},this.props.commentID,this.props.token);
                   }
                   else{
                     this.props.addComment({body:this.state.message,internal:this.state.internal,title:'Comment'},this.props.taskID,this.props.token);
@@ -276,10 +276,10 @@ class AddComment extends Component {
               <Button color="link" size="sm">
                 <i className="fa fa-paperclip" />&nbsp;Add atachments
               </Button>
-              <Label check htmlFor="internal" className="align-middle">
+              <Label check htmlFor={this.props.commentID?("internal"+this.props.commentID):"internal"} className="align-middle">
                 <Input
                   type="checkbox"
-                  id="internal"
+                  id={this.props.commentID?("internal"+this.props.commentID):"internal"}
                   checked={this.state.internal}
                   onChange={()=>this.setState({internal:!this.state.internal})}
                 />
@@ -298,7 +298,7 @@ class AddComment extends Component {
                         email_to:JSON.stringify(this.state.to),
                         email_cc:JSON.stringify(this.state.cc),
                         email_bcc:JSON.stringify(this.state.bcc),
-                      },this.props.taskID,this.props.token);
+                      },this.props.commentID,this.props.token);
                     }
                     else{
                       this.props.addComment({
@@ -336,4 +336,4 @@ const mapStateToProps = ({login }) => {
 };
 
 
-export default connect(mapStateToProps, {addComment})(AddComment);
+export default connect(mapStateToProps, {addComment,addCommentsComment})(AddComment);

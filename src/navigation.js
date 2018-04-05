@@ -46,7 +46,6 @@ import Project from "./views/Project";
 import ProjectInfo from "./views/ProjectInfo";
 import ProjectEdit from "./views/ProjectEdit";
 import ProjectAdd from "./views/ProjectAdd";
-import Tag from "./views/Tag";
 import TagAdd from "./views/TagAdd";
 import TagEdit from "./views/TagEdit";
 import TagTasks from "./views/TagTasks";
@@ -307,12 +306,6 @@ class Full extends Component {
                   name="MyTasks"
                   component={MyTasks}
                 />
-                <Route
-                  exact
-                  path="/tag/:id"
-                  name="Tag Tasks"
-                  component={TagTasks}
-                />
               <Route
                 exact
                 path="/project/add"
@@ -357,16 +350,17 @@ class Full extends Component {
                   />
                   <Route
                     exact
-                    path="/tag/:id"
-                    name="Tag"
-                    component={Tag}
-                  />
-                  <Route
-                    exact
                     path="/tag/edit/:id"
                     name="Tag edit"
                     component={TagEdit}
                   />
+                  <Route
+                    exact
+                    path="/tag/:id"
+                    name="Tag Tasks"
+                    component={TagTasks}
+                  />
+
                 <Route
                   exact
                   path="/task/edit/:id"

@@ -3,8 +3,8 @@ export const BASE_URL = HOST_URL + '/api/v1';
 export const LOGIN_URL = BASE_URL + '/token-authentication';
 export const UNITS_LIST = BASE_URL + '/task-bundle/units';
 
-export const TASKS_LIST = BASE_URL + '/task-bundle/tasks';
 export const PROJECTS_LIST = BASE_URL + '/task-bundle/projects';
+export const TASKS_LIST = BASE_URL + '/task-bundle/tasks';
 export const PROJECT_LIST = BASE_URL + '/task-bundle/project';
 export const COMPANIES_LIST = BASE_URL + '/core-bundle/companies';
 export const USERS_LIST = BASE_URL + '/core-bundle/users';
@@ -29,3 +29,4 @@ export const UPDATE_PROJECT_ACL = BASE_URL + '/task-bundle/project/';
 export const TAGS_LIST = BASE_URL + '/task-bundle/tags';
 
 export const UPLOAD_FILE =  BASE_URL + '/core-bundle/cdn/upload';
+export const COMMENT_COMMENTS = BASE_URL + '/task-bundle/tasks/comments';

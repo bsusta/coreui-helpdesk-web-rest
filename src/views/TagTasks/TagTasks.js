@@ -53,7 +53,7 @@ class Tag extends Component {
         <h2 style={{ marginTop: 20 }}>
           {this.props.tags[this.props.tags.findIndex((tag)=>tag.url.includes(this.props.match.params.id))].name} {" "}
           <a
-            href={"#/tag/info/"+parseInt(this.props.match.params.id, 10)}
+            href={"#/tag/edit/"+parseInt(this.props.match.params.id, 10)}
             class="fa fa-info-circle fa-lg"
             style={{
               border: "none",
@@ -118,7 +118,7 @@ class Tag extends Component {
                 <td onClick={() => this.props.history.push("/task/edit/"+task.id)}>
                   {task.title}
                   <p>
-                    {task.tags.map((tag)=><span class="badge mr-1" style={{backgroundColor:'#'+tag.color, color:'white'}}>{tag.title}</span>
+                    {task.tags.map((tag)=><span class="badge mr-1" style={{backgroundColor:(tag.color.includes('#')?'':'#')+tag.color, color:'white'}}>{tag.title}</span>
                     )}
                   </p>
                 </td>
