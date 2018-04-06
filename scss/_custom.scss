@@ -24,16 +24,12 @@
 }
 
 .underlined-input {
-  border:none;
-  border-bottom: 1px solid #C2CFD6;
+  border: none;
+  border-bottom: 1px solid #c2cfd6;
   border-width: 1px;
   background-color: white;
-
 }
 
-
-.sidebar .nav-link i,
-.sidebar .navbar .dropdown-toggle i,
-.navbar .sidebar .dropdown-toggle i {
-  color: white !important;
+.sidebar .sidebar-nav {
+  border-right: 1px solid #c2cfd6;
 }

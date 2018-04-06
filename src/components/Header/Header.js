@@ -52,14 +52,11 @@ class Header extends Component {
           toggle={this.addTaskToggle.bind(this)}
           open={this.state.addingTask}
         />
-        <NavbarToggler className="d-lg-none" onClick={this.mobileSidebarToggle}>
-          <span className="navbar-toggler-icon" />
-        </NavbarToggler>
-        <NavbarBrand href="#" />
+
         <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
-
+        <NavbarBrand href="#" />
         <NavbarToggler className="d-md-down-none ml-4">
           <InputGroup>
             <Input
@@ -67,20 +64,20 @@ class Header extends Component {
               id="input1-group1"
               name="input1-group1"
               placeholder="Search task"
-              style={{ borderRight: "0" }}
+              style={{ borderRight: "0", width: 300 }}
             />
             <InputGroupAddon style={{ background: "white", borderLeft: "" }}>
               <i className="fa fa-search" />
             </InputGroupAddon>
           </InputGroup>
         </NavbarToggler>
-          <button
-            type="button"
-            className="btn btn-link"
-            onClick={this.addTaskToggle.bind(this)}
-          >
-            Add task
-          </button>
+        <button
+          type="button"
+          className="btn btn-link"
+          onClick={this.addTaskToggle.bind(this)}
+        >
+          Add task
+        </button>
         <Nav className="ml-auto" navbar>
           <MessagesDropdown />
         </Nav>
