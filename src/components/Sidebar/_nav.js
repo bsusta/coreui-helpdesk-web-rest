@@ -1,5 +1,6 @@
 export default {
   items: [
+    /*
     {
       name: "Filters",
       url: "/filters",
@@ -79,5 +80,6 @@ export default {
         }
       ]
     }
+    */
   ]
 };
