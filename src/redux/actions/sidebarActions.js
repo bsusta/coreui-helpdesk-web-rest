@@ -68,6 +68,39 @@ export const getSidebar = token => {
             icon: "fa fa-plus"
           });
 
+          let testFilters=[];
+          let afterFilters=[];
+          filters.children.map((filter)=>{
+          switch (filter.name) {
+            case 'DO IT':{
+              testFilters[0]=filter;
+              filter.icon="fa fa-plus";
+              break;
+            }
+            case 'REQUESTED':{
+              testFilters[1]=filter;
+              filter.icon="fa fa-plus";
+              break;
+            }
+            case 'IMPORTANT':{
+              testFilters[2]=filter;
+              filter.icon="fa fa-plus";
+              break;
+            }
+            case 'SCHEDULED':{
+              testFilters[3]=filter;
+              filter.icon="fa fa-plus";
+              break;
+            }
+            default:{
+              afterFilters.push(filter);
+              break;
+            }
+          }
+        });
+        testFilters.concat(afterFilters);
+        filters.children=testFilters;
+
           let projects = {
             name: "Projects",
             url: "",
