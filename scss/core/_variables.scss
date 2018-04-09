@@ -39,14 +39,16 @@ $vimeo: #aad450 !default;
 
 $navbar-height: 55px !default;
 $navbar-bg: #fff !default;
-$navbar-border: (bottom: (size: 1px, style: solid, color: $border-color))
-  !default;
+$navbar-border: (
+  bottom: (size: 1px, style: solid, color: $border-color)
+) !default;
 $navbar-brand-width: 155px !default;
 $navbar-brand-bg: #fff !default;
 $navbar-brand-logo: url("../img/logo.png") !default;
 $navbar-brand-logo-size: 150px auto !default;
-$navbar-brand-border: (bottom: (size: 1px, style: solid, color: $border-color))
-  !default;
+$navbar-brand-border: (
+  bottom: (size: 1px, style: solid, color: $border-color)
+) !default;
 $navbar-brand-minimized-width: 50px !default;
 $navbar-brand-minimized-bg: $navbar-brand-bg !default;
 $navbar-brand-minimized-logo: url("../img/logo-symbol.png") !default;
@@ -58,19 +60,17 @@ $navbar-hover-color: $gray-800 !default;
 $navbar-active-color: $gray-800 !default;
 $navbar-disabled-color: $gray-300 !default;
 $navbar-toggler-icon: str-replace(
-    url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"),
-    "#",
-    "%23"
-  )
-  !default;
+  url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"),
+  "#",
+  "%23"
+) !default;
 $navbar-toggler-icon-hover: str-replace(
-    url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-hover-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"),
-    "#",
-    "%23"
-  )
-  !default;
+  url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-hover-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"),
+  "#",
+  "%23"
+) !default;
 // Sidebar
-$sidebar-width: 230px !default;
+$sidebar-width: 240px !default;
 $sidebar-padding: 0 !default;
 $sidebar-minimized-width: 50px !default;
 $sidebar-minimized-height: $sidebar-minimized-width !default;
@@ -114,18 +114,16 @@ $sidebar-nav-dropdown-bg: #29363d !default;
 $sidebar-nav-dropdown-borders: 0 !default;
 $sidebar-nav-dropdown-indicator-color: $gray-600 !default;
 $sidebar-nav-dropdown-indicator: str-replace(
-    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-nav-dropdown-indicator-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E"),
-    "#",
-    "%23"
-  )
-  !default;
+  url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-nav-dropdown-indicator-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E"),
+  "#",
+  "%23"
+) !default;
 $sidebar-nav-dropdown-indicator-hover-color: $sidebar-nav-link-hover-color;
 $sidebar-nav-dropdown-indicator-hover: str-replace(
-    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-nav-dropdown-indicator-hover-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E"),
-    "#",
-    "%23"
-  )
-  !default;
+  url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-nav-dropdown-indicator-hover-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E"),
+  "#",
+  "%23"
+) !default;
 // Sidebar Footer
 $sidebar-footer-height: auto !default;
 $sidebar-footer-bg: rgba(0, 0, 0, 0.2) !default;
@@ -138,47 +136,51 @@ $sidebar-minimizer-bg: rgba(0, 0, 0, 0.2) !default;
 $sidebar-minimizer-borders: 0 !default;
 $sidebar-minimizer-indicator-color: $gray-600 !default;
 $sidebar-minimizer-indicator: str-replace(
-    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-minimizer-indicator-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E"),
-    "#",
-    "%23"
-  )
-  !default;
+  url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-minimizer-indicator-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E"),
+  "#",
+  "%23"
+) !default;
 $sidebar-minimizer-hover-bg: rgba(0, 0, 0, 0.3) !default;
 $sidebar-minimizer-hover-indicator-color: $sidebar-nav-link-hover-color !default;
 $sidebar-minimizer-hover-indicator: str-replace(
-    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-minimizer-hover-indicator-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E"),
-    "#",
-    "%23"
-  )
-  !default;
+  url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='#{$sidebar-minimizer-hover-indicator-color}' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E"),
+  "#",
+  "%23"
+) !default;
 // Top Navigation
 $top-nav-bg: #fff !default;
 $top-nav-color: $body-color !default;
-$top-nav-borders: (bottom: (size: 1px, style: solid, color: $border-color))
-  !default;
-$top-nav-ul-borders: (all: (size: 1px, style: solid, color: $border-color))
-  !default;
+$top-nav-borders: (
+  bottom: (size: 1px, style: solid, color: $border-color)
+) !default;
+$top-nav-ul-borders: (
+  all: (size: 1px, style: solid, color: $border-color)
+) !default;
 $top-nav-hover-color: #fff !default;
 $top-nav-hover-bg: theme-color("primary") !default;
 $top-nav-active-color: #fff !default;
 $top-nav-active-bg: theme-color("primary") !default;
 $top-nav-height: $navbar-height - 15px !default;
 // Breadcrumb
-$breadcrumb-borders: (bottom: (size: 1px, style: solid, color: $border-color))
-  !default;
+$breadcrumb-borders: (
+  bottom: (size: 1px, style: solid, color: $border-color)
+) !default;
 // Aside
 $aside-menu-width: 250px !default;
 $aside-menu-color: $gray-800 !default;
 $aside-menu-bg: #fff !default;
-$aside-menu-borders: (left: (size: 1px, style: solid, color: $border-color))
-  !default;
+$aside-menu-borders: (
+  left: (size: 1px, style: solid, color: $border-color)
+) !default;
 $aside-menu-nav-padding-y: 0.75rem !default;
 $aside-menu-nav-padding-x: 1rem !default;
 // Footer
 $footer-height: 50px !default;
 $footer-bg: $gray-100 !default;
 $footer-color: $body-color !default;
-$footer-borders: (top: (size: 1px, style: solid, color: $border-color)) !default;
+$footer-borders: (
+  top: (size: 1px, style: solid, color: $border-color)
+) !default;
 
 // Cards
 $card-icon-bg: transparent !default;

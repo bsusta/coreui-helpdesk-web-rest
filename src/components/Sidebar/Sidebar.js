@@ -116,8 +116,7 @@ class Sidebar extends Component {
             </RsNavLink>
           ) : (
             <NavLink to={url} className={classes.link} activeClassName="active">
-              <i className={classes.icon} />
-
+              {item.icon === "fa fa-plus" && <i className={item.icon} />}
               {item.name}
               {badge(item.badge)}
             </NavLink>
@@ -135,7 +134,8 @@ class Sidebar extends Component {
             href="#"
             onClick={handleClick.bind(this)}
           >
-            <i className={item.icon} />
+            {/*<i className={item.icon} />*/}
+
             {item.name}
           </a>
           <ul className="nav-dropdown-items">{navList(item.children)}</ul>
