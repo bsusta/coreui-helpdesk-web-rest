@@ -306,11 +306,11 @@ class Full extends Component {
                   name="MyTasks"
                   component={MyTasks}
                 />
-              <Route
-                exact
-                path="/project/add"
-                name="Project add"
-                component={ProjectAdd}
+                <Route
+                  exact
+                  path="/project/add"
+                  name="Project add"
+                  component={ProjectAdd}
                 />
                 <Route
                   exact
@@ -347,19 +347,19 @@ class Full extends Component {
                   path="/tag/add"
                   name="Tag add"
                   component={TagAdd}
-                  />
-                  <Route
-                    exact
-                    path="/tag/edit/:id"
-                    name="Tag edit"
-                    component={TagEdit}
-                  />
-                  <Route
-                    exact
-                    path="/tag/:id"
-                    name="Tag Tasks"
-                    component={TagTasks}
-                  />
+                />
+                <Route
+                  exact
+                  path="/tag/edit/:id"
+                  name="Tag edit"
+                  component={TagEdit}
+                />
+                <Route
+                  exact
+                  path="/tag/:id"
+                  name="Tag Tasks"
+                  component={TagTasks}
+                />
 
                 <Route
                   exact
@@ -391,7 +391,6 @@ class Full extends Component {
                   name="Filtered task list"
                   component={Filter}
                 />
-
               </Switch>
             </Container>
           </main>
