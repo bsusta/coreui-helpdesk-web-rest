@@ -59,7 +59,10 @@ class Full extends Component {
     return (
       <div className="app">
         <Header history={this.props.history} />
-        <div className="app-body">
+        <div
+          className="app-body"
+          style={{ maxWidth: 1920, marginLeft: "auto", marginRight: "auto" }}
+        >
           <Sidebar {...this.props} />
           <main className="main" style={{ backgroundColor: "white" }}>
             <Container fluid style={{ padding: 0 }}>

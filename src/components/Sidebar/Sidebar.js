@@ -109,7 +109,7 @@ class Sidebar extends Component {
       return (
         <NavItem key={key} className={classes.item}>
           <NavLink to={url} className={classes.link} activeClassName="active">
-            <i className={item.icon} />
+            {item.icon && <i className={item.icon} />}
             <span
               style={
                 item.color
@@ -140,7 +140,7 @@ class Sidebar extends Component {
             href="#"
             onClick={handleClick.bind(this)}
           >
-            <i className={item.icon} />
+            {item.icon && <i className={item.icon} />}
 
             {item.name}
           </a>

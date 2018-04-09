@@ -28,7 +28,7 @@ class Login extends Component {
   render() {
     if (this.props.authenticated) {
       return (
-        <div style={{ maxWidth: 1920, margin: "auto" }}>
+        <div>
           <Navigation {...this.props} />
         </div>
       );
