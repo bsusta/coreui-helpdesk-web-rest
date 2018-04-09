@@ -40,6 +40,7 @@ export const getSidebar = token => {
           data.tags.map(tag =>
             tags.children.push({
               name: tag.title,
+              color: tag.color,
               url: "/tag/" + tag.id.toString()
             })
           );
@@ -67,39 +68,39 @@ export const getSidebar = token => {
             url: "/mytasks",
             icon: "fa fa-plus"
           });
-
-          let testFilters=[];
-          let afterFilters=[];
-          filters.children.map((filter)=>{
-          switch (filter.name) {
-            case 'DO IT':{
-              testFilters[0]=filter;
-              filter.icon="fa fa-plus";
-              break;
+          //mockup data filter
+          let testFilters = [];
+          let afterFilters = [];
+          filters.children.map(filter => {
+            switch (filter.name) {
+              case "DO IT": {
+                testFilters[0] = filter;
+                filter.icon = "fa fa-play";
+                break;
+              }
+              case "REQUESTED": {
+                testFilters[1] = filter;
+                filter.icon = "fa fa-users";
+                break;
+              }
+              case "IMPORTANT": {
+                testFilters[2] = filter;
+                filter.icon = "fa fa-exclamation";
+                break;
+              }
+              case "SCHEDULED": {
+                testFilters[3] = filter;
+                filter.icon = "fa fa-pause";
+                break;
+              }
+              default: {
+                afterFilters.push(filter);
+                break;
+              }
             }
-            case 'REQUESTED':{
-              testFilters[1]=filter;
-              filter.icon="fa fa-plus";
-              break;
-            }
-            case 'IMPORTANT':{
-              testFilters[2]=filter;
-              filter.icon="fa fa-plus";
-              break;
-            }
-            case 'SCHEDULED':{
-              testFilters[3]=filter;
-              filter.icon="fa fa-plus";
-              break;
-            }
-            default:{
-              afterFilters.push(filter);
-              break;
-            }
-          }
-        });
-        testFilters.concat(afterFilters);
-        filters.children=testFilters;
+          });
+          testFilters.concat(afterFilters);
+          filters.children = testFilters;
 
           let projects = {
             name: "Projects",
@@ -111,7 +112,7 @@ export const getSidebar = token => {
             projects.children.push({
               name: project.title,
               url: "/project/" + project.id.toString(),
-              //icon: "icon-folder",
+              icon: "icon-folder",
               badge: {
                 variant: "info",
                 text: project.numberOfTasks

@@ -30,6 +30,23 @@
   background-color: white;
 }
 
+.badge-info {
+  background-color: transparent;
+}
+
+.card-header {
+  border: 0;
+  background-color: #f4f9fd;
+}
+
 .sidebar .sidebar-nav {
-  border-right: 1px solid #c2cfd6;
+  border-right: 1px solid rgb(238, 238, 238);
+}
+
+.sidebar .sidebar-minimizer {
+  border-right: 1px solid rgb(238, 238, 238);
+}
+
+.badge-info {
+  color: white;
 }

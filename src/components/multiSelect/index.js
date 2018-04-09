@@ -44,97 +44,169 @@ example:
 */
 
 export default class MultiSelect extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    let idValue=this.props.idValue?this.props.idValue:'id';
-    let displayValue = this.props.displayValue?this.props.displayValue:idValue;
-    let filterBy = this.props.filterBy?this.props.filterBy:idValue;
-    let displayBoxStyle = this.props.displayBoxStyle?this.props.displayBoxStyle:{};
-    let displayItemStyle = this.props.displayItemStyle?this.props.displayItemStyle:{};
-    let menuItemStyle = this.props.menuItemStyle?this.props.menuItemStyle:{};
-    this.state={
+    let idValue = this.props.idValue ? this.props.idValue : "id";
+    let displayValue = this.props.displayValue
+      ? this.props.displayValue
+      : idValue;
+    let filterBy = this.props.filterBy ? this.props.filterBy : idValue;
+    let displayBoxStyle = this.props.displayBoxStyle
+      ? this.props.displayBoxStyle
+      : {};
+    let displayItemStyle = this.props.displayItemStyle
+      ? this.props.displayItemStyle
+      : {};
+    let menuItemStyle = this.props.menuItemStyle
+      ? this.props.menuItemStyle
+      : {};
+    this.state = {
       displayBoxStyle,
-      opened:false,
-      filter:'',
+      opened: false,
+      filter: "",
       idValue,
       displayValue,
       filterBy,
       displayItemStyle,
       menuItemStyle,
-      colored:this.props.colored?this.props.colored:false,
+      colored: this.props.colored ? this.props.colored : false
     };
     this.onChange.bind(this);
   }
 
-  onChange(id){
-    let returnIds=[];
-    if(this.props.selectedIds.includes(id)){
-      returnIds=[...this.props.selectedIds];
-      returnIds.splice(returnIds.findIndex((item)=>item==id),1);
+  onChange(id) {
+    let returnIds = [];
+    if (this.props.selectedIds.includes(id)) {
+      returnIds = [...this.props.selectedIds];
+      returnIds.splice(returnIds.findIndex(item => item == id), 1);
+    } else {
+      returnIds = [id, ...this.props.selectedIds];
     }
-    else{
-      returnIds=[id,...this.props.selectedIds];
-    }
-    if(this.props.onChange){
-      this.props.onChange(returnIds,this.props.data.filter((item)=>returnIds.includes(item[this.state.idValue])));
-    }
-    else{
-      console.log('implement onChange func, returns (ids,values)');
+    if (this.props.onChange) {
+      this.props.onChange(
+        returnIds,
+        this.props.data.filter(item =>
+          returnIds.includes(item[this.state.idValue])
+        )
+      );
+    } else {
+      console.log("implement onChange func, returns (ids,values)");
     }
   }
 
   render() {
     return (
-      <div style={{display:this.props.display=="row"?"flex":"block",marginTop:'auto',marginBottom:'auto'}}>
-      <Dropdown
-      isOpen={this.state.opened}
-      toggle={()=>{this.setState({opened:!this.state.opened});}}
+      <div
+        style={{
+          display: this.props.display == "row" ? "flex" : "block",
+          marginTop: "auto",
+          marginBottom: "auto"
+        }}
       >
-      <DropdownToggle caret style={this.props.toggleStyle?this.props.toggleStyle:{}}>{this.props.label?this.props.label:''}</DropdownToggle>
-      <DropdownMenu>
-      <div class="list-group">
+        <Dropdown
+          isOpen={this.state.opened}
+          toggle={() => {
+            this.setState({ opened: !this.state.opened });
+          }}
+        >
+          <DropdownToggle
+            caret
+            style={this.props.toggleStyle ? this.props.toggleStyle : {}}
+          >
+            {this.props.label ? this.props.label : ""}
+          </DropdownToggle>
+          <DropdownMenu>
+            <div class="list-group">
+              {/*
       <div  class="list-group-item" style={this.props.titleStyle?this.props.titleStyle:{}}>
       {this.props.title?this.props.title:''}
-      </div>
-      <input
-      placeholder="Filter"
-      style={this.props.searchStyle?this.props.searchStyle:{}}
-      onChange={(value)=>this.setState({filter:value.target.value})}
-      />
-      {this.props.data.filter((item)=>(item[this.state.filterBy]+"").toLowerCase().includes(this.state.filter.toLowerCase())).map((item)=>(
-        <div class="list-group-item list-group-item-action"
-        onClick={(value)=>{this.onChange(item[this.state.idValue])}}
-        style={{width:'auto',flex:1,display:"flex",backgroundColor:this.state.colored?((item.color.includes('#')?'':'#')+item.color):'white',color:this.state.colored?'white':'black',...this.state.menuItemStyle,cursor:'pointer'}}>
-        <input
-        checked={this.props.selectedIds.includes(item[this.state.idValue])}
-        type="checkbox"
-        value={item[this.state.idValue]}
-        style={{marginTop:'auto',marginBottom:'auto',paddingLeft:3}}
-        onClick={(value)=>{this.onChange(value.target.value)}} />
-      <div style={this.props.labelStyle?this.props.labelStyle:{}} >
-        {item[this.state.displayValue]}
-      </div>
-        </div>)
-
-      )}
 
       </div>
-      </DropdownMenu>
-      </Dropdown>
-      <div style={{...this.state.displayBoxStyle,display:this.props.display=="row"?"flex":"block"}}>
-      {
-        this.props.data.filter((item)=>this.props.selectedIds.includes(item[this.state.idValue])).map((item)=>
-        {
-          if(this.props.renderItem){
-            return this.props.renderItem(item);
-          }
-          return(
-        <div style={{backgroundColor:this.state.colored?item.color:'white',color:this.state.colored?'white':'black',...this.state.displayItemStyle}}>
-        {item[this.state.displayValue]}
-        </div>)
-      })
-    }
-    </div>
-    </div>)
+      */}
+              <input
+                placeholder="Filter"
+                style={this.props.searchStyle ? this.props.searchStyle : {}}
+                onChange={value =>
+                  this.setState({ filter: value.target.value })
+                }
+              />
+              {this.props.data
+                .filter(item =>
+                  (item[this.state.filterBy] + "")
+                    .toLowerCase()
+                    .includes(this.state.filter.toLowerCase())
+                )
+                .map(item => (
+                  <div
+                    class="list-group-item list-group-item-action"
+                    onClick={value => {
+                      this.onChange(item[this.state.idValue]);
+                    }}
+                    style={{
+                      width: "auto",
+                      flex: 1,
+                      display: "flex",
+                      backgroundColor: this.state.colored
+                        ? (item.color.includes("#") ? "" : "#") + item.color
+                        : "white",
+                      color: this.state.colored ? "white" : "black",
+                      ...this.state.menuItemStyle,
+                      cursor: "pointer"
+                    }}
+                  >
+                    <input
+                      checked={this.props.selectedIds.includes(
+                        item[this.state.idValue]
+                      )}
+                      type="checkbox"
+                      value={item[this.state.idValue]}
+                      style={{
+                        marginTop: "auto",
+                        marginBottom: "auto",
+                        paddingLeft: 3
+                      }}
+                      onClick={value => {
+                        this.onChange(value.target.value);
+                      }}
+                    />
+                    <div
+                      style={this.props.labelStyle ? this.props.labelStyle : {}}
+                    >
+                      {item[this.state.displayValue]}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </DropdownMenu>
+        </Dropdown>
+        <div
+          style={{
+            ...this.state.displayBoxStyle,
+            display: this.props.display == "row" ? "flex" : "block"
+          }}
+        >
+          {this.props.data
+            .filter(item =>
+              this.props.selectedIds.includes(item[this.state.idValue])
+            )
+            .map(item => {
+              if (this.props.renderItem) {
+                return this.props.renderItem(item);
+              }
+              return (
+                <div
+                  style={{
+                    backgroundColor: this.state.colored ? item.color : "white",
+                    color: this.state.colored ? "white" : "black",
+                    ...this.state.displayItemStyle
+                  }}
+                >
+                  {item[this.state.displayValue]}
+                </div>
+              );
+            })}
+        </div>
+      </div>
+    );
   }
 }

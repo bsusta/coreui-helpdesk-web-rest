@@ -108,19 +108,25 @@ class Sidebar extends Component {
       const url = item.url ? item.url : "";
       return (
         <NavItem key={key} className={classes.item}>
-          {isExternal(url) ? (
-            <RsNavLink href={url} className={classes.link} active>
-              <i className={classes.icon} />
+          <NavLink to={url} className={classes.link} activeClassName="active">
+            <i className={item.icon} />
+            <span
+              style={
+                item.color
+                  ? {
+                      padding: 4,
+                      color: "white",
+                      backgroundColor: item.color.includes("#")
+                        ? item.color
+                        : "#" + item.color
+                    }
+                  : {}
+              }
+            >
               {item.name}
-              {badge(item.badge)}
-            </RsNavLink>
-          ) : (
-            <NavLink to={url} className={classes.link} activeClassName="active">
-              {item.icon === "fa fa-plus" && <i className={item.icon} />}
-              {item.name}
-              {badge(item.badge)}
-            </NavLink>
-          )}
+            </span>
+            {badge(item.badge)}
+          </NavLink>
         </NavItem>
       );
     };
@@ -134,7 +140,7 @@ class Sidebar extends Component {
             href="#"
             onClick={handleClick.bind(this)}
           >
-            {/*<i className={item.icon} />*/}
+            <i className={item.icon} />
 
             {item.name}
           </a>

@@ -56,15 +56,16 @@ class Header extends Component {
         <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
-        <NavbarBrand href="#" />
-        <NavbarToggler className="d-md-down-none ml-4">
+        <NavbarToggler style={{ color: "white" }}>LanHelpdesk</NavbarToggler>
+
+        <NavbarToggler className="d-md-down-none">
           <InputGroup>
             <Input
               type="text"
               id="input1-group1"
               name="input1-group1"
               placeholder="Search task"
-              style={{ borderRight: "0", width: 300 }}
+              style={{ borderRight: "0", width: 300, marginLeft: 90 }}
             />
             <InputGroupAddon style={{ background: "white", borderLeft: "" }}>
               <i className="fa fa-search" />
@@ -74,6 +75,7 @@ class Header extends Component {
         <button
           type="button"
           className="btn btn-link"
+          style={{ color: "white" }}
           onClick={this.addTaskToggle.bind(this)}
         >
           Add task
@@ -84,6 +86,7 @@ class Header extends Component {
 
         <NavbarToggler
           className="d-md-down-none"
+          style={{ color: "white", marginRight: 20 }}
           onClick={() => this.props.history.push("/settings")}
         >
           <i className="icon-settings" />
