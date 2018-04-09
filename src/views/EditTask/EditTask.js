@@ -339,7 +339,7 @@ class EditTask extends Component {
               <i class="fa fa-trash" /> Vymazať
             </button>
           </CardHeader>
-          <CardBody>
+          <CardBody style={{ maxWidth: 1200, marginRight: "auto" }}>
             <div className="row">
               <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
                 <form>
