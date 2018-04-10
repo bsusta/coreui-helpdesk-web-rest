@@ -31,10 +31,10 @@ import {
   addComment,
   addCommentsComment,
   uploadCommentFile,
-  removeCommentFile
+  removeCommentFile,
+  removeAllCommentFiles
 } from "../../redux/actions";
 {
-  /*displayAttachements*/
 }
 class AddComment extends Component {
   constructor(props) {
@@ -66,10 +66,7 @@ class AddComment extends Component {
   }
 
   getSlug() {
-    if (!this.displayAttachements) {
-      return undefined;
-    }
-    return this.props.displayAttachements.map(attachement => attachement.id);
+    return JSON.stringify(this.props.commentAttachements.map(attachement => attachement.id));
   }
 
   stringifyArray(array) {
@@ -82,7 +79,6 @@ class AddComment extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <Nav tabs>
@@ -196,7 +192,8 @@ class AddComment extends Component {
                       {
                         body: this.state.message,
                         internal: this.state.internal,
-                        title: "Comment"
+                        title: "Comment",
+                        slug: this.getSlug()
                       },
                       this.props.taskID,
                       this.props.token
@@ -498,7 +495,7 @@ class AddComment extends Component {
             </div>
             <div className="form-group">
               <Button color="link" size="sm">
-                <i className="fa fa-paperclip" />&nbsp;Add atachments
+                <i className="fa fa-paperclip" />&nbsp;Add attachments
               </Button>
               <Label
                 check
@@ -536,7 +533,8 @@ class AddComment extends Component {
                         email: true,
                         email_to: JSON.stringify(this.state.to),
                         email_cc: JSON.stringify(this.state.cc),
-                        email_bcc: JSON.stringify(this.state.bcc)
+                        email_bcc: JSON.stringify(this.state.bcc),
+                        slug: this.getSlug()
                       },
                       this.props.commentID,
                       this.props.token
@@ -550,7 +548,8 @@ class AddComment extends Component {
                         email: true,
                         email_to: JSON.stringify(this.state.to),
                         email_cc: JSON.stringify(this.state.cc),
-                        email_bcc: JSON.stringify(this.state.bcc)
+                        email_bcc: JSON.stringify(this.state.bcc),
+                        slug: this.getSlug()
                       },
                       this.props.taskID,
                       this.props.token
@@ -615,5 +614,6 @@ export default connect(mapStateToProps, {
   addComment,
   addCommentsComment,
   uploadCommentFile,
-  removeCommentFile
+  removeCommentFile,
+  removeAllCommentFiles
 })(AddComment);

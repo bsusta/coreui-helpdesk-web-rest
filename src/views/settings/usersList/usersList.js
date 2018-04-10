@@ -96,6 +96,7 @@ class UsersList extends Component {
           filter=""
           pageNumber={this.state.pageNumber}
           setPageNumber={this.setPage.bind(this)}
+          paginationOptions={[{title:20,value:20},{title:50,value:50},{title:100,value:100},{title:'all',value:999}]}
           pagination={this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20}
           />*/
         }

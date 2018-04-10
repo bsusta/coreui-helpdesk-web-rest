@@ -87,7 +87,7 @@ export default class MultiSelect extends Component {
         returnIds,
         this.props.data.filter(item =>
           returnIds.includes(item[this.state.idValue])
-        )
+        ),id
       );
     } else {
       console.log("implement onChange func, returns (ids,values)");
@@ -130,12 +130,22 @@ export default class MultiSelect extends Component {
                   this.setState({ filter: value.target.value })
                 }
               />
-              {this.props.data
+            {(this.props.limit?this.props.data
                 .filter(item =>
                   (item[this.state.filterBy] + "")
                     .toLowerCase()
                     .includes(this.state.filter.toLowerCase())
-                )
+                ).slice(0,Math.min(20,this.props.data
+                  .filter(item =>
+                    (item[this.state.filterBy] + "")
+                      .toLowerCase()
+                      .includes(this.state.filter.toLowerCase())
+                  ).length)):this.props.data
+                      .filter(item =>
+                        (item[this.state.filterBy] + "")
+                          .toLowerCase()
+                          .includes(this.state.filter.toLowerCase())
+                      ))
                 .map(item => (
                   <div
                     class="list-group-item list-group-item-action"

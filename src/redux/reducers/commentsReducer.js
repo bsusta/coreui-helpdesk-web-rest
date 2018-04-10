@@ -1,4 +1,4 @@
-import { SET_COMMENTS, SET_COMMENTS_LOADING, ADD_COMMENT, EDIT_COMMENT,DELETE_COMMENT } from '../types'
+import { SET_COMMENTS, SET_COMMENTS_LOADING, ADD_COMMENT, EDIT_COMMENT,DELETE_COMMENT, ADD_COMMENT_AVATAR_URL, SET_COMMENT_ATTACHEMENT } from '../types'
 
 const initialState = {
   comments:[],
@@ -11,6 +11,20 @@ export default function commentsReducer(state = initialState, action) {
       return { ...state, comments:action.comments };
     case ADD_COMMENT:
       return { ...state, comments:[...state.comments,action.comment] };
+    case ADD_COMMENT_AVATAR_URL:{
+      //finds location of the current comment and replaces it with newer version
+      let newComments=[...state.comments];
+      newComments[newComments.findIndex((comment)=>comment.id==action.id)].url=action.url;
+      return { ...state, comments:newComments };
+    }
+    case SET_COMMENT_ATTACHEMENT:{
+      //finds location of the current comment and replaces it with newer version
+      let newComments=[...state.comments];
+      let commentIndex=newComments.findIndex((comment)=>comment.id==action.commentID);
+      let attachementIndex= newComments[commentIndex].commentHasAttachments.findIndex((attachement)=>attachement.id==action.attachementID);
+      newComments[commentIndex].commentHasAttachments[attachementIndex].url=action.url;
+      return { ...state, comments:[...newComments] };
+    }
     case SET_COMMENTS_LOADING:
       return { ...state, commentsLoaded:action.commentsLoaded };
     case EDIT_COMMENT:{

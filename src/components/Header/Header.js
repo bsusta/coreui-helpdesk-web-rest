@@ -84,13 +84,28 @@ class Header extends Component {
           <MessagesDropdown />
         </Nav>
 
+
+
+
+        <NavbarToggler
+          className="d-md-down-none"
+        >
+        <a
+          className="d-md-down-none"
+          href="#/settings"
+        >
+        <i className="icon-settings" style={{ color: "white", marginRight: 20 }} />
+      </a>
+    </NavbarToggler>
+
+        {/*
         <NavbarToggler
           className="d-md-down-none"
           style={{ color: "white", marginRight: 20 }}
           onClick={() => this.props.history.push("/settings")}
         >
           <i className="icon-settings" />
-        </NavbarToggler>
+        </NavbarToggler>*/}
       </header>
     );
   }

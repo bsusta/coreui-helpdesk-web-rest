@@ -117,10 +117,8 @@ class Project extends Component {
                 <td onClick={() => this.props.history.push("/task/edit/"+task.id)}>
                   {task.title}
                   <p>
-                    <span class="badge badge-primary mr-1">Primary</span>
-                    <span class="badge badge-secondary mr-1">Secondary</span>
-                    <span class="badge badge-success mr-1">Success</span>
-                    <span class="badge badge-danger mr-1">Danger</span>
+                    {task.tags.map((tag)=><span class="badge mr-1" style={{backgroundColor:(tag.color.includes('#')?'':'#')+tag.color, color:'white'}}>{tag.title}</span>
+                    )}
                   </p>
                 </td>
                 <td>{task.requestedBy.username}</td>
@@ -142,6 +140,7 @@ class Project extends Component {
           refetchParameters={[parseInt(this.props.match.params.id, 10)]}
           pageNumber={this.state.pageNumber}
           setPageNumber={this.setPage.bind(this)}
+          paginationOptions={[{title:20,value:20},{title:50,value:50},{title:100,value:100}]}
           pagination={this.props.match.params.count?parseInt(this.props.match.params.count, 10):20}
           />
 

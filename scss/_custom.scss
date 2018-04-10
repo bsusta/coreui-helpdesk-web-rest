@@ -54,3 +54,12 @@
 .email-app .inbox .message {
   border-top: 1px solid #c2cfd6;
 }
+
+.react-datepicker-popper {
+  z-index: 3;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+  padding-left: 0;
+  padding-right: 0;
+}

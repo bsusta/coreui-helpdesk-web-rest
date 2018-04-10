@@ -1,5 +1,5 @@
-import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT, EDIT_COMMENT,DELETE_COMMENT } from '../types';
-import { TASKS_LIST, GET_IMAGE_LOC, GET_IMAGE, COMMENT_COMMENTS } from '../urls';
+import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT, ADD_COMMENT_AVATAR_URL,DELETE_COMMENT, SET_COMMENT_ATTACHEMENT } from '../types';
+import { TASKS_LIST, GET_LOC, GET_FILE, COMMENT_COMMENTS } from '../urls';
 
 /**
  * Sets status if comments are loaded to false
@@ -24,26 +24,29 @@ export const getComments= (taskID,token) => {
         }
       }).then((response) =>{
       response.json().then((data) => {
+        let comments=[];
+        data.data.map((comment)=>{
+          comment.commentHasAttachments=comment.commentHasAttachments.map((attachement)=>attachement={id:attachement,name:attachement});
+          comments.push(comment);
+        });
         dispatch({ type: SET_COMMENTS_LOADING, commentsLoaded:true });
         dispatch({type: SET_COMMENTS, comments:data.data});
         data.data.map((comment)=>{
         if(comment.createdBy.avatarSlug){
-          let newComment=comment;
-          fetch(GET_IMAGE_LOC+comment.createdBy.avatarSlug+'/download-location', {
+          fetch(GET_LOC+comment.createdBy.avatarSlug+'/download-location', {
             method: 'get',
             headers: {
               'Authorization': 'Bearer ' + token,
               'Content-Type': 'application/json'
             }
           }).then((response2)=>response2.json().then((data2)=>{
-            fetch(GET_IMAGE+data2.data.fileDir+'/'+data2.data.fileName, {
+            fetch(GET_FILE+data2.data.fileDir+'/'+data2.data.fileName, {
               method: 'get',
               headers: {
                 'Authorization': 'Bearer ' + token,
               }
             }).then((response3) =>{
-              newComment['avatar']=response3.url;
-              dispatch({type: EDIT_COMMENT, comment:newComment});
+              dispatch({type: ADD_COMMENT_AVATAR_URL,id:comment.id,url:response3.url});
             }).catch(function (error) {
               console.log(error);
             });
@@ -53,7 +56,33 @@ export const getComments= (taskID,token) => {
           ).catch(function (error) {
             console.log(error);
           });
-        }})
+        }
+        comment.commentHasAttachments.map(attachement=>{
+          fetch(GET_LOC+attachement.id+'/download-location', {
+            method: 'get',
+            headers: {
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json'
+            }
+          }).then((response2)=>response2.json().then((data2)=>{
+            fetch(GET_FILE+data2.data.fileDir+'/'+data2.data.fileName, {
+              method: 'get',
+              headers: {
+                'Authorization': 'Bearer ' + token,
+              }
+            }).then((response3) =>{
+              dispatch({type: SET_COMMENT_ATTACHEMENT,commentID:comment.id,attachementID:attachement.id,url:response3.url});
+            }).catch(function (error) {
+              console.log(error);
+            });
+            }).catch(function (error) {
+              console.log(error);
+            })
+          ).catch(function (error) {
+            console.log(error);
+          });
+        })
+      })
       });
     }
   ).catch(function (error) {
@@ -81,14 +110,14 @@ export const getComments= (taskID,token) => {
      response.json().then((response)=>{
        if(response.data.createdBy.avatarSlug){
          let newComment=response.data;
-         fetch(GET_IMAGE_LOC+newComment.createdBy.avatarSlug+'/download-location', {
+         fetch(GET_LOC+newComment.createdBy.avatarSlug+'/download-location', {
            method: 'get',
            headers: {
              'Authorization': 'Bearer ' + token,
              'Content-Type': 'application/json'
            }
          }).then((response2)=>response2.json().then((data2)=>{
-           fetch(GET_IMAGE+data2.data.fileDir+'/'+data2.data.fileName, {
+           fetch(GET_FILE+data2.data.fileDir+'/'+data2.data.fileName, {
              method: 'get',
              headers: {
                'Authorization': 'Bearer ' + token,
@@ -130,14 +159,14 @@ export const getComments= (taskID,token) => {
      response.json().then((response)=>{
        if(response.data.createdBy.avatarSlug){
          let newComment=response.data;
-         fetch(GET_IMAGE_LOC+newComment.createdBy.avatarSlug+'/download-location', {
+         fetch(GET_LOC+newComment.createdBy.avatarSlug+'/download-location', {
            method: 'get',
            headers: {
              'Authorization': 'Bearer ' + token,
              'Content-Type': 'application/json'
            }
          }).then((response2)=>response2.json().then((data2)=>{
-           fetch(GET_IMAGE+data2.data.fileDir+'/'+data2.data.fileName, {
+           fetch(GET_FILE+data2.data.fileDir+'/'+data2.data.fileName, {
              method: 'get',
              headers: {
                'Authorization': 'Bearer ' + token,

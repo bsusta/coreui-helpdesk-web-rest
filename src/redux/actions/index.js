@@ -18,3 +18,4 @@ export * from './subtaskActions';
 export * from './itemActions';
 export * from './commentActions';
 export * from './commentAttachementActions';
+export * from './followerActions';

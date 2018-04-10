@@ -3,8 +3,8 @@ import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   SET_FILTER_TASKS_LOADING, SET_TAG_LINKS, SET_TAG_TASKS_LOADING,
   SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,
   SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING,
-  DELETE_TASK_SOLVERS, SET_TASK_SOLVERS } from '../types';
-import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST } from '../urls';
+  DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHEMENT } from '../types';
+import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE } from '../urls';
 
 /**
  * Sets status if tasks are loaded to false
@@ -157,6 +157,35 @@ export const getTask = (id,token) => {
       response.json().then((data) => {
         dispatch({type: SET_TASK, task:data.data});
         dispatch({ type: SET_TASK_LOADING, taskLoaded:true });
+
+        //zaciatok nacitavania attachementov
+        data.data.taskHasAttachments.map((attachement)=>{
+          fetch(GET_LOC+attachement.slug+'/download-location', {
+            method: 'get',
+            headers: {
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json'
+            }
+          }).then((response2)=>response2.json().then((data2)=>{
+            fetch(GET_FILE+data2.data.fileDir+'/'+data2.data.fileName, {
+              method: 'get',
+              headers: {
+                'Authorization': 'Bearer ' + token,
+              }
+            }).then((response3) =>{
+              dispatch({type: ADD_ATTACHEMENT, attachement:{url:response3.url,id:attachement.slug,file:{name:attachement.slug}}});
+            }).catch(function (error) {
+              console.log(error);
+            });
+          }).catch(function (error) {
+            console.log(error);
+          })
+        ).catch(function (error) {
+          console.log(error);
+        });
+        //koniec nacitavania attachementov
+        });
+
       });
     }
   ).catch(function (error) {
@@ -177,13 +206,10 @@ export const getTask = (id,token) => {
 
 export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,token) => {
   return (dispatch) => {
-    console.log('sending');
     if(!taskID||!projectID||!statusID){
-      console.log('necessary ids missing');
       return;
     }
-
-    console.log(JSON.stringify(data));
+    console.log('submitting');
 
     if(requesterID && companyID){
       fetch(TASKS_LIST+'/'+taskID+'/project/'+projectID+'/status/'+statusID+'/requester/'+requesterID+'/company/'+companyID, {
@@ -193,8 +219,7 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
           'Content-Type': 'application/json'
         },
         body:JSON.stringify(data)
-      }).then((response)=>response.json().then((response)=>console.log(response.data.taskHasAssignedUsers)))
-      .catch(function (error) {
+      }).catch(function (error) {
         console.log(error);
       });
 
@@ -207,8 +232,7 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
           'Content-Type': 'application/json'
         },
         body:JSON.stringify(data)
-      }).then((response)=>response.json().then((response)=>console.log(response.data.taskHasAssignedUsers)))
-      .catch(function (error) {
+      }).catch(function (error) {
         console.log(error);
       });
 
@@ -221,8 +245,7 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
           'Content-Type': 'application/json'
         },
         body:JSON.stringify(data)
-      }).then((response)=>response.json().then((response)=>console.log(response.data.taskHasAssignedUsers)))
-      .catch(function (error) {
+      }).catch(function (error) {
         console.log(error);
       });
 
@@ -235,8 +258,7 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
           'Content-Type': 'application/json'
         },
         body:JSON.stringify(data)
-      }).then((response)=>response.json().then((response)=>console.log(response.data.taskHasAssignedUsers)))
-      .catch(function (error) {
+      }).catch(function (error) {
         console.log(error);
       });
     }

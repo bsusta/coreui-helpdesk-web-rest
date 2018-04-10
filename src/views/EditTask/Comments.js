@@ -69,8 +69,8 @@ class Comments extends Component {
                       <div className="header">
                         <img
                           src={
-                            comment.avatar
-                              ? comment.avatar
+                            comment.url
+                              ? comment.url
                               : "img/avatars/none.jpg"
                           }
                           className="img-avatar"
@@ -161,6 +161,15 @@ class Comments extends Component {
                         {comment.body}
                       </div>
                     </div>
+                    <div>
+                      {
+                        comment.commentHasAttachments.length>0 && <i className="fa fa-paperclip" style={{color:'black', paddingRight:5}} />
+                      }
+                      {
+                        comment.commentHasAttachments.map(attachement=> attachement.url?(<a class="badge mr-1" style={{borderRadius: '3px',border: '1px solid #000'}} href={attachement.url}>{attachement.name}</a>):(<span class="badge mr-1" style={{borderRadius: '3px',border: '1px solid #000'}}>{attachement.name}</span>)
+                    )
+                  }
+                  </div>
                     {comment.id === this.state.comment && (
                       <AddComment
                         taskID={this.props.taskID}

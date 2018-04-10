@@ -20,8 +20,8 @@ export const COMPANY_ATTRIBUTES_LIST = BASE_URL + '/task-bundle/company-attribut
 export const TASK_ATTRIBUTES_LIST = BASE_URL + '/task-bundle/task-attributes';
 
 export const IMAGE_UPLOAD = BASE_URL + '/core-bundle/cdn/upload-image';
-export const GET_IMAGE_LOC = BASE_URL + '/core-bundle/cdn/';
-export const GET_IMAGE = HOST_URL + '/uploads/';
+export const GET_LOC = BASE_URL + '/core-bundle/cdn/';
+export const GET_FILE = HOST_URL + '/uploads/';
 
 export const SIDEBAR_DATA = BASE_URL + '/task-bundle/left-menu-params';
 export const UPDATE_PROJECT_ACL = BASE_URL + '/task-bundle/project/';

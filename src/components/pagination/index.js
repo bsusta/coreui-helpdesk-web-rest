@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input, Pagination,PaginationItem, PaginationLink } from "reactstrap";
 
-const mockOptions=[{title:20,value:20},{title:50,value:50},{title:100,value:100},{title:'all',value:999}]
-
 export default class Pag extends Component {
   constructor(props){
     super(props);
@@ -198,7 +196,7 @@ export default class Pag extends Component {
                 style={{ maxWidth: 70 }}
 
               >
-                {mockOptions.map(opt => (
+                {this.props.paginationOptions.map(opt => (
                   <option key={opt.title} value={opt.value}>
                     {opt.title}
                   </option>

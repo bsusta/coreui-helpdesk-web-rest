@@ -1,5 +1,5 @@
 import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER } from '../types';
-import { USERS_LIST, IMAGE_UPLOAD, GET_IMAGE_LOC, GET_IMAGE } from '../urls';
+import { USERS_LIST, IMAGE_UPLOAD, GET_LOC, GET_FILE } from '../urls';
 
 /**
 * Sets status if users are loaded to false
@@ -117,14 +117,14 @@ export const addUser = (body,company,role,image,token) => {
           }).then((response) =>{
             response.json().then((data) => {
               if(data.data.image){
-                fetch(GET_IMAGE_LOC+data.data.image+'/download-location', {
+                fetch(GET_LOC+data.data.image+'/download-location', {
                   method: 'get',
                   headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/json'
                   }
                 }).then((response2)=>response2.json().then((data2)=>{
-                  fetch(GET_IMAGE+data2.data.fileDir+'/'+data2.data.fileName, {
+                  fetch(GET_FILE+data2.data.fileDir+'/'+data2.data.fileName, {
                     method: 'get',
                     headers: {
                       'Authorization': 'Bearer ' + token,
