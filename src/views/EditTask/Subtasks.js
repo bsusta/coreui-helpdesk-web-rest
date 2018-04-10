@@ -155,12 +155,12 @@ class Subtasks extends Component {
         <table class="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ borderTop: "0px" }}>Material</th>
-              <th style={{ width: "10%", borderTop: "0px" }}>Pocet</th>
-              <th style={{ width: "10%", borderTop: "0px" }}>Cena/ks</th>
-              <th style={{ width: "15%", borderTop: "0px" }}>Jednotka</th>
+              <th style={{ border: "0px" }}>Material</th>
+              <th style={{ width: "10%", border: "0px" }}>Pocet</th>
+              <th style={{ width: "10%", border: "0px" }}>Cena/ks</th>
+              <th style={{ width: "15%", border: "0px" }}>Jednotka</th>
               <th
-                style={{ width: "40px", borderTop: "0px", textAlign: "right" }}
+                style={{ width: "40px", border: "0px", textAlign: "right" }}
               />
             </tr>
           </thead>
@@ -397,13 +397,22 @@ class Subtasks extends Component {
               </td>
             </tr>
             <tr className="table-info">
-              <td style={{ textAlign: "right" }} colSpan="5">
-                Cena spolu bez {this.sumItems(this.props.items) * 0.8}
+              <td style={{ textAlign: "right", paddingRight: 50 }} colSpan="5">
+                Cena spolu bez:{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  {this.sumItems(this.props.items) * 0.8}
+                </span>
               </td>
             </tr>
             <tr className="table-info">
-              <td style={{ borderTop: 0, textAlign: "right" }} colSpan="5">
-                Cena spolu s DPH: {this.sumItems(this.props.items)}
+              <td
+                style={{ borderTop: 0, textAlign: "right", paddingRight: 50 }}
+                colSpan="5"
+              >
+                Cena spolu s DPH:
+                <span style={{ fontWeight: "bold" }}>
+                  {this.sumItems(this.props.items)}
+                </span>
               </td>
             </tr>
           </tbody>
