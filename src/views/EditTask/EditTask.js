@@ -368,7 +368,11 @@ class EditTask extends Component {
               </div>
               <div
                 className="col-4"
-                style={{ display: "flex", alignItems: "center" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end"
+                }}
               >
                 <label className="float-right">
                   Vytvoril: {this.props.task.createdBy.username} ({

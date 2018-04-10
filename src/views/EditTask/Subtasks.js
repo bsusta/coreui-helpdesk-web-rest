@@ -397,13 +397,22 @@ class Subtasks extends Component {
               </td>
             </tr>
             <tr className="table-info">
-              <td style={{ textAlign: "right" }} colSpan="5">
-                Cena spolu bez {this.sumItems(this.props.items) * 0.8}
+              <td style={{ textAlign: "right", paddingRight: 50 }} colSpan="5">
+                Cena spolu bez:{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  {this.sumItems(this.props.items) * 0.8}
+                </span>
               </td>
             </tr>
             <tr className="table-info">
-              <td style={{ borderTop: 0, textAlign: "right" }} colSpan="5">
-                Cena spolu s DPH: {this.sumItems(this.props.items)}
+              <td
+                style={{ borderTop: 0, textAlign: "right", paddingRight: 50 }}
+                colSpan="5"
+              >
+                Cena spolu s DPH:
+                <span style={{ fontWeight: "bold" }}>
+                  {this.sumItems(this.props.items)}
+                </span>
               </td>
             </tr>
           </tbody>
