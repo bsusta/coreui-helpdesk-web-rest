@@ -321,7 +321,7 @@ class EditTask extends Component {
             margin: "auto",
             border: "0",
             minWidth: 800,
-            backgroundColor: "white"
+            backgroundColor: "#f4f4f4"
           }}
         >
           <CardHeader>
@@ -339,7 +339,14 @@ class EditTask extends Component {
               <i class="fa fa-trash" /> Vymazať
             </button>
           </CardHeader>
-          <CardBody style={{ maxWidth: 1200, marginRight: "auto" }}>
+          <CardBody
+            style={{
+              maxWidth: 1200,
+              marginLeft: "auto",
+              marginRight: "auto",
+              backgroundColor: "white"
+            }}
+          >
             <div
               className="row"
               style={{ borderBottom: "1px solid #eee", marginBottom: 17 }}

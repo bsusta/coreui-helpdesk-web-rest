@@ -57,7 +57,7 @@ import Filter from "./views/Filter";
 class Full extends Component {
   render() {
     return (
-      <div className="app">
+      <div className="app" style={{maxWidth:1920, margin:"auto" }}>
         <Header history={this.props.history} />
         <div className="app-body">
           <Sidebar {...this.props} />
