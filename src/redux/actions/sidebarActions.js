@@ -112,7 +112,7 @@ export const getSidebar = token => {
             projects.children.push({
               name: project.title,
               url: "/project/" + project.id.toString(),
-              icon: "icon-folder",
+              //icon: "icon-folder",
               badge: {
                 variant: "info",
                 text: project.numberOfTasks

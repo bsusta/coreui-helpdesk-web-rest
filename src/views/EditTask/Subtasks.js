@@ -155,12 +155,12 @@ class Subtasks extends Component {
         <table class="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ borderTop: "0px" }}>Material</th>
-              <th style={{ width: "10%", borderTop: "0px" }}>Pocet</th>
-              <th style={{ width: "10%", borderTop: "0px" }}>Cena/ks</th>
-              <th style={{ width: "15%", borderTop: "0px" }}>Jednotka</th>
+              <th style={{ border: "0px" }}>Material</th>
+              <th style={{ width: "10%", border: "0px" }}>Pocet</th>
+              <th style={{ width: "10%", border: "0px" }}>Cena/ks</th>
+              <th style={{ width: "15%", border: "0px" }}>Jednotka</th>
               <th
-                style={{ width: "40px", borderTop: "0px", textAlign: "right" }}
+                style={{ width: "40px", border: "0px", textAlign: "right" }}
               />
             </tr>
           </thead>

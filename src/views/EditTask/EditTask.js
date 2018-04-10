@@ -340,24 +340,39 @@ class EditTask extends Component {
             </button>
           </CardHeader>
           <CardBody style={{ maxWidth: 1200, marginRight: "auto" }}>
-            <div className="row">
-              <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
+            <div
+              className="row"
+              style={{ borderBottom: "1px solid #eee", marginBottom: 17 }}
+            >
+              <div className="col-8">
                 <form>
                   <div class="form-group">
-                    <label for="title">Task Name</label>
-                    <label className="float-right">
-                      Vytvoril: {this.props.task.createdBy.username} ({
-                        this.props.task.createdBy.email
-                      }) {timestampToString(this.props.task.createdAt)}
-                    </label>
+                    {/*<label for="title">Task Name</label>*/}
+
                     <input
                       class="form-control"
                       id="title"
                       placeholder="Enter title"
                       value={this.state.title}
-                      style={{ fontSize: 18 }}
+                      style={{ fontSize: 24, border: "none" }}
                     />
                   </div>
+                </form>
+              </div>
+              <div
+                className="col-4"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <label className="float-right">
+                  Vytvoril: {this.props.task.createdBy.username} ({
+                    this.props.task.createdBy.email
+                  }) {timestampToString(this.props.task.createdAt)}
+                </label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
+                <form>
                   <div class="form-group">
                     <div class="form-group">
                       <MultiSelect
