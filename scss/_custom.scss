@@ -72,12 +72,8 @@
   width:100%;
 }
 
-/*.react-select__container:hover{
-  z-index: 6;
-}*/
-
-.react-select__container{
-  z-index: 4;
+.input-group .form-control {
+  z-index: 0;
 }
 .react-select__single-value{
   padding-right: 45px;

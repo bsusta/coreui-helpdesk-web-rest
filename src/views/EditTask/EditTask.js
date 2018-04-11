@@ -598,7 +598,6 @@ class EditTask extends Component {
                       </select>
                     </InputGroup>
                   </FormGroup>
-
                   <FormGroup>
                     <label for="assigned">Assigned</label>
                     <InputGroup>
