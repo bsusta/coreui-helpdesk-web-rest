@@ -509,6 +509,7 @@ class EditTask extends Component {
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
                       </InputGroupAddon>
+                      <div style={{width:'100%'}} className="datepickerWrap">
                       <DatePicker
                         selected={this.state.deadline}
                         onChange={(e)=>{
@@ -521,6 +522,7 @@ class EditTask extends Component {
                         timeIntervals={30}
                         dateFormat="DD.MM.YYYY HH:mm"
                         />
+                    </div>
                     </InputGroup>
                   </FormGroup>
 
@@ -530,6 +532,7 @@ class EditTask extends Component {
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
                       </InputGroupAddon>
+                      <div style={{width:'100%'}} className="datepickerWrap">
                       <DatePicker
                         selected={this.state.startedAt}
                         onChange={(e)=>{
@@ -542,6 +545,7 @@ class EditTask extends Component {
                         timeIntervals={30}
                         dateFormat="DD.MM.YYYY HH:mm"
                         />
+                    </div>
                     </InputGroup>
                   </FormGroup>
 
@@ -551,6 +555,7 @@ class EditTask extends Component {
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
                       </InputGroupAddon>
+                      <div style={{width:'100%'}} className="datepickerWrap">
                       <DatePicker
                         selected={this.state.closedAt}
                         onChange={(e)=>{
@@ -562,7 +567,9 @@ class EditTask extends Component {
                         timeFormat="HH:mm"
                         timeIntervals={30}
                         dateFormat="DD.MM.YYYY HH:mm"
+                        style={{width:'100%'}}
                         />
+                    </div>
                     </InputGroup>
                   </FormGroup>
 
