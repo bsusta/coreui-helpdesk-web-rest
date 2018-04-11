@@ -1,4 +1,4 @@
-import { SET_COMPANY_ATTRIBUTES, SET_COMPANY_ATTRIBUTES_LOADING, ADD_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE_LOADING, SET_COMPANY_ATTRIBUTE, EDIT_COMPANY_ATTRIBUTE } from '../types'
+import { SET_COMPANY_ATTRIBUTES, SET_COMPANY_ATTRIBUTES_LOADING, ADD_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE_LOADING, SET_COMPANY_ATTRIBUTE, EDIT_COMPANY_ATTRIBUTE, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   companyAttributes:[],
@@ -25,6 +25,8 @@ export default function companyAttributesReducer(state = initialState, action) {
       newCompanyAttributes[newCompanyAttributes.findIndex((companyAttribute)=>companyAttribute.id==action.companyAttribute.id)]=action.companyAttribute;
       return { ...state, companyAttributes:newCompanyAttributes };
     }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

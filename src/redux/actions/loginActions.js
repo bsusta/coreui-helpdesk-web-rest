@@ -32,6 +32,7 @@ export const loginUser = (username, password) => {
 
 export const logoutUser = () => {
    return (dispatch) => {
+     localStorage.removeItem('lansystems');
      dispatch({ type: LOGIN_LOGOUT });
    }
  };

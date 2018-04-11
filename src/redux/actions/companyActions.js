@@ -1,4 +1,4 @@
-import { SET_COMPANIES,SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY, SET_COMPANY_LOADING, EDIT_COMPANY } from '../types';
+import { SET_COMPANIES,SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY, SET_COMPANY_LOADING, EDIT_COMPANY,SET_ERROR_MESSAGE } from '../types';
 import { COMPANIES_LIST } from '../urls';
 
 /**
@@ -23,12 +23,17 @@ export const startCompaniesLoading = () => {
          'Content-Type': 'application/json'
        }
      }).then((response) =>{
+       if(!response.ok){
+         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+         return;
+       }
        response.json().then((data) => {
          dispatch({type: SET_COMPANIES, companies:data.data,updateDate:data.date.toString()});
          dispatch({ type: SET_COMPANIES_LOADING, companiesLoaded:true });
        });
      }
    ).catch(function (error) {
+     dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
      console.log(error);
    });
  }
@@ -50,10 +55,15 @@ export const addCompany = (body,token) => {
         body:JSON.stringify(body),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_COMPANY, company:response.data});
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
 
@@ -83,13 +93,18 @@ export const getCompany = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_COMPANY, company:data.data});
         dispatch({ type: SET_COMPANY_LOADING, companyLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -118,11 +133,21 @@ export const getCompany = (id,token) => {
              'Authorization': 'Bearer ' + token,
              'Content-Type': 'application/json'
            }
-         })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+         })]).then(([response1,response2])=>{
+           if(!response1.ok){
+             dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+             return;
+           }
+           if(!response2.ok){
+             dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+             return;
+           }
+           Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
            dispatch({type: EDIT_COMPANY, company:response1.data});
-         }))
+         })})
          .catch(function (error) {
-           console.log(error);
+           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
        });
 
    };
@@ -145,11 +170,21 @@ export const getCompany = (id,token) => {
              'Authorization': 'Bearer ' + token,
              'Content-Type': 'application/json'
            }
-         })]).then(([response1])=>Promise.all([response1.json()]).then(([response1])=>{
+         })]).then(([response1,response2])=>{
+           if(!response1.ok){
+             dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+             return;
+           }
+           if(!response2.ok){
+             dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+             return;
+           }
+           Promise.all([response1.json()]).then(([response1])=>{
            dispatch({type: EDIT_COMPANY, company:response1.data});
-         }))
+         })})
          .catch(function (error) {
-           console.log(error);
+           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
        });
 
    };

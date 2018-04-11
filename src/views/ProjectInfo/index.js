@@ -1,17 +1,25 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getProject, startProjectLoading } from '../../redux/actions';
+import {getProject, startProjectLoading,clearErrorMessage } from '../../redux/actions';
 import ProjectInfo from './projectInfo';
+import Loading from '../../components/Loading';
 
 class ProjectInfoLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startProjectLoading();  // first it sets, that project hasnt been loaded
     this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.token);  //send request for download and storing of the projects data
   }
   render(){
     if(!this.props.projectLoaded){ //data hasnt been loaded yet
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <ProjectInfo history={this.props.history}/>
   }
@@ -24,4 +32,4 @@ const mapStateToProps = ({projectsReducer, login }) => {
   return {projectLoaded,token};
 };
 
-export default connect(mapStateToProps, {getProject, startProjectLoading})(ProjectInfoLoader);
+export default connect(mapStateToProps, {getProject, startProjectLoading,clearErrorMessage})(ProjectInfoLoader);

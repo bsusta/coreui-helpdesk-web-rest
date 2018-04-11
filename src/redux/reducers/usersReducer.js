@@ -1,4 +1,4 @@
-import { SET_USERS, SET_USERS_LOADING, ADD_USER, SET_USER_LOADING, SET_USER, EDIT_USER } from '../types'
+import { SET_USERS, SET_USERS_LOADING, ADD_USER, SET_USER_LOADING, SET_USER, EDIT_USER, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   users:[],
@@ -47,11 +47,13 @@ export default function usersReducer(state = initialState, action) {
         if(action.user.is_active){
           newUsers[newUsers.findIndex((user)=>user.id==action.user.id)]=action.user;
         }
-        else{          
+        else{
           newUsers.splice(newUsers.findIndex((user)=>user.id==action.user.id),1);
         }
         return { ...state, users:newUsers };
       }
+      case LOGIN_LOGOUT:
+        return { ...initialState };
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import { SET_FOLLOWERS, SET_FOLLOWERS_LOADING, ADD_FOLLOWER, DELETE_FOLLOWER } from '../types';
+import { SET_FOLLOWERS, SET_FOLLOWERS_LOADING, ADD_FOLLOWER, DELETE_FOLLOWER, SET_ERROR_MESSAGE } from '../types';
 import { TASKS_LIST } from '../urls';
 
 /**
@@ -23,13 +23,18 @@ export const getFollowers= (taskID,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_FOLLOWERS, followers:data.data});
         dispatch({ type: SET_FOLLOWERS_LOADING, followersLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -49,10 +54,15 @@ export const addFollower = (userID,taskID,token) => {
         method: 'PUT',
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_FOLLOWER, follower:response.data});
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
   };
@@ -67,11 +77,16 @@ export const deleteFollower = (userID,taskID,token) => {
       },
       method: 'PUT',
     })
-  .then(()=>{
+  .then((response)=>{
+    if(!response.ok){
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+      return;
+    }
     dispatch({ type: DELETE_FOLLOWER, id });
   })
   .catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 
   }

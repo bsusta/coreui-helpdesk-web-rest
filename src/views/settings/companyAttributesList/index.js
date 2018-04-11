@@ -1,18 +1,26 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getCompanyAttributes, startCompanyAttributesLoading } from '../../../redux/actions';
+import {getCompanyAttributes, startCompanyAttributesLoading, clearErrorMessage } from '../../../redux/actions';
 import CompanyAttributesList from './companyAttributesList';
+import Loading from '../../../components/Loading';
 
 class CompanyAttributesListLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   //before loader page is loaded, we send requests to get all available companyAttributes
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startCompanyAttributesLoading();
     this.props.getCompanyAttributes(this.props.token);
   }
   render(){
     if(!this.props.companyAttributesLoaded){
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <CompanyAttributesList history={this.props.history} match={this.props.match}/>
   }
@@ -27,4 +35,4 @@ const mapStateToProps = ({companyAttributesReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getCompanyAttributes, startCompanyAttributesLoading})(CompanyAttributesListLoader);
+export default connect(mapStateToProps, {getCompanyAttributes, startCompanyAttributesLoading, clearErrorMessage})(CompanyAttributesListLoader);

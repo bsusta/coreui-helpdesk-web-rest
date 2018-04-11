@@ -1,12 +1,20 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getCompanies, startCompaniesLoading, getUserRoles, startUserRolesLoading, startUserLoading,getUser } from '../../../redux/actions';
+import {getCompanies, startCompaniesLoading, getUserRoles, startUserRolesLoading, startUserLoading,getUser,clearErrorMessage } from '../../../redux/actions';
 import UserEdit from './userEdit';
+import Loading from '../../../components/Loading';
 
 class UserAddLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   //before loader page is loaded, we send requests to get all user information
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startCompaniesLoading();
     this.props.startUserRolesLoading();
     this.props.startUserLoading();
@@ -16,12 +24,11 @@ class UserAddLoader extends Component {
   }
   render(){
     if(!this.props.companiesLoaded || !this.props.userRolesLoaded||!this.props.userLoaded){
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <UserEdit history={this.props.history}/>
   }
 }
-
 //all below is just redux storage
 
 const mapStateToProps = ({ companiesReducer, login, userRolesReducer, usersReducer }) => {
@@ -33,4 +40,4 @@ const mapStateToProps = ({ companiesReducer, login, userRolesReducer, usersReduc
 };
 
 
-export default connect(mapStateToProps, {getCompanies, startCompaniesLoading,getUserRoles, startUserRolesLoading,startUserLoading,getUser})(UserAddLoader);
+export default connect(mapStateToProps, {getCompanies, startCompaniesLoading,getUserRoles, startUserRolesLoading,startUserLoading,getUser,clearErrorMessage})(UserAddLoader);

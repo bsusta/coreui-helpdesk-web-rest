@@ -1,4 +1,4 @@
-import { SET_COMMENTS, SET_COMMENTS_LOADING, ADD_COMMENT, EDIT_COMMENT,DELETE_COMMENT, ADD_COMMENT_AVATAR_URL, SET_COMMENT_ATTACHEMENT } from '../types'
+import { SET_COMMENTS, SET_COMMENTS_LOADING, ADD_COMMENT, EDIT_COMMENT,DELETE_COMMENT, ADD_COMMENT_AVATAR_URL, SET_COMMENT_ATTACHEMENT, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   comments:[],
@@ -38,6 +38,8 @@ export default function commentsReducer(state = initialState, action) {
       newComments.splice(newComments.findIndex((comment)=>comment.id===action.id),1);
       return { ...state, comments:[...newComments] };
     }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
     }

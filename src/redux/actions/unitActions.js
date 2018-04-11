@@ -1,4 +1,4 @@
-import { SET_UNITS,SET_UNITS_LOADING, ADD_UNIT, SET_UNIT, SET_UNIT_LOADING, EDIT_UNIT } from '../types';
+import { SET_UNITS,SET_UNITS_LOADING, ADD_UNIT, SET_UNIT, SET_UNIT_LOADING, EDIT_UNIT, SET_ERROR_MESSAGE } from '../types';
 import { UNITS_LIST } from '../urls';
 
 /**
@@ -23,12 +23,17 @@ export const getUnits= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_UNITS, units:data.data});
         dispatch({ type: SET_UNITS_LOADING, unitsLoaded:true });
       });
     }
   ).catch(function (error) {
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
     console.log(error);
   });
 }
@@ -49,10 +54,15 @@ export const addUnit = (body,token) => {
         body:JSON.stringify(body),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_UNIT, unit:response.data});
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
 
@@ -82,12 +92,17 @@ export const getUnit = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_UNIT, unit:data.data});
         dispatch({ type: SET_UNIT_LOADING, unitLoaded:true });
       });
     }
   ).catch(function (error) {
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
     console.log(error);
   });
 }
@@ -118,10 +133,20 @@ export const editUnit = (body,isActive,id,token) => {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
           }
-        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+        })]).then(([response1,response2])=>{
+          if(!response1.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+            return;
+          }
+          if(!response2.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+            return;
+          }
+          Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
           dispatch({type: EDIT_UNIT, unit:{...response1.data,is_active:isActive}});
-        }))
+        })})
         .catch(function (error) {
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
           console.log(error);
       });
 

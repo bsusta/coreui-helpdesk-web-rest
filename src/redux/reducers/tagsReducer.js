@@ -1,4 +1,4 @@
-import { SET_TAGS, SET_TAGS_LOADING, ADD_TAG, SET_TAG_LOADING, SET_TAG, EDIT_TAG, DELETE_TAG } from '../types'
+import { SET_TAGS, SET_TAGS_LOADING, ADD_TAG, SET_TAG_LOADING, SET_TAG, EDIT_TAG, DELETE_TAG, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   tags:[],
@@ -30,6 +30,8 @@ export default function tagsReducer(state = initialState, action) {
         newTags.splice(newTags[newTags.findIndex((tag)=>tag.id==action.id)],1);
         return { ...state, tags:newTags };
     }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

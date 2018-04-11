@@ -21,6 +21,8 @@ import {
   Input,
   Table
 } from "reactstrap";
+import { connect } from 'react-redux';
+import {logoutUser } from '../../redux/actions';
 class Settings extends Component {
   render() {
     return (
@@ -67,6 +69,9 @@ class Settings extends Component {
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./usersList")}>Users</td>
             </tr>
+            <tr style={{ cursor: "pointer" }}>
+              <td onClick={() => this.props.logoutUser()}>Logout</td>
+            </tr>
           </tbody>
         </Table>
       </div>
@@ -74,4 +79,8 @@ class Settings extends Component {
   }
 }
 
-export default Settings;
+const mapStateToProps = ({}) => {
+  return {};
+};
+
+export default connect(mapStateToProps,{logoutUser})(Settings);

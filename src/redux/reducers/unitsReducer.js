@@ -1,4 +1,4 @@
-import { SET_UNITS, SET_UNITS_LOADING, ADD_UNIT, SET_UNIT_LOADING, SET_UNIT, EDIT_UNIT } from '../types'
+import { SET_UNITS, SET_UNITS_LOADING, ADD_UNIT, SET_UNIT_LOADING, SET_UNIT, EDIT_UNIT, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   units:[],
@@ -25,6 +25,8 @@ export default function unitsReducer(state = initialState, action) {
         newUnits[newUnits.findIndex((unit)=>unit.id==action.unit.id)]=action.unit;
         return { ...state, units:newUnits };
       }
+      case LOGIN_LOGOUT:
+        return { ...initialState };
     default:
       return state;
   }

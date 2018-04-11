@@ -1,17 +1,25 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getTaskAttribute, startTaskAttributeLoading } from '../../../redux/actions';
+import {getTaskAttribute, startTaskAttributeLoading,clearErrorMessage } from '../../../redux/actions';
 import TaskAttributeEdit from './taskAttributeEdit';
+import Loading from '../../../components/Loading';
 
 class TaskAttributeEditLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startTaskAttributeLoading();  // first it sets, that task attribute hasnt been loaded
     this.props.getTaskAttribute(parseInt(this.props.match.params.id, 10),this.props.token);  //send request for download and storing of the task attributes data
   }
   render(){
     if(!this.props.taskAttributeLoaded){ //data hasnt been loaded yet
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <TaskAttributeEdit history={this.props.history}/>
   }
@@ -24,4 +32,4 @@ const mapStateToProps = ({taskAttributesReducer, login }) => {
   return {taskAttributeLoaded,token};
 };
 
-export default connect(mapStateToProps, {getTaskAttribute, startTaskAttributeLoading})(TaskAttributeEditLoader);
+export default connect(mapStateToProps, {getTaskAttribute, startTaskAttributeLoading,clearErrorMessage})(TaskAttributeEditLoader);

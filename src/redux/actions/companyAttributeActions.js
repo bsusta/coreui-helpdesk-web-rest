@@ -1,4 +1,4 @@
-import { SET_COMPANY_ATTRIBUTES,SET_COMPANY_ATTRIBUTES_LOADING, ADD_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE_LOADING, EDIT_COMPANY_ATTRIBUTE } from '../types';
+import { SET_COMPANY_ATTRIBUTES,SET_COMPANY_ATTRIBUTES_LOADING, ADD_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE_LOADING, EDIT_COMPANY_ATTRIBUTE, SET_ERROR_MESSAGE } from '../types';
 import { COMPANY_ATTRIBUTES_LIST } from '../urls';
 
 /**
@@ -23,13 +23,18 @@ export const startCompanyAttributesLoading = () => {
            'Content-Type': 'application/json'
          }
        }).then((response) =>{
+         if(!response.ok){
+           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+           return;
+         }
        response.json().then((data) => {
          dispatch({type: SET_COMPANY_ATTRIBUTES, companyAttributes:data.data});
          dispatch({ type: SET_COMPANY_ATTRIBUTES_LOADING, companyAttributesLoaded:true });
        });
      }
    ).catch(function (error) {
-     console.log(error);
+     dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
    });
  }
  }
@@ -47,12 +52,17 @@ export const startCompanyAttributesLoading = () => {
             'Content-Type': 'application/json'
           }
         }).then((response) =>{
+          if(!response.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+            return;
+          }
         response.json().then((data) => {
           dispatch({type: SET_COMPANY_ATTRIBUTES, companyAttributes:data.data});
           dispatch({ type: SET_COMPANY_ATTRIBUTES_LOADING, companyAttributesLoaded:true });
         });
       }
     ).catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
   }
@@ -74,10 +84,15 @@ export const addCompanyAttribute = (body,token) => {
         body:JSON.stringify(body),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_COMPANY_ATTRIBUTE, companyAttribute:response.data});
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
 
@@ -107,13 +122,18 @@ export const getCompanyAttribute = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_COMPANY_ATTRIBUTE, companyAttribute:data.data});
         dispatch({ type: SET_COMPANY_ATTRIBUTE_LOADING, companyAttributeLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -143,11 +163,21 @@ export const editCompanyAttribute = (body,isActive,id,token) => {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
           }
-        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+        })]).then(([response1,response2])=>{
+          if(!response1.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+            return;
+          }
+          if(!response2.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+            return;
+          }
+          Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
           dispatch({type: EDIT_COMPANY_ATTRIBUTE, companyAttribute:{...response1.data,is_active:isActive}});
-        }))
+        })})
         .catch(function (error) {
-          console.log(error);
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
       });
 
   };

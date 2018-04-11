@@ -31,13 +31,8 @@ export default function loginReducer(state = initialState, action) {
       };
       case TOKEN_CHECKED:
         return { ...state, tokenChecked: true };
-    case LOGIN_LOGOUT:
-      return {
-        ...state,
-        authenticated: false,
-        error: '',
-        loading:false,
-      };
+      case LOGIN_LOGOUT:
+        return { ...initialState };
     default:
       return state;
   }

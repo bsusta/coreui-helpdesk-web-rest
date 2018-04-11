@@ -4,7 +4,7 @@ import { SET_TASKS, SET_TASKS_LOADING, ADD_TASK, SET_TASK_LOADING, SET_TASK,
   SET_TAG_TASKS_LOADING,SET_TAG_LINKS,
   SET_TASK_PROJECTS, SET_TASK_PROJECTS_LOADING,
   SET_TASKS_ATTRIBUTES,SET_TASKS_ATTRIBUTES_LOADING,
-  SET_TASK_SOLVERS, DELETE_TASK_SOLVERS
+  SET_TASK_SOLVERS, DELETE_TASK_SOLVERS, LOGIN_LOGOUT
 } from '../types'
 
 const initialState = {
@@ -67,6 +67,8 @@ export default function tasksReducer(state = initialState, action) {
         return { ...state, taskAttributes:action.taskAttributes };
       case SET_TASKS_ATTRIBUTES_LOADING:
         return { ...state, taskAttributesLoaded:action.taskAttributesLoaded };
+      case LOGIN_LOGOUT:
+        return { ...initialState };
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import { SET_USER_ROLES, SET_USER_ROLES_LOADING, ADD_USER_ROLE, SET_USER_ROLE_LOADING, SET_USER_ROLE, EDIT_USER_ROLE } from '../types'
+import { SET_USER_ROLES, SET_USER_ROLES_LOADING, ADD_USER_ROLE, SET_USER_ROLE_LOADING, SET_USER_ROLE, EDIT_USER_ROLE, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   userRoles:[],
@@ -25,6 +25,8 @@ export default function userRolesReducer(state = initialState, action) {
         newUserRoles[newUserRoles.findIndex((userRole)=>userRole.id==action.userRole.id)]=action.userRole;
         return { ...state, userRoles:newUserRoles };
       }
+      case LOGIN_LOGOUT:
+        return { ...initialState };
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import { SET_COMPANIES, SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY_LOADING, SET_COMPANY, EDIT_COMPANY } from '../types'
+import { SET_COMPANIES, SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY_LOADING, SET_COMPANY, EDIT_COMPANY, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   companies:[],
@@ -51,6 +51,8 @@ export default function companiesReducer(state = initialState, action) {
         }
         return { ...state, companies:newCompanies };
       }
+      case LOGIN_LOGOUT:
+        return { ...initialState };
     default:
       return state;
   }

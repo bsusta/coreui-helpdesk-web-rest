@@ -1,4 +1,4 @@
-import { SET_TAGS,SET_TAGS_LOADING, ADD_TAG, SET_TAG, SET_TAG_LOADING, EDIT_TAG, DELETE_TAG } from '../types';
+import { SET_TAGS,SET_TAGS_LOADING, ADD_TAG, SET_TAG, SET_TAG_LOADING, EDIT_TAG, DELETE_TAG, SET_ERROR_MESSAGE } from '../types';
 import { TAGS_LIST } from '../urls';
 
 /**
@@ -23,13 +23,18 @@ export const getTags= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_TAGS, tags:data.data});
         dispatch({ type: SET_TAGS_LOADING, tagsLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -49,10 +54,15 @@ export const addTag = (body,token) => {
         body:JSON.stringify(body),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_TAG, tag:response.data});
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
 
@@ -82,13 +92,18 @@ export const getTag = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_TAG, tag:data.data});
         dispatch({ type: SET_TAG_LOADING, tagLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -110,11 +125,17 @@ export const editTag = (body,id,token) => {
             'Content-Type': 'application/json'
           },
           body:JSON.stringify(body)
-        }).then((response1)=>response1.json().then((response1)=>{
+        }).then((response)=>{
+          if(!response.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+            return;
+          }
+          response1.json().then((response1)=>{
           dispatch({type: EDIT_TAG, tag:response1.data});
-        }))
+        })})
         .catch(function (error) {
-          console.log(error);
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
       });
 
   };
@@ -129,10 +150,15 @@ export const deleteTag = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
         dispatch({type: DELETE_TAG, id});
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }

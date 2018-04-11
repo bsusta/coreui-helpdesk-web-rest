@@ -1,17 +1,25 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getStatus, startStatusLoading } from '../../../redux/actions';
+import {getStatus, startStatusLoading, clearErrorMessage } from '../../../redux/actions';
 import StatusEdit from './statusEdit';
+import Loading from '../../../components/Loading';
 
 class StatusEditLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startStatusLoading();  // first it sets, that status hasnt been loaded
     this.props.getStatus(this.props.token,parseInt(this.props.match.params.id, 10));  //send request for download and storing of the status data
   }
   render(){
     if(!this.props.statusLoaded){ //data hasnt been loaded yet
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <StatusEdit history={this.props.history}/>
   }
@@ -24,4 +32,4 @@ const mapStateToProps = ({statusesReducer, login }) => {
   return {statusLoaded,token};
 };
 
-export default connect(mapStateToProps, {getStatus, startStatusLoading})(StatusEditLoader);
+export default connect(mapStateToProps, {getStatus, startStatusLoading, clearErrorMessage})(StatusEditLoader);

@@ -1,4 +1,4 @@
-import { SET_PROJECTS, SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT_LOADING, SET_PROJECT, EDIT_PROJECT, SET_PERMISSIONS_SAVED } from '../types'
+import { SET_PROJECTS, SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT_LOADING, SET_PROJECT, EDIT_PROJECT, SET_PERMISSIONS_SAVED, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   projects:[],
@@ -28,6 +28,8 @@ export default function projectsReducer(state = initialState, action) {
       newProjects[newProjects.findIndex((project)=>project.id==action.project.id)]=action.project;
       return { ...state, projects:newProjects };
     }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

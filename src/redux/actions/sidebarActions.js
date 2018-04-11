@@ -1,4 +1,4 @@
-import { SET_SIDEBAR } from "../types";
+import { SET_SIDEBAR,SET_ERROR_MESSAGE } from "../types";
 import { SIDEBAR_DATA } from "../urls";
 
 /**
@@ -15,6 +15,10 @@ export const getSidebar = token => {
       }
     })
       .then(response => {
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
         response.json().then(data => {
           let nav = [];
           let reports = {
@@ -149,6 +153,7 @@ export const getSidebar = token => {
         });
       })
       .catch(function(error) {
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
         console.log(error);
       });
   };

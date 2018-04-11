@@ -1,4 +1,4 @@
-import { SET_STATUSES,SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS, SET_STATUS_LOADING, EDIT_STATUS } from '../types';
+import { SET_STATUSES,SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS, SET_STATUS_LOADING, EDIT_STATUS, SET_ERROR_MESSAGE } from '../types';
 import { STATUSES_LIST } from '../urls';
 
 /**
@@ -23,13 +23,18 @@ export const getStatuses= (updateDate,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_STATUSES, statuses:data.data,updateDate:data.date.toString()});
         dispatch({ type: SET_STATUSES_LOADING, statusesLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -49,10 +54,15 @@ export const addStatus = (body,token) => {
         body:JSON.stringify(body),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_STATUS, status:response.data});
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
 
@@ -82,13 +92,18 @@ export const getStatus = (token,id) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_STATUS, status:data.data});
         dispatch({ type: SET_STATUS_LOADING, statusLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -118,11 +133,21 @@ export const editStatus = (body,id,isActive,token) => {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
           }
-        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+        })]).then(([response1,response2])=>{
+          if(!response1.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+            return;
+          }
+          if(!response2.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+            return;
+          }
+          Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
           dispatch({type: EDIT_STATUS, status:{...response1.data,is_active:isActive}});
-        }))
+        })})
         .catch(function (error) {
-          console.log(error);
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
       });
 
   };

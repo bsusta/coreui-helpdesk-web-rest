@@ -1,4 +1,4 @@
-import { SET_SMTPS,SET_SMTPS_LOADING, ADD_SMTP, SET_SMTP, SET_SMTP_LOADING, EDIT_SMTP } from '../types';
+import { SET_SMTPS,SET_SMTPS_LOADING, ADD_SMTP, SET_SMTP, SET_SMTP_LOADING, EDIT_SMTP, SET_ERROR_MESSAGE } from '../types';
 import { SMTPS_LIST } from '../urls';
 
 /**
@@ -23,13 +23,18 @@ export const getSMTPs= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_SMTPS, SMTPs:data.data});
         dispatch({ type: SET_SMTPS_LOADING, SMTPsLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+            console.log(error);
   });
 }
 }
@@ -49,11 +54,16 @@ export const addSMTP = (body,token) => {
         body:JSON.stringify(body),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_SMTP, SMTP:response.data});
     })})
     .catch(function (error) {
-      console.log(error);
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+            console.log(error);
     });
 
   };
@@ -82,13 +92,18 @@ export const getSMTP = (token,id) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_SMTP, SMTP:data.data});
         dispatch({ type: SET_SMTP_LOADING, SMTPLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+            console.log(error);
   });
 }
 }
@@ -111,11 +126,17 @@ export const editSMTP = (body,id,token) => {
             'Content-Type': 'application/json'
           },
           body:JSON.stringify(body)
-        })]).then(([response1])=>Promise.all([response1.json()]).then(([response1])=>{
+        })]).then(([response1])=>{
+          if(!response1.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+            return;
+          }
+          Promise.all([response1.json()]).then(([response1])=>{
           dispatch({type: EDIT_SMTP, SMTP:{...response1.data,is_active:isActive}});
-        }))
+        })})
         .catch(function (error) {
-          console.log(error);
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+            console.log(error);
       });
 
   };

@@ -1,4 +1,4 @@
-import { ADD_ATTACHEMENT, DELETE_ATTACHEMENT,EDIT_ATTACHEMENT } from '../types'
+import { ADD_ATTACHEMENT, DELETE_ATTACHEMENT,EDIT_ATTACHEMENT,LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   attachements:[],
@@ -9,7 +9,8 @@ export default function attachementsReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_ATTACHEMENT:
       return { ...state, attachements:[action.attachement,...state.attachements],attachementsError:state.attachementsError+action.error };
-
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     case EDIT_ATTACHEMENT:{
       let newAttachements=[...state.attachements];
         newAttachements[newAttachements.findIndex((attachement)=>attachement.id==action.attachement.id)]=action.attachement;

@@ -1,4 +1,4 @@
-import { SET_IMAPS,SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP, SET_IMAP_LOADING, EDIT_IMAP, DELETE_IMAP } from '../types';
+import { SET_IMAPS,SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP, SET_IMAP_LOADING, EDIT_IMAP, DELETE_IMAP, SET_ERROR_MESSAGE } from '../types';
 import { IMAPS_LIST } from '../urls';
 
 /**
@@ -23,13 +23,18 @@ export const getImaps= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_IMAPS, imaps:data.data});
         dispatch({ type: SET_IMAPS_LOADING, imapsLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -49,10 +54,15 @@ export const addImap = (body,project,token) => {
         body:JSON.stringify(body),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_IMAP, imap:response.data});
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
 
@@ -82,13 +92,18 @@ export const getImap = (token,id) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_IMAP, imap:data.data});
         dispatch({ type: SET_IMAP_LOADING, imapLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -119,11 +134,21 @@ export const editImap = (body,project,id,isActive,token) => {
             'Content-Type': 'application/json'
           }
         })
-      ]).then(([response1,response2])=>Promise.all([response1.json()]).then(([response1])=>{
+      ]).then(([response1,response2])=>{
+        if(!response1.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+          return;
+        }
+        if(!response2.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+          return;
+        }
+        Promise.all([response1.json()]).then(([response1])=>{
           dispatch({type: EDIT_IMAP, imap:{...response1.data,is_active:isActive}});
-        }))
+        })})
         .catch(function (error) {
-          console.log(error);
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
       });
   };
 };
@@ -137,10 +162,15 @@ export const deleteImap = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
         dispatch({type: DELETE_IMAP, id});
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }

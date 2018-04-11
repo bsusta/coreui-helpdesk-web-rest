@@ -1,17 +1,26 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getProjectTasks, startProjectTasksLoading } from '../../redux/actions';
+import {getProjectTasks, startProjectTasksLoading,clearErrorMessage } from '../../redux/actions';
+import Loading from '../../components/Loading';
 import Project from './Project';
 
 class ProjectLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startProjectTasksLoading();
     this.props.getProjectTasks(this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,this.props.token,parseInt(this.props.match.params.id, 10));
   }
   componentDidUpdate(){
     if(this.props.projectID!==parseInt(this.props.match.params.id, 10) && this.props.projectTasksLoaded){
+      this.props.clearErrorMessage(this.state.randomFloat);
       this.props.startProjectTasksLoading();
       this.props.getProjectTasks(this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,this.props.token,parseInt(this.props.match.params.id, 10));
     }
@@ -19,7 +28,7 @@ class ProjectLoader extends Component {
 
   render(){
     if(!this.props.projectTasksLoaded){
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <Project history={this.props.history} match={this.props.match}/>
   }
@@ -34,4 +43,4 @@ const mapStateToProps = ({tasksReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getProjectTasks, startProjectTasksLoading})(ProjectLoader);
+export default connect(mapStateToProps, {getProjectTasks, startProjectTasksLoading,clearErrorMessage})(ProjectLoader);

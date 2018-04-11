@@ -1,4 +1,4 @@
-import { SET_STATUSES, SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS_LOADING, SET_STATUS, EDIT_STATUS } from '../types'
+import { SET_STATUSES, SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS_LOADING, SET_STATUS, EDIT_STATUS, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   statuses:[],
@@ -51,6 +51,8 @@ export default function statusesReducer(state = initialState, action) {
         }
         return { ...state, statuses:newStatuses };
       }
+      case LOGIN_LOGOUT:
+        return { ...initialState };
     default:
       return state;
   }

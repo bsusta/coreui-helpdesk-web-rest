@@ -1,18 +1,26 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getUsers, startUsersLoading } from '../../../redux/actions';
+import {getUsers, startUsersLoading,clearErrorMessage } from '../../../redux/actions';
 import UsersList from './usersList';
+import Loading from '../../../components/Loading';
 
 class UsersListLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   //before loader page is loaded, we send requests to get all available users
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startUsersLoading();
     this.props.getUsers(this.props.updateDate,this.props.token);
   }
   render(){
     if(!this.props.usersLoaded){
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <UsersList history={this.props.history} match={this.props.match}/>
   }
@@ -27,4 +35,4 @@ const mapStateToProps = ({usersReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getUsers, startUsersLoading})(UsersListLoader);
+export default connect(mapStateToProps, {getUsers, startUsersLoading,clearErrorMessage})(UsersListLoader);

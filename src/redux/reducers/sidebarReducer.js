@@ -1,4 +1,4 @@
-import { SET_SIDEBAR, SET_SIDEBAR_LOADING } from '../types'
+import { SET_SIDEBAR, SET_SIDEBAR_LOADING, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   sidebar:[],
@@ -8,6 +8,8 @@ export default function sidebarReducer(state = initialState, action) {
   switch (action.type) {
     case SET_SIDEBAR:
       return { ...state, sidebar:action.sidebar };
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

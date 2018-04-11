@@ -1,4 +1,4 @@
-import { SET_SUBTASKS, SET_SUBTASKS_LOADING, ADD_SUBTASK, EDIT_SUBTASK,DELETE_SUBTASK } from '../types'
+import { SET_SUBTASKS, SET_SUBTASKS_LOADING, ADD_SUBTASK, EDIT_SUBTASK,DELETE_SUBTASK, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   subtasks:[],
@@ -24,6 +24,8 @@ export default function subtasksReducer(state = initialState, action) {
       newSubtasks.splice(newSubtasks.findIndex((subtask)=>subtask.id===action.id),1);
       return { ...state, subtasks:[...newSubtasks] };
     }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
     }

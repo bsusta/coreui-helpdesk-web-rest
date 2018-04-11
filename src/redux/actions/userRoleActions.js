@@ -1,4 +1,4 @@
-import { SET_USER_ROLES,SET_USER_ROLES_LOADING, ADD_USER_ROLE, SET_USER_ROLE, SET_USER_ROLE_LOADING, EDIT_USER_ROLE } from '../types';
+import { SET_USER_ROLES,SET_USER_ROLES_LOADING, ADD_USER_ROLE, SET_USER_ROLE, SET_USER_ROLE_LOADING, EDIT_USER_ROLE, SET_ERROR_MESSAGE } from '../types';
 import { USER_ROLES_LIST } from '../urls';
 
 /**
@@ -23,13 +23,18 @@ export const getUserRoles= (token) => {
         'Content-Type': 'application/json'
       }
     }).then((response) =>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
       response.json().then((data) => {
         dispatch({type: SET_USER_ROLES, userRoles:data.data});
         dispatch({ type: SET_USER_ROLES_LOADING, userRolesLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+        console.log(error);
   });
 }
 }
@@ -50,10 +55,15 @@ export const addUserRole = (body,token) => {
       body:JSON.stringify(body),
     })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
       response.json().then((response)=>{
         dispatch({type: ADD_USER_ROLE, userRole:response.data});
       })})
       .catch(function (error) {
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
         console.log(error);
       });
 
@@ -83,13 +93,18 @@ export const addUserRole = (body,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
         response.json().then((data) => {
           dispatch({type: SET_USER_ROLE, userRole:data.data});
           dispatch({ type: SET_USER_ROLE_LOADING, userRoleLoaded:true });
         });
       }
     ).catch(function (error) {
-      console.log(error);
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+        console.log(error);
     });
   }
 }
@@ -119,10 +134,20 @@ export const editUserRole = (body,isActive,id,token) => {
           'Authorization': 'Bearer ' + token,
           'Content-Type': 'application/json'
         }
-      })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+      })]).then(([response1,response2])=>{
+        if(!response1.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+          return;
+        }
+        if(!response2.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+          return;
+        }
+        Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
         dispatch({type: EDIT_USER_ROLE, userRole:{...response1.data,is_active:isActive}});
-      }))
+      })})
       .catch(function (error) {
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
         console.log(error);
       });
 

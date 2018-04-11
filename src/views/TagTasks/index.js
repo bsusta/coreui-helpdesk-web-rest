@@ -1,17 +1,26 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getTagTasks, startTagTasksLoading } from '../../redux/actions';
+import {getTagTasks, startTagTasksLoading, clearErrorMessage } from '../../redux/actions';
 import TagTasks from './TagTasks';
+import Loading from '../../components/Loading';
 
 class TagTasksLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startTagTasksLoading();
     this.props.getTagTasks(this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,this.props.token,parseInt(this.props.match.params.id, 10));
   }
   componentDidUpdate(){
     if(this.props.tagID!==parseInt(this.props.match.params.id, 10) && this.props.tagTasksLoaded){
+      this.props.clearErrorMessage(this.state.randomFloat);
       this.props.startTagTasksLoading();
       this.props.getTagTasks(this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,this.props.token,parseInt(this.props.match.params.id, 10));
     }
@@ -19,7 +28,7 @@ class TagTasksLoader extends Component {
 
   render(){
     if(!this.props.tagTasksLoaded){
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <TagTasks history={this.props.history} match={this.props.match}/>
   }
@@ -34,4 +43,4 @@ const mapStateToProps = ({tasksReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getTagTasks, startTagTasksLoading})(TagTasksLoader);
+export default connect(mapStateToProps, {getTagTasks, startTagTasksLoading, clearErrorMessage})(TagTasksLoader);

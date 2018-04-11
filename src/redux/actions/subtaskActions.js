@@ -1,4 +1,4 @@
-import { SET_SUBTASKS,SET_SUBTASKS_LOADING, ADD_SUBTASK, EDIT_SUBTASK,DELETE_SUBTASK } from '../types';
+import { SET_SUBTASKS,SET_SUBTASKS_LOADING, ADD_SUBTASK, EDIT_SUBTASK,DELETE_SUBTASK, SET_ERROR_MESSAGE } from '../types';
 import { TASKS_LIST } from '../urls';
 
 /**
@@ -23,13 +23,18 @@ export const getSubtasks= (taskID,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_SUBTASKS, subtasks:data.data});
         dispatch({ type: SET_SUBTASKS_LOADING, subtasksLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
   }
 }
@@ -50,10 +55,15 @@ export const addSubtask = (body,taskID,token) => {
         body:JSON.stringify(body),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_SUBTASK, subtask:response.data});
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
 
@@ -69,11 +79,17 @@ export const editSubtask = (body,id,taskID,token) => {
             'Content-Type': 'application/json'
           },
           body:JSON.stringify(body)
-        }).then((response)=>response.json().then((response)=>{
+        }).then((response)=>{
+          if(!response.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+            return;
+          }
+          response.json().then((response)=>{
           dispatch({type: EDIT_SUBTASK, subtask:response.data});
-        }))
+        })})
         .catch(function (error) {
-          console.log(error);
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
       });
   };
 };
@@ -87,10 +103,15 @@ export const deleteSubtask = (id,taskID,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
         dispatch({type: DELETE_SUBTASK, id});
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }

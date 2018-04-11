@@ -1,4 +1,4 @@
-import { SET_SMTPS, SET_SMTPS_LOADING, ADD_SMTP, SET_SMTP_LOADING, SET_SMTP, EDIT_SMTP } from '../types'
+import { SET_SMTPS, SET_SMTPS_LOADING, ADD_SMTP, SET_SMTP_LOADING, SET_SMTP, EDIT_SMTP, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   SMTPs:[],
@@ -25,6 +25,8 @@ export default function SMTPsReducer(state = initialState, action) {
         newSMTPs[newSMTPs.findIndex((SMTP)=>SMTP.id==action.SMTP.id)]=action.SMTP;
         return { ...state, SMTPs:newSMTPs };
       }
+      case LOGIN_LOGOUT:
+        return { ...initialState };
     default:
       return state;
   }

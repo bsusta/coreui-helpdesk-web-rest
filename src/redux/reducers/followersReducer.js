@@ -1,4 +1,4 @@
-import { SET_FOLLOWERS, SET_FOLLOWERS_LOADING, ADD_FOLLOWER, DELETE_FOLLOWER } from '../types'
+import { SET_FOLLOWERS, SET_FOLLOWERS_LOADING, ADD_FOLLOWER, DELETE_FOLLOWER, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   followers:[],
@@ -20,6 +20,8 @@ export default function followersReducer(state = initialState, action) {
       newFollowers.splice(newFollowers.findIndex((follower)=>follower.id===action.id),1);
       return { ...state, followers:[...newFollowers]};
     }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

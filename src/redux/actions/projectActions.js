@@ -1,4 +1,4 @@
-import { SET_PROJECTS,SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT, SET_PROJECT_LOADING, EDIT_PROJECT, SET_PERMISSIONS_SAVED } from '../types';
+import { SET_PROJECTS,SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT, SET_PROJECT_LOADING, EDIT_PROJECT, SET_PERMISSIONS_SAVED, SET_ERROR_MESSAGE } from '../types';
 import { PROJECTS_LIST,UPDATE_PROJECT_ACL } from '../urls';
 
 /**
@@ -23,13 +23,18 @@ export const getProjects= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_PROJECTS, projects:data.data});
         dispatch({ type: SET_PROJECTS_LOADING, projectsLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -49,10 +54,15 @@ export const addProject = (body,token) => {
         body:JSON.stringify(body),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: ADD_PROJECT, project:response.data});
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
 
@@ -82,13 +92,18 @@ export const getProject = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
       response.json().then((data) => {
         dispatch({type: SET_PROJECT, project:data.data});
         dispatch({ type: SET_PROJECT_LOADING, projectLoaded:true });
       });
     }
   ).catch(function (error) {
-    console.log(error);
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
   });
 }
 }
@@ -118,11 +133,21 @@ export const editProject = (body,isActive,id,token) => {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
           }
-        })]).then(([response1,response2])=>Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+        })]).then(([response1,response2])=>{
+          if(!response1.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+            return;
+          }
+          if(!response2.ok){
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+            return;
+          }
+          Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
           dispatch({type: EDIT_PROJECT, project:{...response1.data,is_archived:isActive}});
-        }))
+        })})
         .catch(function (error) {
-          console.log(error);
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
       });
 
   };
@@ -137,7 +162,6 @@ export const savePermissions = (permissions,prev,projectID,token) => {
         }
       })
       permissions.map((perm)=>body[perm.user.id.toString()]=perm.acl);
-      console.log(body);
       fetch(UPDATE_PROJECT_ACL+projectID+'/process-more-acl',{
         headers: {
           'Content-Type': 'application/json',
@@ -147,11 +171,16 @@ export const savePermissions = (permissions,prev,projectID,token) => {
         body:JSON.stringify({usersAcl:body}),
       })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
     response.json().then((response)=>{
       dispatch({type: SET_PERMISSIONS_SAVED, permissionsSaved:true});
       setTimeout(function(){ dispatch({type: SET_PERMISSIONS_SAVED, permissionsSaved:false});}, 3000);
     })})
     .catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);
     });
 

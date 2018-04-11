@@ -1,4 +1,4 @@
-import { SET_COMMENT_ATTACHEMENTS, ADD_COMMENT_ATTACHEMENT, SET_COMMENT_ATTACHEMENTS_LOADING, DELETE_COMMENT_ATTACHEMENT,DELETE_COMMENT_ATTACHEMENTS } from '../types'
+import { SET_COMMENT_ATTACHEMENTS, ADD_COMMENT_ATTACHEMENT, SET_COMMENT_ATTACHEMENTS_LOADING, DELETE_COMMENT_ATTACHEMENT,DELETE_COMMENT_ATTACHEMENTS, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   commentAttachements:[],
@@ -17,6 +17,8 @@ export default function commentAttachementsReducer(state = initialState, action)
     case DELETE_COMMENT_ATTACHEMENTS:{
       return { ...state, commentAttachements:[] };
     }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

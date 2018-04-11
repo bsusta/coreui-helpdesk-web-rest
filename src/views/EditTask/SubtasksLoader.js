@@ -1,12 +1,20 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {startSubtasksLoading, getSubtasks,startItemsLoading,getItems } from '../../redux/actions';
+import {startSubtasksLoading, getSubtasks,startItemsLoading,getItems,clearErrorMessage } from '../../redux/actions';
+import Loading from '../../components/Loading';
 import Subtasks from './Subtasks';
 
 class SubtasksLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startSubtasksLoading();
     this.props.startItemsLoading();
     this.props.getSubtasks(this.props.taskID,this.props.token);
@@ -15,7 +23,7 @@ class SubtasksLoader extends Component {
 
   render(){
     if(!this.props.subtasksLoaded||!this.props.itemsLoaded){
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <Subtasks taskID={this.props.taskID} units={this.props.units}/>
   }
@@ -29,4 +37,4 @@ const mapStateToProps = ({subtasksReducer,itemsReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {startSubtasksLoading,getSubtasks,startItemsLoading,getItems})(SubtasksLoader);
+export default connect(mapStateToProps, {startSubtasksLoading,getSubtasks,startItemsLoading,getItems, clearErrorMessage})(SubtasksLoader);

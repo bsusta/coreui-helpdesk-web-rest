@@ -1,4 +1,4 @@
-import { SET_TASK_ATTRIBUTES, SET_TASK_ATTRIBUTES_LOADING, ADD_TASK_ATTRIBUTE, SET_TASK_ATTRIBUTE_LOADING, SET_TASK_ATTRIBUTE, EDIT_TASK_ATTRIBUTE } from '../types'
+import { SET_TASK_ATTRIBUTES, SET_TASK_ATTRIBUTES_LOADING, ADD_TASK_ATTRIBUTE, SET_TASK_ATTRIBUTE_LOADING, SET_TASK_ATTRIBUTE, EDIT_TASK_ATTRIBUTE, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   taskAttributes:[],
@@ -25,6 +25,8 @@ export default function taskAttributesReducer(state = initialState, action) {
       newTaskAttributes[newTaskAttributes.findIndex((taskAttribute)=>taskAttribute.id==action.taskAttribute.id)]=action.taskAttribute;
       return { ...state, taskAttributes:newTaskAttributes };
     }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

@@ -5,12 +5,20 @@ import {startTaskLoading,startTaskProjectsLoading,startStatusesLoading,getTask,
   getStatuses,getTaskProjects,startCompaniesLoading,getCompanies,
 startTasksAttributesLoading, getTasksAttributes,getTags, startTagsLoading,
  startUnitsLoading, getUnits, deleteTaskSolvers,
-startUsersLoading, getUsers,startFollowersLoading, getFollowers } from '../../redux/actions';
+startUsersLoading, getUsers,startFollowersLoading, getFollowers,clearErrorMessage } from '../../redux/actions';
 import EditTask from './EditTask';
+import Loading from '../../components/Loading';
 
 class EditTaskLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startTaskLoading();
     this.props.startTaskProjectsLoading();
     this.props.startStatusesLoading();
@@ -37,7 +45,7 @@ class EditTaskLoader extends Component {
     if(!this.props.taskLoaded||!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
     !this.props.usersLoaded||!this.props.followersLoaded){
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <EditTask history={this.props.history} match={this.props.match}/>
   }
@@ -63,4 +71,4 @@ export default connect(mapStateToProps, {
   getStatuses,getTaskProjects, startCompaniesLoading,getCompanies,
   startTasksAttributesLoading,getTasksAttributes,getTags,startTagsLoading,
   startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
-  startFollowersLoading, getFollowers})(EditTaskLoader);
+  startFollowersLoading, getFollowers,clearErrorMessage})(EditTaskLoader);

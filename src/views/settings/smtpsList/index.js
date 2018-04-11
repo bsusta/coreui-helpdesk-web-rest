@@ -1,18 +1,26 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getSMTPs, startSMTPsLoading } from '../../../redux/actions';
+import {getSMTPs, startSMTPsLoading, clearErrorMessage } from '../../../redux/actions';
 import SMTPsList from './smtpsList';
+import Loading from '../../../components/Loading';
 
 class SMTPsListLoader extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      randomFloat:Math.random(),
+    }
+  }
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
+    this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startSMTPsLoading();
     this.props.getSMTPs(this.props.token);
   }
   render(){
     if(!this.props.SMTPsLoaded){
-      return(<div>Loading...</div>)
+      return(<Loading errorID={this.state.errorID}/>)
     }
     return <SMTPsList history={this.props.history}/>
   }
@@ -27,4 +35,4 @@ const mapStateToProps = ({SMTPsReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getSMTPs, startSMTPsLoading})(SMTPsListLoader);
+export default connect(mapStateToProps, {getSMTPs, startSMTPsLoading, clearErrorMessage})(SMTPsListLoader);

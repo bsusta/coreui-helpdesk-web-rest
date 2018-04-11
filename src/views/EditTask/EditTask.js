@@ -143,7 +143,6 @@ class EditTask extends Component {
     else{
       company=null;
     }
-    console.log(company);
     this.state = {
       company,
       deadline:this.props.task.deadline?moment(this.props.task.deadline*1000):'',
@@ -265,7 +264,6 @@ class EditTask extends Component {
           .title
       )
     );
-    console.log(state);
     this.props.editTask(
       {
         title: state.title,

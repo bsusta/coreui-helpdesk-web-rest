@@ -1,4 +1,4 @@
-import { SET_ITEMS, SET_ITEMS_LOADING, ADD_ITEM, EDIT_ITEM,DELETE_ITEM } from '../types'
+import { SET_ITEMS, SET_ITEMS_LOADING, ADD_ITEM, EDIT_ITEM,DELETE_ITEM, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
   items:[],
@@ -24,6 +24,8 @@ export default function itemsReducer(state = initialState, action) {
       newItems.splice(newItems.findIndex((item)=>item.id===action.id),1);
       return { ...state, items:[...newItems] };
     }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
     }
