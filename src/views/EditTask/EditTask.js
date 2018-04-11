@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import RichTextEditor from 'react-rte';
+import Select from 'react-select';
 import {
   getTaskSolvers,
   deleteTaskSolvers,
@@ -117,16 +118,41 @@ class EditTask extends Component {
         });
       }
     });
+    let requestedBy;
+    if(this.props.task.requestedBy){
+      requestedBy={...this.props.task.requestedBy};
+      requestedBy.label=((requestedBy.name?requestedBy.name:'')+' '+(requestedBy.surname?requestedBy.surname:''));
+      if(requestedBy.label===' '){
+        requestedBy.label=requestedBy.email;
+      }
+      else{
+        requestedBy.label=requestedBy.label+' ('+requestedBy.email+')';
+      }
+      requestedBy.value=(requestedBy.id);
+    }
+    else{
+      requestedBy=null;
+    }
 
+    let company;
+    if(this.props.task.company){
+      company={...this.props.task.company};
+      company.value=company.id;
+      company.label=company.title;
+    }
+    else{
+      company=null;
+    }
+    console.log(company);
     this.state = {
-      company: this.props.task.company.id,
+      company,
       deadline:this.props.task.deadline?moment(this.props.task.deadline*1000):'',
       startedAt:this.props.task.startedAt?moment(this.props.task.startedAt*1000):'',
       closedAt:this.props.task.closedAt?moment(this.props.task.closedAt*1000):'',
       description: RichTextEditor.createValueFromString(this.props.task.description, 'html'),
       important: this.props.task.important,
       project: this.props.task.project.id,
-      requestedBy: this.props.task.requestedBy.id,
+      requestedBy,
       status: this.props.task.status.id,
       tags: this.props.task.tags
         .filter(
@@ -266,8 +292,8 @@ class EditTask extends Component {
       this.props.task.id,
       state.project,
       state.status,
-      state.requestedBy,
-      state.company,
+      state.requestedBy.id,
+      state.company.id,
       this.props.token
     );
   }
@@ -605,20 +631,24 @@ class EditTask extends Component {
                       <InputGroupAddon>
                         <i className="fa fa-user-o" />
                       </InputGroupAddon>
-                      <select
-                        class="form-control"
-                        id="requester"
+                      <Select
+                        options={this.props.users.map((user)=>{
+                          user.label=((user.name?user.name:'')+' '+(user.surname?user.surname:''));
+                          if(user.label===' '){
+                            user.label=user.email;
+                          }
+                          else{
+                            user.label=user.label+' ('+user.email+')';
+                          }
+                          user.value=(user.id);
+                          return user;
+                        })}
                         value={this.state.requestedBy}
-                        onChange={e => {
-                          this.autoSubmit("requestedBy", e.target.value);
-                          this.setState({ requestedBy: e.target.value });
-                        }}>
-                        {this.props.users.map(user => (
-                          <option key={user.id} value={user.id}>
-                            {user.username}
-                          </option>
-                        ))}
-                      </select>
+                        onChange={(e)=>{
+                          this.autoSubmit("requestedBy", e);
+                          this.setState({ requestedBy: e });
+                        }}
+                      />
                     </InputGroup>
                   </FormGroup>
 
@@ -628,20 +658,18 @@ class EditTask extends Component {
                       <InputGroupAddon>
                         <i className="fa fa-building-o" />
                       </InputGroupAddon>
-                      <select
-                        class="form-control"
-                        id="company"
+                      <Select
+                        options={this.props.companies.map((company)=>{
+                          company.label=company.title;
+                          company.value=company.id;
+                          return company;
+                        })}
                         value={this.state.company}
-                        onChange={e => {
-                          this.autoSubmit("company", e.target.value);
-                          this.setState({ company: e.target.value });
-                        }}>
-                        {this.props.companies.map(company => (
-                          <option key={company.id} value={company.id}>
-                            {company.title}
-                          </option>
-                        ))}
-                      </select>
+                        onChange={(e)=>{
+                          this.autoSubmit("company", e);
+                          this.setState({ company: e });
+                        }}
+                      />
                     </InputGroup>
                   </FormGroup>
 
