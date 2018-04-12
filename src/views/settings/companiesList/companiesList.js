@@ -1,36 +1,32 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input } from "reactstrap";
-import { connect } from 'react-redux';
-import Pagination from '../../../components/pagination';
+import { connect } from "react-redux";
+import Pagination from "../../../components/pagination";
 class CompaniesList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      active:'',
-      title:'',
-      id:''
-    }
+    this.state = {
+      active: "",
+      title: "",
+      id: ""
+    };
   }
 
   render() {
     return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ marginTop: 20 }} className="mb-3">
-          Companies list
-        </h2>
+      <div class="table-div">
+        <h2 className="mb-3">Companies list</h2>
 
         <button
           type="button"
           class="btn btn-success"
           onClick={() => this.props.history.push("/company/add")}
-          >
+        >
           Add new companies
         </button>
 
-
-        <div style={{display:'flex', marginTop:20}}>
-      </div>
+        <div style={{ display: "flex", marginTop: 20 }} />
 
         <table class="table table-striped table-hover">
           <thead>
@@ -44,8 +40,10 @@ class CompaniesList extends Component {
             {this.props.companies.map(company => (
               <tr
                 key={company.id}
-                onClick={() => this.props.history.push("/company/edit/" + company.id)}
-                >
+                onClick={() =>
+                  this.props.history.push("/company/edit/" + company.id)
+                }
+              >
                 <td>{company.id}</td>
                 <td>
                   {company.is_active ? (

@@ -16,10 +16,10 @@ import CommentsLoader from "./CommentsLoader";
 import AddComment from "./AddComment";
 import SubtasksLoader from "./SubtasksLoader";
 import { connect } from "react-redux";
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
-import RichTextEditor from 'react-rte';
-import Select from 'react-select';
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import RichTextEditor from "react-rte";
+import Select from "react-select";
 import {
   getTaskSolvers,
   deleteTaskSolvers,
@@ -119,36 +119,45 @@ class EditTask extends Component {
       }
     });
     let requestedBy;
-    if(this.props.task.requestedBy){
-      requestedBy={...this.props.task.requestedBy};
-      requestedBy.label=((requestedBy.name?requestedBy.name:'')+' '+(requestedBy.surname?requestedBy.surname:''));
-      if(requestedBy.label===' '){
-        requestedBy.label=requestedBy.email;
+    if (this.props.task.requestedBy) {
+      requestedBy = { ...this.props.task.requestedBy };
+      requestedBy.label =
+        (requestedBy.name ? requestedBy.name : "") +
+        " " +
+        (requestedBy.surname ? requestedBy.surname : "");
+      if (requestedBy.label === " ") {
+        requestedBy.label = requestedBy.email;
+      } else {
+        requestedBy.label = requestedBy.label + " (" + requestedBy.email + ")";
       }
-      else{
-        requestedBy.label=requestedBy.label+' ('+requestedBy.email+')';
-      }
-      requestedBy.value=(requestedBy.id);
-    }
-    else{
-      requestedBy=null;
+      requestedBy.value = requestedBy.id;
+    } else {
+      requestedBy = null;
     }
 
     let company;
-    if(this.props.task.company){
-      company={...this.props.task.company};
-      company.value=company.id;
-      company.label=company.title;
-    }
-    else{
-      company=null;
+    if (this.props.task.company) {
+      company = { ...this.props.task.company };
+      company.value = company.id;
+      company.label = company.title;
+    } else {
+      company = null;
     }
     this.state = {
       company,
-      deadline:this.props.task.deadline?moment(this.props.task.deadline*1000):'',
-      startedAt:this.props.task.startedAt?moment(this.props.task.startedAt*1000):'',
-      closedAt:this.props.task.closedAt?moment(this.props.task.closedAt*1000):'',
-      description: RichTextEditor.createValueFromString(this.props.task.description, 'html'),
+      deadline: this.props.task.deadline
+        ? moment(this.props.task.deadline * 1000)
+        : "",
+      startedAt: this.props.task.startedAt
+        ? moment(this.props.task.startedAt * 1000)
+        : "",
+      closedAt: this.props.task.closedAt
+        ? moment(this.props.task.closedAt * 1000)
+        : "",
+      description: RichTextEditor.createValueFromString(
+        this.props.task.description,
+        "html"
+      ),
       important: this.props.task.important,
       project: this.props.task.project.id,
       requestedBy,
@@ -170,7 +179,7 @@ class EditTask extends Component {
           : Object.values(this.props.task.taskHasAssignedUsers)[0].user.id,
       attachements: [],
       task_data,
-      followers:this.props.followers,
+      followers: this.props.followers
     };
     this.autoSubmit.bind(this);
   }
@@ -191,10 +200,10 @@ class EditTask extends Component {
 
   autoSubmit(name, value, id) {
     let state = { ...this.state };
-    if(name==="project"){
+    if (name === "project") {
       state["project"] = value.project;
       state["taskSolver"] = "null";
-    }else if(name){
+    } else if (name) {
       state[name] = value;
     }
     let task_data = { ...this.state.task_data }; //create copy of company data
@@ -267,10 +276,13 @@ class EditTask extends Component {
     this.props.editTask(
       {
         title: state.title,
-        description: state.description.toString('html'),
-        deadline:state.deadline!==''?state.deadline.valueOf()/1000:'null',
-        startedAt:state.startedAt!==''?state.startedAt.valueOf()/ 1000:'null',
-        closedAt:state.closedAt!==''?state.closedAt.valueOf()/ 1000:'null',
+        description: state.description.toString("html"),
+        deadline:
+          state.deadline !== "" ? state.deadline.valueOf() / 1000 : "null",
+        startedAt:
+          state.startedAt !== "" ? state.startedAt.valueOf() / 1000 : "null",
+        closedAt:
+          state.closedAt !== "" ? state.closedAt.valueOf() / 1000 : "null",
         important: state.important,
         work: state.work,
         workTime: state.workTime.length == 0 ? undefined : state.workTime,
@@ -299,14 +311,7 @@ class EditTask extends Component {
   render() {
     return (
       <div>
-        <Card
-          style={{
-            margin: "auto",
-            border: "0",
-            minWidth: 800,
-            backgroundColor: "#f4f4f4"
-          }}
-        >
+        <Card>
           <CardHeader>
             <button class="btn btn-link" onClick={this.props.history.goBack}>
               <i class="fa fa-close" /> Close
@@ -322,14 +327,7 @@ class EditTask extends Component {
               <i class="fa fa-trash" /> Vymazať
             </button>
           </CardHeader>
-          <CardBody
-            style={{
-              maxWidth: 1200,
-              marginLeft: "auto",
-              marginRight: "auto",
-              backgroundColor: "white"
-            }}
-          >
+          <CardBody>
             <div
               className="row"
               style={{ borderBottom: "1px solid #eee", marginBottom: 17 }}
@@ -439,7 +437,6 @@ class EditTask extends Component {
                     toolbarClassName="demo-toolbar"
                     editorClassName="demo-editor"
                   />
-
                 </form>
                 <SubtasksLoader
                   taskID={this.props.task.id}
@@ -507,20 +504,21 @@ class EditTask extends Component {
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
                       </InputGroupAddon>
-                      <div style={{width:'100%'}} className="datepickerWrap">
-                      <DatePicker
-                        selected={this.state.deadline}
-                        onChange={(e)=>{
-                          this.autoSubmit("deadline", e);
-                          this.setState({deadline:e});}}
-                        locale="en-gb"
-                        placeholderText="Deadline"
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={30}
-                        dateFormat="DD.MM.YYYY HH:mm"
+                      <div style={{ width: "100%" }} className="datepickerWrap">
+                        <DatePicker
+                          selected={this.state.deadline}
+                          onChange={e => {
+                            this.autoSubmit("deadline", e);
+                            this.setState({ deadline: e });
+                          }}
+                          locale="en-gb"
+                          placeholderText="Deadline"
+                          showTimeSelect
+                          timeFormat="HH:mm"
+                          timeIntervals={30}
+                          dateFormat="DD.MM.YYYY HH:mm"
                         />
-                    </div>
+                      </div>
                     </InputGroup>
                   </FormGroup>
 
@@ -530,20 +528,21 @@ class EditTask extends Component {
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
                       </InputGroupAddon>
-                      <div style={{width:'100%'}} className="datepickerWrap">
-                      <DatePicker
-                        selected={this.state.startedAt}
-                        onChange={(e)=>{
-                          this.autoSubmit("startedAt", e);
-                          this.setState({startedAt:e});}}
-                        locale="en-gb"
-                        placeholderText="Started at"
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={30}
-                        dateFormat="DD.MM.YYYY HH:mm"
+                      <div style={{ width: "100%" }} className="datepickerWrap">
+                        <DatePicker
+                          selected={this.state.startedAt}
+                          onChange={e => {
+                            this.autoSubmit("startedAt", e);
+                            this.setState({ startedAt: e });
+                          }}
+                          locale="en-gb"
+                          placeholderText="Started at"
+                          showTimeSelect
+                          timeFormat="HH:mm"
+                          timeIntervals={30}
+                          dateFormat="DD.MM.YYYY HH:mm"
                         />
-                    </div>
+                      </div>
                     </InputGroup>
                   </FormGroup>
 
@@ -553,21 +552,22 @@ class EditTask extends Component {
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
                       </InputGroupAddon>
-                      <div style={{width:'100%'}} className="datepickerWrap">
-                      <DatePicker
-                        selected={this.state.closedAt}
-                        onChange={(e)=>{
-                          this.autoSubmit("closedAt", e);
-                          this.setState({closedAt:e});}}
-                        locale="en-gb"
-                        placeholderText="Closed at"
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={30}
-                        dateFormat="DD.MM.YYYY HH:mm"
-                        style={{width:'100%'}}
+                      <div style={{ width: "100%" }} className="datepickerWrap">
+                        <DatePicker
+                          selected={this.state.closedAt}
+                          onChange={e => {
+                            this.autoSubmit("closedAt", e);
+                            this.setState({ closedAt: e });
+                          }}
+                          locale="en-gb"
+                          placeholderText="Closed at"
+                          showTimeSelect
+                          timeFormat="HH:mm"
+                          timeIntervals={30}
+                          dateFormat="DD.MM.YYYY HH:mm"
+                          style={{ width: "100%" }}
                         />
-                    </div>
+                      </div>
                     </InputGroup>
                   </FormGroup>
 
@@ -582,8 +582,14 @@ class EditTask extends Component {
                         id="project"
                         value={this.state.project}
                         onChange={e => {
-                          this.autoSubmit("project", { project: e.target.value,taskSolver: "null"});
-                            this.setState({ project: e.target.value,taskSolver: "null"});
+                          this.autoSubmit("project", {
+                            project: e.target.value,
+                            taskSolver: "null"
+                          });
+                          this.setState({
+                            project: e.target.value,
+                            taskSolver: "null"
+                          });
                           this.setState({
                             project: e.target.value,
                             taskSolver: "null"
@@ -636,19 +642,21 @@ class EditTask extends Component {
                         <i className="fa fa-user-o" />
                       </InputGroupAddon>
                       <Select
-                        options={this.props.users.map((user)=>{
-                          user.label=((user.name?user.name:'')+' '+(user.surname?user.surname:''));
-                          if(user.label===' '){
-                            user.label=user.email;
+                        options={this.props.users.map(user => {
+                          user.label =
+                            (user.name ? user.name : "") +
+                            " " +
+                            (user.surname ? user.surname : "");
+                          if (user.label === " ") {
+                            user.label = user.email;
+                          } else {
+                            user.label = user.label + " (" + user.email + ")";
                           }
-                          else{
-                            user.label=user.label+' ('+user.email+')';
-                          }
-                          user.value=(user.id);
+                          user.value = user.id;
                           return user;
                         })}
                         value={this.state.requestedBy}
-                        onChange={(e)=>{
+                        onChange={e => {
                           this.autoSubmit("requestedBy", e);
                           this.setState({ requestedBy: e });
                         }}
@@ -663,13 +671,13 @@ class EditTask extends Component {
                         <i className="fa fa-building-o" />
                       </InputGroupAddon>
                       <Select
-                        options={this.props.companies.map((company)=>{
-                          company.label=company.title;
-                          company.value=company.id;
+                        options={this.props.companies.map(company => {
+                          company.label = company.title;
+                          company.value = company.id;
                           return company;
                         })}
                         value={this.state.company}
-                        onChange={(e)=>{
+                        onChange={e => {
                           this.autoSubmit("company", e);
                           this.setState({ company: e });
                         }}
@@ -779,7 +787,9 @@ class EditTask extends Component {
                       onChange={e => {
                         let file = e.target.files[0];
                         this.props.uploadFile(file, this.props.token);
-                        setTimeout(function(){ this.autoSubmit(); }, 4000);
+                        setTimeout(function() {
+                          this.autoSubmit();
+                        }, 4000);
                       }}
                     />
                     <label class="btn btn-primary btn-block" for="fileUpload">
@@ -808,16 +818,24 @@ class EditTask extends Component {
                           <div
                             style={{ marginTop: "auto", marginBottom: "auto" }}
                           >
-                          {!item.url&&item.file.name}
-                          {item.url&&<a href={item.url}>{item.file.name}</a>}
+                            {!item.url && item.file.name}
+                            {item.url && (
+                              <a href={item.url}>{item.file.name}</a>
+                            )}
                           </div>
                           <div style={{ flex: 1 }} />
-                          {item.file.size &&<div
-                            style={{ marginTop: "auto", marginBottom: "auto" }}
-                          >
-                          {item.file.size>10000&& Math.ceil(item.file.size/1000)+"kb"}
-                          {item.file.size<=10000&& item.file.size+"b"}
-                          </div>}
+                          {item.file.size && (
+                            <div
+                              style={{
+                                marginTop: "auto",
+                                marginBottom: "auto"
+                              }}
+                            >
+                              {item.file.size > 10000 &&
+                                Math.ceil(item.file.size / 1000) + "kb"}
+                              {item.file.size <= 10000 && item.file.size + "b"}
+                            </div>
+                          )}
 
                           <button
                             type="button"
@@ -826,7 +844,9 @@ class EditTask extends Component {
                             style={{ marginTop: "auto", marginBottom: "auto" }}
                             onClick={() => {
                               this.props.removeFile(item.id, this.props.token);
-                              setTimeout(function(){ this.autoSubmit(); }, 3000);
+                              setTimeout(function() {
+                                this.autoSubmit();
+                              }, 3000);
                             }}
                           >
                             <span
@@ -874,10 +894,10 @@ class EditTask extends Component {
                             paddingTop: 5,
                             paddingBottom: 5,
                             marginLeft: 5,
-                            width:"100%",
+                            width: "100%"
                           }}
                         >
-                          {item.email+' ('+item.username+')'}
+                          {item.email + " (" + item.username + ")"}
                         </div>
                       )}
                       titleStyle={{
@@ -895,17 +915,23 @@ class EditTask extends Component {
                       labelStyle={{ marginLeft: 10 }}
                       searchStyle={{ margin: 5 }}
                       onChange={(ids, items, item) => {
-                        if(ids.includes(item)){
-                          this.props.addFollower(item,this.props.task.id,this.props.token);
-                        }
-                        else{
-                          this.props.deleteFollower(item,this.props.task.id,this.props.token);
+                        if (ids.includes(item)) {
+                          this.props.addFollower(
+                            item,
+                            this.props.task.id,
+                            this.props.token
+                          );
+                        } else {
+                          this.props.deleteFollower(
+                            item,
+                            this.props.task.id,
+                            this.props.token
+                          );
                         }
                         this.setState({ followers: ids });
-                    }}
+                      }}
                     />
                   </div>
-
 
                   {this.props.taskAttributes.map(attribute => {
                     switch (attribute.type) {
@@ -920,7 +946,7 @@ class EditTask extends Component {
                               onChange={e => {
                                 let newData = { ...this.state.task_data };
                                 newData[attribute.id] = e.target.value;
-                                this.autoSubmit('task_data',newData);
+                                this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
                               placeholder={"Enter " + attribute.title}
@@ -938,7 +964,7 @@ class EditTask extends Component {
                               onChange={e => {
                                 let newData = { ...this.state.task_data };
                                 newData[attribute.id] = e.target.value;
-                                this.autoSubmit('task_data',newData);
+                                this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
                               placeholder={"Enter " + attribute.title}
@@ -956,7 +982,7 @@ class EditTask extends Component {
                               onChange={e => {
                                 let newData = { ...this.state.task_data };
                                 newData[attribute.id] = e.target.value;
-                                this.autoSubmit('task_data',newData);
+                                this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
                             >
@@ -1036,7 +1062,7 @@ class EditTask extends Component {
                               onChange={(ids, items) => {
                                 let newData = { ...this.state.task_data };
                                 newData[attribute.id] = ids;
-                                this.autoSubmit('task_data',newData);
+                                this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
                             />
@@ -1047,21 +1073,21 @@ class EditTask extends Component {
                         return (
                           <div class="form-group">
                             <label for={attribute.id}>{attribute.title}</label>
-                              <DatePicker
-                                selected={this.state.task_data[attribute.id]}
-                                onChange={e => {
-                                  let newData = { ...this.state.task_data };
-                                  newData[attribute.id] = e;
-                                  this.autoSubmit('task_data',newData);
-                                  this.setState({ task_data: newData });
-                                }}
-                                locale="en-gb"
-                                placeholderText={attribute.title}
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={30}
-                                dateFormat="DD.MM.YYYY HH:mm"
-                                />
+                            <DatePicker
+                              selected={this.state.task_data[attribute.id]}
+                              onChange={e => {
+                                let newData = { ...this.state.task_data };
+                                newData[attribute.id] = e;
+                                this.autoSubmit("task_data", newData);
+                                this.setState({ task_data: newData });
+                              }}
+                              locale="en-gb"
+                              placeholderText={attribute.title}
+                              showTimeSelect
+                              timeFormat="HH:mm"
+                              timeIntervals={30}
+                              dateFormat="DD.MM.YYYY HH:mm"
+                            />
                           </div>
                         );
                       case "decimal_number":
@@ -1076,7 +1102,7 @@ class EditTask extends Component {
                               onChange={e => {
                                 let newData = { ...this.state.task_data };
                                 newData[attribute.id] = e.target.value;
-                                this.autoSubmit('task_data',newData);
+                                this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
                               placeholder={"Select " + attribute.title}
@@ -1095,7 +1121,7 @@ class EditTask extends Component {
                               onChange={e => {
                                 let newData = { ...this.state.task_data };
                                 newData[attribute.id] = e.target.value;
-                                this.autoSubmit('task_data',newData);
+                                this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
                               placeholder={"Select " + attribute.title}
@@ -1115,7 +1141,7 @@ class EditTask extends Component {
                                   newData[attribute.id] = !newData[
                                     attribute.id
                                   ];
-                                  this.autoSubmit('task_data',newData);
+                                  this.autoSubmit("task_data", newData);
                                   this.setState({ task_data: newData });
                                 }}
                               />
@@ -1147,7 +1173,7 @@ const mapStateToProps = ({
   login,
   usersReducer,
   attachementsReducer,
-  followersReducer,
+  followersReducer
 }) => {
   const { task, taskProjects, taskAttributes, taskSolvers } = tasksReducer;
   const { statuses } = statusesReducer;

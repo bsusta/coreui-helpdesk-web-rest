@@ -1,28 +1,28 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import {addUnit} from '../../../redux/actions';
+import { connect } from "react-redux";
+import { addUnit } from "../../../redux/actions";
 class UnitAdd extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      title:'',
-      shortcut:''
-    }
+    this.state = {
+      title: "",
+      shortcut: ""
+    };
   }
 
   //gets the state and send API request to add newly defined unit
-  submit(e){
+  submit(e) {
     e.preventDefault();
-    this.props.addUnit({title:this.state.title,shortcut:this.state.shortcut},this.props.token);
+    this.props.addUnit(
+      { title: this.state.title, shortcut: this.state.shortcut },
+      this.props.token
+    );
     this.props.history.goBack();
   }
 
   render() {
     return (
-      <div
-        class="card"
-        style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
-      >
+      <div class="card">
         <h4 class="card-header">Add unit</h4>
         <div class="card-body">
           <form
@@ -38,7 +38,7 @@ class UnitAdd extends Component {
                 id="title"
                 placeholder="Enter title"
                 value={this.state.title}
-                onChange={(value)=>this.setState({title:value.target.value})}
+                onChange={value => this.setState({ title: value.target.value })}
               />
             </div>
             <div class="form-group">
@@ -48,10 +48,16 @@ class UnitAdd extends Component {
                 id="shortcut"
                 placeholder="Enter shortcut"
                 value={this.state.shortcut}
-                onChange={(value)=>this.setState({shortcut:value.target.value})}
+                onChange={value =>
+                  this.setState({ shortcut: value.target.value })
+                }
               />
             </div>
-            <button type="submit" class="btn btn-primary" onClick={this.submit.bind(this)}>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              onClick={this.submit.bind(this)}
+            >
               Submit
             </button>
           </form>
@@ -61,10 +67,9 @@ class UnitAdd extends Component {
   }
 }
 
-const mapStateToProps = ({login}) => {
-  const {token} = login;
-  return {token};
+const mapStateToProps = ({ login }) => {
+  const { token } = login;
+  return { token };
 };
 
-
-export default connect(mapStateToProps, {addUnit})(UnitAdd);
+export default connect(mapStateToProps, { addUnit })(UnitAdd);

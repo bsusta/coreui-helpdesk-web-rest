@@ -2,31 +2,39 @@ import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input } from "reactstrap";
 const mockData = [
-  { id: 1, active: true, name: "Send mail", description: "none" },
+  { id: 1, active: true, name: "Send mail", description: "none" }
 ];
 class TriggersList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      title:'',
-      shortcut:'',
-      activated:'',
-    }
+    this.state = {
+      title: "",
+      shortcut: "",
+      activated: ""
+    };
     this.getFilteredData.bind(this);
   }
 
-  getFilteredData(){
-    return mockData.filter((item)=>item.name.toLowerCase().includes(this.state.title.toLowerCase()))
-    .filter((item)=>item.active == (this.state.activated.toLowerCase().includes('y')||this.state.activated.toLowerCase().includes('t')||this.state.activated.toLowerCase().includes('c'))||this.state.activated=='')
-    .sort((item,item2)=>item.title>item2.title);
+  getFilteredData() {
+    return mockData
+      .filter(item =>
+        item.name.toLowerCase().includes(this.state.title.toLowerCase())
+      )
+      .filter(
+        item =>
+          item.active ==
+            (this.state.activated.toLowerCase().includes("y") ||
+              this.state.activated.toLowerCase().includes("t") ||
+              this.state.activated.toLowerCase().includes("c")) ||
+          this.state.activated == ""
+      )
+      .sort((item, item2) => item.title > item2.title);
   }
 
   render() {
     return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ marginTop: 20 }} className="mb-3">
-          Trigger list
-        </h2>
+      <div class="table-div">
+        <h2 className="mb-3">Trigger list</h2>
 
         <button
           type="button"
@@ -47,19 +55,33 @@ class TriggersList extends Component {
           <tbody>
             <tr>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.title} name="input1-group1" onChange={(e)=>this.setState({title:e.target.value})} />
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  value={this.state.title}
+                  name="input1-group1"
+                  onChange={e => this.setState({ title: e.target.value })}
+                />
               </th>
               <th>
                 <Input type="text" id="input1-group1" name="input1-group1" />
               </th>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.activated} name="input1-group1" onChange={(e)=>this.setState({activated:e.target.value})} />
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  value={this.state.activated}
+                  name="input1-group1"
+                  onChange={e => this.setState({ activated: e.target.value })}
+                />
               </th>
             </tr>
             {this.getFilteredData().map(trigger => (
               <tr
                 key={trigger.id}
-                onClick={() => this.props.history.push("/trigger/edit/" + trigger.id)}
+                onClick={() =>
+                  this.props.history.push("/trigger/edit/" + trigger.id)
+                }
               >
                 <td>{trigger.name}</td>
                 <td>{trigger.description}</td>

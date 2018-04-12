@@ -57,11 +57,11 @@ import Filter from "./views/Filter";
 class Full extends Component {
   render() {
     return (
-      <div className="app" style={{maxWidth:1920, margin:"auto" }}>
+      <div className="app" style={{ maxWidth: 1920, margin: "auto" }}>
         <Header history={this.props.history} />
         <div className="app-body">
           <Sidebar {...this.props} />
-          <main className="main" style={{ backgroundColor: "white" }}>
+          <main className="main" style={{ backgroundColor: "#f4f4f4" }}>
             <Container fluid style={{ padding: 0 }}>
               <Switch>
                 <Route

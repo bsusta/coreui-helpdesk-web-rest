@@ -1,39 +1,39 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { addSMTP } from '../../../redux/actions';
+import { connect } from "react-redux";
+import { addSMTP } from "../../../redux/actions";
 
 class SMTPAdd extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      email:'',
-      host:'',
-      name:'',
-      password:'',
-      port:'',
-      ssl:true,
-      tls:false,
-    }
+    this.state = {
+      email: "",
+      host: "",
+      name: "",
+      password: "",
+      port: "",
+      ssl: true,
+      tls: false
+    };
   }
-  submit(e){
+  submit(e) {
     e.preventDefault();
-    this.props.addSMTP({
-      email:this.state.email,
-      host:this.state.host,
-      name:this.state.name,
-      password:this.state.password,
-      port:this.state.port,
-      ssl:this.state.ssl,
-      tls:this.state.tls
-    },this.props.token);
+    this.props.addSMTP(
+      {
+        email: this.state.email,
+        host: this.state.host,
+        name: this.state.name,
+        password: this.state.password,
+        port: this.state.port,
+        ssl: this.state.ssl,
+        tls: this.state.tls
+      },
+      this.props.token
+    );
     this.props.history.goBack();
   }
   render() {
     return (
-      <div
-        class="card"
-        style={{ maxWidth: 1380, margin: "auto", borderTop: "0" }}
-      >
+      <div class="card">
         <h4 class="card-header">Add SMTP</h4>
         <div class="card-body">
           <form
@@ -42,13 +42,12 @@ class SMTPAdd extends Component {
               this.props.history.goBack();
             }}
           >
-
             <div class="form-group">
               <label for="email">E-mail</label>
               <input
                 class="form-control"
                 value={this.state.email}
-                onChange={(e)=>this.setState({ email: event.target.value })}
+                onChange={e => this.setState({ email: event.target.value })}
                 id="email"
                 placeholder="Enter email"
               />
@@ -60,8 +59,8 @@ class SMTPAdd extends Component {
                 class="form-control"
                 id="server"
                 value={this.state.host}
-                onChange={(e)=>this.setState({host:e.target.value })}
-              placeholder="Enter server"
+                onChange={e => this.setState({ host: e.target.value })}
+                placeholder="Enter server"
               />
             </div>
 
@@ -71,8 +70,8 @@ class SMTPAdd extends Component {
                 class="form-control"
                 id="port"
                 value={this.state.port}
-                onChange={(e)=>this.setState({port:e.target.value})}
-              placeholder="Enter port number"
+                onChange={e => this.setState({ port: e.target.value })}
+                placeholder="Enter port number"
               />
             </div>
 
@@ -82,9 +81,8 @@ class SMTPAdd extends Component {
                 class="form-control"
                 id="login"
                 value={this.state.name}
-                onChange={(e)=>this.setState({name:e.target.value})}
-
-              placeholder="Enter login"
+                onChange={e => this.setState({ name: e.target.value })}
+                placeholder="Enter login"
               />
             </div>
 
@@ -94,25 +92,39 @@ class SMTPAdd extends Component {
                 class="form-control"
                 id="pass"
                 value={this.state.password}
-                onChange={(e)=>this.setState({password:e.target.value})}
-              placeholder="Enter password"
+                onChange={e => this.setState({ password: e.target.value })}
+                placeholder="Enter password"
               />
             </div>
 
             <div class="form-check">
               <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" checked={this.state.tls} onChange={()=>this.setState({tls:!this.state.tls})} />
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  checked={this.state.tls}
+                  onChange={() => this.setState({ tls: !this.state.tls })}
+                />
                 TLS
               </label>
             </div>
 
             <div class="form-check">
               <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" checked={this.state.ssl} onChange={()=>this.setState({ssl:!this.state.ssl})} />
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  checked={this.state.ssl}
+                  onChange={() => this.setState({ ssl: !this.state.ssl })}
+                />
                 SSL
               </label>
             </div>
-            <button type="submit" class="btn btn-primary" onClick={this.submit.bind(this)}>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              onClick={this.submit.bind(this)}
+            >
               Submit
             </button>
           </form>
@@ -127,5 +139,4 @@ const mapStateToProps = ({ login }) => {
   return { token };
 };
 
-
-export default connect(mapStateToProps, {addSMTP})(SMTPAdd);
+export default connect(mapStateToProps, { addSMTP })(SMTPAdd);

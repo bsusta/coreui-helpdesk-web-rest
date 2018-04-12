@@ -1,45 +1,59 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input } from "reactstrap";
-import { connect } from 'react-redux';
-import {getUsers } from '../../../redux/actions';
-import Pagination from '../../../components/pagination';
+import { connect } from "react-redux";
+import { getUsers } from "../../../redux/actions";
+import Pagination from "../../../components/pagination";
 
 class UsersList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      active:'',
-      name:'',
-      email:'',
-      id:''
-    }
+    this.state = {
+      active: "",
+      name: "",
+      email: "",
+      id: ""
+    };
     this.getFilteredData.bind(this);
   }
 
-  getFilteredData(){
-    return this.props.users.filter((item)=>(item.name+' '+item.surname).toLowerCase().includes(this.state.name.toLowerCase()))
-    .filter((item)=>item.email.toLowerCase().includes(this.state.email.toLowerCase()))
-    .filter((item)=>item.id.toString().toLowerCase().includes(this.state.id.toLowerCase()))
-    .filter((item)=>item.is_active == (this.state.active.toLowerCase().includes('y')||
-    this.state.active.toLowerCase().includes('t')||
-    this.state.active.toLowerCase().includes('c'))||
-    this.state.active=='')
-    .sort((item,item2)=>item.surname>item2.surname);
+  getFilteredData() {
+    return this.props.users
+      .filter(item =>
+        (item.name + " " + item.surname)
+          .toLowerCase()
+          .includes(this.state.name.toLowerCase())
+      )
+      .filter(item =>
+        item.email.toLowerCase().includes(this.state.email.toLowerCase())
+      )
+      .filter(item =>
+        item.id
+          .toString()
+          .toLowerCase()
+          .includes(this.state.id.toLowerCase())
+      )
+      .filter(
+        item =>
+          item.is_active ==
+            (this.state.active.toLowerCase().includes("y") ||
+              this.state.active.toLowerCase().includes("t") ||
+              this.state.active.toLowerCase().includes("c")) ||
+          this.state.active == ""
+      )
+      .sort((item, item2) => item.surname > item2.surname);
   }
 
   render() {
     return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ marginTop: 20 }} className="mb-3">
-          Users list
-        </h2>
+      <div class="table-div">
+        <h2 className="mb-3">Users list</h2>
 
         <button
           type="button"
           class="btn btn-success"
           onClick={() => this.props.history.push("/user/add")}
-          >
+        >
           Add new user
         </button>
 
@@ -55,23 +69,47 @@ class UsersList extends Component {
           <tbody>
             <tr>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.id} name="input1-group1" onChange={(e)=>this.setState({id:e.target.value})} />
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  value={this.state.id}
+                  name="input1-group1"
+                  onChange={e => this.setState({ id: e.target.value })}
+                />
               </th>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.active} name="input1-group1" onChange={(e)=>this.setState({active:e.target.value})} />
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  value={this.state.active}
+                  name="input1-group1"
+                  onChange={e => this.setState({ active: e.target.value })}
+                />
               </th>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.name} name="input1-group1" onChange={(e)=>this.setState({name:e.target.value})} />
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  value={this.state.name}
+                  name="input1-group1"
+                  onChange={e => this.setState({ name: e.target.value })}
+                />
               </th>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.email} name="input1-group1" onChange={(e)=>this.setState({email:e.target.value})} />
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  value={this.state.email}
+                  name="input1-group1"
+                  onChange={e => this.setState({ email: e.target.value })}
+                />
               </th>
             </tr>
             {this.getFilteredData().map(user => (
               <tr
                 key={user.id}
                 onClick={() => this.props.history.push("/user/edit/" + user.id)}
-                >
+              >
                 <td>{user.id}</td>
                 <td>
                   {user.is_active ? (
@@ -80,14 +118,15 @@ class UsersList extends Component {
                     <span class="badge badge-danger">No</span>
                   )}
                 </td>
-                <td>{user.surname} {user.name}</td>
+                <td>
+                  {user.surname} {user.name}
+                </td>
                 <td>{user.email}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        {
-        /*<Pagination
+        {/*<Pagination
           link="usersList"
           history={this.props.history}
           numberOfPages={this.props.numberOfPages}
@@ -98,8 +137,7 @@ class UsersList extends Component {
           setPageNumber={this.setPage.bind(this)}
           paginationOptions={[{title:20,value:20},{title:50,value:50},{title:100,value:100},{title:'all',value:999}]}
           pagination={this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20}
-          />*/
-        }
+          />*/}
       </div>
     );
   }
@@ -111,5 +149,4 @@ const mapStateToProps = ({ usersReducer, login }) => {
   return { users, token };
 };
 
-
-export default connect(mapStateToProps, {getUsers})(UsersList);
+export default connect(mapStateToProps, { getUsers })(UsersList);

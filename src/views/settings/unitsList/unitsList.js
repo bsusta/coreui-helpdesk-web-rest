@@ -1,33 +1,43 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input } from "reactstrap";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 class UnitsList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      title:'',
-      shortcut:'',
-      activated:'',
-    }
+    this.state = {
+      title: "",
+      shortcut: "",
+      activated: ""
+    };
     this.getFilteredData.bind(this);
   }
 
-//filters all available data according to the inputs over the table (local filter)
-  getFilteredData(){
-    return this.props.units.filter((item)=>item.title.toLowerCase().includes(this.state.title.toLowerCase()))
-    .filter((item)=>item.shortcut.toLowerCase().includes(this.state.shortcut.toLowerCase()))
-    .filter((item)=>item.is_active == (this.state.activated.toLowerCase().includes('y')||this.state.activated.toLowerCase().includes('t')||this.state.activated.toLowerCase().includes('c'))||this.state.activated=='')
-    .sort((item,item2)=>item.title>item2.title);
+  //filters all available data according to the inputs over the table (local filter)
+  getFilteredData() {
+    return this.props.units
+      .filter(item =>
+        item.title.toLowerCase().includes(this.state.title.toLowerCase())
+      )
+      .filter(item =>
+        item.shortcut.toLowerCase().includes(this.state.shortcut.toLowerCase())
+      )
+      .filter(
+        item =>
+          item.is_active ==
+            (this.state.activated.toLowerCase().includes("y") ||
+              this.state.activated.toLowerCase().includes("t") ||
+              this.state.activated.toLowerCase().includes("c")) ||
+          this.state.activated == ""
+      )
+      .sort((item, item2) => item.title > item2.title);
   }
 
   render() {
     return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ marginTop: 20 }} className="mb-3">
-          Unit list
-        </h2>
+      <div class="table-div">
+        <h2 className="mb-3">Unit list</h2>
 
         <button
           type="button"
@@ -48,13 +58,31 @@ class UnitsList extends Component {
           <tbody>
             <tr>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.title} name="input1-group1" onChange={(e)=>this.setState({title:e.target.value})} />
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  value={this.state.title}
+                  name="input1-group1"
+                  onChange={e => this.setState({ title: e.target.value })}
+                />
               </th>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.shortcut} name="input1-group1" onChange={(e)=>this.setState({shortcut:e.target.value})} />
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  value={this.state.shortcut}
+                  name="input1-group1"
+                  onChange={e => this.setState({ shortcut: e.target.value })}
+                />
               </th>
               <th>
-                <Input type="text" id="input1-group1" value={this.state.activated} name="input1-group1" onChange={(e)=>this.setState({activated:e.target.value})} />
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  value={this.state.activated}
+                  name="input1-group1"
+                  onChange={e => this.setState({ activated: e.target.value })}
+                />
               </th>
             </tr>
             {this.getFilteredData().map(unit => (
@@ -86,6 +114,5 @@ const mapStateToProps = ({ unitsReducer }) => {
   const { units } = unitsReducer;
   return { units };
 };
-
 
 export default connect(mapStateToProps, {})(UnitsList);

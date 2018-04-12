@@ -1,20 +1,17 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input } from "reactstrap";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 class SMTPsList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
-
   render() {
     return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ marginTop: 20 }} className="mb-3">
-          SMTPs list
-        </h2>
+      <div class="table-div">
+        <h2 className="mb-3">SMTPs list</h2>
 
         <table class="table table-striped table-hover">
           <thead>
@@ -28,7 +25,7 @@ class SMTPsList extends Component {
               <tr
                 key={smtp.id}
                 onClick={() => this.props.history.push("/smtp/edit/" + smtp.id)}
-                >
+              >
                 <td>{smtp.email}</td>
                 <td>{smtp.host}</td>
               </tr>
@@ -44,6 +41,5 @@ const mapStateToProps = ({ SMTPsReducer }) => {
   const { SMTPs } = SMTPsReducer;
   return { SMTPs };
 };
-
 
 export default connect(mapStateToProps, {})(SMTPsList);

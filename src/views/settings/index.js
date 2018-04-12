@@ -21,19 +21,21 @@ import {
   Input,
   Table
 } from "reactstrap";
-import { connect } from 'react-redux';
-import {logoutUser } from '../../redux/actions';
+import { connect } from "react-redux";
+import { logoutUser } from "../../redux/actions";
 class Settings extends Component {
   render() {
     return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 className="mb-3" style={{ marginTop: 20 }}>
-          Settings
-        </h2>
+      <div class="table-div">
+        <h2 className="mb-3">Settings</h2>
         <Table hover striped responsive>
           <tbody>
             <tr style={{ cursor: "pointer" }}>
-              <td  onClick={() => this.props.history.push("./automaticTasksList")}>Automatic tasks</td>
+              <td
+                onClick={() => this.props.history.push("./automaticTasksList")}
+              >
+                Automatic tasks
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./companiesList")}>
@@ -41,33 +43,55 @@ class Settings extends Component {
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td onClick={() => this.props.history.push("./companyAttributesList")}>
+              <td
+                onClick={() =>
+                  this.props.history.push("./companyAttributesList")
+                }
+              >
                 Companies custom fields
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td onClick={() => this.props.history.push("./imapsList")}>Imap</td>
+              <td onClick={() => this.props.history.push("./imapsList")}>
+                Imap
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td  onClick={() => this.props.history.push("./rolesList")}>Roles</td>
+              <td onClick={() => this.props.history.push("./rolesList")}>
+                Roles
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td  onClick={() => this.props.history.push("./smtpsList")}>SMTP</td>
+              <td onClick={() => this.props.history.push("./smtpsList")}>
+                SMTP
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td  onClick={() => this.props.history.push("./statusesList")}>Statuses</td>
+              <td onClick={() => this.props.history.push("./statusesList")}>
+                Statuses
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td  onClick={() => this.props.history.push("./taskAttributesList")}>Task custom fields</td>
+              <td
+                onClick={() => this.props.history.push("./taskAttributesList")}
+              >
+                Task custom fields
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td  onClick={() => this.props.history.push("./triggersList")}>Triggers</td>
+              <td onClick={() => this.props.history.push("./triggersList")}>
+                Triggers
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td onClick={() => this.props.history.push("./unitsList")}>Units</td>
+              <td onClick={() => this.props.history.push("./unitsList")}>
+                Units
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
-              <td onClick={() => this.props.history.push("./usersList")}>Users</td>
+              <td onClick={() => this.props.history.push("./usersList")}>
+                Users
+              </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.logoutUser()}>Logout</td>
@@ -83,4 +107,4 @@ const mapStateToProps = ({}) => {
   return {};
 };
 
-export default connect(mapStateToProps,{logoutUser})(Settings);
+export default connect(mapStateToProps, { logoutUser })(Settings);
