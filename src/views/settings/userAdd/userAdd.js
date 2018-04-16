@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addUser } from "../../../redux/actions";
+import {isEmail} from "../../../helperFunctions";
 
 class UserAdd extends Component {
   constructor(props) {
@@ -31,12 +32,14 @@ class UserAdd extends Component {
       userRole: this.props.userRoles[0].id,
       company: this.props.companies[0].id,
       image: null,
-      imageURL: null
+      imageURL: null,
+      submitError:false
     };
   }
 
   submit(e) {
     e.preventDefault();
+    this.setState({submitError:true});
     let body = {
       username: this.state.username,
       password: this.state.password,
@@ -61,6 +64,11 @@ class UserAdd extends Component {
         google: this.state.google
       }
     };
+    if(!isEmail(body.email)||
+    body.username===''||
+    body.password.length<8){
+      return;
+    }
     this.props.addUser(
       body,
       this.state.company,
@@ -159,7 +167,9 @@ class UserAdd extends Component {
                 }
                 placeholder="Enter username"
               />
+            {this.state.submitError && this.state.username===''&&<label for="username" style={{color:'red'}}>You must enter username</label>}
             </div>
+
             <div class="form-group">
               <label for="password">Password</label>
               <input
@@ -171,7 +181,9 @@ class UserAdd extends Component {
                 }
                 placeholder="Enter password"
               />
-            </div>
+            {this.state.password.length>0 && this.state.password.length<8 &&<label for="password" style={{color:'red'}}>Password must be at least 8 characters</label>}
+            {this.state.submitError && this.state.password===''&&<label for="password" style={{color:'red'}}>You must enter users password</label>}
+          </div>
             <div class="form-group">
               <label for="email">E-mail</label>
               <input
@@ -183,6 +195,8 @@ class UserAdd extends Component {
                 }
                 placeholder="Enter e-mail"
               />
+              { this.state.email!==''&&!isEmail(this.state.email)&&<label for="email" style={{color:'red'}}>This e-mail address is not valid</label>}
+              { this.state.submitError && this.state.email===''&&<label for="email" style={{color:'red'}}>You must enter e-mail address</label>}
             </div>
             <div class="form-group">
               <label for="language">Language</label>

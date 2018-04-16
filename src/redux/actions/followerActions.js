@@ -82,7 +82,7 @@ export const deleteFollower = (userID,taskID,token) => {
       dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
       return;
     }
-    dispatch({ type: DELETE_FOLLOWER, id });
+    dispatch({ type: DELETE_FOLLOWER,id: userID });
   })
   .catch(function (error) {
     dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });

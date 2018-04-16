@@ -86,7 +86,7 @@ export const getComments= (taskID,token) => {
                 dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
                 return;
               }
-              dispatch({type: SET_COMMENT_ATTACHEMENT,commentID:comment.id,attachementID:attachement.id,url:response3.url});
+              dispatch({type: SET_COMMENT_ATTACHEMENT,commentID:comment.id,attachementID:attachement.id,url:response3.url,name:attachement.name});
             }).catch(function (error) {
               dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
               console.log(error);

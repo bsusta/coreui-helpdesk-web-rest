@@ -40,7 +40,8 @@ class RoleEdit extends Component {
         ? this.props.userRole.homepage
         : "",
       order: this.props.userRole.order ? this.props.userRole.order : "",
-      acl: this.props.userRole.acl ? this.props.userRole.acl : []
+      acl: this.props.userRole.acl ? this.props.userRole.acl : [],
+      submitError:false
     };
     this.aclChange.bind(this);
   }
@@ -57,17 +58,23 @@ class RoleEdit extends Component {
 
   submit(e) {
     e.preventDefault();
+    this.setState({submitError:true});
     let body = {
       title: this.state.title,
       description:
         this.state.description == "" ? "null" : this.state.description,
       homepage: this.state.homepage,
-      order: this.state.order
+      order: parseInt(this.state.order)
     };
     if (this.state.acl.length > 0) {
       body["acl"] = JSON.stringify(this.state.acl);
     } else {
       body["acl"] = "null";
+    }
+    if(body.homepage===''||
+    body.title===''||
+    isNaN(body.order)){
+      return;
     }
     this.props.editUserRole(
       body,
@@ -113,6 +120,8 @@ class RoleEdit extends Component {
                 placeholder="Enter role name"
               />
             </div>
+            {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
+
 
             <div class="form-group">
               <label for="description">Description</label>
@@ -135,6 +144,7 @@ class RoleEdit extends Component {
                 placeholder="Enter roles homepage"
               />
             </div>
+            {this.state.submitError && this.state.homepage===''&&<label for="homepage" style={{color:'red'}}>You must enter role's homepage</label>}
 
             <div class="form-group">
               <label for="order">Order</label>
@@ -147,6 +157,8 @@ class RoleEdit extends Component {
                 placeholder="Enter order (should be heigher then the one of yours role)"
               />
             </div>
+            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label for="order" style={{color:'red'}}>Your order number is not valid</label>}
+            { this.state.submitError && this.state.order===''&&<label for="order" style={{color:'red'}}>You must enter order number</label>}
 
             <h3>ACLs</h3>
             {ACLs.map(acl => (

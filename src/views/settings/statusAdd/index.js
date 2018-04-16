@@ -19,24 +19,27 @@ class StatusAdd extends Component {
       description: "",
       order: 5,
       func: "null",
-      color: "#156EEB"
+      color: "#156EEB",
+      submitError:false
     };
   }
 
   submit(e) {
     e.preventDefault();
-    if (isNaN(parseInt(this.state.order)) || parseInt(this.state.order) < 4) {
-      return;
-    }
+    this.setState({submitError:true});
     let body = {
       title: this.state.title,
       description: this.state.description,
-      order: this.state.order,
+      order: parseInt(this.state.order),
       color: this.state.color
     };
     if (this.state.func !== "null") {
       body["function"] = this.state.func;
     }
+    if(body.title===''||
+    isNaN(body.order)){
+      return;
+  }
 
     this.props.addStatus(body, this.props.token);
     this.props.history.goBack();
@@ -63,6 +66,7 @@ class StatusAdd extends Component {
                 placeholder="Enter status name"
               />
             </div>
+            {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter status name</label>}
 
             <div class="form-group">
               <label for="title">Order</label>
@@ -72,8 +76,11 @@ class StatusAdd extends Component {
                 type="number"
                 value={this.state.order}
                 onChange={e => this.setState({ order: e.target.value })}
-                placeholder="Enter order number (higher then 4)"
+                placeholder="Enter order number (should be higher then 4)"
               />
+            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label for="order" style={{color:'red'}}>Your order number is not valid </label>}
+            { this.state.submitError &&this.state.order===''&&<label for="order" style={{color:'red'}}>Order is required</label>}
+            { this.state.order!==''&&parseInt(this.state.order)<5&&<label for="order" style={{color:'orange'}}>Should be higher than 4</label>}
             </div>
 
             <div class="form-group">

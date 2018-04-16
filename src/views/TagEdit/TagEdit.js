@@ -9,7 +9,8 @@ class TagEdit extends Component {
     this.state = {
       title: this.props.tag.title?this.props.tag.title:'',
       public: this.props.tag.public?true:false,
-      color:this.props.tag.color
+      color:this.props.tag.color,
+      submitError:false
     };
   }
 
@@ -24,11 +25,15 @@ class TagEdit extends Component {
   }
 
   submit(){
-    this.props.editTag({
+    this.setState({submitError:true});
+    let body ={
       title:this.state.title,
       color:this.state.color,
-      public:this.state.public
-    },this.props.tag.id,this.props.token);
+      public:this.state.public}
+      if(body.title===''){
+        return;
+      }
+    this.props.editTag(body,this.props.tag.id,this.props.token);
     this.props.history.goBack();
   }
 
@@ -92,6 +97,7 @@ class TagEdit extends Component {
                   this.setState({ title: target.target.value })
                 }
               />
+              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
             </div>
             <div class="form-group">
               <label for="color">Color</label>

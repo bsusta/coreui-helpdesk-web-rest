@@ -179,8 +179,9 @@ class EditTask extends Component {
           : Object.values(this.props.task.taskHasAssignedUsers)[0].user.id,
       attachements: [],
       task_data,
-      followers: this.props.followers
+      followers: this.props.followers.map((follower)=>follower.id)
     };
+    console.log(this.props);
     this.autoSubmit.bind(this);
   }
 
@@ -870,7 +871,7 @@ class EditTask extends Component {
                     <MultiSelect
                       data={this.props.users}
                       displayValue="email"
-                      selectedIds={this.state.followers}
+                      selectedIds={this.props.followers.map((follower)=>follower.id)}
                       limit={true}
                       idValue="id"
                       filterBy="email"
@@ -915,7 +916,7 @@ class EditTask extends Component {
                       labelStyle={{ marginLeft: 10 }}
                       searchStyle={{ margin: 5 }}
                       onChange={(ids, items, item) => {
-                        if (ids.includes(item)) {
+                        if ((ids.map((id)=>id.toString())).includes(item.toString())) {
                           this.props.addFollower(
                             item,
                             this.props.task.id,
@@ -928,7 +929,6 @@ class EditTask extends Component {
                             this.props.token
                           );
                         }
-                        this.setState({ followers: ids });
                       }}
                     />
                   </div>

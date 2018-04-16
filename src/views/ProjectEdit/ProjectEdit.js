@@ -15,16 +15,21 @@ class ProjectEdit extends Component {
       permissions:this.props.project.userHasProjects?this.props.project.userHasProjects:[],
       newUser: filteredUsers.length===0?'':filteredUsers[0].id,
       filteredUsers,
-      lastSavedPermissions:this.props.project.userHasProjects?this.props.project.userHasProjects:[]
+      lastSavedPermissions:this.props.project.userHasProjects?this.props.project.userHasProjects:[],
+      submitError:false
     };
     this.setPermission.bind(this);
   }
 
   submit(){
-    this.props.editProject({
+    this.setState({submitError:true});
+    let body ={
       title:this.state.title,
-      description:this.state.description===''?"null":this.state.description,
-    },this.state.is_active,this.props.project.id,this.props.token);
+      description:this.state.description===''?"null":this.state.description }
+      if(body.title===''){
+        return;
+      }
+    this.props.editProject(body,this.state.is_active,this.props.project.id,this.props.token);
     this.props.history.goBack();
   }
 
@@ -94,6 +99,7 @@ class ProjectEdit extends Component {
                   this.setState({ title: target.target.value })
                 }
               />
+              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
             </div>
             <div class="form-group">
               <label for="description">Description</label>

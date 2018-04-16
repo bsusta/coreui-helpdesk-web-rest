@@ -204,7 +204,7 @@ export const getTask = (id,token) => {
                 dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
                 return;
               }
-              dispatch({type: ADD_ATTACHEMENT, attachement:{url:response3.url,id:attachement.slug,file:{name:attachement.slug}}});
+              dispatch({type: ADD_ATTACHEMENT, attachement:{url:response3.url,id:attachement.slug,file:{name:attachement.name}}});
             }).catch(function (error) {
               dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
               console.log(error);

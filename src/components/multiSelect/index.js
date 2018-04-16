@@ -175,9 +175,6 @@ export default class MultiSelect extends Component {
                         marginBottom: "auto",
                         paddingLeft: 3
                       }}
-                      onClick={value => {
-                        this.onChange(value.target.value);
-                      }}
                     />
                     <div
                       style={this.props.labelStyle ? this.props.labelStyle : {}}

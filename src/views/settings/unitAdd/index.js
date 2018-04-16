@@ -6,15 +6,25 @@ class UnitAdd extends Component {
     super(props);
     this.state = {
       title: "",
-      shortcut: ""
+      shortcut: "",
+      submitError:false
     };
   }
 
   //gets the state and send API request to add newly defined unit
   submit(e) {
     e.preventDefault();
+    this.setState({submitError:true});
+    let body={
+      title:this.state.title,
+      shortcut:this.state.shortcut
+    }
+    if(body.title===''||body.shortcut===''){
+      return;
+    }
+
     this.props.addUnit(
-      { title: this.state.title, shortcut: this.state.shortcut },
+      body,
       this.props.token
     );
     this.props.history.goBack();
@@ -40,7 +50,10 @@ class UnitAdd extends Component {
                 value={this.state.title}
                 onChange={value => this.setState({ title: value.target.value })}
               />
+              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
             </div>
+
+
             <div class="form-group">
               <label for="shortcut">Shortcut</label>
               <input
@@ -52,7 +65,9 @@ class UnitAdd extends Component {
                   this.setState({ shortcut: value.target.value })
                 }
               />
+            {this.state.submitError && this.state.shortcut===''&&<label for="shortcut" style={{color:'red'}}>You must enter shortcut</label>}
             </div>
+
             <button
               type="submit"
               class="btn btn-primary"

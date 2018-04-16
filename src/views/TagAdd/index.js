@@ -9,16 +9,21 @@ class TagAdd extends Component {
     this.state = {
       title: '',
       public: false,
-      color:'FFF'
+      color:'FFF',
+      submitError:false
     };
   }
 
   submit(){
-    this.props.addTag({
+    this.setState({submitError:true});
+    let body ={
       title:this.state.title,
       color:this.state.color,
-      public:this.state.public
-    },this.props.token);
+      public:this.state.public}
+      if(body.title===''){
+        return;
+      }
+    this.props.addTag(body,this.props.token);
     this.props.history.goBack();
   }
 
@@ -70,6 +75,7 @@ class TagAdd extends Component {
                   this.setState({ title: target.target.value })
                 }
               />
+              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
             </div>
             <div class="form-group">
               <label for="color">Color</label>

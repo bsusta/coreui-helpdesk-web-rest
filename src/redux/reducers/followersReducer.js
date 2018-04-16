@@ -9,12 +9,11 @@ export default function followersReducer(state = initialState, action) {
   switch (action.type) {
     case SET_FOLLOWERS:
       return { ...state, followers:action.followers };
-    case ADD_FOLLOWER:
+    case ADD_FOLLOWER:{
       return { ...state, followers:[action.follower,...state.followers] };
+    }
     case SET_FOLLOWERS_LOADING:
       return { ...state, followersLoaded:action.followersLoaded };
-    case ADD_FOLLOWER:
-      return { ...state, followers:[action.follower,...state.followers] };
     case DELETE_FOLLOWER:{
       let newFollowers=state.followers;
       newFollowers.splice(newFollowers.findIndex((follower)=>follower.id===action.id),1);

@@ -69,6 +69,8 @@ export const ADD_STATUS = 'ADD_STATUS';
 export const SET_STATUS = 'SET_STATUS';
 export const SET_STATUS_LOADING = 'SET_STATUS_LOADING';
 export const EDIT_STATUS = 'EDIT_STATUS';
+export const DELETE_STATUS = 'DELETE_STATUS';
+
 
 //all constants for COMPANY_ATTRIBUTES actions
 export const SET_COMPANY_ATTRIBUTES = 'SET_COMPANY_ATTRIBUTES';

@@ -8,6 +8,7 @@ class Loading extends Component {
   render() {
     return (
       <Card
+        className="smallCard"
         style={{
           margin: "auto",
           border: "0",
@@ -16,8 +17,8 @@ class Loading extends Component {
           backgroundColor: "#f4f4f4"
         }}
       >
-      <CardBody>
-        <div style={{display:'flex',marginLeft:47}}>
+      <CardBody className="smallCard">
+        <div style={{display:'flex',marginLeft:10}}>
           <ClipLoader
           color={'#20a8d8'}
           loading={true}

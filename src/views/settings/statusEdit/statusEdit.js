@@ -17,27 +17,33 @@ class StatusEdit extends Component {
     this.state = {
       is_active: this.props.status.is_active,
       title: this.props.status.title,
-      description: this.props.status.description,
+      description: this.props.status.description?this.props.status.description:'',
       order: this.props.status.order,
       func: this.props.status.function ? this.props.status.function : "null",
-      color: this.props.status.color
+      color: this.props.status.color,
+      submitError:false
     };
   }
 
   submit(e) {
     e.preventDefault();
-    if (isNaN(parseInt(this.state.order)) || parseInt(this.state.order) < 4) {
+    this.setState({submitError:true});
+    let body={
+      title: this.state.title,
+      description:
+        this.state.description === "" ? "null" : this.state.description,
+      order: parseInt(this.state.order),
+      function: this.state.func,
+      color: this.state.color
+    }
+    if(body.title===''||
+    isNaN(body.order)){
       return;
     }
+
+
     this.props.editStatus(
-      {
-        title: this.state.title,
-        description:
-          this.state.description === "" ? "null" : this.state.description,
-        order: this.state.order,
-        function: this.state.func,
-        color: this.state.color
-      },
+      body,
       this.props.status.id,
       this.state.is_active,
       this.props.token
@@ -80,6 +86,7 @@ class StatusEdit extends Component {
                 placeholder="Enter status name"
               />
             </div>
+            {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter status name</label>}
 
             <div class="form-group">
               <label for="title">Order</label>
@@ -92,6 +99,9 @@ class StatusEdit extends Component {
                 placeholder="Enter order number (higher then 4)"
               />
             </div>
+            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label for="order" style={{color:'red'}}>Your order number is not valid </label>}
+            { this.state.submitError &&this.state.order===''&&<label for="order" style={{color:'red'}}>Order is required</label>}
+            { this.state.order!==''&&parseInt(this.state.order)<5&&<label for="order" style={{color:'orange'}}>Should be higher than 4</label>}
 
             <div class="form-group">
               <label for="ICO">Description</label>

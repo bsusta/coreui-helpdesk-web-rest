@@ -11,7 +11,8 @@ class UnitEdit extends Component {
       changed:false,
       title: this.props.unit.title,
       shortcut: this.props.unit.shortcut,
-      active: this.props.unit.is_active
+      active: this.props.unit.is_active,
+      submitError:false
     };
   }
 
@@ -35,7 +36,15 @@ class UnitEdit extends Component {
   //gets all data from the state and sends it to the API
   submit(e){
     e.preventDefault(); //prevent default form behaviour
-    this.props.editUnit({title:this.state.title,shortcut:this.state.shortcut},this.state.active,this.props.unit.id,this.props.token);
+    this.setState({submitError:true});
+    let body={
+      title:this.state.title,
+      shortcut:this.state.shortcut
+    }
+    if(body.title===''||body.shortcut===''){
+      return;
+    }
+    this.props.editUnit(body,this.state.active,this.props.unit.id,this.props.token);
     this.setState({changed:false});
     this.props.history.goBack();
   }
@@ -85,6 +94,8 @@ class UnitEdit extends Component {
               placeholder="Enter title"
               />
           </div>
+          {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
+
           <div class="form-group">
             <label for="shortcut">Shortcut</label>
             <input
@@ -98,6 +109,8 @@ class UnitEdit extends Component {
             }
             placeholder="Enter shortcut"
             />
+          {this.state.submitError && this.state.shortcut===''&&<label for="shortcut" style={{color:'red'}}>You must enter shortcut</label>}
+
         </div>
         <button type="submit" class="btn btn-primary mr-2" onClick={this.submit.bind(this)}>
           Submit

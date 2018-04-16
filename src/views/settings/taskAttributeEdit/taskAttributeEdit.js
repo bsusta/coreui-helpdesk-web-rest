@@ -25,7 +25,8 @@ class TaskAttributeEdit extends Component {
       required:this.props.taskAttribute.required,
       description:this.props.taskAttribute.description?this.props.taskAttribute.description:'',
       newOption:'',
-      options:((this.props.taskAttribute.type=="simple_select"||this.props.taskAttribute.type=="multi_select") &&this.props.taskAttribute.options)?(Array.isArray(this.props.taskAttribute.options) ?this.props.taskAttribute.options:Object.keys(this.props.taskAttribute.options)):[]
+      options:((this.props.taskAttribute.type=="simple_select"||this.props.taskAttribute.type=="multi_select") &&this.props.taskAttribute.options)?(Array.isArray(this.props.taskAttribute.options) ?this.props.taskAttribute.options:Object.keys(this.props.taskAttribute.options)):[],
+      submitError:false
     };
   }
 
@@ -44,16 +45,19 @@ class TaskAttributeEdit extends Component {
   //gets all data from the state and sends it to the API
   submit(e){
     e.preventDefault(); //prevent default form behaviour
-    if ((this.state.type=="simple_select"||this.state.type=="multi_select")&&this.state.options.length==0){
-      return;
-    }
-    this.props.editTaskAttribute({
+    this.setState({submitError:true});
+    let body={
       title:this.state.title,
       type:this.state.type,
       required:this.state.required,
       description:this.state.description===''?'null':this.state.description,
       options:(this.state.type=="simple_select"||this.state.type=="multi_select")?JSON.stringify(this.state.options):'null',
-    },this.state.is_active,this.props.taskAttribute.id,this.props.token);
+    };
+    if(body.title===''||body.options==='[]'){
+      return;
+    }
+
+    this.props.editTaskAttribute(body,this.state.is_active,this.props.taskAttribute.id,this.props.token);
     this.setState({changed:false});
     this.props.history.goBack();
   }
@@ -120,6 +124,7 @@ class TaskAttributeEdit extends Component {
             }
             placeholder="Enter title"
             />
+            {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
         </div>
 
         <div class="form-group">
@@ -228,6 +233,7 @@ class TaskAttributeEdit extends Component {
               </td>
             </tr>
           </tbody>
+          { this.state.submitError && this.state.options.length===0 && <label for="title" style={{color:'red'}}>You must have at least one option!</label>}
         </table>
         }
         <div class="row">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editSMTP } from "../../../redux/actions";
+import {isEmail} from "../../../helperFunctions";
 
 class SMTPEdit extends Component {
   constructor(props) {
@@ -11,22 +12,33 @@ class SMTPEdit extends Component {
       name: this.props.SMTP.name ? this.props.SMTP.name : "",
       password: this.props.SMTP.password ? this.props.SMTP.password : "",
       port: this.props.SMTP.port ? this.props.SMTP.port : "",
-      ssl: this.props.SMTP.ssl ? this.props.SMTP.ssl : "",
-      tls: this.props.SMTP.tls ? this.props.SMTP.tls : ""
+      ssl: this.props.SMTP.ssl ? this.props.SMTP.ssl : false,
+      tls: this.props.SMTP.tls ? this.props.SMTP.tls : false,
+      submitError:false
     };
   }
   submit(e) {
     e.preventDefault();
+    this.setState({submitError:true});
+    let body={
+      email: this.state.email,
+      host: this.state.host,
+      name: this.state.name,
+      password: this.state.password,
+      port: parseInt(this.state.port),
+      ssl: this.state.ssl,
+      tls: this.state.tls
+    }
+    if(!isEmail(body.email)||
+    body.email===''||
+    body.host===''||
+    body.name===''||
+    body.password===''||
+    isNaN(body.port)){
+      return;
+    }
     this.props.editSMTP(
-      {
-        email: this.state.email,
-        host: this.state.host,
-        name: this.state.name,
-        password: this.state.password,
-        port: this.state.port,
-        ssl: this.state.ssl,
-        tls: this.state.tls
-      },
+      body,
       this.props.SMTP.id,
       this.props.token
     );
@@ -44,18 +56,21 @@ class SMTPEdit extends Component {
             }}
           >
             <div class="form-group">
-              <label for="email">E-mail</label>
+              <label for="email">*E-mail</label>
               <input
                 class="form-control"
                 value={this.state.email}
                 onChange={e => this.setState({ email: e.target.value })}
                 id="email"
+                type="email"
                 placeholder="Enter email"
               />
             </div>
+            { this.state.email!==''&&!isEmail(this.state.email)&&<label for="email" style={{color:'red'}}>Your e-mail address is not valid</label>}
+            {this.state.submitError && this.state.email===''&&<label for="email" style={{color:'red'}}>You must enter e-mail address</label>}
 
             <div class="form-group">
-              <label for="server">Server IP</label>
+              <label for="server">*Server IP</label>
               <input
                 class="form-control"
                 id="server"
@@ -64,20 +79,23 @@ class SMTPEdit extends Component {
                 placeholder="Enter server"
               />
             </div>
-
+            {this.state.submitError && this.state.host===''&&<label for="server" style={{color:'red'}}>You must enter host IP address</label>}
             <div class="form-group">
-              <label for="port">Port</label>
+              <label for="port">*Port</label>
               <input
                 class="form-control"
                 id="port"
+                type="number"
                 value={this.state.port}
                 onChange={e => this.setState({ port: e.target.value })}
                 placeholder="Enter port number"
               />
             </div>
+            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label for="port" style={{color:'red'}}>Your port number is not valid</label>}
+            {this.state.submitError && this.state.port===''&&<label for="port" style={{color:'red'}}>You must enter port number</label>}
 
             <div class="form-group">
-              <label for="login">Login</label>
+              <label for="login">*Login</label>
               <input
                 class="form-control"
                 id="login"
@@ -85,10 +103,11 @@ class SMTPEdit extends Component {
                 onChange={e => this.setState({ name: e.target.value })}
                 placeholder="Enter login"
               />
+            {this.state.submitError && this.state.name===''&&<label for="login" style={{color:'red'}}>You must enter login</label>}
             </div>
 
             <div class="form-group">
-              <label for="pass">Password</label>
+              <label for="pass">*Password</label>
               <input
                 class="form-control"
                 id="pass"
@@ -96,6 +115,7 @@ class SMTPEdit extends Component {
                 onChange={e => this.setState({ password: e.target.value })}
                 placeholder="Enter password"
               />
+            {this.state.submitError && this.state.password===''&&<label for="password" style={{color:'red'}}>You must enter password</label>}
             </div>
 
             <div class="form-check">

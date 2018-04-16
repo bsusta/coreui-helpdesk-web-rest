@@ -9,14 +9,20 @@ class ProjectAdd extends Component {
       title: "",
       description: "",
       permissions: [],
+      submitError:false
     };
   }
 
   submit(){
-    this.props.addProject({
+    this.setState({submitError:true});
+    let body ={
       title:this.state.title,
       description:this.state.description,
-    },this.props.token);
+    }
+    if(body.title===''){
+      return;
+    }
+    this.props.addProject(body,this.props.token);
     this.props.history.goBack();
   }
 
@@ -55,6 +61,7 @@ class ProjectAdd extends Component {
                   this.setState({ title: target.target.value })
                 }
               />
+              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
             </div>
             <div class="form-group">
               <label for="description">Description</label>

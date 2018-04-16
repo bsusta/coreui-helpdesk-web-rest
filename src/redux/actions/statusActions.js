@@ -58,9 +58,7 @@ export const addStatus = (body,token) => {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
         return;
       }
-    response.json().then((response)=>{
-      dispatch({type: ADD_STATUS, status:response.data});
-    })})
+    })
     .catch(function (error) {
       dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);

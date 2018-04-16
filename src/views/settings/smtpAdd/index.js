@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addSMTP } from "../../../redux/actions";
+import {isEmail} from "../../../helperFunctions";
 
 class SMTPAdd extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class SMTPAdd extends Component {
       password: "",
       port: "",
       ssl: true,
-      tls: false
+      tls: false,
+      addError:false
     };
   }
   submit(e) {
@@ -49,8 +51,11 @@ class SMTPAdd extends Component {
                 value={this.state.email}
                 onChange={e => this.setState({ email: event.target.value })}
                 id="email"
+                type="email"
                 placeholder="Enter email"
               />
+              { this.state.email!==''&&!isEmail(this.state.email)&&<label for="email" style={{color:'red'}}>Your e-mail address is not valid</label>}
+              {this.state.addError && this.state.email===''&&<label for="email" style={{color:'red'}}>You must enter e-mail address</label>}
             </div>
 
             <div class="form-group">

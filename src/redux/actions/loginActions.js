@@ -19,7 +19,8 @@ export const loginUser = (username, password) => {
            });
          }
          else{
-           dispatch({ type: LOGIN_FAIL });
+           console.log(JSONresponse);
+           dispatch({ type: LOGIN_FAIL, error:JSONresponse.statusText });
          }
        });
      })

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editImap, deleteImap } from "../../../redux/actions";
+import {isEmail, isIP} from "../../../helperFunctions";
 
 class ImapEdit extends Component {
   constructor(props) {
@@ -20,28 +21,41 @@ class ImapEdit extends Component {
       password: this.props.imap.password ? this.props.imap.password : "",
       project: this.props.imap.project
         ? this.props.imap.project.id
-        : this.props.projects[0].id,
+        : (this.props.projects.length>0?this.props.projects[0].id:null),
       ignore_certificate: this.props.imap.ignore_certificate
         ? this.props.imap.ignore_certificate
         : false,
-      ssl: this.props.imap.ssl ? this.props.imap.ssl : false
+      ssl: this.props.imap.ssl ? this.props.imap.ssl : false,
+      submitError:false
     };
   }
+
   submit(e) {
     e.preventDefault();
+    this.setState({submitError:true});
+    let body={
+      inbox_email: this.state.inbox_email,
+      move_email: this.state.move_email,
+      host: this.state.host,
+      port: parseInt(this.state.port),
+      name: this.state.name,
+      password: this.state.password,
+      ignore_certificate: this.state.ignore_certificate,
+      description: this.state.description === "" ? "null" : this.state.description,
+      ssl: this.state.ssl
+    }
+    if(body.inbox_email===''||
+      body.move_email===''||
+      body.host===''||
+      body.name===''||
+      body.password===''||
+      !isEmail(body.inbox_email)||
+      !isEmail(body.move_email)||
+      isNaN(body.port)){
+      return
+    }
     this.props.editImap(
-      {
-        inbox_email: this.state.inbox_email,
-        move_email: this.state.move_email,
-        host: this.state.host,
-        port: this.state.port,
-        name: this.state.name,
-        password: this.state.password,
-        ignore_certificate: this.state.ignore_certificate,
-        description:
-          this.state.description === "" ? "null" : this.state.description,
-        ssl: this.state.ssl
-      },
+      body,
       this.state.project,
       this.props.imap.id,
       this.state.is_active,
@@ -65,6 +79,7 @@ class ImapEdit extends Component {
       <div class="card">
         <h4 class="card-header">Edit IMap</h4>
         <div class="card-body">
+          {this.state.project===null&&<h5 class="card-header" style={{color:'red'}}>You can't edit IMaps without having any projects!</h5>}
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -86,26 +101,32 @@ class ImapEdit extends Component {
             </div>
 
             <div class="form-group">
-              <label for="inboxemail">Inbox e-mail</label>
+              <label for="inbox_email">Inbox e-mail</label>
               <input
                 class="form-control"
-                id="inboxemail"
+                id="inbox_email"
+                type="email"
                 value={this.state.inbox_email}
                 onChange={e => this.setState({ inbox_email: e.target.value })}
                 placeholder="Enter inbox email"
               />
             </div>
+            { this.state.inbox_email!==''&&!isEmail(this.state.inbox_email)&&<label for="inbox_email" style={{color:'red'}}>Entered e-mail address is not valid</label>}
+            { this.state.submitError && this.state.inbox_email===''&&<label for="inbox_email" style={{color:'red'}}>You must enter e-mail address</label>}
 
             <div class="form-group">
-              <label for="moveemail">Move e-mail</label>
+              <label for="move_email">Move e-mail</label>
               <input
                 class="form-control"
-                id="moveemail"
+                id="move_email"
+                type="email"
                 value={this.state.move_email}
                 onChange={e => this.setState({ move_email: e.target.value })}
                 placeholder="Enter move email"
               />
             </div>
+            { this.state.move_email!==''&&!isEmail(this.state.move_email)&&<label for="move_email" style={{color:'red'}}>Entered e-mail address is not valid</label>}
+            { this.state.submitError && this.state.move_email===''&&<label for="move_email" style={{color:'red'}}>You must enter e-mail address</label>}
 
             <div class="form-group">
               <label for="server">Server IP</label>
@@ -117,6 +138,7 @@ class ImapEdit extends Component {
                 placeholder="Enter server"
               />
             </div>
+            { this.state.submitError && this.state.host===''&&<label for="server" style={{color:'red'}}>You must enter IP address</label>}
 
             <div class="form-group">
               <label for="port">Port</label>
@@ -129,6 +151,8 @@ class ImapEdit extends Component {
                 placeholder="Enter port number"
               />
             </div>
+            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label for="port" style={{color:'red'}}>Your port number is not valid</label>}
+            { this.state.submitError && this.state.port===''&&<label for="port" style={{color:'red'}}>You must enter port number</label>}
 
             <div class="form-group">
               <label for="log">Login</label>
@@ -140,6 +164,7 @@ class ImapEdit extends Component {
                 placeholder="Enter login"
               />
             </div>
+            {this.state.submitError && this.state.name===''&&<label for="log" style={{color:'red'}}>You must enter login</label>}
 
             <div class="form-group">
               <label for="pass">Password</label>
@@ -151,6 +176,7 @@ class ImapEdit extends Component {
                 placeholder="Enter password"
               />
             </div>
+            {this.state.submitError && this.state.password===''&&<label for="pass" style={{color:'red'}}>You must enter password</label>}
 
             <div class="form-group">
               <label for="descr">Description</label>
@@ -203,12 +229,16 @@ class ImapEdit extends Component {
               </label>
             </div>
 
-            <button type="submit" class="btn btn-secondary">
+            <button
+              type="submit"
+              disabled={this.state.project===null}
+              class="btn btn-secondary">
               Test connection
             </button>
             <button
               type="submit"
               class="btn btn-primary"
+              disabled={this.state.project===null}
               onClick={this.submit.bind(this)}
             >
               Submit

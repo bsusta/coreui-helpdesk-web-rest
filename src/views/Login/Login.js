@@ -39,8 +39,8 @@ class Login extends Component {
           <Row className="justify-content-center">
             <Col md="4">
               <CardGroup>
-                <Card className="p-4">
-                  <CardBody>
+                <Card className="p-4 smallCard">
+                  <CardBody className="smallCard" style={{width:300}}>
                     <h1>{this.state.login ? "Login" : "Password reset"}</h1>
                     <p className="text-muted">
                       {this.state.login

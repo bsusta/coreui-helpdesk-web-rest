@@ -38,7 +38,8 @@ class CompanyAttributeEdit extends Component {
           ? Array.isArray(this.props.companyAttribute.options)
             ? this.props.companyAttribute.options
             : Object.keys(this.props.companyAttribute.options)
-          : []
+          : [],
+      submitError:false
     };
   }
 
@@ -61,26 +62,25 @@ class CompanyAttributeEdit extends Component {
   //gets all data from the state and sends it to the API
   submit(e) {
     e.preventDefault(); //prevent default form behaviour
-    if (
-      (this.state.type == "simple_select" ||
-        this.state.type == "multi_select") &&
-      this.state.options.length == 0
-    ) {
+    this.setState({submitError:true});
+    let body={
+      title: this.state.title,
+      type: this.state.type,
+      required: this.state.required,
+      description:
+      this.state.description === "" ? "null" : this.state.description,
+      options:
+      this.state.type == "simple_select" ||
+      this.state.type == "multi_select"
+      ? JSON.stringify(this.state.options)
+      : "null"
+    };
+    if(body.title===''||body.options==='[]'){
       return;
     }
+
     this.props.editCompanyAttribute(
-      {
-        title: this.state.title,
-        type: this.state.type,
-        required: this.state.required,
-        description:
-          this.state.description === "" ? "null" : this.state.description,
-        options:
-          this.state.type == "simple_select" ||
-          this.state.type == "multi_select"
-            ? JSON.stringify(this.state.options)
-            : "null"
-      },
+      body,
       this.state.is_active,
       this.props.companyAttribute.id,
       this.props.token
@@ -147,6 +147,7 @@ class CompanyAttributeEdit extends Component {
                 placeholder="Enter title"
               />
             </div>
+            {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
 
             <div class="form-group">
               <label for="description">Description</label>
@@ -267,6 +268,7 @@ class CompanyAttributeEdit extends Component {
                     </td>
                   </tr>
                 </tbody>
+                { this.state.submitError && this.state.options.length===0 && <label for="title" style={{color:'red'}}>You must have at least one option!</label>}
               </table>
             )}
             <div class="row">

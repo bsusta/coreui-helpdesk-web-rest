@@ -23,32 +23,31 @@ class TaskAttributeAdd extends Component {
       required: false,
       newOption: "",
       description: "",
-      options: []
+      options: [],
+      submitError:false
     };
   }
 
   //gets all data from the state and sends it to the API
   submit(e) {
     e.preventDefault(); //prevent default form behaviour
-    if (
-      (this.state.type == "simple_select" ||
-        this.state.type == "multi_select") &&
-      this.state.options.length == 0
-    ) {
+    this.setState({submitError:true});
+    let body={
+      title: this.state.title,
+      type: this.state.type,
+      description: this.state.description,
+      options:
+        this.state.type == "simple_select" ||
+        this.state.type == "multi_select"
+          ? JSON.stringify(this.state.options)
+          : "null",
+      required: this.state.required
+    }
+    if(body.title===''||body.options==='[]'){
       return;
     }
     this.props.addTaskAttribute(
-      {
-        title: this.state.title,
-        type: this.state.type,
-        description: this.state.description,
-        options:
-          this.state.type == "simple_select" ||
-          this.state.type == "multi_select"
-            ? JSON.stringify(this.state.options)
-            : "null",
-        required: this.state.required
-      },
+      body,
       this.props.token
     );
     this.props.history.goBack();
@@ -85,6 +84,7 @@ class TaskAttributeAdd extends Component {
                 }}
                 placeholder="Enter title"
               />
+              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
             </div>
 
             <div class="form-group">
@@ -204,6 +204,7 @@ class TaskAttributeAdd extends Component {
                     </td>
                   </tr>
                 </tbody>
+                { this.state.submitError && this.state.options.length===0 && <label for="title" style={{color:'red'}}>You must have at least one option!</label>}
               </table>
             )}
             <div class="row">
