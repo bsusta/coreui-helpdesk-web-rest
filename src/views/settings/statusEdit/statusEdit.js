@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { editStatus } from "../../../redux/actions";
 import { SketchPicker } from "react-color";
+import { editStatus } from "../../../redux/actions";
+import { areObjectsSame } from "../../../helperFunctions";
 
 const funcOptions = [
   { value: "null", title: "None" },
@@ -18,11 +19,29 @@ class StatusEdit extends Component {
       is_active: this.props.status.is_active,
       title: this.props.status.title,
       description: this.props.status.description?this.props.status.description:'',
-      order: this.props.status.order,
+      order: this.props.status.order.toString(),
       func: this.props.status.function ? this.props.status.function : "null",
       color: this.props.status.color,
-      submitError:false
+      submitError:false,
+      changed:false
     };
+    this.compareChanges.bind(this);
+  }
+
+  compareChanges(change,val){
+    var newState = {...this.state};
+    newState[change]=val;
+    newState.changed=undefined;
+    newState.submitError=undefined;
+    var originalState = {
+      is_active: this.props.status.is_active,
+      title: this.props.status.title,
+      description: this.props.status.description?this.props.status.description:'',
+      order: this.props.status.order.toString(),
+      func: this.props.status.function ? this.props.status.function : "null",
+      color: this.props.status.color
+    };
+    this.setState({changed:!areObjectsSame(newState,originalState)})
   }
 
   submit(e) {
@@ -55,7 +74,7 @@ class StatusEdit extends Component {
     return (
       <div class="card">
         <h4 class="card-header">Edit status</h4>
-        <div class="card-body">
+        <div class="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -68,8 +87,9 @@ class StatusEdit extends Component {
                   type="checkbox"
                   class="form-check-input"
                   checked={this.state.is_active}
-                  onChange={() =>
-                    this.setState({ is_active: !this.state.is_active })
+                  onChange={target =>{
+                    this.compareChanges('is_active', !this.state.is_active);
+                    this.setState({ is_active: !this.state.is_active })}
                   }
                 />
                 Active
@@ -82,7 +102,10 @@ class StatusEdit extends Component {
                 class="form-control"
                 id="title"
                 value={this.state.title}
-                onChange={e => this.setState({ title: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('title', target.target.value);
+                  this.setState({ title: target.target.value })}
+                }
                 placeholder="Enter status name"
               />
             </div>
@@ -95,7 +118,10 @@ class StatusEdit extends Component {
                 id="title"
                 type="number"
                 value={this.state.order}
-                onChange={e => this.setState({ order: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('order', target.target.value);
+                  this.setState({ order: target.target.value })}
+                }
                 placeholder="Enter order number (higher then 4)"
               />
             </div>
@@ -109,7 +135,10 @@ class StatusEdit extends Component {
                 class="form-control"
                 id="title"
                 value={this.state.description}
-                onChange={e => this.setState({ description: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('description', target.target.value);
+                  this.setState({ description: target.target.value })}
+                }
                 placeholder="Enter status description"
               />
             </div>
@@ -119,7 +148,10 @@ class StatusEdit extends Component {
               <select
                 value={this.state.func}
                 id="func"
-                onChange={value => this.setState({ func: value.target.value })}
+                onChange={target =>{
+                  this.compareChanges('func', target.target.value);
+                  this.setState({ func: target.target.value })}
+                }
                 class="form-control"
               >
                 {funcOptions.map(opt => (
@@ -134,7 +166,10 @@ class StatusEdit extends Component {
               <SketchPicker
                 id="color"
                 color={this.state.color}
-                onChangeComplete={value => this.setState({ color: value.hex })}
+                onChangeComplete={value => {
+                  this.compareChanges('color', value.hex);
+                  this.setState({ color: value.hex });
+                }}
               />
             </div>
             <button

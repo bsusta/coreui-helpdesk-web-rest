@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editImap, deleteImap } from "../../../redux/actions";
-import {isEmail, isIP} from "../../../helperFunctions";
+import {isEmail, isIP,areObjectsSame} from "../../../helperFunctions";
 
 class ImapEdit extends Component {
   constructor(props) {
@@ -16,18 +16,50 @@ class ImapEdit extends Component {
         : "",
       move_email: this.props.imap.move_email ? this.props.imap.move_email : "",
       host: this.props.imap.host ? this.props.imap.host : "",
-      port: this.props.imap.port ? this.props.imap.port : "",
+      port: this.props.imap.port ? this.props.imap.port.toString() : "",
       name: this.props.imap.name ? this.props.imap.name : "",
       password: this.props.imap.password ? this.props.imap.password : "",
       project: this.props.imap.project
-        ? this.props.imap.project.id
+        ? this.props.imap.project.id.toString()
         : (this.props.projects.length>0?this.props.projects[0].id:null),
       ignore_certificate: this.props.imap.ignore_certificate
         ? this.props.imap.ignore_certificate
         : false,
       ssl: this.props.imap.ssl ? this.props.imap.ssl : false,
-      submitError:false
+      submitError:false,
+      changed:false
     };
+    this.compareChanges.bind(this);
+  }
+
+  compareChanges(change,val){
+    var newState = {...this.state};
+    newState[change]=val;
+    newState.changed=undefined;
+    newState.submitError=undefined;
+
+    var originalState = {
+      is_active: this.props.imap.is_active ? true : false,
+      description: this.props.imap.description
+        ? this.props.imap.description
+        : "",
+      inbox_email: this.props.imap.inbox_email
+        ? this.props.imap.inbox_email
+        : "",
+      move_email: this.props.imap.move_email ? this.props.imap.move_email : "",
+      host: this.props.imap.host ? this.props.imap.host : "",
+      port: this.props.imap.port ? this.props.imap.port.toString() : "",
+      name: this.props.imap.name ? this.props.imap.name : "",
+      password: this.props.imap.password ? this.props.imap.password : "",
+      project: this.props.imap.project
+        ? this.props.imap.project.id.toString()
+        : (this.props.projects.length>0?this.props.projects[0].id:null),
+      ignore_certificate: this.props.imap.ignore_certificate
+        ? this.props.imap.ignore_certificate
+        : false,
+      ssl: this.props.imap.ssl ? this.props.imap.ssl : false
+    }
+    this.setState({changed:!areObjectsSame(newState,originalState)})
   }
 
   submit(e) {
@@ -78,7 +110,7 @@ class ImapEdit extends Component {
     return (
       <div class="card">
         <h4 class="card-header">Edit IMap</h4>
-        <div class="card-body">
+        <div class="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           {this.state.project===null&&<h5 class="card-header" style={{color:'red'}}>You can't edit IMaps without having any projects!</h5>}
           <form
             onSubmit={(event, value) => {
@@ -92,8 +124,9 @@ class ImapEdit extends Component {
                   type="checkbox"
                   class="form-check-input"
                   checked={this.state.is_active}
-                  onChange={() =>
-                    this.setState({ is_active: !this.state.is_active })
+                  onChange={target =>{
+                    this.compareChanges('is_active', !this.state.is_active);
+                    this.setState({ is_active: !this.state.is_active })}
                   }
                 />
                 Active
@@ -107,7 +140,10 @@ class ImapEdit extends Component {
                 id="inbox_email"
                 type="email"
                 value={this.state.inbox_email}
-                onChange={e => this.setState({ inbox_email: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('inbox_email', target.target.value);
+                  this.setState({ inbox_email: target.target.value })}
+                }
                 placeholder="Enter inbox email"
               />
             </div>
@@ -121,7 +157,10 @@ class ImapEdit extends Component {
                 id="move_email"
                 type="email"
                 value={this.state.move_email}
-                onChange={e => this.setState({ move_email: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('move_email', target.target.value);
+                  this.setState({ move_email: target.target.value })}
+                }
                 placeholder="Enter move email"
               />
             </div>
@@ -134,7 +173,10 @@ class ImapEdit extends Component {
                 class="form-control"
                 id="server"
                 value={this.state.host}
-                onChange={e => this.setState({ host: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('host', target.target.value);
+                  this.setState({ host: target.target.value })}
+                }
                 placeholder="Enter server"
               />
             </div>
@@ -147,7 +189,10 @@ class ImapEdit extends Component {
                 id="port"
                 type="number"
                 value={this.state.port}
-                onChange={e => this.setState({ port: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('port', target.target.value);
+                  this.setState({ port: target.target.value })}
+                }
                 placeholder="Enter port number"
               />
             </div>
@@ -160,7 +205,10 @@ class ImapEdit extends Component {
                 class="form-control"
                 id="log"
                 value={this.state.name}
-                onChange={e => this.setState({ name: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('name', target.target.value);
+                  this.setState({ name: target.target.value })}
+                }
                 placeholder="Enter login"
               />
             </div>
@@ -172,7 +220,10 @@ class ImapEdit extends Component {
                 class="form-control"
                 id="pass"
                 value={this.state.password}
-                onChange={e => this.setState({ password: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('password', target.target.value);
+                  this.setState({ password: target.target.value })}
+                }
                 placeholder="Enter password"
               />
             </div>
@@ -184,14 +235,20 @@ class ImapEdit extends Component {
                 class="form-control"
                 id="descr"
                 value={this.state.description}
-                onChange={e => this.setState({ description: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('description', target.target.value);
+                  this.setState({ description: target.target.value })}
+                }
                 placeholder="Enter description"
               />
             </div>
             <select
               value={this.state.project}
               id="project"
-              onChange={value => this.setState({ project: value.target.value })}
+              onChange={target =>{
+                this.compareChanges('project', target.target.value);
+                this.setState({ project: target.target.value })}
+              }
               class="form-control"
             >
               {this.props.projects.map(opt => (
@@ -207,10 +264,9 @@ class ImapEdit extends Component {
                   type="checkbox"
                   class="form-check-input"
                   checked={this.state.ignore_certificate}
-                  onChange={() =>
-                    this.setState({
-                      ignore_certificate: !this.state.ignore_certificate
-                    })
+                  onChange={target =>{
+                    this.compareChanges('ignore_certificate', !this.state.ignore_certificate);
+                    this.setState({ ignore_certificate: !this.state.ignore_certificate })}
                   }
                 />
                 Ignore certificate
@@ -223,7 +279,10 @@ class ImapEdit extends Component {
                   type="checkbox"
                   class="form-check-input"
                   checked={this.state.ssl}
-                  onChange={() => this.setState({ ssl: !this.state.ssl })}
+                  onChange={target =>{
+                    this.compareChanges('ssl', !this.state.ssl);
+                    this.setState({ ssl: !this.state.ssl })}
+                  }
                 />
                 SSL
               </label>

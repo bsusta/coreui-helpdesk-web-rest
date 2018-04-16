@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editUserRole } from "../../../redux/actions";
+import { areObjectsSame } from "../../../helperFunctions";
 const ACLs = [
   { value: "login_to_system", title: "Log into system" },
   { value: "share_filters", title: "Share filters" },
@@ -39,19 +40,44 @@ class RoleEdit extends Component {
       homepage: this.props.userRole.homepage
         ? this.props.userRole.homepage
         : "",
-      order: this.props.userRole.order ? this.props.userRole.order : "",
+      order: this.props.userRole.order ? this.props.userRole.order.toString() : "",
       acl: this.props.userRole.acl ? this.props.userRole.acl : [],
-      submitError:false
+      submitError:false,
+      changed:false
     };
+    this.compareChanges.bind(this);
     this.aclChange.bind(this);
+  }
+
+  compareChanges(change,val){
+    var newState = {...this.state};
+    newState[change]=val;
+    newState.changed=undefined;
+    newState.submitError=undefined;
+
+    var originalState = {
+      is_active: this.props.userRole.is_active ? true : false,
+      title: this.props.userRole.title ? this.props.userRole.title : "",
+      description: this.props.userRole.description
+        ? this.props.userRole.description
+        : "",
+      homepage: this.props.userRole.homepage
+        ? this.props.userRole.homepage
+        : "",
+      order: this.props.userRole.order ? this.props.userRole.order.toString() : "",
+      acl: this.props.userRole.acl ? this.props.userRole.acl : []
+    }
+    this.setState({changed:!areObjectsSame(newState,originalState)})
   }
 
   aclChange(value) {
     if (!this.state.acl.includes(value)) {
+      this.compareChanges('acl',[...this.state.acl, value]);
       this.setState({ acl: [...this.state.acl, value] });
     } else {
       let newACL = [...this.state.acl];
       newACL.splice(newACL.indexOf(value), 1);
+      this.compareChanges('acl',newACL);
       this.setState({ acl: newACL });
     }
   }
@@ -89,7 +115,7 @@ class RoleEdit extends Component {
     return (
       <div class="card">
         <h4 class="card-header">Edit role</h4>
-        <div class="card-body">
+        <div class="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -101,9 +127,10 @@ class RoleEdit extends Component {
                 <input
                   type="checkbox"
                   checked={this.state.is_active}
-                  onChange={() =>
+                  onChange={target =>{
+                    this.compareChanges('is_active', !this.state.is_active);
                     this.setState({ is_active: !this.state.is_active })
-                  }
+                  }}
                   class="form-check-input"
                 />
                 Active
@@ -116,7 +143,10 @@ class RoleEdit extends Component {
                 class="form-control"
                 id="title"
                 value={this.state.title}
-                onChange={e => this.setState({ title: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('title', target.target.value);
+                  this.setState({ title: target.target.value })}
+                }
                 placeholder="Enter role name"
               />
             </div>
@@ -130,7 +160,10 @@ class RoleEdit extends Component {
                 id="description"
                 placeholder="Description"
                 value={this.state.description}
-                onChange={e => this.setState({ description: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('description', target.target.value);
+                  this.setState({ description: target.target.value })}
+                }
               />
             </div>
 
@@ -140,7 +173,10 @@ class RoleEdit extends Component {
                 class="form-control"
                 id="homepage"
                 value={this.state.homepage}
-                onChange={e => this.setState({ homepage: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('homepage', target.target.value);
+                  this.setState({ homepage: target.target.value })}
+                }
                 placeholder="Enter roles homepage"
               />
             </div>
@@ -153,7 +189,10 @@ class RoleEdit extends Component {
                 id="order"
                 type="number"
                 value={this.state.order}
-                onChange={e => this.setState({ order: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('order', target.target.value);
+                  this.setState({ order: target.target.value })}
+                }
                 placeholder="Enter order (should be heigher then the one of yours role)"
               />
             </div>

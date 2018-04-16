@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editSMTP } from "../../../redux/actions";
 import {isEmail} from "../../../helperFunctions";
+import { areObjectsSame } from "../../../helperFunctions";
 
 class SMTPEdit extends Component {
   constructor(props) {
@@ -11,12 +12,32 @@ class SMTPEdit extends Component {
       host: this.props.SMTP.host ? this.props.SMTP.host : "",
       name: this.props.SMTP.name ? this.props.SMTP.name : "",
       password: this.props.SMTP.password ? this.props.SMTP.password : "",
-      port: this.props.SMTP.port ? this.props.SMTP.port : "",
+      port: this.props.SMTP.port ? this.props.SMTP.port.toString() : "",
       ssl: this.props.SMTP.ssl ? this.props.SMTP.ssl : false,
       tls: this.props.SMTP.tls ? this.props.SMTP.tls : false,
-      submitError:false
+      submitError:false,
+      changed:false
     };
+    this.compareChanges.bind(this);
   }
+  compareChanges(change,val){
+    var newState = {...this.state};
+    newState[change]=val;
+    newState.changed=undefined;
+    newState.submitError=undefined;
+
+    var originalState = {
+      email: this.props.SMTP.email ? this.props.SMTP.email : "",
+      host: this.props.SMTP.host ? this.props.SMTP.host : "",
+      name: this.props.SMTP.name ? this.props.SMTP.name : "",
+      password: this.props.SMTP.password ? this.props.SMTP.password : "",
+      port: this.props.SMTP.port ? this.props.SMTP.port.toString() : "",
+      ssl: this.props.SMTP.ssl ? this.props.SMTP.ssl : false,
+      tls: this.props.SMTP.tls ? this.props.SMTP.tls : false
+    }
+    this.setState({changed:!areObjectsSame(newState,originalState)})
+  }
+
   submit(e) {
     e.preventDefault();
     this.setState({submitError:true});
@@ -48,7 +69,7 @@ class SMTPEdit extends Component {
     return (
       <div class="card">
         <h4 class="card-header">Edit SMTP</h4>
-        <div class="card-body">
+        <div class="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -60,7 +81,10 @@ class SMTPEdit extends Component {
               <input
                 class="form-control"
                 value={this.state.email}
-                onChange={e => this.setState({ email: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('email', target.target.value);
+                  this.setState({ email: target.target.value })}
+                }
                 id="email"
                 type="email"
                 placeholder="Enter email"
@@ -75,7 +99,10 @@ class SMTPEdit extends Component {
                 class="form-control"
                 id="server"
                 value={this.state.host}
-                onChange={e => this.setState({ host: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('host', target.target.value);
+                  this.setState({ host: target.target.value })}
+                }
                 placeholder="Enter server"
               />
             </div>
@@ -87,7 +114,10 @@ class SMTPEdit extends Component {
                 id="port"
                 type="number"
                 value={this.state.port}
-                onChange={e => this.setState({ port: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('port', target.target.value);
+                  this.setState({ port: target.target.value })}
+                }
                 placeholder="Enter port number"
               />
             </div>
@@ -100,7 +130,10 @@ class SMTPEdit extends Component {
                 class="form-control"
                 id="login"
                 value={this.state.name}
-                onChange={e => this.setState({ name: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('name', target.target.value);
+                  this.setState({ name: target.target.value })}
+                }
                 placeholder="Enter login"
               />
             {this.state.submitError && this.state.name===''&&<label for="login" style={{color:'red'}}>You must enter login</label>}
@@ -112,7 +145,10 @@ class SMTPEdit extends Component {
                 class="form-control"
                 id="pass"
                 value={this.state.password}
-                onChange={e => this.setState({ password: e.target.value })}
+                onChange={target =>{
+                  this.compareChanges('password', target.target.value);
+                  this.setState({ password: target.target.value })}
+                }
                 placeholder="Enter password"
               />
             {this.state.submitError && this.state.password===''&&<label for="password" style={{color:'red'}}>You must enter password</label>}
@@ -124,7 +160,10 @@ class SMTPEdit extends Component {
                   type="checkbox"
                   class="form-check-input"
                   checked={this.state.tls}
-                  onChange={() => this.setState({ tls: !this.state.tls })}
+                  onChange={target =>{
+                    this.compareChanges('tls', !this.state.tls);
+                    this.setState({ tls: !this.state.tls })}
+                  }
                 />
                 TLS
               </label>
@@ -136,7 +175,10 @@ class SMTPEdit extends Component {
                   type="checkbox"
                   class="form-check-input"
                   checked={this.state.ssl}
-                  onChange={() => this.setState({ ssl: !this.state.ssl })}
+                  onChange={target =>{
+                    this.compareChanges('ssl', !this.state.ssl);
+                    this.setState({ ssl: !this.state.ssl })}
+                  }
                 />
                 SSL
               </label>

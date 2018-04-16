@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { editTaskAttribute } from '../../../redux/actions';
 import { connect } from 'react-redux';
+import { editTaskAttribute } from '../../../redux/actions';
+import { areObjectsSame } from "../../../helperFunctions";
 
 const options=[
   {id:'input',title:'input'},
@@ -18,7 +19,6 @@ class TaskAttributeEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      changed:false,
       is_active: this.props.taskAttribute.is_active?true:false,
       title: this.props.taskAttribute.title?this.props.taskAttribute.title:'',
       type: this.props.taskAttribute.type?this.props.taskAttribute.type:'input',
@@ -26,20 +26,28 @@ class TaskAttributeEdit extends Component {
       description:this.props.taskAttribute.description?this.props.taskAttribute.description:'',
       newOption:'',
       options:((this.props.taskAttribute.type=="simple_select"||this.props.taskAttribute.type=="multi_select") &&this.props.taskAttribute.options)?(Array.isArray(this.props.taskAttribute.options) ?this.props.taskAttribute.options:Object.keys(this.props.taskAttribute.options)):[],
-      submitError:false
+      submitError:false,
+      changed:false
     };
+    this.compareChanges.bind(this);
   }
+
 
   compareChanges(change,val){
     var newState = {...this.state};
     newState[change]=val;
-    this.setState({changed:
-      newState.is_active!=this.props.taskAttribute.is_active||
-      newState.title!=this.props.taskAttribute.title||
-      newState.description!=(this.props.taskAttribute.description?this.props.taskAttribute.description:'')||
-      newState.type!=this.props.taskAttribute.type||
-      newState.required!=this.props.taskAttribute.required
-    })
+    newState.newOption=undefined;
+    newState.submitError=undefined;
+    newState.changed=undefined;
+    var originalState = {
+      is_active: this.props.taskAttribute.is_active?true:false,
+      title: this.props.taskAttribute.title?this.props.taskAttribute.title:'',
+      type: this.props.taskAttribute.type?this.props.taskAttribute.type:'input',
+      required:this.props.taskAttribute.required,
+      description:this.props.taskAttribute.description?this.props.taskAttribute.description:'',
+      options:((this.props.taskAttribute.type=="simple_select"||this.props.taskAttribute.type=="multi_select") &&this.props.taskAttribute.options)?(Array.isArray(this.props.taskAttribute.options) ?this.props.taskAttribute.options:Object.keys(this.props.taskAttribute.options)):[],
+    }
+    this.setState({changed:!areObjectsSame(newState,originalState)})
   }
 
   //gets all data from the state and sends it to the API
@@ -70,6 +78,7 @@ class TaskAttributeEdit extends Component {
       }
     }
   }
+
   render() {
     return (
       <div

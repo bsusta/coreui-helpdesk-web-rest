@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { editCompanyAttribute } from "../../../redux/actions";
+import { areObjectsSame } from "../../../helperFunctions";
 import { connect } from "react-redux";
 
 const options = [
@@ -18,7 +19,6 @@ class CompanyAttributeEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      changed: false,
       is_active: this.props.companyAttribute.is_active ? true : false,
       title: this.props.companyAttribute.title
         ? this.props.companyAttribute.title
@@ -39,24 +39,34 @@ class CompanyAttributeEdit extends Component {
             ? this.props.companyAttribute.options
             : Object.keys(this.props.companyAttribute.options)
           : [],
-      submitError:false
+      submitError:false,
+      changed:false
     };
+    this.compareChanges.bind(this);
   }
 
-  compareChanges(change, val) {
-    var newState = { ...this.state };
-    newState[change] = val;
-    this.setState({
-      changed:
-        newState.is_active != this.props.companyAttribute.is_active ||
-        newState.title != this.props.companyAttribute.title ||
-        newState.description !=
-          (this.props.companyAttribute.description
-            ? this.props.companyAttribute.description
-            : "") ||
-        newState.type != this.props.companyAttribute.type ||
-        newState.required != this.props.companyAttribute.required
-    });
+  compareChanges(change,val){
+    var newState = {...this.state};
+    newState[change]=val;
+    newState.changed=undefined;
+    newState.submitError=undefined;
+    newState.options=undefined;
+
+    var originalState = {
+      is_active: this.props.companyAttribute.is_active ? true : false,
+      title: this.props.companyAttribute.title
+        ? this.props.companyAttribute.title
+        : "",
+      type: this.props.companyAttribute.type
+        ? this.props.companyAttribute.type
+        : "input",
+      required: this.props.companyAttribute.required,
+      description: this.props.companyAttribute.description
+        ? this.props.companyAttribute.description
+        : "",
+      newOption: ""
+    }
+    this.setState({changed:!areObjectsSame(newState,originalState)})
   }
 
   //gets all data from the state and sends it to the API
