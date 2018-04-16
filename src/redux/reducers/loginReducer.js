@@ -26,7 +26,7 @@ export default function loginReducer(state = initialState, action) {
       return {
         ...state,
         authenticated: false,
-        error: action.error==='Forbidden'?'Login failed, invalid name or password':error.message,
+        error: action.error==='Forbidden'?'Login failed, invalid name or password':action.error,
         loading:false,
       };
       case TOKEN_CHECKED:

@@ -69,6 +69,8 @@ export const getComments= (taskID,token) => {
           });
         }
         comment.commentHasAttachments.map(attachement=>{
+          console.log('DATA');
+          console.log(attachement.name);
           fetch(GET_LOC+attachement.id+'/download-location', {
             method: 'get',
             headers: {
@@ -76,12 +78,14 @@ export const getComments= (taskID,token) => {
               'Content-Type': 'application/json'
             }
           }).then((response2)=>response2.json().then((data2)=>{
+            console.log(data2.data);
             fetch(GET_FILE+data2.data.fileDir+'/'+data2.data.fileName, {
               method: 'get',
               headers: {
                 'Authorization': 'Bearer ' + token,
               }
             }).then((response3) =>{
+              console.log(response3);
               if(!response3.ok){
                 dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
                 return;

@@ -38,8 +38,7 @@ class CompanyAttributesList extends Component {
               this.state.required.toLowerCase().includes("t") ||
               this.state.required.toLowerCase().includes("c")) ||
           this.state.required == ""
-      )
-      .sort((item, item2) => item.title > item2.title);
+      ).sort((item, item2) => item.title > item2.title).sort((item, item2) => item2.is_active - item.is_active);
   }
 
   render() {

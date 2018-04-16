@@ -787,9 +787,10 @@ class EditTask extends Component {
                       style={{ display: "none" }}
                       onChange={e => {
                         let file = e.target.files[0];
+                        let self=this;
                         this.props.uploadFile(file, this.props.token);
                         setTimeout(function() {
-                          this.autoSubmit();
+                          self.autoSubmit();
                         }, 4000);
                       }}
                     />
@@ -845,8 +846,9 @@ class EditTask extends Component {
                             style={{ marginTop: "auto", marginBottom: "auto" }}
                             onClick={() => {
                               this.props.removeFile(item.id, this.props.token);
+                              let self=this;
                               setTimeout(function() {
-                                this.autoSubmit();
+                                self.autoSubmit();
                               }, 3000);
                             }}
                           >

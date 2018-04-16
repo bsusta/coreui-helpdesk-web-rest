@@ -173,7 +173,7 @@ class CompanyEdit extends Component {
         ico: this.state.ico,
         street: this.state.street,
         zip: this.state.zip,
-        //company_data: JSON.stringify(company_data)
+        company_data: JSON.stringify(company_data)
       },
       this.state.is_active,
       this.props.company.id,

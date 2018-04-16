@@ -181,7 +181,6 @@ class AddComment extends Component {
                       {
                         body: this.state.message,
                         internal: this.state.internal,
-                        title: "Comment",
                         slug: this.getSlug()
                       },
                       this.props.commentID,
@@ -192,7 +191,6 @@ class AddComment extends Component {
                       {
                         body: this.state.message,
                         internal: this.state.internal,
-                        title: "Comment",
                         slug: this.getSlug()
                       },
                       this.props.taskID,

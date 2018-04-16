@@ -10,3 +10,12 @@ export const isEmail = (email) => {
 export const isIP = (ip) => {
   return (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip));
 }
+
+export const areObjectsSame = (object1, object2) => {
+  for (let key in object1){
+    if(object1[key]!==object2[key]){
+      return false;
+    };
+  }
+  return true;
+}

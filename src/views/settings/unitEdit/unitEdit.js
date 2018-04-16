@@ -23,6 +23,7 @@ class UnitEdit extends Component {
     this.setState({changed:newState.title!=this.props.unit.title||newState.shortcut!=this.props.unit.shortcut||newState.active!=this.props.unit.is_active});
   }
 
+/*
   //when page will be loaded, we add warning about leaving this site, if unit has been edited but not saved
   componentWillMount(){
     let self = this;
@@ -32,7 +33,7 @@ class UnitEdit extends Component {
       }
     }
   }
-
+*/
   //gets all data from the state and sends it to the API
   submit(e){
     e.preventDefault(); //prevent default form behaviour
@@ -45,7 +46,6 @@ class UnitEdit extends Component {
       return;
     }
     this.props.editUnit(body,this.state.active,this.props.unit.id,this.props.token);
-    this.setState({changed:false});
     this.props.history.goBack();
   }
 
