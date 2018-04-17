@@ -15,6 +15,7 @@ export const uploadCommentFile = (file,token) => {
     })
     .then((response)=>{
       response.json().then((response)=>{
+        console.log(response);
             dispatch({type: ADD_COMMENT_ATTACHEMENT, commentAttachement:{id:response.data.slug,file:{name:file.name,size:file.size}}});
         })})
         .catch(function (error) {

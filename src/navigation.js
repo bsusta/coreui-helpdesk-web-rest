@@ -50,6 +50,7 @@ import TagAdd from "./views/TagAdd";
 import TagEdit from "./views/TagEdit";
 import TagTasks from "./views/TagTasks";
 import EditTask from "./views/EditTask";
+import AddTask from "./views/AddTask";
 import SecondEditTask from "./views/SecondEditTask";
 import TrojStlpec from "./views/TrojStlpec";
 import Messages from "./views/Messages";
@@ -366,6 +367,12 @@ class Full extends Component {
                   path="/task/edit/:id"
                   name="Edit task"
                   component={EditTask}
+                />
+                <Route
+                  exact
+                  path="/task/add"
+                  name="Add task"
+                  component={AddTask}
                 />
                 <Route
                   exact

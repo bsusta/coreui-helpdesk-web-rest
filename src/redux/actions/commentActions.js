@@ -29,10 +29,6 @@ export const getComments= (taskID,token) => {
       }
       response.json().then((data) => {
         let comments=[];
-        data.data.map((comment)=>{
-          comment.commentHasAttachments=comment.commentHasAttachments.map((attachement)=>attachement={id:attachement,name:attachement});
-          comments.push(comment);
-        });
         dispatch({ type: SET_COMMENTS_LOADING, commentsLoaded:true });
         dispatch({type: SET_COMMENTS, comments:data.data});
         data.data.map((comment)=>{
@@ -70,8 +66,8 @@ export const getComments= (taskID,token) => {
         }
         comment.commentHasAttachments.map(attachement=>{
           console.log('DATA');
-          console.log(attachement.name);
-          fetch(GET_LOC+attachement.id+'/download-location', {
+          console.log(attachement);
+          fetch(GET_LOC+attachement.slug+'/download-location', {
             method: 'get',
             headers: {
               'Authorization': 'Bearer ' + token,
@@ -130,11 +126,11 @@ export const addComment = (body,taskID,token) => {
       body:JSON.stringify(body),
     })
     .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
       response.json().then((response)=>{
-        if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
-          return;
-        }
         if(response.data.createdBy.avatarSlug){
           let newComment=response.data;
           fetch(GET_LOC+newComment.createdBy.avatarSlug+'/download-location', {
@@ -191,6 +187,7 @@ export const addCommentsComment = (body,commentID,token) => {
       body:JSON.stringify(body),
     })
     .then((response)=>{
+      console.log(response);
       if(!response.ok){
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
         return;
