@@ -12,7 +12,11 @@ import {
   Input,
   FormGroup
 } from "reactstrap";
+import CommentsLoader from "./CommentsLoader";
+import Comments from "./Comments";
+import AddComment from "./AddComment";
 import SubtasksLoader from "./SubtasksLoader";
+import Subtasks from "./Subtasks";
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -21,7 +25,7 @@ import Select from "react-select";
 import {
   getTaskSolvers,
   deleteTaskSolvers,
-  editTask,
+  addTask,
   deleteTask,
   uploadFile,
   removeFile,
@@ -30,7 +34,7 @@ import {
 } from "../../redux/actions";
 import { timestampToString } from "../../helperFunctions";
 import MultiSelect from "../../components/multiSelect";
-class EditTask extends Component {
+class AddTask extends Component {
   constructor(props) {
     super(props);
     let task_data = {};
@@ -66,120 +70,29 @@ class EditTask extends Component {
       }
       task_data[attribute.id] = value;
     });
-
-    this.props.task.taskData.map(attribute => {
-      if (task_data.hasOwnProperty(attribute.taskAttribute.id)) {
-        ["value", "dateValue", "boolValue"].map(i => {
-          if (attribute[i] !== undefined) {
-            switch (i) {
-              case "dateValue": {
-                let date = new Date(attribute.dateValue * 1000);
-                if (isNaN(date)) {
-                  task_data[attribute.taskAttribute.id] = null;
-                } else {
-                  task_data[
-                    attribute.taskAttribute.id
-                  ] = date
-                    .toISOString()
-                    .substring(0, date.toISOString().length - 1);
-                }
-                break;
-              }
-              case "value": {
-                let original = this.props.taskAttributes[
-                  this.props.taskAttributes.findIndex(
-                    item => item.id == attribute.taskAttribute.id
-                  )
-                ];
-                if (original.type === "multi_select") {
-                  if (attribute.value === null) {
-                    task_data[attribute.taskAttribute.id] = [];
-                    break;
-                  }
-                  let selected = [];
-                  attribute.value.map(val =>
-                    selected.push(original.options.indexOf(val))
-                  );
-                  task_data[attribute.taskAttribute.id] = selected;
-                } else {
-                  task_data[attribute.taskAttribute.id] = attribute.value;
-                }
-                break;
-              }
-              case "boolValue":
-                task_data[attribute.taskAttribute.id] = attribute.boolValue;
-                break;
-              default:
-                break;
-            }
-          }
-        });
-      }
-    });
-    let requestedBy;
-    if (this.props.task.requestedBy) {
-      requestedBy = { ...this.props.task.requestedBy };
-      requestedBy.label =
-        (requestedBy.name ? requestedBy.name : "") +
-        " " +
-        (requestedBy.surname ? requestedBy.surname : "");
-      if (requestedBy.label === " ") {
-        requestedBy.label = requestedBy.email;
-      } else {
-        requestedBy.label = requestedBy.label + " (" + requestedBy.email + ")";
-      }
-      requestedBy.value = requestedBy.id;
-    } else {
-      requestedBy = null;
-    }
-
-    let company;
-    if (this.props.task.company) {
-      company = { ...this.props.task.company };
-      company.value = company.id;
-      company.label = company.title;
-    } else {
-      company = null;
-    }
     this.state = {
-      company,
-      deadline: this.props.task.deadline
-        ? moment(this.props.task.deadline * 1000)
-        : "",
-      startedAt: this.props.task.startedAt
-        ? moment(this.props.task.startedAt * 1000)
-        : "",
-      closedAt: this.props.task.closedAt
-        ? moment(this.props.task.closedAt * 1000)
-        : "",
-      description: RichTextEditor.createValueFromString(
-        this.props.task.description,
-        "html"
-      ),
-      important: this.props.task.important,
-      project: this.props.task.project.id,
-      requestedBy,
-      status: this.props.task.status.id,
-      tags: this.props.task.tags
-        .filter(
-          tag => this.props.tags.findIndex(item => item.id === tag.id) != -1
-        )
-        .map(tag => tag.id),
-      title: this.props.task.title,
-      workTime: this.props.task.workTime ? this.props.task.workTime : "",
-      work: this.props.task.work ? this.props.task.work : "",
+      company: null,
+      deadline: "",
+      startedAt: "",
+      closedAt: "",
+      description: (RichTextEditor.createValueFromString("","html")),
+      important: false,
+      project: (this.props.taskProjects.length>0?this.props.taskProjects[0].id:null),
+      requestedBy:null,
+      status: (this.props.statuses.length>0?this.props.statuses[0].id:null),
+      tags: [],
+      title: "Task",
+      workTime: "",
+      work: "",
       newTags: [],
       newTag: "",
       ///////
-      taskSolver:
-        this.props.task.taskHasAssignedUsers.length == 0
-          ? "null"
-          : Object.values(this.props.task.taskHasAssignedUsers)[0].user.id,
+      taskSolver:"null",
       attachements: [],
       task_data,
-      followers: this.props.followers.map((follower)=>follower.id)
+      followers: [],
+      created:false,
     };
-    console.log(this.props);
     this.autoSubmit.bind(this);
   }
 
@@ -193,118 +106,14 @@ class EditTask extends Component {
     this.props.history.goBack();
   }
 
-  componentWillMount() {
-    this.props.getTaskSolvers(this.props.task.project.id, this.props.token);
+  componentDidMount() {
+    if(this.state.project){
+      this.titleInput.focus();
+    }
   }
 
-  autoSubmit(name, value, id) {
-    let state = { ...this.state };
-    if (name === "project") {
-      state["project"] = value.project;
-      state["taskSolver"] = "null";
-    } else if (name) {
-      state[name] = value;
-    }
-    let task_data = { ...this.state.task_data }; //create copy of company data
-    for (let key in task_data) {
-      let taskAttribute = this.props.taskAttributes[
-        this.props.taskAttributes.findIndex(item => item.id == key)
-      ]; //from ID find out everything about the field
-      switch (taskAttribute.type) {
-        case "multi_select": {
-          //its array of IDs, we need array if values
-          if (task_data[key].length === 0) {
-            task_data[key] = "null";
-            break;
-          }
-          let newMulti = [];
-          task_data[key].map(item =>
-            newMulti.push(taskAttribute.options[parseInt(item)])
-          );
-          task_data[key] = newMulti;
-          break;
-        }
-        case "date": //date should be formatted into miliseconds since 1970, divided by 1000 because of PHP/Javascript difference
-          let date =
-            (new Date(task_data[key]).getTime() -
-              new Date().getTimezoneOffset() * 60000) /
-            1000;
-          if (isNaN(date)) {
-            //if there is no date
-            task_data[key] = "null";
-            break;
-          }
-          task_data[key] = date;
-          break;
-        case "checkbox":
-          task_data[key] = task_data[key].toString();
-          break;
-        case "input":
-          if (task_data[key] === "") {
-            task_data[key] = "null";
-          }
-          break;
-        case "text_area":
-          if (task_data[key] === "") {
-            task_data[key] = "null";
-          }
-          break;
-          break;
-        case "decimal_number":
-          if (isNaN(parseFloat(this.state.task_data[key]))) {
-            task_data[key] = "null";
-          }
-          break;
-        case "integer_number":
-          if (isNaN(parseFloat(this.state.task_data[key]))) {
-            task_data[key] = "null";
-          }
-          break;
-        default:
-          break;
-      }
-    }
 
-    let tags = [];
-    state.tags.map(addTag =>
-      tags.push(
-        this.props.tags.concat(state.newTags).find(tag => tag.id == addTag)
-          .title
-      )
-    );
-    this.props.editTask(
-      {
-        title: state.title,
-        description: state.description.toString("html"),
-        deadline:
-          state.deadline !== "" ? state.deadline.valueOf() / 1000 : "null",
-        startedAt:
-          state.startedAt !== "" ? state.startedAt.valueOf() / 1000 : "null",
-        closedAt:
-          state.closedAt !== "" ? state.closedAt.valueOf() / 1000 : "null",
-        important: state.important,
-        work: state.work,
-        workTime: state.workTime.length == 0 ? undefined : state.workTime,
-        tag: JSON.stringify(tags),
-        assigned:
-          state.taskSolver != "null"
-            ? JSON.stringify([{ userId: parseInt(state.taskSolver) }])
-            : null,
-        attachment:
-          this.props.attachements.length === 0
-            ? undefined
-            : JSON.stringify(
-                this.props.attachements.map(attachement => attachement.id)
-              ),
-        taskData: JSON.stringify(task_data)
-      },
-      this.props.task.id,
-      state.project,
-      state.status,
-      state.requestedBy.id,
-      state.company.id,
-      this.props.token
-    );
+  autoSubmit(name, value, id) {
   }
 
   render() {
@@ -334,19 +143,32 @@ class EditTask extends Component {
               <div className="col-8">
                 <form>
                   <div class="form-group">
-                    {/*<label for="title">Task Name</label>*/}
-
+                    {!this.state.project && <h5 style={{color:'red'}}>You can't create task without project!</h5>}
+                    {this.state.project &&
                     <input
                       class="form-control"
                       id="title"
+                      ref={(input) => { this.titleInput = input; }}
                       placeholder="Enter title"
                       value={this.state.title}
                       style={{ fontSize: 24, border: "none" }}
+                      onBlur={()=>{
+                        if(!this.state.created){
+                          this.setState({ created: true })
+                          this.props.addTask(this.state.title,this.state.project,this.state.status,this.props.token);
+                        }
+                      }}
                       onChange={e => {
-                        this.autoSubmit("title", e.target.value);
-                        this.setState({ title: e.target.value });
+                        if(!this.state.created){
+                          this.setState({ title: e.target.value });
+                        }
+                        else{
+                          this.autoSubmit("title", e.target.value);
+                          this.setState({ title: e.target.value });
+                        }
                       }}
                     />
+                  }
                   </div>
                 </form>
               </div>
@@ -358,11 +180,11 @@ class EditTask extends Component {
                   justifyContent: "flex-end"
                 }}
               >
-                <label className="float-right">
+                {this.props.task&&<label className="float-right">
                   Vytvoril: {this.props.task.createdBy.username} ({
                     this.props.task.createdBy.email
                   }) {timestampToString(this.props.task.createdAt)}
-                </label>
+                </label>}
               </div>
             </div>
             <div className="row">
@@ -377,6 +199,7 @@ class EditTask extends Component {
                       idValue="id"
                       filterBy="title"
                       display="row"
+                      disabled={!this.state.created||!this.props.task}
                       colored={true}
                       displayBoxStyle={{ overflowX: "auto" }}
                       menuItemStyle={{
@@ -427,6 +250,7 @@ class EditTask extends Component {
                   </div>
 
                   <RichTextEditor
+                    disabled={!this.state.created||!this.props.task}
                     value={this.state.description}
                     onChange={e => {
                       this.autoSubmit("description", e);
@@ -437,11 +261,27 @@ class EditTask extends Component {
                     editorClassName="demo-editor"
                   />
                 </form>
+
+                {(!this.props.task || !this.props.subtasksLoaded) &&
+                  <Subtasks
+                    units={this.props.units.filter(unit => unit.is_active)}
+                  />
+                }
+                { !this.props.task &&
+                  <Comments />
+                }
+
+
+              {this.props.task &&
                 <SubtasksLoader
                   taskID={this.props.task.id}
                   units={this.props.units.filter(unit => unit.is_active)}
                 />
-              </div>
+              }
+              { this.props.task &&
+                <CommentsLoader taskID={this.props.task.id} />
+              }
+             </div>
 
               <div className="col-4">
                 <form>
@@ -450,6 +290,7 @@ class EditTask extends Component {
                       <input
                         type="checkbox"
                         class="form-check-input"
+                        disabled={this.state.created||!this.props.task}
                         checked={this.state.important}
                         onChange={e => {
                           this.autoSubmit("important", !this.state.important);
@@ -1172,7 +1013,8 @@ const mapStateToProps = ({
   login,
   usersReducer,
   attachementsReducer,
-  followersReducer
+  followersReducer,
+  subtasksReducer
 }) => {
   const { task, taskProjects, taskAttributes, taskSolvers } = tasksReducer;
   const { statuses } = statusesReducer;
@@ -1182,6 +1024,7 @@ const mapStateToProps = ({
   const { users } = usersReducer;
   const { attachements } = attachementsReducer;
   const { followers } = followersReducer;
+  const { subtasksLoaded } = subtasksReducer;
   const { token } = login;
   return {
     task,
@@ -1195,6 +1038,7 @@ const mapStateToProps = ({
     users,
     attachements,
     followers,
+    subtasksLoaded,
     token
   };
 };
@@ -1202,10 +1046,10 @@ const mapStateToProps = ({
 export default connect(mapStateToProps, {
   getTaskSolvers,
   deleteTaskSolvers,
-  editTask,
+  addTask,
   deleteTask,
   uploadFile,
   removeFile,
   addFollower,
   deleteFollower
-})(EditTask);
+})(AddTask);

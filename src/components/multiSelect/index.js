@@ -104,8 +104,12 @@ export default class MultiSelect extends Component {
         }}
       >
         <Dropdown
+          disabled={this.props.disabled===true?true:false}
           isOpen={this.state.opened}
           toggle={() => {
+            if(this.props.disabled){
+                return;
+            }
             this.setState({ opened: !this.state.opened });
           }}
         >

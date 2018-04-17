@@ -52,7 +52,6 @@ class EditTaskLoader extends Component {
 }
 
 //all below is just redux storage
-
 const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,unitsReducer, usersReducer, followersReducer, login }) => {
   const {taskLoaded,taskProjectsLoaded, taskAttributesLoaded } = tasksReducer;
   const {statusesLoaded, updateDate } = statusesReducer;

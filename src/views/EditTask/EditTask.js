@@ -181,7 +181,6 @@ class EditTask extends Component {
       task_data,
       followers: this.props.followers.map((follower)=>follower.id)
     };
-    console.log(this.props);
     this.autoSubmit.bind(this);
   }
 

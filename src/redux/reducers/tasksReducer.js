@@ -4,7 +4,7 @@ import { SET_TASKS, SET_TASKS_LOADING, ADD_TASK, SET_TASK_LOADING, SET_TASK,
   SET_TAG_TASKS_LOADING,SET_TAG_LINKS,
   SET_TASK_PROJECTS, SET_TASK_PROJECTS_LOADING,
   SET_TASKS_ATTRIBUTES,SET_TASKS_ATTRIBUTES_LOADING,
-  SET_TASK_SOLVERS, DELETE_TASK_SOLVERS, LOGIN_LOGOUT
+  SET_TASK_SOLVERS, DELETE_TASK_SOLVERS, LOGIN_LOGOUT, CLEAR_TASK
 } from '../types'
 
 const initialState = {
@@ -49,6 +49,8 @@ export default function tasksReducer(state = initialState, action) {
         return { ...state, tagLinks:action.tagLinks };
       case SET_TASK:
         return { ...state, task:action.task };
+      case CLEAR_TASK:
+        return { ...state, task:null };
       case EDIT_TASK:{
         //finds location of the current task and replaces it with newer version
         let newTasks=[...state.tasks];

@@ -4,7 +4,7 @@ import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,
   SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING,
   DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHEMENT,
-  SET_ERROR_MESSAGE } from '../types';
+  SET_ERROR_MESSAGE,CLEAR_TASK } from '../types';
 import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE } from '../urls';
 
 /**
@@ -28,6 +28,11 @@ import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, 
    }
  };
 
+ export const clearTask = () => {
+   return (dispatch) => {
+     dispatch({ type: CLEAR_TASK });
+   }
+ };
 
 
 /**
@@ -116,36 +121,6 @@ import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, 
  }
  }
 
-/**
- * Adds new task
- * @param {object} body  All parameters in an object of the new task
- * @param {string} token universal token for API comunication
- */
-export const addTask = (body,token) => {
-  return (dispatch) => {
-      fetch(TASKS_LIST,{
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        },
-        method: 'POST',
-        body:JSON.stringify(body),
-      })
-    .then((response)=>{
-      if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
-        return;
-      }
-    response.json().then((response)=>{
-      dispatch({type: ADD_TASK, task:response.data});
-    })})
-    .catch(function (error) {
-      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
-      console.log(error);
-    });
-
-  };
-};
 
 /**
  * Sets status if task is loaded to false
@@ -176,6 +151,7 @@ export const getTask = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        console.log('done');
         if(!response.ok){
           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
           return;
@@ -228,6 +204,39 @@ export const getTask = (id,token) => {
   });
 }
 }
+
+/**
+* Adds new task
+* @param {object} body  All parameters in an object of the new task
+* @param {string} token universal token for API comunication
+*/
+export const addTask = (body,projectID,statusID,token) => {
+  return (dispatch) => {
+    getTask(10,token)(dispatch);
+    return;
+    fetch(TASKS_LIST+'/project/'+projectID+'/status/'+statusID,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      method: 'POST',
+      body:JSON.stringify({title:body}),
+    })
+    .then((response)=>{
+      if(!response.ok){
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        return;
+      }
+      response.json().then((response)=>{
+        dispatch({type: ADD_TASK, task:response.data});
+      })})
+      .catch(function (error) {
+        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+        console.log(error);
+      });
+
+    };
+  };
 
 /**
  * Edits selected task

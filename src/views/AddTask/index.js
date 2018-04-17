@@ -5,11 +5,11 @@ import {startTaskProjectsLoading,startStatusesLoading,
   getStatuses,getTaskProjects,startCompaniesLoading,getCompanies,
 startTasksAttributesLoading, getTasksAttributes,getTags, startTagsLoading,
  startUnitsLoading, getUnits, deleteTaskSolvers,
-startUsersLoading, getUsers,clearErrorMessage } from '../../redux/actions';
-import EditTask from './EditTask';
+startUsersLoading, getUsers,clearErrorMessage, clearTask } from '../../redux/actions';
+import AddTask from './AddTask';
 import Loading from '../../components/Loading';
 
-class EditTaskLoader extends Component {
+class AddTaskLoader extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -19,6 +19,7 @@ class EditTaskLoader extends Component {
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
+    this.props.clearTask();
     this.props.startTaskProjectsLoading();
     this.props.startStatusesLoading();
     this.props.startCompaniesLoading();
@@ -43,7 +44,7 @@ class EditTaskLoader extends Component {
     !this.props.usersLoaded){
       return(<Loading errorID={this.state.errorID}/>)
     }
-    return <EditTask history={this.props.history} match={this.props.match}/>
+    return <AddTask history={this.props.history} match={this.props.match}/>
   }
 }
 
@@ -67,4 +68,4 @@ export default connect(mapStateToProps, {
   getStatuses,getTaskProjects, startCompaniesLoading,getCompanies,
   startTasksAttributesLoading,getTasksAttributes,getTags,startTagsLoading,
   startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
-  clearErrorMessage})(EditTaskLoader);
+  clearErrorMessage, clearTask})(AddTaskLoader);
