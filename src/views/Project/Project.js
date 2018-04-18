@@ -52,8 +52,9 @@ class Project extends Component {
 
   render() {
     return (
-      <div class="table-div">
+      <div className="table-div">
         <h2>
+          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
           {
             this.props.projects[
               this.props.projects.findIndex(project =>
@@ -63,7 +64,7 @@ class Project extends Component {
           }{" "}
           <a
             href={"#/project/info/" + parseInt(this.props.match.params.id, 10)}
-            class="fa fa-info-circle fa-lg"
+            className="fa fa-info-circle fa-lg"
             style={{
               border: "none",
               backgroundColor: "white",
@@ -119,10 +120,10 @@ class Project extends Component {
                 </th>
               </tr>
               {this.props.tasks.map(task => (
-                <tr style={{ cursor: "pointer" }}>
+                <tr style={{ cursor: "pointer" }} key={task.id}>
                   <td style={{ verticalAlign: "center" }}>{task.id}</td>
                   <td>
-                    <span class="badge badge-success">{task.status.title}</span>
+                    <span className="badge badge-success">{task.status.title}</span>
                   </td>
                   <td
                     onClick={() =>
@@ -133,7 +134,8 @@ class Project extends Component {
                     <p>
                       {task.tags.map(tag => (
                         <span
-                          class="badge mr-1"
+                          key={tag.id}
+                          className="badge mr-1"
                           style={{
                             backgroundColor:
                               (tag.color.includes("#") ? "" : "#") + tag.color,

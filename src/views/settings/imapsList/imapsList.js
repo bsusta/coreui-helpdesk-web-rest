@@ -46,18 +46,18 @@ class ImapsList extends Component {
 
   render() {
     return (
-      <div class="table-div">
+      <div className="table-div">
         <h2 className="mb-3">IMAPs list</h2>
 
         <button
           type="button"
-          class="btn btn-success"
+          className="btn btn-success"
           onClick={() => this.props.history.push("/imap/add")}
         >
           Add new IMap
         </button>
 
-        <table class="table table-striped table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ borderTop: "0px" }}>E-mail</th>
@@ -115,9 +115,9 @@ class ImapsList extends Component {
                 <td>{imap.description}</td>
                 <td>
                   {imap.is_active ? (
-                    <span class="badge badge-success">Yes</span>
+                    <span className="badge badge-success">Yes</span>
                   ) : (
-                    <span class="badge badge-danger">No</span>
+                    <span className="badge badge-danger">No</span>
                   )}
                 </td>
               </tr>

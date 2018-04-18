@@ -47,46 +47,46 @@ class StatusAdd extends Component {
 
   render() {
     return (
-      <div class="card">
-        <h4 class="card-header">Add status</h4>
-        <div class="card-body">
+      <div className="card">
+        <h4 className="card-header">Add status</h4>
+        <div className="card-body">
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
               this.props.history.goBack();
             }}
           >
-            <div class="form-group">
-              <label for="title">Status name</label>
+            <div className="form-group">
+              <label htmlFor="title">Status name</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="title"
                 value={this.state.title}
                 onChange={e => this.setState({ title: e.target.value })}
                 placeholder="Enter status name"
               />
             </div>
-            {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter status name</label>}
+            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter status name</label>}
 
-            <div class="form-group">
-              <label for="title">Order</label>
+            <div className="form-group">
+              <label htmlFor="title">Order</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="title"
                 type="number"
                 value={this.state.order}
                 onChange={e => this.setState({ order: e.target.value })}
                 placeholder="Enter order number (should be higher then 4)"
               />
-            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label for="order" style={{color:'red'}}>Your order number is not valid </label>}
-            { this.state.submitError &&this.state.order===''&&<label for="order" style={{color:'red'}}>Order is required</label>}
-            { this.state.order!==''&&parseInt(this.state.order)<5&&<label for="order" style={{color:'orange'}}>Should be higher than 4</label>}
+            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label htmlFor="order" style={{color:'red'}}>Your order number is not valid </label>}
+            { this.state.submitError &&this.state.order===''&&<label htmlFor="order" style={{color:'red'}}>Order is required</label>}
+            { this.state.order!==''&&parseInt(this.state.order)<5&&<label htmlFor="order" style={{color:'orange'}}>Should be higher than 4</label>}
             </div>
 
-            <div class="form-group">
-              <label for="ICO">Description</label>
+            <div className="form-group">
+              <label htmlFor="ICO">Description</label>
               <textarea
-                class="form-control"
+                className="form-control"
                 id="title"
                 value={this.state.description}
                 onChange={e => this.setState({ description: e.target.value })}
@@ -94,13 +94,13 @@ class StatusAdd extends Component {
               />
             </div>
 
-            <div class="form-group">
-              <label for="func">Function</label>
+            <div className="form-group">
+              <label htmlFor="func">Function</label>
               <select
                 value={this.state.func}
                 id="func"
                 onChange={value => this.setState({ func: value.target.value })}
-                class="form-control"
+                className="form-control"
               >
                 {funcOptions.map(opt => (
                   <option key={opt.value} value={opt.value}>
@@ -109,21 +109,30 @@ class StatusAdd extends Component {
                 ))}
               </select>
             </div>
-            <div class="form-group">
-              <label for="color">Color</label>
+            <div className="form-group">
+              <label htmlFor="color">Color</label>
               <SketchPicker
                 id="color"
                 color={this.state.color}
                 onChangeComplete={value => this.setState({ color: value.hex })}
               />
             </div>
-            <button
-              type="submit"
-              class="btn btn-primary"
-              onClick={this.submit.bind(this)}
-            >
-              Submit
-            </button>
+            <div className="form-group">
+              <button
+                type="submit"
+                className="btn btn-primary mr-2"
+                onClick={this.submit.bind(this)}
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => this.props.history.goBack()}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>

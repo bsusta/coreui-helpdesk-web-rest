@@ -55,7 +55,7 @@ class Comments extends Component {
             >
               <ul className="messages">
                 {comments.map(comment => (
-                  <li className="message" style={{ paddingLeft: 5 }}>
+                  <li className="message" key={comment.id} style={{ paddingLeft: 5 }}>
                     <div
                       onClick={() => {
                         if (comment.id === this.state.comment) {
@@ -166,7 +166,7 @@ class Comments extends Component {
                         comment.commentHasAttachments.length>0 && <i className="fa fa-paperclip" style={{color:'black', paddingRight:5}} />
                       }
                       {
-                        comment.commentHasAttachments.map(attachement=> attachement.url?(<a class="badge mr-1" style={{borderRadius: '3px',border: '1px solid #000'}} href={attachement.url}>{attachement.name}</a>):(<span class="badge mr-1" style={{borderRadius: '3px',border: '1px solid #000'}}>{attachement.name}</span>)
+                        comment.commentHasAttachments.map(attachement=> attachement.url?(<a className="badge mr-1" key={attachement.url} style={{borderRadius: '3px',border: '1px solid #000'}} href={attachement.url}>{attachement.name}</a>):(<span className="badge mr-1" key={attachement.name} style={{borderRadius: '3px',border: '1px solid #000'}}>{attachement.name}</span>)
                     )
                   }
                   </div>

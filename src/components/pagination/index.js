@@ -15,8 +15,8 @@ export default class Pag extends Component {
 
   render() {
     return (
-      <div class="row">
-        <div class="col">
+      <div className="row">
+        <div className="col">
           <Pagination>
             <PaginationItem style={{ margin: 5 }}>
               Page {this.props.pageNumber} of {this.props.numberOfPages}
@@ -184,7 +184,7 @@ export default class Pag extends Component {
             </PaginationItem>
             <PaginationItem style={{ marginRight: 10 }}>
               <select
-                class="form-control"
+                className="form-control"
                 id="project"
                 value={this.state.pagination}
                 onChange={(value)=>{

@@ -33,18 +33,18 @@ class TriggersList extends Component {
 
   render() {
     return (
-      <div class="table-div">
+      <div className="table-div">
         <h2 className="mb-3">Trigger list</h2>
 
         <button
           type="button"
-          class="btn btn-success"
+          className="btn btn-success"
           onClick={() => this.props.history.push("/trigger/add")}
         >
           Add new trigger
         </button>
 
-        <table class="table table-striped table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ borderTop: "0px" }}>Name</th>
@@ -87,9 +87,9 @@ class TriggersList extends Component {
                 <td>{trigger.description}</td>
                 <td>
                   {trigger.active ? (
-                    <span class="badge badge-success">Yes</span>
+                    <span className="badge badge-success">Yes</span>
                   ) : (
-                    <span class="badge badge-danger">No</span>
+                    <span className="badge badge-danger">No</span>
                   )}
                 </td>
               </tr>

@@ -10,10 +10,10 @@ class SMTPsList extends Component {
 
   render() {
     return (
-      <div class="table-div">
+      <div className="table-div">
         <h2 className="mb-3">SMTPs list</h2>
 
-        <table class="table table-striped table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ borderTop: "0px" }}>E-mail</th>

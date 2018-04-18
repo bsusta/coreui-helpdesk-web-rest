@@ -10,6 +10,8 @@ import {
 } from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
 import MessagesDropdown from "./MessagesDropdown";
+import {logoutUser} from '../../redux/actions';
+import { connect } from "react-redux";
 
 class Header extends Component {
 
@@ -62,35 +64,28 @@ class Header extends Component {
         >
           Add task
         </button>
+
         <Nav className="ml-auto" navbar>
+          <i className="fa fa-sign-out" style={{ color: "white",cursor: "pointer" }} onClick={this.props.logoutUser} />
           <MessagesDropdown />
         </Nav>
 
-
-
-
-        <NavbarToggler
-          className="d-md-down-none"
-        >
         <a
+          style={{margin:0, padding:0}}
           className="d-md-down-none"
           href="#/settings"
         >
         <i className="icon-settings" style={{ color: "white", marginRight: 20 }} />
       </a>
-    </NavbarToggler>
 
-        {/*
-        <NavbarToggler
-          className="d-md-down-none"
-          style={{ color: "white", marginRight: 20 }}
-          onClick={() => this.props.history.push("/settings")}
-        >
-          <i className="icon-settings" />
-        </NavbarToggler>*/}
       </header>
     );
   }
 }
 
-export default Header;
+
+const mapStateToProps = ({}) => {
+  return {};
+};
+
+export default connect(mapStateToProps, { logoutUser })(Header);

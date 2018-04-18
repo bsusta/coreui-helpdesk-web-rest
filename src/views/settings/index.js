@@ -21,12 +21,10 @@ import {
   Input,
   Table
 } from "reactstrap";
-import { connect } from "react-redux";
-import { logoutUser } from "../../redux/actions";
 class Settings extends Component {
   render() {
     return (
-      <div class="table-div">
+      <div className="table-div">
         <h2 className="mb-3">Settings</h2>
         <Table hover striped responsive>
           <tbody>
@@ -93,9 +91,6 @@ class Settings extends Component {
                 Users
               </td>
             </tr>
-            <tr style={{ cursor: "pointer" }}>
-              <td onClick={() => this.props.logoutUser()}>Logout</td>
-            </tr>
           </tbody>
         </Table>
       </div>
@@ -103,8 +98,4 @@ class Settings extends Component {
   }
 }
 
-const mapStateToProps = ({}) => {
-  return {};
-};
-
-export default connect(mapStateToProps, { logoutUser })(Settings);
+export default Settings;

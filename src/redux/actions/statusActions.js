@@ -10,12 +10,35 @@ export const startStatusesLoading = () => {
   }
 };
 
+
+export const getStatuses= (updateDate,token) => {
+  return (dispatch) => {
+      fetch(STATUSES_LIST+'?limit=999', {
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        }
+      }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
+      response.json().then((data) => {
+        dispatch({type: SET_STATUSES, statuses:data.data,updateDate});
+        dispatch({ type: SET_STATUSES_LOADING, statusesLoaded:true });
+      });
+    })
+  }
+}
+
+
 /**
  * Gets all statuses available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getStatuses= (updateDate,token) => {
+export const getTaskStatuses= (updateDate,token) => {
   return (dispatch) => {
+    console.log(STATUSES_LIST+'/all'+(updateDate?'/'+updateDate:''));
       fetch(STATUSES_LIST+'/all'+(updateDate?'/'+updateDate:''), {
         method: 'get',
         headers: {

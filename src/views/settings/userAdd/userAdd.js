@@ -80,19 +80,19 @@ class UserAdd extends Component {
   }
   render() {
     return (
-      <div class="card">
-        <h4 class="card-header">Add user</h4>
-        <div class="card-body">
+      <div className="card">
+        <h4 className="card-header">Add user</h4>
+        <div className="card-body">
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
             }}
           >
-            <label for="avatar">Avatar upload </label>
-            <label for="avatar" style={{ fontSize: 10 }}>
+            <label htmlFor="avatar">Avatar upload </label>
+            <label htmlFor="avatar" style={{ fontSize: 10 }}>
               Your image will be resized to 50x50 px
             </label>
-            <div class="form-group" style={{ marginBottom: 0 }}>
+            <div className="form-group" style={{ marginBottom: 0 }}>
               <input
                 type="file"
                 accept="image/x-png,image/gif,image/jpeg,image/jpg"
@@ -123,7 +123,7 @@ class UserAdd extends Component {
                         let ctx = canvas.getContext("2d");
                         ctx.drawImage(img, 0, 0, 50, 50);
                         let imageURL = canvas.toDataURL("image/png");
-                        //converts it to file ready for upload
+                        //converts it to file ready htmlFor upload
                         function dataURLtoFile(dataurl, filename) {
                           var arr = dataurl.split(","),
                             mime = arr[0].match(/:(.*?);/)[1],
@@ -156,10 +156,10 @@ class UserAdd extends Component {
                 />
               )}
             </div>
-            <div class="form-group">
-              <label for="username">Username</label>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="username"
                 value={this.state.username}
                 onChange={target =>
@@ -167,13 +167,13 @@ class UserAdd extends Component {
                 }
                 placeholder="Enter username"
               />
-            {this.state.submitError && this.state.username===''&&<label for="username" style={{color:'red'}}>You must enter username</label>}
+            {this.state.submitError && this.state.username===''&&<label htmlFor="username" style={{color:'red'}}>You must enter username</label>}
             </div>
 
-            <div class="form-group">
-              <label for="password">Password</label>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="password"
                 value={this.state.password}
                 onChange={target =>
@@ -181,13 +181,13 @@ class UserAdd extends Component {
                 }
                 placeholder="Enter password"
               />
-            {this.state.password.length>0 && this.state.password.length<8 &&<label for="password" style={{color:'red'}}>Password must be at least 8 characters</label>}
-            {this.state.submitError && this.state.password===''&&<label for="password" style={{color:'red'}}>You must enter users password</label>}
+            {this.state.password.length>0 && this.state.password.length<8 &&<label htmlFor="password" style={{color:'red'}}>Password must be at least 8 characters</label>}
+            {this.state.submitError && this.state.password===''&&<label htmlFor="password" style={{color:'red'}}>You must enter users password</label>}
           </div>
-            <div class="form-group">
-              <label for="email">E-mail</label>
+            <div className="form-group">
+              <label htmlFor="email">E-mail</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="email"
                 value={this.state.email}
                 onChange={target =>
@@ -195,13 +195,13 @@ class UserAdd extends Component {
                 }
                 placeholder="Enter e-mail"
               />
-              { this.state.email!==''&&!isEmail(this.state.email)&&<label for="email" style={{color:'red'}}>This e-mail address is not valid</label>}
-              { this.state.submitError && this.state.email===''&&<label for="email" style={{color:'red'}}>You must enter e-mail address</label>}
+              { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>This e-mail address is not valid</label>}
+              { this.state.submitError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>You must enter e-mail address</label>}
             </div>
-            <div class="form-group">
-              <label for="language">Language</label>
+            <div className="form-group">
+              <label htmlFor="language">Language</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="language"
                 value={this.state.language}
                 onChange={target =>
@@ -210,10 +210,10 @@ class UserAdd extends Component {
                 placeholder="Enter language"
               />
             </div>
-            <div class="form-group">
-              <label for="name">Name</label>
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="name"
                 value={this.state.name}
                 onChange={target =>
@@ -222,10 +222,10 @@ class UserAdd extends Component {
                 placeholder="Enter name"
               />
             </div>
-            <div class="form-group">
-              <label for="surname">Surname</label>
+            <div className="form-group">
+              <label htmlFor="surname">Surname</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="surname"
                 value={this.state.surname}
                 onChange={target =>
@@ -234,10 +234,10 @@ class UserAdd extends Component {
                 placeholder="Enter surname"
               />
             </div>
-            <div class="form-group">
-              <label for="title_before">Title before name</label>
+            <div className="form-group">
+              <label htmlFor="title_before">Title before name</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="title_before"
                 value={this.state.title_before}
                 onChange={target =>
@@ -246,10 +246,10 @@ class UserAdd extends Component {
                 placeholder="Enter title before name"
               />
             </div>
-            <div class="form-group">
-              <label for="title_after">Title after</label>
+            <div className="form-group">
+              <label htmlFor="title_after">Title after</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="title_after"
                 value={this.state.title_after}
                 onChange={target =>
@@ -258,10 +258,10 @@ class UserAdd extends Component {
                 placeholder="Enter title after"
               />
             </div>
-            <div class="form-group">
-              <label for="func">Function</label>
+            <div className="form-group">
+              <label htmlFor="func">Function</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="func"
                 value={this.state.func}
                 onChange={target =>
@@ -271,10 +271,10 @@ class UserAdd extends Component {
               />
             </div>
 
-            <div class="form-group">
-              <label for="mobile">Mobile number</label>
+            <div className="form-group">
+              <label htmlFor="mobile">Mobile number</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="mobile"
                 value={this.state.mobile}
                 onChange={target =>
@@ -283,30 +283,30 @@ class UserAdd extends Component {
                 placeholder="Enter mobile number"
               />
             </div>
-            <div class="form-group">
-              <label for="tel">Telephone number</label>
+            <div className="form-group">
+              <label htmlFor="tel">Telephone number</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="tel"
                 value={this.state.tel}
                 onChange={target => this.setState({ tel: target.target.value })}
                 placeholder="Enter telephone number"
               />
             </div>
-            <div class="form-group">
-              <label for="fax">Fax</label>
+            <div className="form-group">
+              <label htmlFor="fax">Fax</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="fax"
                 value={this.state.fax}
                 onChange={target => this.setState({ fax: target.target.value })}
                 placeholder="Enter fax"
               />
             </div>
-            <div class="form-group">
-              <label for="signature">Signature</label>
+            <div className="form-group">
+              <label htmlFor="signature">Signature</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="signature"
                 value={this.state.signature}
                 onChange={target =>
@@ -315,10 +315,10 @@ class UserAdd extends Component {
                 placeholder="Enter signature"
               />
             </div>
-            <div class="form-group">
-              <label for="street">Street</label>
+            <div className="form-group">
+              <label htmlFor="street">Street</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="street"
                 value={this.state.street}
                 onChange={target =>
@@ -327,10 +327,10 @@ class UserAdd extends Component {
                 placeholder="Enter street"
               />
             </div>
-            <div class="form-group">
-              <label for="city">City</label>
+            <div className="form-group">
+              <label htmlFor="city">City</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="city"
                 value={this.state.city}
                 onChange={target =>
@@ -339,20 +339,20 @@ class UserAdd extends Component {
                 placeholder="Enter city"
               />
             </div>
-            <div class="form-group">
-              <label for="zip">ZIP</label>
+            <div className="form-group">
+              <label htmlFor="zip">ZIP</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="zip"
                 value={this.state.zip}
                 onChange={target => this.setState({ zip: target.target.value })}
                 placeholder="Enter ZIP number"
               />
             </div>
-            <div class="form-group">
-              <label for="country">Country</label>
+            <div className="form-group">
+              <label htmlFor="country">Country</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="country"
                 value={this.state.country}
                 onChange={target =>
@@ -361,10 +361,10 @@ class UserAdd extends Component {
                 placeholder="Enter country"
               />
             </div>
-            <div class="form-group">
-              <label for="facebook">Facebook</label>
+            <div className="form-group">
+              <label htmlFor="facebook">Facebook</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="facebook"
                 value={this.state.facebook}
                 onChange={target =>
@@ -373,10 +373,10 @@ class UserAdd extends Component {
                 placeholder="Enter facebook"
               />
             </div>
-            <div class="form-group">
-              <label for="twitter">Twitter</label>
+            <div className="form-group">
+              <label htmlFor="twitter">Twitter</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="twitter"
                 value={this.state.twitter}
                 onChange={target =>
@@ -385,10 +385,10 @@ class UserAdd extends Component {
                 placeholder="Enter twitter"
               />
             </div>
-            <div class="form-group">
-              <label for="linkdin">Linkdin</label>
+            <div className="form-group">
+              <label htmlFor="linkdin">Linkdin</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="linkdin"
                 value={this.state.linkdin}
                 onChange={target =>
@@ -397,10 +397,10 @@ class UserAdd extends Component {
                 placeholder="Enter linkdin"
               />
             </div>
-            <div class="form-group">
-              <label for="google">Google</label>
+            <div className="form-group">
+              <label htmlFor="google">Google</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="google"
                 value={this.state.google}
                 onChange={target =>
@@ -410,15 +410,15 @@ class UserAdd extends Component {
               />
             </div>
 
-            <div class="form-group">
-              <label for="company">Company</label>
+            <div className="form-group">
+              <label htmlFor="company">Company</label>
               <select
                 value={this.state.company}
                 id="company"
                 onChange={value =>
                   this.setState({ company: value.target.value })
                 }
-                class="form-control"
+                className="form-control"
               >
                 {this.props.companies.map(opt => (
                   <option key={opt.id} value={opt.id}>
@@ -427,15 +427,15 @@ class UserAdd extends Component {
                 ))}
               </select>
             </div>
-            <div class="form-group">
-              <label for="role">Role</label>
+            <div className="form-group">
+              <label htmlFor="role">Role</label>
               <select
                 value={this.state.userRole}
                 onChange={value =>
                   this.setState({ userRole: value.target.value })
                 }
                 id="role"
-                class="form-control"
+                className="form-control"
               >
                 {this.props.userRoles.map(opt => (
                   <option key={opt.id} value={opt.id}>
@@ -445,13 +445,22 @@ class UserAdd extends Component {
               </select>
             </div>
 
-            <button
-              type="submit"
-              class="btn btn-primary"
-              onClick={this.submit.bind(this)}
-            >
-              Submit
-            </button>
+            <div className="form-group">
+              <button
+                type="submit"
+                className="btn btn-primary mr-2"
+                onClick={this.submit.bind(this)}
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => this.props.history.goBack()}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>

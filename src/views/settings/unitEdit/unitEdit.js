@@ -16,7 +16,7 @@ class UnitEdit extends Component {
     };
   }
 
-  //we compare if there have been made any changes to the unit in comparison to the original unit, if yes we trigger warning for the user
+  //we compare if there have been made any changes to the unit in comparison to the original unit, if yes we trigger warning htmlFor the user
   compareChanges(change,val){
     var newState = {...this.state};
     newState[change]=val;
@@ -52,21 +52,21 @@ class UnitEdit extends Component {
   render() {
     return (
       <div
-        class="card"
+        className="card"
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0",border:this.state.changed?'1px solid red':null }}
         >
 
-        <h4 class="card-header">Edit unit</h4>
-        <div class="card-body">
-          <div class="list-group">
+        <h4 className="card-header">Edit unit</h4>
+        <div className="card-body">
+          <div className="list-group">
             <form
               onSubmit={(event, value) => {
                 event.preventDefault();
                 this.props.history.goBack();
               }}
               >
-              <div class="form-check">
-                <label class="form-check-label">
+              <div className="form-check">
+                <label className="form-check-label">
                   <input
                     type="checkbox"
                     checked={this.state.active}
@@ -75,15 +75,15 @@ class UnitEdit extends Component {
                       this.setState({ active: !this.state.active })
                     }
                   }
-                  class="form-check-input"
+                  className="form-check-input"
                   />
                 Active
               </label>
             </div>
-            <div class="form-group">
-              <label for="title">Unit title</label>
+            <div className="form-group">
+              <label htmlFor="title">Unit title</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="title"
                 value={this.state.title}
                 onChange={event =>{
@@ -94,12 +94,12 @@ class UnitEdit extends Component {
               placeholder="Enter title"
               />
           </div>
-          {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
+          {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
 
-          <div class="form-group">
-            <label for="shortcut">Shortcut</label>
+          <div className="form-group">
+            <label htmlFor="shortcut">Shortcut</label>
             <input
-              class="form-control"
+              className="form-control"
               id="shortcut"
               value={this.state.shortcut}
               onChange={event =>{
@@ -109,19 +109,26 @@ class UnitEdit extends Component {
             }
             placeholder="Enter shortcut"
             />
-          {this.state.submitError && this.state.shortcut===''&&<label for="shortcut" style={{color:'red'}}>You must enter shortcut</label>}
+          {this.state.submitError && this.state.shortcut===''&&<label htmlFor="shortcut" style={{color:'red'}}>You must enter shortcut</label>}
 
         </div>
-        <button type="submit" class="btn btn-primary mr-2" onClick={this.submit.bind(this)}>
-          Submit
-        </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          onClick={() => {this.setState({changed:false});this.props.history.goBack()}}
+        <div className="form-group">
+          <button
+            type="submit"
+            className="btn btn-primary mr-2"
+            onClick={this.submit.bind(this)}
           >
-          Cancel
-        </button>
+            Submit
+          </button>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => this.props.history.goBack()}
+          >
+            Cancel
+          </button>
+        </div>
+        
       </form>
     </div>
   </div>

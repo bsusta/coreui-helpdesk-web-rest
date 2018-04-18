@@ -113,9 +113,9 @@ class AddComment extends Component {
           activeTab={this.state.activeTab}
         >
           <TabPane tabId="1" style={{ paddingLeft: 0, paddingRight: 0 }}>
-            <div class="form-group">
+            <div className="form-group">
               <textarea
-                class="form-control"
+                className="form-control"
                 id="message"
                 rows="4"
                 value={this.state.message}
@@ -236,7 +236,7 @@ class AddComment extends Component {
             </div>
 
             <div
-              class="form-group"
+              className="form-group"
               style={{
                 display: this.props.displayAttachements ? "block" : "none"
               }}
@@ -244,7 +244,7 @@ class AddComment extends Component {
               <div style={{ paddingTop: 5, paddingRight: 10 }}>
                 {this.props.commentAttachements.map(item => (
                   <span
-                    class="badge"
+                    className="badge"
                     style={{
                       backgroundColor: "#d3eef6",
                       color: "black",
@@ -266,7 +266,7 @@ class AddComment extends Component {
                     <div>
                       <button
                         type="button"
-                        class="close center-block text-center m-*-auto"
+                        className="close center-block text-center m-*-auto"
                         style={{ width: "100%" }}
                         aria-label="Close"
                         onClick={() => {
@@ -482,9 +482,9 @@ class AddComment extends Component {
                 />
               </Col>
             </FormGroup>
-            <div class="form-group">
+            <div className="form-group">
               <textarea
-                class="form-control"
+                className="form-control"
                 id="message"
                 value={this.state.message}
                 onChange={e => this.setState({ message: e.target.value })}

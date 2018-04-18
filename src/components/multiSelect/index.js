@@ -120,9 +120,9 @@ export default class MultiSelect extends Component {
             {this.props.label ? this.props.label : ""}
           </DropdownToggle>
           <DropdownMenu>
-            <div class="list-group">
+            <div className="list-group">
               {/*
-      <div  class="list-group-item" style={this.props.titleStyle?this.props.titleStyle:{}}>
+      <div  className="list-group-item" style={this.props.titleStyle?this.props.titleStyle:{}}>
       {this.props.title?this.props.title:''}
 
       </div>
@@ -152,7 +152,8 @@ export default class MultiSelect extends Component {
                       ))
                 .map(item => (
                   <div
-                    class="list-group-item list-group-item-action"
+                    key={item[this.state.displayValue]}
+                    className="list-group-item list-group-item-action"
                     onClick={value => {
                       this.onChange(item[this.state.idValue]);
                     }}
@@ -172,6 +173,7 @@ export default class MultiSelect extends Component {
                       checked={this.props.selectedIds.includes(
                         item[this.state.idValue]
                       )}
+                      onChange={()=>{}}
                       type="checkbox"
                       value={item[this.state.idValue]}
                       style={{
@@ -206,6 +208,7 @@ export default class MultiSelect extends Component {
               }
               return (
                 <div
+                  key={item[this.props.id]}
                   style={{
                     backgroundColor: this.state.colored ? item.color : "white",
                     color: this.state.colored ? "white" : "black",

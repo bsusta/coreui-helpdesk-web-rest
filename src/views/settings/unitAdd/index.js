@@ -32,32 +32,32 @@ class UnitAdd extends Component {
 
   render() {
     return (
-      <div class="card">
-        <h4 class="card-header">Add unit</h4>
-        <div class="card-body">
+      <div className="card">
+        <h4 className="card-header">Add unit</h4>
+        <div className="card-body">
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
               this.props.history.goBack();
             }}
           >
-            <div class="form-group">
-              <label for="title">Unit title</label>
+            <div className="form-group">
+              <label htmlFor="title">Unit title</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="title"
                 placeholder="Enter title"
                 value={this.state.title}
                 onChange={value => this.setState({ title: value.target.value })}
               />
-              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
+              {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
             </div>
 
 
-            <div class="form-group">
-              <label for="shortcut">Shortcut</label>
+            <div className="form-group">
+              <label htmlFor="shortcut">Shortcut</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="shortcut"
                 placeholder="Enter shortcut"
                 value={this.state.shortcut}
@@ -65,16 +65,25 @@ class UnitAdd extends Component {
                   this.setState({ shortcut: value.target.value })
                 }
               />
-            {this.state.submitError && this.state.shortcut===''&&<label for="shortcut" style={{color:'red'}}>You must enter shortcut</label>}
+            {this.state.submitError && this.state.shortcut===''&&<label htmlFor="shortcut" style={{color:'red'}}>You must enter shortcut</label>}
             </div>
 
-            <button
-              type="submit"
-              class="btn btn-primary"
-              onClick={this.submit.bind(this)}
-            >
-              Submit
-            </button>
+            <div className="form-group">
+              <button
+                type="submit"
+                className="btn btn-primary mr-2"
+                onClick={this.submit.bind(this)}
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => this.props.history.goBack()}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>

@@ -5,29 +5,29 @@ var mockOptions = ["Options 1", "Options 2", "Options 3", "Options 4"];
 class TriggerAdd extends Component {
   render() {
     return (
-      <div class="card">
-        <h4 class="card-header">Add trigger</h4>
-        <div class="card-body">
-          <div class="form-check">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" />
+      <div className="card">
+        <h4 className="card-header">Add trigger</h4>
+        <div className="card-body">
+          <div className="form-check">
+            <label className="form-check-label">
+              <input type="checkbox" className="form-check-input" />
               Active
             </label>
           </div>
-          <div class="form-group">
-            <label for="title">Automatic task name</label>
-            <input class="form-control" id="title" placeholder="Enter title" />
+          <div className="form-group">
+            <label htmlFor="title">Automatic task name</label>
+            <input className="form-control" id="title" placeholder="Enter title" />
           </div>
-          <div class="form-group">
-            <label for="shortcut">Description</label>
+          <div className="form-group">
+            <label htmlFor="shortcut">Description</label>
             <input
-              class="form-control"
+              className="form-control"
               id="shortcut"
               placeholder="Enter description"
             />
           </div>
           <h3>Meet these conditions:</h3>
-          <table class="table">
+          <table className="table">
             <tbody>
               <tr>
                 <td>
@@ -35,19 +35,19 @@ class TriggerAdd extends Component {
                 </td>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     placeholder="Select ticket attribute..."
                   >
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="ls">
+                  <select className="form-control" placeholder="ls">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="Select status...">
+                  <select className="form-control" placeholder="Select status...">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
@@ -63,19 +63,19 @@ class TriggerAdd extends Component {
                 </td>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     placeholder="Select ticket attribute..."
                   >
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="ls">
+                  <select className="form-control" placeholder="ls">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="Select status...">
+                  <select className="form-control" placeholder="Select status...">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
@@ -91,19 +91,19 @@ class TriggerAdd extends Component {
                 </td>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     placeholder="Select ticket attribute..."
                   >
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="ls">
+                  <select className="form-control" placeholder="ls">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="Select status...">
+                  <select className="form-control" placeholder="Select status...">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
@@ -123,7 +123,7 @@ class TriggerAdd extends Component {
             </tbody>
           </table>
           <h2 style={{ marginLeft: "50%" }}>OR</h2>
-          <table class="table">
+          <table className="table">
             <tbody>
               <tr>
                 <td>
@@ -131,19 +131,19 @@ class TriggerAdd extends Component {
                 </td>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     placeholder="Select ticket attribute..."
                   >
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="ls">
+                  <select className="form-control" placeholder="ls">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="Select status...">
+                  <select className="form-control" placeholder="Select status...">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
@@ -159,19 +159,19 @@ class TriggerAdd extends Component {
                 </td>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     placeholder="Select ticket attribute..."
                   >
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="ls">
+                  <select className="form-control" placeholder="ls">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="Select status...">
+                  <select className="form-control" placeholder="Select status...">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
@@ -187,19 +187,19 @@ class TriggerAdd extends Component {
                 </td>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     placeholder="Select ticket attribute..."
                   >
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="ls">
+                  <select className="form-control" placeholder="ls">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="Select status...">
+                  <select className="form-control" placeholder="Select status...">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
@@ -218,25 +218,25 @@ class TriggerAdd extends Component {
               </tr>
             </tbody>
           </table>
-          <button class="btn btn-secondary">ADD CONDITON GROUP</button>
-          <table class="table" style={{ marginTop: 25 }}>
+          <button className="btn btn-secondary">ADD CONDITON GROUP</button>
+          <table className="table" style={{ marginTop: 25 }}>
             <tbody>
               <tr>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     placeholder="Select ticket attribute..."
                   >
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="ls">
+                  <select className="form-control" placeholder="ls">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="Select status...">
+                  <select className="form-control" placeholder="Select status...">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
@@ -249,19 +249,19 @@ class TriggerAdd extends Component {
               <tr>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     placeholder="Select ticket attribute..."
                   >
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="ls">
+                  <select className="form-control" placeholder="ls">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="Select status...">
+                  <select className="form-control" placeholder="Select status...">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
@@ -279,37 +279,37 @@ class TriggerAdd extends Component {
               </tr>
             </tbody>
           </table>
-          <div class="form-group">
-            <label for="title">Subject</label>
-            <input class="form-control" id="subject" placeholder="Subject" />
+          <div className="form-group">
+            <label htmlFor="title">Subject</label>
+            <input className="form-control" id="subject" placeholder="Subject" />
           </div>
-          <div class="form-group">
-            <label for="body">E-mail body</label>
+          <div className="form-group">
+            <label htmlFor="body">E-mail body</label>
             <textarea
-              class="form-control"
+              className="form-control"
               id="body"
               label="Enter e-mail here..."
             />
           </div>
 
-          <table class="table" style={{ marginTop: 25 }}>
+          <table className="table" style={{ marginTop: 25 }}>
             <tbody>
               <tr>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     placeholder="Select ticket attribute..."
                   >
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="ls">
+                  <select className="form-control" placeholder="ls">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
                 <td>
-                  <select class="form-control" placeholder="Select status...">
+                  <select className="form-control" placeholder="Select status...">
                     {mockOptions.map(item => <option>{item}</option>)}
                   </select>
                 </td>
@@ -330,7 +330,7 @@ class TriggerAdd extends Component {
 
           <button
             type="submit"
-            class="btn btn-primary"
+            className="btn btn-primary"
             onClick={() => this.props.history.goBack()}
           >
             Submit

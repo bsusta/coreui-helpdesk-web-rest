@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import {startTaskLoading,startTaskProjectsLoading,startStatusesLoading,getTask,
-  getStatuses,getTaskProjects,startCompaniesLoading,getCompanies,
-startTasksAttributesLoading, getTasksAttributes,getTags, startTagsLoading,
+  getTaskStatuses,getTaskProjects,startCompaniesLoading,getCompanies,
+startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
  startUnitsLoading, getUnits, deleteTaskSolvers,
 startUsersLoading, getUsers,startFollowersLoading, getFollowers,clearErrorMessage } from '../../redux/actions';
 import EditTask from './EditTask';
@@ -23,7 +23,7 @@ class EditTaskLoader extends Component {
     this.props.startTaskProjectsLoading();
     this.props.startStatusesLoading();
     this.props.startCompaniesLoading();
-    this.props.startTasksAttributesLoading();
+    this.props.startTaskAttributesLoading();
     this.props.startTagsLoading();
     this.props.startUnitsLoading();
     this.props.startUsersLoading();
@@ -31,10 +31,10 @@ class EditTaskLoader extends Component {
     this.props.startFollowersLoading();
 
     this.props.getTask(parseInt(this.props.match.params.id, 10),this.props.token);
-    this.props.getStatuses(this.props.statusesUpdateDate,this.props.token);
+    this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
     this.props.getTaskProjects(this.props.token);
     this.props.getCompanies(this.props.companiesUpdateDate,this.props.token);
-    this.props.getTasksAttributes(this.props.token);
+    this.props.getTaskAttributes(this.props.token);
     this.props.getTags(this.props.token);
     this.props.getUnits(this.props.token);
     this.props.getUsers("",this.props.token);
@@ -52,11 +52,12 @@ class EditTaskLoader extends Component {
 }
 
 //all below is just redux storage
-const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,unitsReducer, usersReducer, followersReducer, login }) => {
-  const {taskLoaded,taskProjectsLoaded, taskAttributesLoaded } = tasksReducer;
+const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,unitsReducer, usersReducer, followersReducer, taskAttributesReducer, login }) => {
+  const {taskLoaded,taskProjectsLoaded } = tasksReducer;
   const {statusesLoaded, updateDate } = statusesReducer;
   const {companiesLoaded } = companiesReducer;
   const {tagsLoaded} = tagsReducer;
+  const {taskAttributesLoaded} = taskAttributesReducer;
   const {unitsLoaded} = unitsReducer;
   const {usersLoaded} = usersReducer;
   const {followersLoaded } = followersReducer;
@@ -67,7 +68,7 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
 
 export default connect(mapStateToProps, {
   startTaskLoading,startTaskProjectsLoading,startStatusesLoading,getTask,
-  getStatuses,getTaskProjects, startCompaniesLoading,getCompanies,
-  startTasksAttributesLoading,getTasksAttributes,getTags,startTagsLoading,
+  getTaskStatuses,getTaskProjects, startCompaniesLoading,getCompanies,
+  startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
   startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
   startFollowersLoading, getFollowers,clearErrorMessage})(EditTaskLoader);

@@ -50,10 +50,11 @@ class Tag extends Component {
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
         <h2 style={{ marginTop: 20 }}>
+          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
           {this.props.tags[this.props.tags.findIndex((tag)=>tag.url.includes(this.props.match.params.id))].name} {" "}
           <a
             href={"#/tag/edit/"+parseInt(this.props.match.params.id, 10)}
-            class="fa fa-info-circle fa-lg"
+            className="fa fa-info-circle fa-lg"
             style={{
               border: "none",
               backgroundColor: "white",
@@ -109,15 +110,15 @@ class Tag extends Component {
                 </th>
               </tr>
               {
-                this.props.tasks.map((task)=><tr style={{ cursor: "pointer" }}>
+                this.props.tasks.map((task)=><tr style={{ cursor: "pointer" }} key={task.id}>
                 <td style={{ verticalAlign: "center" }}>{task.id}</td>
                 <td>
-                  <span class="badge badge-success">{task.status.title}</span>
+                  <span className="badge badge-success">{task.status.title}</span>
                 </td>
                 <td onClick={() => this.props.history.push("/task/edit/"+task.id)}>
                   {task.title}
                   <p>
-                    {task.tags.map((tag)=><span class="badge mr-1" style={{backgroundColor:(tag.color.includes('#')?'':'#')+tag.color, color:'white'}}>{tag.title}</span>
+                    {task.tags.map((tag)=><span className="badge mr-1" key={tag.id} style={{backgroundColor:(tag.color.includes('#')?'':'#')+tag.color, color:'white'}}>{tag.title}</span>
                     )}
                   </p>
                 </td>

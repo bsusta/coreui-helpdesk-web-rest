@@ -34,7 +34,7 @@ class Subtasks extends Component {
   render() {
     return (
       <div>
-        <table class="table table-hover table-sm">
+        <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
               <th style={{ border: "0px" }}>Subtasks</th>
@@ -91,7 +91,7 @@ class Subtasks extends Component {
                       onChange={e =>
                         this.setState({ editedSubtask: e.target.value })
                       }
-                      class="form-control"
+                      className="form-control"
                       placeholder="Enter subtask"
                       style={{ border: "none" }}
                     />
@@ -125,7 +125,7 @@ class Subtasks extends Component {
                   <input
                     type="text"
                     id="name"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter new subtask"
                     value={this.state.newSubtask}
                     onChange={e =>
@@ -152,7 +152,7 @@ class Subtasks extends Component {
           </tbody>
         </table>
 
-        <table class="table table-hover table-sm">
+        <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
               <th style={{ border: "0px" }}>Material</th>
@@ -166,7 +166,7 @@ class Subtasks extends Component {
           </thead>
           <tbody>
             {this.props.items.map(item => (
-              <tr>
+              <tr key={item.id}>
                 <td>
                   <input
                     style={{ border: "none" }}
@@ -200,7 +200,7 @@ class Subtasks extends Component {
                         }
                       })
                     }
-                    class="form-control"
+                    className="form-control"
                     placeholder="Item name"
                   />
                 </td>
@@ -237,7 +237,7 @@ class Subtasks extends Component {
                         }
                       })
                     }
-                    class="form-control"
+                    className="form-control"
                     placeholder="Amount"
                   />
                 </td>
@@ -274,13 +274,13 @@ class Subtasks extends Component {
                         }
                       })
                     }
-                    class="form-control"
+                    className="form-control"
                     placeholder="Price per unit"
                   />
                 </td>
                 <td>
                   <select
-                    class="form-control"
+                    className="form-control"
                     value={item.unit.id}
                     id="status"
                     onChange={e => {
@@ -328,7 +328,7 @@ class Subtasks extends Component {
                   type="text"
                   value={this.state.newItem}
                   onChange={e => this.setState({ newItem: e.target.value })}
-                  class="form-control"
+                  className="form-control"
                 />
               </td>
               <td>
@@ -339,7 +339,7 @@ class Subtasks extends Component {
                   onChange={e =>
                     this.setState({ newItemCount: e.target.value })
                   }
-                  class="form-control"
+                  className="form-control"
                 />
               </td>
               <td>
@@ -350,12 +350,12 @@ class Subtasks extends Component {
                   onChange={e =>
                     this.setState({ newItemPrice: e.target.value })
                   }
-                  class="form-control"
+                  className="form-control"
                 />
               </td>
               <td>
                 <select
-                  class="form-control"
+                  className="form-control"
                   value={this.state.newItemUnit}
                   id="status"
                   onChange={e => {

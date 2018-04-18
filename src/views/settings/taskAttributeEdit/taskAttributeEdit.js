@@ -70,28 +70,28 @@ class TaskAttributeEdit extends Component {
     this.props.history.goBack();
   }
 
-  componentWillMount(){
+/*  componentWillMount(){
     let self = this;
     window.onbeforeunload = function() {
       if(self.state.changed){
         return "Are you sure you want to leave without saving?";
       }
     }
-  }
+  }*/
 
   render() {
     return (
       <div
-        class="card"
+        className="card"
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0",border:this.state.changed?'1px solid red':null }}
         >
 
-        <h4 class="card-header">Edit task attribute</h4>
-        <div class="card-body">
-          <div class="list-group">
+        <h4 className="card-header">Edit task attribute</h4>
+        <div className="card-body">
+          <div className="list-group">
 
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
                   checked={this.state.required}
@@ -100,13 +100,13 @@ class TaskAttributeEdit extends Component {
                     this.setState({ required: !this.state.required })
                   }
                 }
-                class="form-check-input"
+                className="form-check-input"
                 />
               Required
             </label>
           </div>
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
                   checked={this.state.is_active}
@@ -115,15 +115,15 @@ class TaskAttributeEdit extends Component {
                     this.setState({ is_active: !this.state.is_active })
                   }
                 }
-                class="form-check-input"
+                className="form-check-input"
                 />
               Active
             </label>
           </div>
-          <div class="form-group">
-            <label for="title">Name</label>
+          <div className="form-group">
+            <label htmlFor="title">Name</label>
             <input
-              class="form-control"
+              className="form-control"
               id="title"
               value={this.state.title}
               onChange={event =>{
@@ -133,13 +133,13 @@ class TaskAttributeEdit extends Component {
             }
             placeholder="Enter title"
             />
-            {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
+            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
         </div>
 
-        <div class="form-group">
-          <label for="description">Description</label>
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
           <textarea
-            class="form-control"
+            className="form-control"
             id="description"
             value={this.state.description}
             onChange={event =>{
@@ -151,10 +151,10 @@ class TaskAttributeEdit extends Component {
           />
       </div>
 
-        <div class="form-group">
-          <label for="title">Type</label>
+        <div className="form-group">
+          <label htmlFor="title">Type</label>
         <select
-          class="form-control"
+          className="form-control"
           value={this.state.type}
           onChange={(event) => {
             this.compareChanges("type",event.target.value);
@@ -173,7 +173,7 @@ class TaskAttributeEdit extends Component {
         </div>
         {
           (this.state.type=="simple_select" ||this.state.type=="multi_select")&&
-        <table class="table table-hover table-sm">
+        <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
               <th style={{ borderTop: "0px" }}>Select options</th>
@@ -190,7 +190,7 @@ class TaskAttributeEdit extends Component {
                   <input
                     type="text"
                     id={value}
-                    class="form-control"
+                    className="form-control"
                     placeholder="select value"
                     value={value}
                     onChange={(e)=>{
@@ -226,7 +226,7 @@ class TaskAttributeEdit extends Component {
                   <input
                     type="text"
                     id="title"
-                    class="form-control"
+                    className="form-control"
                     value={this.state.newOption}
                     onChange={(e)=>this.setState({newOption:e.target.value})}
                     placeholder="Select value name"
@@ -242,21 +242,25 @@ class TaskAttributeEdit extends Component {
               </td>
             </tr>
           </tbody>
-          { this.state.submitError && this.state.options.length===0 && <label for="title" style={{color:'red'}}>You must have at least one option!</label>}
+          { this.state.submitError && this.state.options.length===0 && <label htmlFor="title" style={{color:'red'}}>You must have at least one option!</label>}
         </table>
         }
-        <div class="row">
-        <button type="submit" class="btn btn-primary mr-2" onClick={this.submit.bind(this)}>
-          Submit
-        </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          onClick={() => this.props.history.goBack()}
+        <div className="form-group">
+          <button
+            type="submit"
+            className="btn btn-primary mr-2"
+            onClick={this.submit.bind(this)}
           >
-          Cancel
-        </button>
-      </div>
+            Submit
+          </button>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => this.props.history.goBack()}
+          >
+            Cancel
+          </button>
+        </div>
     </div>
   </div>
 </div>

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { addProject } from '../../redux/actions';
+import RichTextEditor from "react-rte";
 
 class ProjectAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "",
-      description: "",
+      description: RichTextEditor.createValueFromString('',"html"),
       permissions: [],
       submitError:false
     };
@@ -17,8 +18,7 @@ class ProjectAdd extends Component {
     this.setState({submitError:true});
     let body ={
       title:this.state.title,
-      description:this.state.description,
-    }
+      description:this.state.description.toString("html") }
     if(body.title===''){
       return;
     }
@@ -34,7 +34,7 @@ class ProjectAdd extends Component {
         <div>
           <button
             type="button"
-            class="btn btn-danger btn-sm"
+            className="btn btn-danger btn-sm"
             style={{ color: "white" }}
             onClick={this.props.history.goBack}
           >
@@ -43,7 +43,7 @@ class ProjectAdd extends Component {
 
           <button
             type="button"
-            class="btn btn-primary btn-sm"
+            className="btn btn-primary btn-sm"
             style={{ color: "white", marginLeft: 5 }}
             onClick={this.submit.bind(this)}
           >
@@ -51,29 +51,29 @@ class ProjectAdd extends Component {
           </button>
 
           <div style={{ marginTop: 15 }}>
-            <div class="form-group">
-              <label for="title">Project name</label>
+            <div className="form-group">
+              <label htmlFor="title">Project name</label>
               <input
-                class="form-control"
+                className="form-control"
                 placeholder="Enter project title"
                 value={this.state.title}
                 onChange={target =>
                   this.setState({ title: target.target.value })
                 }
               />
-              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
+              {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
             </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea
-                class="form-control"
-                id="description"
-                placeholder="Enter project description"
-                value={this.state.description}
-                onChange={target =>
-                  this.setState({ description: target.target.value })
-                }
-              />
+            <div className="form-group">
+              <label htmlFor="description">Description</label>
+                <RichTextEditor
+                  value={this.state.description}
+                  onChange={e => {
+                    this.setState({ description: e });
+                  }}
+                  placeholder="Enter description"
+                  toolbarClassName="demo-toolbar"
+                  editorClassName="demo-editor"
+                />
             </div>
           </div>
         </div>

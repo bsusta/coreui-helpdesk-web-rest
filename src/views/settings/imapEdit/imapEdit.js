@@ -108,21 +108,21 @@ class ImapEdit extends Component {
 
   render() {
     return (
-      <div class="card">
-        <h4 class="card-header">Edit IMap</h4>
-        <div class="card-body" style={{border:this.state.changed?'1px solid red':null}}>
-          {this.state.project===null&&<h5 class="card-header" style={{color:'red'}}>You can't edit IMaps without having any projects!</h5>}
+      <div className="card">
+        <h4 className="card-header">Edit IMap</h4>
+        <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
+          {this.state.project===null&&<h5 className="card-header" style={{color:'red'}}>You can't edit IMaps without having any projects!</h5>}
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
               this.props.history.goBack();
             }}
           >
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   checked={this.state.is_active}
                   onChange={target =>{
                     this.compareChanges('is_active', !this.state.is_active);
@@ -133,10 +133,10 @@ class ImapEdit extends Component {
               </label>
             </div>
 
-            <div class="form-group">
-              <label for="inbox_email">Inbox e-mail</label>
+            <div className="form-group">
+              <label htmlFor="inbox_email">Inbox e-mail</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="inbox_email"
                 type="email"
                 value={this.state.inbox_email}
@@ -147,13 +147,13 @@ class ImapEdit extends Component {
                 placeholder="Enter inbox email"
               />
             </div>
-            { this.state.inbox_email!==''&&!isEmail(this.state.inbox_email)&&<label for="inbox_email" style={{color:'red'}}>Entered e-mail address is not valid</label>}
-            { this.state.submitError && this.state.inbox_email===''&&<label for="inbox_email" style={{color:'red'}}>You must enter e-mail address</label>}
+            { this.state.inbox_email!==''&&!isEmail(this.state.inbox_email)&&<label htmlFor="inbox_email" style={{color:'red'}}>Entered e-mail address is not valid</label>}
+            { this.state.submitError && this.state.inbox_email===''&&<label htmlFor="inbox_email" style={{color:'red'}}>You must enter e-mail address</label>}
 
-            <div class="form-group">
-              <label for="move_email">Move e-mail</label>
+            <div className="form-group">
+              <label htmlFor="move_email">Move e-mail</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="move_email"
                 type="email"
                 value={this.state.move_email}
@@ -164,13 +164,13 @@ class ImapEdit extends Component {
                 placeholder="Enter move email"
               />
             </div>
-            { this.state.move_email!==''&&!isEmail(this.state.move_email)&&<label for="move_email" style={{color:'red'}}>Entered e-mail address is not valid</label>}
-            { this.state.submitError && this.state.move_email===''&&<label for="move_email" style={{color:'red'}}>You must enter e-mail address</label>}
+            { this.state.move_email!==''&&!isEmail(this.state.move_email)&&<label htmlFor="move_email" style={{color:'red'}}>Entered e-mail address is not valid</label>}
+            { this.state.submitError && this.state.move_email===''&&<label htmlFor="move_email" style={{color:'red'}}>You must enter e-mail address</label>}
 
-            <div class="form-group">
-              <label for="server">Server IP</label>
+            <div className="form-group">
+              <label htmlFor="server">Server IP</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="server"
                 value={this.state.host}
                 onChange={target =>{
@@ -180,12 +180,12 @@ class ImapEdit extends Component {
                 placeholder="Enter server"
               />
             </div>
-            { this.state.submitError && this.state.host===''&&<label for="server" style={{color:'red'}}>You must enter IP address</label>}
+            { this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>You must enter IP address</label>}
 
-            <div class="form-group">
-              <label for="port">Port</label>
+            <div className="form-group">
+              <label htmlFor="port">Port</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="port"
                 type="number"
                 value={this.state.port}
@@ -196,13 +196,13 @@ class ImapEdit extends Component {
                 placeholder="Enter port number"
               />
             </div>
-            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label for="port" style={{color:'red'}}>Your port number is not valid</label>}
-            { this.state.submitError && this.state.port===''&&<label for="port" style={{color:'red'}}>You must enter port number</label>}
+            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label htmlFor="port" style={{color:'red'}}>Your port number is not valid</label>}
+            { this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>You must enter port number</label>}
 
-            <div class="form-group">
-              <label for="log">Login</label>
+            <div className="form-group">
+              <label htmlFor="log">Login</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="log"
                 value={this.state.name}
                 onChange={target =>{
@@ -212,12 +212,12 @@ class ImapEdit extends Component {
                 placeholder="Enter login"
               />
             </div>
-            {this.state.submitError && this.state.name===''&&<label for="log" style={{color:'red'}}>You must enter login</label>}
+            {this.state.submitError && this.state.name===''&&<label htmlFor="log" style={{color:'red'}}>You must enter login</label>}
 
-            <div class="form-group">
-              <label for="pass">Password</label>
+            <div className="form-group">
+              <label htmlFor="pass">Password</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="pass"
                 value={this.state.password}
                 onChange={target =>{
@@ -227,12 +227,12 @@ class ImapEdit extends Component {
                 placeholder="Enter password"
               />
             </div>
-            {this.state.submitError && this.state.password===''&&<label for="pass" style={{color:'red'}}>You must enter password</label>}
+            {this.state.submitError && this.state.password===''&&<label htmlFor="pass" style={{color:'red'}}>You must enter password</label>}
 
-            <div class="form-group">
-              <label for="descr">Description</label>
+            <div className="form-group">
+              <label htmlFor="descr">Description</label>
               <textarea
-                class="form-control"
+                className="form-control"
                 id="descr"
                 value={this.state.description}
                 onChange={target =>{
@@ -249,7 +249,7 @@ class ImapEdit extends Component {
                 this.compareChanges('project', target.target.value);
                 this.setState({ project: target.target.value })}
               }
-              class="form-control"
+              className="form-control"
             >
               {this.props.projects.map(opt => (
                 <option key={opt.id} value={opt.id}>
@@ -258,11 +258,11 @@ class ImapEdit extends Component {
               ))}
             </select>
 
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   checked={this.state.ignore_certificate}
                   onChange={target =>{
                     this.compareChanges('ignore_certificate', !this.state.ignore_certificate);
@@ -273,11 +273,11 @@ class ImapEdit extends Component {
               </label>
             </div>
 
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   checked={this.state.ssl}
                   onChange={target =>{
                     this.compareChanges('ssl', !this.state.ssl);
@@ -287,28 +287,37 @@ class ImapEdit extends Component {
                 SSL
               </label>
             </div>
-
-            <button
-              type="submit"
-              disabled={this.state.project===null}
-              class="btn btn-secondary">
-              Test connection
-            </button>
-            <button
-              type="submit"
-              class="btn btn-primary"
-              disabled={this.state.project===null}
-              onClick={this.submit.bind(this)}
-            >
-              Submit
-            </button>
-            <button
-              type="delete"
-              class="btn btn-danger"
-              onClick={this.delete.bind(this)}
-            >
-              Delete
-            </button>
+            <div className="form-group">
+              <button
+                type="submit"
+                disabled={this.state.project===null}
+                className="btn btn-secondary">
+                Test connection
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={this.state.project===null}
+                onClick={this.submit.bind(this)}
+                >
+                Submit
+              </button>
+              <button
+                type="delete"
+                className="btn btn-danger"
+                onClick={this.delete.bind(this)}
+                >
+                Delete
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => this.props.history.goBack()}
+                >
+                Cancel
+              </button>
+            </div>
+            
           </form>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { editProject, savePermissions } from '../../redux/actions';
+import RichTextEditor from "react-rte";
 
 class ProjectEdit extends Component {
   constructor(props) {
@@ -10,7 +11,10 @@ class ProjectEdit extends Component {
     filteredUsers.splice(filteredUsers.findIndex((item)=>item.id===this.props.user.id),1);
     this.state = {
       title: this.props.project.title?this.props.project.title:'',
-      description: this.props.project.description?this.props.project.description:'',
+      description: RichTextEditor.createValueFromString(
+        this.props.project.description?this.props.project.description:'',
+        "html"
+      ),
       is_active: this.props.project.is_active?true:false,
       permissions:this.props.project.userHasProjects?this.props.project.userHasProjects:[],
       newUser: filteredUsers.length===0?'':filteredUsers[0].id,
@@ -25,7 +29,7 @@ class ProjectEdit extends Component {
     this.setState({submitError:true});
     let body ={
       title:this.state.title,
-      description:this.state.description===''?"null":this.state.description }
+      description:this.state.description.toString("html") }
       if(body.title===''){
         return;
       }
@@ -57,7 +61,7 @@ class ProjectEdit extends Component {
         <div>
           <button
             type="button"
-            class="btn btn-danger btn-sm"
+            className="btn btn-danger btn-sm"
             style={{ color: "white" }}
             onClick={this.props.history.goBack}
           >
@@ -65,53 +69,53 @@ class ProjectEdit extends Component {
           </button>
           <button
             type="button"
-            class="btn btn-primary btn-sm"
+            className="btn btn-primary btn-sm"
             style={{ color: "white", marginLeft: 5 }}
             onClick={this.submit.bind(this)}
           >
             Save changes
           </button>
           <form style={{ marginTop: 15 }}>
-            <div class="form-group">
+            <div className="form-group">
               <p>
-                <label class="switch switch-3d switch-primary">
+                <label className="switch switch-3d switch-primary">
                   <input
                     type="checkbox"
-                    class="switch-input"
+                    className="switch-input"
                     checked={this.state.is_active}
                     onChange={() =>
                       this.setState({ is_active: !this.state.is_active })
                     }
                   />
-                  <span class="switch-label" />
-                  <span class="switch-handle" />
+                  <span className="switch-label" />
+                  <span className="switch-handle" />
                 </label>
                 <label style={{ paddingLeft: 10 }}>
                   {this.state.is_active ? "Active" : "Archived"}
                 </label>
               </p>
-              <label for="title">Project name</label>
+              <label htmlFor="title">Project name</label>
               <input
-                class="form-control"
+                className="form-control"
                 placeholder="Enter project title"
                 value={this.state.title}
                 onChange={target =>
                   this.setState({ title: target.target.value })
                 }
               />
-              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
+              {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
             </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea
-                class="form-control"
-                id="description"
-                placeholder="Enter project description"
-                value={this.state.description}
-                onChange={target =>
-                  this.setState({ description: target.target.value })
-                }
-              />
+            <div className="form-group">
+              <label htmlFor="description">Description</label>
+                <RichTextEditor
+                  value={this.state.description}
+                  onChange={e => {
+                    this.setState({ description: e });
+                  }}
+                  placeholder="Enter description"
+                  toolbarClassName="demo-toolbar"
+                  editorClassName="demo-editor"
+                />
             </div>
           </form>
         </div>
@@ -126,7 +130,7 @@ class ProjectEdit extends Component {
             value={this.state.newUser}
             id="company"
             onChange={(e)=>this.setState({newUser:parseInt(e.target.value,10)})}
-            class="form-control">
+            className="form-control">
             {this.state.filteredUsers.map(opt => (
               <option
                 key={opt.id}
@@ -137,7 +141,7 @@ class ProjectEdit extends Component {
           </select>
           <button
             type="button"
-            class="btn btn-success"
+            className="btn btn-success"
             style={{ color: "white", marginLeft:5, paddingLeft: 5 }}
             onClick={() =>{
               let index = this.state.filteredUsers.findIndex((user)=>user.id===this.state.newUser);
@@ -163,7 +167,7 @@ class ProjectEdit extends Component {
         </div>
 
         <table
-          class="table table-striped table-hover table-sm"
+          className="table table-striped table-hover table-sm"
           style={{ marginTop: 10 }}>
           <thead className="thead-inverse">
             <tr>
@@ -182,7 +186,7 @@ class ProjectEdit extends Component {
           </thead>
           <tbody>
             {this.state.permissions.map(perm => (
-              <tr>
+              <tr key={perm.user.id}>
                 <td>{perm.user.username}</td>
                 <td>
                   <input type="checkbox" disabled={perm.user.id===this.props.user.id} checked={perm.acl.includes("view_own_tasks")} onChange={()=>this.setPermission(perm,"view_own_tasks")} />
@@ -228,7 +232,7 @@ class ProjectEdit extends Component {
         </table>
         <button
           type="button"
-          class="btn btn-primary"
+          className="btn btn-primary"
           onClick={()=>{
             this.props.savePermissions(this.state.permissions,this.state.lastSavedPermissions,this.props.project.id,this.props.token);
             this.setState({lastSavedPermissions:this.state.permissions});

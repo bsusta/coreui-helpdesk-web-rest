@@ -30,94 +30,13 @@ import {
   addFollower,
   deleteFollower
 } from "../../redux/actions";
-import { timestampToString } from "../../helperFunctions";
+import { timestampToString, initialiseCustomAttributes, processCustomAttributes,importExistingCustomAttributesForTask } from "../../helperFunctions";
 import MultiSelect from "../../components/multiSelect";
 class EditTask extends Component {
   constructor(props) {
     super(props);
-    let task_data = {};
-    this.props.taskAttributes.map(attribute => {
-      let value = "";
-      switch (attribute.type) {
-        case "input":
-          value = "";
-          break;
-        case "text_area":
-          value = "";
-          break;
-        case "simple_select":
-          value = attribute.options[0];
-          break;
-        case "multi_select":
-          value = [];
-          break;
-        case "date":
-          value = "";
-          break;
-        case "decimal_number":
-          value = "";
-          break;
-        case "integer_number":
-          value = "";
-          break;
-        case "checkbox":
-          value = false;
-          break;
-        default:
-          value = "null";
-      }
-      task_data[attribute.id] = value;
-    });
-
-    this.props.task.taskData.map(attribute => {
-      if (task_data.hasOwnProperty(attribute.taskAttribute.id)) {
-        ["value", "dateValue", "boolValue"].map(i => {
-          if (attribute[i] !== undefined) {
-            switch (i) {
-              case "dateValue": {
-                let date = new Date(attribute.dateValue * 1000);
-                if (isNaN(date)) {
-                  task_data[attribute.taskAttribute.id] = null;
-                } else {
-                  task_data[
-                    attribute.taskAttribute.id
-                  ] = date
-                    .toISOString()
-                    .substring(0, date.toISOString().length - 1);
-                }
-                break;
-              }
-              case "value": {
-                let original = this.props.taskAttributes[
-                  this.props.taskAttributes.findIndex(
-                    item => item.id == attribute.taskAttribute.id
-                  )
-                ];
-                if (original.type === "multi_select") {
-                  if (attribute.value === null) {
-                    task_data[attribute.taskAttribute.id] = [];
-                    break;
-                  }
-                  let selected = [];
-                  attribute.value.map(val =>
-                    selected.push(original.options.indexOf(val))
-                  );
-                  task_data[attribute.taskAttribute.id] = selected;
-                } else {
-                  task_data[attribute.taskAttribute.id] = attribute.value;
-                }
-                break;
-              }
-              case "boolValue":
-                task_data[attribute.taskAttribute.id] = attribute.boolValue;
-                break;
-              default:
-                break;
-            }
-          }
-        });
-      }
-    });
+    let task_data = importExistingCustomAttributesForTask(initialiseCustomAttributes(this.props.taskAttributes),this.props.task.taskData,this.props.taskAttributes);
+    task_data=this.fillCustomAttributesNulls(task_data,this.props.taskAttributes);
     let requestedBy;
     if (this.props.task.requestedBy) {
       requestedBy = { ...this.props.task.requestedBy };
@@ -147,13 +66,10 @@ class EditTask extends Component {
       company,
       deadline: this.props.task.deadline
         ? moment(this.props.task.deadline * 1000)
-        : "",
+        : null,
       startedAt: this.props.task.startedAt
         ? moment(this.props.task.startedAt * 1000)
-        : "",
-      closedAt: this.props.task.closedAt
-        ? moment(this.props.task.closedAt * 1000)
-        : "",
+        : null,
       description: RichTextEditor.createValueFromString(
         this.props.task.description,
         "html"
@@ -184,6 +100,24 @@ class EditTask extends Component {
     this.autoSubmit.bind(this);
   }
 
+  fillCustomAttributesNulls(attributes,originalAttributes){
+    for (let key in attributes) {
+      if(attributes[key]===null){
+        switch (originalAttributes[originalAttributes.findIndex(item => item.id == key)].type) {
+          case 'checkbox':
+            attributes[key]=false;
+          case 'date':
+            attributes[key]=moment();
+            break;
+          default:{
+            attributes[key]=10;
+          }
+        }
+      }
+    }
+    return attributes;
+  }
+
   delete(e) {
     e.preventDefault();
     if (confirm("Are you sure you wish to delete this task?")) {
@@ -203,69 +137,15 @@ class EditTask extends Component {
     if (name === "project") {
       state["project"] = value.project;
       state["taskSolver"] = "null";
-    } else if (name) {
+    } else if(name ==="newTag"){
+      state.tags=value.tags;
+      state.newTags=value.newTags;
+      state.newTag=value.newTag;
+    }
+     else if (name) {
       state[name] = value;
     }
-    let task_data = { ...this.state.task_data }; //create copy of company data
-    for (let key in task_data) {
-      let taskAttribute = this.props.taskAttributes[
-        this.props.taskAttributes.findIndex(item => item.id == key)
-      ]; //from ID find out everything about the field
-      switch (taskAttribute.type) {
-        case "multi_select": {
-          //its array of IDs, we need array if values
-          if (task_data[key].length === 0) {
-            task_data[key] = "null";
-            break;
-          }
-          let newMulti = [];
-          task_data[key].map(item =>
-            newMulti.push(taskAttribute.options[parseInt(item)])
-          );
-          task_data[key] = newMulti;
-          break;
-        }
-        case "date": //date should be formatted into miliseconds since 1970, divided by 1000 because of PHP/Javascript difference
-          let date =
-            (new Date(task_data[key]).getTime() -
-              new Date().getTimezoneOffset() * 60000) /
-            1000;
-          if (isNaN(date)) {
-            //if there is no date
-            task_data[key] = "null";
-            break;
-          }
-          task_data[key] = date;
-          break;
-        case "checkbox":
-          task_data[key] = task_data[key].toString();
-          break;
-        case "input":
-          if (task_data[key] === "") {
-            task_data[key] = "null";
-          }
-          break;
-        case "text_area":
-          if (task_data[key] === "") {
-            task_data[key] = "null";
-          }
-          break;
-          break;
-        case "decimal_number":
-          if (isNaN(parseFloat(this.state.task_data[key]))) {
-            task_data[key] = "null";
-          }
-          break;
-        case "integer_number":
-          if (isNaN(parseFloat(this.state.task_data[key]))) {
-            task_data[key] = "null";
-          }
-          break;
-        default:
-          break;
-      }
-    }
-
+    let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
     let tags = [];
     state.tags.map(addTag =>
       tags.push(
@@ -278,11 +158,9 @@ class EditTask extends Component {
         title: state.title,
         description: state.description.toString("html"),
         deadline:
-          state.deadline !== "" ? state.deadline.valueOf() / 1000 : "null",
+          state.deadline !== null ? state.deadline.valueOf() / 1000 : 'null',
         startedAt:
-          state.startedAt !== "" ? state.startedAt.valueOf() / 1000 : "null",
-        closedAt:
-          state.closedAt !== "" ? state.closedAt.valueOf() / 1000 : "null",
+          state.startedAt !== null ? state.startedAt.valueOf() / 1000 : 'null',
         important: state.important,
         work: state.work,
         workTime: state.workTime.length == 0 ? undefined : state.workTime,
@@ -313,18 +191,18 @@ class EditTask extends Component {
       <div>
         <Card>
           <CardHeader>
-            <button class="btn btn-link" onClick={this.props.history.goBack}>
-              <i class="fa fa-close" /> Close
+            <button className="btn btn-link" onClick={this.props.history.goBack}>
+              <i className="fa fa-close" /> Close
             </button>
-            <button class="btn btn-link" onClick={this.props.history.goBack}>
-              <i class="fa fa-ban" /> Cancel
+            <button className="btn btn-link" onClick={this.props.history.goBack}>
+              <i className="fa fa-ban" /> Cancel
             </button>
 
-            <button class="btn btn-link">
-              <i class="fa fa-print" /> Print
+            <button className="btn btn-link">
+              <i className="fa fa-print" /> Print
             </button>
-            <button class="btn btn-link" onClick={this.delete.bind(this)}>
-              <i class="fa fa-trash" /> Vymazať
+            <button className="btn btn-link" onClick={this.delete.bind(this)}>
+              <i className="fa fa-trash" /> Vymazať
             </button>
           </CardHeader>
           <CardBody>
@@ -333,12 +211,11 @@ class EditTask extends Component {
               style={{ borderBottom: "1px solid #eee", marginBottom: 17 }}
             >
               <div className="col-8">
-                <form>
-                  <div class="form-group">
-                    {/*<label for="title">Task Name</label>*/}
+                  <div className="form-group">
+                    {/*<label htmlFor ="title">Task Name</label>*/}
 
                     <input
-                      class="form-control"
+                      className="form-control"
                       id="title"
                       placeholder="Enter title"
                       value={this.state.title}
@@ -349,7 +226,6 @@ class EditTask extends Component {
                       }}
                     />
                   </div>
-                </form>
               </div>
               <div
                 className="col-4"
@@ -367,9 +243,39 @@ class EditTask extends Component {
               </div>
             </div>
             <div className="row">
+              <input
+                className="form-control"
+                id="newTag"
+                placeholder="Add new tag"
+                value={this.state.newTag}
+                style={{ width:200, marginLeft:15 }}
+                onChange={(e)=>this.setState({newTag:e.target.value})}
+              />
+
+              <button className="btn btn-success mr-1" onClick={()=>{
+                this.autoSubmit("newTag", {
+                    tags:this.state.tags.concat(((-1)*this.state.newTags.length-1)),
+                    newTags:this.state.newTags.concat({
+                      title:this.state.newTag,
+                      color:'7f7f7f',
+                      id:(-1)*this.state.newTags.length-1}),
+                    newTag:'',
+                  });
+                this.setState({
+                  tags:this.state.tags.concat(((-1)*this.state.newTags.length-1)),
+                  newTags:this.state.newTags.concat({
+                    title:this.state.newTag,
+                    color:'7f7f7f',
+                    id:(-1)*this.state.newTags.length-1}),
+                  newTag:'',
+                });
+              }}>
+                <i className="fa fa-plus" />
+              </button>
+            </div>
+            <div className="row">
               <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
-                <form>
-                  <div class="form-group">
+                  <div className="form-group">
                     <MultiSelect
                       id="tags"
                       data={this.state.newTags.concat(this.props.tags)}
@@ -390,7 +296,8 @@ class EditTask extends Component {
                       }}
                       renderItem={item => (
                         <span
-                          class="badge"
+                          key={item.id}
+                          className="badge"
                           style={{
                             margin: "auto",
                             borderRadius: "3px",
@@ -437,7 +344,6 @@ class EditTask extends Component {
                     toolbarClassName="demo-toolbar"
                     editorClassName="demo-editor"
                   />
-                </form>
                 <SubtasksLoader
                   taskID={this.props.task.id}
                   units={this.props.units.filter(unit => unit.is_active)}
@@ -446,12 +352,11 @@ class EditTask extends Component {
               </div>
 
               <div className="col-4">
-                <form>
                   <FormGroup>
-                    <label class="form-check-label">
+                    <label className="form-check-label">
                       <input
                         type="checkbox"
-                        class="form-check-input"
+                        className="form-check-input"
                         checked={this.state.important}
                         onChange={e => {
                           this.autoSubmit("important", !this.state.important);
@@ -463,13 +368,14 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label for="status">Status</label>
+                      <label htmlFor="status">Status</label>
+                      {this.props.task.closedAt && this.state.status.toString()==='4' && <span style={{float:'right'}}>Closed at: {timestampToString(this.props.task.closedAt)}</span>}
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-list" />
                       </InputGroupAddon>
                       <select
-                        class="form-control"
+                        className="form-control"
                         style={{
                           color: "white",
                           backgroundColor: this.props.statuses.find(
@@ -499,7 +405,7 @@ class EditTask extends Component {
                     </InputGroup>
                   </FormGroup>
                   <FormGroup>
-                    <label for="deadline">Due date</label>
+                    <label htmlFor="deadline">Due date</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
@@ -523,7 +429,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label for="startedAt">Started at</label>
+                    <label htmlFor="startedAt">Started at</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
@@ -547,38 +453,13 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label for="closedAt">Closed at</label>
-                    <InputGroup>
-                      <InputGroupAddon>
-                        <i className="fa fa-clock-o" />
-                      </InputGroupAddon>
-                      <div style={{ width: "100%" }} className="datepickerWrap">
-                        <DatePicker
-                          selected={this.state.closedAt}
-                          onChange={e => {
-                            this.autoSubmit("closedAt", e);
-                            this.setState({ closedAt: e });
-                          }}
-                          locale="en-gb"
-                          placeholderText="Closed at"
-                          showTimeSelect
-                          timeFormat="HH:mm"
-                          timeIntervals={30}
-                          dateFormat="DD.MM.YYYY HH:mm"
-                          style={{ width: "100%" }}
-                        />
-                      </div>
-                    </InputGroup>
-                  </FormGroup>
-
-                  <FormGroup>
-                    <label for="project">Project</label>
+                    <label htmlFor="project">Project</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-folder-o" />
                       </InputGroupAddon>
                       <select
-                        class="form-control"
+                        className="form-control"
                         id="project"
                         value={this.state.project}
                         onChange={e => {
@@ -610,13 +491,13 @@ class EditTask extends Component {
                     </InputGroup>
                   </FormGroup>
                   <FormGroup>
-                    <label for="assigned">Assigned</label>
+                    <label htmlFor="assigned">Assigned</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-user-plus" />
                       </InputGroupAddon>
                       <select
-                        class="form-control"
+                        className="form-control"
                         id="assigned"
                         value={this.state.taskSolver}
                         onChange={e => {
@@ -636,7 +517,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label for="requester">Requester</label>
+                    <label htmlFor="requester">Requester</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-user-o" />
@@ -665,7 +546,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label for="company">Company</label>
+                    <label htmlFor="company">Company</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-building-o" />
@@ -686,13 +567,13 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label for="workTime">Odpracované hodiny</label>
+                    <label htmlFor="workTime">Odpracované hodiny</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-hourglass-o" />
                       </InputGroupAddon>
                       <input
-                        class="form-control"
+                        className="form-control"
                         type="number"
                         id="workTime"
                         value={this.state.workTime}
@@ -706,13 +587,13 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label for="work">Práca</label>
+                    <label htmlFor="work">Práca</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-list" />
                       </InputGroupAddon>
                       <input
-                        class="form-control"
+                        className="form-control"
                         id="work"
                         value={this.state.work}
                         onChange={e => {
@@ -724,8 +605,8 @@ class EditTask extends Component {
                     </InputGroup>
                   </FormGroup>
 
-                  <FormGroup>
-                    <label for="assigned">Opakovanie</label>
+                  {false &&<FormGroup>
+                    <label htmlFor="assigned">Opakovanie</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-repeat" />
@@ -746,40 +627,38 @@ class EditTask extends Component {
                           no repeat
                         </DropdownToggle>
                         <DropdownMenu style={{ width: "100%" }}>
-                          <form class="px-4 py-3" style={{ width: "100%" }}>
-                            <div class="form-group" style={{ width: "100%" }}>
-                              <label for="exampleDropdownFormEmail1">
+                            <div className="form-group" style={{ width: "100%" }}>
+                              <label htmlFor="exampleDropdownFormEmail1">
                                 Repeat every
                               </label>
                               <input
                                 type="email"
-                                class="form-control"
+                                className="form-control"
                                 id="exampleDropdownFormEmail1"
                                 style={{ width: "100%" }}
                               />
                             </div>
-                            <div class="form-group">
-                              <label for="exampleDropdownFormEmail1">
+                            <div className="form-group">
+                              <label htmlFor="exampleDropdownFormEmail1">
                                 Start date
                               </label>
                               <input
                                 type="email"
-                                class="form-control"
+                                className="form-control"
                                 id="exampleDropdownFormEmail1"
                                 style={{ width: "100%" }}
                               />
                             </div>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" className="btn btn-primary">
                               Save
                             </button>
-                          </form>
                         </DropdownMenu>
                       </Dropdown>
                     </InputGroup>
-                  </FormGroup>
+                  </FormGroup>}
 
-                  <div class="form-group" style={{ marginBottom: 0 }}>
-                    <label for="fileUpload">Prílohy</label>
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label htmlFor="fileUpload">Prílohy</label>
                     <input
                       type="file"
                       id="fileUpload"
@@ -793,16 +672,17 @@ class EditTask extends Component {
                         }, 4000);
                       }}
                     />
-                    <label class="btn btn-primary btn-block" for="fileUpload">
+                    <label className="btn btn-primary btn-block" htmlFor="fileUpload">
                       Add attachement
                     </label>
                   </div>
 
-                  <div class="form-group">
+                  <div className="form-group">
                     <div style={{ paddingTop: 5, paddingRight: 10 }}>
                       {this.props.attachements.map(item => (
                         <span
-                          class="badge"
+                          key={item.url}
+                          className="badge"
                           style={{
                             backgroundColor: "#d3eef6",
                             color: "black",
@@ -840,7 +720,7 @@ class EditTask extends Component {
 
                           <button
                             type="button"
-                            class="close"
+                            className="close"
                             aria-label="Close"
                             style={{ marginTop: "auto", marginBottom: "auto" }}
                             onClick={() => {
@@ -868,7 +748,7 @@ class EditTask extends Component {
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  <div className="form-group">
                     <MultiSelect
                       data={this.props.users}
                       displayValue="email"
@@ -888,7 +768,8 @@ class EditTask extends Component {
                       }}
                       renderItem={item => (
                         <div
-                          class="badge"
+                          className="badge"
+                          key={item.id}
                           style={{
                             borderRadius: "3px",
                             paddingLeft: 10,
@@ -938,10 +819,10 @@ class EditTask extends Component {
                     switch (attribute.type) {
                       case "input":
                         return (
-                          <div class="form-group">
-                            <label for={attribute.id}>{attribute.title}</label>
+                          <div className="form-group" key={attribute.id}>
+                            <label htmlFor={attribute.id}>{attribute.title}</label>
                             <input
-                              class="form-control"
+                              className="form-control"
                               id={attribute.id}
                               value={this.state.task_data[attribute.id]}
                               onChange={e => {
@@ -956,10 +837,10 @@ class EditTask extends Component {
                         );
                       case "text_area":
                         return (
-                          <div class="form-group">
-                            <label for={attribute.id}>{attribute.title}</label>
+                          <div className="form-group" key={attribute.id}>
+                            <label htmlFor={attribute.id}>{attribute.title}</label>
                             <textarea
-                              class="form-control"
+                              className="form-control"
                               id={attribute.id}
                               value={this.state.task_data[attribute.id]}
                               onChange={e => {
@@ -974,10 +855,10 @@ class EditTask extends Component {
                         );
                       case "simple_select":
                         return (
-                          <div class="form-group">
-                            <label for={attribute.id}>{attribute.title}</label>
+                          <div className="form-group" key={attribute.id}>
+                            <label htmlFor={attribute.id}>{attribute.title}</label>
                             <select
-                              class="form-control"
+                              className="form-control"
                               id={attribute.id}
                               value={this.state.task_data[attribute.id]}
                               onChange={e => {
@@ -1011,7 +892,7 @@ class EditTask extends Component {
                           })
                         );
                         return (
-                          <div class="form-group">
+                          <div className="form-group" key={attribute.id}>
                             <MultiSelect
                               id={attribute.id}
                               data={opt}
@@ -1032,7 +913,8 @@ class EditTask extends Component {
                               }}
                               renderItem={item => (
                                 <span
-                                  class="badge"
+                                  className="badge"
+                                  key={item.id}
                                   style={{
                                     margin: "auto",
                                     border: "1px solid black",
@@ -1072,8 +954,8 @@ class EditTask extends Component {
                       }
                       case "date":
                         return (
-                          <div class="form-group">
-                            <label for={attribute.id}>{attribute.title}</label>
+                          <div className="form-group" key={attribute.id}>
+                            <label htmlFor={attribute.id}>{attribute.title}</label>
                             <DatePicker
                               selected={this.state.task_data[attribute.id]}
                               onChange={e => {
@@ -1093,10 +975,10 @@ class EditTask extends Component {
                         );
                       case "decimal_number":
                         return (
-                          <div class="form-group">
-                            <label for={attribute.id}>{attribute.title}</label>
+                          <div className="form-group" key={attribute.id}>
+                            <label htmlFor={attribute.id}>{attribute.title}</label>
                             <input
-                              class="form-control"
+                              className="form-control"
                               type="number"
                               id={attribute.id}
                               value={this.state.task_data[attribute.id]}
@@ -1112,10 +994,10 @@ class EditTask extends Component {
                         );
                       case "integer_number":
                         return (
-                          <div class="form-group">
-                            <label for={attribute.id}>{attribute.title}</label>
+                          <div className="form-group" key={attribute.id}>
+                            <label htmlFor={attribute.id}>{attribute.title}</label>
                             <input
-                              class="form-control"
+                              className="form-control"
                               type="number"
                               id={attribute.id}
                               value={this.state.task_data[attribute.id]}
@@ -1131,11 +1013,11 @@ class EditTask extends Component {
                         );
                       case "checkbox":
                         return (
-                          <div class="form-check">
-                            <label class="form-check-label">
+                          <div className="form-group" key={attribute.id}>
+                            <label className="form-check-label">
                               <input
                                 type="checkbox"
-                                class="form-check-input"
+                                className="form-check-input"
                                 checked={this.state.task_data[attribute.id]}
                                 onChange={() => {
                                   let newData = { ...this.state.task_data };
@@ -1155,7 +1037,6 @@ class EditTask extends Component {
                         return <div>{attribute.title}</div>;
                     }
                   })}
-                </form>
               </div>
             </div>
           </CardBody>
@@ -1174,9 +1055,11 @@ const mapStateToProps = ({
   login,
   usersReducer,
   attachementsReducer,
-  followersReducer
+  followersReducer,
+  taskAttributesReducer
 }) => {
-  const { task, taskProjects, taskAttributes, taskSolvers } = tasksReducer;
+  const { task, taskProjects, taskSolvers } = tasksReducer;
+  const {taskAttributes} = taskAttributesReducer;
   const { statuses } = statusesReducer;
   const { companies } = companiesReducer;
   const { tags } = tagsReducer;

@@ -26,27 +26,28 @@ class RolesList extends Component {
               this.state.active.toLowerCase().includes("c")) ||
           this.state.active == ""
       )
-      .sort((item, item2) => item.name > item2.name);
+      .sort((item, item2) => item.order > item2.order);
   }
 
   render() {
     return (
-      <div class="table-div">
+      <div className="table-div">
         <h2 className="mb-3">Roles list</h2>
 
         <button
           type="button"
-          class="btn btn-success"
+          className="btn btn-success"
           onClick={() => this.props.history.push("/role/add")}
         >
           Add new role
         </button>
 
-        <table class="table table-striped table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ borderTop: "0px" }}>Name</th>
               <th style={{ borderTop: "0px" }}>Active</th>
+              <th style={{ borderTop: "0px" }}>Order</th>
             </tr>
           </thead>
           <tbody>
@@ -69,6 +70,15 @@ class RolesList extends Component {
                   onChange={e => this.setState({ active: e.target.value })}
                 />
               </th>
+              <th>
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  name="input1-group1"
+                  disabled={true}
+                  style={{ display: "none" }}
+                />
+              </th>
             </tr>
             {this.getFilteredData().map(role => (
               <tr
@@ -78,11 +88,12 @@ class RolesList extends Component {
                 <td>{role.title}</td>
                 <td>
                   {role.is_active ? (
-                    <span class="badge badge-success">Yes</span>
+                    <span className="badge badge-success">Yes</span>
                   ) : (
-                    <span class="badge badge-danger">No</span>
+                    <span className="badge badge-danger">No</span>
                   )}
                 </td>
+                <td>{role.order}</td>
               </tr>
             ))}
           </tbody>

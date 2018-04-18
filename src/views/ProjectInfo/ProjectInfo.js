@@ -30,7 +30,7 @@ class ProjectInfo extends Component {
         <div style={{ marginTop: 10 }}>
           <p>Status: {this.props.project.is_active ? "Active" : "Archived"}</p>
 
-          <div className="card-text">{this.props.project.description}</div>
+          <div className="card-text" dangerouslySetInnerHTML={{__html: this.props.project.description?this.props.project.description:"<p/>"}}/>
         </div>
       </div>
     );

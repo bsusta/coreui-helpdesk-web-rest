@@ -113,17 +113,17 @@ class RoleEdit extends Component {
 
   render() {
     return (
-      <div class="card">
-        <h4 class="card-header">Edit role</h4>
-        <div class="card-body" style={{border:this.state.changed?'1px solid red':null}}>
+      <div className="card">
+        <h4 className="card-header">Edit role</h4>
+        <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
               this.props.history.goBack();
             }}
           >
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
                   checked={this.state.is_active}
@@ -131,16 +131,16 @@ class RoleEdit extends Component {
                     this.compareChanges('is_active', !this.state.is_active);
                     this.setState({ is_active: !this.state.is_active })
                   }}
-                  class="form-check-input"
+                  className="form-check-input"
                 />
                 Active
               </label>
             </div>
 
-            <div class="form-group">
-              <label for="title">Role name</label>
+            <div className="form-group">
+              <label htmlFor="title">Role name</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="title"
                 value={this.state.title}
                 onChange={target =>{
@@ -150,13 +150,13 @@ class RoleEdit extends Component {
                 placeholder="Enter role name"
               />
             </div>
-            {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
+            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
 
 
-            <div class="form-group">
-              <label for="description">Description</label>
+            <div className="form-group">
+              <label htmlFor="description">Description</label>
               <textarea
-                class="form-control"
+                className="form-control"
                 id="description"
                 placeholder="Description"
                 value={this.state.description}
@@ -167,10 +167,10 @@ class RoleEdit extends Component {
               />
             </div>
 
-            <div class="form-group">
-              <label for="homepage">Homepage</label>
+            <div className="form-group">
+              <label htmlFor="homepage">Homepage</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="homepage"
                 value={this.state.homepage}
                 onChange={target =>{
@@ -180,12 +180,12 @@ class RoleEdit extends Component {
                 placeholder="Enter roles homepage"
               />
             </div>
-            {this.state.submitError && this.state.homepage===''&&<label for="homepage" style={{color:'red'}}>You must enter role's homepage</label>}
+            {this.state.submitError && this.state.homepage===''&&<label htmlFor="homepage" style={{color:'red'}}>You must enter role's homepage</label>}
 
-            <div class="form-group">
-              <label for="order">Order</label>
+            <div className="form-group">
+              <label htmlFor="order">Order</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="order"
                 type="number"
                 value={this.state.order}
@@ -196,16 +196,16 @@ class RoleEdit extends Component {
                 placeholder="Enter order (should be heigher then the one of yours role)"
               />
             </div>
-            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label for="order" style={{color:'red'}}>Your order number is not valid</label>}
-            { this.state.submitError && this.state.order===''&&<label for="order" style={{color:'red'}}>You must enter order number</label>}
+            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label htmlFor="order" style={{color:'red'}}>Your order number is not valid</label>}
+            { this.state.submitError && this.state.order===''&&<label htmlFor="order" style={{color:'red'}}>You must enter order number</label>}
 
             <h3>ACLs</h3>
             {ACLs.map(acl => (
-              <div class="form-check">
-                <label class="form-check-label">
+              <div className="form-check" key={acl.value}>
+                <label className="form-check-label">
                   <input
                     type="checkbox"
-                    class="form-check-input"
+                    className="form-check-input"
                     checked={this.state.acl.includes(acl.value)}
                     onChange={() => this.aclChange(acl.value)}
                   />
@@ -214,13 +214,22 @@ class RoleEdit extends Component {
               </div>
             ))}
 
-            <button
-              type="submit"
-              onClick={this.submit.bind(this)}
-              class="btn btn-primary"
-            >
-              Submit
-            </button>
+            <div className="form-group">
+              <button
+                type="submit"
+                className="btn btn-primary mr-2"
+                onClick={this.submit.bind(this)}
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => this.props.history.goBack()}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>

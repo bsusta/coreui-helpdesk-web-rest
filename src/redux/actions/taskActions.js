@@ -151,7 +151,6 @@ export const getTask = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
-        console.log('done');
         if(!response.ok){
           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
           return;
@@ -212,15 +211,14 @@ export const getTask = (id,token) => {
 */
 export const addTask = (body,projectID,statusID,token) => {
   return (dispatch) => {
-    getTask(10,token)(dispatch);
-    return;
+    //getTask(10,token)(dispatch);
     fetch(TASKS_LIST+'/project/'+projectID+'/status/'+statusID,{
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
       method: 'POST',
-      body:JSON.stringify({title:body}),
+      body:JSON.stringify(body),
     })
     .then((response)=>{
       if(!response.ok){
@@ -228,6 +226,8 @@ export const addTask = (body,projectID,statusID,token) => {
         return;
       }
       response.json().then((response)=>{
+        console.log('new task');
+        console.log(response);
         dispatch({type: ADD_TASK, task:response.data});
       })})
       .catch(function (error) {

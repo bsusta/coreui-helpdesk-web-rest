@@ -11,6 +11,7 @@ class StatusesList extends Component {
       name: "",
       description: ""
     };
+    console.log(this.props.statuses);
     this.getFilteredData.bind(this);
   }
 
@@ -34,29 +35,30 @@ class StatusesList extends Component {
               this.state.active.toLowerCase().includes("c")) ||
           this.state.active == ""
       )
-      .sort((item, item2) => item.name > item2.name);
+      .sort((item, item2) => item.order > item2.order);
   }
 
   render() {
     return (
-      <div class="table-div">
+      <div className="table-div">
         <h2 className="mb-3">Statuses list</h2>
 
         <button
           type="button"
-          class="btn btn-success"
+          className="btn btn-success"
           onClick={() => this.props.history.push("/status/add")}
         >
           Add new status
         </button>
 
-        <table class="table table-striped table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ borderTop: "0px" }}>Name</th>
               <th style={{ borderTop: "0px" }}>Description</th>
               <th style={{ borderTop: "0px" }}>Color</th>
               <th style={{ borderTop: "0px" }}>Active</th>
+              <th style={{ borderTop: "0px" }}>Order</th>
             </tr>
           </thead>
           <tbody>
@@ -97,6 +99,15 @@ class StatusesList extends Component {
                   onChange={e => this.setState({ active: e.target.value })}
                 />
               </th>
+              <th>
+                <Input
+                  type="text"
+                  id="input1-group1"
+                  name="input1-group1"
+                  disabled={true}
+                  style={{ display: "none" }}
+                />
+              </th>
             </tr>
             {this.getFilteredData().map(status => (
               <tr
@@ -109,7 +120,7 @@ class StatusesList extends Component {
                 <td>{status.description}</td>
                 <td>
                   <span
-                    class="badge"
+                    className="badge"
                     style={{
                       color: "white",
                       backgroundColor: status.color,
@@ -122,11 +133,12 @@ class StatusesList extends Component {
                 </td>
                 <td>
                   {status.is_active ? (
-                    <span class="badge badge-success">Yes</span>
+                    <span className="badge badge-success">Yes</span>
                   ) : (
-                    <span class="badge badge-danger">No</span>
+                    <span className="badge badge-danger">No</span>
                   )}
                 </td>
+                <td>{status.order}</td>
               </tr>
             ))}
           </tbody>

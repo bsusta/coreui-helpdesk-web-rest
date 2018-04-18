@@ -36,18 +36,18 @@ class UnitsList extends Component {
 
   render() {
     return (
-      <div class="table-div">
+      <div className="table-div">
         <h2 className="mb-3">Unit list</h2>
 
         <button
           type="button"
-          class="btn btn-success"
+          className="btn btn-success"
           onClick={() => this.props.history.push("/unit/add")}
         >
           Add new unit
         </button>
 
-        <table class="table table-striped table-hover">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th style={{ borderTop: "0px" }}>Title</th>
@@ -94,9 +94,9 @@ class UnitsList extends Component {
                 <td>{unit.shortcut}</td>
                 <td>
                   {unit.is_active ? (
-                    <span class="badge badge-success">Yes</span>
+                    <span className="badge badge-success">Yes</span>
                   ) : (
-                    <span class="badge badge-danger">No</span>
+                    <span className="badge badge-danger">No</span>
                   )}
                 </td>
               </tr>

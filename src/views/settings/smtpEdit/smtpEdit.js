@@ -67,19 +67,19 @@ class SMTPEdit extends Component {
   }
   render() {
     return (
-      <div class="card">
-        <h4 class="card-header">Edit SMTP</h4>
-        <div class="card-body" style={{border:this.state.changed?'1px solid red':null}}>
+      <div className="card">
+        <h4 className="card-header">Edit SMTP</h4>
+        <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
               this.props.history.goBack();
             }}
           >
-            <div class="form-group">
-              <label for="email">*E-mail</label>
+            <div className="form-group">
+              <label htmlFor="email">*E-mail</label>
               <input
-                class="form-control"
+                className="form-control"
                 value={this.state.email}
                 onChange={target =>{
                   this.compareChanges('email', target.target.value);
@@ -90,13 +90,13 @@ class SMTPEdit extends Component {
                 placeholder="Enter email"
               />
             </div>
-            { this.state.email!==''&&!isEmail(this.state.email)&&<label for="email" style={{color:'red'}}>Your e-mail address is not valid</label>}
-            {this.state.submitError && this.state.email===''&&<label for="email" style={{color:'red'}}>You must enter e-mail address</label>}
+            { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>Your e-mail address is not valid</label>}
+            {this.state.submitError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>You must enter e-mail address</label>}
 
-            <div class="form-group">
-              <label for="server">*Server IP</label>
+            <div className="form-group">
+              <label htmlFor="server">*Server IP</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="server"
                 value={this.state.host}
                 onChange={target =>{
@@ -106,11 +106,11 @@ class SMTPEdit extends Component {
                 placeholder="Enter server"
               />
             </div>
-            {this.state.submitError && this.state.host===''&&<label for="server" style={{color:'red'}}>You must enter host IP address</label>}
-            <div class="form-group">
-              <label for="port">*Port</label>
+            {this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>You must enter host IP address</label>}
+            <div className="form-group">
+              <label htmlFor="port">*Port</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="port"
                 type="number"
                 value={this.state.port}
@@ -121,13 +121,13 @@ class SMTPEdit extends Component {
                 placeholder="Enter port number"
               />
             </div>
-            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label for="port" style={{color:'red'}}>Your port number is not valid</label>}
-            {this.state.submitError && this.state.port===''&&<label for="port" style={{color:'red'}}>You must enter port number</label>}
+            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label htmlFor="port" style={{color:'red'}}>Your port number is not valid</label>}
+            {this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>You must enter port number</label>}
 
-            <div class="form-group">
-              <label for="login">*Login</label>
+            <div className="form-group">
+              <label htmlFor="login">*Login</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="login"
                 value={this.state.name}
                 onChange={target =>{
@@ -136,13 +136,13 @@ class SMTPEdit extends Component {
                 }
                 placeholder="Enter login"
               />
-            {this.state.submitError && this.state.name===''&&<label for="login" style={{color:'red'}}>You must enter login</label>}
+            {this.state.submitError && this.state.name===''&&<label htmlFor="login" style={{color:'red'}}>You must enter login</label>}
             </div>
 
-            <div class="form-group">
-              <label for="pass">*Password</label>
+            <div className="form-group">
+              <label htmlFor="pass">*Password</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="pass"
                 value={this.state.password}
                 onChange={target =>{
@@ -151,14 +151,14 @@ class SMTPEdit extends Component {
                 }
                 placeholder="Enter password"
               />
-            {this.state.submitError && this.state.password===''&&<label for="password" style={{color:'red'}}>You must enter password</label>}
+            {this.state.submitError && this.state.password===''&&<label htmlFor="password" style={{color:'red'}}>You must enter password</label>}
             </div>
 
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   checked={this.state.tls}
                   onChange={target =>{
                     this.compareChanges('tls', !this.state.tls);
@@ -169,11 +169,11 @@ class SMTPEdit extends Component {
               </label>
             </div>
 
-            <div class="form-check">
-              <label class="form-check-label">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   checked={this.state.ssl}
                   onChange={target =>{
                     this.compareChanges('ssl', !this.state.ssl);
@@ -183,13 +183,22 @@ class SMTPEdit extends Component {
                 SSL
               </label>
             </div>
-            <button
-              type="submit"
-              class="btn btn-primary"
-              onClick={this.submit.bind(this)}
-            >
-              Submit
-            </button>
+            <div className="form-group">
+              <button
+                type="submit"
+                className="btn btn-primary mr-2"
+                onClick={this.submit.bind(this)}
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => this.props.history.goBack()}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>

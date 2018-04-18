@@ -55,15 +55,15 @@ class TaskAttributeAdd extends Component {
 
   render() {
     return (
-      <div class="card">
-        <h4 class="card-header">Add task attribute</h4>
-        <div class="card-body">
-          <div class="list-group">
-            <div class="form-check">
-              <label class="form-check-label">
+      <div className="card">
+        <h4 className="card-header">Add task attribute</h4>
+        <div className="card-body">
+          <div className="list-group">
+            <div className="form-check">
+              <label className="form-check-label">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   checked={this.state.required}
                   onChange={() =>
                     this.setState({ required: !this.state.required })
@@ -73,10 +73,10 @@ class TaskAttributeAdd extends Component {
               </label>
             </div>
 
-            <div class="form-group">
-              <label for="title">Name</label>
+            <div className="form-group">
+              <label htmlFor="title">Name</label>
               <input
-                class="form-control"
+                className="form-control"
                 id="title"
                 value={this.state.title}
                 onChange={event => {
@@ -84,13 +84,13 @@ class TaskAttributeAdd extends Component {
                 }}
                 placeholder="Enter title"
               />
-              {this.state.submitError && this.state.title===''&&<label for="title" style={{color:'red'}}>You must enter title</label>}
+              {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
             </div>
 
-            <div class="form-group">
-              <label for="description">Description</label>
+            <div className="form-group">
+              <label htmlFor="description">Description</label>
               <textarea
-                class="form-control"
+                className="form-control"
                 id="description"
                 value={this.state.description}
                 onChange={event =>
@@ -100,10 +100,10 @@ class TaskAttributeAdd extends Component {
               />
             </div>
 
-            <div class="form-group">
-              <label for="title">Type</label>
+            <div className="form-group">
+              <label htmlFor="title">Type</label>
               <select
-                class="form-control"
+                className="form-control"
                 value={this.state.type}
                 onChange={event => {
                   this.setState({ type: event.target.value });
@@ -118,7 +118,7 @@ class TaskAttributeAdd extends Component {
             </div>
             {(this.state.type == "simple_select" ||
               this.state.type == "multi_select") && (
-              <table class="table table-hover table-sm">
+              <table className="table table-hover table-sm">
                 <thead className="thead-inverse">
                   <tr>
                     <th style={{ borderTop: "0px" }}>Select options</th>
@@ -138,7 +138,7 @@ class TaskAttributeAdd extends Component {
                         <input
                           type="text"
                           id={value}
-                          class="form-control"
+                          className="form-control"
                           placeholder="select value"
                           value={value}
                           onChange={e => {
@@ -178,7 +178,7 @@ class TaskAttributeAdd extends Component {
                         <input
                           type="text"
                           id="title"
-                          class="form-control"
+                          className="form-control"
                           value={this.state.newOption}
                           onChange={e =>
                             this.setState({ newOption: e.target.value })
@@ -204,20 +204,20 @@ class TaskAttributeAdd extends Component {
                     </td>
                   </tr>
                 </tbody>
-                { this.state.submitError && this.state.options.length===0 && <label for="title" style={{color:'red'}}>You must have at least one option!</label>}
+                { this.state.submitError && this.state.options.length===0 && <label htmlFor="title" style={{color:'red'}}>You must have at least one option!</label>}
               </table>
             )}
-            <div class="row">
+            <div className="form-group">
               <button
                 type="submit"
-                class="btn btn-primary mr-2"
+                className="btn btn-primary mr-2"
                 onClick={this.submit.bind(this)}
               >
                 Submit
               </button>
               <button
                 type="button"
-                class="btn btn-danger"
+                className="btn btn-danger"
                 onClick={() => this.props.history.goBack()}
               >
                 Cancel
