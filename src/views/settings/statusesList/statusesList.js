@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { InputGroup, InputGroupAddon, Input } from "reactstrap";
+import {
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Card,
+  CardHeader
+} from "reactstrap";
 import { connect } from "react-redux";
 
 class StatusesList extends Component {
@@ -40,112 +46,118 @@ class StatusesList extends Component {
 
   render() {
     return (
-      <div className="table-div">
-        <h2 className="mb-3">
-          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
-        Statuses list</h2>
+      <Card>
+        <CardHeader>
+          <button className="btn btn-link" onClick={this.props.history.goBack}>
+            <i className="fa fa-angle-left" /> Back
+          </button>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.history.push("/status/add")}
+          >
+            <i className="fa fa-plus" /> Status
+          </button>
+        </CardHeader>
+        <div className="table-div">
+          <h2 className="mb-3">Statuses list</h2>
 
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => this.props.history.push("/status/add")}
-        >
-          Add new status
-        </button>
-
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th style={{ borderTop: "0px" }}>Name</th>
-              <th style={{ borderTop: "0px" }}>Description</th>
-              <th style={{ borderTop: "0px" }}>Color</th>
-              <th style={{ borderTop: "0px" }}>Active</th>
-              <th style={{ borderTop: "0px" }}>Order</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.name}
-                  name="input1-group1"
-                  onChange={e => this.setState({ name: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.description}
-                  name="input1-group1"
-                  onChange={e => this.setState({ description: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  name="input1-group1"
-                  disabled={true}
-                  style={{ display: "none" }}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.active}
-                  name="input1-group1"
-                  onChange={e => this.setState({ active: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  name="input1-group1"
-                  disabled={true}
-                  style={{ display: "none" }}
-                />
-              </th>
-            </tr>
-            {this.getFilteredData().map(status => (
-              <tr
-                key={status.id}
-                onClick={() =>
-                  this.props.history.push("/status/edit/" + status.id)
-                }
-              >
-                <td>{status.title}</td>
-                <td>{status.description}</td>
-                <td>
-                  <span
-                    className="badge"
-                    style={{
-                      color: "white",
-                      backgroundColor: status.color,
-                      padding: 10,
-                      fontSize: 15
-                    }}
-                  >
-                    {status.title}
-                  </span>
-                </td>
-                <td>
-                  {status.is_active ? (
-                    <span className="badge badge-success">Yes</span>
-                  ) : (
-                    <span className="badge badge-danger">No</span>
-                  )}
-                </td>
-                <td>{status.order}</td>
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th style={{ borderTop: "0px" }}>Name</th>
+                <th style={{ borderTop: "0px" }}>Description</th>
+                <th style={{ borderTop: "0px" }}>Color</th>
+                <th style={{ borderTop: "0px" }}>Active</th>
+                <th style={{ borderTop: "0px" }}>Order</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              <tr>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.name}
+                    name="input1-group1"
+                    onChange={e => this.setState({ name: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.description}
+                    name="input1-group1"
+                    onChange={e =>
+                      this.setState({ description: e.target.value })
+                    }
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    name="input1-group1"
+                    disabled={true}
+                    style={{ display: "none" }}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.active}
+                    name="input1-group1"
+                    onChange={e => this.setState({ active: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    name="input1-group1"
+                    disabled={true}
+                    style={{ display: "none" }}
+                  />
+                </th>
+              </tr>
+              {this.getFilteredData().map(status => (
+                <tr
+                  key={status.id}
+                  onClick={() =>
+                    this.props.history.push("/status/edit/" + status.id)
+                  }
+                >
+                  <td>{status.title}</td>
+                  <td>{status.description}</td>
+                  <td>
+                    <span
+                      className="badge"
+                      style={{
+                        color: "white",
+                        backgroundColor: status.color,
+                        padding: 10,
+                        fontSize: 15
+                      }}
+                    >
+                      {status.title}
+                    </span>
+                  </td>
+                  <td>
+                    {status.is_active ? (
+                      <span className="badge badge-success">Yes</span>
+                    ) : (
+                      <span className="badge badge-danger">No</span>
+                    )}
+                  </td>
+                  <td>{status.order}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     );
   }
 }

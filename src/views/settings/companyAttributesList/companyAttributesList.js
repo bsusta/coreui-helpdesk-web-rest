@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { InputGroup, InputGroupAddon, Input } from "reactstrap";
+import {
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Card,
+  CardHeader
+} from "reactstrap";
 import { connect } from "react-redux";
 
 class CompanyAttributesList extends Component {
@@ -38,102 +44,108 @@ class CompanyAttributesList extends Component {
               this.state.required.toLowerCase().includes("t") ||
               this.state.required.toLowerCase().includes("c")) ||
           this.state.required == ""
-      ).sort((item, item2) => item.title > item2.title).sort((item, item2) => item2.is_active - item.is_active);
+      )
+      .sort((item, item2) => item.title > item2.title)
+      .sort((item, item2) => item2.is_active - item.is_active);
   }
 
   render() {
     return (
-      <div className="table-div">
-        <h2 className="mb-3">
-          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
-        Company attributes list</h2>
+      <Card>
+        <CardHeader>
+          <button className="btn btn-link" onClick={this.props.history.goBack}>
+            <i className="fa fa-angle-left" /> Back
+          </button>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.history.push("/companyAttribute/add")}
+          >
+            <i className="fa fa-plus" /> Company Attribute
+          </button>
+        </CardHeader>
+        <div className="table-div">
+          <h2 className="mb-3">Company attributes list</h2>
 
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => this.props.history.push("/companyAttribute/add")}
-        >
-          Add new company attribute
-        </button>
-
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th style={{ borderTop: "0px" }}>Custom field name</th>
-              <th style={{ borderTop: "0px" }}>Type</th>
-              <th style={{ borderTop: "0px" }}>Active</th>
-              <th style={{ borderTop: "0px" }}>Required</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.title}
-                  name="input1-group1"
-                  onChange={e => this.setState({ title: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.type}
-                  name="input1-group1"
-                  onChange={e => this.setState({ type: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.active}
-                  name="input1-group1"
-                  onChange={e => this.setState({ active: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.required}
-                  name="input1-group1"
-                  onChange={e => this.setState({ required: e.target.value })}
-                />
-              </th>
-            </tr>
-            {this.getFilteredData().map(companyAttribute => (
-              <tr
-                key={companyAttribute.id}
-                onClick={() =>
-                  this.props.history.push(
-                    "/companyAttribute/edit/" + companyAttribute.id
-                  )
-                }
-              >
-                <td>{companyAttribute.title}</td>
-                <td>{companyAttribute.type}</td>
-                <td>
-                  {companyAttribute.is_active ? (
-                    <span className="badge badge-success">Yes</span>
-                  ) : (
-                    <span className="badge badge-danger">No</span>
-                  )}
-                </td>
-                <td>
-                  {companyAttribute.required ? (
-                    <span className="badge badge-success">Yes</span>
-                  ) : (
-                    <span className="badge badge-danger">No</span>
-                  )}
-                </td>
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th style={{ borderTop: "0px" }}>Custom field name</th>
+                <th style={{ borderTop: "0px" }}>Type</th>
+                <th style={{ borderTop: "0px" }}>Active</th>
+                <th style={{ borderTop: "0px" }}>Required</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              <tr>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.title}
+                    name="input1-group1"
+                    onChange={e => this.setState({ title: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.type}
+                    name="input1-group1"
+                    onChange={e => this.setState({ type: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.active}
+                    name="input1-group1"
+                    onChange={e => this.setState({ active: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.required}
+                    name="input1-group1"
+                    onChange={e => this.setState({ required: e.target.value })}
+                  />
+                </th>
+              </tr>
+              {this.getFilteredData().map(companyAttribute => (
+                <tr
+                  key={companyAttribute.id}
+                  onClick={() =>
+                    this.props.history.push(
+                      "/companyAttribute/edit/" + companyAttribute.id
+                    )
+                  }
+                >
+                  <td>{companyAttribute.title}</td>
+                  <td>{companyAttribute.type}</td>
+                  <td>
+                    {companyAttribute.is_active ? (
+                      <span className="badge badge-success">Yes</span>
+                    ) : (
+                      <span className="badge badge-danger">No</span>
+                    )}
+                  </td>
+                  <td>
+                    {companyAttribute.required ? (
+                      <span className="badge badge-success">Yes</span>
+                    ) : (
+                      <span className="badge badge-danger">No</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     );
   }
 }

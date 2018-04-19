@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { InputGroup, InputGroupAddon, Input } from "reactstrap";
+import {
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Card,
+  CardHeader
+} from "reactstrap";
 import { connect } from "react-redux";
 
 class RolesList extends Component {
@@ -31,76 +37,82 @@ class RolesList extends Component {
 
   render() {
     return (
-      <div className="table-div">
-        <h2 className="mb-3">
-          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
-        Roles list</h2>
+      <Card>
+        <CardHeader>
+          <button className="btn btn-link" onClick={this.props.history.goBack}>
+            <i className="fa fa-angle-left" /> Back
+          </button>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.history.push("/role/add")}
+          >
+            <i className="fa fa-plus" /> Users Role
+          </button>
+        </CardHeader>
+        <div className="table-div">
+          <h2 className="mb-3">Users Roles list</h2>
 
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => this.props.history.push("/role/add")}
-        >
-          Add new role
-        </button>
-
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th style={{ borderTop: "0px" }}>Name</th>
-              <th style={{ borderTop: "0px" }}>Active</th>
-              <th style={{ borderTop: "0px" }}>Order</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.name}
-                  name="input1-group1"
-                  onChange={e => this.setState({ name: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.active}
-                  name="input1-group1"
-                  onChange={e => this.setState({ active: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  name="input1-group1"
-                  disabled={true}
-                  style={{ display: "none" }}
-                />
-              </th>
-            </tr>
-            {this.getFilteredData().map(role => (
-              <tr
-                key={role.id}
-                onClick={() => this.props.history.push("/role/edit/" + role.id)}
-              >
-                <td>{role.title}</td>
-                <td>
-                  {role.is_active ? (
-                    <span className="badge badge-success">Yes</span>
-                  ) : (
-                    <span className="badge badge-danger">No</span>
-                  )}
-                </td>
-                <td>{role.order}</td>
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th style={{ borderTop: "0px" }}>Name</th>
+                <th style={{ borderTop: "0px" }}>Active</th>
+                <th style={{ borderTop: "0px" }}>Order</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              <tr>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.name}
+                    name="input1-group1"
+                    onChange={e => this.setState({ name: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.active}
+                    name="input1-group1"
+                    onChange={e => this.setState({ active: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    name="input1-group1"
+                    disabled={true}
+                    style={{ display: "none" }}
+                  />
+                </th>
+              </tr>
+              {this.getFilteredData().map(role => (
+                <tr
+                  key={role.id}
+                  onClick={() =>
+                    this.props.history.push("/role/edit/" + role.id)
+                  }
+                >
+                  <td>{role.title}</td>
+                  <td>
+                    {role.is_active ? (
+                      <span className="badge badge-success">Yes</span>
+                    ) : (
+                      <span className="badge badge-danger">No</span>
+                    )}
+                  </td>
+                  <td>{role.order}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     );
   }
 }

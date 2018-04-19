@@ -2,7 +2,13 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import React, { Component } from "react";
-import { InputGroup, InputGroupAddon, Input } from "reactstrap";
+import {
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Card,
+  CardHeader
+} from "reactstrap";
 
 class ImapsList extends Component {
   constructor(props) {
@@ -46,87 +52,95 @@ class ImapsList extends Component {
 
   render() {
     return (
-      <div className="table-div">
-        <h2 className="mb-3">
-          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
-        IMAPs list</h2>
+      <Card>
+        <CardHeader>
+          <button className="btn btn-link" onClick={this.props.history.goBack}>
+            <i className="fa fa-angle-left" /> Back
+          </button>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.history.push("/imap/add")}
+          >
+            <i className="fa fa-plus" /> Imap
+          </button>
+        </CardHeader>
+        <div className="table-div">
+          <h2 className="mb-3">IMAPs list</h2>
 
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => this.props.history.push("/imap/add")}
-        >
-          Add new IMap
-        </button>
-
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th style={{ borderTop: "0px" }}>E-mail</th>
-              <th style={{ borderTop: "0px" }}>Project</th>
-              <th style={{ borderTop: "0px" }}>Description</th>
-              <th style={{ borderTop: "0px" }}>Active</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.email}
-                  onChange={e => this.setState({ email: e.target.value })}
-                  name="input1-group1"
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.project}
-                  onChange={e => this.setState({ project: e.target.value })}
-                  name="input1-group1"
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.description}
-                  onChange={e => this.setState({ description: e.target.value })}
-                  name="input1-group1"
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.is_active}
-                  onChange={e => this.setState({ is_active: e.target.value })}
-                  name="input1-group1"
-                />
-              </th>
-            </tr>
-            {this.getFilteredData().map(imap => (
-              <tr
-                key={imap.id}
-                onClick={() => this.props.history.push("/imap/edit/" + imap.id)}
-              >
-                <td>{imap.inbox_email}</td>
-                <td>{imap.project.title}</td>
-                <td>{imap.description}</td>
-                <td>
-                  {imap.is_active ? (
-                    <span className="badge badge-success">Yes</span>
-                  ) : (
-                    <span className="badge badge-danger">No</span>
-                  )}
-                </td>
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th style={{ borderTop: "0px" }}>E-mail</th>
+                <th style={{ borderTop: "0px" }}>Project</th>
+                <th style={{ borderTop: "0px" }}>Description</th>
+                <th style={{ borderTop: "0px" }}>Active</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              <tr>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.email}
+                    onChange={e => this.setState({ email: e.target.value })}
+                    name="input1-group1"
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.project}
+                    onChange={e => this.setState({ project: e.target.value })}
+                    name="input1-group1"
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.description}
+                    onChange={e =>
+                      this.setState({ description: e.target.value })
+                    }
+                    name="input1-group1"
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.is_active}
+                    onChange={e => this.setState({ is_active: e.target.value })}
+                    name="input1-group1"
+                  />
+                </th>
+              </tr>
+              {this.getFilteredData().map(imap => (
+                <tr
+                  key={imap.id}
+                  onClick={() =>
+                    this.props.history.push("/imap/edit/" + imap.id)
+                  }
+                >
+                  <td>{imap.inbox_email}</td>
+                  <td>{imap.project.title}</td>
+                  <td>{imap.description}</td>
+                  <td>
+                    {imap.is_active ? (
+                      <span className="badge badge-success">Yes</span>
+                    ) : (
+                      <span className="badge badge-danger">No</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     );
   }
 }

@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { InputGroup, InputGroupAddon, Input } from "reactstrap";
+import {
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Card,
+  CardHeader
+} from "reactstrap";
 import { connect } from "react-redux";
 import Pagination from "../../../components/pagination";
 class CompaniesList extends Component {
@@ -15,51 +21,55 @@ class CompaniesList extends Component {
 
   render() {
     return (
-      <div className="table-div">
-        <h2 className="mb-3">
-        <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
-        Companies list</h2>
+      <Card>
+        <CardHeader>
+          <button className="btn btn-link" onClick={this.props.history.goBack}>
+            <i className="fa fa-angle-left" /> Back
+          </button>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.history.push("/company/add")}
+          >
+            <i className="fa fa-plus" /> Company
+          </button>
+        </CardHeader>
+        <div className="table-div">
+          <h2 className="mb-3">Companies list</h2>
 
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => this.props.history.push("/company/add")}
-        >
-          Add new companies
-        </button>
+          <div style={{ display: "flex", marginTop: 20 }} />
 
-        <div style={{ display: "flex", marginTop: 20 }} />
-
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th style={{ borderTop: "0px" }}>ID</th>
-              <th style={{ borderTop: "0px" }}>Activated</th>
-              <th style={{ borderTop: "0px" }}>Title</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.companies.map(company => (
-              <tr
-                key={company.id}
-                onClick={() =>
-                  this.props.history.push("/company/edit/" + company.id)
-                }
-              >
-                <td>{company.id}</td>
-                <td>
-                  {company.is_active ? (
-                    <span className="badge badge-success">Yes</span>
-                  ) : (
-                    <span className="badge badge-danger">No</span>
-                  )}
-                </td>
-                <td>{company.title}</td>
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th style={{ borderTop: "0px" }}>ID</th>
+                <th style={{ borderTop: "0px" }}>Activated</th>
+                <th style={{ borderTop: "0px" }}>Title</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {this.props.companies.map(company => (
+                <tr
+                  key={company.id}
+                  onClick={() =>
+                    this.props.history.push("/company/edit/" + company.id)
+                  }
+                >
+                  <td>{company.id}</td>
+                  <td>
+                    {company.is_active ? (
+                      <span className="badge badge-success">Yes</span>
+                    ) : (
+                      <span className="badge badge-danger">No</span>
+                    )}
+                  </td>
+                  <td>{company.title}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     );
   }
 }

@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { InputGroup, InputGroupAddon, Input } from "reactstrap";
+import {
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Card,
+  CardHeader
+} from "reactstrap";
 import { connect } from "react-redux";
 
 class taskAttributesList extends Component {
@@ -44,97 +50,101 @@ class taskAttributesList extends Component {
 
   render() {
     return (
-      <div className="table-div">
-        <h2 className="mb-3">
-          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
-        task attributes list</h2>
+      <Card>
+        <CardHeader>
+          <button className="btn btn-link" onClick={this.props.history.goBack}>
+            <i className="fa fa-angle-left" /> Back
+          </button>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.history.push("/taskAttribute/add")}
+          >
+            <i className="fa fa-plus" /> Task Attribute
+          </button>
+        </CardHeader>
+        <div className="table-div">
+          <h2 className="mb-3">task attributes list</h2>
 
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => this.props.history.push("/taskAttribute/add")}
-        >
-          Add new task attribute
-        </button>
-
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th style={{ borderTop: "0px" }}>Custom field name</th>
-              <th style={{ borderTop: "0px" }}>Type</th>
-              <th style={{ borderTop: "0px" }}>Active</th>
-              <th style={{ borderTop: "0px" }}>Required</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.title}
-                  name="input1-group1"
-                  onChange={e => this.setState({ title: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.type}
-                  name="input1-group1"
-                  onChange={e => this.setState({ type: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.active}
-                  name="input1-group1"
-                  onChange={e => this.setState({ active: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.required}
-                  name="input1-group1"
-                  onChange={e => this.setState({ required: e.target.value })}
-                />
-              </th>
-            </tr>
-            {this.getFilteredData().map(taskAttribute => (
-              <tr
-                key={taskAttribute.id}
-                onClick={() =>
-                  this.props.history.push(
-                    "/taskAttribute/edit/" + taskAttribute.id
-                  )
-                }
-              >
-                <td>{taskAttribute.title}</td>
-                <td>{taskAttribute.type}</td>
-                <td>
-                  {taskAttribute.is_active ? (
-                    <span className="badge badge-success">Yes</span>
-                  ) : (
-                    <span className="badge badge-danger">No</span>
-                  )}
-                </td>
-                <td>
-                  {taskAttribute.required ? (
-                    <span className="badge badge-success">Yes</span>
-                  ) : (
-                    <span className="badge badge-danger">No</span>
-                  )}
-                </td>
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th style={{ borderTop: "0px" }}>Custom field name</th>
+                <th style={{ borderTop: "0px" }}>Type</th>
+                <th style={{ borderTop: "0px" }}>Active</th>
+                <th style={{ borderTop: "0px" }}>Required</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              <tr>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.title}
+                    name="input1-group1"
+                    onChange={e => this.setState({ title: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.type}
+                    name="input1-group1"
+                    onChange={e => this.setState({ type: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.active}
+                    name="input1-group1"
+                    onChange={e => this.setState({ active: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.required}
+                    name="input1-group1"
+                    onChange={e => this.setState({ required: e.target.value })}
+                  />
+                </th>
+              </tr>
+              {this.getFilteredData().map(taskAttribute => (
+                <tr
+                  key={taskAttribute.id}
+                  onClick={() =>
+                    this.props.history.push(
+                      "/taskAttribute/edit/" + taskAttribute.id
+                    )
+                  }
+                >
+                  <td>{taskAttribute.title}</td>
+                  <td>{taskAttribute.type}</td>
+                  <td>
+                    {taskAttribute.is_active ? (
+                      <span className="badge badge-success">Yes</span>
+                    ) : (
+                      <span className="badge badge-danger">No</span>
+                    )}
+                  </td>
+                  <td>
+                    {taskAttribute.required ? (
+                      <span className="badge badge-success">Yes</span>
+                    ) : (
+                      <span className="badge badge-danger">No</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     );
   }
 }

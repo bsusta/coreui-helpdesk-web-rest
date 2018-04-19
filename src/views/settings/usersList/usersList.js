@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
-import { InputGroup, InputGroupAddon, Input } from "reactstrap";
+import {
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Card,
+  CardHeader,
+  CardBody
+} from "reactstrap";
 import { connect } from "react-redux";
 import { getUsers } from "../../../redux/actions";
 import Pagination from "../../../components/pagination";
@@ -46,89 +53,94 @@ class UsersList extends Component {
 
   render() {
     return (
-      <div className="table-div">
-        <h2 className="mb-3">
-          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
-        Users list</h2>
+      <Card>
+        <CardHeader>
+          <button className="btn btn-link" onClick={this.props.history.goBack}>
+            <i className="fa fa-angle-left" /> Back
+          </button>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.history.push("/user/add")}
+          >
+            <i className="fa fa-plus" /> User
+          </button>
+        </CardHeader>
+        <div className="table-div">
+          <h2 className="mb-3">Users list</h2>
 
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => this.props.history.push("/user/add")}
-        >
-          Add new user
-        </button>
-
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th style={{ borderTop: "0px" }}>ID</th>
-              <th style={{ borderTop: "0px" }}>Activated</th>
-              <th style={{ borderTop: "0px" }}>Name</th>
-              <th style={{ borderTop: "0px" }}>E-mail</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.id}
-                  name="input1-group1"
-                  onChange={e => this.setState({ id: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.active}
-                  name="input1-group1"
-                  onChange={e => this.setState({ active: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.name}
-                  name="input1-group1"
-                  onChange={e => this.setState({ name: e.target.value })}
-                />
-              </th>
-              <th>
-                <Input
-                  type="text"
-                  id="input1-group1"
-                  value={this.state.email}
-                  name="input1-group1"
-                  onChange={e => this.setState({ email: e.target.value })}
-                />
-              </th>
-            </tr>
-            {this.getFilteredData().map(user => (
-              <tr
-                key={user.id}
-                onClick={() => this.props.history.push("/user/edit/" + user.id)}
-              >
-                <td>{user.id}</td>
-                <td>
-                  {user.is_active ? (
-                    <span className="badge badge-success">Yes</span>
-                  ) : (
-                    <span className="badge badge-danger">No</span>
-                  )}
-                </td>
-                <td>
-                  {user.surname} {user.name}
-                </td>
-                <td>{user.email}</td>
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th style={{ borderTop: "0px" }}>ID</th>
+                <th style={{ borderTop: "0px" }}>Activated</th>
+                <th style={{ borderTop: "0px" }}>Name</th>
+                <th style={{ borderTop: "0px" }}>E-mail</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        {/*<Pagination
+            </thead>
+            <tbody>
+              <tr>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.id}
+                    name="input1-group1"
+                    onChange={e => this.setState({ id: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.active}
+                    name="input1-group1"
+                    onChange={e => this.setState({ active: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.name}
+                    name="input1-group1"
+                    onChange={e => this.setState({ name: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.email}
+                    name="input1-group1"
+                    onChange={e => this.setState({ email: e.target.value })}
+                  />
+                </th>
+              </tr>
+              {this.getFilteredData().map(user => (
+                <tr
+                  key={user.id}
+                  onClick={() =>
+                    this.props.history.push("/user/edit/" + user.id)
+                  }
+                >
+                  <td>{user.id}</td>
+                  <td>
+                    {user.is_active ? (
+                      <span className="badge badge-success">Yes</span>
+                    ) : (
+                      <span className="badge badge-danger">No</span>
+                    )}
+                  </td>
+                  <td>
+                    {user.surname} {user.name}
+                  </td>
+                  <td>{user.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {/*<Pagination
           link="usersList"
           history={this.props.history}
           numberOfPages={this.props.numberOfPages}
@@ -140,7 +152,8 @@ class UsersList extends Component {
           paginationOptions={[{title:20,value:20},{title:50,value:50},{title:100,value:100},{title:'all',value:999}]}
           pagination={this.props.match.params.nop?parseInt(this.props.match.params.nop, 10):20}
           />*/}
-      </div>
+        </div>
+      </Card>
     );
   }
 }
