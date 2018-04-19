@@ -19,13 +19,15 @@ class CompanyAdd extends Component {
       ico: "",
       street: "",
       zip: "",
-      company_data:initialiseCustomAttributes(this.props.companyAttributes) //adds it to the others here
+      company_data:initialiseCustomAttributes(this.props.companyAttributes), //adds it to the others here
+      submitError:false
     };
   }
 
   submit(e) {
     e.preventDefault(); //prevent default form behaviour
-
+    this.setState({submitError:true});
+    
     this.props.addCompany(
       {
         title: this.state.title,

@@ -63,7 +63,6 @@ class EditTask extends Component {
       company = null;
     }
     let submitError = containsNullRequiredAttribute(processCustomAttributes({...task_data},[...this.props.taskAttributes]),[...this.props.taskAttributes]);
-    console.log(submitError);
     this.state = {
       company,
       deadline: this.props.task.deadline
@@ -140,17 +139,15 @@ class EditTask extends Component {
     if (name === "project") {
       state["project"] = value.project;
       state["taskSolver"] = "null";
-    } else if(name ==="newTag"){
-      state.tags=value.tags;
-      state.newTags=value.newTags;
-      state.newTag=value.newTag;
     }
      else if (name) {
       state[name] = value;
     }
     let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
-    if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])){
+    if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||
+      state.title===''){
       this.setState({submitError:true});
+      return;
     }
     this.setState({submitError:false});
     let tags = [];
@@ -219,8 +216,31 @@ class EditTask extends Component {
             >
               <div className="col-8">
                   <div className="form-group">
-                    {/*<label htmlFor ="title">Task Name</label>*/}
+                    <InputGroup>
+                      <InputGroupAddon style={{backgroundColor:'white',border:'none'}}>
+                        <span className="float">
+                          <i
+                            className={"fa fa-star icon-star"}
+                            style={{fontSize:'1.97em',float:'left'}}
+                            onClick={() => {
+                              if(!this.state.important){                                
+                                this.autoSubmit("important", true);
+                                this.setState({ important: true });
+                              }
+                            }}
+                            />
+                          {this.state.important && <i
+                            className={"fa fa-star "+(this.state.important?"icon-star-empty":"icon-star")}
+                            style={{color:(!this.state.important?'black':'yellow'), fontSize:'1.74em', marginLeft:'-1.02em',marginTop:'0.115em',float:'left'}}
+                            onClick={() => {
+                              this.autoSubmit("important", false);
+                              this.setState({ important: false });
+                            }}
+                            />}
+                          </span>
+                      </InputGroupAddon>
 
+                    {/*<label htmlFor ="title">Task Name</label>*/}
                     <input
                       className="form-control"
                       id="title"
@@ -232,8 +252,8 @@ class EditTask extends Component {
                         this.setState({ title: e.target.value });
                       }}
                     />
-                  </div>
-                  {this.state.submitError && <h5 style={{color:'red'}}>Task won't save until you fill all required fields!</h5>}
+                  </InputGroup>
+                </div>
               </div>
               <div
                 className="col-4"
@@ -249,44 +269,17 @@ class EditTask extends Component {
                   }) {timestampToString(this.props.task.createdAt)}
                 </label>
               </div>
+              {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter tasks title</label>}
             </div>
-            <div className="row">
-              <input
-                className="form-control"
-                id="newTag"
-                placeholder="Add new tag"
-                value={this.state.newTag}
-                style={{ width:200, marginLeft:15 }}
-                onChange={(e)=>this.setState({newTag:e.target.value})}
-              />
+            <div>
+            {this.state.submitError && <h5 style={{color:'red'}}>Task won't save until you fill all required fields!</h5>}
 
-              <button className="btn btn-success mr-1" onClick={()=>{
-                this.autoSubmit("newTag", {
-                    tags:this.state.tags.concat(((-1)*this.state.newTags.length-1)),
-                    newTags:this.state.newTags.concat({
-                      title:this.state.newTag,
-                      color:'7f7f7f',
-                      id:(-1)*this.state.newTags.length-1}),
-                    newTag:'',
-                  });
-                this.setState({
-                  tags:this.state.tags.concat(((-1)*this.state.newTags.length-1)),
-                  newTags:this.state.newTags.concat({
-                    title:this.state.newTag,
-                    color:'7f7f7f',
-                    id:(-1)*this.state.newTags.length-1}),
-                  newTag:'',
-                });
-              }}>
-                <i className="fa fa-plus" />
-              </button>
-            </div>
             <div className="row">
               <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
                   <div className="form-group">
                     <MultiSelect
                       id="tags"
-                      data={this.state.newTags.concat(this.props.tags)}
+                      data={this.props.tags}
                       displayValue="title"
                       selectedIds={this.state.tags}
                       idValue="id"
@@ -310,7 +303,7 @@ class EditTask extends Component {
                             margin: "auto",
                             borderRadius: "3px",
                             color: "white",
-                            backgroundColor: "#" + item.color,
+                            backgroundColor: (item.color.includes('#')?'':"#") + item.color,
                             paddingLeft: 10,
                             paddingRight: 10,
                             paddingTop: 5,
@@ -360,21 +353,6 @@ class EditTask extends Component {
               </div>
 
               <div className="col-4">
-                  <FormGroup>
-                    <label className="form-check-label">
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                        checked={this.state.important}
-                        onChange={e => {
-                          this.autoSubmit("important", !this.state.important);
-                          this.setState({ important: !this.state.important });
-                        }}
-                      />
-                      Important
-                    </label>
-                  </FormGroup>
-
                   <FormGroup>
                       <label htmlFor="status">Status</label>
                       {this.props.task.closedAt && this.state.status.toString()==='4' && <span style={{float:'right'}}>Closed at: {timestampToString(this.props.task.closedAt)}</span>}
@@ -1052,6 +1030,7 @@ class EditTask extends Component {
                   })}
               </div>
             </div>
+          </div>
           </CardBody>
         </Card>
       </div>
