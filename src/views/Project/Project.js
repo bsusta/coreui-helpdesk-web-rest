@@ -54,7 +54,6 @@ class Project extends Component {
     return (
       <div className="table-div">
         <h2>
-          {this.props.tags[this.props.tags.findIndex((tag)=>tag.url.includes(this.props.match.params.id))].name} {" "}
           {
             this.props.projects[
               this.props.projects.findIndex(project =>
