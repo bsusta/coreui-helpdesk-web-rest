@@ -1,4 +1,4 @@
-import { SET_STATUSES,SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS, SET_STATUS_LOADING, EDIT_STATUS, SET_ERROR_MESSAGE } from '../types';
+import { SET_STATUSES,SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS, SET_STATUS_LOADING, EDIT_STATUS, SET_ERROR_MESSAGE, SET_TASK_STATUSES  } from '../types';
 import { STATUSES_LIST } from '../urls';
 
 /**
@@ -51,7 +51,7 @@ export const getTaskStatuses= (updateDate,token) => {
           return;
         }
       response.json().then((data) => {
-        dispatch({type: SET_STATUSES, statuses:data.data,updateDate:data.date.toString()});
+        dispatch({type: SET_TASK_STATUSES, statuses:data.data,updateDate:data.date.toString()});
         dispatch({ type: SET_STATUSES_LOADING, statusesLoaded:true });
       });
     }

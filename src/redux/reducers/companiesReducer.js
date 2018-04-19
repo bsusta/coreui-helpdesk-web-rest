@@ -1,4 +1,4 @@
-import { SET_COMPANIES, SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY_LOADING, SET_COMPANY, EDIT_COMPANY, LOGIN_LOGOUT } from '../types'
+import { SET_COMPANIES, SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY_LOADING, SET_COMPANY, EDIT_COMPANY, LOGIN_LOGOUT,SET_TASK_COMPANIES } from '../types'
 
 const initialState = {
   companies:[],
@@ -6,13 +6,17 @@ const initialState = {
   companies:null,
   companyLoaded:false,
   updateDate:null,
+  taskCompanies:[],
 };
 
 export default function companiesReducer(state = initialState, action) {
   switch (action.type) {
     case SET_COMPANIES:{
-      if(!state.updateDate){
         return { ...state, companies:action.companies, updateDate:action.updateDate };
+      }
+    case SET_TASK_COMPANIES:{
+      if(!state.updateDate){
+        return { ...state, taskCompanies:action.companies, updateDate:action.updateDate };
       }
       let newCompanies=[...state.companies];
       action.companies.map((company)=>{
@@ -29,7 +33,7 @@ export default function companiesReducer(state = initialState, action) {
           newCompanies.push(company);
         }
       });
-      return { ...state, companies:newCompanies, updateDate:action.updateDate };
+      return { ...state, taskCompanies:newCompanies, updateDate:action.updateDate };
 
     }
     case ADD_COMPANY:

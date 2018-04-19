@@ -22,6 +22,7 @@ export const EDIT_USER = 'EDIT_USER';
 
 //all constants for companies actions
 export const SET_COMPANIES = 'SET_COMPANIES';
+export const SET_TASK_COMPANIES = 'SET_TASK_COMPANIES';
 export const SET_COMPANIES_LOADING = 'SET_COMPANIES_LOADING';
 export const ADD_COMPANY = 'ADD_COMPANY';
 export const SET_COMPANY = 'SET_COMPANY';
@@ -64,6 +65,7 @@ export const SET_PERMISSIONS_SAVED = 'SET_PERMISSIONS_SAVED';
 
 //all constants for STATUSES actions
 export const SET_STATUSES = 'SET_STATUSES';
+export const SET_TASK_STATUSES = 'SET_TASK_STATUSES';
 export const SET_STATUSES_LOADING = 'SET_STATUSES_LOADING';
 export const ADD_STATUS = 'ADD_STATUS';
 export const SET_STATUS = 'SET_STATUS';

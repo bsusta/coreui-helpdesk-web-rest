@@ -1,4 +1,4 @@
-import { SET_STATUSES, SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS_LOADING, SET_STATUS, EDIT_STATUS, LOGIN_LOGOUT } from '../types'
+import { SET_STATUSES, SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS_LOADING, SET_STATUS, EDIT_STATUS, LOGIN_LOGOUT, SET_TASK_STATUSES } from '../types'
 
 const initialState = {
   statuses:[],
@@ -6,13 +6,17 @@ const initialState = {
   statuses:null,
   statusLoaded:false,
   updateDate:null,
+  taskStatuses:[],
 };
 
 export default function statusesReducer(state = initialState, action) {
   switch (action.type) {
     case SET_STATUSES:{
-      if(!state.updateDate){
         return { ...state, statuses:action.statuses, updateDate:action.updateDate };
+      }
+    case SET_TASK_STATUSES:{
+      if(!state.updateDate){
+        return { ...state, taskStatuses:action.statuses, updateDate:action.updateDate };
       }
       let newStatuses=[...state.statuses];
       action.statuses.map((status)=>{
@@ -29,7 +33,7 @@ export default function statusesReducer(state = initialState, action) {
           newStatuses.push(status);
         }
       });
-      return { ...state, statuses:newStatuses, updateDate:action.updateDate };
+      return { ...state, taskStatuses:newStatuses, updateDate:action.updateDate };
 
     }
     case ADD_STATUS:

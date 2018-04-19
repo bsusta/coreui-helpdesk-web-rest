@@ -2,7 +2,7 @@ import moment from "moment";
 
 export const timestampToString = (timestamp) => {
   let date = (new Date(timestamp*1000));
-  return date.getHours()+":"+(date.getMinutes()<10?'0':'')+date.getMinutes()+" "+date.getDate()+"."+date.getMonth()+"."+date.getFullYear();
+  return date.getHours()+":"+(date.getMinutes()<10?'0':'')+date.getMinutes()+" "+date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear();
 }
 
 export const isEmail = (email) => {
@@ -35,11 +35,11 @@ export const processCustomAttributes = (savedAttributes,originalAttributes) => {
         break;
       }
       case "date":{ //date should be formatted into miliseconds since 1970, divided by 1000 because of PHP/Javascript difference
-        savedAttributes[key] = savedAttributes[key] === null ?  "null":savedAttributes[key].valueOf() / 1000;
+        savedAttributes[key] = savedAttributes[key] === null ?  "null":Math.ceil(savedAttributes[key].valueOf() / 1000);
           break;
         }
       case "checkbox":{
-        savedAttributes[key] = savedAttributes[key]?true:false;
+        savedAttributes[key] = savedAttributes[key]?"true":"false";
         break;
       }
       case "input":
@@ -110,111 +110,86 @@ export const initialiseCustomAttributes=(attributes)=>{
 }
 
 export const importExistingCustomAttributesForTask=(currentAttributes,existingCustomAttributes,originalAttributes)=>{
+  let keys=Object.keys(currentAttributes);
+  let newAttributes= {...currentAttributes};
   existingCustomAttributes.map(attribute => {
-    if (currentAttributes.hasOwnProperty(attribute.taskAttribute.id)) {
-      ["value", "dateValue", "boolValue"].map(i => {
-        if (attribute[i] !== undefined) {
-          switch (i) {
-            case "dateValue": {
-              let date = new Date(attribute.dateValue * 1000);
-              if (isNaN(date)) {
-                currentAttributes[attribute.taskAttribute.id] = null;
-              } else {
-                currentAttributes[
-                  attribute.taskAttribute.id
-                ] = date
-                  .toISOString()
-                  .substring(0, date.toISOString().length - 1);
-              }
-              break;
-            }
-            case "value": {
-              let original = originalAttributes[
-                originalAttributes.findIndex(
-                  item => item.id == attribute.taskAttribute.id
-                )
-              ];
-              if (original.type === "multi_select") {
-                if (attribute.value === null) {
-                  currentAttributes[attribute.taskAttribute.id] = [];
-                  break;
-                }
-                let selected = [];
-                attribute.value.map(val =>
-                  selected.push(original.options.indexOf(val))
-                );
-                currentAttributes[attribute.taskAttribute.id] = selected;
-              } else {
-                currentAttributes[attribute.taskAttribute.id] = attribute.value;
-              }
-              break;
-            }
-            case "boolValue":
-              currentAttributes[attribute.taskAttribute.id] = attribute.boolValue;
-              break;
-            default:
-              break;
-          }
+    if (keys.includes(attribute.taskAttribute.id.toString())) {
+      let original = originalAttributes[
+        originalAttributes.findIndex(
+          item => item.id == attribute.taskAttribute.id
+        )
+      ];
+      if(original.type==="date"){
+        let date = new Date(attribute.value * 1000);
+        if (isNaN(date)||attribute.value===null) {
+          newAttributes[attribute.taskAttribute.id] = null;
+        } else {
+          newAttributes[attribute.taskAttribute.id] = moment(attribute.dateValue * 1000);
         }
-      });
+      }
+      else if(original.type==="checkbox"){
+        newAttributes[attribute.taskAttribute.id] = attribute.value;
+      }else{
+        if (original.type === "multi_select") {
+          if (attribute.value === null) {
+            newAttributes[attribute.taskAttribute.id] = [];
+          }
+          else{
+            let selected = [];
+            attribute.value.map(val =>
+              selected.push(original.options.indexOf(val))
+            );
+            newAttributes[attribute.taskAttribute.id] = selected;
+          }
+        } else {
+          newAttributes[attribute.taskAttribute.id] = attribute.value;
+        }
+      }
     }
-  })
-  return currentAttributes;
+  });
+  return newAttributes;
 }
 
 export const importExistingCustomAttributesForCompany=(currentAttributes,existingCustomAttributes,originalAttributes)=>{
+  let keys=Object.keys(currentAttributes);
+  let newAttributes= {...currentAttributes};
   existingCustomAttributes.map(attribute => {
-    if (currentAttributes.hasOwnProperty(attribute.companyAttribute.id)) {
-      ["value", "dateValue", "boolValue"].map(i => {
-        if (attribute[i] !== undefined) {
-          switch (i) {
-            case "dateValue": {
-              let date = new Date(attribute.dateValue * 1000);
-              if (isNaN(date)) {
-                currentAttributes[attribute.companyAttribute.id] = null;
-              } else {
-                currentAttributes[
-                  attribute.companyAttribute.id
-                ] = date
-                  .toISOString()
-                  .substring(0, date.toISOString().length - 1);
-              }
-              break;
-            }
-            case "value": {
-              let original = originalAttributes[
-                originalAttributes.findIndex(
-                  item => item.id == attribute.companyAttribute.id
-                )
-              ];
-              if (original.type === "multi_select") {
-                if (attribute.value === null) {
-                  currentAttributes[attribute.companyAttribute.id] = [];
-                  break;
-                }
-                let selected = [];
-                attribute.value.map(val =>
-                  selected.push(original.options.indexOf(val))
-                );
-                currentAttributes[attribute.companyAttribute.id] = selected;
-              } else {
-                currentAttributes[attribute.companyAttribute.id] = attribute.value;
-              }
-              break;
-            }
-            case "boolValue":
-              currentAttributes[attribute.companyAttribute.id] = attribute.boolValue;
-              break;
-            default:
-              break;
-          }
+    if (keys.includes(attribute.companyAttribute.id.toString())) {
+      let original = originalAttributes[
+        originalAttributes.findIndex(
+          item => item.id == attribute.companyAttribute.id
+        )
+      ];
+      if(original.type==="date"){
+        let date = new Date(attribute.dateValue * 1000);
+        if (isNaN(date)) {
+          newAttributes[attribute.companyAttribute.id] = null;
+        } else {
+          newAttributes[attribute.companyAttribute.id] = moment(attribute.dateValue * 1000);
         }
-      });
+      }
+      else if(original.type==="checkbox"){
+        newAttributes[attribute.companyAttribute.id] = attribute.boolValue;
+      }else{
+        if (original.type === "multi_select") {
+          if (attribute.value === null) {
+            newAttributes[attribute.companyAttribute.id] = [];
+          }
+          else{
+            let selected = [];
+            attribute.value.map(val =>
+              selected.push(original.options.indexOf(val))
+            );
+            newAttributes[attribute.companyAttribute.id] = selected;
+          }
+        } else {
+          newAttributes[attribute.companyAttribute.id] = attribute.value;
+        }
+      }
     }
-  })
-  return currentAttributes;
+  });
+  return newAttributes;
 }
-
 
 export const fillCustomAttributesNulls= (attributes,originalAttributes)=>{
   for (let key in attributes) {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editCompany } from "../../../redux/actions";
 import MultiSelect from "../../../components/multiSelect";
-import {initialiseCustomAttributes,processCustomAttributes, importExistingCustomAttributesForCompany, fillCustomAttributesNulls} from '../../../helperFunctions';
+import {initialiseCustomAttributes,processCustomAttributes, containsNullRequiredAttribute, importExistingCustomAttributesForCompany} from '../../../helperFunctions';
 import DatePicker from "react-datepicker";
 import moment from "moment";
 
@@ -11,8 +11,10 @@ import moment from "moment";
 class CompanyEdit extends Component {
   constructor(props) {
     super(props);
-    let company_data = importExistingCustomAttributesForCompany(initialiseCustomAttributes(this.props.companyAttributes),this.props.company.companyData,this.props.companyAttributes);
-    company_data= fillCustomAttributesNulls(company_data,this.props.companyAttributes);
+    console.log(this.props.company.companyData);
+    let company_data = initialiseCustomAttributes([...this.props.companyAttributes]);
+    company_data= importExistingCustomAttributesForCompany(company_data,[...this.props.company.companyData],[...this.props.companyAttributes]);
+    console.log(company_data);
     this.state = {
       is_active: this.props.company.is_active,
       title: this.props.company.title ? this.props.company.title : "",
@@ -23,11 +25,17 @@ class CompanyEdit extends Component {
       ico: this.props.company.ico ? this.props.company.ico : "",
       street: this.props.company.street ? this.props.company.street : "",
       zip: this.props.company.zip ? this.props.company.zip : "",
-      company_data
+      company_data,
+      submitError:false
     };
   }
   submit(e) {
     e.preventDefault(); //prevent default form behaviour
+    this.setState({submitError:true});
+    if(containsNullRequiredAttribute(processCustomAttributes({...this.state.company_data},[...this.props.companyAttributes]),[...this.props.companyAttributes])||
+    this.state.title===''){
+      return;
+    }
 
 
     this.props.editCompany(
@@ -59,7 +67,7 @@ class CompanyEdit extends Component {
               event.preventDefault();
               this.props.history.goBack();
             }}
-          >
+            >
             <div className="form-check">
               <label className="form-check-label">
                 <input
@@ -69,7 +77,7 @@ class CompanyEdit extends Component {
                   onChange={() =>
                     this.setState({ is_active: !this.state.is_active })
                   }
-                />
+                  />
                 Active
               </label>
             </div>
@@ -82,7 +90,8 @@ class CompanyEdit extends Component {
                 value={this.state.title}
                 onChange={e => this.setState({ title: e.target.value })}
                 placeholder="Enter company name"
-              />
+                />
+              {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter company title</label>}
             </div>
 
             <div className="form-group">
@@ -93,7 +102,7 @@ class CompanyEdit extends Component {
                 value={this.state.ico}
                 onChange={e => this.setState({ ico: e.target.value })}
                 placeholder="Enter ICO number"
-              />
+                />
             </div>
 
             <div className="form-group">
@@ -104,7 +113,7 @@ class CompanyEdit extends Component {
                 value={this.state.dic}
                 onChange={e => this.setState({ dic: e.target.value })}
                 placeholder="Enter DIC"
-              />
+                />
             </div>
 
             <div className="form-group">
@@ -115,7 +124,7 @@ class CompanyEdit extends Component {
                 value={this.state.ic_dph}
                 onChange={e => this.setState({ ic_dph: e.target.value })}
                 placeholder="Enter IČ DPH"
-              />
+                />
             </div>
 
             <div className="form-group">
@@ -126,7 +135,7 @@ class CompanyEdit extends Component {
                 value={this.state.street}
                 onChange={e => this.setState({ street: e.target.value })}
                 placeholder="Enter street"
-              />
+                />
             </div>
 
             <div className="form-group">
@@ -137,7 +146,7 @@ class CompanyEdit extends Component {
                 value={this.state.city}
                 onChange={e => this.setState({ city: e.target.value })}
                 placeholder="Enter city"
-              />
+                />
             </div>
 
             <div className="form-group">
@@ -148,7 +157,7 @@ class CompanyEdit extends Component {
                 placeholder="Enter PSC"
                 value={this.state.zip}
                 onChange={e => this.setState({ zip: e.target.value })}
-              />
+                />
             </div>
 
             <div className="form-group">
@@ -159,259 +168,261 @@ class CompanyEdit extends Component {
                 placeholder="Enter country"
                 value={this.state.country}
                 onChange={e => this.setState({ country: e.target.value })}
-              />
+                />
             </div>
             {this.props.companyAttributes.map(attribute => {
               switch (attribute.type) {
                 case "input":
-                  return (
-                    <div className="form-group" key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
-                      <input
-                        className="form-control"
-                        id={attribute.id}
-                        value={this.state.company_data[attribute.id]}
-                        onChange={e => {
-                          let newData = { ...this.state.company_data };
-                          newData[attribute.id] = e.target.value;
-                          this.autoSubmit("company_data", newData);
-                          this.setState({ company_data: newData });
-                        }}
-                        placeholder={"Enter " + attribute.title}
+                return (
+                  <div className="form-group" key={attribute.id}>
+                    <label htmlFor={attribute.id}>{attribute.title}</label>
+                    <input
+                      className="form-control"
+                      id={attribute.id}
+                      value={this.state.company_data[attribute.id]}
+                      onChange={e => {
+                        let newData = { ...this.state.company_data };
+                        newData[attribute.id] = e.target.value;
+                        this.setState({ company_data: newData });
+                      }}
+                      placeholder={"Enter " + attribute.title}
                       />
-                    </div>
-                  );
+                    {attribute.required && this.state.submitError  && this.state.company_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
+                  </div>
+                );
                 case "text_area":
-                  return (
-                    <div className="form-group" key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
-                      <textarea
-                        className="form-control"
-                        id={attribute.id}
-                        value={this.state.company_data[attribute.id]}
-                        onChange={e => {
-                          let newData = { ...this.state.company_data };
-                          newData[attribute.id] = e.target.value;
-                          this.autoSubmit("company_data", newData);
-                          this.setState({ company_data: newData });
-                        }}
-                        placeholder={"Enter " + attribute.title}
+                return (
+                  <div className="form-group" key={attribute.id}>
+                    <label htmlFor={attribute.id}>{attribute.title}</label>
+                    <textarea
+                      className="form-control"
+                      id={attribute.id}
+                      value={this.state.company_data[attribute.id]}
+                      onChange={e => {
+                        let newData = { ...this.state.company_data };
+                        newData[attribute.id] = e.target.value;
+                        this.setState({ company_data: newData });
+                      }}
+                      placeholder={"Enter " + attribute.title}
                       />
-                    </div>
-                  );
+                    {attribute.required && this.state.submitError  && this.state.company_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
+                  </div>
+                );
                 case "simple_select":
-                  return (
-                    <div className="form-group" key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
-                      <select
-                        className="form-control"
-                        id={attribute.id}
-                        value={this.state.company_data[attribute.id]}
-                        onChange={e => {
-                          let newData = { ...this.state.company_data };
-                          newData[attribute.id] = e.target.value;
-                          this.autoSubmit("company_data", newData);
-                          this.setState({ company_data: newData });
-                        }}
+                return (
+                  <div className="form-group" key={attribute.id}>
+                    <label htmlFor={attribute.id}>{attribute.title}</label>
+                    <select
+                      className="form-control"
+                      id={attribute.id}
+                      value={this.state.company_data[attribute.id]}
+                      onChange={e => {
+                        let newData = { ...this.state.company_data };
+                        newData[attribute.id] = e.target.value;
+                        this.setState({ company_data: newData });
+                      }}
                       >
-                        {Array.isArray(attribute.options) &&
-                          attribute.options.map(opt => (
-                            <option key={opt} value={opt}>
-                              {opt}
-                            </option>
-                          ))}
+                      {Array.isArray(attribute.options) &&
+                        attribute.options.map(opt => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
                         {!Array.isArray(attribute.options) &&
                           Object.keys(attribute.options).map(key => (
                             <option key={key} value={key}>
                               {key}
                             </option>
                           ))}
-                      </select>
-                    </div>
-                  );
-                case "multi_select": {
-                  let opt = [];
-                  attribute.options.map(att =>
-                    opt.push({
-                      id: attribute.options.indexOf(att),
-                      title: att
-                    })
-                  );
-                  return (
-                    <div className="form-group" key={attribute.id}>
-                      <MultiSelect
-                        id={attribute.id}
-                        data={opt}
-                        displayValue="title"
-                        selectedIds={this.state.company_data[attribute.id]}
-                        idValue="id"
-                        filterBy="title"
-                        title={attribute.title}
-                        display="row"
-                        displayBoxStyle={{ width: 100 }}
-                        menuItemStyle={{
-                          marginLeft: 7,
-                          marginRight: 7,
-                          marginTop: 2,
-                          marginBottom: 2,
-                          paddingTop: 2,
-                          paddingBottom: 2
-                        }}
-                        renderItem={item => (
-                          <span
-                            className="badge"
-                            key={item.id}
-                            style={{
-                              margin: "auto",
-                              border: "1px solid black",
-                              borderRadius: "3px",
-                              paddingLeft: 10,
-                              paddingRight: 10,
-                              paddingTop: 5,
-                              paddingBottom: 5,
-                              marginLeft: 5
+                        </select>
+                      </div>
+                    );
+                    case "multi_select": {
+                      let opt = [];
+                      attribute.options.map(att =>
+                        opt.push({
+                          id: attribute.options.indexOf(att),
+                          title: att
+                        })
+                      );
+                      return (
+                        <div className="form-group" key={attribute.id}>
+                          <MultiSelect
+                            id={attribute.id}
+                            data={opt}
+                            displayValue="title"
+                            selectedIds={this.state.company_data[attribute.id]}
+                            idValue="id"
+                            filterBy="title"
+                            title={attribute.title}
+                            display="row"
+                            displayBoxStyle={{ width: 100 }}
+                            menuItemStyle={{
+                              marginLeft: 7,
+                              marginRight: 7,
+                              marginTop: 2,
+                              marginBottom: 2,
+                              paddingTop: 2,
+                              paddingBottom: 2
                             }}
-                          >
-                            {item.title}
-                          </span>
-                        )}
-                        titleStyle={{
-                          backgroundColor: "white",
-                          color: "black",
-                          size: 15
-                        }}
-                        toggleStyle={{
-                          backgroundColor: "white",
-                          border: "none",
-                          padding: 0
-                        }}
-                        label={attribute.title}
-                        labelStyle={{ marginLeft: 10 }}
-                        searchStyle={{ margin: 5 }}
-                        onChange={(ids, items) => {
-                          let newData = { ...this.state.company_data };
-                          newData[attribute.id] = ids;
-                          this.setState({ company_data: newData });
-                        }}
-                      />
-                    </div>
-                  );
-                }
-                case "date":
-                  return (
-                    <div className="form-group" key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
-                      <DatePicker
-                        selected={this.state.company_data[attribute.id]}
-                        onChange={e => {
-                          let newData = { ...this.state.company_data };
-                          newData[attribute.id] = e;
-                          this.setState({ company_data: newData });
-                        }}
-                        locale="en-gb"
-                        placeholderText={attribute.title}
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={30}
-                        dateFormat="DD.MM.YYYY HH:mm"
-                      />
-                    </div>
-                  );
-                case "decimal_number":
-                  return (
-                    <div className="form-group" key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        id={attribute.id}
-                        value={this.state.company_data[attribute.id]}
-                        onChange={e => {
-                          let newData = { ...this.state.company_data };
-                          newData[attribute.id] = e.target.value;
-                          this.setState({ company_data: newData });
-                        }}
-                        placeholder={"Select " + attribute.title}
-                      />
-                    </div>
-                  );
-                case "integer_number":
-                  return (
-                    <div className="form-group" key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        id={attribute.id}
-                        value={this.state.company_data[attribute.id]}
-                        onChange={e => {
-                          let newData = { ...this.state.company_data };
-                          newData[attribute.id] = e.target.value;
-                          this.setState({ company_data: newData });
-                        }}
-                        placeholder={"Select " + attribute.title}
-                      />
-                    </div>
-                  );
-                case "checkbox":
-                  return (
-                    <div className="form-group" key={attribute.id}>
-                      <label className="form-check-label">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          checked={this.state.company_data[attribute.id]}
-                          onChange={() => {
+                            renderItem={item => (
+                              <span
+                                className="badge"
+                                key={item.id}
+                                style={{
+                                  margin: "auto",
+                                  border: "1px solid black",
+                                  borderRadius: "3px",
+                                  paddingLeft: 10,
+                                  paddingRight: 10,
+                                  paddingTop: 5,
+                                  paddingBottom: 5,
+                                  marginLeft: 5
+                                }}
+                                >
+                                {item.title}
+                              </span>
+                            )}
+                            titleStyle={{
+                              backgroundColor: "white",
+                              color: "black",
+                              size: 15
+                            }}
+                            toggleStyle={{
+                              backgroundColor: "white",
+                              border: "none",
+                              padding: 0
+                            }}
+                            label={attribute.title}
+                            labelStyle={{ marginLeft: 10 }}
+                            searchStyle={{ margin: 5 }}
+                            onChange={(ids, items) => {
+                              let newData = { ...this.state.company_data };
+                              newData[attribute.id] = ids;
+                              this.setState({ company_data: newData });
+                            }}
+                            />
+                        </div>
+                      );
+                    }
+                    case "date":
+                    return (
+                      <div className="form-group" key={attribute.id}>
+                        <label htmlFor={attribute.id}>{attribute.title}</label>
+                        <DatePicker
+                          selected={this.state.company_data[attribute.id]}
+                          onChange={e => {
                             let newData = { ...this.state.company_data };
-                            newData[attribute.id] = !newData[
-                              attribute.id
-                            ];
+                            newData[attribute.id] = e;
                             this.setState({ company_data: newData });
                           }}
-                        />
-                        {attribute.title}
-                      </label>
-                    </div>
-                  );
+                          locale="en-gb"
+                          placeholderText={attribute.title}
+                          showTimeSelect
+                          timeFormat="HH:mm"
+                          timeIntervals={30}
+                          dateFormat="DD.MM.YYYY HH:mm"
+                          />
+                        {attribute.required && this.state.submitError  && this.state.company_data[attribute.id] ===null&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
+                      </div>
+                    );
+                    case "decimal_number":
+                    return (
+                      <div className="form-group" key={attribute.id}>
+                        <label htmlFor={attribute.id}>{attribute.title}</label>
+                        <input
+                          className="form-control"
+                          type="number"
+                          id={attribute.id}
+                          value={this.state.company_data[attribute.id]}
+                          onChange={e => {
+                            let newData = { ...this.state.company_data };
+                            newData[attribute.id] = e.target.value;
+                            this.setState({ company_data: newData });
+                          }}
+                          placeholder={"Select " + attribute.title}
+                          />
+                        {attribute.required && this.state.submitError  && isNaN(parseFloat(this.state.company_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid</label>}
+                      </div>
+                    );
+                    case "integer_number":
+                    return (
+                      <div className="form-group" key={attribute.id}>
+                        <label htmlFor={attribute.id}>{attribute.title}</label>
+                        <input
+                          className="form-control"
+                          type="number"
+                          id={attribute.id}
+                          value={this.state.company_data[attribute.id]}
+                          onChange={e => {
+                            let newData = { ...this.state.company_data };
+                            newData[attribute.id] = e.target.value;
+                            this.setState({ company_data: newData });
+                          }}
+                          placeholder={"Select " + attribute.title}
+                          />
+                        {attribute.required && this.state.submitError  && isNaN(parseFloat(this.state.company_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid!</label>}
+                      </div>
+                    );
+                    case "checkbox":
+                    return (
+                      <div className="form-group" key={attribute.id}>
+                        <label className="form-check-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            checked={this.state.company_data[attribute.id]}
+                            onChange={() => {
+                              let newData = { ...this.state.company_data };
+                              newData[attribute.id] = !newData[
+                                attribute.id
+                              ];
+                              this.setState({ company_data: newData });
+                            }}
+                            />
+                          {attribute.title}
+                        </label>
+                      </div>
+                    );
 
-                default:
-                  return <div>{attribute.title}</div>;
-              }
-            })}
-            <div className="form-group">
-              <button
-                type="submit"
-                className="btn btn-primary mr-2"
-                onClick={this.submit.bind(this)}
-              >
-                Submit
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={() => this.props.history.goBack()}
-              >
-                Cancel
-              </button>
+                    default:
+                    return <div>{attribute.title}</div>;
+                    }
+                  })}
+                  <div className="form-group">
+                    <button
+                      type="submit"
+                      className="btn btn-primary mr-2"
+                      onClick={this.submit.bind(this)}
+                      >
+                      Submit
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => this.props.history.goBack()}
+                      >
+                      Cancel
+                    </button>
+                  </div>
+
+                </form>
+              </div>
             </div>
+          );
+        }
+      }
 
-          </form>
-        </div>
-      </div>
-    );
-  }
-}
+      // All below is just redux storage
+      const mapStateToProps = ({
+        companiesReducer,
+        companyAttributesReducer,
+        login
+      }) => {
+        const { company } = companiesReducer;
+        const { token } = login;
+        const { companyAttributes } = companyAttributesReducer;
+        return { company, companyAttributes, token };
+      };
 
-// All below is just redux storage
-const mapStateToProps = ({
-  companiesReducer,
-  companyAttributesReducer,
-  login
-}) => {
-  const { company } = companiesReducer;
-  const { token } = login;
-  const { companyAttributes } = companyAttributesReducer;
-  return { company, companyAttributes, token };
-};
-
-export default connect(mapStateToProps, { editCompany })(CompanyEdit);
+      export default connect(mapStateToProps, { editCompany })(CompanyEdit);

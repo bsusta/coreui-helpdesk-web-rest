@@ -35,7 +35,7 @@ import MultiSelect from "../../components/multiSelect";
 class EditTask extends Component {
   constructor(props) {
     super(props);
-    let task_data = importExistingCustomAttributesForTask(initialiseCustomAttributes(this.props.taskAttributes),this.props.task.taskData,this.props.taskAttributes);
+    let task_data = importExistingCustomAttributesForTask(initialiseCustomAttributes([...this.props.taskAttributes]),[...this.props.task.taskData],[...this.props.taskAttributes]);
     task_data=this.fillCustomAttributesNulls(task_data,this.props.taskAttributes);
     let requestedBy;
     if (this.props.task.requestedBy) {
@@ -108,6 +108,7 @@ class EditTask extends Component {
         switch (originalAttributes[originalAttributes.findIndex(item => item.id == key)].type) {
           case 'checkbox':
             attributes[key]=false;
+            break;
           case 'date':
             attributes[key]=moment();
             break;
@@ -157,9 +158,18 @@ class EditTask extends Component {
           .title
       )
     );
+    //ak je task uzvrety nastavi mu closedAt, ak nema startedAt tak ten tiez
+    let closedAt=this.props.closedAt?this.props.closedAt:'null';
+    if(state.status.toString()==='4'){
+      closedAt=Math.ceil(moment().valueOf()/1000);
+      if(state.startedAt===null){
+        state.startedAt=closedAt*1000;
+      }
+    }
     this.props.editTask(
       {
         title: state.title,
+        closedAt,
         description: state.description.toString("html"),
         deadline:
           state.deadline !== null ? state.deadline.valueOf() / 1000 : 'null',
@@ -223,7 +233,7 @@ class EditTask extends Component {
                             className={"fa fa-star icon-star"}
                             style={{fontSize:'1.97em',float:'left'}}
                             onClick={() => {
-                              if(!this.state.important){                                
+                              if(!this.state.important){
                                 this.autoSubmit("important", true);
                                 this.setState({ important: true });
                               }
@@ -979,7 +989,7 @@ class EditTask extends Component {
                               }}
                               placeholder={"Select " + attribute.title}
                             />
-                          {attribute.required && parseFloat(this.state.task_data[attribute.id])===NaN&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid</label>}
+                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid</label>}
                           </div>
                         );
                       case "integer_number":
@@ -999,7 +1009,7 @@ class EditTask extends Component {
                               }}
                               placeholder={"Select " + attribute.title}
                             />
-                          {attribute.required && parseFloat(this.state.task_data[attribute.id])===NaN&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid!</label>}
+                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid!</label>}
                           </div>
                         );
                       case "checkbox":
@@ -1052,8 +1062,8 @@ const mapStateToProps = ({
 }) => {
   const { task, taskProjects, taskSolvers } = tasksReducer;
   const {taskAttributes} = taskAttributesReducer;
-  const { statuses } = statusesReducer;
-  const { companies } = companiesReducer;
+  const { taskStatuses } = statusesReducer;
+  const { taskCompanies } = companiesReducer;
   const { tags } = tagsReducer;
   const { units } = unitsReducer;
   const { users } = usersReducer;
@@ -1063,9 +1073,9 @@ const mapStateToProps = ({
   return {
     task,
     taskProjects,
-    companies,
+    companies:taskCompanies,
     taskAttributes,
-    statuses,
+    statuses:taskStatuses,
     tags,
     units,
     taskSolvers,

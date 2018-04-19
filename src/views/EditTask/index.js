@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import {startTaskLoading,startTaskProjectsLoading,startStatusesLoading,getTask,
-  getTaskStatuses,getTaskProjects,startCompaniesLoading,getCompanies,
+  getTaskStatuses,getTaskProjects,startCompaniesLoading,getTaskCompanies,
 startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
  startUnitsLoading, getUnits, deleteTaskSolvers,
 startUsersLoading, getUsers,startFollowersLoading, getFollowers,clearErrorMessage } from '../../redux/actions';
@@ -33,7 +33,7 @@ class EditTaskLoader extends Component {
     this.props.getTask(parseInt(this.props.match.params.id, 10),this.props.token);
     this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
     this.props.getTaskProjects(this.props.token);
-    this.props.getCompanies(this.props.companiesUpdateDate,this.props.token);
+    this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
     this.props.getTaskAttributes(this.props.token);
     this.props.getTags(this.props.token);
     this.props.getUnits(this.props.token);
@@ -68,7 +68,7 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
 
 export default connect(mapStateToProps, {
   startTaskLoading,startTaskProjectsLoading,startStatusesLoading,getTask,
-  getTaskStatuses,getTaskProjects, startCompaniesLoading,getCompanies,
+  getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
   startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
   startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
   startFollowersLoading, getFollowers,clearErrorMessage})(EditTaskLoader);

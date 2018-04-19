@@ -1,4 +1,4 @@
-import { SET_COMPANIES,SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY, SET_COMPANY_LOADING, EDIT_COMPANY,SET_ERROR_MESSAGE } from '../types';
+import { SET_COMPANIES,SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY, SET_COMPANY_LOADING, EDIT_COMPANY,SET_ERROR_MESSAGE, SET_TASK_COMPANIES } from '../types';
 import { COMPANIES_LIST } from '../urls';
 
 /**
@@ -16,7 +16,7 @@ export const startCompaniesLoading = () => {
  */
  export const getCompanies= (updateDate,token) => {
    return (dispatch) => {
-     fetch(COMPANIES_LIST+'/all'+(updateDate?'/'+updateDate:''), {
+     fetch(COMPANIES_LIST+'?limit=999', {
        method: 'get',
        headers: {
          'Authorization': 'Bearer ' + token,
@@ -28,7 +28,7 @@ export const startCompaniesLoading = () => {
          return;
        }
        response.json().then((data) => {
-         dispatch({type: SET_COMPANIES, companies:data.data,updateDate:data.date.toString()});
+         dispatch({type: SET_COMPANIES, companies:data.data,updateDate});
          dispatch({ type: SET_COMPANIES_LOADING, companiesLoaded:true });
        });
      }
@@ -38,6 +38,35 @@ export const startCompaniesLoading = () => {
    });
  }
  }
+
+ /**
+  * Gets all companies available with no pagination
+  * @param {string} token universal token for API comunication
+  */
+  export const getTaskCompanies = (updateDate,token) => {
+    return (dispatch) => {
+      fetch(COMPANIES_LIST+'/all'+(updateDate?'/'+updateDate:''), {
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if(!response.ok){
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          return;
+        }
+        response.json().then((data) => {
+          dispatch({type: SET_TASK_COMPANIES, companies:data.data,updateDate:data.date.toString()});
+          dispatch({ type: SET_COMPANIES_LOADING, companiesLoaded:true });
+        });
+      }
+    ).catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
+    });
+  }
+  }
 
 /**
  * Adds new company
