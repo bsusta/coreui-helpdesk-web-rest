@@ -43,7 +43,6 @@ class Project extends Component {
     return (
       <div className="table-div">
         <h2>
-          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
           {
             this.props.filters[
               this.props.filters.findIndex(filter =>

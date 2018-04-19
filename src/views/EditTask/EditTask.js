@@ -30,7 +30,7 @@ import {
   addFollower,
   deleteFollower
 } from "../../redux/actions";
-import { timestampToString, initialiseCustomAttributes, processCustomAttributes,importExistingCustomAttributesForTask } from "../../helperFunctions";
+import { timestampToString, initialiseCustomAttributes, processCustomAttributes,importExistingCustomAttributesForTask, containsNullRequiredAttribute } from "../../helperFunctions";
 import MultiSelect from "../../components/multiSelect";
 class EditTask extends Component {
   constructor(props) {
@@ -62,6 +62,8 @@ class EditTask extends Component {
     } else {
       company = null;
     }
+    let submitError = containsNullRequiredAttribute(processCustomAttributes({...task_data},[...this.props.taskAttributes]),[...this.props.taskAttributes]);
+    console.log(submitError);
     this.state = {
       company,
       deadline: this.props.task.deadline
@@ -95,7 +97,8 @@ class EditTask extends Component {
           : Object.values(this.props.task.taskHasAssignedUsers)[0].user.id,
       attachements: [],
       task_data,
-      followers: this.props.followers.map((follower)=>follower.id)
+      followers: this.props.followers.map((follower)=>follower.id),
+      submitError
     };
     this.autoSubmit.bind(this);
   }
@@ -146,6 +149,10 @@ class EditTask extends Component {
       state[name] = value;
     }
     let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
+    if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])){
+      this.setState({submitError:true});
+    }
+    this.setState({submitError:false});
     let tags = [];
     state.tags.map(addTag =>
       tags.push(
@@ -226,6 +233,7 @@ class EditTask extends Component {
                       }}
                     />
                   </div>
+                  {this.state.submitError && <h5 style={{color:'red'}}>Task won't save until you fill all required fields!</h5>}
               </div>
               <div
                 className="col-4"
@@ -833,6 +841,7 @@ class EditTask extends Component {
                               }}
                               placeholder={"Enter " + attribute.title}
                             />
+                          {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
                           </div>
                         );
                       case "text_area":
@@ -851,6 +860,7 @@ class EditTask extends Component {
                               }}
                               placeholder={"Enter " + attribute.title}
                             />
+                            {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
                           </div>
                         );
                       case "simple_select":
@@ -971,6 +981,7 @@ class EditTask extends Component {
                               timeIntervals={30}
                               dateFormat="DD.MM.YYYY HH:mm"
                             />
+                          {attribute.required && this.state.task_data[attribute.id] ===null&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
                           </div>
                         );
                       case "decimal_number":
@@ -990,6 +1001,7 @@ class EditTask extends Component {
                               }}
                               placeholder={"Select " + attribute.title}
                             />
+                          {attribute.required && parseFloat(this.state.task_data[attribute.id])===NaN&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid</label>}
                           </div>
                         );
                       case "integer_number":
@@ -1009,6 +1021,7 @@ class EditTask extends Component {
                               }}
                               placeholder={"Select " + attribute.title}
                             />
+                          {attribute.required && parseFloat(this.state.task_data[attribute.id])===NaN&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid!</label>}
                           </div>
                         );
                       case "checkbox":

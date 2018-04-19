@@ -253,3 +253,13 @@ export const fillCustomAttributesNulls= (attributes,originalAttributes)=>{
   }
   return attributes;
 }
+
+export const containsNullRequiredAttribute= (attributes,originalAttributes)=>{
+  for (let key in attributes) {
+    let original = originalAttributes[originalAttributes.findIndex((item) => (item.id.toString() === key))]; //from ID find out everything about the field
+    if(attributes[key]==='null' && original.required){
+      return true;
+    }
+  }
+  return false;
+}

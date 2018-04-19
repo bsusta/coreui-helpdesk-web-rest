@@ -34,7 +34,7 @@ class Subtasks extends Component {
   render() {
     return (
       <div>
-        <table class="table table-hover table-sm">
+        <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
               <th style={{ border: "0px" }}>Subtasks</th>
@@ -45,7 +45,7 @@ class Subtasks extends Component {
           </thead>
           <tbody>
             {this.props.subtasks.map(subtask => (
-              <tr>
+              <tr key={subtask.id}>
                 <td style={{ border: "0px" }}>
                   <div style={{ display: "flex" }}>
                     <input
@@ -60,6 +60,7 @@ class Subtasks extends Component {
                           this.props.token
                         )
                       }
+                      disabled={!this.props.taskID}
                       style={{ margin: "auto", marginRight: 10 }}
                     />
                     <input
@@ -91,9 +92,10 @@ class Subtasks extends Component {
                       onChange={e =>
                         this.setState({ editedSubtask: e.target.value })
                       }
-                      class="form-control"
+                      className="form-control"
                       placeholder="Enter subtask"
                       style={{ border: "none" }}
+                      disabled={!this.props.taskID}
                     />
                   </div>
                 </td>
@@ -105,6 +107,7 @@ class Subtasks extends Component {
                   >
                     <button
                       className="btn btn-sm btn-link"
+                      disabled={!this.props.taskID}
                       onClick={() => {
                         this.props.deleteSubtask(
                           subtask.id,
@@ -125,8 +128,9 @@ class Subtasks extends Component {
                   <input
                     type="text"
                     id="name"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter new subtask"
+                    disabled={!this.props.taskID}
                     value={this.state.newSubtask}
                     onChange={e =>
                       this.setState({ newSubtask: e.target.value })
@@ -135,6 +139,7 @@ class Subtasks extends Component {
                   <button
                     style={{ float: "right" }}
                     className="btn btn-sm btn-link mr-1"
+                    disabled={!this.props.taskID}
                     onClick={() => {
                       this.props.addSubtask(
                         { done: false, title: this.state.newSubtask },
@@ -152,7 +157,7 @@ class Subtasks extends Component {
           </tbody>
         </table>
 
-        <table class="table table-hover table-sm">
+        <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
               <th style={{ border: "0px" }}>Material</th>
@@ -166,7 +171,7 @@ class Subtasks extends Component {
           </thead>
           <tbody>
             {this.props.items.map(item => (
-              <tr>
+              <tr key={item.id}>
                 <td>
                   <input
                     style={{ border: "none" }}
@@ -200,7 +205,8 @@ class Subtasks extends Component {
                         }
                       })
                     }
-                    class="form-control"
+                    disabled={!this.props.taskID}
+                    className="form-control"
                     placeholder="Item name"
                   />
                 </td>
@@ -237,7 +243,8 @@ class Subtasks extends Component {
                         }
                       })
                     }
-                    class="form-control"
+                    disabled={!this.props.taskID}
+                    className="form-control"
                     placeholder="Amount"
                   />
                 </td>
@@ -274,13 +281,15 @@ class Subtasks extends Component {
                         }
                       })
                     }
-                    class="form-control"
+                    disabled={!this.props.taskID}
+                    className="form-control"
                     placeholder="Price per unit"
                   />
                 </td>
                 <td>
                   <select
-                    class="form-control"
+                    disabled={!this.props.taskID}
+                    className="form-control"
                     value={item.unit.id}
                     id="status"
                     onChange={e => {
@@ -307,6 +316,7 @@ class Subtasks extends Component {
 
                 <td>
                   <button
+                    disabled={!this.props.taskID}
                     style={{ float: "right" }}
                     className="btn  btn-sm btn-link mr-1"
                     onClick={() => {
@@ -325,37 +335,41 @@ class Subtasks extends Component {
             <tr>
               <td>
                 <input
+                  disabled={!this.props.taskID}
                   type="text"
                   value={this.state.newItem}
                   onChange={e => this.setState({ newItem: e.target.value })}
-                  class="form-control"
+                  className="form-control"
                 />
               </td>
               <td>
                 <input
+                  disabled={!this.props.taskID}
                   type="text"
                   value={this.state.newItemCount}
                   type="number"
                   onChange={e =>
                     this.setState({ newItemCount: e.target.value })
                   }
-                  class="form-control"
+                  className="form-control"
                 />
               </td>
               <td>
                 <input
+                  disabled={!this.props.taskID}
                   type="text"
                   value={this.state.newItemPrice}
                   type="number"
                   onChange={e =>
                     this.setState({ newItemPrice: e.target.value })
                   }
-                  class="form-control"
+                  className="form-control"
                 />
               </td>
               <td>
                 <select
-                  class="form-control"
+                  disabled={!this.props.taskID}
+                  className="form-control"
                   value={this.state.newItemUnit}
                   id="status"
                   onChange={e => {
@@ -373,6 +387,7 @@ class Subtasks extends Component {
               <td>
                 <button
                   style={{ float: "right" }}
+                  disabled={!this.props.taskID}
                   onClick={() => {
                     this.props.addItem(
                       {

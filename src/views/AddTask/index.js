@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {startTaskProjectsLoading,startStatusesLoading,
   getStatuses,getTaskProjects,startCompaniesLoading,getCompanies,
-startTasksAttributesLoading, getTasksAttributes,getTags, startTagsLoading,
+startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
  startUnitsLoading, getUnits, deleteTaskSolvers,
 startUsersLoading, getUsers,clearErrorMessage, clearTask } from '../../redux/actions';
 import AddTask from './AddTask';
@@ -23,7 +23,7 @@ class AddTaskLoader extends Component {
     this.props.startTaskProjectsLoading();
     this.props.startStatusesLoading();
     this.props.startCompaniesLoading();
-    this.props.startTasksAttributesLoading();
+    this.props.startTaskAttributesLoading();
     this.props.startTagsLoading();
     this.props.startUnitsLoading();
     this.props.startUsersLoading();
@@ -32,7 +32,7 @@ class AddTaskLoader extends Component {
     this.props.getStatuses(this.props.statusesUpdateDate,this.props.token);
     this.props.getTaskProjects(this.props.token);
     this.props.getCompanies(this.props.companiesUpdateDate,this.props.token);
-    this.props.getTasksAttributes(this.props.token);
+    this.props.getTaskAttributes(this.props.token);
     this.props.getTags(this.props.token);
     this.props.getUnits(this.props.token);
     this.props.getUsers("",this.props.token);
@@ -50,11 +50,12 @@ class AddTaskLoader extends Component {
 
 //all below is just redux storage
 
-const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,unitsReducer, usersReducer, login }) => {
-  const {taskProjectsLoaded, taskAttributesLoaded } = tasksReducer;
+const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,taskAttributesReducer,unitsReducer, usersReducer, login }) => {
+  const {taskProjectsLoaded } = tasksReducer;
   const {statusesLoaded, updateDate } = statusesReducer;
   const {companiesLoaded } = companiesReducer;
   const {tagsLoaded} = tagsReducer;
+  const {taskAttributesLoaded} = taskAttributesReducer;
   const {unitsLoaded} = unitsReducer;
   const {usersLoaded} = usersReducer;
   const {token} = login;
@@ -66,6 +67,6 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
 export default connect(mapStateToProps, {
   startTaskProjectsLoading,startStatusesLoading,
   getStatuses,getTaskProjects, startCompaniesLoading,getCompanies,
-  startTasksAttributesLoading,getTasksAttributes,getTags,startTagsLoading,
+  startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
   startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
   clearErrorMessage, clearTask})(AddTaskLoader);

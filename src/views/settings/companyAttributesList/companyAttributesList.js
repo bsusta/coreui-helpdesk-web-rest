@@ -44,7 +44,9 @@ class CompanyAttributesList extends Component {
   render() {
     return (
       <div className="table-div">
-        <h2 className="mb-3">Company attributes list</h2>
+        <h2 className="mb-3">
+          <i className="fa fa-angle-left" style={{fontSize:'1.75rem', paddingRight:15, cursor:'pointer'}} onClick={()=>this.props.history.goBack()} />
+        Company attributes list</h2>
 
         <button
           type="button"

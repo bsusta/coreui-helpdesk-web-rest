@@ -34,8 +34,6 @@ import {
   removeCommentFile,
   removeAllCommentFiles
 } from "../../redux/actions";
-{
-}
 class AddComment extends Component {
   constructor(props) {
     super(props);
@@ -81,9 +79,10 @@ class AddComment extends Component {
   render() {
     return (
       <div>
-        <Nav tabs>
+        <Nav tabs disabled={!this.props.taskID}>
           <NavItem>
             <NavLink
+              disabled={!this.props.taskID}
               className={classnames({ active: this.state.activeTab === "1" })}
               onClick={() => {
                 this.toggle("1");
@@ -94,6 +93,7 @@ class AddComment extends Component {
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={!this.props.taskID}
               className={classnames({ active: this.state.activeTab === "2" })}
               onClick={() => {
                 this.toggle("2");
@@ -113,9 +113,10 @@ class AddComment extends Component {
           activeTab={this.state.activeTab}
         >
           <TabPane tabId="1" style={{ paddingLeft: 0, paddingRight: 0 }}>
-            <div class="form-group">
+            <div className="form-group">
               <textarea
-                class="form-control"
+                className="form-control"
+                disabled={!this.props.taskID}
                 id="message"
                 rows="4"
                 value={this.state.message}
@@ -126,6 +127,7 @@ class AddComment extends Component {
             <div className="form-group">
               <input
                 type="file"
+                disabled={!this.props.taskID}
                 id={
                   this.props.commentID
                     ? "addAttachement" + this.props.commentID
@@ -161,6 +163,7 @@ class AddComment extends Component {
               >
                 <Input
                   type="checkbox"
+                  disabled={!this.props.taskID}
                   id={
                     this.props.commentID
                       ? "internal" + this.props.commentID
@@ -174,6 +177,7 @@ class AddComment extends Component {
                 Internal note
               </Label>
               <button
+                disabled={!this.props.taskID}
                 className="btn btn-sm btn-success mr-2 ml-2 float-right"
                 onClick={() => {
                   if (this.props.commentID) {
@@ -216,6 +220,7 @@ class AddComment extends Component {
                 Send
               </button>
               <button
+                disabled={!this.props.taskID}
                 className="btn btn-sm btn-danger float-right"
                 onClick={() =>
                   this.setState({
@@ -236,7 +241,7 @@ class AddComment extends Component {
             </div>
 
             <div
-              class="form-group"
+              className="form-group"
               style={{
                 display: this.props.displayAttachements ? "block" : "none"
               }}
@@ -244,7 +249,8 @@ class AddComment extends Component {
               <div style={{ paddingTop: 5, paddingRight: 10 }}>
                 {this.props.commentAttachements.map(item => (
                   <span
-                    class="badge"
+                    className="badge"
+                    key={item.id}
                     style={{
                       backgroundColor: "#d3eef6",
                       color: "black",
@@ -266,7 +272,8 @@ class AddComment extends Component {
                     <div>
                       <button
                         type="button"
-                        class="close center-block text-center m-*-auto"
+                        disabled={!this.props.taskID}
+                        className="close center-block text-center m-*-auto"
                         style={{ width: "100%" }}
                         aria-label="Close"
                         onClick={() => {
@@ -311,6 +318,7 @@ class AddComment extends Component {
                   {this.stringifyArray(this.state.to)}
                   {this.state.to.length !== 0 && (
                     <button
+                      disabled={!this.props.taskID}
                       className="btn btn-sm btn-danger mr-1"
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ to: [] })}
@@ -324,6 +332,7 @@ class AddComment extends Component {
                     <tr>
                       <td style={{ borderTop: "0px", width: "100%" }}>
                         <Input
+                          disabled={!this.props.taskID}
                           type="text"
                           id="to"
                           value={this.state.newTo}
@@ -340,6 +349,7 @@ class AddComment extends Component {
                         }}
                       >
                         <button
+                          disabled={!this.props.taskID}
                           style={{ float: "right" }}
                           className="btn btn-sm btn-primary mr-1"
                           onClick={() =>
@@ -366,6 +376,7 @@ class AddComment extends Component {
                   {this.stringifyArray(this.state.cc)}
                   {this.state.cc.length !== 0 && (
                     <button
+                      disabled={!this.props.taskID}
                       className="btn btn-sm btn-danger mr-1"
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ cc: [] })}
@@ -379,6 +390,7 @@ class AddComment extends Component {
                     <tr>
                       <td style={{ borderTop: "0px", width: "100%" }}>
                         <Input
+                          disabled={!this.props.taskID}
                           type="text"
                           id="cc"
                           value={this.state.newCC}
@@ -395,6 +407,7 @@ class AddComment extends Component {
                         }}
                       >
                         <button
+                          disabled={!this.props.taskID}
                           style={{ float: "right" }}
                           className="btn btn-sm btn-primary mr-1"
                           onClick={() =>
@@ -422,6 +435,7 @@ class AddComment extends Component {
                   {this.stringifyArray(this.state.bcc)}
                   {this.state.bcc.length !== 0 && (
                     <button
+                      disabled={!this.props.taskID}
                       className="btn btn-sm btn-danger mr-1"
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ bcc: [] })}
@@ -435,6 +449,7 @@ class AddComment extends Component {
                     <tr>
                       <td style={{ borderTop: "0px", width: "100%" }}>
                         <Input
+                          disabled={!this.props.taskID}
                           type="text"
                           id="bcc"
                           value={this.state.newBCC}
@@ -451,6 +466,7 @@ class AddComment extends Component {
                         }}
                       >
                         <button
+                          disabled={!this.props.taskID}
                           style={{ float: "right" }}
                           className="btn btn-sm btn-primary mr-1"
                           onClick={() =>
@@ -475,6 +491,7 @@ class AddComment extends Component {
               </Col>
               <Col xs="12" md="10">
                 <Input
+                  disabled={!this.props.taskID}
                   type="email"
                   id="subject"
                   value={this.state.subject}
@@ -482,9 +499,10 @@ class AddComment extends Component {
                 />
               </Col>
             </FormGroup>
-            <div class="form-group">
+            <div className="form-group">
               <textarea
-                class="form-control"
+                className="form-control"
+                disabled={!this.props.taskID}
                 id="message"
                 value={this.state.message}
                 onChange={e => this.setState({ message: e.target.value })}
@@ -492,7 +510,7 @@ class AddComment extends Component {
               />
             </div>
             <div className="form-group">
-              <Button color="link" size="sm">
+              <Button color="link" size="sm" disabled={!this.props.taskID}>
                 <i className="fa fa-paperclip" />&nbsp;Add attachments
               </Button>
               <Label
@@ -521,6 +539,7 @@ class AddComment extends Component {
               <button
                 type="submit"
                 className="btn btn-sm btn-success mr-2 ml-2 float-right"
+                disabled={!this.props.taskID}
                 onClick={() => {
                   if (this.props.commentID) {
                     this.props.addCommentsComment(
@@ -572,6 +591,7 @@ class AddComment extends Component {
                 Send
               </button>
               <button
+                disabled={!this.props.taskID}
                 onClick={() =>
                   this.setState({
                     message: "",
