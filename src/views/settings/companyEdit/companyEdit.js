@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editCompany } from "../../../redux/actions";
 import MultiSelect from "../../../components/multiSelect";
-import {initialiseCustomAttributes,processCustomAttributes, containsNullRequiredAttribute, importExistingCustomAttributesForCompany} from '../../../helperFunctions';
+import {initialiseCustomAttributes,processCustomAttributes, containsNullRequiredAttribute, importExistingCustomAttributesForCompany,areObjectsSame} from '../../../helperFunctions';
 import DatePicker from "react-datepicker";
 import moment from "moment";
 
@@ -26,9 +26,39 @@ class CompanyEdit extends Component {
       street: this.props.company.street ? this.props.company.street : "",
       zip: this.props.company.zip ? this.props.company.zip : "",
       company_data,
-      submitError:false
+      submitError:false,
+      changed:false
     };
+    this.compareChanges.bind(this);
   }
+
+  compareChanges(change,val){
+    var newState = {...this.state};
+    newState[change]=val;
+    newState.changed=undefined;
+    newState.submitError=undefined;
+    newState.company_data=JSON.stringify(newState.company_data);
+
+    let company_data = initialiseCustomAttributes([...this.props.companyAttributes]);
+    company_data= importExistingCustomAttributesForCompany(company_data,[...this.props.company.companyData],[...this.props.companyAttributes]);
+    var originalState = {
+      is_active: this.props.company.is_active,
+      title: this.props.company.title ? this.props.company.title : "",
+      city: this.props.company.city ? this.props.company.city : "",
+      country: this.props.company.country ? this.props.company.country : "",
+      dic: this.props.company.dic ? this.props.company.dic : "",
+      ic_dph: this.props.company.ic_dph ? this.props.company.ic_dph : "",
+      ico: this.props.company.ico ? this.props.company.ico : "",
+      street: this.props.company.street ? this.props.company.street : "",
+      zip: this.props.company.zip ? this.props.company.zip : "",
+      company_data:JSON.stringify(company_data),
+    }
+    console.log(areObjectsSame(newState,originalState));
+    console.log(newState);
+    console.log(originalState);
+    this.setState({changed:!areObjectsSame(newState,originalState)})
+  }
+
   submit(e) {
     e.preventDefault(); //prevent default form behaviour
     this.setState({submitError:true});
@@ -61,7 +91,7 @@ class CompanyEdit extends Component {
     return (
       <div className="card">
         <h4 className="card-header">Edit company</h4>
-        <div className="card-body">
+        <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -74,8 +104,10 @@ class CompanyEdit extends Component {
                   type="checkbox"
                   className="form-check-input"
                   checked={this.state.is_active}
-                  onChange={() =>
-                    this.setState({ is_active: !this.state.is_active })
+                  onChange={() =>{
+                    this.compareChanges('is_active',!this.state.is_active);
+                    this.setState({ is_active: !this.state.is_active });
+                  }
                   }
                   />
                 Active
@@ -88,7 +120,9 @@ class CompanyEdit extends Component {
                 className="form-control"
                 id="title"
                 value={this.state.title}
-                onChange={e => this.setState({ title: e.target.value })}
+                onChange={e => {
+                  this.compareChanges('title',e.target.value);
+                  this.setState({ title: e.target.value })}}
                 placeholder="Enter company name"
                 />
               {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter company title</label>}
@@ -100,7 +134,10 @@ class CompanyEdit extends Component {
                 className="form-control"
                 id="title"
                 value={this.state.ico}
-                onChange={e => this.setState({ ico: e.target.value })}
+                onChange={e =>{
+                  this.compareChanges('ico',e.target.value);
+                  this.setState({ ico: e.target.value });
+                }}
                 placeholder="Enter ICO number"
                 />
             </div>
@@ -111,7 +148,11 @@ class CompanyEdit extends Component {
                 className="form-control"
                 id="DIC"
                 value={this.state.dic}
-                onChange={e => this.setState({ dic: e.target.value })}
+                onChange={e =>{
+                  this.compareChanges('dic',e.target.value);
+                  this.setState({ dic: e.target.value });
+                }}
+
                 placeholder="Enter DIC"
                 />
             </div>
@@ -122,7 +163,10 @@ class CompanyEdit extends Component {
                 className="form-control"
                 id="ic_dph"
                 value={this.state.ic_dph}
-                onChange={e => this.setState({ ic_dph: e.target.value })}
+                onChange={e =>{
+                  this.compareChanges('ic_dph',e.target.value);
+                  this.setState({ ic_dph: e.target.value });
+                }}
                 placeholder="Enter IČ DPH"
                 />
             </div>
@@ -133,7 +177,10 @@ class CompanyEdit extends Component {
                 className="form-control"
                 id="street"
                 value={this.state.street}
-                onChange={e => this.setState({ street: e.target.value })}
+                onChange={e =>{
+                  this.compareChanges('street',e.target.value);
+                  this.setState({ street: e.target.value });
+                }}
                 placeholder="Enter street"
                 />
             </div>
@@ -144,7 +191,10 @@ class CompanyEdit extends Component {
                 className="form-control"
                 id="city"
                 value={this.state.city}
-                onChange={e => this.setState({ city: e.target.value })}
+                onChange={e =>{
+                  this.compareChanges('city',e.target.value);
+                  this.setState({ city: e.target.value });
+                }}
                 placeholder="Enter city"
                 />
             </div>
@@ -156,7 +206,10 @@ class CompanyEdit extends Component {
                 id="PSC"
                 placeholder="Enter PSC"
                 value={this.state.zip}
-                onChange={e => this.setState({ zip: e.target.value })}
+                onChange={e =>{
+                  this.compareChanges('zip',e.target.value);
+                  this.setState({ zip: e.target.value });
+                }}
                 />
             </div>
 
@@ -167,7 +220,10 @@ class CompanyEdit extends Component {
                 id="country"
                 placeholder="Enter country"
                 value={this.state.country}
-                onChange={e => this.setState({ country: e.target.value })}
+                onChange={e =>{
+                  this.compareChanges('country',e.target.value);
+                  this.setState({ country: e.target.value });
+                }}
                 />
             </div>
             {this.props.companyAttributes.map(attribute => {
@@ -183,6 +239,7 @@ class CompanyEdit extends Component {
                       onChange={e => {
                         let newData = { ...this.state.company_data };
                         newData[attribute.id] = e.target.value;
+                        this.compareChanges('company_data',newData);
                         this.setState({ company_data: newData });
                       }}
                       placeholder={"Enter " + attribute.title}
@@ -201,6 +258,7 @@ class CompanyEdit extends Component {
                       onChange={e => {
                         let newData = { ...this.state.company_data };
                         newData[attribute.id] = e.target.value;
+                        this.compareChanges('company_data',newData);
                         this.setState({ company_data: newData });
                       }}
                       placeholder={"Enter " + attribute.title}
@@ -219,6 +277,7 @@ class CompanyEdit extends Component {
                       onChange={e => {
                         let newData = { ...this.state.company_data };
                         newData[attribute.id] = e.target.value;
+                        this.compareChanges('company_data',newData);
                         this.setState({ company_data: newData });
                       }}
                       >
@@ -299,6 +358,7 @@ class CompanyEdit extends Component {
                             onChange={(ids, items) => {
                               let newData = { ...this.state.company_data };
                               newData[attribute.id] = ids;
+                              this.compareChanges('company_data',newData);
                               this.setState({ company_data: newData });
                             }}
                             />
@@ -314,6 +374,7 @@ class CompanyEdit extends Component {
                           onChange={e => {
                             let newData = { ...this.state.company_data };
                             newData[attribute.id] = e;
+                            this.compareChanges('company_data',newData);
                             this.setState({ company_data: newData });
                           }}
                           locale="en-gb"
@@ -338,6 +399,7 @@ class CompanyEdit extends Component {
                           onChange={e => {
                             let newData = { ...this.state.company_data };
                             newData[attribute.id] = e.target.value;
+                            this.compareChanges('company_data',newData);
                             this.setState({ company_data: newData });
                           }}
                           placeholder={"Select " + attribute.title}
@@ -357,6 +419,7 @@ class CompanyEdit extends Component {
                           onChange={e => {
                             let newData = { ...this.state.company_data };
                             newData[attribute.id] = e.target.value;
+                            this.compareChanges('company_data',newData);
                             this.setState({ company_data: newData });
                           }}
                           placeholder={"Select " + attribute.title}
@@ -377,6 +440,7 @@ class CompanyEdit extends Component {
                               newData[attribute.id] = !newData[
                                 attribute.id
                               ];
+                              this.compareChanges('company_data',newData);
                               this.setState({ company_data: newData });
                             }}
                             />
