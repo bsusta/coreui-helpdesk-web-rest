@@ -16,6 +16,8 @@ import '../scss/core/_dropdown-menu-right.scss'
 // Containers
 import Login from './views/Login/'
 
+import '../translation';
+
 import createStore from './redux/store';
 
 const store=createStore();

@@ -8,6 +8,7 @@ import {
   CardHeader
 } from "reactstrap";
 import { connect } from "react-redux";
+import i18n from 'i18next';
 
 class taskAttributesList extends Component {
   constructor(props) {
@@ -53,26 +54,26 @@ class taskAttributesList extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
           <button
             type="button"
             className="btn btn-link"
             onClick={() => this.props.history.push("/taskAttribute/add")}
           >
-            <i className="fa fa-plus" /> Task Attribute
+            <i className="fa fa-plus" /> {i18n.t('taskAttribute')}
           </button>
         </CardHeader>
         <div className="table-div">
-          <h2 className="mb-3">task attributes list</h2>
+          <h2 className="mb-3">{i18n.t('taskAttributesList')}</h2>
 
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>Custom field name</th>
-                <th style={{ borderTop: "0px" }}>Type</th>
-                <th style={{ borderTop: "0px" }}>Active</th>
-                <th style={{ borderTop: "0px" }}>Required</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('type')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('required')}</th>
               </tr>
             </thead>
             <tbody>
@@ -127,16 +128,16 @@ class taskAttributesList extends Component {
                   <td>{taskAttribute.type}</td>
                   <td>
                     {taskAttribute.is_active ? (
-                      <span className="badge badge-success">Yes</span>
+                      <span className="badge badge-success">{i18n.t('yes')}</span>
                     ) : (
-                      <span className="badge badge-danger">No</span>
+                      <span className="badge badge-danger">{i18n.t('no')}</span>
                     )}
                   </td>
                   <td>
                     {taskAttribute.required ? (
-                      <span className="badge badge-success">Yes</span>
+                      <span className="badge badge-success">{i18n.t('yes')}</span>
                     ) : (
-                      <span className="badge badge-danger">No</span>
+                      <span className="badge badge-danger">{i18n.t('no')}</span>
                     )}
                   </td>
                 </tr>

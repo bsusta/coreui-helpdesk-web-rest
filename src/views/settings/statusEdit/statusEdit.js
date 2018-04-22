@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { SketchPicker } from "react-color";
 import { editStatus } from "../../../redux/actions";
 import { areObjectsSame } from "../../../helperFunctions";
+import i18n from 'i18next';
 
 const funcOptions = [
-  { value: "null", title: "None" },
-  { value: "new_task", title: "New task" },
-  { value: "in_progress_task", title: "Task in progress" },
-  { value: "completed_task", title: "Completed task" },
-  { value: "closed_task", title: "Closed task" }
+  { value: "null", title: "none" },
+  { value: "new_task", title: "newTask" },
+  { value: "in_progress_task", title: "taskInProgress" },
+  { value: "completed_task", title: "completedTask" },
+  { value: "closed_task", title: "closedTask" }
 ];
 
 class StatusEdit extends Component {
@@ -73,7 +74,7 @@ class StatusEdit extends Component {
   render() {
     return (
       <div className="card">
-        <h4 className="card-header">Edit status</h4>
+        <h4 className="card-header">{i18n.t('editStatus')}</h4>
         <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           <form
             onSubmit={(event, value) => {
@@ -92,12 +93,12 @@ class StatusEdit extends Component {
                     this.setState({ is_active: !this.state.is_active })}
                   }
                 />
-                Active
+              {i18n.t('activated')}
               </label>
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">Status name</label>
+              <label htmlFor="title">{i18n.t('statusName')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -106,13 +107,13 @@ class StatusEdit extends Component {
                   this.compareChanges('title', target.target.value);
                   this.setState({ title: target.target.value })}
                 }
-                placeholder="Enter status name"
+                placeholder={i18n.t('enterStatusName')}
               />
             </div>
-            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter status name</label>}
+            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterStatusName')}</label>}
 
             <div className="form-group">
-              <label htmlFor="title">Order</label>
+              <label htmlFor="title">{i18n.t('order')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -122,15 +123,15 @@ class StatusEdit extends Component {
                   this.compareChanges('order', target.target.value);
                   this.setState({ order: target.target.value })}
                 }
-                placeholder="Enter order number (higher then 4)"
+                placeholder= {i18n.t('enterStatusOrder')}
               />
             </div>
-            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label htmlFor="order" style={{color:'red'}}>Your order number is not valid </label>}
-            { this.state.submitError &&this.state.order===''&&<label htmlFor="order" style={{color:'red'}}>Order is required</label>}
-            { this.state.order!==''&&parseInt(this.state.order)<5&&<label htmlFor="order" style={{color:'orange'}}>Should be higher than 4</label>}
+            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionOrderNumberIsNotValid')}</label>}
+            { this.state.submitError &&this.state.order===''&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
+            { this.state.order!==''&&parseInt(this.state.order)<5&&<label htmlFor="order" style={{color:'orange'}}>{i18n.t('reccomendationOrderMoreThanFour')}</label>}
 
             <div className="form-group">
-              <label htmlFor="ICO">Description</label>
+              <label htmlFor="description">{i18n.t('description')}</label>
               <textarea
                 className="form-control"
                 id="title"
@@ -139,12 +140,12 @@ class StatusEdit extends Component {
                   this.compareChanges('description', target.target.value);
                   this.setState({ description: target.target.value })}
                 }
-                placeholder="Enter status description"
+                placeholder={i18n.t('enterDescription')}
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="func">Function</label>
+              <label htmlFor="func">{i18n.t('func')}</label>
               <select
                 value={this.state.func}
                 id="func"
@@ -156,13 +157,13 @@ class StatusEdit extends Component {
               >
                 {funcOptions.map(opt => (
                   <option key={opt.value} value={opt.value}>
-                    {opt.title}
+                    {i18n.t(opt.title)}
                   </option>
                 ))}
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="color">Color</label>
+              <label htmlFor="color">{i18n.t('color')}</label>
               <SketchPicker
                 id="color"
                 color={this.state.color}
@@ -178,14 +179,14 @@ class StatusEdit extends Component {
                 className="btn btn-primary mr-2"
                 onClick={this.submit.bind(this)}
               >
-                Submit
+                {i18n.t('submit')}
               </button>
               <button
                 type="button"
                 className="btn btn-danger"
                 onClick={() => this.props.history.goBack()}
               >
-                Cancel
+                {i18n.t('cancel')}
               </button>
             </div>
           </form>

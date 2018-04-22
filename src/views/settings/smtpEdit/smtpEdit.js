@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { editSMTP } from "../../../redux/actions";
 import {isEmail} from "../../../helperFunctions";
 import { areObjectsSame } from "../../../helperFunctions";
+import i18n from 'i18next';
 
 class SMTPEdit extends Component {
   constructor(props) {
@@ -68,7 +69,7 @@ class SMTPEdit extends Component {
   render() {
     return (
       <div className="card">
-        <h4 className="card-header">Edit SMTP</h4>
+        <h4 className="card-header">{i18n.t('editSMTP')}</h4>
         <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           <form
             onSubmit={(event, value) => {
@@ -77,7 +78,7 @@ class SMTPEdit extends Component {
             }}
           >
             <div className="form-group">
-              <label htmlFor="email">*E-mail</label>
+            <label htmlFor="email">{i18n.t('email')}</label>
               <input
                 className="form-control"
                 value={this.state.email}
@@ -87,14 +88,14 @@ class SMTPEdit extends Component {
                 }
                 id="email"
                 type="email"
-                placeholder="Enter email"
+                placeholder={i18n.t('email')}
               />
             </div>
-            { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>Your e-mail address is not valid</label>}
-            {this.state.submitError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>You must enter e-mail address</label>}
+            { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+            {this.state.addError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="server">*Server IP</label>
+              <label htmlFor="server">{i18n.t('serverAddress')}</label>
               <input
                 className="form-control"
                 id="server"
@@ -103,12 +104,12 @@ class SMTPEdit extends Component {
                   this.compareChanges('host', target.target.value);
                   this.setState({ host: target.target.value })}
                 }
-                placeholder="Enter server"
+                placeholder={i18n.t('enterServerAddress')}
               />
             </div>
-            {this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>You must enter host IP address</label>}
+            {this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>{i18n.t('restrictionMustEnterServerAddress')}</label>}
             <div className="form-group">
-              <label htmlFor="port">*Port</label>
+              <label htmlFor="port">{i18n.t('port')}</label>
               <input
                 className="form-control"
                 id="port"
@@ -118,14 +119,14 @@ class SMTPEdit extends Component {
                   this.compareChanges('port', target.target.value);
                   this.setState({ port: target.target.value })}
                 }
-                placeholder="Enter port number"
+                placeholder={i18n.t('enterPort')}
               />
             </div>
-            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label htmlFor="port" style={{color:'red'}}>Your port number is not valid</label>}
-            {this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>You must enter port number</label>}
+            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionPortNotValid')}</label>}
+            {this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionMustEnterPort')}</label>}
 
             <div className="form-group">
-              <label htmlFor="login">*Login</label>
+              <label htmlFor="login">{i18n.t('login')}</label>
               <input
                 className="form-control"
                 id="login"
@@ -134,13 +135,13 @@ class SMTPEdit extends Component {
                   this.compareChanges('name', target.target.value);
                   this.setState({ name: target.target.value })}
                 }
-                placeholder="Enter login"
+                placeholder={i18n.t('enterLogin')}
               />
-            {this.state.submitError && this.state.name===''&&<label htmlFor="login" style={{color:'red'}}>You must enter login</label>}
+            {this.state.submitError && this.state.name===''&&<label htmlFor="login" style={{color:'red'}}>{i18n.t('mustHaveLogin')}</label>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="pass">*Password</label>
+              <label htmlFor="pass">{i18n.t('password')}</label>
               <input
                 className="form-control"
                 id="pass"
@@ -149,9 +150,9 @@ class SMTPEdit extends Component {
                   this.compareChanges('password', target.target.value);
                   this.setState({ password: target.target.value })}
                 }
-                placeholder="Enter password"
+                placeholder={i18n.t('enterPassword')}
               />
-            {this.state.submitError && this.state.password===''&&<label htmlFor="password" style={{color:'red'}}>You must enter password</label>}
+            {this.state.submitError && this.state.password===''&&<label htmlFor="password" style={{color:'red'}}>{i18n.t('mustEnterPassword')}</label>}
             </div>
 
             <div className="form-check">
@@ -165,7 +166,7 @@ class SMTPEdit extends Component {
                     this.setState({ tls: !this.state.tls })}
                   }
                 />
-                TLS
+                {i18n.t('tsl')}
               </label>
             </div>
 
@@ -180,7 +181,7 @@ class SMTPEdit extends Component {
                     this.setState({ ssl: !this.state.ssl })}
                   }
                 />
-                SSL
+                {i18n.t('ssl')}
               </label>
             </div>
             <div className="form-group">
@@ -189,14 +190,14 @@ class SMTPEdit extends Component {
                 className="btn btn-primary mr-2"
                 onClick={this.submit.bind(this)}
               >
-                Submit
+                {i18n.t('submit')}
               </button>
               <button
                 type="button"
                 className="btn btn-danger"
                 onClick={() => this.props.history.goBack()}
               >
-                Cancel
+                {i18n.t('cancel')}
               </button>
             </div>
           </form>

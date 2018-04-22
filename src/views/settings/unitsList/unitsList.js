@@ -8,6 +8,7 @@ import {
   CardHeader
 } from "reactstrap";
 import { connect } from "react-redux";
+import i18n from 'i18next';
 
 class UnitsList extends Component {
   constructor(props) {
@@ -45,25 +46,25 @@ class UnitsList extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
           <button
             type="button"
             className="btn btn-link"
             onClick={() => this.props.history.push("/unit/add")}
           >
-            <i className="fa fa-plus" /> Unit
+            <i className="fa fa-plus" /> {i18n.t('unit')}
           </button>
         </CardHeader>
         <div className="table-div">
-          <h2 className="mb-3">Unit list</h2>
+          <h2 className="mb-3">{i18n.t('unitList')}</h2>
 
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>Title</th>
-                <th style={{ borderTop: "0px" }}>Shortcut</th>
-                <th style={{ borderTop: "0px" }}>Activated</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('shortcut')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
               </tr>
             </thead>
             <tbody>
@@ -107,9 +108,9 @@ class UnitsList extends Component {
                   <td>{unit.shortcut}</td>
                   <td>
                     {unit.is_active ? (
-                      <span className="badge badge-success">Yes</span>
+                      <span className="badge badge-success">{i18n.t('yes')}</span>
                     ) : (
-                      <span className="badge badge-danger">No</span>
+                      <span className="badge badge-danger">{i18n.t('no')}</span>
                     )}
                   </td>
                 </tr>

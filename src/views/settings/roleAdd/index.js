@@ -1,30 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addUserRole } from "../../../redux/actions";
+import i18n from 'i18next';
+
 const ACLs = [
-  { value: "login_to_system", title: "Log into system" },
-  { value: "share_filters", title: "Share filters" },
-  { value: "project_shared_filters", title: "Project shared filters" },
-  { value: "report_filters", title: "Report Filters" },
-  { value: "share_tags", title: "Shared tags" },
-  { value: "create_projects", title: "Create projects" },
-  { value: "sent_emails_from_comments", title: "Send e-mails from comments" },
-  { value: "create_tasks", title: "Create tasks" },
+  { value: "login_to_system", title: "aclLogIntoSystem" },
+  { value: "share_filters", title: "aclShareFilters" },
+  { value: "project_shared_filters", title: "aclProjectSharedFilters" },
+  { value: "report_filters", title: "aclReportFilters" },
+  { value: "share_tags", title: "aclSharedTags" },
+  { value: "create_projects", title: "aclCreateProjects" },
+  { value: "sent_emails_from_comments", title: "aclSendEmailsFromComments" },
+  { value: "create_tasks", title: "aclCreateTasks" },
   {
     value: "create_tasks_in_all_projects",
-    title: "Create tasks in all projects"
+    title: "aclCreateTasksInAllProjects"
   },
-  { value: "update_all_tasks", title: "Update all tasks" },
-  { value: "user_settings", title: "User settings" },
-  { value: "user_role_settings", title: "User role settings" },
-  { value: "company_attribute_settings", title: "Company attribute settings" },
-  { value: "company_settings", title: "Company settings" },
-  { value: "status_settings", title: "Status settings" },
-  { value: "task_attribute_settings", title: "Task attribute settings" },
-  { value: "unit_settings", title: "Unit settings" },
-  { value: "system_settings", title: "System settings" },
-  { value: "imap_settings", title: "Imap settings" },
-  { value: "smtp_settings", title: "SMTP settings" }
+  { value: "update_all_tasks", title: "aclUpdateAllTasks" },
+  { value: "user_settings", title: "aclUserSettings" },
+  { value: "user_role_settings", title: "aclUserRoleSettings" },
+  { value: "company_attribute_settings", title: "aclCompanyAttributeSettings" },
+  { value: "company_settings", title: "aclCompanySettings" },
+  { value: "status_settings", title: "aclStatusSettings" },
+  { value: "task_attribute_settings", title: "aclTaskAttributeSettings" },
+  { value: "unit_settings", title: "aclUnitSettings" },
+  { value: "system_settings", title: "aclSystemSettings" },
+  { value: "imap_settings", title: "aclImapSettings" },
+  { value: "smtp_settings", title: "aclSMTPSettings" }
 ];
 
 class RoleAdd extends Component {
@@ -77,7 +79,7 @@ class RoleAdd extends Component {
   render() {
     return (
       <div className="card">
-        <h4 className="card-header">Add role</h4>
+        <h4 className="card-header">{i18n.t('addRole')}</h4>
         <div className="card-body">
           <form
             onSubmit={(event, value) => {
@@ -86,55 +88,55 @@ class RoleAdd extends Component {
             }}
           >
             <div className="form-group">
-              <label htmlFor="title">Role name</label>
+              <label htmlFor="title">{i18n.t('roleName')}</label>
               <input
                 className="form-control"
                 id="title"
                 value={this.state.title}
                 onChange={e => this.setState({ title: e.target.value })}
-                placeholder="Enter role name"
+                placeholder={i18n.t('enterRoleName')}
               />
             </div>
-            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
+            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
 
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">{i18n.t('description')}</label>
               <textarea
                 className="form-control"
                 id="description"
-                placeholder="Description"
+                placeholder={i18n.t('enterDescription')}
                 value={this.state.description}
                 onChange={e => this.setState({ description: e.target.value })}
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="homepage">Homepage</label>
+              <label htmlFor="homepage">{i18n.t('homepage')}</label>
               <input
                 className="form-control"
                 id="homepage"
                 value={this.state.homepage}
                 onChange={e => this.setState({ homepage: e.target.value })}
-                placeholder="Enter roles homepage"
+                placeholder={i18n.t('enterHomepage')}
               />
             </div>
-            {this.state.submitError && this.state.homepage===''&&<label htmlFor="homepage" style={{color:'red'}}>You must enter role's homepage</label>}
+            {this.state.submitError && this.state.homepage===''&&<label htmlFor="homepage" style={{color:'red'}}>{i18n.t('restrictionMustEnterRolesHomepage')}</label>}
 
             <div className="form-group">
-              <label htmlFor="order">Order</label>
+              <label htmlFor="order">{i18n.t('order')}</label>
               <input
                 className="form-control"
                 id="order"
                 type="number"
                 value={this.state.order}
                 onChange={e => this.setState({ order: e.target.value })}
-                placeholder="Enter order (should be heigher then the one of yours role)"
+                placeholder={i18n.t('enterRoleOrder')}
               />
             </div>
-            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label htmlFor="order" style={{color:'red'}}>Your order number is not valid</label>}
-            { this.state.submitError && this.state.order===''&&<label htmlFor="order" style={{color:'red'}}>You must enter order number</label>}
+            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionOrderNumberIsNotValid')}</label>}
+            { this.state.submitError && this.state.order===''&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
 
-            <h3>ACLs</h3>
+            <h3>{i18n.t('acls')}</h3>
             {ACLs.map(acl => (
               <div className="form-check" key={acl.value}>
                 <label className="form-check-label">
@@ -144,7 +146,7 @@ class RoleAdd extends Component {
                     checked={this.state.acl.includes(acl.value)}
                     onChange={() => this.aclChange(acl.value)}
                   />
-                  {acl.title}
+                  {i18n.t(acl.title)}
                 </label>
               </div>
             ))}
@@ -155,14 +157,14 @@ class RoleAdd extends Component {
                 className="btn btn-primary mr-2"
                 onClick={this.submit.bind(this)}
               >
-                Submit
+                {i18n.t('submit')}
               </button>
               <button
                 type="button"
                 className="btn btn-danger"
                 onClick={() => this.props.history.goBack()}
               >
-                Cancel
+                {i18n.t('cancel')}
               </button>
             </div>
           </form>

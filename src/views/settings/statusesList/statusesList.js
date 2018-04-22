@@ -8,6 +8,7 @@ import {
   CardHeader
 } from "reactstrap";
 import { connect } from "react-redux";
+import i18n from 'i18next';
 
 class StatusesList extends Component {
   constructor(props) {
@@ -49,27 +50,27 @@ class StatusesList extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
           <button
             type="button"
             className="btn btn-link"
             onClick={() => this.props.history.push("/status/add")}
           >
-            <i className="fa fa-plus" /> Status
+            <i className="fa fa-plus" /> {i18n.t('status')}
           </button>
         </CardHeader>
         <div className="table-div">
-          <h2 className="mb-3">Statuses list</h2>
+          <h2 className="mb-3">{i18n.t('statusList')}</h2>
 
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>Name</th>
-                <th style={{ borderTop: "0px" }}>Description</th>
-                <th style={{ borderTop: "0px" }}>Color</th>
-                <th style={{ borderTop: "0px" }}>Active</th>
-                <th style={{ borderTop: "0px" }}>Order</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('name')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('description')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('color')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('order')}</th>
               </tr>
             </thead>
             <tbody>

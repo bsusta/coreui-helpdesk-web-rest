@@ -8,6 +8,7 @@ import {
   CardHeader
 } from "reactstrap";
 import { connect } from "react-redux";
+import i18n from 'i18next';
 
 class SMTPsList extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class SMTPsList extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
           {/*
           <button
@@ -32,13 +33,13 @@ class SMTPsList extends Component {
           */}
         </CardHeader>
         <div className="table-div">
-          <h2 className="mb-3">SMTPs list</h2>
+          <h2 className="mb-3">{i18n.t('smtpsList')}</h2>
 
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>E-mail</th>
-                <th style={{ borderTop: "0px" }}>IP</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('email')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('serverAddress')}</th>
               </tr>
             </thead>
             <tbody>

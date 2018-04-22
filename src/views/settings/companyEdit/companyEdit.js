@@ -5,6 +5,7 @@ import MultiSelect from "../../../components/multiSelect";
 import {initialiseCustomAttributes,processCustomAttributes, containsNullRequiredAttribute, importExistingCustomAttributesForCompany,areObjectsSame} from '../../../helperFunctions';
 import DatePicker from "react-datepicker";
 import moment from "moment";
+import i18n from 'i18next';
 
 //city,country, dic, ic_dph,ico,is_active,street,title, zip
 
@@ -90,7 +91,7 @@ class CompanyEdit extends Component {
   render() {
     return (
       <div className="card">
-        <h4 className="card-header">Edit company</h4>
+        <h4 className="card-header">{i18n.t('editCompany')}</h4>
         <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
           <form
             onSubmit={(event, value) => {
@@ -115,7 +116,7 @@ class CompanyEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">Company name</label>
+              <label htmlFor="title">{i18n.t('companyName')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -123,13 +124,13 @@ class CompanyEdit extends Component {
                 onChange={e => {
                   this.compareChanges('title',e.target.value);
                   this.setState({ title: e.target.value })}}
-                placeholder="Enter company name"
+                placeholder={i18n.t('enterCompanyName')}
                 />
               {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter company title</label>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="ICO">ICO</label>
+              <label htmlFor="ICO">{i18n.t('ico')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -138,12 +139,12 @@ class CompanyEdit extends Component {
                   this.compareChanges('ico',e.target.value);
                   this.setState({ ico: e.target.value });
                 }}
-                placeholder="Enter ICO number"
+                placeholder={i18n.t('enterICONumber')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="DIC">DIC</label>
+              <label htmlFor="DIC">{i18n.t('dic')}</label>
               <input
                 className="form-control"
                 id="DIC"
@@ -153,12 +154,12 @@ class CompanyEdit extends Component {
                   this.setState({ dic: e.target.value });
                 }}
 
-                placeholder="Enter DIC"
+                placeholder={i18n.t('enterDIC')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="ic_dph">IČ DPH</label>
+              <label htmlFor="ic_dph">{i18n.t('icDPH')}</label>
               <input
                 className="form-control"
                 id="ic_dph"
@@ -167,12 +168,12 @@ class CompanyEdit extends Component {
                   this.compareChanges('ic_dph',e.target.value);
                   this.setState({ ic_dph: e.target.value });
                 }}
-                placeholder="Enter IČ DPH"
+                placeholder={i18n.t('enterICDPH')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="street">Street</label>
+              <label htmlFor="street">{i18n.t('street')}</label>
               <input
                 className="form-control"
                 id="street"
@@ -181,12 +182,12 @@ class CompanyEdit extends Component {
                   this.compareChanges('street',e.target.value);
                   this.setState({ street: e.target.value });
                 }}
-                placeholder="Enter street"
+                placeholder={i18n.t('enterStreet')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="city">City</label>
+              <label htmlFor="city">{i18n.t('city')}</label>
               <input
                 className="form-control"
                 id="city"
@@ -195,16 +196,16 @@ class CompanyEdit extends Component {
                   this.compareChanges('city',e.target.value);
                   this.setState({ city: e.target.value });
                 }}
-                placeholder="Enter city"
+                placeholder={i18n.t('enterCity')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="PSC">PSC</label>
+              <label htmlFor="PSC">{i18n.t('zip')}</label>
               <input
                 className="form-control"
                 id="PSC"
-                placeholder="Enter PSC"
+                placeholder={i18n.t('enterZIP')}
                 value={this.state.zip}
                 onChange={e =>{
                   this.compareChanges('zip',e.target.value);
@@ -214,11 +215,11 @@ class CompanyEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="country">Country</label>
+              <label htmlFor="country">{i18n.t('country')}</label>
               <input
                 className="form-control"
                 id="country"
-                placeholder="Enter country"
+                placeholder={i18n.t('enterCountry')}
                 value={this.state.country}
                 onChange={e =>{
                   this.compareChanges('country',e.target.value);
@@ -242,7 +243,7 @@ class CompanyEdit extends Component {
                         this.compareChanges('company_data',newData);
                         this.setState({ company_data: newData });
                       }}
-                      placeholder={"Enter " + attribute.title}
+                      placeholder={i18n.t('enter')+' ' + attribute.title}
                       />
                     {attribute.required && this.state.submitError  && this.state.company_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
                   </div>
@@ -261,7 +262,7 @@ class CompanyEdit extends Component {
                         this.compareChanges('company_data',newData);
                         this.setState({ company_data: newData });
                       }}
-                      placeholder={"Enter " + attribute.title}
+                      placeholder={i18n.t('enter')+' ' + attribute.title}
                       />
                     {attribute.required && this.state.submitError  && this.state.company_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
                   </div>
@@ -378,7 +379,7 @@ class CompanyEdit extends Component {
                             this.setState({ company_data: newData });
                           }}
                           locale="en-gb"
-                          placeholderText={attribute.title}
+                          placeholderText={i18n.t('select')+' '+attribute.title}
                           showTimeSelect
                           timeFormat="HH:mm"
                           timeIntervals={30}
@@ -402,7 +403,7 @@ class CompanyEdit extends Component {
                             this.compareChanges('company_data',newData);
                             this.setState({ company_data: newData });
                           }}
-                          placeholder={"Select " + attribute.title}
+                          placeholder={i18n.t('enter')+ ' ' + attribute.title}
                           />
                         {attribute.required && this.state.submitError  && isNaN(parseFloat(this.state.company_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid</label>}
                       </div>
@@ -422,7 +423,7 @@ class CompanyEdit extends Component {
                             this.compareChanges('company_data',newData);
                             this.setState({ company_data: newData });
                           }}
-                          placeholder={"Select " + attribute.title}
+                          placeholder={i18n.t('enter')+ ' ' + attribute.title}
                           />
                         {attribute.required && this.state.submitError  && isNaN(parseFloat(this.state.company_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid!</label>}
                       </div>
@@ -459,14 +460,14 @@ class CompanyEdit extends Component {
                       className="btn btn-primary mr-2"
                       onClick={this.submit.bind(this)}
                       >
-                      Submit
+                      {i18n.t('submit')}
                     </button>
                     <button
                       type="button"
                       className="btn btn-danger"
                       onClick={() => this.props.history.goBack()}
                       >
-                      Cancel
+                      {i18n.t('cancel')}
                     </button>
                   </div>
 

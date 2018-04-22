@@ -11,6 +11,7 @@ import {
 import { connect } from "react-redux";
 import { getUsers } from "../../../redux/actions";
 import Pagination from "../../../components/pagination";
+import i18n from 'i18next';
 
 class UsersList extends Component {
   constructor(props) {
@@ -56,26 +57,26 @@ class UsersList extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
           <button
             type="button"
             className="btn btn-link"
             onClick={() => this.props.history.push("/user/add")}
           >
-            <i className="fa fa-plus" /> User
+            <i className="fa fa-plus" /> {i18n.t('user')}
           </button>
         </CardHeader>
         <div className="table-div">
-          <h2 className="mb-3">Users list</h2>
+          <h2 className="mb-3">{i18n.t('usersList')}</h2>
 
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>ID</th>
-                <th style={{ borderTop: "0px" }}>Activated</th>
-                <th style={{ borderTop: "0px" }}>Name</th>
-                <th style={{ borderTop: "0px" }}>E-mail</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('id')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('name')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('email')}</th>
               </tr>
             </thead>
             <tbody>

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { editUnit } from '../../../redux/actions';
 import { connect } from 'react-redux';
+import i18n from 'i18next';
 
 class UnitEdit extends Component {
   constructor(props) {
@@ -56,7 +57,7 @@ class UnitEdit extends Component {
         style={{ maxWidth: 1380, margin: "auto", borderTop: "0",border:this.state.changed?'1px solid red':null }}
         >
 
-        <h4 className="card-header">Edit unit</h4>
+        <h4 className="card-header">{i18n.t('editUnit')}</h4>
         <div className="card-body">
           <div className="list-group">
             <form
@@ -77,11 +78,11 @@ class UnitEdit extends Component {
                   }
                   className="form-check-input"
                   />
-                Active
+                {i18n.t('activated')}
               </label>
             </div>
             <div className="form-group">
-              <label htmlFor="title">Unit title</label>
+              <label htmlFor="title">{i18n.t('title')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -91,13 +92,13 @@ class UnitEdit extends Component {
                   this.setState({ title: event.target.value })
                 }
               }
-              placeholder="Enter title"
+              placeholder={i18n.t('enterTitle')}
               />
           </div>
-          {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
+          {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
 
           <div className="form-group">
-            <label htmlFor="shortcut">Shortcut</label>
+            <label htmlFor="shortcut">{i18n.t('shortcut')}</label>
             <input
               className="form-control"
               id="shortcut"
@@ -107,9 +108,9 @@ class UnitEdit extends Component {
                 this.setState({ shortcut: event.target.value })
               }
             }
-            placeholder="Enter shortcut"
+            placeholder={i18n.t('enterShortcut')}
             />
-          {this.state.submitError && this.state.shortcut===''&&<label htmlFor="shortcut" style={{color:'red'}}>You must enter shortcut</label>}
+            {this.state.submitError && this.state.shortcut===''&&<label htmlFor="shortcut" style={{color:'red'}}>{i18n.t('restrictionMustEnterShortcut')}</label>}
 
         </div>
         <div className="form-group">
@@ -118,17 +119,17 @@ class UnitEdit extends Component {
             className="btn btn-primary mr-2"
             onClick={this.submit.bind(this)}
           >
-            Submit
+            {i18n.t('submit')}
           </button>
           <button
             type="button"
             className="btn btn-danger"
             onClick={() => this.props.history.goBack()}
           >
-            Cancel
+            {i18n.t('cancel')}
           </button>
         </div>
-        
+
       </form>
     </div>
   </div>

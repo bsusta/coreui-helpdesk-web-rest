@@ -4,6 +4,7 @@ import { addCompany } from "../../../redux/actions";
 import MultiSelect from "../../../components/multiSelect";
 import {initialiseCustomAttributes,containsNullRequiredAttribute,processCustomAttributes} from '../../../helperFunctions';
 import DatePicker from "react-datepicker";
+import i18n from 'i18next';
 
 class CompanyAdd extends Component {
   constructor(props) {
@@ -54,7 +55,7 @@ class CompanyAdd extends Component {
   render() {
     return (
       <div className="card">
-        <h4 className="card-header">Add company</h4>
+        <h4 className="card-header">{i18n.t('addCompany')}</h4>
         <div className="card-body">
           <form
             onSubmit={(event, value) => {
@@ -63,89 +64,89 @@ class CompanyAdd extends Component {
             }}
             >
             <div className="form-group">
-              <label htmlFor="title">Company name</label>
+              <label htmlFor="title">{i18n.t('companyName')}</label>
               <input
                 className="form-control"
                 id="title"
                 value={this.state.title}
                 onChange={e => this.setState({ title: e.target.value })}
-                placeholder="Enter company name"
+                placeholder={i18n.t('enterCompanyName')}
                 />
               {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter company title</label>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="ICO">ICO</label>
+              <label htmlFor="ICO">{i18n.t('ico')}</label>
               <input
                 className="form-control"
                 id="title"
                 value={this.state.ico}
                 onChange={e => this.setState({ ico: e.target.value })}
-                placeholder="Enter ICO number"
+                placeholder={i18n.t('enterICONumber')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="DIC">DIC</label>
+              <label htmlFor="DIC">{i18n.t('dic')}</label>
               <input
                 className="form-control"
                 id="DIC"
                 value={this.state.dic}
                 onChange={e => this.setState({ dic: e.target.value })}
-                placeholder="Enter DIC"
+                placeholder={i18n.t('enterDIC')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="ic_dph">IČ DPH</label>
+              <label htmlFor="ic_dph">{i18n.t('icDPH')}</label>
               <input
                 className="form-control"
                 id="ic_dph"
                 value={this.state.ic_dph}
                 onChange={e => this.setState({ ic_dph: e.target.value })}
-                placeholder="Enter IČ DPH"
+                placeholder={i18n.t('enterICDPH')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="street">Street</label>
+              <label htmlFor="street">{i18n.t('street')}</label>
               <input
                 className="form-control"
                 id="street"
                 value={this.state.street}
                 onChange={e => this.setState({ street: e.target.value })}
-                placeholder="Enter street"
+                placeholder={i18n.t('enterStreet')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="city">City</label>
+              <label htmlFor="city">{i18n.t('city')}</label>
               <input
                 className="form-control"
                 id="city"
                 value={this.state.city}
                 onChange={e => this.setState({ city: e.target.value })}
-                placeholder="Enter city"
+                placeholder={i18n.t('enterCity')}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="PSC">PSC</label>
+              <label htmlFor="PSC">{i18n.t('zip')}</label>
               <input
                 className="form-control"
                 id="PSC"
-                placeholder="Enter PSC"
+                placeholder={i18n.t('enterZIP')}
                 value={this.state.zip}
                 onChange={e => this.setState({ zip: e.target.value })}
                 />
             </div>
 
             <div className="form-group">
-              <label htmlFor="country">Country</label>
+              <label htmlFor="country">{i18n.t('country')}</label>
               <input
                 className="form-control"
                 id="country"
-                placeholder="Enter country"
+                placeholder={i18n.t('enterCountry')}
                 value={this.state.country}
                 onChange={e => this.setState({ country: e.target.value })}
                 />
@@ -166,7 +167,7 @@ class CompanyAdd extends Component {
                         newData[attribute.id] = e.target.value;
                         this.setState({ company_data: newData });
                       }}
-                      placeholder={"Enter " + attribute.title}
+                      placeholder={i18n.t('enter')+' ' + attribute.title}
                       />
                     {attribute.required && this.state.submitError  && this.state.company_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
                   </div>
@@ -184,7 +185,7 @@ class CompanyAdd extends Component {
                         newData[attribute.id] = e.target.value;
                         this.setState({ company_data: newData });
                       }}
-                      placeholder={"Enter " + attribute.title}
+                      placeholder={i18n.t('enter')+' ' + attribute.title}
                       />
                     {attribute.required && this.state.submitError  && this.state.company_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
                   </div>
@@ -298,7 +299,7 @@ class CompanyAdd extends Component {
                             this.setState({ company_data: newData });
                           }}
                           locale="en-gb"
-                          placeholderText={attribute.title}
+                          placeholderText={i18n.t('select')+' '+attribute.title}
                           showTimeSelect
                           timeFormat="HH:mm"
                           timeIntervals={30}
@@ -321,7 +322,7 @@ class CompanyAdd extends Component {
                             newData[attribute.id] = e.target.value;
                             this.setState({ company_data: newData });
                           }}
-                          placeholder={"Select " + attribute.title}
+                          placeholder={i18n.t('enter')+ ' ' + attribute.title}
                           />
                         {attribute.required && this.state.submitError  && isNaN(parseFloat(this.state.company_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid</label>}
                       </div>
@@ -340,7 +341,7 @@ class CompanyAdd extends Component {
                             newData[attribute.id] = e.target.value;
                             this.setState({ company_data: newData });
                           }}
-                          placeholder={"Select " + attribute.title}
+                          placeholder={i18n.t('enter')+ ' ' + attribute.title}
                           />
                         {attribute.required && this.state.submitError  && isNaN(parseFloat(this.state.company_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid!</label>}
                       </div>
@@ -377,14 +378,14 @@ class CompanyAdd extends Component {
                       className="btn btn-primary mr-2"
                       onClick={this.submit.bind(this)}
                       >
-                      Submit
+                      {i18n.t('submit')}
                     </button>
                     <button
                       type="button"
                       className="btn btn-danger"
                       onClick={() => this.props.history.goBack()}
                       >
-                      Cancel
+                      {i18n.t('cancel')}
                     </button>
                   </div>
 

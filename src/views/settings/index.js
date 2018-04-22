@@ -21,23 +21,25 @@ import {
   Input,
   Table
 } from "reactstrap";
+import i18n from 'i18next';
+
 class Settings extends Component {
   render() {
     return (
       <div className="table-div">
-        <h2 className="mb-3">Settings</h2>
+        <h2 className="mb-3">{i18n.t('settings')}</h2>
         <Table hover striped responsive>
           <tbody>
             <tr style={{ cursor: "pointer" }}>
               <td
                 onClick={() => this.props.history.push("./automaticTasksList")}
               >
-                Automatic tasks
+                {i18n.t('automaticTasks')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./companiesList")}>
-                Companies
+                {i18n.t('companies')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
@@ -46,49 +48,49 @@ class Settings extends Component {
                   this.props.history.push("./companyAttributesList")
                 }
               >
-                Companies custom fields
+                {i18n.t('companiesCustomFields')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./imapsList")}>
-                Imap
+                {i18n.t('imaps')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./rolesList")}>
-                Roles
+                {i18n.t('roles')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./smtpsList")}>
-                SMTP
+                {i18n.t('smtp')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./statusesList")}>
-                Statuses
+                {i18n.t('statuses')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td
                 onClick={() => this.props.history.push("./taskAttributesList")}
               >
-                Task custom fields
+                {i18n.t('tasksCustomFields')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./triggersList")}>
-                Triggers
+                {i18n.t('triggers')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./unitsList")}>
-                Units
+                {i18n.t('units')}
               </td>
             </tr>
             <tr style={{ cursor: "pointer" }}>
               <td onClick={() => this.props.history.push("./usersList")}>
-                Users
+                {i18n.t('users')}
               </td>
             </tr>
           </tbody>

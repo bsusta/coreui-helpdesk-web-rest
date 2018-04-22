@@ -9,6 +9,8 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 import Pagination from "../../../components/pagination";
+import i18n from 'i18next';
+
 class CompaniesList extends Component {
   constructor(props) {
     super(props);
@@ -24,27 +26,27 @@ class CompaniesList extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
           <button
             type="button"
             className="btn btn-link"
             onClick={() => this.props.history.push("/company/add")}
           >
-            <i className="fa fa-plus" /> Company
+            <i className="fa fa-plus" /> {i18n.t('company')}
           </button>
         </CardHeader>
         <div className="table-div">
-          <h2 className="mb-3">Companies list</h2>
+          <h2 className="mb-3">{i18n.t('companiesList')}</h2>
 
           <div style={{ display: "flex", marginTop: 20 }} />
 
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>ID</th>
-                <th style={{ borderTop: "0px" }}>Activated</th>
-                <th style={{ borderTop: "0px" }}>Title</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('id')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
               </tr>
             </thead>
             <tbody>
@@ -58,9 +60,9 @@ class CompaniesList extends Component {
                   <td>{company.id}</td>
                   <td>
                     {company.is_active ? (
-                      <span className="badge badge-success">Yes</span>
+                      <span className="badge badge-success">{i18n.t('yes')}</span>
                     ) : (
-                      <span className="badge badge-danger">No</span>
+                      <span className="badge badge-danger">{i18n.t('no')}</span>
                     )}
                   </td>
                   <td>{company.title}</td>

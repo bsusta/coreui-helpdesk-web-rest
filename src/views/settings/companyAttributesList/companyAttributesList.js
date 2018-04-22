@@ -8,6 +8,7 @@ import {
   CardHeader
 } from "reactstrap";
 import { connect } from "react-redux";
+import i18n from 'i18next';
 
 class CompanyAttributesList extends Component {
   constructor(props) {
@@ -54,26 +55,26 @@ class CompanyAttributesList extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
           <button
             type="button"
             className="btn btn-link"
             onClick={() => this.props.history.push("/companyAttribute/add")}
           >
-            <i className="fa fa-plus" /> Company Attribute
+            <i className="fa fa-plus" /> {i18n.t('companyAttribute')}
           </button>
         </CardHeader>
         <div className="table-div">
-          <h2 className="mb-3">Company attributes list</h2>
+          <h2 className="mb-3">{i18n.t('companyAttributesList')}</h2>
 
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>Custom field name</th>
-                <th style={{ borderTop: "0px" }}>Type</th>
-                <th style={{ borderTop: "0px" }}>Active</th>
-                <th style={{ borderTop: "0px" }}>Required</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('type')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('required')}</th>
               </tr>
             </thead>
             <tbody>
@@ -128,16 +129,16 @@ class CompanyAttributesList extends Component {
                   <td>{companyAttribute.type}</td>
                   <td>
                     {companyAttribute.is_active ? (
-                      <span className="badge badge-success">Yes</span>
+                      <span className="badge badge-success">{i18n.t('yes')}</span>
                     ) : (
-                      <span className="badge badge-danger">No</span>
+                      <span className="badge badge-danger">{i18n.t('no')}</span>
                     )}
                   </td>
                   <td>
                     {companyAttribute.required ? (
-                      <span className="badge badge-success">Yes</span>
+                      <span className="badge badge-success">{i18n.t('yes')}</span>
                     ) : (
-                      <span className="badge badge-danger">No</span>
+                      <span className="badge badge-danger">{i18n.t('no')}</span>
                     )}
                   </td>
                 </tr>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addImap } from "../../../redux/actions";
 import {isEmail} from '../../../helperFunctions';
-
+import i18n from 'i18next';
 
 class ImapAdd extends Component {
   constructor(props) {
@@ -56,9 +56,9 @@ class ImapAdd extends Component {
     //PROJECT,host, port, name, password, inbox_email, move_email, ssl, ignore_certificate
     return (
       <div className="card">
-        <h4 className="card-header">Add IMap</h4>
+        <h4 className="card-header">{i18n.t('addImap')}</h4>
         <div className="card-body">
-          {this.state.project===null&&<h5 className="card-header" style={{color:'red'}}>You can't edit IMaps without having any projects!</h5>}
+          {this.state.project===null&&<h5 className="card-header" style={{color:'red'}}>{i18n.t('restrictionMustHaveProjectImap')}</h5>}
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -66,91 +66,91 @@ class ImapAdd extends Component {
             }}
             >
             <div className="form-group">
-              <label htmlFor="inbox_email">Inbox e-mail</label>
+              <label htmlFor="inbox_email">{i18n.t('inboxEmail')}</label>
               <input
                 className="form-control"
                 id="inbox_email"
                 type="email"
                 value={this.state.inbox_email}
                 onChange={e => this.setState({ inbox_email: e.target.value })}
-                placeholder="Enter inbox email"
+                placeholder={i18n.t('enterInboxEmail')}
                 />
             </div>
-            { this.state.inbox_email!==''&&!isEmail(this.state.inbox_email)&&<label htmlFor="inbox_email" style={{color:'red'}}>Entered e-mail address is not valid</label>}
-            { this.state.submitError && this.state.inbox_email===''&&<label htmlFor="inbox_email" style={{color:'red'}}>You must enter e-mail address</label>}
+            { this.state.inbox_email!==''&&!isEmail(this.state.inbox_email)&&<label htmlFor="inbox_email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+            { this.state.submitError && this.state.inbox_email===''&&<label htmlFor="inbox_email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="move_email">Move e-mail</label>
+              <label htmlFor="move_email">{i18n.t('moveEmail')}</label>
               <input
                 className="form-control"
                 id="move_email"
                 type="email"
                 value={this.state.move_email}
                 onChange={e => this.setState({ move_email: e.target.value })}
-                placeholder="Enter move email"
+                placeholder={i18n.t('enterMoveEmail')}
                 />
             </div>
-            { this.state.move_email!==''&&!isEmail(this.state.move_email)&&<label htmlFor="move_email" style={{color:'red'}}>Entered e-mail address is not valid</label>}
-            { this.state.submitError && this.state.move_email===''&&<label htmlFor="move_email" style={{color:'red'}}>You must enter e-mail address</label>}
+            { this.state.move_email!==''&&!isEmail(this.state.move_email)&&<label htmlFor="move_email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+            { this.state.submitError && this.state.move_email===''&&<label htmlFor="move_email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="server">Server IP</label>
+              <label htmlFor="server">{i18n.t('serverAddress')}</label>
               <input
                 className="form-control"
                 id="server"
                 value={this.state.host}
                 onChange={e => this.setState({ host: e.target.value })}
-                placeholder="Enter server"
+                placeholder={i18n.t('enterServerAddress')}
                 />
             </div>
-            {this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>You must enter IP address</label>}
+            {this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>{i18n.t('restrictionMustEnterServerAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="port">Port</label>
+              <label htmlFor="port">{i18n.t('port')}</label>
               <input
                 className="form-control"
                 id="port"
                 type="number"
                 value={this.state.port}
                 onChange={e => this.setState({ port: e.target.value })}
-                placeholder="Enter port number"
+                placeholder={i18n.t('enterPort')}
                 />
             </div>
-            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label htmlFor="port" style={{color:'red'}}>Your port number is not valid</label>}
-            { this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>You must enter port number</label>}
+            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionPortNotValid')}</label>}
+            { this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionMustEnterPort')}</label>}
 
             <div className="form-group">
-              <label htmlFor="log">Login</label>
+              <label htmlFor="log">{i18n.t('login')}</label>
               <input
                 className="form-control"
                 id="log"
                 value={this.state.name}
                 onChange={e => this.setState({ name: e.target.value })}
-                placeholder="Enter login"
+                placeholder={i18n.t('enterLogin')}
                 />
             </div>
-            {this.state.submitError && this.state.name===''&&<label htmlFor="log" style={{color:'red'}}>You must enter login</label>}
+            {this.state.submitError && this.state.name===''&&<label htmlFor="log" style={{color:'red'}}>{i18n.t('mustHaveLogin')}</label>}
 
             <div className="form-group">
-              <label htmlFor="pass">Password</label>
+              <label htmlFor="pass">{i18n.t('password')}</label>
               <input
                 className="form-control"
                 id="pass"
                 value={this.state.password}
                 onChange={e => this.setState({ password: e.target.value })}
-                placeholder="Enter password"
+                placeholder={i18n.t('enterPassword')}
                 />
             </div>
-            {this.state.submitError && this.state.password===''&&<label htmlFor="pass" style={{color:'red'}}>You must enter password</label>}
+            {this.state.submitError && this.state.password===''&&<label htmlFor="pass" style={{color:'red'}}>{i18n.t('mustEnterPassword')}</label>}
 
             <div className="form-group">
-              <label htmlFor="descr">Description</label>
+              <label htmlFor="descr">{i18n.t('description')}</label>
               <textarea
                 className="form-control"
                 id="descr"
                 value={this.state.description}
                 onChange={e => this.setState({ description: e.target.value })}
-                placeholder="Enter description"
+                placeholder={i18n.t('enterDescription')}
                 />
             </div>
             <select
@@ -178,7 +178,7 @@ class ImapAdd extends Component {
                     })
                   }
                   />
-                Ignore certificate
+                {i18n.t('ignoreCertificate')}
               </label>
             </div>
 
@@ -190,7 +190,7 @@ class ImapAdd extends Component {
                   checked={this.state.ssl}
                   onChange={() => this.setState({ ssl: !this.state.ssl })}
                   />
-                SSL
+                {i18n.t('ssl')}
               </label>
             </div>
             <div className="form-group">
@@ -198,7 +198,7 @@ class ImapAdd extends Component {
                 disabled={this.state.project===null}
                 type="submit"
                 className="btn btn-secondary">
-                Test connection
+                {i18n.t('testConnection')}
               </button>
               <button
                 disabled={this.state.project===null}
@@ -206,14 +206,14 @@ class ImapAdd extends Component {
                 className="btn btn-primary"
                 onClick={this.submit.bind(this)}
                 >
-                Submit
+                {i18n.t('submit')}
               </button>
               <button
                 type="button"
                 className="btn btn-danger"
                 onClick={() => this.props.history.goBack()}
               >
-                Cancel
+                {i18n.t('cancel')}
               </button>
             </div>
 

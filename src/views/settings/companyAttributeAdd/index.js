@@ -2,17 +2,18 @@ import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { addCompanyAttribute } from "../../../redux/actions";
 import { connect } from "react-redux";
+import i18n from 'i18next';
 
 const options = [
-  { id: "input", title: "input" },
-  { id: "text_area", title: "text area" },
-  { id: "simple_select", title: "simple select" },
-  { id: "multi_select", title: "multi select" },
-  { id: "date", title: "date" },
-  { id: "decimal_number", title: "decimal number" },
-  { id: "integer_number", title: "integer number" },
-  { id: "checkbox", title: "checkbox" }
-];
+    { id: "input", title: "input" },
+    { id: "text_area", title: "textArea" },
+    { id: "simple_select", title: "simpleSelect" },
+    { id: "multi_select", title: "multiSelect" },
+    { id: "date", title: "date" },
+    { id: "decimal_number", title: "decimalNumber" },
+    { id: "integer_number", title: "integerNumber" },
+    { id: "checkbox", title: "checkbox" }
+  ];
 
 class CompanyAttributeAdd extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class CompanyAttributeAdd extends Component {
   render() {
     return (
       <div className="card">
-        <h4 className="card-header">Add company attribute</h4>
+        <h4 className="card-header">{i18n.t('addCompanyAttribute')}</h4>
         <div className="card-body">
           <div className="list-group">
             <div className="form-check">
@@ -70,12 +71,12 @@ class CompanyAttributeAdd extends Component {
                     this.setState({ required: !this.state.required })
                   }
                 />
-                Required
+              {i18n.t('required')}
               </label>
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">Name</label>
+              <label htmlFor="title">{i18n.t('title')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -83,13 +84,13 @@ class CompanyAttributeAdd extends Component {
                 onChange={event => {
                   this.setState({ title: event.target.value });
                 }}
-                placeholder="Enter title"
+                placeholder={i18n.t('enterTitle')}
               />
-            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter title</label>}
+            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restictionMustHave')+' '+i18n.t('title')}</label>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">{i18n.t('description')}</label>
               <textarea
                 className="form-control"
                 id="description"
@@ -97,12 +98,12 @@ class CompanyAttributeAdd extends Component {
                 onChange={event =>
                   this.setState({ description: event.target.value })
                 }
-                placeholder="Enter description"
+                placeholder={i18n.t('enterDescription')}
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">Type</label>
+              <label htmlFor="title">{i18n.t('type')}</label>
               <select
                 className="form-control"
                 value={this.state.type}
@@ -112,7 +113,7 @@ class CompanyAttributeAdd extends Component {
               >
                 {options.map(opt => (
                   <option key={opt.id} value={opt.id}>
-                    {opt.title}
+                    {i18n.t(opt.title)}
                   </option>
                 ))}
               </select>
@@ -122,7 +123,7 @@ class CompanyAttributeAdd extends Component {
               <table className="table table-hover table-sm">
                 <thead className="thead-inverse">
                   <tr>
-                    <th style={{ borderTop: "0px" }}>Select options</th>
+                    <th style={{ borderTop: "0px" }}>{i18n.t('selectOptions')}</th>
                     <th
                       style={{
                         width: "80px",
@@ -140,7 +141,7 @@ class CompanyAttributeAdd extends Component {
                           type="text"
                           id={value}
                           className="form-control"
-                          placeholder="select value"
+                          placeholder={i18n.t('enterOption')}
                           value={value}
                           onChange={e => {
                             let newOptions = [...this.state.options];
@@ -184,7 +185,7 @@ class CompanyAttributeAdd extends Component {
                           onChange={e =>
                             this.setState({ newOption: e.target.value })
                           }
-                          placeholder="Select value name"
+                          placeholder={i18n.t('enterInputName')}
                         />
                         <button
                           style={{ float: "right" }}
@@ -205,7 +206,7 @@ class CompanyAttributeAdd extends Component {
                     </td>
                   </tr>
                 </tbody>
-                { this.state.submitError && this.state.options.length===0 && <label htmlFor="title" style={{color:'red'}}>You must have at least one option!</label>}
+                { this.state.submitError && this.state.options.length===0 && <label htmlFor="title" style={{color:'red'}}>{i18n.t('restictionAtLeastOneOption')}</label>}
               </table>
             )}
             <div className="form-group">
@@ -214,14 +215,14 @@ class CompanyAttributeAdd extends Component {
                 className="btn btn-primary mr-2"
                 onClick={this.submit.bind(this)}
               >
-                Submit
+                {i18n.t('submit')}
               </button>
               <button
                 type="button"
                 className="btn btn-danger"
                 onClick={() => this.props.history.goBack()}
               >
-                Cancel
+                {i18n.t('cancel')}
               </button>
             </div>
 

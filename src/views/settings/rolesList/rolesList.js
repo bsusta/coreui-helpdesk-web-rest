@@ -8,6 +8,7 @@ import {
   CardHeader
 } from "reactstrap";
 import { connect } from "react-redux";
+import i18n from 'i18next';
 
 class RolesList extends Component {
   constructor(props) {
@@ -40,25 +41,25 @@ class RolesList extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
           <button
             type="button"
             className="btn btn-link"
             onClick={() => this.props.history.push("/role/add")}
           >
-            <i className="fa fa-plus" /> Users Role
+            <i className="fa fa-plus" /> {i18n.t('usersRole')}
           </button>
         </CardHeader>
         <div className="table-div">
-          <h2 className="mb-3">Users Roles list</h2>
+          <h2 className="mb-3">{i18n.t('userRolesList')}</h2>
 
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>Name</th>
-                <th style={{ borderTop: "0px" }}>Active</th>
-                <th style={{ borderTop: "0px" }}>Order</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('order')}</th>
               </tr>
             </thead>
             <tbody>
@@ -101,9 +102,9 @@ class RolesList extends Component {
                   <td>{role.title}</td>
                   <td>
                     {role.is_active ? (
-                      <span className="badge badge-success">Yes</span>
+                      <span className="badge badge-success">{i18n.t('yes')}</span>
                     ) : (
-                      <span className="badge badge-danger">No</span>
+                      <span className="badge badge-danger">{i18n.t('no')}</span>
                     )}
                   </td>
                   <td>{role.order}</td>
