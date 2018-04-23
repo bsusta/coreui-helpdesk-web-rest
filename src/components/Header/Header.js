@@ -42,6 +42,8 @@ class Header extends Component {
         </NavbarToggler>
         <NavbarToggler style={{ color: "white" }}>LanHelpdesk</NavbarToggler>
 
+
+
         <NavbarToggler className="d-md-down-none">
           <InputGroup>
             <Input
@@ -66,10 +68,16 @@ class Header extends Component {
         </button>
 
         <Nav className="ml-auto" navbar>
+          <a
+            style={{margin:0, marginRight:10,color:'white'}}
+            className="d-md-down-none"
+            href={"#/user/edit/"+this.props.user.id}
+            >
+            {this.props.user.username}
+          </a>
           <i className="fa fa-sign-out" style={{ color: "white",cursor: "pointer" }} onClick={this.props.logoutUser} />
           <MessagesDropdown />
         </Nav>
-
         <a
           style={{margin:0, padding:0}}
           className="d-md-down-none"
@@ -84,8 +92,9 @@ class Header extends Component {
 }
 
 
-const mapStateToProps = ({}) => {
-  return {};
+const mapStateToProps = ({login}) => {
+  const {user}=login;
+  return {user};
 };
 
 export default connect(mapStateToProps, { logoutUser })(Header);

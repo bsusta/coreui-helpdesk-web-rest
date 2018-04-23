@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { editUser } from "../../../redux/actions";
 import {isEmail,areObjectsSame} from "../../../helperFunctions";
 import i18n from 'i18next';
+const languages=[{id:'en',name:'English'},{id:'sk',name:'Slovensky'}];
 
 class UserEdit extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class UserEdit extends Component {
       username: user.username ? user.username : "",
       password: "",
       email: user.email ? user.email : "",
-      language: user.language ? user.language : "",
+      language: user.language ? user.language : "sk",
       name: user.detailData.name ? user.detailData.name : "",
       surname: user.detailData.surname ? user.detailData.surname : "",
       title_before: user.detailData.title_before
@@ -133,6 +134,7 @@ class UserEdit extends Component {
       this.props.user.id,
       this.state.is_active,
       this.state.image,
+      this.props.userID===this.props.user.id,
       this.props.token
     );
     this.props.history.goBack();
@@ -286,17 +288,23 @@ class UserEdit extends Component {
 
             <div className="form-group">
               <label htmlFor="language">{i18n.t('language')}</label>
-              <input
-                className="form-control"
-                id="language"
+              <select
                 value={this.state.language}
-                onChange={target =>{
-                  this.compareChanges('language', target.target.value);
-                  this.setState({ language: target.target.value })}
+                id="language"
+                onChange={value =>{
+                  this.compareChanges('language', value.target.value);
+                  this.setState({ language: value.target.value });}
                 }
-                placeholder={i18n.t('enterLanguage')}
-              />
+                className="form-control"
+              >
+                {languages.map(opt => (
+                  <option key={opt.id} value={opt.id}>
+                    {opt.name}
+                  </option>
+                ))}
+              </select>
             </div>
+
             <div className="form-group">
               <label htmlFor="name">{i18n.t('firstname')}</label>
               <input
@@ -590,7 +598,7 @@ const mapStateToProps = ({
   const { userRoles } = userRolesReducer;
   const { user } = usersReducer;
   const { token } = login;
-  return { companies, token, userRoles, user };
+  return { companies, token, userRoles, user, userID:login.user.id };
 };
 
 export default connect(mapStateToProps, { editUser })(UserEdit);

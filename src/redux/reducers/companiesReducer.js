@@ -18,7 +18,7 @@ export default function companiesReducer(state = initialState, action) {
       if(!state.updateDate){
         return { ...state, taskCompanies:action.companies, updateDate:action.updateDate };
       }
-      let newCompanies=[...state.companies];
+      let newCompanies=[...state.taskCompanies];
       action.companies.map((company)=>{
         let index= newCompanies.findIndex((item)=>item.id===company.id);
         if(index!=-1){

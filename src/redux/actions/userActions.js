@@ -1,5 +1,6 @@
 import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER, SET_ERROR_MESSAGE } from '../types';
 import { USERS_LIST, IMAGE_UPLOAD, GET_LOC, GET_FILE } from '../urls';
+import i18n from 'i18next';
 
 /**
 * Sets status if users are loaded to false
@@ -200,8 +201,11 @@ export const addUser = (body,company,role,image,token) => {
   * @param  {string}  token    universal token for API comunication
   */
 
-  export const editUser = (body,company,role,id,isActive,image,token) => {
+  export const editUser = (body,company,role,id,isActive,image,changeLanguage,token) => {
     return (dispatch) => {
+      if(changeLanguage){
+        i18n.changeLanguage(body.language);
+      }
       if(image===null){
         Promise.all([
           fetch(USERS_LIST + '/'+id+'/user-role/' + role + '/company/' + company, {

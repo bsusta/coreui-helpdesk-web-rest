@@ -1,4 +1,5 @@
-import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN_LOGOUT,TOKEN_CHECKED} from '../types'
+import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN_LOGOUT,TOKEN_CHECKED, EDIT_USER} from '../types'
+import i18n from 'i18next';
 
 const initialState = {
   authenticated: false,
@@ -22,6 +23,13 @@ export default function loginReducer(state = initialState, action) {
         error: '',
         loading:false,
       };
+    case EDIT_USER:{
+      if(action.user.id===state.user.id){
+        i18n.changeLanguage(action.user.language);
+        return {...state,user:action.user};
+      }
+      return state;
+    }
     case LOGIN_FAIL:
       return {
         ...state,

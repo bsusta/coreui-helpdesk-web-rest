@@ -18,7 +18,7 @@ export default function statusesReducer(state = initialState, action) {
       if(!state.updateDate){
         return { ...state, taskStatuses:action.statuses, updateDate:action.updateDate };
       }
-      let newStatuses=[...state.statuses];
+      let newStatuses=[...state.taskStatuses];
       action.statuses.map((status)=>{
         let index= newStatuses.findIndex((item)=>item.id===status.id);
         if(index!=-1){

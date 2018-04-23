@@ -3,7 +3,7 @@ import { SET_USERS, SET_USERS_LOADING, ADD_USER, SET_USER_LOADING, SET_USER, EDI
 const initialState = {
   users:[],
   usersLoaded:false,
-  users:null,
+  user:null,
   userLoaded:false,
   updateDate:null,
 };

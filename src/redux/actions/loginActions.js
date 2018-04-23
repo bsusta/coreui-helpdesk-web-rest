@@ -1,6 +1,7 @@
 import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN_LOGOUT, TOKEN_CHECKED } from '../types';
 import { LOGIN_URL, USERS_LIST } from '../urls';
 import jwt_decode from 'jwt-decode';
+import i18n from 'i18next';
 
 export const loginUser = (username, password) => {
    return (dispatch) => {
@@ -12,16 +13,11 @@ export const loginUser = (username, password) => {
      }).then((JSONresponse) => {
        JSONresponse.json().then((response)=>{
          if(JSONresponse.ok){
-           let user=jwt_decode(response.token);
            storeTokenToStorage(response.token);
-           dispatch({
-             type: LOGIN_SUCCESS,token:response.token,user
-           });
+           checkToken()(dispatch);
+           return;
          }
-         else{
-           console.log(JSONresponse);
-           dispatch({ type: LOGIN_FAIL, error:JSONresponse.statusText });
-         }
+         dispatch({ type: LOGIN_FAIL, error:JSONresponse.statusText });
        });
      })
      .catch(function (error) {
@@ -53,16 +49,18 @@ export const logoutUser = () => {
             'Authorization': 'Bearer ' + token
           }
         }).then((response)=>{
-          if(response.ok){
-            let user=jwt_decode(token);
+          if(!response.ok){
+            localStorage.removeItem("lansystems");
+            return;
+          }
+          response.json().then((data) => {
+            let user=data.data;
+            i18n.changeLanguage(user.language);
             dispatch({
               type: LOGIN_SUCCESS,token,user
             });
-          }
-          else{
-            localStorage.removeItem("lansystems");
-          }
-          dispatch({ type: TOKEN_CHECKED });
+            dispatch({ type: TOKEN_CHECKED });
+          });
         });
       }
       else{

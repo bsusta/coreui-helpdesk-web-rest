@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { addUser } from "../../../redux/actions";
 import {isEmail} from "../../../helperFunctions";
 import i18n from 'i18next';
+
+const languages=[{id:'en',name:'English'},{id:'sk',name:'Slovensky'}];
+
 class UserAdd extends Component {
   constructor(props) {
     super(props);
@@ -10,7 +13,7 @@ class UserAdd extends Component {
       username: "",
       password: "",
       email: "",
-      language: "",
+      language: "sk",
       name: "",
       surname: "",
       title_before: "",
@@ -200,15 +203,20 @@ class UserAdd extends Component {
             </div>
             <div className="form-group">
               <label htmlFor="language">{i18n.t('language')}</label>
-              <input
-                className="form-control"
-                id="language"
+              <select
                 value={this.state.language}
-                onChange={target =>
-                  this.setState({ language: target.target.value })
+                id="language"
+                onChange={value =>
+                  this.setState({ language: value.target.value })
                 }
-                placeholder={i18n.t('enterLanguage')}
-              />
+                className="form-control"
+              >
+                {languages.map(opt => (
+                  <option key={opt.id} value={opt.id}>
+                    {opt.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="form-group">
               <label htmlFor="name">{i18n.t('firstname')}</label>

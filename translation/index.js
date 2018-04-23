@@ -6,7 +6,7 @@ import sk from './sk';
 i18n
   .use(reactI18nextModule)
   .init({
-    fallbackLng: 'en',
+    fallbackLng: 'sk',
     lng: 'sk',
     debug: true,
     resources: {
