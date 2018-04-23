@@ -159,7 +159,7 @@ class EditTask extends Component {
       )
     );
     //ak je task uzvrety nastavi mu closedAt, ak nema startedAt tak ten tiez
-    let closedAt=this.props.closedAt?this.props.closedAt:'null';
+    let closedAt=this.state.closedAt?this.state.closedAt:'null';
     if(state.status.toString()==='4'){
       closedAt=Math.ceil(moment().valueOf()/1000);
       if(state.startedAt===null){
