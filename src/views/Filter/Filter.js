@@ -28,6 +28,7 @@ import { timestampToString } from "../../helperFunctions";
 class Project extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
     this.state = {
       pageNumber: this.props.match.params.page
         ? parseInt(this.props.match.params.page, 10)

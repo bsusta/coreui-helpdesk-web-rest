@@ -12,10 +12,10 @@ import i18n from 'i18next';
 class CompanyEdit extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.company.companyData);
+    //console.log(this.props.company.companyData);
     let company_data = initialiseCustomAttributes([...this.props.companyAttributes]);
     company_data= importExistingCustomAttributesForCompany(company_data,[...this.props.company.companyData],[...this.props.companyAttributes]);
-    console.log(company_data);
+    //console.log(company_data);
     this.state = {
       is_active: this.props.company.is_active,
       title: this.props.company.title ? this.props.company.title : "",
@@ -54,9 +54,6 @@ class CompanyEdit extends Component {
       zip: this.props.company.zip ? this.props.company.zip : "",
       company_data:JSON.stringify(company_data),
     }
-    console.log(areObjectsSame(newState,originalState));
-    console.log(newState);
-    console.log(originalState);
     this.setState({changed:!areObjectsSame(newState,originalState)})
   }
 

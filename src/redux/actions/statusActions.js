@@ -38,7 +38,6 @@ export const getStatuses= (updateDate,token) => {
  */
 export const getTaskStatuses= (updateDate,token) => {
   return (dispatch) => {
-    console.log(STATUSES_LIST+'/all'+(updateDate?'/'+updateDate:''));
       fetch(STATUSES_LIST+'/all'+(updateDate?'/'+updateDate:''), {
         method: 'get',
         headers: {

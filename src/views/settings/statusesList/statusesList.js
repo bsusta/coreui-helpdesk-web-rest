@@ -18,7 +18,6 @@ class StatusesList extends Component {
       name: "",
       description: ""
     };
-    console.log(this.props.statuses);
     this.getFilteredData.bind(this);
   }
 

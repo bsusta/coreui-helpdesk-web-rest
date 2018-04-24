@@ -120,15 +120,15 @@ export const importExistingCustomAttributesForTask=(currentAttributes,existingCu
         )
       ];
       if(original.type==="date"){
-        let date = new Date(attribute.value * 1000);
-        if (isNaN(date)||attribute.value===null) {
+        let date = new Date(attribute.dateValue * 1000);
+        if (isNaN(date)||attribute.dateValue===null) {
           newAttributes[attribute.taskAttribute.id] = null;
         } else {
           newAttributes[attribute.taskAttribute.id] = moment(attribute.dateValue * 1000);
         }
       }
       else if(original.type==="checkbox"){
-        newAttributes[attribute.taskAttribute.id] = attribute.value;
+        newAttributes[attribute.taskAttribute.id] = attribute.boolValue;
       }else{
         if (original.type === "multi_select") {
           if (attribute.value === null) {

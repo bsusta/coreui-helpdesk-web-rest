@@ -31,15 +31,14 @@ class AddTask extends Component {
   constructor(props) {
     super(props);
     let task_data = initialiseCustomAttributes([...this.props.taskAttributes]);
-    let requestedBy;
     this.state = {
-      company: this.props.user.id,
+      company: this.props.companies[this.props.companies.findIndex((company)=>company.id===this.props.user.company.id)],
       deadline: null,
       startedAt: null,
       description: (RichTextEditor.createValueFromString("","html")),
       important: false,
       project: (this.props.taskProjects.length>0?this.props.taskProjects[0].id:null),
-      requestedBy:null,
+      requestedBy: this.props.users[this.props.users.findIndex((user)=>user.id===this.props.user.id)],
       status: (this.props.statuses.length>0?this.props.statuses[0].id:null),
       tags: [],
       title: "Task",
@@ -48,7 +47,11 @@ class AddTask extends Component {
       newTags: [],
       newTag: "",
       submitError:false,
-      task_data
+      task_data,
+      taskSolver:'null',
+      subtasks:[],
+      materials:[],
+      followers:[],
     };
     this.submit.bind(this);
   }
@@ -68,7 +71,8 @@ deleteFollower
     this.setState({submitError:true});
     let state={...this.state};
     let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
-    if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||this.state.title===''){
+    if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||this.state.title===''||
+    this.state.requestedBy.id===undefined|| this.state.company.id===undefined ){
       return;
     }
 
@@ -112,12 +116,16 @@ deleteFollower
         ),
         taskData: JSON.stringify(task_data)
       },
+      this.state.subtasks,
+      this.state.materials,
+      this.state.followers,
       state.project,
       state.status,
       state.requestedBy.id,
       state.company.id,
       this.props.token
     );
+    this.props.history.goBack();
   }
 
   render() {
@@ -139,7 +147,7 @@ deleteFollower
               <i className="fa fa-ban" /> Cancel
               </button>
               <button className="btn btn-link" onClick={this.submit.bind(this)}>
-                <i className="fa fa-ban" /> Create
+                <i className="fa fa-save" /> Create
                 </button>
               </CardHeader>
               <CardBody>
@@ -188,7 +196,6 @@ deleteFollower
                     {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter tasks title</label>}
                   </div>
                   <div>
-                    {this.state.submitError && <h5 style={{color:'red'}}>Task won't save until you fill all required fields!</h5>}
 
                     <div className="row">
                       <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
@@ -261,6 +268,14 @@ deleteFollower
                           />
                         <Subtasks
                           units={this.props.units.filter(unit => unit.is_active)}
+                          subtasks={this.state.subtasks}
+                          materials={this.state.materials}
+                          onChangeSubtasks={(subtasks)=>{
+                            this.setState({subtasks});
+                          }}
+                          onChangeMaterials={(materials)=>{
+                            this.setState({materials});
+                          }}
                           />
                       </div>
 
@@ -423,10 +438,11 @@ deleteFollower
                               })}
                               value={this.state.requestedBy}
                               onChange={e => {
-                                this.setState({ requestedBy: e });
+                                this.setState({ requestedBy: e});
                               }}
                               />
                           </InputGroup>
+                          {this.state.submitError && this.state.requestedBy.id===undefined &&<label htmlFor="title" style={{color:'red'}}>Requester is required!</label>}
                         </FormGroup>
 
                         <FormGroup>
@@ -447,6 +463,7 @@ deleteFollower
                               }}
                               />
                           </InputGroup>
+                          {this.state.submitError && this.state.company.id===undefined &&<label htmlFor="title" style={{color:'red'}}>Company is required!</label>}
                         </FormGroup>
 
                         <FormGroup>
@@ -559,7 +576,7 @@ deleteFollower
                           <div style={{ paddingTop: 5, paddingRight: 10 }}>
                             {this.props.attachements.map(item => (
                               <span
-                                key={item.url}
+                                key={item.id}
                                 className="badge"
                                 style={{
                                   backgroundColor: "#d3eef6",
@@ -627,7 +644,7 @@ deleteFollower
                             <MultiSelect
                               data={this.props.users}
                               displayValue="email"
-                              selectedIds={this.props.followers.map((follower)=>follower.id)}
+                              selectedIds={this.state.followers}
                               limit={true}
                               idValue="id"
                               filterBy="email"
@@ -672,20 +689,8 @@ deleteFollower
                               label="Select followers"
                               labelStyle={{ marginLeft: 10 }}
                               searchStyle={{ margin: 5 }}
-                              onChange={(ids, items, item) => {
-                                if ((ids.map((id)=>id.toString())).includes(item.toString())) {
-                                  this.props.addFollower(
-                                    item,
-                                    this.props.task.id,
-                                    this.props.token
-                                  );
-                                } else {
-                                  this.props.deleteFollower(
-                                    item,
-                                    this.props.task.id,
-                                    this.props.token
-                                  );
-                                }
+                              onChange={(ids) => {
+                                this.setState({followers:ids});
                               }}
                               />
                           </div>

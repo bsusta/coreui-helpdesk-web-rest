@@ -50,6 +50,7 @@ export const logoutUser = () => {
           }
         }).then((response)=>{
           if(!response.ok){
+            dispatch({ type: TOKEN_CHECKED });
             localStorage.removeItem("lansystems");
             return;
           }
@@ -61,6 +62,10 @@ export const logoutUser = () => {
             });
             dispatch({ type: TOKEN_CHECKED });
           });
+        }).catch(function (error) {
+          dispatch({ type: TOKEN_CHECKED });
+          localStorage.removeItem("lansystems");
+          console.log(error);
         });
       }
       else{

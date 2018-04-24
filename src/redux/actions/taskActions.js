@@ -6,6 +6,9 @@ import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHEMENT,
   SET_ERROR_MESSAGE,CLEAR_TASK } from '../types';
 import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE } from '../urls';
+import {addFollower} from './followerActions';
+import {addItem} from './itemActions';
+import {addSubtask} from './subtaskActions';
 
 /**
  * Sets status if tasks are loaded to false
@@ -52,7 +55,6 @@ import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, 
            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
            return;
          }
-
        response.json().then((data) => {
          dispatch({type: SET_TASKS, tasks:data.data});
          //filterLinks
@@ -209,10 +211,11 @@ export const getTask = (id,token) => {
 * @param {object} body  All parameters in an object of the new task
 * @param {string} token universal token for API comunication
 */
-export const addTask = (body,projectID,statusID,token) => {
+
+export const addTask = (body,subtasks,materials,followers,projectID,statusID,requesterID,companyID,token) => {
   return (dispatch) => {
     //getTask(10,token)(dispatch);
-    fetch(TASKS_LIST+'/project/'+projectID+'/status/'+statusID,{
+    fetch(TASKS_LIST+'/project/'+projectID+'/status/'+statusID+'/requester/'+requesterID+'/company/'+companyID,{
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
@@ -226,9 +229,19 @@ export const addTask = (body,projectID,statusID,token) => {
         return;
       }
       response.json().then((response)=>{
-        console.log('new task');
-        console.log(response);
         dispatch({type: ADD_TASK, task:response.data});
+        followers.map((follower)=>{
+          addFollower(follower,response.data.id,token)(dispatch);
+        });
+        materials.map((material)=>{
+          addItem({
+            title: material.title,
+            amount: material.amount,
+            unit_price: material.unit_price},material.unit,response.data.id,token)(dispatch);
+        });
+        subtasks.map((subtask)=>{
+          addSubtask({done:subtask.done, title:subtask.title},response.data.id,token)(dispatch);
+        });
       })})
       .catch(function (error) {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });

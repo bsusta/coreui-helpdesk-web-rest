@@ -36,7 +36,7 @@ class EditTask extends Component {
   constructor(props) {
     super(props);
     let task_data = importExistingCustomAttributesForTask(initialiseCustomAttributes([...this.props.taskAttributes]),[...this.props.task.taskData],[...this.props.taskAttributes]);
-    task_data=this.fillCustomAttributesNulls(task_data,this.props.taskAttributes);
+    //task_data=this.fillCustomAttributesNulls(task_data,this.props.taskAttributes);
     let requestedBy;
     if (this.props.task.requestedBy) {
       requestedBy = { ...this.props.task.requestedBy };
@@ -85,7 +85,7 @@ class EditTask extends Component {
         )
         .map(tag => tag.id),
       title: this.props.task.title,
-      workTime: this.props.task.workTime ? this.props.task.workTime : "",
+      workTime: this.props.task.work_time ? this.props.task.work_time : "",
       work: this.props.task.work ? this.props.task.work : "",
       newTags: [],
       newTag: "",
