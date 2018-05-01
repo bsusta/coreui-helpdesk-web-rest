@@ -3,7 +3,7 @@ import { SET_USER_ROLES, SET_USER_ROLES_LOADING, ADD_USER_ROLE, SET_USER_ROLE_LO
 const initialState = {
   userRoles:[],
   userRolesLoaded:false,
-  userRoles:null,
+  userRole:null,
   userRoleLoaded:false,
 };
 

@@ -62,7 +62,7 @@ class Project extends Component {
             ].name
           }{" "}
           <a
-            href={"#/project/info/" + parseInt(this.props.match.params.id, 10)}
+            href={(this.props.project.canEdit?"#/project/edit/":"#/project/info/") + parseInt(this.props.match.params.id, 10)}
             className="fa fa-info-circle fa-lg"
             style={{
               border: "none",
@@ -184,12 +184,14 @@ class Project extends Component {
   }
 }
 
-const mapStateToProps = ({ tasksReducer, sidebarReducer, login }) => {
+const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer, login }) => {
   const { tasks, projectLinks } = tasksReducer;
+  const { project } = projectsReducer;
   const { sidebar } = sidebarReducer;
   const { token } = login;
   return {
     tasks,
+    project,
     projects:
       sidebar[sidebar.findIndex(item => item.name === "Projects")].children,
     numberOfPages: projectLinks.numberOfPages,

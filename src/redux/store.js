@@ -51,4 +51,5 @@ const enhancers = compose(
   applyMiddleware(ReduxThunk),
 );
 
+
 export default () => createStore(reducers, {}, enhancers);

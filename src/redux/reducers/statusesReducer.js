@@ -3,7 +3,7 @@ import { SET_STATUSES, SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS_LOADING, SET
 const initialState = {
   statuses:[],
   statusesLoaded:false,
-  statuses:null,
+  status:null,
   statusLoaded:false,
   updateDate:null,
   taskStatuses:[],

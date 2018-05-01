@@ -35,7 +35,7 @@ class ProjectAdd extends Component {
         <div>
           <div style={{ marginTop: 15 }}>
             <div className="form-group">
-              <label htmlFor="title">Project name</label>
+              <label htmlFor="title" className="req">Project name</label>
               <input
                 className="form-control"
                 placeholder="Enter project title"

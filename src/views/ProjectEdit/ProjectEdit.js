@@ -116,7 +116,7 @@ class ProjectEdit extends Component {
                     {this.state.is_active ? "Active" : "Archived"}
                   </label>
                 </p>
-                <label htmlFor="title">Project name</label>
+                <label htmlFor="title" className="req">Project name</label>
                 <input
                   className="form-control"
                   placeholder="Enter project title"

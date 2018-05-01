@@ -13,20 +13,20 @@ export default function unitsReducer(state = initialState, action) {
       return { ...state, units:action.units };
     case ADD_UNIT:
       return { ...state, units:[action.unit,...state.units] };
-      case SET_UNITS_LOADING:
-        return { ...state, unitsLoaded:action.unitsLoaded };
-      case SET_UNIT_LOADING:
-        return { ...state, unitLoaded:action.unitLoaded };
-      case SET_UNIT:
-        return { ...state, unit:action.unit };
-      case EDIT_UNIT:{
-        //finds location of the current unit and replaces it with newer version
-        let newUnits=[...state.units];
-        newUnits[newUnits.findIndex((unit)=>unit.id==action.unit.id)]=action.unit;
-        return { ...state, units:newUnits };
-      }
-      case LOGIN_LOGOUT:
-        return { ...initialState };
+    case SET_UNITS_LOADING:
+      return { ...state, unitsLoaded:action.unitsLoaded };
+    case SET_UNIT_LOADING:
+      return { ...state, unitLoaded:action.unitLoaded };
+    case SET_UNIT:
+      return { ...state, unit:action.unit };
+    case EDIT_UNIT:{
+      //finds location of the current unit and replaces it with newer version
+      let newUnits=[...state.units];
+      newUnits[newUnits.findIndex((unit)=>unit.id==action.unit.id)]=action.unit;
+      return { ...state, units:newUnits };
+    }
+    case LOGIN_LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

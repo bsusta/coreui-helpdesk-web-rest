@@ -147,7 +147,7 @@ class CompanyAttributeEdit extends Component {
               </label>
             </div>
             <div className="form-group">
-              <label htmlFor="title">{i18n.t('title')}</label>
+              <label htmlFor="title" className="req">{i18n.t('title')}</label>
               <input
                 className="form-control"
                 id="title"

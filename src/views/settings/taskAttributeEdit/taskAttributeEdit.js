@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { editTaskAttribute } from '../../../redux/actions';
 import { areObjectsSame } from "../../../helperFunctions";
+import i18n from 'i18next';
 
 const options = [
     { id: "input", title: "input" },
@@ -121,7 +122,7 @@ class TaskAttributeEdit extends Component {
             </label>
           </div>
           <div className="form-group">
-            <label htmlFor="title">Name</label>
+            <label htmlFor="title" className="req">{i18n.t('title')}</label>
             <input
               className="form-control"
               id="title"

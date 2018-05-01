@@ -78,7 +78,7 @@ class SMTPEdit extends Component {
             }}
           >
             <div className="form-group">
-            <label htmlFor="email">{i18n.t('email')}</label>
+            <label htmlFor="email" className="req">{i18n.t('email')}</label>
               <input
                 className="form-control"
                 value={this.state.email}
@@ -95,7 +95,7 @@ class SMTPEdit extends Component {
             {this.state.addError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="server">{i18n.t('serverAddress')}</label>
+              <label htmlFor="server" className="req">{i18n.t('serverAddress')}</label>
               <input
                 className="form-control"
                 id="server"
@@ -109,7 +109,7 @@ class SMTPEdit extends Component {
             </div>
             {this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>{i18n.t('restrictionMustEnterServerAddress')}</label>}
             <div className="form-group">
-              <label htmlFor="port">{i18n.t('port')}</label>
+              <label htmlFor="port" className="req">{i18n.t('port')}</label>
               <input
                 className="form-control"
                 id="port"
@@ -126,7 +126,7 @@ class SMTPEdit extends Component {
             {this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionMustEnterPort')}</label>}
 
             <div className="form-group">
-              <label htmlFor="login">{i18n.t('login')}</label>
+              <label htmlFor="login" className="req">{i18n.t('login')}</label>
               <input
                 className="form-control"
                 id="login"
@@ -141,7 +141,7 @@ class SMTPEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="pass">{i18n.t('password')}</label>
+              <label htmlFor="pass" className="req">{i18n.t('password')}</label>
               <input
                 className="form-control"
                 id="pass"
@@ -156,7 +156,7 @@ class SMTPEdit extends Component {
             </div>
 
             <div className="form-check">
-              <label className="form-check-label">
+              <label className="form-check-label req">
                 <input
                   type="checkbox"
                   className="form-check-input"
@@ -171,7 +171,7 @@ class SMTPEdit extends Component {
             </div>
 
             <div className="form-check">
-              <label className="form-check-label">
+              <label className="form-check-label req">
                 <input
                   type="checkbox"
                   className="form-check-input"

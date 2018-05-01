@@ -3,7 +3,7 @@ import { SET_TASK_ATTRIBUTES, SET_TASK_ATTRIBUTES_LOADING, ADD_TASK_ATTRIBUTE, S
 const initialState = {
   taskAttributes:[],
   taskAttributesLoaded:false,
-  taskAttributes:null,
+  taskAttribute:null,
   taskAttributeLoaded:false,
 };
 

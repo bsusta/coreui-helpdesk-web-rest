@@ -52,7 +52,7 @@ class TagAdd extends Component {
                   {this.state.public ? "Public" : "Private"}
                 </label>
               </p>
-              <label htmlFor="title">Tag name</label>
+              <label htmlFor="title" className="req">Tag name</label>
               <input
                 className="form-control"
                 placeholder="Enter tag title"
@@ -69,7 +69,7 @@ class TagAdd extends Component {
                 )}
             </div>
             <div className="form-group">
-              <label htmlFor="color">Color</label>
+              <label htmlFor="color" className="req">Color</label>
               <SketchPicker
                 id="color"
                 color={this.state.color}

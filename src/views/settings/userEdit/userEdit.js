@@ -213,7 +213,7 @@ class UserEdit extends Component {
                           return new File([u8arr], filename, { type: mime });
                         }
                         let image = dataURLtoFile(imageURL, value.name);
-                        this.compareChanges('image',image);
+                        self.compareChanges('image',image);
                         self.setState({
                           image,
                           imageURL
@@ -243,7 +243,7 @@ class UserEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="username">{i18n.t('username')}</label>
+              <label htmlFor="username" className="req">{i18n.t('username')}</label>
               <input
                 className="form-control"
                 id="username"
@@ -271,7 +271,7 @@ class UserEdit extends Component {
               {this.state.password.length>0 && this.state.password.length<8 &&<label htmlFor="password" style={{color:'red'}}>{i18n.t('restrictionPasswordMustBe8')}</label>}
             </div>
             <div className="form-group">
-              <label htmlFor="email">{i18n.t('email')}</label>
+              <label htmlFor="email" className="req">{i18n.t('email')}</label>
               <input
                 className="form-control"
                 id="email"

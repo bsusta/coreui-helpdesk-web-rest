@@ -66,7 +66,7 @@ class ImapAdd extends Component {
             }}
             >
             <div className="form-group">
-              <label htmlFor="inbox_email">{i18n.t('inboxEmail')}</label>
+              <label htmlFor="inbox_email" className="req">{i18n.t('inboxEmail')}</label>
               <input
                 className="form-control"
                 id="inbox_email"
@@ -80,7 +80,7 @@ class ImapAdd extends Component {
             { this.state.submitError && this.state.inbox_email===''&&<label htmlFor="inbox_email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="move_email">{i18n.t('moveEmail')}</label>
+              <label htmlFor="move_email" className="req">{i18n.t('moveEmail')}</label>
               <input
                 className="form-control"
                 id="move_email"
@@ -94,7 +94,7 @@ class ImapAdd extends Component {
             { this.state.submitError && this.state.move_email===''&&<label htmlFor="move_email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="server">{i18n.t('serverAddress')}</label>
+              <label htmlFor="server" className="req">{i18n.t('serverAddress')}</label>
               <input
                 className="form-control"
                 id="server"
@@ -106,7 +106,7 @@ class ImapAdd extends Component {
             {this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>{i18n.t('restrictionMustEnterServerAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="port">{i18n.t('port')}</label>
+              <label htmlFor="port" className="req">{i18n.t('port')}</label>
               <input
                 className="form-control"
                 id="port"
@@ -120,7 +120,7 @@ class ImapAdd extends Component {
             { this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionMustEnterPort')}</label>}
 
             <div className="form-group">
-              <label htmlFor="log">{i18n.t('login')}</label>
+              <label htmlFor="log" className="req">{i18n.t('login')}</label>
               <input
                 className="form-control"
                 id="log"
@@ -132,7 +132,7 @@ class ImapAdd extends Component {
             {this.state.submitError && this.state.name===''&&<label htmlFor="log" style={{color:'red'}}>{i18n.t('mustHaveLogin')}</label>}
 
             <div className="form-group">
-              <label htmlFor="pass">{i18n.t('password')}</label>
+              <label htmlFor="pass" className="req">{i18n.t('password')}</label>
               <input
                 className="form-control"
                 id="pass"
@@ -167,7 +167,7 @@ class ImapAdd extends Component {
             </select>
 
             <div className="form-check">
-              <label className="form-check-label">
+              <label className="form-check-label req">
                 <input
                   type="checkbox"
                   className="form-check-input"
@@ -183,7 +183,7 @@ class ImapAdd extends Component {
             </div>
 
             <div className="form-check">
-              <label className="form-check-label">
+              <label className="form-check-label req">
                 <input
                   type="checkbox"
                   className="form-check-input"

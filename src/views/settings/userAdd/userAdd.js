@@ -160,7 +160,7 @@ class UserAdd extends Component {
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="username">{i18n.t('username')}</label>
+              <label htmlFor="username" className="req">{i18n.t('username')}</label>
               <input
                 className="form-control"
                 id="username"
@@ -174,7 +174,7 @@ class UserAdd extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">{i18n.t('password')}</label>
+              <label htmlFor="password" className="req">{i18n.t('password')}</label>
               <input
                 className="form-control"
                 id="password"
@@ -188,7 +188,7 @@ class UserAdd extends Component {
             {this.state.submitError && this.state.password===''&&<label htmlFor="password" style={{color:'red'}}>{i18n.t('restrictionMustEnterUserPassword')}</label>}
           </div>
             <div className="form-group">
-              <label htmlFor="email">{i18n.t('email')}</label>
+              <label htmlFor="email" className="req">{i18n.t('email')}</label>
               <input
                 className="form-control"
                 id="email"

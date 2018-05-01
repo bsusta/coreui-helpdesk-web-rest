@@ -98,7 +98,7 @@ class StatusEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">{i18n.t('statusName')}</label>
+              <label htmlFor="title" className="req">{i18n.t('statusName')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -113,10 +113,10 @@ class StatusEdit extends Component {
             {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterStatusName')}</label>}
 
             <div className="form-group">
-              <label htmlFor="title">{i18n.t('order')}</label>
+              <label htmlFor="order" className="req">{i18n.t('order')}</label>
               <input
                 className="form-control"
-                id="title"
+                id="order"
                 type="number"
                 value={this.state.order}
                 onChange={target =>{
@@ -163,7 +163,7 @@ class StatusEdit extends Component {
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="color">{i18n.t('color')}</label>
+              <label htmlFor="color" className="req">{i18n.t('color')}</label>
               <SketchPicker
                 id="color"
                 color={this.state.color}

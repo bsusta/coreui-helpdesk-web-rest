@@ -19,6 +19,27 @@ class CompaniesList extends Component {
       title: "",
       id: ""
     };
+    this.getFilteredData.bind(this);
+  }
+
+  getFilteredData() {
+    return this.props.companies
+      .filter(item =>
+        item.title.toLowerCase().includes(this.state.title.toLowerCase())
+      )
+      .filter(item =>
+        item.id.toString().includes(this.state.id.toLowerCase())
+      )
+      .filter(
+        item =>
+          item.is_active ==
+            (this.state.active.toLowerCase().includes("y") ||
+              this.state.active.toLowerCase().includes("t") ||
+              this.state.active.toLowerCase().includes("c")) ||
+          this.state.active == ""
+      )
+      .sort((item, item2) => item.title > item2.title)
+      .sort((item, item2) => item2.is_active - item.is_active);
   }
 
   render() {
@@ -50,7 +71,36 @@ class CompaniesList extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.companies.map(company => (
+              <tr>
+                <th>
+                  <Input
+                    type="text"
+                    id="id"
+                    value={this.state.id}
+                    name="id"
+                    onChange={e => this.setState({ id: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="active"
+                    value={this.state.active}
+                    name="active"
+                    onChange={e => this.setState({ active: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="title"
+                    value={this.state.title}
+                    name="title"
+                    onChange={e => this.setState({ title: e.target.value })}
+                  />
+                </th>
+              </tr>
+              {this.getFilteredData().map(company => (
                 <tr
                   key={company.id}
                   onClick={() =>

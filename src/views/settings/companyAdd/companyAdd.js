@@ -64,7 +64,7 @@ class CompanyAdd extends Component {
             }}
             >
             <div className="form-group">
-              <label htmlFor="title">{i18n.t('companyName')}</label>
+              <label htmlFor="title" className="req">{i18n.t('companyName')}</label>
               <input
                 className="form-control"
                 id="title"

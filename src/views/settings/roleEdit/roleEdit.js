@@ -140,7 +140,7 @@ class RoleEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">{i18n.t('roleName')}</label>
+              <label htmlFor="title" className="req">{i18n.t('roleName')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -170,7 +170,7 @@ class RoleEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="homepage">{i18n.t('homepage')}</label>
+              <label htmlFor="homepage" className="req">{i18n.t('homepage')}</label>
               <input
                 className="form-control"
                 id="homepage"
@@ -185,7 +185,7 @@ class RoleEdit extends Component {
             {this.state.submitError && this.state.homepage===''&&<label htmlFor="homepage" style={{color:'red'}}>{i18n.t('restrictionMustEnterRolesHomepage')}</label>}
 
             <div className="form-group">
-              <label htmlFor="order">{i18n.t('order')}</label>
+              <label htmlFor="order" className="req">{i18n.t('order')}</label>
               <input
                 className="form-control"
                 id="order"

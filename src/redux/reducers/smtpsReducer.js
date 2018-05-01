@@ -3,7 +3,7 @@ import { SET_SMTPS, SET_SMTPS_LOADING, ADD_SMTP, SET_SMTP_LOADING, SET_SMTP, EDI
 const initialState = {
   SMTPs:[],
   SMTPsLoaded:false,
-  SMTPs:null,
+  SMTP:null,
   SMTPLoaded:false,
 };
 

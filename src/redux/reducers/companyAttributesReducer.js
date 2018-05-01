@@ -3,7 +3,7 @@ import { SET_COMPANY_ATTRIBUTES, SET_COMPANY_ATTRIBUTES_LOADING, ADD_COMPANY_ATT
 const initialState = {
   companyAttributes:[],
   companyAttributesLoaded:false,
-  companyAttributes:null,
+  companyAttribute:null,
   companyAttributeLoaded:false,
 };
 

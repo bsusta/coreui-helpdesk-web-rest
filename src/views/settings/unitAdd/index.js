@@ -44,7 +44,7 @@ class UnitAdd extends Component {
             }}
           >
             <div className="form-group">
-              <label htmlFor="title">{i18n.t('title')}</label>
+              <label htmlFor="title" className="req">{i18n.t('title')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -57,7 +57,7 @@ class UnitAdd extends Component {
 
 
             <div className="form-group">
-              <label htmlFor="shortcut">{i18n.t('shortcut')}</label>
+              <label htmlFor="shortcut" className="req">{i18n.t('shortcut')}</label>
               <input
                 className="form-control"
                 id="shortcut"

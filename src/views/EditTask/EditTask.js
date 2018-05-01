@@ -449,7 +449,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label htmlFor="project">Project</label>
+                    <label htmlFor="project" className="req">Project</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-folder-o" />
@@ -513,7 +513,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label htmlFor="requester">Requester</label>
+                    <label htmlFor="requester" className="req">Requester</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-user-o" />
@@ -542,7 +542,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label htmlFor="company">Company</label>
+                    <label htmlFor="company" className="req">Company</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-building-o" />
@@ -816,7 +816,7 @@ class EditTask extends Component {
                       case "input":
                         return (
                           <div className="form-group" key={attribute.id}>
-                            <label htmlFor={attribute.id}>{attribute.title}</label>
+                            <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <input
                               className="form-control"
                               id={attribute.id}
@@ -835,7 +835,7 @@ class EditTask extends Component {
                       case "text_area":
                         return (
                           <div className="form-group" key={attribute.id}>
-                            <label htmlFor={attribute.id}>{attribute.title}</label>
+                            <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <textarea
                               className="form-control"
                               id={attribute.id}
@@ -854,7 +854,7 @@ class EditTask extends Component {
                       case "simple_select":
                         return (
                           <div className="form-group" key={attribute.id}>
-                            <label htmlFor={attribute.id}>{attribute.title}</label>
+                            <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <select
                               className="form-control"
                               id={attribute.id}
@@ -953,7 +953,7 @@ class EditTask extends Component {
                       case "date":
                         return (
                           <div className="form-group" key={attribute.id}>
-                            <label htmlFor={attribute.id}>{attribute.title}</label>
+                            <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <DatePicker
                               selected={this.state.task_data[attribute.id]}
                               onChange={e => {
@@ -975,7 +975,7 @@ class EditTask extends Component {
                       case "decimal_number":
                         return (
                           <div className="form-group" key={attribute.id}>
-                            <label htmlFor={attribute.id}>{attribute.title}</label>
+                            <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <input
                               className="form-control"
                               type="number"
@@ -995,7 +995,7 @@ class EditTask extends Component {
                       case "integer_number":
                         return (
                           <div className="form-group" key={attribute.id}>
-                            <label htmlFor={attribute.id}>{attribute.title}</label>
+                            <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <input
                               className="form-control"
                               type="number"
