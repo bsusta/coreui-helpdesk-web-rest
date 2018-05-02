@@ -10,6 +10,7 @@ import SidebarForm from "./../SidebarForm";
 import SidebarHeader from "./../SidebarHeader";
 import SidebarMinimizer from "./../SidebarMinimizer";
 import { getSidebar } from "../../redux/actions";
+import i18n from 'i18next';
 
 class Sidebar extends Component {
   handleClick(e) {
@@ -123,7 +124,7 @@ class Sidebar extends Component {
                   : {}
               }
             >
-              {item.name}
+            {i18n.t(item.name)}
             </span>
             {badge(item.badge)}
           </NavLink>
@@ -142,7 +143,7 @@ class Sidebar extends Component {
           >
             {item.icon && <i className={item.icon} />}
 
-            {item.name}
+            {i18n.t(item.name)}
           </a>
           <ul className="nav-dropdown-items">{navList(item.children)}</ul>
         </li>

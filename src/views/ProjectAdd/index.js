@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addProject } from "../../redux/actions";
 import RichTextEditor from "react-rte";
+import i18n from 'i18next';
 
 class ProjectAdd extends Component {
   constructor(props) {
@@ -30,15 +31,15 @@ class ProjectAdd extends Component {
   render() {
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ paddingTop: 20, marginBottom: 20 }}> Add new project</h2>
+        <h2 style={{ paddingTop: 20, marginBottom: 20 }}>{i18n.t('addNewProject')}</h2>
 
         <div>
           <div style={{ marginTop: 15 }}>
             <div className="form-group">
-              <label htmlFor="title" className="req">Project name</label>
+              <label htmlFor="title" className="req">{i18n.t('projectName')}</label>
               <input
                 className="form-control"
-                placeholder="Enter project title"
+                placeholder={i18n.t('enterProjectName')}
                 value={this.state.title}
                 onChange={target =>
                   this.setState({ title: target.target.value })
@@ -47,18 +48,18 @@ class ProjectAdd extends Component {
               {this.state.submitError &&
                 this.state.title === "" && (
                   <label htmlFor="title" style={{ color: "red" }}>
-                    You must enter title
+                    {i18n.t('restrictionMustEnterTitle')}
                   </label>
                 )}
             </div>
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">{i18n.t('description')}</label>
               <RichTextEditor
                 value={this.state.description}
                 onChange={e => {
                   this.setState({ description: e });
                 }}
-                placeholder="Enter description"
+                placeholder={i18n.t('enterDescription')}
                 toolbarClassName="demo-toolbar"
                 editorClassName="demo-editor"
               />
@@ -69,7 +70,7 @@ class ProjectAdd extends Component {
               style={{ color: "white" }}
               onClick={this.props.history.goBack}
             >
-              Cancel
+              {i18n.t('cancel')}
             </button>
 
             <button
@@ -78,7 +79,7 @@ class ProjectAdd extends Component {
               style={{ color: "white", marginLeft: 5 }}
               onClick={this.submit.bind(this)}
             >
-              Save
+              {i18n.t('save')}
             </button>
           </div>
         </div>

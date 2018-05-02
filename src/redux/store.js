@@ -15,11 +15,11 @@ import sidebarReducer from './reducers/sidebarReducer';
 import taskAttributesReducer from './reducers/taskAttributesReducer';
 import tagsReducer from './reducers/tagsReducer';
 import tasksReducer from './reducers/tasksReducer';
-import attachementsReducer from './reducers/attachementsReducer';
+import attachmentsReducer from './reducers/attachmentsReducer';
 import subtasksReducer from './reducers/subtasksReducer';
 import itemsReducer from './reducers/itemsReducer';
 import commentsReducer from './reducers/commentsReducer';
-import commentAttachementsReducer from './reducers/commentAttachementsReducer';
+import commentAttachmentsReducer from './reducers/commentAttachmentsReducer';
 import followersReducer from './reducers/followersReducer';
 import loadingReducer from './reducers/loadingReducer';
 
@@ -38,11 +38,11 @@ const reducers = combineReducers({
     taskAttributesReducer,
     tagsReducer,
     tasksReducer,
-    attachementsReducer,
+    attachmentsReducer,
     subtasksReducer,
     itemsReducer,
     commentsReducer,
-    commentAttachementsReducer,
+    commentAttachmentsReducer,
     followersReducer,
     loadingReducer
   });

@@ -3,7 +3,7 @@ import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   SET_FILTER_TASKS_LOADING, SET_TAG_LINKS, SET_TAG_TASKS_LOADING,
   SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,
   SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING,
-  DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHEMENT,
+  DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHMENT,
   SET_ERROR_MESSAGE,CLEAR_TASK } from '../types';
 import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE } from '../urls';
 import {addFollower} from './followerActions';
@@ -161,9 +161,9 @@ export const getTask = (id,token) => {
         dispatch({type: SET_TASK, task:data.data});
         dispatch({ type: SET_TASK_LOADING, taskLoaded:true });
 
-        //zaciatok nacitavania attachementov
-        data.data.taskHasAttachments.map((attachement)=>{
-          fetch(GET_LOC+attachement.slug+'/download-location', {
+        //zaciatok nacitavania attachmentov
+        data.data.taskHasAttachments.map((attachment)=>{
+          fetch(GET_LOC+attachment.slug+'/download-location', {
             method: 'get',
             headers: {
               'Authorization': 'Bearer ' + token,
@@ -181,7 +181,7 @@ export const getTask = (id,token) => {
                 dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
                 return;
               }
-              dispatch({type: ADD_ATTACHEMENT, attachement:{url:response3.url,id:attachement.slug,file:{name:attachement.name}}});
+              dispatch({type: ADD_ATTACHMENT, attachment:{url:response3.url,id:attachment.slug,file:{name:attachment.name}}});
             }).catch(function (error) {
               dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
               console.log(error);
@@ -194,7 +194,7 @@ export const getTask = (id,token) => {
           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
           console.log(error);
         });
-        //koniec nacitavania attachementov
+        //koniec nacitavania attachmentov
         });
 
       });

@@ -1,4 +1,4 @@
-import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT, ADD_COMMENT_AVATAR_URL,DELETE_COMMENT, SET_COMMENT_ATTACHEMENT, SET_ERROR_MESSAGE } from '../types';
+import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT, ADD_COMMENT_AVATAR_URL,DELETE_COMMENT, SET_COMMENT_ATTACHMENT, SET_ERROR_MESSAGE } from '../types';
 import { TASKS_LIST, GET_LOC, GET_FILE, COMMENT_COMMENTS } from '../urls';
 
 /**
@@ -64,8 +64,8 @@ export const getComments= (taskID,token) => {
             console.log(error);
           });
         }
-        comment.commentHasAttachments.map(attachement=>{
-          fetch(GET_LOC+attachement.slug+'/download-location', {
+        comment.commentHasAttachments.map(attachment=>{
+          fetch(GET_LOC+attachment.slug+'/download-location', {
             method: 'get',
             headers: {
               'Authorization': 'Bearer ' + token,
@@ -82,7 +82,7 @@ export const getComments= (taskID,token) => {
                 dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
                 return;
               }
-              dispatch({type: SET_COMMENT_ATTACHEMENT,commentID:comment.id,attachementID:attachement.id,url:response3.url,name:attachement.name});
+              dispatch({type: SET_COMMENT_ATTACHMENT,commentID:comment.id,attachmentID:attachment.id,url:response3.url,name:attachment.name});
             }).catch(function (error) {
               dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
               console.log(error);

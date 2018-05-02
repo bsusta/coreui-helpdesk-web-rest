@@ -24,11 +24,11 @@ import {
 } from "reactstrap";
 import Pagination from "../../components/pagination";
 import { timestampToString } from "../../helperFunctions";
+import i18n from 'i18next';
 
 class Project extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       pageNumber: this.props.match.params.page
         ? parseInt(this.props.match.params.page, 10)
@@ -38,6 +38,17 @@ class Project extends Component {
 
   setPage(number) {
     this.setState({ pageNumber: number });
+  }
+
+  usersToString(users) {
+    if (users.length === 0) {
+      return  i18n.t('none');
+    }
+    let text = "";
+    Object.values(users).map(
+      solver => (text = text + (solver.user.username + " "))
+    );
+    return text;
   }
 
   render() {
@@ -67,15 +78,15 @@ class Project extends Component {
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
               <tr>
-                <th style={{ width: "3%", borderTop: "0px" }}>#</th>
-                <th style={{ width: "5%", borderTop: "0px" }}>Status</th>
-                <th style={{ borderTop: "0px" }}>Názov</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>Zadal</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>Firma</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>Rieši</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>Projekt</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>Created</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>Due Date</th>
+                <th style={{ width: "3%", borderTop: "0px" }}>{i18n.t('id')}</th>
+                <th style={{ width: "5%", borderTop: "0px" }}>{i18n.t('status')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('requester')}</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('company')}</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('assigned')}</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('project')}</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('createdAt')}</th>
+                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('dueDate')}</th>
               </tr>
             </thead>
             <tbody>
@@ -138,17 +149,11 @@ class Project extends Component {
                   </td>
                   <td>{task.requestedBy.username}</td>
                   <td>{task.company.title}</td>
-                  <td>
-                    {task.taskHasAssignedUsers.length === 0
-                      ? "None"
-                      : task.taskHasAssignedUsers.map(
-                          assignedTo => assignedTo.username + " "
-                        )}
-                  </td>
+                  <td>{this.usersToString(task.taskHasAssignedUsers)}</td>
                   <td>{task.project.title}</td>
                   <td>{timestampToString(task.createdAt)}</td>
                   <td>
-                    {task.deadline ? timestampToString(task.deadline) : "None"}
+                    {task.deadline ? timestampToString(task.deadline) : i18n.t('none')}
                   </td>
                 </tr>
               ))}
@@ -187,7 +192,7 @@ const mapStateToProps = ({ tasksReducer, sidebarReducer, login }) => {
   return {
     tasks,
     filters:
-      sidebar[sidebar.findIndex(item => item.name === "Filters")].children,
+      sidebar[sidebar.findIndex(item => item.name === "filters")].children,
     numberOfPages: filterLinks.numberOfPages,
     token
   };

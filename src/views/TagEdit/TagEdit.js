@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { editTag, deleteTag } from "../../redux/actions";
 import { SketchPicker } from "react-color";
 import { Card, CardHeader } from "reactstrap";
+import i18n from 'i18next';
 
 class TagEdit extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class TagEdit extends Component {
     e.preventDefault();
     if (
       confirm(
-        "Are you sure you wish to delete tag named '" + this.state.title + "'?"
+        i18n.t('deleteTagMessage') + this.state.title + "?"
       )
     ) {
       this.props.deleteTag(this.props.tag.id, this.props.token);
@@ -48,7 +49,7 @@ class TagEdit extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
 
           <button
@@ -56,19 +57,19 @@ class TagEdit extends Component {
             className="btn btn-link"
             onClick={this.submit.bind(this)}
           >
-            Save
+            {i18n.t('save')}
           </button>
           <button
             type="button"
             className="btn btn-link"
             onClick={this.deleteTag.bind(this)}
           >
-            Delete
+            {i18n.t('delete')}
           </button>
         </CardHeader>
         <div style={{ paddingLeft: 20, paddingRight: 20 }}>
           <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
-            Editing {this.state.title}
+            {i18n.t('editing')} {this.state.title}
           </h2>
 
           <div>
@@ -88,13 +89,13 @@ class TagEdit extends Component {
                     <span className="switch-handle" />
                   </label>
                   <label style={{ paddingLeft: 10 }}>
-                    {this.state.public ? "Public" : "Private"}
+                    {this.state.public ? i18n.t('public') : i18n.t('private')}
                   </label>
                 </p>
-                <label htmlFor="title" className="req">Tag name</label>
+                <label htmlFor="title" className="req">{i18n.t('name')}</label>
                 <input
                   className="form-control"
-                  placeholder="Enter tag title"
+                  placeholder={i18n.t('enterName')}
                   value={this.state.title}
                   onChange={target =>
                     this.setState({ title: target.target.value })
@@ -103,12 +104,12 @@ class TagEdit extends Component {
                 {this.state.submitError &&
                   this.state.title === "" && (
                     <label htmlFor="title" style={{ color: "red" }}>
-                      You must enter title
+                      {i18n.t('restrictionMustEnterTitle')}
                     </label>
                   )}
               </div>
               <div className="form-group">
-                <label htmlFor="color" className="req">Color</label>
+                <label htmlFor="color" className="req">{i18n.t('color')}</label>
                 <SketchPicker
                   id="color"
                   color={this.state.color}

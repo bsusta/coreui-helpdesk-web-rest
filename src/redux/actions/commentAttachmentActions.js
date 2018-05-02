@@ -1,4 +1,4 @@
-import { SET_COMMENT_ATTACHEMENTS, ADD_COMMENT_ATTACHEMENT, SET_COMMENT_ATTACHEMENTS_LOADING, DELETE_COMMENT_ATTACHEMENT,DELETE_COMMENT_ATTACHEMENTS } from '../types'
+import { SET_COMMENT_ATTACHMENTS, ADD_COMMENT_ATTACHMENT, SET_COMMENT_ATTACHMENTS_LOADING, DELETE_COMMENT_ATTACHMENT,DELETE_COMMENT_ATTACHMENTS } from '../types'
 import { UPLOAD_FILE } from '../urls';
 
 
@@ -16,7 +16,7 @@ export const uploadCommentFile = (file,token) => {
     .then((response)=>{
       response.json().then((response)=>{
         console.log(response);
-            dispatch({type: ADD_COMMENT_ATTACHEMENT, commentAttachement:{id:response.data.slug,file:{name:file.name,size:file.size}}});
+            dispatch({type: ADD_COMMENT_ATTACHMENT, commentAttachment:{id:response.data.slug,file:{name:file.name,size:file.size}}});
         })})
         .catch(function (error) {
           console.log(error);
@@ -26,12 +26,12 @@ export const uploadCommentFile = (file,token) => {
 
 export const removeCommentFile = (id,token) => {
   return (dispatch) => {
-    dispatch({ type: DELETE_COMMENT_ATTACHEMENT, id });
+    dispatch({ type: DELETE_COMMENT_ATTACHMENT, id });
   }
 };
 
 export const removeAllCommentFiles = (token) => {
   return (dispatch) => {
-    dispatch({ type: DELETE_COMMENT_ATTACHEMENTS });
+    dispatch({ type: DELETE_COMMENT_ATTACHMENTS });
   }
 };

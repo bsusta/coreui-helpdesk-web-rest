@@ -22,7 +22,7 @@ export const getSidebar = token => {
         response.json().then(data => {
           let nav = [];
           let reports = {
-            name: "Reports",
+            name: "reports",
             url: "",
             icon: "fa fa-filter",
             children: []
@@ -36,7 +36,7 @@ export const getSidebar = token => {
           );
 
           let tags = {
-            name: "Tags",
+            name: "tags",
             url: "",
             icon: "fa fa-tags",
             children: []
@@ -49,13 +49,13 @@ export const getSidebar = token => {
             })
           );
           tags.children.push({
-            name: "Tag",
+            name: "tag",
             url: "/tag/add",
             icon: "fa fa-plus"
           });
 
           let filters = {
-            name: "Filters",
+            name: "filters",
             url: "",
             icon: "fa fa-filter",
             children: []
@@ -68,7 +68,7 @@ export const getSidebar = token => {
             })
           );
           filters.children.push({
-            name: "Filter",
+            name: "filter",
             url: "/mytasks",
             icon: "fa fa-plus"
           });
@@ -107,7 +107,7 @@ export const getSidebar = token => {
           filters.children = testFilters;
 
           let projects = {
-            name: "Projects",
+            name: "projects",
             url: "",
             icon: "icon-folder",
             children: []
@@ -125,13 +125,13 @@ export const getSidebar = token => {
           );
 
           projects.children.push({
-            name: "Project",
+            name: "project",
             url: "/project/add",
             icon: "fa fa-plus"
           });
 
           let archived = {
-            name: "Archived",
+            name: "archived",
             url: "",
             icon: "fa fa-archive",
             children: []

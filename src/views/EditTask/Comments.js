@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import AddComment from "./AddComment";
 import { removeAllCommentFiles } from "../../redux/actions";
 import { timestampToString } from "../../helperFunctions";
+import i18n from 'i18next';
+
 class Comments extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +46,7 @@ class Comments extends Component {
         >
           <AddComment
             taskID={this.props.taskID}
-            displayAttachements={this.state.comment === null}
+            displayAttachments={this.state.comment === null}
           />
         </div>
         <div className="animated fadeIn">
@@ -84,20 +86,20 @@ class Comments extends Component {
                             comment.createdBy.name +
                               " " +
                               comment.createdBy.surname +
-                              " wrote comment"}
+                              " "+i18n.t('wroteComment')}
                           {!comment.hasParent &&
                             comment.email &&
                             comment.createdBy.name +
                               " " +
                               comment.createdBy.surname +
-                              " send email to:" +
+                              " "+i18n.t('sentEmailTo')+": " +
                               this.stringifyArray(comment.email_to)}
                           {comment.hasParent &&
                             !comment.email &&
                             comment.createdBy.name +
                               " " +
                               comment.createdBy.surname +
-                              " responded to post " +
+                              " "+i18n.t('respondedToComment')+" " +
                               timestampToString(
                                 comments[
                                   comments.findIndex(
@@ -105,7 +107,7 @@ class Comments extends Component {
                                   )
                                 ].createdAt
                               ) +
-                              " made by " +
+                              " "+i18n.t('madeBy')+" " +
                               comments[
                                 comments.findIndex(
                                   i1 => i1.id === comment.parentId
@@ -116,13 +118,13 @@ class Comments extends Component {
                             comment.createdBy.name +
                               " " +
                               comment.createdBy.surname +
-                              " responded by email to:" +
+                              " "+i18n.t('respondedByEmailTo')+":" +
                               this.stringifyArray(comment.email_to)}
                         </span>
                         <span className="date">
                           <span className="fa fa-paper-clip" />
                           <span style={{ backgroundColor: "yellow" }}>
-                            {comment.internal ? " internal" : ""}
+                            {comment.internal ? (" "+i18n.t('internal')) : ""}
                           </span>{" "}
                           {timestampToString(comment.createdAt)}
                         </span>
@@ -130,7 +132,7 @@ class Comments extends Component {
 
                       {comment.email && (
                         <div className="title">
-                          <span style={{ fontWeight: "bold" }}>Predmet:</span>{" "}
+                          <span style={{ fontWeight: "bold" }}>{i18n.t('subject')}:</span>{" "}
                           {comment.title}
                         </div>
                       )}
@@ -166,7 +168,7 @@ class Comments extends Component {
                         comment.commentHasAttachments.length>0 && <i className="fa fa-paperclip" style={{color:'black', paddingRight:5}} />
                       }
                       {
-                        comment.commentHasAttachments.map(attachement=> attachement.url?(<a className="badge mr-1" key={attachement.url} style={{borderRadius: '3px',border: '1px solid #000'}} href={attachement.url}>{attachement.name}</a>):(<span className="badge mr-1" key={attachement.name} style={{borderRadius: '3px',border: '1px solid #000'}}>{attachement.name}</span>)
+                        comment.commentHasAttachments.map(attachment=> attachment.url?(<a className="badge mr-1" key={attachment.url} style={{borderRadius: '3px',border: '1px solid #000'}} href={attachment.url}>{attachment.name}</a>):(<span className="badge mr-1" key={attachment.name} style={{borderRadius: '3px',border: '1px solid #000'}}>{attachment.name}</span>)
                     )
                   }
                   </div>
@@ -176,7 +178,7 @@ class Comments extends Component {
                         emails={comment.email_to}
                         commentID={comment.id}
                         message={comment.body}
-                        displayAttachements={this.state.comment === comment.id}
+                        displayAttachments={this.state.comment === comment.id}
                       />
                     )}
                   </li>

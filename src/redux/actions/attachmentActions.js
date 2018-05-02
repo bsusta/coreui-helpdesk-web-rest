@@ -1,4 +1,4 @@
-import { SET_ATTACHEMENTS, ADD_ATTACHEMENT, SET_ATTACHEMENTS_LOADING, DELETE_ATTACHEMENT, EDIT_ATTACHEMENT } from '../types'
+import { SET_ATTACHMENTS, ADD_ATTACHMENT, SET_ATTACHMENTS_LOADING, DELETE_ATTACHMENT, EDIT_ATTACHMENT } from '../types'
 import { UPLOAD_FILE,GET_LOC, GET_FILE } from '../urls';
 
 
@@ -15,10 +15,10 @@ export const uploadFile = (file,token) => {
     })
     .then((response)=>{
       response.json().then((response)=>{
-            let attachement = {id:response.data.slug,file:{name:file.name,size:file.size}};
-            dispatch({type: ADD_ATTACHEMENT, attachement});
-            //zaciatok nacitavania attachementov
-              fetch(GET_LOC+attachement.id+'/download-location', {
+            let attachment = {id:response.data.slug,file:{name:file.name,size:file.size}};
+            dispatch({type: ADD_ATTACHMENT, attachment});
+            //zaciatok nacitavania attachmentov
+              fetch(GET_LOC+attachment.id+'/download-location', {
                 method: 'get',
                 headers: {
                   'Authorization': 'Bearer ' + token,
@@ -31,8 +31,8 @@ export const uploadFile = (file,token) => {
                     'Authorization': 'Bearer ' + token,
                   }
                 }).then((response3) =>{
-                  attachement.url=response3.url;
-                  dispatch({type: EDIT_ATTACHEMENT, attachement});
+                  attachment.url=response3.url;
+                  dispatch({type: EDIT_ATTACHMENT, attachment});
                 }).catch(function (error) {
                   console.log(error);
                 });
@@ -42,7 +42,7 @@ export const uploadFile = (file,token) => {
             ).catch(function (error) {
               console.log(error);
             });
-            //koniec nacitavania attachementov
+            //koniec nacitavania attachmentov
         })})
         .catch(function (error) {
           console.log(error);
@@ -53,6 +53,6 @@ export const uploadFile = (file,token) => {
 
 export const removeFile = (id,token) => {
   return (dispatch) => {
-    dispatch({ type: DELETE_ATTACHEMENT, id });
+    dispatch({ type: DELETE_ATTACHMENT, id });
   }
 };

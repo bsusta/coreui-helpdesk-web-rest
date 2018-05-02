@@ -32,6 +32,8 @@ import {
 } from "../../redux/actions";
 import { timestampToString, initialiseCustomAttributes, processCustomAttributes,importExistingCustomAttributesForTask, containsNullRequiredAttribute } from "../../helperFunctions";
 import MultiSelect from "../../components/multiSelect";
+import i18n from 'i18next';
+
 class EditTask extends Component {
   constructor(props) {
     super(props);
@@ -94,7 +96,7 @@ class EditTask extends Component {
         this.props.task.taskHasAssignedUsers.length == 0
           ? "null"
           : Object.values(this.props.task.taskHasAssignedUsers)[0].user.id,
-      attachements: [],
+      attachments: [],
       task_data,
       followers: this.props.followers.map((follower)=>follower.id),
       submitError
@@ -123,7 +125,7 @@ class EditTask extends Component {
 
   delete(e) {
     e.preventDefault();
-    if (confirm("Are you sure you wish to delete this task?")) {
+    if (confirm(i18n.t('deleteTaskMessage'))) {
       this.props.deleteTask(this.props.task.id, this.props.token);
     } else {
       return;
@@ -184,10 +186,10 @@ class EditTask extends Component {
             ? JSON.stringify([{ userId: parseInt(state.taskSolver) }])
             : null,
         attachment:
-          this.props.attachements.length === 0
+          this.props.attachments.length === 0
             ? undefined
             : JSON.stringify(
-                this.props.attachements.map(attachement => attachement.id)
+                this.props.attachments.map(attachment => attachment.id)
               ),
         taskData: JSON.stringify(task_data)
       },
@@ -206,17 +208,17 @@ class EditTask extends Component {
         <Card>
           <CardHeader>
             <button className="btn btn-link" onClick={this.props.history.goBack}>
-              <i className="fa fa-close" /> Close
+              <i className="fa fa-close" /> {i18n.t('close')}
             </button>
             <button className="btn btn-link" onClick={this.props.history.goBack}>
-              <i className="fa fa-ban" /> Cancel
+              <i className="fa fa-ban" /> {i18n.t('cancel')}
             </button>
 
             <button className="btn btn-link">
-              <i className="fa fa-print" /> Print
+              <i className="fa fa-print" /> {i18n.t('print')}
             </button>
             <button className="btn btn-link" onClick={this.delete.bind(this)}>
-              <i className="fa fa-trash" /> Vymazať
+              <i className="fa fa-trash" /> {i18n.t('delete')}
             </button>
           </CardHeader>
           <CardBody>
@@ -254,7 +256,7 @@ class EditTask extends Component {
                     <input
                       className="form-control"
                       id="title"
-                      placeholder="Enter title"
+                      placeholder={i18n.t('enterTitle')}
                       value={this.state.title}
                       style={{ fontSize: 24, border: "none" }}
                       onChange={e => {
@@ -279,10 +281,10 @@ class EditTask extends Component {
                   }) {timestampToString(this.props.task.createdAt)}
                 </label>
               </div>
-              {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter tasks title</label>}
+              {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTaskTitle')}</label>}
             </div>
             <div>
-            {this.state.submitError && <h5 style={{color:'red'}}>Task won't save until you fill all required fields!</h5>}
+            {this.state.submitError && <h5 style={{color:'red'}}>{i18n.t('restrictionTaskWontSave')}</h5>}
 
             <div className="row">
               <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
@@ -335,7 +337,7 @@ class EditTask extends Component {
                         padding: 0,
                         fontSize: "0.875rem"
                       }}
-                      label="Select tags"
+                      label={i18n.t('selectTags')}
                       labelStyle={{ marginLeft: 10 }}
                       searchStyle={{ margin: 5 }}
                       onChange={(ids, items) => {
@@ -351,7 +353,7 @@ class EditTask extends Component {
                       this.autoSubmit("description", e);
                       this.setState({ description: e });
                     }}
-                    placeholder="Enter description"
+                    placeholder={i18n.t('enterDescription')}
                     toolbarClassName="demo-toolbar"
                     editorClassName="demo-editor"
                   />
@@ -364,8 +366,8 @@ class EditTask extends Component {
 
               <div className="col-4">
                   <FormGroup>
-                      <label htmlFor="status">Status</label>
-                      {this.props.task.closedAt && this.state.status.toString()==='4' && <span style={{float:'right'}}>Closed at: {timestampToString(this.props.task.closedAt)}</span>}
+                      <label htmlFor="status">{i18n.t('status')}</label>
+                      {this.props.task.closedAt && this.state.status.toString()==='4' && <span style={{float:'right'}}>{i18n.t('closedAt')}: {timestampToString(this.props.task.closedAt)}</span>}
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-list" />
@@ -401,7 +403,7 @@ class EditTask extends Component {
                     </InputGroup>
                   </FormGroup>
                   <FormGroup>
-                    <label htmlFor="deadline">Due date</label>
+                    <label htmlFor="deadline">{i18n.t('dueDate')}</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
@@ -425,7 +427,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label htmlFor="startedAt">Started at</label>
+                    <label htmlFor="startedAt">{i18n.t('startedAt')}</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-clock-o" />
@@ -438,7 +440,7 @@ class EditTask extends Component {
                             this.setState({ startedAt: e });
                           }}
                           locale="en-gb"
-                          placeholderText="Started at"
+                          placeholderText={i18n.t('startedAt')}
                           showTimeSelect
                           timeFormat="HH:mm"
                           timeIntervals={30}
@@ -449,7 +451,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label htmlFor="project" className="req">Project</label>
+                    <label htmlFor="project" className="req">{i18n.t('project')}</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-folder-o" />
@@ -487,7 +489,7 @@ class EditTask extends Component {
                     </InputGroup>
                   </FormGroup>
                   <FormGroup>
-                    <label htmlFor="assigned">Assigned</label>
+                    <label htmlFor="assigned">{i18n.t('assigned')}</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-user-plus" />
@@ -501,7 +503,7 @@ class EditTask extends Component {
                           this.setState({ taskSolver: e.target.value });
                         }}
                       >
-                        {[{ id: "null", username: "Nikto" }]
+                        {[{ id: "null", username: i18n.t('noone') }]
                           .concat(this.props.taskSolvers)
                           .map(solver => (
                             <option key={solver.id} value={solver.id}>
@@ -513,7 +515,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label htmlFor="requester" className="req">Requester</label>
+                    <label htmlFor="requester" className="req">{i18n.t('requester')}</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-user-o" />
@@ -542,7 +544,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label htmlFor="company" className="req">Company</label>
+                    <label htmlFor="company" className="req">{i18n.t('company')}</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-building-o" />
@@ -563,7 +565,7 @@ class EditTask extends Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <label htmlFor="workTime">Odpracované hodiny</label>
+                    <label htmlFor="workTime">{i18n.t('workTime')}</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-hourglass-o" />
@@ -577,13 +579,13 @@ class EditTask extends Component {
                           this.autoSubmit("workTime", e.target.value);
                           this.setState({ workTime: e.target.value });
                         }}
-                        placeholder={"Input work time"}
+                        placeholder={i18n.t('enterWorkTime')}
                       />
                     </InputGroup>
                   </FormGroup>
 
                   <FormGroup>
-                    <label htmlFor="work">Práca</label>
+                    <label htmlFor="work">{i18n.t('work')}</label>
                     <InputGroup>
                       <InputGroupAddon>
                         <i className="fa fa-list" />
@@ -596,7 +598,7 @@ class EditTask extends Component {
                           this.autoSubmit("work", e.target.value);
                           this.setState({ work: e.target.value });
                         }}
-                        placeholder={"Work to do"}
+                        placeholder={i18n.t('enterWorkToDo')}
                       />
                     </InputGroup>
                   </FormGroup>
@@ -654,7 +656,7 @@ class EditTask extends Component {
                   </FormGroup>}
 
                   <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label htmlFor="fileUpload">Prílohy</label>
+                    <label htmlFor="fileUpload">{i18n.t('attachments')}</label>
                     <input
                       type="file"
                       id="fileUpload"
@@ -669,13 +671,13 @@ class EditTask extends Component {
                       }}
                     />
                     <label className="btn btn-primary btn-block" htmlFor="fileUpload">
-                      Add attachement
+                      {i18n.t('addAttachment')}
                     </label>
                   </div>
 
                   <div className="form-group">
                     <div style={{ paddingTop: 5, paddingRight: 10 }}>
-                      {this.props.attachements.map(item => (
+                      {this.props.attachments.map(item => (
                         <span
                           key={item.url}
                           className="badge"
@@ -790,7 +792,7 @@ class EditTask extends Component {
                         padding: 0,
                         fontSize: "0.875rem"
                       }}
-                      label="Select followers"
+                      label={i18n.t('selectFollowers')}
                       labelStyle={{ marginLeft: 10 }}
                       searchStyle={{ margin: 5 }}
                       onChange={(ids, items, item) => {
@@ -829,7 +831,7 @@ class EditTask extends Component {
                               }}
                               placeholder={"Enter " + attribute.title}
                             />
-                          {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
+                          {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                           </div>
                         );
                       case "text_area":
@@ -848,7 +850,7 @@ class EditTask extends Component {
                               }}
                               placeholder={"Enter " + attribute.title}
                             />
-                            {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
+                            {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                           </div>
                         );
                       case "simple_select":
@@ -969,7 +971,7 @@ class EditTask extends Component {
                               timeIntervals={30}
                               dateFormat="DD.MM.YYYY HH:mm"
                             />
-                          {attribute.required && this.state.task_data[attribute.id] ===null&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
+                          {attribute.required && this.state.task_data[attribute.id] ===null&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                           </div>
                         );
                       case "decimal_number":
@@ -987,9 +989,9 @@ class EditTask extends Component {
                                 this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
-                              placeholder={"Select " + attribute.title}
+                              placeholder={i18n.t('select') + attribute.title}
                             />
-                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid</label>}
+                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label>}
                           </div>
                         );
                       case "integer_number":
@@ -1007,9 +1009,9 @@ class EditTask extends Component {
                                 this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
-                              placeholder={"Select " + attribute.title}
+                              placeholder={i18n.t('select') + attribute.title}
                             />
-                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid!</label>}
+                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label>}
                           </div>
                         );
                       case "checkbox":
@@ -1056,7 +1058,7 @@ const mapStateToProps = ({
   unitsReducer,
   login,
   usersReducer,
-  attachementsReducer,
+  attachmentsReducer,
   followersReducer,
   taskAttributesReducer
 }) => {
@@ -1067,7 +1069,7 @@ const mapStateToProps = ({
   const { tags } = tagsReducer;
   const { units } = unitsReducer;
   const { users } = usersReducer;
-  const { attachements } = attachementsReducer;
+  const { attachments } = attachmentsReducer;
   const { followers } = followersReducer;
   const { token } = login;
   return {
@@ -1080,7 +1082,7 @@ const mapStateToProps = ({
     units,
     taskSolvers,
     users,
-    attachements,
+    attachments,
     followers,
     token
   };

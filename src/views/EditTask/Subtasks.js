@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import { connect } from "react-redux";
+import i18n from 'i18next';
 import {
   addSubtask,
   editSubtask,
@@ -37,7 +38,7 @@ class Subtasks extends Component {
         <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ border: "0px" }}>Subtasks</th>
+              <th style={{ border: "0px" }}>{i18n.t('subtasks')}</th>
               <th
                 style={{ width: "40px", border: "0px", textAlign: "right" }}
               />
@@ -92,7 +93,7 @@ class Subtasks extends Component {
                         this.setState({ editedSubtask: e.target.value })
                       }
                       className="form-control"
-                      placeholder="Enter subtask"
+                      placeholder={i18n.t('enterSubtask')}
                       style={{ border: "none" }}
                     />
                   </div>
@@ -126,7 +127,7 @@ class Subtasks extends Component {
                     type="text"
                     id="name"
                     className="form-control"
-                    placeholder="Enter new subtask"
+                    placeholder={i18n.t('enterNewSubtask')}
                     value={this.state.newSubtask}
                     onChange={e =>
                       this.setState({ newSubtask: e.target.value })
@@ -155,10 +156,10 @@ class Subtasks extends Component {
         <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ border: "0px" }}>Material</th>
-              <th style={{ width: "10%", border: "0px" }}>Pocet</th>
-              <th style={{ width: "10%", border: "0px" }}>Cena/ks</th>
-              <th style={{ width: "15%", border: "0px" }}>Jednotka</th>
+              <th style={{ border: "0px" }}>{i18n.t('material')}</th>
+              <th style={{ width: "10%", border: "0px" }}>{i18n.t('amount')}</th>
+              <th style={{ width: "10%", border: "0px" }}>{i18n.t('pricePerUnit')}</th>
+              <th style={{ width: "15%", border: "0px" }}>{i18n.t('unit')}</th>
               <th
                 style={{ width: "40px", border: "0px", textAlign: "right" }}
               />
@@ -201,7 +202,7 @@ class Subtasks extends Component {
                       })
                     }
                     className="form-control"
-                    placeholder="Item name"
+                    placeholder={i18n.t('itemName')}
                   />
                 </td>
                 <td>
@@ -238,7 +239,7 @@ class Subtasks extends Component {
                       })
                     }
                     className="form-control"
-                    placeholder="Amount"
+                    placeholder={i18n.t('amount')}
                   />
                 </td>
                 <td>
@@ -275,7 +276,7 @@ class Subtasks extends Component {
                       })
                     }
                     className="form-control"
-                    placeholder="Price per unit"
+                    placeholder={i18n.t('pricePerUnit')}
                   />
                 </td>
                 <td>
@@ -398,9 +399,9 @@ class Subtasks extends Component {
             </tr>
             <tr className="table-info">
               <td style={{ textAlign: "right", paddingRight: 50 }} colSpan="5">
-                Cena spolu bez:{" "}
+                {i18n.t('priceWithoutVAT')}
                 <span style={{ fontWeight: "bold" }}>
-                  {this.sumItems(this.props.items) * 0.8}
+                  {(this.sumItems(this.props.items) * 0.8).toFixed(2)}
                 </span>
               </td>
             </tr>
@@ -409,9 +410,9 @@ class Subtasks extends Component {
                 style={{ borderTop: 0, textAlign: "right", paddingRight: 50 }}
                 colSpan="5"
               >
-                Cena spolu s DPH:
+                {i18n.t('priceWithVAT')}
                 <span style={{ fontWeight: "bold" }}>
-                  {this.sumItems(this.props.items)}
+                  {this.sumItems(this.props.items).toFixed(2)}
                 </span>
               </td>
             </tr>

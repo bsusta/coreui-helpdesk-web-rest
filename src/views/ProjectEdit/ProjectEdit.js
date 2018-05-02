@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { editProject, savePermissions } from "../../redux/actions";
 import RichTextEditor from "react-rte";
 import { Card, CardHeader } from "reactstrap";
+import i18n from 'i18next';
 
 class ProjectEdit extends Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class ProjectEdit extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
 
           <button
@@ -87,7 +88,7 @@ class ProjectEdit extends Component {
             className="btn btn-link"
             onClick={this.submit.bind(this)}
           >
-            Save
+            {i18n.t('save')}
           </button>
         </CardHeader>
 
@@ -113,13 +114,13 @@ class ProjectEdit extends Component {
                     <span className="switch-handle" />
                   </label>
                   <label style={{ paddingLeft: 10 }}>
-                    {this.state.is_active ? "Active" : "Archived"}
+                    {this.state.is_active ? i18n.t('activated') : i18n.t('archived')}
                   </label>
                 </p>
-                <label htmlFor="title" className="req">Project name</label>
+                <label htmlFor="title" className="req">{i18n.t('projectName')}</label>
                 <input
                   className="form-control"
-                  placeholder="Enter project title"
+                  placeholder={i18n.t('enterProjectName')}
                   value={this.state.title}
                   onChange={target =>
                     this.setState({ title: target.target.value })
@@ -128,18 +129,18 @@ class ProjectEdit extends Component {
                 {this.state.submitError &&
                   this.state.title === "" && (
                     <label htmlFor="title" style={{ color: "red" }}>
-                      You must enter title
+                      {i18n.t('restrictionMustEnterTitle')}
                     </label>
                   )}
               </div>
               <div className="form-group">
-                <label htmlFor="description">Description</label>
+                <label htmlFor="description">{i18n.t('description')}</label>
                 <RichTextEditor
                   value={this.state.description}
                   onChange={e => {
                     this.setState({ description: e });
                   }}
-                  placeholder="Enter description"
+                  placeholder={i18n.t('enterDescription')}
                   toolbarClassName="demo-toolbar"
                   editorClassName="demo-editor"
                 />
@@ -149,7 +150,7 @@ class ProjectEdit extends Component {
 
           <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
             {" "}
-            Project permissions
+            {i18n.t('projectPermissions')}
           </h2>
 
           <div className="form-inline">
@@ -207,17 +208,17 @@ class ProjectEdit extends Component {
           >
             <thead className="thead-inverse">
               <tr>
-                <th>Username</th>
-                <th>View own tasks</th>
-                <th>View company users tasks</th>
-                <th>View all tasks</th>
-                <th>Create tasks</th>
-                <th>Resolve tasks</th>
-                <th>Delete task</th>
-                <th>View internal note</th>
-                <th>Edit internal note</th>
-                <th>Edit project</th>
-                <th>Remove user</th>
+                <th>{i18n.t('username')}</th>
+                <th>{i18n.t('aclViewOwnTasks')}</th>
+                <th>{i18n.t('aclViewCompanyUsersTasks')}</th>
+                <th>{i18n.t('aclViewAllTasks')}</th>
+                <th>{i18n.t('aclCreateTasks')}</th>
+                <th>{i18n.t('aclResolveTasks')}</th>
+                <th>{i18n.t('aclDeleteTask')}</th>
+                <th>{i18n.t('aclViewInternalNote')}</th>
+                <th>{i18n.t('aclEditInternalNote')}</th>
+                <th>{i18n.t('aclEditProject')}</th>
+                <th>{i18n.t('aclRemoveUser')}</th>
               </tr>
             </thead>
             <tbody>

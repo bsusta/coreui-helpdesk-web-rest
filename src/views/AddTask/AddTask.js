@@ -27,6 +27,8 @@ import {
 } from "../../redux/actions";
 import { timestampToString, initialiseCustomAttributes, processCustomAttributes,importExistingCustomAttributesForTask, containsNullRequiredAttribute } from "../../helperFunctions";
 import MultiSelect from "../../components/multiSelect";
+import i18n from 'i18next';
+
 class AddTask extends Component {
   constructor(props) {
     super(props);
@@ -109,10 +111,10 @@ deleteFollower
         ? JSON.stringify([{ userId: parseInt(state.taskSolver) }])
         : null,
         attachment:
-        this.props.attachements.length === 0
+        this.props.attachments.length === 0
         ? undefined
         : JSON.stringify(
-          this.props.attachements.map(attachement => attachement.id)
+          this.props.attachments.map(attachment => attachment.id)
         ),
         taskData: JSON.stringify(task_data)
       },
@@ -134,7 +136,7 @@ deleteFollower
         <div>
           <Card>
             <CardHeader>
-              <h5 style={{color:'red'}}>You can't create task without project!</h5>
+              <h5 style={{color:'red'}}>{i18n.t('restrictionCantCreateTaskWithoutProject')}</h5>
             </CardHeader>
           </Card>
         </div>);
@@ -144,10 +146,10 @@ deleteFollower
         <Card>
           <CardHeader>
             <button className="btn btn-link" onClick={this.props.history.goBack}>
-              <i className="fa fa-ban" /> Cancel
+              <i className="fa fa-ban" /> {i18n.t('cancel')}
               </button>
               <button className="btn btn-link" onClick={this.submit.bind(this)}>
-                <i className="fa fa-save" /> Create
+                <i className="fa fa-save" /> {i18n.t('create')}
                 </button>
               </CardHeader>
               <CardBody>
@@ -183,7 +185,7 @@ deleteFollower
                           <input
                             className="form-control"
                             id="title"
-                            placeholder="Enter title"
+                            placeholder={i18n.t('enterTitle')}
                             value={this.state.title}
                             style={{ fontSize: 24, border: "none" }}
                             onChange={e => {
@@ -193,7 +195,7 @@ deleteFollower
                         </InputGroup>
                       </div>
                     </div>
-                    {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>You must enter tasks title</label>}
+                    {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTaskTitle')}</label>}
                   </div>
                   <div>
 
@@ -248,7 +250,7 @@ deleteFollower
                               padding: 0,
                               fontSize: "0.875rem"
                             }}
-                            label="Select tags"
+                            label={i18n.t('selectTags')}
                             labelStyle={{ marginLeft: 10 }}
                             searchStyle={{ margin: 5 }}
                             onChange={(ids, items) => {
@@ -262,7 +264,7 @@ deleteFollower
                           onChange={e => {
                             this.setState({ description: e });
                           }}
-                          placeholder="Enter description"
+                          placeholder={i18n.t('enterDescription')}
                           toolbarClassName="demo-toolbar"
                           editorClassName="demo-editor"
                           />
@@ -281,7 +283,7 @@ deleteFollower
 
                       <div className="col-4">
                         <FormGroup>
-                          <label htmlFor="status">Status</label>
+                          <label htmlFor="status">{i18n.t('status')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-list" />
@@ -316,7 +318,7 @@ deleteFollower
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
-                          <label htmlFor="deadline">Due date</label>
+                          <label htmlFor="deadline">{i18n.t('dueDate')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-clock-o" />
@@ -328,7 +330,7 @@ deleteFollower
                                   this.setState({ deadline: e });
                                 }}
                                 locale="en-gb"
-                                placeholderText="Deadline"
+                                placeholderText={i18n.t('deadline')}
                                 showTimeSelect
                                 timeFormat="HH:mm"
                                 timeIntervals={30}
@@ -339,7 +341,7 @@ deleteFollower
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="startedAt">Started at</label>
+                          <label htmlFor="startedAt">{i18n.t('startedAt')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-clock-o" />
@@ -362,7 +364,7 @@ deleteFollower
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="project" className="req">Project</label>
+                          <label htmlFor="project" className="req">{i18n.t('project')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-folder-o" />
@@ -392,7 +394,7 @@ deleteFollower
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
-                          <label htmlFor="assigned">Assigned</label>
+                          <label htmlFor="assigned">{i18n.t('assigned')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-user-plus" />
@@ -405,7 +407,7 @@ deleteFollower
                                 this.setState({ taskSolver: e.target.value });
                               }}
                               >
-                              {[{ id: "null", username: "Nikto" }]
+                              {[{ id: "null", username: i18n.t('noone') }]
                               .concat(this.props.taskSolvers)
                               .map(solver => (
                                 <option key={solver.id} value={solver.id}>
@@ -417,7 +419,7 @@ deleteFollower
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="requester" className="req">Requester</label>
+                          <label htmlFor="requester" className="req">{i18n.t('requester')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-user-o" />
@@ -442,11 +444,11 @@ deleteFollower
                               }}
                               />
                           </InputGroup>
-                          {this.state.submitError && this.state.requestedBy.id===undefined &&<label htmlFor="title" style={{color:'red'}}>Requester is required!</label>}
+                          {this.state.submitError && this.state.requestedBy.id===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="company" className="req">Company</label>
+                          <label htmlFor="company" className="req">{i18n.t('company')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-building-o" />
@@ -463,11 +465,11 @@ deleteFollower
                               }}
                               />
                           </InputGroup>
-                          {this.state.submitError && this.state.company.id===undefined &&<label htmlFor="title" style={{color:'red'}}>Company is required!</label>}
+                          {this.state.submitError && this.state.company.id===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="workTime">Odpracované hodiny</label>
+                          <label htmlFor="workTime">{i18n.t('workTime')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-hourglass-o" />
@@ -480,13 +482,13 @@ deleteFollower
                               onChange={e => {
                                 this.setState({ workTime: e.target.value });
                               }}
-                              placeholder={"Input work time"}
+                              placeholder={i18n.t('enterWorkTime')}
                               />
                           </InputGroup>
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="work">Práca</label>
+                          <label htmlFor="work">{i18n.t('work')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-list" />
@@ -498,7 +500,7 @@ deleteFollower
                               onChange={e => {
                                 this.setState({ work: e.target.value });
                               }}
-                              placeholder={"Work to do"}
+                              placeholder={i18n.t('enterWorkToDo')}
                               />
                           </InputGroup>
                         </FormGroup>
@@ -556,7 +558,7 @@ deleteFollower
                         </FormGroup>}
 
                         <div className="form-group" style={{ marginBottom: 0 }}>
-                          <label htmlFor="fileUpload">Prílohy</label>
+                          <label htmlFor="fileUpload">{i18n.t('attachments')}</label>
                           <input
                             type="file"
                             id="fileUpload"
@@ -568,13 +570,13 @@ deleteFollower
                             }}
                             />
                           <label className="btn btn-primary btn-block" htmlFor="fileUpload">
-                            Add attachement
+                            {i18n.t('addAttachment')}
                           </label>
                         </div>
 
                         <div className="form-group">
                           <div style={{ paddingTop: 5, paddingRight: 10 }}>
-                            {this.props.attachements.map(item => (
+                            {this.props.attachments.map(item => (
                               <span
                                 key={item.id}
                                 className="badge"
@@ -686,7 +688,7 @@ deleteFollower
                                 padding: 0,
                                 fontSize: "0.875rem"
                               }}
-                              label="Select followers"
+                              label={i18n.t('selectFollowers')}
                               labelStyle={{ marginLeft: 10 }}
                               searchStyle={{ margin: 5 }}
                               onChange={(ids) => {
@@ -712,7 +714,7 @@ deleteFollower
                                     }}
                                     placeholder={"Enter " + attribute.title}
                                     />
-                                  {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
+                                  {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                                 </div>
                               );
                               case "text_area":
@@ -730,7 +732,7 @@ deleteFollower
                                     }}
                                     placeholder={"Enter " + attribute.title}
                                     />
-                                  {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
+                                  {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                                 </div>
                               );
                               case "simple_select":
@@ -848,7 +850,7 @@ deleteFollower
                                         timeIntervals={30}
                                         dateFormat="DD.MM.YYYY HH:mm"
                                         />
-                                      {attribute.required && this.state.task_data[attribute.id] ===null&&<label htmlFor="title" style={{color:'red'}}>This field is required!</label>}
+                                      {attribute.required && this.state.task_data[attribute.id] ===null&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                                     </div>
                                   );
                                   case "decimal_number":
@@ -865,9 +867,9 @@ deleteFollower
                                           newData[attribute.id] = e.target.value;
                                           this.setState({ task_data: newData });
                                         }}
-                                        placeholder={"Select " + attribute.title}
+                                        placeholder={i18n.t('select') + attribute.title}
                                         />
-                                      {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid</label>}
+                                      {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                                     </div>
                                   );
                                   case "integer_number":
@@ -884,9 +886,9 @@ deleteFollower
                                           newData[attribute.id] = e.target.value;
                                           this.setState({ task_data: newData });
                                         }}
-                                        placeholder={"Select " + attribute.title}
+                                        placeholder={i18n.t('select') + attribute.title}
                                         />
-                                      {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>Field is required and isn't valid!</label>}
+                                      {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                                     </div>
                                   );
                                   case "checkbox":
@@ -932,7 +934,7 @@ deleteFollower
                 unitsReducer,
                 login,
                 usersReducer,
-                attachementsReducer,
+                attachmentsReducer,
                 followersReducer,
                 taskAttributesReducer
               }) => {
@@ -943,7 +945,7 @@ deleteFollower
                 const { tags } = tagsReducer;
                 const { units } = unitsReducer;
                 const { users } = usersReducer;
-                const { attachements } = attachementsReducer;
+                const { attachments } = attachmentsReducer;
                 const { followers } = followersReducer;
                 const { user, token } = login;
                 return {
@@ -956,7 +958,7 @@ deleteFollower
                   units,
                   taskSolvers,
                   users,
-                  attachements,
+                  attachments,
                   followers,
                   user,
                   token

@@ -14,6 +14,7 @@ import {
   InputGroup,
   InputGroupAddon
 } from "reactstrap";
+import i18n from 'i18next';
 
 class Login extends Component {
   constructor(props) {
@@ -41,11 +42,11 @@ class Login extends Component {
               <CardGroup>
                 <Card className="p-4 smallCard">
                   <CardBody className="smallCard" style={{width:300}}>
-                    <h1>{this.state.login ? "Login" : "Password reset"}</h1>
+                    <h1>{this.state.login ? i18n.t('login') : i18n.t('passwordReset')}</h1>
                     <p className="text-muted">
                       {this.state.login
-                        ? "Sign In to your account"
-                        : "Forgot your password?"}
+                        ? i18n.t('signIn')
+                        : i18n.t('forgotYourPassword')}
                     </p>
                     <InputGroup className="mb-3">
                       <InputGroupAddon>
@@ -53,7 +54,7 @@ class Login extends Component {
                       </InputGroupAddon>
                       <Input
                         type="text"
-                        placeholder="Username"
+                        placeholder={i18n.t('username')}
                         value={
                           this.state.login
                             ? this.state.loginName
@@ -75,7 +76,7 @@ class Login extends Component {
                         </InputGroupAddon>
                         <Input
                           type="password"
-                          placeholder="Password"
+                          placeholder={i18n.t('password')}
                           value={this.state.loginPassword}
                           onChange={value =>
                             this.setState({ loginPassword: value.target.value })
@@ -108,7 +109,7 @@ class Login extends Component {
                         }
                       }}
                     >
-                      {this.state.login ? "Login" : "Reset password"}
+                      {this.state.login ? i18n.t('login') : i18n.t('resetPassword')}
                     </Button>
                     <Button
                       color="link"
@@ -117,7 +118,7 @@ class Login extends Component {
                         this.setState({ login: !this.state.login })
                       }
                     >
-                      {this.state.login ? "Forgot password?" : "Back to login"}
+                      {this.state.login ? i18n.t('forgotPassword') : i18n.t('backToLogin')}
                     </Button>
                   </CardBody>
                 </Card>

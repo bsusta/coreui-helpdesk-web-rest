@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addTag } from "../../redux/actions";
 import { SketchPicker } from "react-color";
+import i18n from 'i18next';
 
 class TagAdd extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class TagAdd extends Component {
   render() {
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ paddingTop: 20, marginBottom: 20 }}> Add new tag</h2>
+        <h2 style={{ paddingTop: 20, marginBottom: 20 }}>{i18n.t('addNewTag')}</h2>
         <div>
           <form style={{ marginTop: 15 }}>
             <div className="form-group">
@@ -49,13 +50,13 @@ class TagAdd extends Component {
                   <span className="switch-handle" />
                 </label>
                 <label style={{ paddingLeft: 10 }}>
-                  {this.state.public ? "Public" : "Private"}
+                  {this.state.public ? i18n.t('public') : i18n.t('private')}
                 </label>
               </p>
-              <label htmlFor="title" className="req">Tag name</label>
+              <label htmlFor="title" className="req">{i18n.t('name')}</label>
               <input
                 className="form-control"
-                placeholder="Enter tag title"
+                placeholder={i18n.t('enterName')}
                 value={this.state.title}
                 onChange={target =>
                   this.setState({ title: target.target.value })
@@ -69,7 +70,7 @@ class TagAdd extends Component {
                 )}
             </div>
             <div className="form-group">
-              <label htmlFor="color" className="req">Color</label>
+              <label htmlFor="color" className="req">{i18n.t('color')}</label>
               <SketchPicker
                 id="color"
                 color={this.state.color}
@@ -83,7 +84,7 @@ class TagAdd extends Component {
             style={{ color: "white" }}
             onClick={this.props.history.goBack}
           >
-            Cancel
+            {i18n.t('cancel')}
           </button>
           <button
             type="button"
@@ -91,7 +92,7 @@ class TagAdd extends Component {
             style={{ color: "white", marginLeft: 5 }}
             onClick={this.submit.bind(this)}
           >
-            Save
+            {i18n.t('submit')}
           </button>
         </div>
       </div>

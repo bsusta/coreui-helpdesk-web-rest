@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Card, CardHeader } from "reactstrap";
+import i18n from 'i18next';
 
 class ProjectInfo extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class ProjectInfo extends Component {
       <Card>
         <CardHeader>
           <button className="btn btn-link" onClick={this.props.history.goBack}>
-            <i className="fa fa-angle-left" /> Back
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
           {this.props.project.canEdit && (
             <button
@@ -36,7 +37,7 @@ class ProjectInfo extends Component {
 
           <div style={{ marginTop: 10 }}>
             <p>
-              Status: {this.props.project.is_active ? "Active" : "Archived"}
+              Status: {this.props.project.is_active ? i18n.t('activated') : i18n.t('archived')}
             </p>
 
             <div

@@ -34,8 +34,8 @@ import {
   removeCommentFile,
   removeAllCommentFiles
 } from "../../redux/actions";
-{
-}
+import i18n from 'i18next';
+
 class AddComment extends Component {
   constructor(props) {
     super(props);
@@ -66,7 +66,7 @@ class AddComment extends Component {
   }
 
   getSlug() {
-    return JSON.stringify(this.props.commentAttachements.map(attachement => attachement.id));
+    return JSON.stringify(this.props.commentAttachments.map(attachment => attachment.id));
   }
 
   stringifyArray(array) {
@@ -89,7 +89,7 @@ class AddComment extends Component {
                 this.toggle("1");
               }}
             >
-              Add Comment
+              {i18n.t('addComment')}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -99,7 +99,7 @@ class AddComment extends Component {
                 this.toggle("2");
               }}
             >
-              Add Email
+              {i18n.t('addEmail')}
             </NavLink>
           </NavItem>
         </Nav>
@@ -128,8 +128,8 @@ class AddComment extends Component {
                 type="file"
                 id={
                   this.props.commentID
-                    ? "addAttachement" + this.props.commentID
-                    : "addAttachement"
+                    ? "addAttachment" + this.props.commentID
+                    : "addAttachment"
                 }
                 style={{ display: "none" }}
                 onChange={e => {
@@ -142,12 +142,12 @@ class AddComment extends Component {
                 size="sm"
                 htmlFor={
                   this.props.commentID
-                    ? "addAttachement" + this.props.commentID
-                    : "addAttachement"
+                    ? "addAttachment" + this.props.commentID
+                    : "addAttachment"
                 }
                 style={{ cursor: "pointer", textDecoration: "underline" }}
               >
-                <i className="fa fa-paperclip" />&nbsp;Add atachments
+                <i className="fa fa-paperclip" />&nbsp;{i18n.t('addAttachment')}
               </label>
               <Label
                 check
@@ -171,7 +171,7 @@ class AddComment extends Component {
                     this.setState({ internal: !this.state.internal })
                   }
                 />
-                Internal note
+                {i18n.t('internal')}
               </Label>
               <button
                 className="btn btn-sm btn-success mr-2 ml-2 float-right"
@@ -231,18 +231,18 @@ class AddComment extends Component {
                   })
                 }
               >
-                Discard
+                {i18n.t('clear')}
               </button>
             </div>
 
             <div
               className="form-group"
               style={{
-                display: this.props.displayAttachements ? "block" : "none"
+                display: this.props.displayAttachments ? "block" : "none"
               }}
             >
               <div style={{ paddingTop: 5, paddingRight: 10 }}>
-                {this.props.commentAttachements.map(item => (
+                {this.props.commentAttachments.map(item => (
                   <span
                     className="badge"
                     style={{
@@ -304,7 +304,7 @@ class AddComment extends Component {
           >
             <FormGroup row>
               <Col md="2">
-                <Label htmlFor="to">To:</Label>
+                <Label htmlFor="to">{i18n.t('to')}:</Label>
               </Col>
               <Col xs="12" md="10">
                 <div>
@@ -315,7 +315,7 @@ class AddComment extends Component {
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ to: [] })}
                     >
-                      clear
+                      {i18n.t('clear')}
                     </button>
                   )}
                 </div>
@@ -370,7 +370,7 @@ class AddComment extends Component {
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ cc: [] })}
                     >
-                      clear
+                      {i18n.t('clear')}
                     </button>
                   )}
                 </div>
@@ -426,7 +426,7 @@ class AddComment extends Component {
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ bcc: [] })}
                     >
-                      clear
+                      {i18n.t('clear')}
                     </button>
                   )}
                 </div>
@@ -471,7 +471,7 @@ class AddComment extends Component {
 
             <FormGroup row>
               <Col md="2">
-                <Label htmlFor="subject">Predmet:</Label>
+                <Label htmlFor="subject">{i18n.t('subject')}:</Label>
               </Col>
               <Col xs="12" md="10">
                 <Input
@@ -488,12 +488,12 @@ class AddComment extends Component {
                 id="message"
                 value={this.state.message}
                 onChange={e => this.setState({ message: e.target.value })}
-                placeholder="Write message here"
+                placeholder={i18n.t('enterMessage')}
               />
             </div>
             <div className="form-group">
               <Button color="link" size="sm">
-                <i className="fa fa-paperclip" />&nbsp;Add attachments
+                <i className="fa fa-paperclip" />&nbsp;{i18n.t('addAttachment')}
               </Button>
               <Label
                 check
@@ -516,7 +516,7 @@ class AddComment extends Component {
                     this.setState({ internal: !this.state.internal })
                   }
                 />
-                Internal note
+                {i18n.t('internal')}
               </Label>
               <button
                 type="submit"
@@ -587,7 +587,7 @@ class AddComment extends Component {
                 }
                 className="btn btn-sm btn-danger float-right"
               >
-                Discard
+                {i18n.t('clear')}
               </button>
             </div>
           </TabPane>
@@ -600,12 +600,12 @@ class AddComment extends Component {
 const mapStateToProps = ({
   login,
   usersReducer,
-  commentAttachementsReducer
+  commentAttachmentsReducer
 }) => {
   const { users } = usersReducer;
-  const { commentAttachements } = commentAttachementsReducer;
+  const { commentAttachments } = commentAttachmentsReducer;
   const { token } = login;
-  return { token, users, commentAttachements };
+  return { token, users, commentAttachments };
 };
 
 export default connect(mapStateToProps, {
