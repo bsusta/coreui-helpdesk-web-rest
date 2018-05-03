@@ -295,7 +295,9 @@ export default {
   tags:'Tagy',
   tag:'Tag',
   archived:'Archívované',
-  reports:'Hlásenia'
+  reports:'Hlásenia',
+  addTask:'Pridať úlohu',
+  filter:'Filter',
 }
 
 /*

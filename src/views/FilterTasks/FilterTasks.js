@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setFilter } from "../../redux/actions";
-import Filter from './FilterLoader';
+import { getFilteredTasks } from "../../redux/actions";
 import {
   Row,
   Col,
@@ -33,8 +32,7 @@ class Project extends Component {
     this.state = {
       pageNumber: this.props.match.params.page
         ? parseInt(this.props.match.params.page, 10)
-        : 1,
-        displayFilter:true,
+        : 1
     };
   }
 
@@ -52,14 +50,31 @@ class Project extends Component {
     );
     return text;
   }
+
   render() {
     return (
-      <div className="table-div row">
-        <div className="col-4" style={{display:this.state.displayFilter?'block':'none'}}>
-          <Filter/>
-        </div>
-        <div className={this.state.displayFilter?"col-8":''}>
-          <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.setState({displayFilter:!this.state.displayFilter})} />
+      <div className="table-div">
+        <h2>
+          {
+            this.props.filters[
+              this.props.filters.findIndex(filter =>
+                filter.url.includes(this.props.match.params.id)
+              )
+            ].name
+          }{" "}
+          <a
+            href={"#/project/info/" + parseInt(this.props.match.params.id, 10)}
+            className="fa fa-info-circle fa-lg"
+            style={{
+              border: "none",
+              backgroundColor: "white",
+              color: "grey",
+              textDecoration: "none"
+            }}
+          />
+        </h2>
+
+        <div>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
               <tr>
@@ -138,17 +153,17 @@ class Project extends Component {
                   <td>{task.project.title}</td>
                   <td>{timestampToString(task.createdAt)}</td>
                   <td>
-                    {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
+                    {task.deadline ? timestampToString(task.deadline) : i18n.t('none')}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
           <Pagination
-            link={"project/" + this.props.match.params.id}
+            link={"filter/" + this.props.match.params.id}
             history={this.props.history}
             numberOfPages={this.props.numberOfPages}
-            refetchData={this.props.getProjectTasks}
+            refetchData={this.props.getFilteredTasks}
             token={this.props.token}
             refetchParameters={[parseInt(this.props.match.params.id, 10)]}
             pageNumber={this.state.pageNumber}
@@ -170,13 +185,17 @@ class Project extends Component {
   }
 }
 
-const mapStateToProps = ({ filtersReducer, login }) => {
-  const { tasks } = filtersReducer;
+const mapStateToProps = ({ tasksReducer, sidebarReducer, login }) => {
+  const { tasks, filterLinks } = tasksReducer;
+  const { sidebar } = sidebarReducer;
   const { token } = login;
   return {
     tasks,
+    filters:
+      sidebar[sidebar.findIndex(item => item.name === "filters")].children,
+    numberOfPages: filterLinks.numberOfPages,
     token
   };
 };
 
-export default connect(mapStateToProps, { setFilter })(Project);
+export default connect(mapStateToProps, { getFilteredTasks })(Project);

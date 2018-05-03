@@ -67,11 +67,7 @@ export const getSidebar = token => {
               //icon: "fa fa-filter"
             })
           );
-          filters.children.push({
-            name: "filter",
-            url: "/mytasks",
-            icon: "fa fa-plus"
-          });
+
           //mockup data filter
           let testFilters = [];
           let afterFilters = [];
@@ -103,8 +99,13 @@ export const getSidebar = token => {
               }
             }
           });
-          testFilters.concat(afterFilters);
-          filters.children = testFilters;
+
+          afterFilters.push({
+            name: "filter",
+            url: "/filter",
+            icon: "fa fa-plus"
+          });
+          filters.children = testFilters.concat(afterFilters);
 
           let projects = {
             name: "projects",
@@ -136,7 +137,7 @@ export const getSidebar = token => {
             icon: "fa fa-archive",
             children: []
           };
-          data.projects.map(project =>
+          data.archived.map(project =>
             archived.children.push({
               name: project.title,
               url: "/archived/" + project.id.toString(),

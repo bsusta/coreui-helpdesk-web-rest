@@ -194,7 +194,7 @@ const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer, login }
     tasks,
     project,
     projects:
-      sidebar[sidebar.findIndex(item => item.name === "projects")].children,
+      sidebar[sidebar.findIndex(item => item.name === "projects")].children.concat(sidebar[sidebar.findIndex(item => item.name === "archived")].children),
     numberOfPages: projectLinks.numberOfPages,
     projectID: projectLinks.id,
     token

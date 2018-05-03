@@ -55,6 +55,7 @@ import SecondEditTask from "./views/SecondEditTask";
 import TrojStlpec from "./views/TrojStlpec";
 import Messages from "./views/Messages";
 import Filter from "./views/Filter";
+import FilterTasks from "./views/FilterTasks";
 class Full extends Component {
   render() {
     return (
@@ -388,16 +389,23 @@ class Full extends Component {
                 />
                 <Route
                   exact
+                  path="/filter"
+                  name="Filter"
+                  component={Filter}
+                />
+                <Route
+                  exact
                   path="/filter/:id/:page,:count"
                   name="Filtered task list"
-                  component={Filter}
+                  component={FilterTasks}
                 />
                 <Route
                   exact
                   path="/filter/:id"
                   name="Filtered task list"
-                  component={Filter}
+                  component={FilterTasks}
                 />
+
               </Switch>
             </Container>
           </main>

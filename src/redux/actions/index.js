@@ -20,3 +20,4 @@ export * from './commentActions';
 export * from './commentAttachmentActions';
 export * from './followerActions';
 export * from './loadingActions';
+export * from './filterActions';

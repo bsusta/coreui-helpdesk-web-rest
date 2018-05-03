@@ -295,8 +295,9 @@ export default {
   tags:'Tags',
   tag:'Tag',
   archived:'Archived',
-  reports:'Reports'
-
+  reports:'Reports',
+  addTask:'Add task',
+  filter:'Filter',
 }
 
 /*

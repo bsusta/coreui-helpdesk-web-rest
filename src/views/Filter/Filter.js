@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { getFilteredTasks } from "../../redux/actions";
 import {
   Row,
   Col,
@@ -22,180 +20,336 @@ import {
   InputGroupAddon,
   InputGroupButton
 } from "reactstrap";
-import Pagination from "../../components/pagination";
-import { timestampToString } from "../../helperFunctions";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 import i18n from 'i18next';
+import Select from "react-select";
+import { connect } from 'react-redux';
 
-class Project extends Component {
+class Filter extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      pageNumber: this.props.match.params.page
-        ? parseInt(this.props.match.params.page, 10)
-        : 1
-    };
-  }
+    this.state={
+      createdFrom:null,
+      createdTo:null,
+      deadlineFrom:null,
+      deadlineTo:null,
+      closedFrom:null,
+      closedTo:null,
+      title:'',
+      startedFrom:null,
+      startedTo:null,
 
-  setPage(number) {
-    this.setState({ pageNumber: number });
-  }
-
-  usersToString(users) {
-    if (users.length === 0) {
-      return  i18n.t('none');
     }
-    let text = "";
-    Object.values(users).map(
-      solver => (text = text + (solver.user.username + " "))
-    );
-    return text;
+
   }
 
-  render() {
-    return (
-      <div className="table-div">
-        <h2>
-          {
-            this.props.filters[
-              this.props.filters.findIndex(filter =>
-                filter.url.includes(this.props.match.params.id)
-              )
-            ].name
-          }{" "}
-          <a
-            href={"#/project/info/" + parseInt(this.props.match.params.id, 10)}
-            className="fa fa-info-circle fa-lg"
-            style={{
-              border: "none",
-              backgroundColor: "white",
-              color: "grey",
-              textDecoration: "none"
-            }}
-          />
-        </h2>
 
-        <div>
-          <table className="table table-striped table-hover table-sm">
-            <thead className="thead-inverse">
-              <tr>
-                <th style={{ width: "3%", borderTop: "0px" }}>{i18n.t('id')}</th>
-                <th style={{ width: "5%", borderTop: "0px" }}>{i18n.t('status')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('requester')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('company')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('assigned')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('project')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('createdAt')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('dueDate')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-              </tr>
-              {this.props.tasks.map(task => (
-                <tr style={{ cursor: "pointer" }} key={task.id}>
-                  <td style={{ verticalAlign: "center" }}>{task.id}</td>
-                  <td>
-                    <span className="badge badge-success">{task.status.title}</span>
-                  </td>
-                  <td
-                    onClick={() =>
-                      this.props.history.push("/task/edit/" + task.id)
-                    }
-                  >
-                    {task.title}
-                    <p>
-                      {task.tags.map(tag => (
-                        <span
-                          key={tag.id}
-                          className="badge mr-1"
-                          style={{
-                            backgroundColor:
-                              (tag.color.includes("#") ? "" : "#") + tag.color,
-                            color: "white"
-                          }}
-                        >
-                          {tag.title}
-                        </span>
-                      ))}
-                    </p>
-                  </td>
-                  <td>{task.requestedBy.username}</td>
-                  <td>{task.company.title}</td>
-                  <td>{this.usersToString(task.taskHasAssignedUsers)}</td>
-                  <td>{task.project.title}</td>
-                  <td>{timestampToString(task.createdAt)}</td>
-                  <td>
-                    {task.deadline ? timestampToString(task.deadline) : i18n.t('none')}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Pagination
-            link={"filter/" + this.props.match.params.id}
-            history={this.props.history}
-            numberOfPages={this.props.numberOfPages}
-            refetchData={this.props.getFilteredTasks}
-            token={this.props.token}
-            refetchParameters={[parseInt(this.props.match.params.id, 10)]}
-            pageNumber={this.state.pageNumber}
-            setPageNumber={this.setPage.bind(this)}
-            paginationOptions={[
-              { title: 20, value: 20 },
-              { title: 50, value: 50 },
-              { title: 100, value: 100 }
-            ]}
-            pagination={
-              this.props.match.params.count
-                ? parseInt(this.props.match.params.count, 10)
-                : 20
-            }
+  saveChanges(value) {
+    this.setState({ value });
+  }
+  render() {
+    console.log(this.props.tags);
+    return (
+      <div className="filterDivInside">
+        <div style={{ paddingLeft: 20 }}>
+          <button type="button" className="btn btn-link" style={{ paddingLeft: 0 }}>
+            Apply
+          </button>
+          <button type="button" className="btn btn-link">
+            Save
+          </button>
+          <button type="button" className="btn btn-link">
+            Reset
+          </button>
+          <FormGroup>
+            <label htmlFor="title">{i18n.t('title')}</label>
+            <input
+              className="form-control"
+              id="title"
+              value={this.state.title}
+              onChange={e => {
+                this.setState({ title: e.target.value });
+              }}
+              placeholder="Filter podľa názvu"
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label htmlFor="status">{i18n.t('status')}</label>
+              <Select
+                options={this.props.statuses.map(status => {
+                  status.label = status.title;
+                  status.value = status.id;
+                  return status;
+                })}
+                isMulti
+                style={{ width: "100%" }}
+              />
+          </FormGroup>
+
+          <label className="mt-1">Zadal</label>
+            <Select
+              isMulti
+              options={this.props.users.map(user => {
+                user.label =
+                  (user.name ? user.name : "") +
+                  " " +
+                  (user.surname ? user.surname : "");
+                if (user.label === " ") {
+                  user.label = user.email;
+                } else {
+                  user.label = user.label + " (" + user.email + ")";
+                }
+                user.value = user.id;
+                return user;
+              })}
+            />
+
+          <label className="mt-2">Firma</label>
+          <Select
+            options={this.props.companies.map(company => {
+              company.label = company.title;
+              company.value = company.id;
+              return company;
+            })}
+            isMulti
+            style={{ width: "100%" }}
           />
+
+          <label className="mt-2">Riesi</label>
+            <Select
+              isMulti
+              options={this.props.users.map(user => {
+                user.label =
+                  (user.name ? user.name : "") +
+                  " " +
+                  (user.surname ? user.surname : "");
+                if (user.label === " ") {
+                  user.label = user.email;
+                } else {
+                  user.label = user.label + " (" + user.email + ")";
+                }
+                user.value = user.id;
+                return user;
+              })}
+            />
+
+          <label className="mt-2">Vytvoril</label>
+              <Select
+                isMulti
+                options={this.props.users.map(user => {
+                  user.label =
+                    (user.name ? user.name : "") +
+                    " " +
+                    (user.surname ? user.surname : "");
+                  if (user.label === " ") {
+                    user.label = user.email;
+                  } else {
+                    user.label = user.label + " (" + user.email + ")";
+                  }
+                  user.value = user.id;
+                  return user;
+                })}
+              />
+
+          <label className="mt-2">Projekt</label>
+            <Select
+              options={this.props.projects.map(project => {
+                project.label = project.title;
+                project.value = project.id;
+                return project;
+              })}
+              isMulti
+              style={{ width: "100%" }}
+            />
+          <label className="mt-1">Follower</label>
+            <Select
+              isMulti
+              options={this.props.users.map(user => {
+                user.label =
+                  (user.name ? user.name : "") +
+                  " " +
+                  (user.surname ? user.surname : "");
+                if (user.label === " ") {
+                  user.label = user.email;
+                } else {
+                  user.label = user.label + " (" + user.email + ")";
+                }
+                user.value = user.id;
+                return user;
+              })}
+            />
+          <label className="mt-2">Tags</label>
+            <Select
+              options={this.props.tags.map(tag => {
+                tag.label = tag.title;
+                tag.value = tag.id;
+                return tag;
+              })}
+              isMulti
+              style={{ width: "100%" }}
+            />
+
+            <label className="mt-2">Created</label>
+
+            <div className="d-flex flex-row justify-content-between fromToDates">
+              <DatePicker
+                onChange={e => {
+                  this.setState({createdFrom:e});
+                }}
+                locale="en-gb"
+                placeholderText="From"
+                selected={this.state.createdFrom}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                dateFormat="DD.MM.YYYY HH:mm"
+              />
+              <DatePicker
+                onChange={e => {
+                  this.setState({createdTo:e});
+                }}
+                style={{marginLeft:'10%'}}
+                locale="en-gb"
+                placeholderText="To"
+                selected={this.state.createdTo}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                dateFormat="DD.MM.YYYY HH:mm"
+              />
+            </div>
+
+            <label className="mt-2">Started</label>
+
+            <div className="d-flex flex-row justify-content-between fromToDates">
+              <DatePicker
+                onChange={e => {
+                  this.setState({startedFrom:e});
+                }}
+                locale="en-gb"
+                placeholderText="From"
+                selected={this.state.startedFrom}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                dateFormat="DD.MM.YYYY HH:mm"
+              />
+              <DatePicker
+                onChange={e => {
+                  this.setState({startedTo:e});
+                }}
+                style={{marginLeft:'10%'}}
+                locale="en-gb"
+                placeholderText="To"
+                selected={this.state.startedTo}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                dateFormat="DD.MM.YYYY HH:mm"
+              />
+            </div>
+
+
+          <label className="mt-2">Deadline</label>
+            <div className="d-flex flex-row justify-content-between fromToDates">
+              <DatePicker
+                onChange={e => {
+                  this.setState({deadlineFrom:e});
+                }}
+                locale="en-gb"
+                placeholderText="From"
+                selected={this.state.deadlineFrom}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                dateFormat="DD.MM.YYYY HH:mm"
+              />
+              <DatePicker
+                onChange={e => {
+                  this.setState({deadlineTo:e});
+                }}
+                style={{marginLeft:'10%'}}
+                locale="en-gb"
+                placeholderText="To"
+                selected={this.state.deadlineTo}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                dateFormat="DD.MM.YYYY HH:mm"
+              />
+            </div>
+
+
+          <label className="mt-2">Closed</label>
+            <div className="d-flex flex-row justify-content-between fromToDates">
+              <DatePicker
+                onChange={e => {
+                  this.setState({closedFrom:e});
+                }}
+                locale="en-gb"
+                placeholderText="From"
+                selected={this.state.closedFrom}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                dateFormat="DD.MM.YYYY HH:mm"
+              />
+              <DatePicker
+                onChange={e => {
+                  this.setState({closedTo:e});
+                }}
+                style={{marginLeft:'10%'}}
+                locale="en-gb"
+                placeholderText="To"
+                selected={this.state.closedTo}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                dateFormat="DD.MM.YYYY HH:mm"
+              />
+            </div>
+            <div className="form-check" style={{marginTop:10}}>
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  checked={this.state.archived}
+                  onChange={() => {
+                    this.setState({ archived: !this.state.archived });
+                  }}
+                  className="form-check-input"
+                />
+              Archived
+              </label>
+            </div>
+            <div className="form-check">
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  checked={this.state.important}
+                  onChange={() => {
+                    this.setState({ important: !this.state.important });
+                  }}
+                  className="form-check-input"
+                />
+              Important
+              </label>
+            </div>
+
         </div>
       </div>
     );
   }
 }
-
-const mapStateToProps = ({ tasksReducer, sidebarReducer, login }) => {
-  const { tasks, filterLinks } = tasksReducer;
-  const { sidebar } = sidebarReducer;
-  const { token } = login;
-  return {
-    tasks,
-    filters:
-      sidebar[sidebar.findIndex(item => item.name === "filters")].children,
-    numberOfPages: filterLinks.numberOfPages,
-    token
-  };
+const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesReducer, tagsReducer }) => {
+  const { taskProjects } = tasksReducer;
+  const {taskStatuses} = statusesReducer;
+  const {users} = usersReducer;
+  const { taskCompanies } = companiesReducer;
+  const { tags } = tagsReducer;
+  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags};
 };
 
-export default connect(mapStateToProps, { getFilteredTasks })(Project);
+
+export default connect(mapStateToProps, {})(Filter);

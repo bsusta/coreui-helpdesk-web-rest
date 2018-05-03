@@ -148,7 +148,7 @@ class EditTask extends Component {
     }
     let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
     if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||
-      state.title===''){
+      state.title===''||state.requestedBy.id===undefined||state.company.id===undefined){
       this.setState({submitError:true});
       return;
     }
@@ -206,7 +206,7 @@ class EditTask extends Component {
     return (
       <div>
         <Card>
-          <CardHeader>
+          <CardHeader style={{display:'flex'}}>
             <button className="btn btn-link" onClick={this.props.history.goBack}>
               <i className="fa fa-close" /> {i18n.t('close')}
             </button>
@@ -220,6 +220,7 @@ class EditTask extends Component {
             <button className="btn btn-link" onClick={this.delete.bind(this)}>
               <i className="fa fa-trash" /> {i18n.t('delete')}
             </button>
+            {this.state.submitError && <span><h5 style={{color:'red'}}>{i18n.t('restrictionTaskWontSave')}</h5></span>}
           </CardHeader>
           <CardBody>
             <div
@@ -281,10 +282,9 @@ class EditTask extends Component {
                   }) {timestampToString(this.props.task.createdAt)}
                 </label>
               </div>
-              {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTaskTitle')}</label>}
+              {/*this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTaskTitle')}</label>*/}
             </div>
             <div>
-            {this.state.submitError && <h5 style={{color:'red'}}>{i18n.t('restrictionTaskWontSave')}</h5>}
 
             <div className="row">
               <div className="col-8" style={{ borderRight: "1px solid #eee" }}>
@@ -516,7 +516,7 @@ class EditTask extends Component {
 
                   <FormGroup>
                     <label htmlFor="requester" className="req">{i18n.t('requester')}</label>
-                    <InputGroup>
+                    <InputGroup className={this.state.requestedBy.id===undefined?"fieldError":""}>
                       <InputGroupAddon>
                         <i className="fa fa-user-o" />
                       </InputGroupAddon>
@@ -541,11 +541,12 @@ class EditTask extends Component {
                         }}
                       />
                     </InputGroup>
+                    {this.state.requestedBy.id===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
                   </FormGroup>
 
                   <FormGroup>
                     <label htmlFor="company" className="req">{i18n.t('company')}</label>
-                    <InputGroup>
+                    <InputGroup className={this.state.company.id===undefined?"fieldError":""}>
                       <InputGroupAddon>
                         <i className="fa fa-building-o" />
                       </InputGroupAddon>
@@ -562,6 +563,7 @@ class EditTask extends Component {
                         }}
                       />
                     </InputGroup>
+                    {this.state.company.id===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
                   </FormGroup>
 
                   <FormGroup>
@@ -817,7 +819,7 @@ class EditTask extends Component {
                     switch (attribute.type) {
                       case "input":
                         return (
-                          <div className="form-group" key={attribute.id}>
+                          <div className={"form-group"+( attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')} key={attribute.id} >
                             <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <input
                               className="form-control"
@@ -831,12 +833,12 @@ class EditTask extends Component {
                               }}
                               placeholder={"Enter " + attribute.title}
                             />
-                          {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
+                          {attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                           </div>
                         );
                       case "text_area":
                         return (
-                          <div className="form-group" key={attribute.id}>
+                          <div className={"form-group"+( attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')} key={attribute.id}>
                             <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <textarea
                               className="form-control"
@@ -850,7 +852,7 @@ class EditTask extends Component {
                               }}
                               placeholder={"Enter " + attribute.title}
                             />
-                            {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
+                          {attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                           </div>
                         );
                       case "simple_select":
@@ -954,7 +956,7 @@ class EditTask extends Component {
                       }
                       case "date":
                         return (
-                          <div className="form-group" key={attribute.id}>
+                          <div className={"form-group"+(attribute.required && this.state.task_data[attribute.id] ===null ?' fieldError':'')} key={attribute.id}>
                             <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <DatePicker
                               selected={this.state.task_data[attribute.id]}
@@ -971,12 +973,12 @@ class EditTask extends Component {
                               timeIntervals={30}
                               dateFormat="DD.MM.YYYY HH:mm"
                             />
-                          {attribute.required && this.state.task_data[attribute.id] ===null&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
+                          {attribute.required && this.state.task_data[attribute.id] ===null&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                           </div>
                         );
                       case "decimal_number":
                         return (
-                          <div className="form-group" key={attribute.id}>
+                          <div className={"form-group"+( attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')} key={attribute.id}>
                             <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <input
                               className="form-control"
@@ -991,12 +993,12 @@ class EditTask extends Component {
                               }}
                               placeholder={i18n.t('select') + attribute.title}
                             />
-                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label>}
+                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
                           </div>
                         );
                       case "integer_number":
                         return (
-                          <div className="form-group" key={attribute.id}>
+                          <div className={"form-group"+(attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')} key={attribute.id}>
                             <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
                             <input
                               className="form-control"
@@ -1011,7 +1013,7 @@ class EditTask extends Component {
                               }}
                               placeholder={i18n.t('select') + attribute.title}
                             />
-                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label>}
+                          {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
                           </div>
                         );
                       case "checkbox":

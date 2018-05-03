@@ -12,6 +12,7 @@ import SidebarMinimizer from "./../SidebarMinimizer";
 import MessagesDropdown from "./MessagesDropdown";
 import {logoutUser} from '../../redux/actions';
 import { connect } from "react-redux";
+import i18n from 'i18next';
 
 class Header extends Component {
 
@@ -64,7 +65,7 @@ class Header extends Component {
           style={{ color: "white" }}
           onClick={()=>this.props.history.push('/task/add')}
         >
-          Add task
+          {i18n.t('addTask')}
         </button>
 
         <Nav className="ml-auto" navbar>

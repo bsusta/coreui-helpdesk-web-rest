@@ -22,6 +22,7 @@ import commentsReducer from './reducers/commentsReducer';
 import commentAttachmentsReducer from './reducers/commentAttachmentsReducer';
 import followersReducer from './reducers/followersReducer';
 import loadingReducer from './reducers/loadingReducer';
+import filtersReducer from './reducers/filtersReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -44,7 +45,8 @@ const reducers = combineReducers({
     commentsReducer,
     commentAttachmentsReducer,
     followersReducer,
-    loadingReducer
+    loadingReducer,
+    filtersReducer
   });
 
 const enhancers = compose(

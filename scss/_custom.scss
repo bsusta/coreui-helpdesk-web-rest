@@ -8,7 +8,8 @@
 }
 
 .filterDivInside {
-  padding-bottom: 35px;
+  padding-bottom: 100px;
+  margin-bottom: 100px;
   padding: 0;
   padding-top: 20px;
   padding-right: 15px;
@@ -143,4 +144,19 @@
     color: #e32;
     content: ' *';
     display:inline;
+}
+
+.fieldError{
+  margin-bottom:0;
+  padding-bottom:0;
+}
+
+.fieldError input{
+  border-color: red;
+}
+.fieldError div{
+  border-color: red;
+}
+.fieldError .input-group-addon{
+  border-color: white;
 }
