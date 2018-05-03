@@ -116,6 +116,7 @@
   margin-left: auto;
   margin-right: auto;
   background-color: white;
+  margin-top: 50px;
 }
 
 .card {
@@ -134,16 +135,22 @@
   padding-top: 20px;
 }
 
-.smallCard{
+.smallCard {
   min-width: 0;
 }
 .req {
-    font-weight: bold;
+  font-weight: bold;
 }
 .req:after {
-    color: #e32;
-    content: ' *';
-    display:inline;
+  color: #e32;
+  content: " *";
+  display: inline;
+}
+
+.card-header {
+  position: fixed;
+  width: 100%;
+  z-index: 1020;
 }
 
 .fieldError{
