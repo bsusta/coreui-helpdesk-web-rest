@@ -499,6 +499,7 @@ class EditTask extends Component {
                         <i className="fa fa-user-o" />
                       </InputGroupAddon>
                       <Select
+                      className="fullWidth"
                         options={this.props.users.map(user => {
                           user.label =
                             (user.name ? user.name : "") +
@@ -529,7 +530,8 @@ class EditTask extends Component {
                         <i className="fa fa-building-o" />
                       </InputGroupAddon>
                       <Select
-                        options={this.props.companies.map(company => {
+                          className="fullWidth"
+                          options={this.props.companies.map(company => {
                           company.label = company.title;
                           company.value = company.id;
                           return company;
