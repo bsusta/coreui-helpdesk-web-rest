@@ -895,7 +895,7 @@ class EditTask extends Component {
                                 this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
-                              placeholder={"Enter " + attribute.title}
+                              placeholder={i18n.t('enter')+" " + attribute.title}
                             />
                           {attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                           </div>
@@ -914,7 +914,7 @@ class EditTask extends Component {
                                 this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
-                              placeholder={"Enter " + attribute.title}
+                              placeholder={i18n.t('enter')+" " + attribute.title}
                             />
                           {attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                           </div>
@@ -1060,7 +1060,7 @@ class EditTask extends Component {
                                 this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
-                              placeholder={i18n.t("select") + attribute.title}
+                              placeholder={i18n.t('enter')+" " + attribute.title}
                             />
                           {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
                           </div>
@@ -1080,7 +1080,7 @@ class EditTask extends Component {
                                 this.autoSubmit("task_data", newData);
                                 this.setState({ task_data: newData });
                               }}
-                              placeholder={i18n.t("select") + attribute.title}
+                              placeholder={i18n.t('enter')+" " + attribute.title}
                             />
                           {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
                           </div>

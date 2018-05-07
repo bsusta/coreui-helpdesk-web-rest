@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setFilter } from "../../redux/actions";
-import Filter from './FilterLoader';
+import { loadUnsavedFilter } from "../../redux/actions";
+import FilterLoader from './FilterLoader';
 import {
   Row,
   Col,
@@ -27,7 +27,7 @@ import Pagination from "../../components/pagination";
 import { timestampToString } from "../../helperFunctions";
 import i18n from 'i18next';
 
-class Project extends Component {
+class Filter extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +56,7 @@ class Project extends Component {
     return (
       <div className="table-div row">
         <div className="col-4" style={{display:this.state.displayFilter?'block':'none'}}>
-          <Filter/>
+          <FilterLoader/>
         </div>
         <div className={this.state.displayFilter?"col-8":''}>
           <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.setState({displayFilter:!this.state.displayFilter})} />
@@ -145,14 +145,14 @@ class Project extends Component {
             </tbody>
           </table>
           <Pagination
-            link={"project/" + this.props.match.params.id}
-            history={this.props.history}
+            link={""}
+            history={{push:()=>{}}}
             numberOfPages={this.props.numberOfPages}
-            refetchData={this.props.getProjectTasks}
+            refetchData={this.props.loadUnsavedFilter}
             token={this.props.token}
-            refetchParameters={[parseInt(this.props.match.params.id, 10)]}
+            refetchParameters={[this.props.body,this.props.originalBody]}
             pageNumber={this.state.pageNumber}
-            setPageNumber={this.setPage.bind(this)}
+            setPageNumber={(pageNumber)=>this.setState({pageNumber})}
             paginationOptions={[
               { title: 20, value: 20 },
               { title: 50, value: 50 },
@@ -170,13 +170,16 @@ class Project extends Component {
   }
 }
 
-const mapStateToProps = ({ filtersReducer, login }) => {
-  const { tasks } = filtersReducer;
+const mapStateToProps = ({ filtersReducer,  login }) => {
+  const { tasks,numberOfPages, body,originalBody } = filtersReducer;
   const { token } = login;
   return {
     tasks,
-    token
+    token,
+    numberOfPages,
+    body,
+    originalBody
   };
 };
 
-export default connect(mapStateToProps, { setFilter })(Project);
+export default connect(mapStateToProps, { loadUnsavedFilter })(Filter);

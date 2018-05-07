@@ -57,7 +57,7 @@ class TagEdit extends Component {
             className="btn btn-link"
             onClick={this.submit.bind(this)}
           >
-            {i18n.t('save')}
+            {i18n.t('saved')}
           </button>
           <button
             type="button"

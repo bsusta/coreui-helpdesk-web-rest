@@ -79,7 +79,7 @@ class ProjectAdd extends Component {
               style={{ color: "white", marginLeft: 5 }}
               onClick={this.submit.bind(this)}
             >
-              {i18n.t('save')}
+              {i18n.t('saved')}
             </button>
           </div>
         </div>

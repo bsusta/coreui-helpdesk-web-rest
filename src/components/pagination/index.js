@@ -10,6 +10,8 @@ export default class Pag extends Component {
     this.refetch.bind(this);
   }
   refetch(pagination,pageNumber){
+    console.log('refetching');
+    console.log(this.props.refetchData);
       this.props.refetchData(pagination, pageNumber,this.props.token,...this.props.refetchParameters);
   }
 
@@ -42,7 +44,7 @@ export default class Pag extends Component {
                 Prev
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem active={1==this.props.pageNumber}>
+            <PaginationItem active={1===this.props.pageNumber||0===this.props.pageNumber}>
               <PaginationLink href={"/"+this.props.link+"/1,"+this.state.pagination}
                 onClick={(e)=>{
                   e.preventDefault();

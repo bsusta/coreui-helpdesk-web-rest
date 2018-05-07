@@ -712,7 +712,7 @@ deleteFollower
                                       newData[attribute.id] = e.target.value;
                                       this.setState({ task_data: newData });
                                     }}
-                                    placeholder={"Enter " + attribute.title}
+                                    placeholder={i18n.t('enter')+" " + attribute.title}
                                     />
                                   {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                                 </div>
@@ -730,7 +730,7 @@ deleteFollower
                                       newData[attribute.id] = e.target.value;
                                       this.setState({ task_data: newData });
                                     }}
-                                    placeholder={"Enter " + attribute.title}
+                                    placeholder={i18n.t('enter')+" " + attribute.title}
                                     />
                                   {attribute.required && this.state.task_data[attribute.id] ===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label>}
                                 </div>

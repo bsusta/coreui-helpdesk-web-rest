@@ -36,7 +36,6 @@ class FilterLoader extends Component {
     this.props.getTags(this.props.token);
     this.props.getUnits(this.props.token);
     this.props.getUsers("",this.props.token);
-    console.log('LALA');
   }
 
   render(){

@@ -22,6 +22,74 @@ export const areObjectsSame = (object1, object2) => {
   return true;
 }
 
+export const processRESTinput = (input)=>{
+  if(!input){
+    return '';
+  }
+  let result='';
+  Object.keys(input).map((item)=>{
+    if(item && input[item] && input[item]!='' ){
+      result+=(item+'='+input[item]+'&');
+    }
+  });
+  return result.substring(0,result.length-1);
+}
+
+export const processCustomFilterAttributes = (savedAttributes,originalAttributes) => {
+  for (let key in savedAttributes) {
+    let attribute = originalAttributes[originalAttributes.findIndex(item => item.id == key)]; //from ID find out everything about the field
+    switch (attribute.type) {
+      case "multi_select": {
+        let newMulti = [];
+        savedAttributes[key].map(item =>
+          newMulti.push(attribute.options[parseInt(item)])
+        );
+        savedAttributes[key] = JSON.stringify(newMulti);
+        break;
+      }
+      case "simple_select": {
+        let values = "";
+        savedAttributes[key].map((item)=>values=values+item.label+',');
+        savedAttributes[key]=values.substring(0,values.length-1);
+        break;
+      }
+      case "date":{ //date should be formatted into miliseconds since 1970, divided by 1000 because of PHP/Javascript difference
+        savedAttributes[key] = savedAttributes[key] === null ?  "null":Math.ceil(savedAttributes[key].valueOf() / 1000);
+          break;
+        }
+      case "checkbox":{
+        savedAttributes[key] = savedAttributes[key]?"true":"false";
+        break;
+      }
+      case "input":
+        if (savedAttributes[key] === "") {
+          savedAttributes[key] = "null";
+        }
+        break;
+      case "text_area":
+        if (savedAttributes[key] === "") {
+          savedAttributes[key] = "null";
+        }
+        break;
+        break;
+      case "decimal_number":
+        if (isNaN(parseFloat(savedAttributes[key]))) {
+          savedAttributes[key] = "null";
+        }
+        break;
+      case "integer_number":
+        if (isNaN(parseFloat(savedAttributes[key]))) {
+          savedAttributes[key] = "null";
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  return savedAttributes;
+}
+
+
 export const processCustomAttributes = (savedAttributes,originalAttributes) => {
   for (let key in savedAttributes) {
     let attribute = originalAttributes[originalAttributes.findIndex(item => item.id == key)]; //from ID find out everything about the field
