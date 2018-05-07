@@ -508,7 +508,7 @@ class EditTask extends Component {
                           if (user.label === " ") {
                             user.label = user.email;
                           } else {
-                            user.label = user.label + " (" + user.email + ")";
+                            user.label = user.label ;
                           }
                           user.value = user.id;
                           return user;
