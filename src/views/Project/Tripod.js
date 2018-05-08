@@ -77,7 +77,7 @@ class Project extends Component {
                   color: "#43A3D6",
                   fontSize:'2em',
                 }}
-                onClick={this.props.setTripod}
+                onClick={()=>{this.props.setTripod();this.props.history.push('/project/'+this.props.match.params.id);}}
                 />
               <a
                 href={(this.props.project.canEdit?"#/project/edit/":"#/project/info/") + parseInt(this.props.match.params.id, 10)}
@@ -96,7 +96,7 @@ class Project extends Component {
               {this.props.tasks.map(task => (
                   <li className="list-group-item" style={{cursor:'pointer'}} key={task.id} onClick={()=>{
                       this.setState({taskID:task.id});
-
+                      this.props.history.push('/project/'+this.props.match.params.id+'/'+task.id);
                       setTimeout(()=>this.props.setTaskID(task.id), 30);
                     }}>
                     <h5>{task.title}</h5>

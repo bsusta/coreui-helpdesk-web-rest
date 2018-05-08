@@ -9,7 +9,7 @@ import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, 
 import {addFollower} from './followerActions';
 import {addItem} from './itemActions';
 import {addSubtask} from './subtaskActions';
-
+import {clearAttachments} from './attachmentActions';
 /**
  * Sets status if tasks are loaded to false
  */
@@ -153,6 +153,7 @@ export const startTagTasksLoading = () => {
  */
 export const getTask = (id,token) => {
   return (dispatch) => {
+      clearAttachments()(dispatch);
       fetch(TASKS_LIST+'/'+id, {
         method: 'get',
         headers: {
@@ -282,11 +283,12 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
           'Content-Type': 'application/json'
         },
         body:JSON.stringify(data)
-      }).catch(function (error) {
+      }).then((response)=>response.json().then((data)=>{
+        dispatch({ type: EDIT_TASK, task:data.data });
+      })).catch(function (error) {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
         console.log(error);
       });
-
     }
     else if(requesterID && !companyID){
       fetch(TASKS_LIST+'/'+taskID+'/project/'+projectID+'/status/'+statusID+'/requester/'+requesterID, {
@@ -296,7 +298,9 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
           'Content-Type': 'application/json'
         },
         body:JSON.stringify(data)
-      }).catch(function (error) {
+      }).then((response)=>response.json().then((data)=>{
+        dispatch({ type: EDIT_TASK, task:data.data });
+      })).catch(function (error) {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
         console.log(error);
       });
@@ -310,7 +314,9 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
           'Content-Type': 'application/json'
         },
         body:JSON.stringify(data)
-      }).catch(function (error) {
+      }).then((response)=>response.json().then((data)=>{
+        dispatch({ type: EDIT_TASK, task:data.data });
+      })).catch(function (error) {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
         console.log(error);
       });
@@ -324,7 +330,9 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
           'Content-Type': 'application/json'
         },
         body:JSON.stringify(data)
-      }).catch(function (error) {
+      }).then((response)=>response.json().then((data)=>{
+        dispatch({ type: EDIT_TASK, task:data.data });
+      })).catch(function (error) {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
         console.log(error);
       });

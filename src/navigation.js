@@ -322,6 +322,12 @@ class Full extends Component {
                 />
                 <Route
                   exact
+                  path="/project/:id/:task"
+                  name="Projects"
+                  component={Project}
+                />
+                <Route
+                  exact
                   path="/project/:id"
                   name="Projects"
                   component={Project}

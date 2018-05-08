@@ -222,7 +222,8 @@ class EditTask extends Component {
     return (
       <div>
         <Card>
-          <CardHeader>
+          <CardHeader className="row">
+            <div>
             <button
               className="btn btn-link"
               onClick={this.props.history.goBack}
@@ -242,6 +243,7 @@ class EditTask extends Component {
             <button className="btn btn-link" onClick={this.delete.bind(this)}>
               <i className="fa fa-trash" /> {i18n.t("delete")}
             </button>
+          </div>
             {this.state.submitError && <span><h5 style={{color:'red'}}>{i18n.t('restrictionTaskWontSave')}</h5></span>}
           </CardHeader>
           <CardBody style={this.state.submitError?{marginTop:75}:{}}>
@@ -499,6 +501,7 @@ class EditTask extends Component {
                         <i className="fa fa-user-o" />
                       </InputGroupAddon>
                       <Select
+                        className="fullWidth"
                         options={this.props.users.map(user => {
                           user.label =
                             (user.name ? user.name : "") +
@@ -529,6 +532,7 @@ class EditTask extends Component {
                         <i className="fa fa-building-o" />
                       </InputGroupAddon>
                       <Select
+                        className="fullWidth"
                         options={this.props.companies.map(company => {
                           company.label = company.title;
                           company.value = company.id;

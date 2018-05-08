@@ -46,7 +46,7 @@ class Subtasks extends Component {
           </thead>
           <tbody>
             {this.props.subtasks.map(subtask => (
-              <tr>
+              <tr key={subtask.id}>
                 <td style={{ border: "0px" }}>
                   <div style={{ display: "flex" }}>
                     <input

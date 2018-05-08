@@ -1,4 +1,4 @@
-import { ADD_ATTACHMENT, DELETE_ATTACHMENT,EDIT_ATTACHMENT,LOGIN_LOGOUT } from '../types'
+import { ADD_ATTACHMENT, DELETE_ATTACHMENT,EDIT_ATTACHMENT,LOGIN_LOGOUT,CLEAR_ATTACHMENTS  } from '../types'
 
 const initialState = {
   attachments:[],
@@ -20,6 +20,9 @@ export default function attachmentsReducer(state = initialState, action) {
       let newAttachments=state.attachments;
       newAttachments.splice(newAttachments.findIndex((attachment)=>attachment.id===action.id),1);
       return { ...state, attachments:[...newAttachments] };
+    }
+    case CLEAR_ATTACHMENTS:{
+      return {...initialState};
     }
     default:
       return state;

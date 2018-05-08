@@ -188,13 +188,13 @@ class EditTask extends Component {
       {
         title: state.title,
         closedAt,
-        description: state.description.toString("html"),
+        description: state.description.toString("html")===''?'null':state.description.toString("html"),
         deadline:
           state.deadline !== null ? state.deadline.valueOf() / 1000 : "null",
         startedAt:
           state.startedAt !== null ? state.startedAt.valueOf() / 1000 : "null",
         important: state.important,
-        work: state.work,
+        work: state.work===''?'null':state.work,
         workTime: state.workTime.length == 0 ? undefined : state.workTime,
         tag: JSON.stringify(tags),
         assigned:
@@ -222,7 +222,8 @@ class EditTask extends Component {
     return (
       <div>
         <Card>
-          <CardHeader>
+          <CardHeader className="row">
+            <div>
             <button
               className="btn btn-link"
               onClick={this.props.history.goBack}
@@ -242,7 +243,8 @@ class EditTask extends Component {
             <button className="btn btn-link" onClick={this.delete.bind(this)}>
               <i className="fa fa-trash" /> {i18n.t("delete")}
             </button>
-            {this.state.submitError && <span><h5 style={{color:'red'}}>{i18n.t('restrictionTaskWontSave')}</h5></span>}
+          </div>
+            {this.state.submitError && <span><h5 style={{color:'red'}}> {i18n.t('restrictionTaskWontSave')}</h5></span>}
           </CardHeader>
           <CardBody>
             <div

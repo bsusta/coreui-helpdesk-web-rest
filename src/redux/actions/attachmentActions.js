@@ -1,4 +1,4 @@
-import { SET_ATTACHMENTS, ADD_ATTACHMENT, SET_ATTACHMENTS_LOADING, DELETE_ATTACHMENT, EDIT_ATTACHMENT } from '../types'
+import { SET_ATTACHMENTS, ADD_ATTACHMENT, SET_ATTACHMENTS_LOADING, DELETE_ATTACHMENT, EDIT_ATTACHMENT,CLEAR_ATTACHMENTS } from '../types'
 import { UPLOAD_FILE,GET_LOC, GET_FILE } from '../urls';
 
 
@@ -54,5 +54,11 @@ export const uploadFile = (file,token) => {
 export const removeFile = (id,token) => {
   return (dispatch) => {
     dispatch({ type: DELETE_ATTACHMENT, id });
+  }
+};
+
+export const clearAttachments = () => {
+  return (dispatch) => {
+    dispatch({ type: CLEAR_ATTACHMENTS });
   }
 };

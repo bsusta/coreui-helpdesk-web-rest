@@ -55,9 +55,13 @@ export default function tasksReducer(state = initialState, action) {
     case CLEAR_TASK:
       return { ...state, task:null };
     case EDIT_TASK:{
-      //finds location of the current task and replaces it with newer version
+      //finds location of the current task and replaces it with newer
       let newTasks=[...state.tasks];
-      newTasks[newTasks.findIndex((task)=>task.id==action.task.id)]=action.task;
+      let index =newTasks.findIndex((task)=>task.id==action.task.id);
+      if(index===-1){
+        return state;
+      }
+      newTasks[index]=action.task;
       return { ...state, tasks:newTasks };
     }
     case SET_TASK_PROJECTS:

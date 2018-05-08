@@ -32,7 +32,7 @@ class Project extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tripod: false
+      tripod: this.props.match.params.task?true:false,
     };
     this.setTripod.bind(this);
   }
