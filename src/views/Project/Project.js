@@ -54,6 +54,7 @@ class Project extends Component {
   render() {
     return (
       <div className="table-div">
+      <div className="justify-content-between row table-div">
         <h2>
           {
             this.props.projects[
@@ -61,19 +62,30 @@ class Project extends Component {
                 project.url.includes(this.props.match.params.id)
               )
             ].name
-          }{" "}
-          <a
-            href={(this.props.project.canEdit?"#/project/edit/":"#/project/info/") + parseInt(this.props.match.params.id, 10)}
-            className="fa fa-info-circle fa-lg"
+          }
+          </h2>
+          <div>
+          <i className="fa fa-columns"
             style={{
               border: "none",
-              backgroundColor: "white",
+              color:"grey",
+              fontSize:'2em',
+            }}
+            onClick={this.props.setTripod}
+          />
+          <a
+            href={(this.props.project.canEdit?"#/project/edit/":"#/project/info/") + parseInt(this.props.match.params.id, 10)}
+            className="fa fa-info-circle"
+            style={{
+              border: "none",
               color: "grey",
-              textDecoration: "none"
+              textDecoration: "none",
+              fontSize:'2em',
+              marginLeft:5,
             }}
           />
-        </h2>
-
+          </div>
+        </div>
         <div>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">

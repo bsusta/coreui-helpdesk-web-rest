@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getProjectTasks, startProjectTasksLoading,clearErrorMessage,startProjectLoading,getProject } from '../../redux/actions';
+import {getProjectTasks, startProjectTasksLoading,clearErrorMessage,startProjectLoading,getProject,  } from '../../redux/actions';
 import Loading from '../../components/Loading';
-import Project from './Project';
+import Project from './ProjectContainer';
 
 class ProjectLoader extends Component {
   constructor(props){

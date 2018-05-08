@@ -17,14 +17,17 @@ export default class Pag extends Component {
 
   render() {
     return (
+      <div>
       <div className="row">
+        { !this.props.small && (
         <div className="col">
-          <Pagination>
-            <PaginationItem style={{ margin: 5 }}>
-              Page {this.props.pageNumber} of {this.props.numberOfPages}
-            </PaginationItem>
-          </Pagination>
+             <Pagination>
+              <PaginationItem style={{ margin: 5 }}>
+                Page {this.props.pageNumber} of {this.props.numberOfPages}
+              </PaginationItem>
+            </Pagination>
         </div>
+      )}
         <div className="col">
           <Pagination className="justify-content-center">
             <PaginationItem>
@@ -179,7 +182,8 @@ export default class Pag extends Component {
             </PaginationItem>
           </Pagination>
         </div>
-        <div className="col">
+
+        {!this.props.small && <div className="col">
           <Pagination className="float-right">
             <PaginationItem style={{ margin: 5 }}>
               Items per page
@@ -206,7 +210,48 @@ export default class Pag extends Component {
               </select>
             </PaginationItem>
           </Pagination>
+        </div>}
+      </div>
+      <div className="row">
+        { this.props.small && (
+        <div style={{marginLeft:'auto'}}>
+             <Pagination>
+              <PaginationItem style={{ margin: 5 }}>
+                Page {this.props.pageNumber} of {this.props.numberOfPages}
+              </PaginationItem>
+            </Pagination>
         </div>
-      </div>)
+      )}
+      {this.props.small && <div style={{marginRight:'auto', marginLeft:90}}>
+        <Pagination className="float-right">
+          <PaginationItem style={{ margin: 5 }}>
+            Items per page
+          </PaginationItem>
+          <PaginationItem style={{ marginRight: 10 }}>
+            <select
+              className="form-control"
+              id="project"
+              value={this.state.pagination}
+              onChange={(value)=>{
+                this.setState({pagination:value.target.value});
+                this.props.setPageNumber(1);
+                this.refetch(value.target.value,1);
+                this.props.history.push("/"+this.props.link+"/"+1+","+value.target.value);
+          }}
+              style={{ maxWidth: 70 }}
+
+            >
+              {this.props.paginationOptions.map(opt => (
+                <option key={opt.title} value={opt.value}>
+                  {opt.title}
+                </option>
+              ))}
+            </select>
+          </PaginationItem>
+        </Pagination>
+      </div>}
+
+      </div>
+    </div>)
   }
 }
