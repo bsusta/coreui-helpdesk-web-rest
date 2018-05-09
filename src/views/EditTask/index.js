@@ -14,6 +14,7 @@ class EditTaskLoader extends Component {
     super(props);
     this.state={
       randomFloat:Math.random(),
+      taskID:this.props.match.params.task?parseInt(this.props.match.params.task, 10):this.props.taskID,
     }
   }
   //before loader page is loaded, we send requests to get all available units
@@ -30,7 +31,7 @@ class EditTaskLoader extends Component {
     this.props.deleteTaskSolvers();
     this.props.startFollowersLoading();
 
-    this.props.getTask(parseInt(this.props.match.params.id, 10),this.props.token);
+    this.props.getTask(this.state.taskID,this.props.token);
     this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
     this.props.getTaskProjects(this.props.token);
     this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
@@ -38,7 +39,7 @@ class EditTaskLoader extends Component {
     this.props.getTags(this.props.token);
     this.props.getUnits(this.props.token);
     this.props.getUsers("",this.props.token);
-    this.props.getFollowers(parseInt(this.props.match.params.id, 10),this.props.token);
+    this.props.getFollowers(this.state.taskID,this.props.token);
   }
 
   render(){
@@ -47,7 +48,7 @@ class EditTaskLoader extends Component {
     !this.props.usersLoaded||!this.props.followersLoaded){
       return(<Loading errorID={this.state.errorID}/>)
     }
-    return <EditTask history={this.props.history} match={this.props.match}/>
+    return <EditTask history={this.props.history} match={this.props.match} taskID={this.state.taskID}/>
   }
 }
 

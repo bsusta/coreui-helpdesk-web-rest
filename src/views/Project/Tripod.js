@@ -25,7 +25,7 @@ import {
 import Pagination from "../../components/pagination";
 import { timestampToString } from "../../helperFunctions";
 import i18n from 'i18next';
-import EditTask from './EditTask';
+import EditTask from '../EditTask';
 
 class Project extends Component {
   constructor(props) {

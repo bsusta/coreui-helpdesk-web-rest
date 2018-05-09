@@ -371,7 +371,7 @@ class Full extends Component {
 
                 <Route
                   exact
-                  path="/task/edit/:id"
+                  path="/task/edit/:task"
                   name="Edit task"
                   component={EditTask}
                 />
