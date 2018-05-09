@@ -48,7 +48,6 @@ export const createFilter = (body,token) => {
        return;
      }
    response.json().then((data) => {
-     console.log(data);
      });
  }
   ).catch(function (error) {

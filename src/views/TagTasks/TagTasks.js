@@ -64,7 +64,7 @@ class Tag extends Component {
             />
         </h2>
 
-        <div className="card" style={{ border: "0px" }}>
+        <div>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
               <tr>

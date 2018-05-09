@@ -116,7 +116,7 @@ export const getSidebar = token => {
           data.projects.map(project =>
             projects.children.push({
               name: project.title,
-              url: "/project/" + project.id.toString(),
+              url: "/project/" + project.id.toString()+"/1,20",
               //icon: "icon-folder",
               badge: {
                 variant: "info",
@@ -140,7 +140,7 @@ export const getSidebar = token => {
           data.archived.map(project =>
             archived.children.push({
               name: project.title,
-              url: "/archived/" + project.id.toString(),
+              url: "/archived/" + project.id.toString()+"/1,20",
               //icon: "icon-folder",
               badge: {
                 variant: "info",

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getProjectTasks } from "../../redux/actions";
+import { getProjectTasks, setTripod } from "../../redux/actions";
 import {
   Row,
   Col,
@@ -29,11 +29,18 @@ import i18n from 'i18next';
 class Project extends Component {
   constructor(props) {
     super(props);
+    let unlisten= this.props.history.listen((location, action) => {
+      console.log("on route change");
+    });
     this.state = {
-      pageNumber: this.props.match.params.page
+      pageNumber: (this.props.match.params.page && this.props.tasks.length>0)
         ? parseInt(this.props.match.params.page, 10)
-        : 1
+        : (this.props.tasks.length>0?1:0),
+        unlisten
     };
+  }
+  componentWillUnmount(){
+      this.state.unlisten();
   }
 
   setPage(number) {
@@ -67,11 +74,12 @@ class Project extends Component {
           <div>
           <i className="fa fa-columns"
             style={{
+              cursor:'pointer',
               border: "none",
               color:"grey",
               fontSize:'2em',
             }}
-            onClick={this.props.setTripod}
+            onClick={()=>this.props.setTripod(true)}
           />
           <a
             href={(this.props.project.canEdit?"#/project/edit/":"#/project/info/") + parseInt(this.props.match.params.id, 10)}
@@ -213,4 +221,4 @@ const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer, login }
   };
 };
 
-export default connect(mapStateToProps, { getProjectTasks })(Project);
+export default connect(mapStateToProps, { getProjectTasks, setTripod })(Project);

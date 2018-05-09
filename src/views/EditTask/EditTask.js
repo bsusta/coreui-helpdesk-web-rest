@@ -12,9 +12,9 @@ import {
   Input,
   FormGroup
 } from "reactstrap";
-import CommentsLoader from "./CommentsLoader";
+import CommentsLoader from "./Comments";
 import AddComment from "./AddComment";
-import SubtasksLoader from "./SubtasksLoader";
+import SubtasksLoader from "./Subtasks";
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -222,7 +222,7 @@ class EditTask extends Component {
     return (
       <div>
         <Card>
-          <CardHeader className="row">
+          <CardHeader className="row justify-content-between" style={{margin:0,width:'inherit',position:'static',zIndex:1}}>
             <div>
               <button
                 className="btn btn-link"

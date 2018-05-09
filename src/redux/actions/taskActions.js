@@ -4,7 +4,7 @@ import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,
   SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING,
   DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHMENT,
-  SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID } from '../types';
+  SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID, SET_TRIPOD } from '../types';
 import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE } from '../urls';
 import {addFollower} from './followerActions';
 import {addItem} from './itemActions';
@@ -18,6 +18,13 @@ import {clearAttachments} from './attachmentActions';
      dispatch({ type: SET_TASKS_LOADING, tasksLoaded:false });
    }
  };
+
+ export const setTripod = (tripod) => {
+   return (dispatch) => {
+     dispatch({ type: SET_TRIPOD, tripod });
+   }
+ };
+
 
  export const setTaskID = (taskID) => {
    return (dispatch) => {

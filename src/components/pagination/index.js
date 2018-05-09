@@ -10,8 +10,6 @@ export default class Pag extends Component {
     this.refetch.bind(this);
   }
   refetch(pagination,pageNumber){
-    console.log('refetching');
-    console.log(this.props.refetchData);
       this.props.refetchData(pagination, pageNumber,this.props.token,...this.props.refetchParameters);
   }
 
@@ -30,7 +28,7 @@ export default class Pag extends Component {
       )}
         <div className="col">
           <Pagination className="justify-content-center">
-            <PaginationItem>
+            <PaginationItem className="paginationItem">
               <PaginationLink previous
                 onClick={(e)=>{
                   e.preventDefault();
@@ -47,28 +45,30 @@ export default class Pag extends Component {
                 Prev
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem active={1===this.props.pageNumber||0===this.props.pageNumber}>
-              <PaginationLink href={"/"+this.props.link+"/1,"+this.state.pagination}
-                onClick={(e)=>{
-                  e.preventDefault();
-                  this.props.history.push("/"+this.props.link+"/1,"+this.state.pagination);
-                  this.refetch(this.state.pagination,1);
-                  this.props.setPageNumber(1);
-                  }
-                }>{1}
-              </PaginationLink>
-            </PaginationItem>
+            { this.props.pageNumber>0 &&
+              <PaginationItem className="paginationItem" active={1===this.props.pageNumber}>
+                <PaginationLink href={"/"+this.props.link+"/1,"+this.state.pagination}
+                  onClick={(e)=>{
+                    e.preventDefault();
+                    this.props.history.push("/"+this.props.link+"/1,"+this.state.pagination);
+                    this.refetch(this.state.pagination,1);
+                    this.props.setPageNumber(1);
+                    }
+                  }>{1}
+                </PaginationLink>
+              </PaginationItem>
+            }
 
             {
               this.props.pageNumber>4 &&
-              <PaginationItem>
+              <PaginationItem className="paginationItem">
                 ...
               </PaginationItem>
             }
 
             {
               this.props.pageNumber>3 &&
-              <PaginationItem>
+              <PaginationItem className="paginationItem">
                 <PaginationLink href={"/"+this.props.link+"/"+(this.props.pageNumber-2)+","+this.state.pagination}
                   onClick={(e)=>{
                     e.preventDefault();
@@ -83,7 +83,7 @@ export default class Pag extends Component {
 
             {
               this.props.pageNumber>2 &&
-              <PaginationItem>
+              <PaginationItem className="paginationItem">
                 <PaginationLink href={"/"+this.props.link+"/"+(this.props.pageNumber-1)+","+this.state.pagination}
                   onClick={(e)=>{
                     e.preventDefault();
@@ -99,7 +99,7 @@ export default class Pag extends Component {
 
             {
               this.props.pageNumber!=1 && this.props.pageNumber!=this.props.numberOfPages &&
-              <PaginationItem active={true}>
+              <PaginationItem active={true} className="paginationItem">
                 <PaginationLink href={"/"+this.props.link+"/"+this.props.pageNumber+","+this.state.pagination}
                   onClick={(e)=>{
                     e.preventDefault();
@@ -113,7 +113,7 @@ export default class Pag extends Component {
 
             {
               this.props.numberOfPages-this.props.pageNumber>1 &&
-              <PaginationItem>
+              <PaginationItem className="paginationItem">
                 <PaginationLink href={"/"+this.props.link+"/"+(this.props.pageNumber+1)+","+this.state.pagination}
                   onClick={(e)=>{
                     e.preventDefault();
@@ -125,10 +125,9 @@ export default class Pag extends Component {
               </PaginationLink>
             </PaginationItem>
             }
-
             {
               this.props.numberOfPages-this.props.pageNumber>2 &&
-              <PaginationItem>
+              <PaginationItem className="paginationItem">
                 <PaginationLink href={"/"+this.props.link+"/"+(this.props.pageNumber+2)+","+this.state.pagination}
                   onClick={(e)=>{
                     e.preventDefault();
@@ -144,13 +143,13 @@ export default class Pag extends Component {
 
             {
               this.props.numberOfPages-this.props.pageNumber>3 &&
-              <PaginationItem>
+              <PaginationItem className="paginationItem">
                 ...
               </PaginationItem>
             }
             {
               (this.props.pageNumber!=1||this.props.numberOfPages!=this.props.pageNumber) &&
-              <PaginationItem active={this.props.numberOfPages==this.props.pageNumber}>
+              <PaginationItem active={this.props.numberOfPages==this.props.pageNumber} className="paginationItem">
                 <PaginationLink href={"/"+this.props.link+"/"+this.props.numberOfPages+","+this.state.pagination}
                   onClick={(e)=>{
                     e.preventDefault();
@@ -163,7 +162,7 @@ export default class Pag extends Component {
             </PaginationItem>
             }
 
-            <PaginationItem>
+            <PaginationItem className="paginationItem">
               <PaginationLink next
                 onClick={(e)=>{
                   e.preventDefault();
@@ -184,7 +183,7 @@ export default class Pag extends Component {
         </div>
 
         {!this.props.small && <div className="col">
-          <Pagination className="float-right">
+          <Pagination className="float-left">
             <PaginationItem style={{ margin: 5 }}>
               Items per page
             </PaginationItem>
@@ -212,17 +211,15 @@ export default class Pag extends Component {
           </Pagination>
         </div>}
       </div>
-      <div className="row">
+      <div className="row justify-content-between" style={{margin:0,padding:0}}>
         { this.props.small && (
-        <div style={{marginLeft:'auto'}}>
              <Pagination>
               <PaginationItem style={{ margin: 5 }}>
                 Page {this.props.pageNumber} of {this.props.numberOfPages}
               </PaginationItem>
             </Pagination>
-        </div>
       )}
-      {this.props.small && <div style={{marginRight:'auto', marginLeft:90}}>
+      {this.props.small &&
         <Pagination className="float-right">
           <PaginationItem style={{ margin: 5 }}>
             Items per page
@@ -234,7 +231,7 @@ export default class Pag extends Component {
               value={this.state.pagination}
               onChange={(value)=>{
                 this.setState({pagination:value.target.value});
-                this.props.setPageNumber(1);
+                this.props.setPageNumber(this.props.numberOfPages>0?1:0);
                 this.refetch(value.target.value,1);
                 this.props.history.push("/"+this.props.link+"/"+1+","+value.target.value);
           }}
@@ -248,8 +245,7 @@ export default class Pag extends Component {
               ))}
             </select>
           </PaginationItem>
-        </Pagination>
-      </div>}
+        </Pagination>}
 
       </div>
     </div>)

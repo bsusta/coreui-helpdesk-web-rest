@@ -183,7 +183,6 @@ export const addCommentsComment = (body,commentID,token) => {
       body:JSON.stringify(body),
     })
     .then((response)=>{
-      console.log(response);
       if(!response.ok){
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
         return;

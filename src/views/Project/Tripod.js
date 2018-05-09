@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getProjectTasks, setTaskID } from "../../redux/actions";
+import { getProjectTasks, setTaskID, setTripod } from "../../redux/actions";
 import {
   Row,
   Col,
@@ -31,9 +31,9 @@ class Project extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageNumber: this.props.match.params.page
+      pageNumber: (this.props.match.params.page && this.props.tasks.length>0)
         ? parseInt(this.props.match.params.page, 10)
-        : 1,
+        : (this.props.tasks.length>0?1:0),
         taskID:this.props.tasks.length>0?this.props.tasks[0].id:null,
     };
     if(this.props.tasks.length>0){
@@ -58,8 +58,8 @@ class Project extends Component {
 
   render() {
     return (
-      <div className="table-div row">
-        <div style={{overflowY:'scroll',height:'90vh', overflowX:'hide'}} className='col-4'>
+      <div className="row">
+        <div style={{overflowY:'scroll',height:'calc(100vh - 55px)',paddingRight:0, overflowX:'hidden'}} className='col-4'>
           <div className="justify-content-between row table-div">
             <h2>
               {
@@ -76,8 +76,9 @@ class Project extends Component {
                   border: "none",
                   color: "#43A3D6",
                   fontSize:'2em',
+                  cursor:'pointer',
                 }}
-                onClick={()=>{this.props.setTripod();this.props.history.push('/project/'+this.props.match.params.id);}}
+                onClick={()=>{this.props.setTripod(false);this.props.history.push('/project/'+this.props.match.params.id+'/'+this.props.match.params.page+','+this.props.match.params.count);}}
                 />
               <a
                 href={(this.props.project.canEdit?"#/project/edit/":"#/project/info/") + parseInt(this.props.match.params.id, 10)}
@@ -92,15 +93,15 @@ class Project extends Component {
                 />
             </div>
           </div>
-          <ul className="list-group" style={{}}>
+          <ul className="list-group" style={{paddingBottom:'1em'}}>
               {this.props.tasks.map(task => (
-                  <li className="list-group-item" style={{cursor:'pointer'}} key={task.id} onClick={()=>{
+                  <li className={"list-group-item"+(task.id===this.props.taskID?" active":"")} style={{cursor:'pointer',borderLeft:'none',borderRight:'none'}} key={task.id} onClick={()=>{
                       this.setState({taskID:task.id});
-                      this.props.history.push('/project/'+this.props.match.params.id+'/'+task.id);
+                      this.props.history.push('/project/'+this.props.match.params.id+'/'+this.props.match.params.page+','+this.props.match.params.count+'/'+task.id);
                       setTimeout(()=>this.props.setTaskID(task.id), 30);
                     }}>
                     <h5>{task.title}</h5>
-                    <p>
+                    <p style={{marginBottom:0}}>
                       {task.tags.map(tag => (
                         <span
                           key={tag.id}
@@ -115,13 +116,13 @@ class Project extends Component {
                         </span>
                       ))}
                       </p>
-                      <p>
+                      <p style={{marginBottom:0}}>
                         <span>
                           Zadal:{task.requestedBy.username}
                         </span>
                         <span style={{float:'right'}} className="badge badge-success">{task.status.title}</span>
                       </p>
-                      <p>
+                      <p style={{marginBottom:0}}>
                         <span>
                           Riešil/i:{this.usersToString(task.taskHasAssignedUsers)}
                         </span>
@@ -154,8 +155,8 @@ class Project extends Component {
             }
           />
         </div>
-        <div style={{height:'90vh', overflowY:'scroll',overflowX:'hide'}} className='col-8'>
-          {this.props.taskID===this.state.taskID && <EditTask taskID={this.state.taskID} history={this.props.history} match={this.props.match}/>}
+        <div style={{height:'calc(100vh - 55px)', overflowY:'scroll',overflowX:'hidden',margin:0,padding:0}} className='col-8'>
+          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && <EditTask taskID={this.state.taskID} history={this.props.history} match={this.props.match}/>}
         </div>
       </div>
     );
@@ -179,4 +180,4 @@ const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer, login }
   };
 };
 
-export default connect(mapStateToProps, { getProjectTasks,setTaskID })(Project);
+export default connect(mapStateToProps, { getProjectTasks,setTaskID,setTripod })(Project);

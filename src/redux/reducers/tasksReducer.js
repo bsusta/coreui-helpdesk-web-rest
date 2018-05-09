@@ -1,7 +1,7 @@
 import { SET_TASKS, SET_TASKS_LOADING, ADD_TASK, SET_TASK_LOADING, SET_TASK,
   EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,
   SET_FILTER_TASKS_LOADING,SET_TASK_ID,
-  SET_TAG_TASKS_LOADING,SET_TAG_LINKS,
+  SET_TAG_TASKS_LOADING,SET_TAG_LINKS,SET_TRIPOD,
   SET_TASK_PROJECTS, SET_TASK_PROJECTS_LOADING,
   SET_TASKS_ATTRIBUTES,SET_TASKS_ATTRIBUTES_LOADING,
   SET_TASK_SOLVERS, DELETE_TASK_SOLVERS, LOGIN_LOGOUT, CLEAR_TASK
@@ -24,12 +24,15 @@ const initialState = {
   taskAttributesLoaded:false,
   taskSolvers:[],
   taskID:null,
+  tripod:false,
 };
 
 export default function tasksReducer(state = initialState, action) {
   switch (action.type) {
     case SET_TASK_ID:
       return { ...state, taskID:action.taskID };
+    case SET_TRIPOD:
+      return { ...state, tripod:action.tripod };
     case SET_TASKS:
       return { ...state, tasks:action.tasks };
     case ADD_TASK:
