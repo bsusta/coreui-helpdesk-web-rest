@@ -1,4 +1,4 @@
-import { SET_TAGS,SET_TAGS_LOADING, ADD_TAG, SET_TAG, SET_TAG_LOADING, EDIT_TAG, DELETE_TAG, SET_ERROR_MESSAGE } from '../types';
+import { SET_TAGS,SET_TAGS_LOADING, ADD_TAG, SET_TAG, SET_TAG_LOADING, EDIT_TAG, DELETE_TAG, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
 import { TAGS_LIST } from '../urls';
 
 /**
@@ -24,7 +24,9 @@ export const getTags= (token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -55,7 +57,9 @@ export const addTag = (body,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
     response.json().then((response)=>{
@@ -93,7 +97,9 @@ export const getTag = (id,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -127,7 +133,9 @@ export const editTag = (body,id,token) => {
           body:JSON.stringify(body)
         }).then((response)=>{
           if(!response.ok){
-            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+            response.text().then((data)=>{
+              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+            });
             return;
           }
           response1.json().then((response1)=>{
@@ -151,7 +159,9 @@ export const deleteTag = (id,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
         dispatch({type: DELETE_TAG, id});

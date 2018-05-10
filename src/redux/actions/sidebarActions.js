@@ -1,4 +1,4 @@
-import { SET_SIDEBAR,SET_ERROR_MESSAGE } from "../types";
+import { SET_SIDEBAR,SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from "../types";
 import { SIDEBAR_DATA } from "../urls";
 
 /**
@@ -16,7 +16,9 @@ export const getSidebar = token => {
     })
       .then(response => {
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
         response.json().then(data => {

@@ -159,6 +159,9 @@ class EditTask extends Component {
     if (name === "project") {
       state["project"] = value.project;
       state["taskSolver"] = "null";
+    } else if(name==='requestedBy'){
+      state['requestedBy'] = value;
+      state['company'] = this.props.companies[this.props.companies.findIndex((item)=>item.id===value.company.id)];      
     } else if (name) {
       state[name] = value;
     }
@@ -518,7 +521,7 @@ class EditTask extends Component {
                                     value={this.state.requestedBy}
                                     onChange={e => {
                                       this.autoSubmit("requestedBy", e);
-                                      this.setState({ requestedBy: e });
+                                      this.setState({ requestedBy: e, company:this.props.companies[this.props.companies.findIndex((item)=>item.id===e.company.id)] });
                                     }}
                                     />
                                 </InputGroup>

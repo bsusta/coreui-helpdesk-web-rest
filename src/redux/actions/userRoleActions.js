@@ -1,4 +1,4 @@
-import { SET_USER_ROLES,SET_USER_ROLES_LOADING, ADD_USER_ROLE, SET_USER_ROLE, SET_USER_ROLE_LOADING, EDIT_USER_ROLE, SET_ERROR_MESSAGE } from '../types';
+import { SET_USER_ROLES,SET_USER_ROLES_LOADING, ADD_USER_ROLE, SET_USER_ROLE, SET_USER_ROLE_LOADING, EDIT_USER_ROLE, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
 import { USER_ROLES_LIST } from '../urls';
 
 /**
@@ -24,7 +24,9 @@ export const getUserRoles= (token) => {
       }
     }).then((response) =>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
       response.json().then((data) => {
@@ -56,7 +58,9 @@ export const addUserRole = (body,token) => {
     })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
       response.json().then((response)=>{
@@ -94,7 +98,9 @@ export const addUserRole = (body,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
         response.json().then((data) => {
@@ -136,11 +142,15 @@ export const editUserRole = (body,isActive,id,token) => {
         }
       })]).then(([response1,response2])=>{
         if(!response1.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+          response1.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
+          });
           return;
         }
         if(!response2.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+          response2.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
+          });
           return;
         }
         Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{

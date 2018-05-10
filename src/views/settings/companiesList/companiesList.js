@@ -8,7 +8,6 @@ import {
   CardHeader
 } from "reactstrap";
 import { connect } from "react-redux";
-import Pagination from "../../../components/pagination";
 import i18n from 'i18next';
 
 class CompaniesList extends Component {

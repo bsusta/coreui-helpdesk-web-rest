@@ -1,4 +1,4 @@
-import { SET_COMPANIES,SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY, SET_COMPANY_LOADING, EDIT_COMPANY,SET_ERROR_MESSAGE, SET_TASK_COMPANIES } from '../types';
+import { SET_COMPANIES,SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY, SET_COMPANY_LOADING, EDIT_COMPANY,SET_ERROR_MESSAGE, SET_TASK_COMPANIES,ADD_ERROR_MESSAGE } from '../types';
 import { COMPANIES_LIST } from '../urls';
 
 /**
@@ -24,7 +24,9 @@ export const startCompaniesLoading = () => {
        }
      }).then((response) =>{
        if(!response.ok){
-         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+         response.text().then((data)=>{
+           dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+         });
          return;
        }
        response.json().then((data) => {
@@ -53,7 +55,9 @@ export const startCompaniesLoading = () => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
         response.json().then((data) => {
@@ -85,7 +89,9 @@ export const addCompany = (body,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
     response.json().then((response)=>{
@@ -123,7 +129,9 @@ export const getCompany = (id,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -164,11 +172,15 @@ export const getCompany = (id,token) => {
            }
          })]).then(([response1,response2])=>{
            if(!response1.ok){
-             dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+             response1.text().then((data)=>{
+               dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
+             });
              return;
            }
            if(!response2.ok){
-             dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+             response2.text().then((data)=>{
+               dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
+             });
              return;
            }
            Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
@@ -201,11 +213,15 @@ export const getCompany = (id,token) => {
            }
          })]).then(([response1,response2])=>{
            if(!response1.ok){
-             dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+             response1.text().then((data)=>{
+               dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
+             });
              return;
            }
            if(!response2.ok){
-             dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+             response2.text().then((data)=>{
+               dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
+             });
              return;
            }
            Promise.all([response1.json()]).then(([response1])=>{

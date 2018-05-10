@@ -1,4 +1,4 @@
-import { SET_SUBTASKS,SET_SUBTASKS_LOADING, ADD_SUBTASK, EDIT_SUBTASK,DELETE_SUBTASK, SET_ERROR_MESSAGE } from '../types';
+import { SET_SUBTASKS,SET_SUBTASKS_LOADING, ADD_SUBTASK, EDIT_SUBTASK,DELETE_SUBTASK, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
 import { TASKS_LIST } from '../urls';
 
 /**
@@ -24,7 +24,9 @@ export const getSubtasks= (taskID,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -56,7 +58,9 @@ export const addSubtask = (body,taskID,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
     response.json().then((response)=>{
@@ -81,7 +85,9 @@ export const editSubtask = (body,id,taskID,token) => {
           body:JSON.stringify(body)
         }).then((response)=>{
           if(!response.ok){
-            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+            response.text().then((data)=>{
+              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+            });
             return;
           }
           response.json().then((response)=>{
@@ -104,7 +110,9 @@ export const deleteSubtask = (id,taskID,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
         dispatch({type: DELETE_SUBTASK, id});

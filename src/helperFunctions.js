@@ -22,13 +22,13 @@ export const areObjectsSame = (object1, object2) => {
   return true;
 }
 
-export const processRESTinput = (input)=>{
+export const processRESTinput = (input,deleteEmpty)=>{
   if(!input){
     return '';
   }
   let result='';
   Object.keys(input).map((item)=>{
-    if(item && input[item] && input[item]!='' ){
+    if(item && input[item] && input[item]!=''&& (!deleteEmpty||input[item]!=='null') ){
       result+=(item+'='+input[item]+'&');
     }
   });

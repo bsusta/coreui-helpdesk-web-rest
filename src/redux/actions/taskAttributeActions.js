@@ -1,4 +1,4 @@
-import { SET_TASK_ATTRIBUTES,SET_TASK_ATTRIBUTES_LOADING, ADD_TASK_ATTRIBUTE, SET_TASK_ATTRIBUTE, SET_TASK_ATTRIBUTE_LOADING, EDIT_TASK_ATTRIBUTE,SET_ERROR_MESSAGE } from '../types';
+import { SET_TASK_ATTRIBUTES,SET_TASK_ATTRIBUTES_LOADING, ADD_TASK_ATTRIBUTE, SET_TASK_ATTRIBUTE, SET_TASK_ATTRIBUTE_LOADING, EDIT_TASK_ATTRIBUTE,SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
 import { TASK_ATTRIBUTES_LIST } from '../urls';
 
 /**
@@ -24,7 +24,9 @@ export const startTaskAttributesLoading = () => {
          }
        }).then((response) =>{
          if(!response.ok){
-           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+           response.text().then((data)=>{
+             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+           });
            return;
          }
        response.json().then((data) => {
@@ -53,7 +55,9 @@ export const startTaskAttributesLoading = () => {
           }
         }).then((response) =>{
           if(!response.ok){
-            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+            response.text().then((data)=>{
+              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+            });
             return;
           }
         response.json().then((data) => {
@@ -85,7 +89,9 @@ export const addTaskAttribute = (body,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
     response.json().then((response)=>{
@@ -123,7 +129,9 @@ export const getTaskAttribute = (id,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -165,11 +173,15 @@ export const editTaskAttribute = (body,isActive,id,token) => {
           }
         })]).then(([response1,response2])=>{
           if(!response1.ok){
-            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+            response1.text().then((data)=>{
+              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
+            });
             return;
           }
           if(!response2.ok){
-            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+            response2.text().then((data)=>{
+              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
+            });
             return;
           }
           Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{

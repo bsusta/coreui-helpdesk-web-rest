@@ -23,6 +23,7 @@ import commentAttachmentsReducer from './reducers/commentAttachmentsReducer';
 import followersReducer from './reducers/followersReducer';
 import loadingReducer from './reducers/loadingReducer';
 import filtersReducer from './reducers/filtersReducer';
+import errorsReducer from './reducers/errorsReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -46,7 +47,8 @@ const reducers = combineReducers({
     commentAttachmentsReducer,
     followersReducer,
     loadingReducer,
-    filtersReducer
+    filtersReducer,
+    errorsReducer
   });
 
 const enhancers = compose(

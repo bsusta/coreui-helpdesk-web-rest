@@ -1,4 +1,4 @@
-import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT, ADD_COMMENT_AVATAR_URL,DELETE_COMMENT, SET_COMMENT_ATTACHMENT, SET_ERROR_MESSAGE } from '../types';
+import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT,ADD_ERROR_MESSAGE, ADD_COMMENT_AVATAR_URL,DELETE_COMMENT, SET_COMMENT_ATTACHMENT, SET_ERROR_MESSAGE } from '../types';
 import { TASKS_LIST, GET_LOC, GET_FILE, COMMENT_COMMENTS } from '../urls';
 
 /**
@@ -24,7 +24,9 @@ export const getComments= (taskID,token) => {
       }
     }).then((response) =>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
       response.json().then((data) => {
@@ -47,9 +49,12 @@ export const getComments= (taskID,token) => {
                 }
               }).then((response3) =>{
                 if(!response3.ok){
-                  dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
+                  response3.text().then((data)=>{
+                    dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
+                  });
                   return;
                 }
+
                 dispatch({type: ADD_COMMENT_AVATAR_URL,id:comment.id,url:response3.url});
               }).catch(function (error) {
                 dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
@@ -79,9 +84,12 @@ export const getComments= (taskID,token) => {
               }
             }).then((response3) =>{
               if(!response3.ok){
-                dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
+                response3.text().then((data)=>{
+                  dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
+                });
                 return;
               }
+
               dispatch({type: SET_COMMENT_ATTACHMENT,commentID:comment.id,attachmentID:attachment.id,url:response3.url,name:attachment.name});
             }).catch(function (error) {
               dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
@@ -123,9 +131,12 @@ export const addComment = (body,taskID,token) => {
     })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
+
       response.json().then((response)=>{
         if(response.data.createdBy.avatarSlug){
           let newComment=response.data;
@@ -143,9 +154,12 @@ export const addComment = (body,taskID,token) => {
               }
             }).then((response3) =>{
               if(!response3.ok){
-                dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
+                response3.text().then((data)=>{
+                  dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
+                });
                 return;
               }
+
               newComment['avatar']=response3.url;
               dispatch({type: ADD_COMMENT, comment:newComment});
             }).catch(function (error) {
@@ -184,9 +198,12 @@ export const addCommentsComment = (body,commentID,token) => {
     })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
+
       response.json().then((response)=>{
         if(response.data.createdBy.avatarSlug){
           let newComment=response.data;
@@ -204,9 +221,12 @@ export const addCommentsComment = (body,commentID,token) => {
               }
             }).then((response3) =>{
               if(!response3.ok){
-                dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
+                response3.text().then((data)=>{
+                  dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
+                });
                 return;
               }
+
               newComment['avatar']=response3.url;
               dispatch({type: ADD_COMMENT, comment:newComment});
             }).catch(function (error) {
@@ -246,9 +266,12 @@ export const editComment = (body,commentID,unitID,taskID,token) => {
       body:JSON.stringify(body)
     }).then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
+
       response.json().then((response)=>{
         dispatch({type: EDIT_COMMENT, comment:response.data});
       })})
@@ -269,9 +292,12 @@ export const editComment = (body,commentID,unitID,taskID,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
+
         dispatch({type: DELETE_COMMENT, id});
       }
     ).catch(function (error) {

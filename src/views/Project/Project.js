@@ -143,7 +143,7 @@ class Project extends Component {
                 <tr style={{ cursor: "pointer" }} key={task.id}>
                   <td style={{ verticalAlign: "center" }}>{task.id}</td>
                   <td>
-                    <span className="badge badge-success">{task.status.title}</span>
+                    <span className="badge badge-success" style={{backgroundColor:task.status.color}}>{task.status.title}</span>
                   </td>
                   <td
                     onClick={() =>
@@ -185,6 +185,7 @@ class Project extends Component {
             numberOfPages={this.props.numberOfPages}
             refetchData={this.props.getProjectTasks}
             token={this.props.token}
+            disabled={false}
             refetchParameters={[parseInt(this.props.match.params.id, 10)]}
             pageNumber={this.state.pageNumber}
             setPageNumber={this.setPage.bind(this)}

@@ -31,15 +31,23 @@ class Filter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageNumber: this.props.match.params.page
+      pageNumber: (this.props.match.params.page && this.props.tasks.length>0)
         ? parseInt(this.props.match.params.page, 10)
-        : 1,
+        : (this.props.tasks.length>0?1:0),
         displayFilter:true,
     };
+    console.log(this.state.pageNumber);
   }
 
   setPage(number) {
     this.setState({ pageNumber: number });
+  }
+  componentWillMount(){
+    if(this.props.originalBody){
+      let page=this.props.match.params?this.props.match.params.page:1;
+      let count = this.props.match.params?this.props.match.params.count:20;
+      loadUnsavedFilter(page,count,this.props.token,this.props.body,this.props.originalBody);
+    }
   }
 
   usersToString(users) {
@@ -56,7 +64,7 @@ class Filter extends Component {
     return (
       <div className="table-div row">
         <div className="col-4" style={{display:this.state.displayFilter?'block':'none'}}>
-          <FilterLoader/>
+          <FilterLoader history={this.props.history} match={this.props.match} setPageNumber={(pageNumber)=>this.setState({pageNumber})}/>
         </div>
         <div className={this.state.displayFilter?"col-8":''}>
           <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.setState({displayFilter:!this.state.displayFilter})} />
@@ -108,7 +116,7 @@ class Filter extends Component {
                 <tr style={{ cursor: "pointer" }} key={task.id}>
                   <td style={{ verticalAlign: "center" }}>{task.id}</td>
                   <td>
-                    <span className="badge badge-success">{task.status.title}</span>
+                    <span className="badge badge-success" style={{backgroundColor:task.status.color}}>{task.status.title}</span>
                   </td>
                   <td
                     onClick={() =>
@@ -145,11 +153,12 @@ class Filter extends Component {
             </tbody>
           </table>
           <Pagination
-            link={""}
-            history={{push:()=>{}}}
+            link={"filter"}
+            history={this.props.history}
             numberOfPages={this.props.numberOfPages}
             refetchData={this.props.loadUnsavedFilter}
             token={this.props.token}
+            disabled={this.props.body?false:true}
             refetchParameters={[this.props.body,this.props.originalBody]}
             pageNumber={this.state.pageNumber}
             setPageNumber={(pageNumber)=>this.setState({pageNumber})}

@@ -18,8 +18,10 @@ class FilterLoader extends Component {
   }
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
+    if(!this.props.originalBody){
+      this.props.clearFilterTasks();
+    }
     this.props.clearErrorMessage(this.state.randomFloat);
-    this.props.clearFilterTasks();
     this.props.startTaskProjectsLoading();
     this.props.startStatusesLoading();
     this.props.startCompaniesLoading();
@@ -44,13 +46,13 @@ class FilterLoader extends Component {
     !this.props.usersLoaded){
       return(<Loading errorID={this.state.errorID}/>)
     }
-    return <Filter history={this.props.history} match={this.props.match}/>
+    return <Filter history={this.props.history} match={this.props.match} setPageNumber={this.props.setPageNumber}/>
   }
 }
 
 //all below is just redux storage
 
-const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,taskAttributesReducer,unitsReducer, usersReducer, login }) => {
+const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,taskAttributesReducer,unitsReducer, usersReducer,filtersReducer, login }) => {
   const {taskProjectsLoaded } = tasksReducer;
   const {statusesLoaded, updateDate } = statusesReducer;
   const {companiesLoaded } = companiesReducer;
@@ -58,9 +60,10 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
   const {taskAttributesLoaded} = taskAttributesReducer;
   const {unitsLoaded} = unitsReducer;
   const {usersLoaded} = usersReducer;
+  const { originalBody } = filtersReducer;
   const {token} = login;
 
-  return {taskProjectsLoaded,taskAttributesLoaded, statusesLoaded, statusesUpdateDate:updateDate,companiesLoaded,companiesUpdateDate:companiesReducer.updateDate,tagsLoaded,unitsLoaded, usersLoaded, token};
+  return {taskProjectsLoaded,taskAttributesLoaded, statusesLoaded, statusesUpdateDate:updateDate,companiesLoaded,companiesUpdateDate:companiesReducer.updateDate,tagsLoaded,unitsLoaded, usersLoaded,originalBody, token};
 };
 
 

@@ -1,4 +1,4 @@
-import { SET_STATUSES,SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS, SET_STATUS_LOADING, EDIT_STATUS, SET_ERROR_MESSAGE, SET_TASK_STATUSES  } from '../types';
+import { SET_STATUSES,SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS, SET_STATUS_LOADING, EDIT_STATUS, SET_ERROR_MESSAGE, SET_TASK_STATUSES,ADD_ERROR_MESSAGE  } from '../types';
 import { STATUSES_LIST } from '../urls';
 
 /**
@@ -20,7 +20,9 @@ export const getStatuses= (updateDate,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -46,7 +48,9 @@ export const getTaskStatuses= (updateDate,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -77,7 +81,9 @@ export const addStatus = (body,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
     })
@@ -113,7 +119,9 @@ export const getStatus = (token,id) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -155,11 +163,15 @@ export const editStatus = (body,id,isActive,token) => {
           }
         })]).then(([response1,response2])=>{
           if(!response1.ok){
-            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+            response1.text().then((data)=>{
+              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
+            });
             return;
           }
           if(!response2.ok){
-            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response2.statusText });
+            response2.text().then((data)=>{
+              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
+            });
             return;
           }
           Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{

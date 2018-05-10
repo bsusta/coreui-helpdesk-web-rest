@@ -191,6 +191,7 @@ export default class Pag extends Component {
               <select
                 className="form-control"
                 id="project"
+                disabled={this.props.disabled}
                 value={this.state.pagination}
                 onChange={(value)=>{
                   this.setState({pagination:value.target.value});
@@ -226,6 +227,7 @@ export default class Pag extends Component {
           </PaginationItem>
           <PaginationItem style={{ marginRight: 10 }}>
             <select
+              disabled={this.props.disabled}
               className="form-control"
               id="project"
               value={this.state.pagination}

@@ -1,4 +1,4 @@
-import { SET_SMTPS,SET_SMTPS_LOADING, ADD_SMTP, SET_SMTP, SET_SMTP_LOADING, EDIT_SMTP, SET_ERROR_MESSAGE } from '../types';
+import { SET_SMTPS,SET_SMTPS_LOADING, ADD_SMTP, SET_SMTP, SET_SMTP_LOADING, EDIT_SMTP, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
 import { SMTPS_LIST } from '../urls';
 
 /**
@@ -24,7 +24,9 @@ export const getSMTPs= (token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -55,7 +57,9 @@ export const addSMTP = (body,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
     response.json().then((response)=>{
@@ -93,7 +97,9 @@ export const getSMTP = (token,id) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -127,8 +133,10 @@ export const editSMTP = (body,id,token) => {
           },
           body:JSON.stringify(body)
         })]).then(([response1])=>{
-          if(!response1.ok){
-            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response1.statusText });
+          if(!response.ok){
+            response.text().then((data)=>{
+              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+            });
             return;
           }
           Promise.all([response1.json()]).then(([response1])=>{

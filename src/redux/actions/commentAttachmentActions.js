@@ -1,4 +1,4 @@
-import { SET_COMMENT_ATTACHMENTS, ADD_COMMENT_ATTACHMENT, SET_COMMENT_ATTACHMENTS_LOADING, DELETE_COMMENT_ATTACHMENT,DELETE_COMMENT_ATTACHMENTS } from '../types'
+import { SET_COMMENT_ATTACHMENTS, ADD_COMMENT_ATTACHMENT, SET_COMMENT_ATTACHMENTS_LOADING, DELETE_COMMENT_ATTACHMENT,DELETE_COMMENT_ATTACHMENTS,ADD_ERROR_MESSAGE } from '../types'
 import { UPLOAD_FILE } from '../urls';
 
 
@@ -14,10 +14,17 @@ export const uploadCommentFile = (file,token) => {
       body:formData,
     })
     .then((response)=>{
+      if(!response.ok){
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
+        return;
+      }
       response.json().then((response)=>{
             dispatch({type: ADD_COMMENT_ATTACHMENT, commentAttachment:{id:response.data.slug,file:{name:file.name,size:file.size}}});
         })})
         .catch(function (error) {
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
           console.log(error);
         });
   }

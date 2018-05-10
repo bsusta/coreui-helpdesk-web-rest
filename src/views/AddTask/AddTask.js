@@ -440,7 +440,7 @@ deleteFollower
                               })}
                               value={this.state.requestedBy}
                               onChange={e => {
-                                this.setState({ requestedBy: e});
+                                this.setState({ requestedBy: e, company:this.props.companies[this.props.companies.findIndex((item)=>item.id===e.company.id)] });
                               }}
                               />
                           </InputGroup>

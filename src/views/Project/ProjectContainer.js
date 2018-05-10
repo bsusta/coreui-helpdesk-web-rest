@@ -22,7 +22,6 @@ import {
   InputGroupAddon,
   InputGroupButton
 } from "reactstrap";
-import Pagination from "../../components/pagination";
 import { timestampToString } from "../../helperFunctions";
 import i18n from 'i18next';
 import ClassicProject from './Project';

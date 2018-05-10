@@ -27,7 +27,8 @@ import Select from "react-select";
 import { connect } from 'react-redux';
 import {
   initialiseCustomAttributes,
-  processCustomFilterAttributes
+  processCustomFilterAttributes,
+  processRESTinput
 } from "../../helperFunctions";
 import {loadUnsavedFilter,createFilter} from '../../redux/actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
@@ -62,7 +63,7 @@ class Filter extends Component {
       filterPublic:false,
       filterReport:false,
       filterDefault:false,
-      filterIcon:'',
+      filterIcon:'fa-filter',
       filterOrder:10,
       submitError:false,
 
@@ -75,26 +76,14 @@ class Filter extends Component {
 
   submit(){
     this.setState({submitError:true});
-    let body={
-      title:this.state.title,
-      shortcut:this.state.shortcut
-    }
-    if(this.state.filterIcon===''||this.state.filterName===''||isNaN(parseInt(this.state.order))){
+    if(this.state.filterIcon===''||this.state.filterName===''||isNaN(parseInt(this.state.filterOrder))){
       return;
     }
-    this.props.createFilter({
-      title:this.state.filterName,
-      'public':this.state.filterPublic,
-      report:this.state.filterReport,
-      'default':this.state.filterDefault,
-      icon_class:this.state.filterIcon,
-      order:this.state.filterOrder,
-      filter:{
+    let filter={
         createdTime:this.processTimes(this.state.createdFrom,this.state.createdTo),
         startedTime:this.processTimes(this.state.startedFrom,this.state.startedTo),
         deadlineTime:this.processTimes(this.state.deadlineFrom,this.state.deadlineTo),
         closedTime:this.processTimes(this.state.closedFrom,this.state.closedTo),
-
         search:this.state.title,
         status:this.state.statuses.map((item)=>item.id),
         project:this.state.projects.map((item)=>item.id),
@@ -107,8 +96,30 @@ class Filter extends Component {
         archived:this.state.archived,
         important:this.state.important,
         addedParameters:processCustomFilterAttributes({...this.state.task_data},[...this.props.taskAttributes])
-      },
-    },this.props.token);
+      };
+      if(Object.keys(filter.addedParameters).length === 0){
+        filter.addedParameters=undefined;
+      }
+      else{
+        filter.addedParameters=processRESTinput(filter.addedParameters,true);
+      }
+      Object.keys(filter).map((item)=>{
+        if((Array.isArray(filter[item])&&filter[item].length===0)||filter[item]===''){
+          filter[item]=undefined;
+        }
+      });
+
+    let body = {
+      title:this.state.filterName,
+      'public':this.state.filterPublic,
+      report:this.state.filterReport,
+      'default':this.state.filterDefault,
+      icon_class:this.state.filterIcon,
+      order:this.state.filterOrder,
+      filter:JSON.stringify(filter)
+    };
+    this.props.createFilter(body,this.props.token);
+    this.setState({saveOpen:false})
   }
 
   processTimes(timeFrom,timeTo){
@@ -152,7 +163,10 @@ class Filter extends Component {
       important:this.state.important,
       addedParameters:processCustomFilterAttributes({...this.state.task_data},[...this.props.taskAttributes])
     }
-    this.props.loadUnsavedFilter(20,1,this.props.token,body,this.state);
+
+    this.props.history.push('/filter/1,'+(this.props.match.params.count?this.props.match.params.count:20));
+    this.props.setPageNumber(1);
+    this.props.loadUnsavedFilter(this.props.match.params.count?this.props.match.params.count:20,1,this.props.token,body,this.state);
   }
 
   render() {
@@ -168,7 +182,7 @@ class Filter extends Component {
           </ModalHeader>
           <ModalBody>
             <FormGroup>
-              <label htmlFor="title">{i18n.t('filterName')}</label>
+              <label htmlFor="filterName">{i18n.t('filterName')}</label>
               <input
                 className="form-control"
                 id="filterName"
@@ -181,7 +195,7 @@ class Filter extends Component {
             {this.state.submitError && this.state.filterName===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
             </FormGroup>
             <FormGroup>
-              <label htmlFor="title">{i18n.t('orderFilter')}</label>
+              <label htmlFor="filterOrder">{i18n.t('orderFilter')}</label>
               <input
                 className="form-control"
                 id="filterOrder"
@@ -196,7 +210,7 @@ class Filter extends Component {
             { this.state.submitError &&this.state.filterOrder===''&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
             </FormGroup>
             <FormGroup>
-              <label htmlFor="title">{i18n.t('filterIcon')}</label>
+              <label htmlFor="filterIcon">{i18n.t('filterIcon')}</label>
               <input
                 className="form-control"
                 id="filterIcon"

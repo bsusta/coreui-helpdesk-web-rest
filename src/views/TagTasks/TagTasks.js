@@ -30,7 +30,9 @@ class Tag extends Component {
   constructor(props) {
     super(props);
     this.state={
-      pageNumber:this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,
+      pageNumber: (this.props.match.params.page && this.props.tasks.length>0)
+        ? parseInt(this.props.match.params.page, 10)
+        : (this.props.tasks.length>0?1:0),
     }
   }
 
@@ -113,7 +115,7 @@ class Tag extends Component {
                 this.props.tasks.map((task)=><tr style={{ cursor: "pointer" }} key={task.id}>
                 <td style={{ verticalAlign: "center" }}>{task.id}</td>
                 <td>
-                  <span className="badge badge-success">{task.status.title}</span>
+                  <span className="badge badge-success" style={{backgroundColor:task.status.color}}>{task.status.title}</span>
                 </td>
                 <td onClick={() => this.props.history.push("/task/edit/"+task.id)}>
                   {task.title}
@@ -134,6 +136,7 @@ class Tag extends Component {
         </table>
         <Pagination
           link={"tag/"+this.props.match.params.id}
+          disabled={false}
           history={this.props.history}
           numberOfPages={this.props.numberOfPages}
           refetchData={this.props.getTagTasks}

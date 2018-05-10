@@ -13,28 +13,9 @@ import MessagesDropdown from "./MessagesDropdown";
 import {logoutUser} from '../../redux/actions';
 import { connect } from "react-redux";
 import i18n from 'i18next';
+import ErrorMessagesDropdown from './ErrorMessagesDropdown';
 
 class Header extends Component {
-
-  sidebarToggle(e) {
-    e.preventDefault();
-    document.body.classList.toggle("sidebar-hidden");
-  }
-
-  sidebarMinimize(e) {
-    e.preventDefault();
-    document.body.classList.toggle("sidebar-minimized");
-  }
-
-  mobileSidebarToggle(e) {
-    e.preventDefault();
-    document.body.classList.toggle("sidebar-mobile-show");
-  }
-
-  asideToggle(e) {
-    e.preventDefault();
-    document.body.classList.toggle("aside-menu-hidden");
-  }
   render() {
     return (
       <header className="app-header navbar" style={{ maxWidth: 1920 }}>
@@ -59,6 +40,7 @@ class Header extends Component {
             </InputGroupAddon>
           </InputGroup>
         </NavbarToggler>
+
         <button
           type="button"
           className="btn btn-link"
@@ -67,8 +49,8 @@ class Header extends Component {
         >
           {i18n.t('addTask')}
         </button>
-
         <Nav className="ml-auto" navbar>
+          {this.props.errorMessages.length>0&&<ErrorMessagesDropdown />}
           <a
             style={{margin:0, marginRight:10,color:'white'}}
             className="d-md-down-none"
@@ -93,9 +75,10 @@ class Header extends Component {
 }
 
 
-const mapStateToProps = ({login}) => {
+const mapStateToProps = ({login, errorsReducer}) => {
   const {user}=login;
-  return {user};
+  const {errorMessages}=errorsReducer;
+  return {user,errorMessages};
 };
 
 export default connect(mapStateToProps, { logoutUser })(Header);

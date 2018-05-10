@@ -120,7 +120,7 @@ class Project extends Component {
                         <span>
                           Zadal:{task.requestedBy.username}
                         </span>
-                        <span style={{float:'right'}} className="badge badge-success">{task.status.title}</span>
+                        <span className="badge badge-success" style={{backgroundColor:task.status.color}}>{task.status.title}</span>
                       </p>
                       <p style={{marginBottom:0}}>
                         <span>
@@ -135,6 +135,7 @@ class Project extends Component {
             </ul>
           <Pagination
             link={"project/" + this.props.match.params.id}
+            disabled={false}
             history={this.props.history}
             numberOfPages={this.props.numberOfPages}
             refetchData={this.props.getProjectTasks}

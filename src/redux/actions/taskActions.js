@@ -1,7 +1,7 @@
 import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,
   SET_FILTER_TASKS_LOADING, SET_TAG_LINKS, SET_TAG_TASKS_LOADING,
-  SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,
+  SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,ADD_ERROR_MESSAGE,
   SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING,
   DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHMENT,
   SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID, SET_TRIPOD } from '../types';
@@ -66,7 +66,9 @@ import {clearAttachments} from './attachmentActions';
          }
        }).then((response) =>{
          if(!response.ok){
-           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+           response.text().then((data)=>{
+             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+           });
            return;
          }
        response.json().then((data) => {
@@ -94,7 +96,9 @@ import {clearAttachments} from './attachmentActions';
          }
        }).then((response) =>{
          if(!response.ok){
-           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+           response.text().then((data)=>{
+             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+           });
            return;
          }
        response.json().then((data) => {
@@ -121,7 +125,9 @@ import {clearAttachments} from './attachmentActions';
          }
        }).then((response) =>{
          if(!response.ok){
-           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+           response.text().then((data)=>{
+             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+           });
            return;
          }
        response.json().then((data) => {
@@ -169,7 +175,9 @@ export const getTask = (id,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -193,7 +201,9 @@ export const getTask = (id,token) => {
               }
             }).then((response3) =>{
               if(!response3.ok){
-                dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response3.statusText });
+                response3.text().then((data)=>{
+                  dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
+                });
                 return;
               }
               dispatch({type: ADD_ATTACHMENT, attachment:{url:response3.url,id:attachment.slug,file:{name:attachment.name}}});
@@ -240,7 +250,9 @@ export const addTask = (body,subtasks,materials,followers,projectID,statusID,req
     })
     .then((response)=>{
       if(!response.ok){
-        dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+        response.text().then((data)=>{
+          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+        });
         return;
       }
       response.json().then((response)=>{
@@ -364,7 +376,9 @@ export const getTaskProjects= (token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -396,7 +410,9 @@ export const getTasksAttributes = (token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -427,7 +443,9 @@ export const getTaskSolvers = (projectID,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
       response.json().then((data) => {
@@ -452,7 +470,9 @@ export const deleteTask = (id,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:response.statusText });
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
           return;
         }
     }
