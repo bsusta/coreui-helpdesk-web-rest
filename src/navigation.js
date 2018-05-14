@@ -292,7 +292,7 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/messages/:id"
+                  path="/messages/:page,:count"
                   name="Message"
                   component={Messages}
                 />

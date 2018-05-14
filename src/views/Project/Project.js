@@ -29,18 +29,11 @@ import i18n from 'i18next';
 class Project extends Component {
   constructor(props) {
     super(props);
-    let unlisten= this.props.history.listen((location, action) => {
-      console.log("on route change");
-    });
     this.state = {
       pageNumber: (this.props.match.params.page && this.props.tasks.length>0)
         ? parseInt(this.props.match.params.page, 10)
-        : (this.props.tasks.length>0?1:0),
-        unlisten
+        : (this.props.tasks.length>0?1:0)
     };
-  }
-  componentWillUnmount(){
-      this.state.unlisten();
   }
 
   setPage(number) {

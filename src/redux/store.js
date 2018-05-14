@@ -24,6 +24,7 @@ import followersReducer from './reducers/followersReducer';
 import loadingReducer from './reducers/loadingReducer';
 import filtersReducer from './reducers/filtersReducer';
 import errorsReducer from './reducers/errorsReducer';
+import messagesReducer from './reducers/messagesReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -48,7 +49,8 @@ const reducers = combineReducers({
     followersReducer,
     loadingReducer,
     filtersReducer,
-    errorsReducer
+    errorsReducer,
+    messagesReducer
   });
 
 const enhancers = compose(

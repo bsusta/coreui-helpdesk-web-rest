@@ -21,3 +21,4 @@ export * from './commentAttachmentActions';
 export * from './followerActions';
 export * from './loadingActions';
 export * from './filterActions';
+export * from './messageActions';

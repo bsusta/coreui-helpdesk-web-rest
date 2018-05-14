@@ -8,7 +8,7 @@ const initialState = {
   originalBody:null,
 };
 
-export default function projectsReducer(state = initialState, action) {
+export default function filtersReducer(state = initialState, action) {
   switch (action.type) {
     case SET_FILTERS:{
       if(action.originalBody){
