@@ -21,7 +21,7 @@ class MessagesLoader extends Component {
 
   render(){
     if(!this.props.messagesLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <Messages history={this.props.history} match={this.props.match}/>
   }

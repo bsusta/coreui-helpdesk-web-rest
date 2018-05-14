@@ -5,7 +5,8 @@ import {startTaskProjectsLoading,startStatusesLoading,
   getTaskStatuses,getTaskProjects,startCompaniesLoading,getTaskCompanies,
 startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
  startUnitsLoading, getUnits, deleteTaskSolvers,
-startUsersLoading, getUsers,clearErrorMessage, clearFilterTasks } from '../../redux/actions';
+startUsersLoading, getUsers,clearErrorMessage, clearFilterTasks,
+startFilterLoading, getFilter } from '../../redux/actions';
 import Filter from './Filter';
 import Loading from '../../components/Loading';
 
@@ -30,6 +31,10 @@ class FilterLoader extends Component {
     this.props.startUnitsLoading();
     this.props.startUsersLoading();
     this.props.deleteTaskSolvers();
+    if(this.props.match.params.id){
+      this.props.startFilterLoading();
+      this.props.getFilter(this.props.match.params.id,this.props.token);
+    }
 
     this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
     this.props.getTaskProjects(this.props.token);
@@ -43,8 +48,8 @@ class FilterLoader extends Component {
   render(){
     if(!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
-    !this.props.usersLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+    !this.props.usersLoaded||(this.props.match.params.id&&!this.props.filterLoaded)){
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <Filter history={this.props.history} match={this.props.match} setPageNumber={this.props.setPageNumber}/>
   }
@@ -60,10 +65,12 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
   const {taskAttributesLoaded} = taskAttributesReducer;
   const {unitsLoaded} = unitsReducer;
   const {usersLoaded} = usersReducer;
-  const { originalBody } = filtersReducer;
+  const { originalBody, filterLoaded } = filtersReducer;
   const {token} = login;
 
-  return {taskProjectsLoaded,taskAttributesLoaded, statusesLoaded, statusesUpdateDate:updateDate,companiesLoaded,companiesUpdateDate:companiesReducer.updateDate,tagsLoaded,unitsLoaded, usersLoaded,originalBody, token};
+  return {taskProjectsLoaded,taskAttributesLoaded, statusesLoaded,
+    statusesUpdateDate:updateDate,companiesLoaded,companiesUpdateDate:companiesReducer.updateDate,
+    tagsLoaded,unitsLoaded, usersLoaded,originalBody,filterLoaded, token};
 };
 
 
@@ -72,4 +79,4 @@ export default connect(mapStateToProps, {
   getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
   startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
   startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
-  clearErrorMessage, clearFilterTasks})(FilterLoader);
+  clearErrorMessage, clearFilterTasks,startFilterLoading, getFilter})(FilterLoader);

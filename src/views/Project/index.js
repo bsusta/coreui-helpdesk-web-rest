@@ -30,7 +30,7 @@ class ProjectLoader extends Component {
 
   render(){
     if(!this.props.projectTasksLoaded||!this.props.projectLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <Project history={this.props.history} match={this.props.match}/>
   }

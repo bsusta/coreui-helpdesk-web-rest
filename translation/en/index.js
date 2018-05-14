@@ -234,7 +234,7 @@ export default {
   subtasks:'Subtasks',
   enterSubtask:'Enter subtask',
   enterNewSubtask:'Enter new subtask',
-  material:'Material',
+  invoiceableItems:'Invoiceable items',
   price:'Price',
   pricePerUnit:'Price/unit',
   unit:'Unit',
@@ -317,6 +317,8 @@ export default {
   important:'Important',
   follower:'Follower',
   restrictionMustEnterFilterIcon:'You must enter icon name!',
+  saveFilter:'Save current filter',
+  500:'Internal server error',
 }
 
 /*

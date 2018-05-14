@@ -55,22 +55,27 @@ class Project extends Component {
     return (
       <div className="table-div">
         <h2>
-          {
-            this.props.filters[
-              this.props.filters.findIndex(filter =>
-                filter.url.includes(this.props.match.params.id)
-              )
-            ].name
-          }{" "}
           <a
-            className="fa fa-info-circle fa-lg"
+            className="fa fa-filter"
             style={{
               border: "none",
               backgroundColor: "white",
               color: "grey",
               textDecoration: "none"
             }}
-          />
+            onClick={()=>{
+              if(parseInt(this.props.match.params.id)>3){
+                this.props.history.push('/filter/'+this.props.match.params.id);
+              }
+            }}
+          />{" "}
+          {
+            this.props.filters[
+              this.props.filters.findIndex(filter =>
+                filter.url.includes(this.props.match.params.id)
+              )
+            ].name
+          }
         </h2>
 
         <div>

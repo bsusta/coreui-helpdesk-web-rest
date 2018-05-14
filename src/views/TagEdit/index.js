@@ -19,7 +19,7 @@ class TagEditLoader extends Component {
   }
   render(){
     if(!this.props.tagLoaded){ //data hasnt been loaded yet
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <TagEdit history={this.props.history}/>
   }

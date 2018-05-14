@@ -20,7 +20,7 @@ class TaskAttributesListLoader extends Component {
   }
   render(){
     if(!this.props.taskAttributesLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <TaskAttributesList history={this.props.history} match={this.props.match}/>
   }

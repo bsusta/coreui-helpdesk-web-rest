@@ -20,7 +20,7 @@ class StatusesListLoader extends Component {
   }
   render(){
     if(!this.props.statusesLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <StatusesList history={this.props.history}/>
   }

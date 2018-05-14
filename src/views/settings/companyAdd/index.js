@@ -20,7 +20,7 @@ class companyAddLoader extends Component {
   }
   render(){
     if(!this.props.companyAttributesLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <CompanyAdd history={this.props.history} match={this.props.match}/>
   }

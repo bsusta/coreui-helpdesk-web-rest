@@ -10,6 +10,7 @@ import {addFollower} from './followerActions';
 import {addItem} from './itemActions';
 import {addSubtask} from './subtaskActions';
 import {clearAttachments} from './attachmentActions';
+import i18n from 'i18next';
 /**
  * Sets status if tasks are loaded to false
  */
@@ -66,9 +67,14 @@ import {clearAttachments} from './attachmentActions';
          }
        }).then((response) =>{
          if(!response.ok){
-           response.text().then((data)=>{
-             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-           });
+           if(response.status===500){
+             dispatch({ type: SET_ERROR_MESSAGE, errorMessage:i18n.t(response.status)});
+           }
+           else{
+             response.text().then((data)=>{
+               dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+             });
+           }
            return;
          }
        response.json().then((data) => {

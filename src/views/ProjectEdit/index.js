@@ -21,7 +21,7 @@ class ProjectEditLoader extends Component {
   }
   render(){
     if(!this.props.projectLoaded||!this.props.usersLoaded){ //data hasnt been loaded yet
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <ProjectEdit history={this.props.history}/>
   }

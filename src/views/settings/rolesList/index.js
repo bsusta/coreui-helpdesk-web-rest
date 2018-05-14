@@ -20,7 +20,7 @@ class RolesListLoader extends Component {
   }
   render(){
     if(!this.props.userRolesLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <RolesList history={this.props.history} match={this.props.match}/>
   }

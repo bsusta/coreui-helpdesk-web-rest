@@ -19,7 +19,7 @@ class CompanyAttributeEditLoader extends Component {
   }
   render(){
     if(!this.props.companyAttributeLoaded){ //data hasnt been loaded yet
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <CompanyAttributeEdit history={this.props.history}/>
   }

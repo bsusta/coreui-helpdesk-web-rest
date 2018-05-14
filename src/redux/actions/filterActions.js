@@ -1,4 +1,4 @@
-import { SET_FILTERS, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE } from '../types';
+import { SET_FILTERS, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE,SET_FILTER, SET_FILTER_LOADING } from '../types';
 import { TASKS_LIST, FILTERS_LIST } from '../urls';
 import {processRESTinput} from '../../helperFunctions';
 
@@ -60,3 +60,60 @@ export const createFilter = (body,token) => {
  });
  }
 };
+
+export const editFilter = (body,id,token) => {
+ return (dispatch) => {
+   fetch(FILTERS_LIST+'/'+id, {
+     method: 'PUT',
+     headers: {
+       'Authorization': 'Bearer ' + token,
+       'Content-Type': 'application/json'
+     },
+     body:JSON.stringify(body),
+   }).then((response) =>{
+     if(!response.ok){
+       response.text().then((data)=>{
+         dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+       });
+       return;
+     }
+   response.json().then((data) => {
+     });
+ }
+  ).catch(function (error) {
+   dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+   console.log(error);
+ });
+ }
+};
+
+export const startFilterLoading = ()=>{
+return (dispatch) => {
+   dispatch({ type: SET_FILTER_LOADING });
+ }
+}
+
+export const getFilter = (id,token) => {
+  return (dispatch) => {
+      fetch(FILTERS_LIST+'/'+id, {
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if(!response.ok){
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
+          return;
+        }
+      response.json().then((data) => {
+        dispatch({ type: SET_FILTER, filter:data.data});
+      });
+    }).catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
+    });
+  }
+}

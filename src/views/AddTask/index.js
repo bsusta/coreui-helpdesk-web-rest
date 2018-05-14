@@ -42,7 +42,7 @@ class AddTaskLoader extends Component {
     if(!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
     !this.props.usersLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <AddTask history={this.props.history} match={this.props.match}/>
   }

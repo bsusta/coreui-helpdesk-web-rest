@@ -23,7 +23,7 @@ class CompanyEditLoader extends Component {
 
   render(){
     if(!this.props.companyLoaded||!this.props.companyAttributesLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <CompanyEdit history={this.props.history}/>
   }

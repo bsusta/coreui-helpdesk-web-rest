@@ -65,7 +65,7 @@ export const getSidebar = token => {
           data.filters.map(filter =>
             filters.children.push({
               name: filter.title,
-              url: "/filter/" + filter.id.toString()
+              url: "/filter/view/" + filter.id.toString()
               //icon: "fa fa-filter"
             })
           );

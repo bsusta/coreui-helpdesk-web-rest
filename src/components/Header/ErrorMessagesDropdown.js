@@ -27,7 +27,7 @@ class ErrorMessages extends Component {
         <DropdownToggle nav>
           <i className="fa fa-exclamation-triangle" style={{color:'red',fontSize:'1em'}}/><Badge pill color="red" style={{color:'red',backgroundColor:'none'}}>{this.props.errorMessages.length}</Badge>
         </DropdownToggle>
-        <DropdownMenu right className="dropdown-menu"  style={{width:450}}>
+        <DropdownMenu right className="dropdown-menu"  style={{width:450,overflowY:'scroll',overflowX:'visible',maxHeight:'80vh'}}>
           <DropdownItem header tag="div"><strong>Some error(s) has occured</strong></DropdownItem>
             <div className="row" style={{color:'#536c79', margin:0}}>
               <button

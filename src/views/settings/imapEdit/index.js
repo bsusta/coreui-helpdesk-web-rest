@@ -21,7 +21,7 @@ class ImapEditLoader extends Component {
   }
   render(){
     if(!this.props.imapLoaded||!this.props.projectsLoaded){ //data hasnt been loaded yet
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <ImapEdit history={this.props.history}/>
   }

@@ -20,7 +20,7 @@ class ImapAddLoader extends Component {
   }
   render(){
     if(!this.props.projectsLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <ImapAdd history={this.props.history}/>
   }

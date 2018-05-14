@@ -53,7 +53,7 @@ class EditTaskLoader extends Component {
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
       !this.props.usersLoaded||!this.props.followersLoaded||!this.props.commentsLoaded||
       !this.props.subtasksLoaded||!this.props.itemsLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <EditTask history={this.props.history} match={this.props.match} taskID={this.state.taskID}/>
   }

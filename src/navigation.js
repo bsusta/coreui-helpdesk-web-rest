@@ -407,19 +407,32 @@ class Full extends Component {
                 />
                 <Route
                   exact
+                  path="/filter/:id/:page,:count"
+                  name="Filter"
+                  component={Filter}
+                />
+                <Route
+                  exact
                   path="/filter/:page,:count"
                   name="Filter"
                   component={Filter}
                 />
                 <Route
                   exact
-                  path="/filter/:id/:page,:count"
+                  path="/filter/:id"
+                  name="Filter"
+                  component={Filter}
+                />
+
+                <Route
+                  exact
+                  path="/filter/view/:id/:page,:count"
                   name="Filtered task list"
                   component={FilterTasks}
                 />
                 <Route
                   exact
-                  path="/filter/:id"
+                  path="/filter/view/:id"
                   name="Filtered task list"
                   component={FilterTasks}
                 />

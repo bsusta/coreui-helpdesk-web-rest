@@ -24,7 +24,7 @@ class UserAddLoader extends Component {
   }
   render(){
     if(!this.props.companiesLoaded || !this.props.userRolesLoaded||!this.props.userLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <UserEdit history={this.props.history}/>
   }

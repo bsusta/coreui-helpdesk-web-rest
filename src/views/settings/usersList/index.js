@@ -20,7 +20,7 @@ class UsersListLoader extends Component {
   }
   render(){
     if(!this.props.usersLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <UsersList history={this.props.history} match={this.props.match}/>
   }

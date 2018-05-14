@@ -156,7 +156,7 @@ class Subtasks extends Component {
         <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ border: "0px" }}>{i18n.t('material')}</th>
+              <th style={{ border: "0px" }}>{i18n.t('invoiceableItems')}</th>
               <th style={{ width: "10%", border: "0px" }}>{i18n.t('amount')}</th>
               <th style={{ width: "10%", border: "0px" }}>{i18n.t('pricePerUnit')}</th>
               <th style={{ width: "15%", border: "0px" }}>{i18n.t('unit')}</th>

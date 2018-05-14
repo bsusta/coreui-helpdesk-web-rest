@@ -30,51 +30,132 @@ import {
   processCustomFilterAttributes,
   processRESTinput
 } from "../../helperFunctions";
-import {loadUnsavedFilter,createFilter} from '../../redux/actions';
+import {loadUnsavedFilter,createFilter, editFilter} from '../../redux/actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 
 class Filter extends Component {
   constructor(props) {
     super(props);
-    let state={
-      createdFrom:null,
-      createdTo:null,
-      deadlineFrom:null,
-      deadlineTo:null,
-      closedFrom:null,
-      closedTo:null,
-      title:'',
-      startedFrom:null,
-      startedTo:null,
-      archived:false,
-      important:false,
-      statuses:[],
-      projects:[],
-      creators:[],
-      requesters:[],
-      companies:[],
-      assignedTos:[],
-      tags:[],
-      followers:[],
-      task_data:{},
-      saveOpen:false,
-      filterName:'',
-      filterPublic:false,
-      filterReport:false,
-      filterDefault:false,
-      filterIcon:'fa-filter',
-      filterOrder:10,
-      submitError:false,
+    let state={};
+    if(this.props.match.params.id){
+      let task_data={};
+      if(this.props.filter.filter.addedParameters){
+        let processedParameters=this.props.filter.filter.addedParameters.split('&');
+        processedParameters.map(item=>{
+          let temp=item.split('=');
+          if(this.props.taskAttributes.find((attribute)=>attribute.id.toString()===temp[0]).type.includes('select')){
+            task_data[temp[0]]=temp[1].split(',').map((item)=>{return {label:item,value:item};});
+          }
+          else if(this.props.taskAttributes.find((attribute)=>attribute.id.toString()===temp[0]).type.includes('date')){
+            task_data[temp[0]]=moment(parseInt(temp[1])*1000);
+          }
+          else{
+            task_data[temp[0]]=temp[1];
+          }
+        })
 
+      }
+      console.log(this.props.filter);
+      state={
+        createdFrom:this.props.filter.filter.createdTime&& this.getDate(this.props.filter.filter.createdTime).from?this.getDate(this.props.filter.filter.createdTime).from:null,
+        createdTo:this.props.filter.filter.createdTime&& this.getDate(this.props.filter.filter.createdTime).to?this.getDate(this.props.filter.filter.createdTime).to:null,
+        deadlineFrom:this.props.filter.filter.deadlineTime&& this.getDate(this.props.filter.filter.deadlineTime).from?this.getDate(this.props.filter.filter.deadlineTime).from:null,
+        deadlineTo:this.props.filter.filter.deadlineTime&& this.getDate(this.props.filter.filter.deadlineTime).to?this.getDate(this.props.filter.filter.deadlineTime).to:null,
+        closedFrom:this.props.filter.filter.closedTime&& this.getDate(this.props.filter.filter.closedTime).from?this.getDate(this.props.filter.filter.closedTime).from:null,
+        closedTo:this.props.filter.filter.closedTime&& this.getDate(this.props.filter.filter.closedTime).to?this.getDate(this.props.filter.filter.closedTime).to:null,
+        title:this.props.filter.filter.search,
+        startedFrom:this.props.filter.filter.startedTime&& this.getDate(this.props.filter.filter.startedTime).from?this.getDate(this.props.filter.filter.startedTime).from:null,
+        startedTo:this.props.filter.filter.startedTime&& this.getDate(this.props.filter.filter.startedTime).to?this.getDate(this.props.filter.filter.startedTime).to:null,
+        archived:this.props.filter.filter.archived,
+        important:this.props.filter.filter.important,
+        statuses:this.props.filter.filter.status?this.props.statuses.filter((item)=>this.props.filter.filter.status.includes(item.id)):[],
+        projects:this.props.filter.filter.project?this.props.projects.filter((item)=>this.props.filter.filter.project.includes(item.id)):[],
+        creators:this.props.filter.filter.creator?this.props.users.filter((item)=>this.props.filter.filter.creator.includes(item.id)):[],
+        requesters:this.props.filter.filter.requester?this.props.users.filter((item)=>this.props.filter.filter.requester.includes(item.id)):[],
+        companies:this.props.filter.filter.company?this.props.companies.filter((item)=>this.props.filter.filter.company.includes(item.id)):[],
+        assignedTos:this.props.filter.filter.assigned?this.props.users.filter((item)=>this.props.filter.filter.assigned.includes(item.id)):[],
+        tags:this.props.filter.filter.tag?this.props.tags.filter((item)=>this.props.filter.filter.tag.includes(item.id)):[],
+        followers:this.props.filter.filter.follower?this.props.users.filter((item)=>this.props.filter.filter.follower.includes(item.id)):[],
+        task_data,
+        saveOpen:false,
+        filterName:this.props.filter.title,
+        filterPublic:this.props.filter.public,
+        filterReport:this.props.filter.report,
+        filterDefault:false,
+        filterIcon:this.props.filter.icon_class,
+        filterOrder:this.props.filter.order,
+        submitError:false,
+        editingFilter:this.props.match.params.id?true:false,
+      };
     }
-    if(this.props.body){
-      Object.keys(this.props.body).map((key)=>state[key]=this.props.body[key]);
+    else{
+      state={
+        createdFrom:null,
+        createdTo:null,
+        deadlineFrom:null,
+        deadlineTo:null,
+        closedFrom:null,
+        closedTo:null,
+        title:'',
+        startedFrom:null,
+        startedTo:null,
+        archived:false,
+        important:false,
+        statuses:[],
+        projects:[],
+        creators:[],
+        requesters:[],
+        companies:[],
+        assignedTos:[],
+        tags:[],
+        followers:[],
+        task_data:{},
+        saveOpen:false,
+        filterName:'',
+        filterPublic:false,
+        filterReport:false,
+        filterDefault:false,
+        filterIcon:'fa-filter',
+        filterOrder:10,
+        submitError:false,
+        editingFilter:this.props.match.params.id?true:false,
+      };
+      if(this.props.body){
+        Object.keys(this.props.body).map((key)=>state[key]=this.props.body[key]);
+      }
     }
     this.state=state;
   }
 
-  submit(){
+  getDate(str){
+    let result=null;
+    if(str.includes('TO')&&str.includes('FROM')){
+      let temp = str.replace('FROM=','').replace('TO=','').split(',');
+      result= {from:temp[0]==='now'?moment():moment(parseInt(temp[0])*1000),to:temp[1]==='now'?moment():moment(temp[1]*1000)};
+    }
+    else if(str.includes('TO')){
+      let temp = str.replace('TO=','');
+      if(temp==='now'){
+        result= {to:moment()};
+      }
+      else{
+        result= {to:moment(parseInt(temp)*1000)};
+      }
+    }
+    else{
+      str.replace('FROM=','');
+      if(temp==='now'){
+        result= {from:moment()};
+      }
+      else{
+        result= {from:moment(parseInt(temp)*1000)};
+      }
+    }
+    return result;
+  }
+
+  submit(savingChanges){
     this.setState({submitError:true});
     if(this.state.filterIcon===''||this.state.filterName===''||isNaN(parseInt(this.state.filterOrder))){
       return;
@@ -118,7 +199,12 @@ class Filter extends Component {
       order:this.state.filterOrder,
       filter:JSON.stringify(filter)
     };
-    this.props.createFilter(body,this.props.token);
+    if(savingChanges){
+      this.props.editFilter(body,this.props.match.params.id,this.props.token);
+    }
+    else{
+      this.props.createFilter(body,this.props.token);
+    }
     this.setState({saveOpen:false})
   }
 
@@ -268,7 +354,11 @@ class Filter extends Component {
               {i18n.t('cancel')}
             </button>
 
-            <button className="btn btn-primary mr-1" onClick={this.submit.bind(this)}>
+            {this.state.editingFilter && <button className="btn btn-primary mr-1" onClick={()=>this.submit(true)}>
+              {i18n.t('saveFilter')}
+            </button>}
+
+            <button className="btn btn-primary mr-1" onClick={()=>this.submit(false)}>
               {i18n.t('save')}
             </button>
             </ModalFooter>
@@ -277,7 +367,7 @@ class Filter extends Component {
           <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)}>
             {i18n.t('apply')}
           </button>
-          <button type="button" className="btn btn-link" onClick={()=>this.setState({saveOpen:true, filterName:''})}>
+          <button type="button" className="btn btn-link" onClick={()=>this.setState({saveOpen:true, filterName:this.state.editingFilter?this.state.filterName:''})}>
             {i18n.t('save')}
           </button>
           <button type="button" className="btn btn-link" onClick={()=>this.setState({
@@ -774,14 +864,14 @@ class Filter extends Component {
 const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesReducer, tagsReducer, taskAttributesReducer, login, filtersReducer }) => {
   const { taskProjects } = tasksReducer;
   const {taskStatuses} = statusesReducer;
-  const { originalBody } = filtersReducer;
+  const { originalBody, filter } = filtersReducer;
   const {users} = usersReducer;
   const { taskCompanies } = companiesReducer;
   const { tags } = tagsReducer;
   const { taskAttributes } = taskAttributesReducer;
   const { token } = login;
-  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags,taskAttributes, token, body:originalBody};
+  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags,taskAttributes, token, filter, body:originalBody};
 };
 
 
-export default connect(mapStateToProps, {loadUnsavedFilter,createFilter})(Filter);
+export default connect(mapStateToProps, {loadUnsavedFilter,createFilter, editFilter})(Filter);

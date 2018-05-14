@@ -234,7 +234,7 @@ export default {
   subtasks:'Podúlohy',
   enterSubtask:'Zadajte podúlohu',
   enterNewSubtask:'Zadajte novú podúlohu',
-  material:'Materiál',
+  invoiceableItems:'Fakturované položky',
   price:'Cena',
   pricePerUnit:'Cena/kus',
   unit:'Jednotka',
@@ -317,6 +317,8 @@ export default {
   important:'Dôležité',
   follower:'Follower',
   restrictionMustEnterFilterIcon:'Musíte zadať ikonu filtra',
+  saveFilter:'Uložiť momentálny filter',
+  500: 'Vnútorná chyba serveru'
 }
 
 /*

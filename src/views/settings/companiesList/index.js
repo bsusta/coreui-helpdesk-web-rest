@@ -21,7 +21,7 @@ class CompaniesListLoader extends Component {
 
   render(){
     if(!this.props.companiesLoaded){
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <CompaniesList history={this.props.history} match={this.props.match}/>
   }

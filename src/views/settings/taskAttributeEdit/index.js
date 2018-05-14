@@ -19,7 +19,7 @@ class TaskAttributeEditLoader extends Component {
   }
   render(){
     if(!this.props.taskAttributeLoaded){ //data hasnt been loaded yet
-      return(<Loading errorID={this.state.errorID}/>)
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
     return <TaskAttributeEdit history={this.props.history}/>
   }
