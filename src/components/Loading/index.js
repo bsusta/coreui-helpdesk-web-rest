@@ -6,7 +6,6 @@ import i18n from 'i18next';
 class Loading extends Component {
 
   render() {
-    console.log(this.props);
     return (
       <Card
         className="smallCard"

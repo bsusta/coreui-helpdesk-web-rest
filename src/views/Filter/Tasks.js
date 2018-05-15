@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getFilteredTasks } from "../../redux/actions";
+import { loadUnsavedFilter, setCanUpdate } from "../../redux/actions";
+import Filter from './Filter';
 import {
   Row,
   Col,
@@ -26,9 +27,31 @@ import Pagination from "../../components/pagination";
 import { timestampToString } from "../../helperFunctions";
 import i18n from 'i18next';
 
-class Project extends Component {
+class Tasks extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+        displayFilter:!this.props.hideFilter,
+    };
+    this.canUpdate.bind(this);
+  }
+
+  componentWillMount(){
+    if(this.props.originalBody){
+      let page=this.props.match.params?this.props.match.params.page:1;
+      let count = this.props.match.params?this.props.match.params.count:20;
+      loadUnsavedFilter(page,count,this.props.token,this.props.body,this.props.originalBody,false);
+    }
+  }
+
+  canUpdate(){
+    this.props.setCanUpdate(true);
+  }
+
+  componentWillReceiveProps(props){
+      if(this.props.hideFilter!==props.hideFilter){
+        this.setState({displayFilter:!props.hideFilter});
+      }
   }
 
   usersToString(users) {
@@ -41,35 +64,16 @@ class Project extends Component {
     );
     return text;
   }
-
   render() {
     return (
-      <div className="table-div">
-        <h2>
-          <a
-            className="fa fa-filter"
-            style={{
-              border: "none",
-              backgroundColor: "white",
-              color: "grey",
-              textDecoration: "none"
-            }}
-            onClick={()=>{
-              if(parseInt(this.props.match.params.id)>3){
-                this.props.history.push('/filter/'+this.props.match.params.id);
-              }
-            }}
-          />{" "}
+      <div className="table-div row">
+        <div className="col-4" style={{display:this.state.displayFilter?'block':'none'}}>
+          <Filter history={this.props.history} match={this.props.match} setPageNumber={()=>{}} page={this.props.page}/>
+        </div>
+        <div className={this.state.displayFilter?"col-8":''}>
           {
-            this.props.filters[
-              this.props.filters.findIndex(filter =>
-                filter.url.includes(this.props.match.params.id)
-              )
-            ].name
+            !this.props.hideFilter && <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.setState({displayFilter:!this.state.displayFilter})} />
           }
-        </h2>
-
-        <div>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
               <tr>
@@ -148,22 +152,22 @@ class Project extends Component {
                   <td>{task.project.title}</td>
                   <td>{timestampToString(task.createdAt)}</td>
                   <td>
-                    {task.deadline ? timestampToString(task.deadline) : i18n.t('none')}
+                    {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
           <Pagination
-            link={"filter/view/" + this.props.match.params.id}
+            link={"filter"}
             history={this.props.history}
             numberOfPages={this.props.numberOfPages}
-            refetchData={()=>{}}
+            refetchData={this.props.loadUnsavedFilter}
             token={this.props.token}
-            disabled={false}
-            refetchParameters={[parseInt(this.props.match.params.id, 10)]}
-            pageNumber={this.props.page}
-            setPageNumber={this.props.setPage}
+            disabled={this.props.body?false:true}
+            refetchParameters={[this.props.body,this.props.originalBody,this.props.hideFilter]}
+            pageNumber={this.props.match.params.page?(this.props.tasks.length>0?parseInt(this.props.match.params.page, 10):0):0}
+            setPageNumber={(pageNumber)=>{}}
             paginationOptions={[
               { title: 20, value: 20 },
               { title: 50, value: 50 },
@@ -181,17 +185,17 @@ class Project extends Component {
   }
 }
 
-const mapStateToProps = ({ tasksReducer, sidebarReducer, login }) => {
-  const { tasks, filterLinks } = tasksReducer;
-  const { sidebar } = sidebarReducer;
+const mapStateToProps = ({ filtersReducer,  login }) => {
+  const { tasks,numberOfPages, body,originalBody,hideFilter } = filtersReducer;
   const { token } = login;
   return {
     tasks,
-    filters:
-      sidebar[sidebar.findIndex(item => item.name === "filters")].children,
-    numberOfPages: filterLinks.numberOfPages,
-    token
+    token,
+    numberOfPages,
+    hideFilter,
+    body,
+    originalBody
   };
 };
 
-export default connect(mapStateToProps, { getFilteredTasks })(Project);
+export default connect(mapStateToProps, { loadUnsavedFilter, setCanUpdate })(Tasks);

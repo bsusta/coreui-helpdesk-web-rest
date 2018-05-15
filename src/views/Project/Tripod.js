@@ -31,20 +31,12 @@ class Project extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageNumber: (this.props.match.params.page && this.props.tasks.length>0)
-        ? parseInt(this.props.match.params.page, 10)
-        : (this.props.tasks.length>0?1:0),
         taskID:this.props.tasks.length>0?this.props.tasks[0].id:null,
     };
     if(this.props.tasks.length>0){
       this.props.setTaskID(this.props.tasks[0].id);
     }
   }
-
-  setPage(number) {
-    this.setState({ pageNumber: number });
-  }
-
   usersToString(users) {
     if (users.length === 0) {
       return  i18n.t('noone');
@@ -138,11 +130,11 @@ class Project extends Component {
             disabled={false}
             history={this.props.history}
             numberOfPages={this.props.numberOfPages}
-            refetchData={this.props.getProjectTasks}
+            refetchData={()=>{}}
             token={this.props.token}
             refetchParameters={[parseInt(this.props.match.params.id, 10)]}
-            pageNumber={this.state.pageNumber}
-            setPageNumber={this.setPage.bind(this)}
+            pageNumber={this.props.page}
+            setPageNumber={this.props.setPage}
             small={true}
             paginationOptions={[
               { title: 20, value: 20 },

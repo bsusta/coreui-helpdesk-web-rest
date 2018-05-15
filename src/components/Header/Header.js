@@ -10,12 +10,18 @@ import {
 } from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
 import MessagesDropdown from "./MessagesDropdown";
-import {logoutUser} from '../../redux/actions';
+import {logoutUser, loadUnsavedFilter} from '../../redux/actions';
 import { connect } from "react-redux";
 import i18n from 'i18next';
 import ErrorMessagesDropdown from './ErrorMessagesDropdown';
 
 class Header extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      search:''
+    };
+  }
   render() {
     return (
       <header className="app-header navbar" style={{ maxWidth: 1920 }}>
@@ -26,20 +32,27 @@ class Header extends Component {
 
 
 
-        <NavbarToggler className="d-md-down-none">
+        <Nav className="d-md-down-none">
           <InputGroup>
             <Input
               type="text"
-              id="input1-group1"
-              name="input1-group1"
+              id="search"
+              value={this.state.search}
+              onChange={(e)=>this.setState({search:e.target.value})}
               placeholder="Search task"
               style={{ borderRight: "0", width: 300, marginLeft: 90 }}
+
             />
-            <InputGroupAddon style={{ background: "white", borderLeft: "" }}>
+          <InputGroupAddon
+            style={{background: "white", borderLeft: "", cursor:'pointer'}} 
+            onClick={()=>{
+              this.props.loadUnsavedFilter(20,1,this.props.token,{search:this.state.search},{title:this.state.search},true);
+              this.props.history.push('/filter/1,20');
+            }}>
               <i className="fa fa-search" />
             </InputGroupAddon>
           </InputGroup>
-        </NavbarToggler>
+        </Nav>
 
         <button
           type="button"
@@ -76,9 +89,9 @@ class Header extends Component {
 
 
 const mapStateToProps = ({login, errorsReducer}) => {
-  const {user}=login;
+  const {user, token}=login;
   const {errorMessages}=errorsReducer;
-  return {user,errorMessages};
+  return {user,token,errorMessages};
 };
 
-export default connect(mapStateToProps, { logoutUser })(Header);
+export default connect(mapStateToProps, { logoutUser, loadUnsavedFilter })(Header);

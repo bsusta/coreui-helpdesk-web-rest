@@ -1,194 +1,87 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { loadUnsavedFilter } from "../../redux/actions";
-import FilterLoader from './FilterLoader';
-import {
-  Row,
-  Col,
-  Button,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Card,
-  CardHeader,
-  CardFooter,
-  CardBody,
-  Form,
-  FormGroup,
-  FormText,
-  Label,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton
-} from "reactstrap";
-import Pagination from "../../components/pagination";
-import { timestampToString } from "../../helperFunctions";
-import i18n from 'i18next';
+import { connect } from 'react-redux';
 
-class Filter extends Component {
-  constructor(props) {
+import {startTaskProjectsLoading,startStatusesLoading,setFilterHide,
+  getTaskStatuses,getTaskProjects,startCompaniesLoading,getTaskCompanies,
+startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
+ startUnitsLoading, getUnits, deleteTaskSolvers,loadUnsavedFilter,
+startUsersLoading, getUsers,clearErrorMessage, clearFilterTasks,setCanUpdate,
+startFilterLoading, getFilter } from '../../redux/actions';
+import Tasks from './Tasks';
+import Loading from '../../components/Loading';
+
+class FilterLoader extends Component {
+  constructor(props){
     super(props);
-    this.state = {
-      pageNumber: (this.props.match.params.page && this.props.tasks.length>0)
-        ? parseInt(this.props.match.params.page, 10)
-        : (this.props.tasks.length>0?1:0),
-        displayFilter:true,
-    };
-    console.log(this.state.pageNumber);
+    this.state={
+      randomFloat:Math.random(),
+      filterID:this.props.body?JSON.stringify(this.props.originalBody):null,
+      count:this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,
+      page:this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,
+      id:this.props.match.params.id?parseInt(this.props.match.params.id, 10):null,
+    }
+    console.log(this.state);
   }
-
-  setPage(number) {
-    this.setState({ pageNumber: number });
-  }
+  //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
-    if(this.props.originalBody){
-      let page=this.props.match.params?this.props.match.params.page:1;
-      let count = this.props.match.params?this.props.match.params.count:20;
-      loadUnsavedFilter(page,count,this.props.token,this.props.body,this.props.originalBody);
+    if(!this.props.originalBody){
+      this.props.clearFilterTasks();
     }
+    this.props.clearErrorMessage(this.state.randomFloat);
+    this.props.startTaskProjectsLoading();
+    this.props.startStatusesLoading();
+    this.props.startCompaniesLoading();
+    this.props.startTaskAttributesLoading();
+    this.props.startTagsLoading();
+    this.props.startUnitsLoading();
+    this.props.startUsersLoading();
+    this.props.deleteTaskSolvers();
+    if(this.props.match.params.id){
+      this.props.startFilterLoading();
+      this.props.getFilter(this.props.match.params.id,this.props.token);
+    }
+    this.props.setFilterHide(false);
+    this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
+    this.props.getTaskProjects(this.props.token);
+    this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
+    this.props.getTaskAttributes(this.props.token);
+    this.props.getTags(this.props.token);
+    this.props.getUnits(this.props.token);
+    this.props.getUsers("",this.props.token);
   }
 
-  usersToString(users) {
-    if (users.length === 0) {
-      return  i18n.t('none');
+  render(){
+    if(!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
+      !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
+    !this.props.usersLoaded||(this.props.match.params.id&&!this.props.filterLoaded)){
+      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
-    let text = "";
-    Object.values(users).map(
-      solver => (text = text + (solver.user.username + " "))
-    );
-    return text;
-  }
-  render() {
-    return (
-      <div className="table-div row">
-        <div className="col-4" style={{display:this.state.displayFilter?'block':'none'}}>
-          <FilterLoader history={this.props.history} match={this.props.match} setPageNumber={(pageNumber)=>this.setState({pageNumber})}/>
-        </div>
-        <div className={this.state.displayFilter?"col-8":''}>
-          <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.setState({displayFilter:!this.state.displayFilter})} />
-          <table className="table table-striped table-hover table-sm">
-            <thead className="thead-inverse">
-              <tr>
-                <th style={{ width: "3%", borderTop: "0px" }}>{i18n.t('id')}</th>
-                <th style={{ width: "5%", borderTop: "0px" }}>{i18n.t('status')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('requester')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('company')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('assigned')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('project')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('createdAt')}</th>
-                <th style={{ width: "10%", borderTop: "0px" }}>{i18n.t('dueDate')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-              </tr>
-              {this.props.tasks.map(task => (
-                <tr style={{ cursor: "pointer" }} key={task.id}>
-                  <td style={{ verticalAlign: "center" }}>{task.id}</td>
-                  <td>
-                    <span className="badge badge-success" style={{backgroundColor:task.status.color}}>{task.status.title}</span>
-                  </td>
-                  <td
-                    onClick={() =>
-                      this.props.history.push("/task/edit/" + task.id)
-                    }
-                  >
-                    {task.title}
-                    <p>
-                      {task.tags.map(tag => (
-                        <span
-                          key={tag.id}
-                          className="badge mr-1"
-                          style={{
-                            backgroundColor:
-                              (tag.color.includes("#") ? "" : "#") + tag.color,
-                            color: "white"
-                          }}
-                        >
-                          {tag.title}
-                        </span>
-                      ))}
-                    </p>
-                  </td>
-                  <td>{task.requestedBy.username}</td>
-                  <td>{task.company.title}</td>
-                  <td>{this.usersToString(task.taskHasAssignedUsers)}</td>
-                  <td>{task.project.title}</td>
-                  <td>{timestampToString(task.createdAt)}</td>
-                  <td>
-                    {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Pagination
-            link={"filter"}
-            history={this.props.history}
-            numberOfPages={this.props.numberOfPages}
-            refetchData={this.props.loadUnsavedFilter}
-            token={this.props.token}
-            disabled={this.props.body?false:true}
-            refetchParameters={[this.props.body,this.props.originalBody]}
-            pageNumber={this.state.pageNumber}
-            setPageNumber={(pageNumber)=>this.setState({pageNumber})}
-            paginationOptions={[
-              { title: 20, value: 20 },
-              { title: 50, value: 50 },
-              { title: 100, value: 100 }
-            ]}
-            pagination={
-              this.props.match.params.count
-                ? parseInt(this.props.match.params.count, 10)
-                : 20
-            }
-          />
-        </div>
-      </div>
-    );
+    return <Tasks history={this.props.history} match={this.props.match} />
   }
 }
 
-const mapStateToProps = ({ filtersReducer,  login }) => {
-  const { tasks,numberOfPages, body,originalBody } = filtersReducer;
-  const { token } = login;
-  return {
-    tasks,
-    token,
-    numberOfPages,
-    body,
-    originalBody
-  };
+//all below is just redux storage
+
+const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,taskAttributesReducer,unitsReducer, usersReducer,filtersReducer, login }) => {
+  const {taskProjectsLoaded } = tasksReducer;
+  const {statusesLoaded, updateDate } = statusesReducer;
+  const {companiesLoaded } = companiesReducer;
+  const {tagsLoaded} = tagsReducer;
+  const {taskAttributesLoaded} = taskAttributesReducer;
+  const {unitsLoaded} = unitsReducer;
+  const {usersLoaded} = usersReducer;
+  const { body, originalBody, filterLoaded, hideFilter, canUpdate } = filtersReducer;
+  const {token} = login;
+
+  return {taskProjectsLoaded,taskAttributesLoaded, statusesLoaded,hideFilter,
+    statusesUpdateDate:updateDate,companiesLoaded,companiesUpdateDate:companiesReducer.updateDate,
+    tagsLoaded,unitsLoaded, usersLoaded,originalBody,body, filterLoaded,canUpdate, token};
 };
 
-export default connect(mapStateToProps, { loadUnsavedFilter })(Filter);
+
+export default connect(mapStateToProps, {
+  startTaskProjectsLoading,startStatusesLoading,loadUnsavedFilter,setFilterHide,
+  getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
+  startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,setCanUpdate,
+  startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
+  clearErrorMessage, clearFilterTasks,startFilterLoading, getFilter})(FilterLoader);

@@ -249,9 +249,7 @@ class Filter extends Component {
       important:this.state.important,
       addedParameters:processCustomFilterAttributes({...this.state.task_data},[...this.props.taskAttributes])
     }
-
     this.props.history.push('/filter/1,'+(this.props.match.params.count?this.props.match.params.count:20));
-    this.props.setPageNumber(1);
     this.props.loadUnsavedFilter(this.props.match.params.count?this.props.match.params.count:20,1,this.props.token,body,this.state);
   }
 

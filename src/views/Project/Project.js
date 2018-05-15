@@ -27,18 +27,6 @@ import { timestampToString } from "../../helperFunctions";
 import i18n from 'i18next';
 
 class Project extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pageNumber: (this.props.match.params.page && this.props.tasks.length>0)
-        ? parseInt(this.props.match.params.page, 10)
-        : (this.props.tasks.length>0?1:0)
-    };
-  }
-
-  setPage(number) {
-    this.setState({ pageNumber: number });
-  }
 
   usersToString(users) {
     if (users.length === 0) {
@@ -176,12 +164,12 @@ class Project extends Component {
             link={"project/" + this.props.match.params.id}
             history={this.props.history}
             numberOfPages={this.props.numberOfPages}
-            refetchData={this.props.getProjectTasks}
+            refetchData={()=>{}}
             token={this.props.token}
             disabled={false}
             refetchParameters={[parseInt(this.props.match.params.id, 10)]}
-            pageNumber={this.state.pageNumber}
-            setPageNumber={this.setPage.bind(this)}
+            pageNumber={this.props.page}
+            setPageNumber={this.props.setPage}
             paginationOptions={[
               { title: 20, value: 20 },
               { title: 50, value: 50 },

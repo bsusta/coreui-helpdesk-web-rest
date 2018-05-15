@@ -59,6 +59,7 @@ import i18n from 'i18next';
  */
  export const getFilteredTasks= (limit,page,token,id) => {
    return (dispatch) => {
+     console.log('loading '+id);
        fetch(TASKS_LIST+'/filter/'+id+'?limit='+limit+'&page='+page+'&order=title=>asc', {
          method: 'get',
          headers: {

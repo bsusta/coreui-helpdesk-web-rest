@@ -31,9 +31,9 @@ class Project extends Component {
 
   render() {
     if(this.props.tripod){
-      return <Tripod history={this.props.history} match={this.props.match}/>
+      return <Tripod history={this.props.history} match={this.props.match} setPage={this.props.setPage} page={this.props.page}/>
     }
-    return <ClassicProject history={this.props.history} match={this.props.match}/>
+    return <ClassicProject history={this.props.history} match={this.props.match} setPage={this.props.setPage} page={this.props.page}/>
   }
 }
 
