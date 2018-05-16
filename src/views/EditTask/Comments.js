@@ -79,27 +79,26 @@ class Comments extends Component {
                           alt={comment.createdBy.email}
                           style={{ height: 30, marginRight: 10 }}
                         />
-
                         <span className="from">
                           {!comment.hasParent &&
-                            !comment.email &&
+                            !comment.email &&<span><span className="fontBold">{
                             comment.createdBy.name +
                               " " +
                               comment.createdBy.surname +
-                              " "+i18n.t('wroteComment')}
+                              " "}</span>{i18n.t('wroteComment')}</span>}
                           {!comment.hasParent &&
-                            comment.email &&
+                            comment.email &&<span><span className="fontBold">{
                             comment.createdBy.name +
                               " " +
                               comment.createdBy.surname +
-                              " "+i18n.t('sentEmailTo')+": " +
-                              this.stringifyArray(comment.email_to)}
+                              " "}</span>{i18n.t('sentEmailTo')+": " +
+                              this.stringifyArray(comment.email_to)}</span>}
                           {comment.hasParent &&
                             !comment.email &&
-                            comment.createdBy.name +
+                            <span><span className="fontBold">{comment.createdBy.name +
                               " " +
                               comment.createdBy.surname +
-                              " "+i18n.t('respondedToComment')+" " +
+                              " "}</span>{i18n.t('respondedToComment')+" " +
                               timestampToString(
                                 comments[
                                   comments.findIndex(
@@ -112,14 +111,14 @@ class Comments extends Component {
                                 comments.findIndex(
                                   i1 => i1.id === comment.parentId
                                 )
-                              ].createdBy.email}
+                              ].createdBy.email}</span>}
                           {comment.hasParent &&
-                            comment.email &&
+                            comment.email &&<span><span className="fontBold">{
                             comment.createdBy.name +
                               " " +
                               comment.createdBy.surname +
-                              " "+i18n.t('respondedByEmailTo')+":" +
-                              this.stringifyArray(comment.email_to)}
+                              " "}</span>{i18n.t('respondedByEmailTo')+":" +
+                              this.stringifyArray(comment.email_to)}</span>}
                         </span>
                         <span className="date">
                           <span className="fa fa-paper-clip" />

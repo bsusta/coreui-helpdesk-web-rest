@@ -27,6 +27,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { connect } from "react-redux";
+import colors from '../../../scss/colors';
 import {
   addComment,
   addCommentsComment,
@@ -84,7 +85,7 @@ class AddComment extends Component {
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "1" })}
+              className={this.state.activeTab === "1"?"active fontBold":""}
               onClick={() => {
                 this.toggle("1");
               }}
@@ -94,7 +95,7 @@ class AddComment extends Component {
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "2" })}
+              className={this.state.activeTab === "2"?"active fontBold":""}
               onClick={() => {
                 this.toggle("2");
               }}
@@ -145,9 +146,9 @@ class AddComment extends Component {
                     ? "addAttachment" + this.props.commentID
                     : "addAttachment"
                 }
-                style={{ cursor: "pointer", textDecoration: "underline" }}
+                style={{ cursor: "pointer", color: colors.textBlue}}
               >
-                <i className="fa fa-paperclip" />&nbsp;{i18n.t('addAttachment')}
+                <i style={{ color: colors.textBlue }} className="fa fa-paperclip" /><span style={{ color: colors.textBlue }}> {i18n.t('addAttachment')} </span>
               </label>
               <Label
                 check
@@ -174,7 +175,7 @@ class AddComment extends Component {
                 {i18n.t('internal')}
               </Label>
               <button
-                className="btn btn-sm btn-success mr-2 ml-2 float-right"
+                className="btn btn-sm btn-success mr-2 ml-2 float-right greenButton"
                 onClick={() => {
                   if (this.props.commentID) {
                     this.props.addCommentsComment(
@@ -216,7 +217,7 @@ class AddComment extends Component {
                 Send
               </button>
               <button
-                className="btn btn-sm btn-danger float-right"
+                className="btn btn-sm btn-danger float-right redButton"
                 onClick={() =>
                   this.setState({
                     message: "",
@@ -311,7 +312,7 @@ class AddComment extends Component {
                   {this.stringifyArray(this.state.to)}
                   {this.state.to.length !== 0 && (
                     <button
-                      className="btn btn-sm btn-danger mr-1"
+                      className="btn btn-sm btn-danger mr-1 redButton"
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ to: [] })}
                     >
@@ -319,42 +320,21 @@ class AddComment extends Component {
                     </button>
                   )}
                 </div>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td style={{ borderTop: "0px", width: "100%" }}>
-                        <Input
-                          type="text"
-                          id="to"
-                          value={this.state.newTo}
-                          onChange={e =>
-                            this.setState({ newTo: e.target.value })
-                          }
-                        />
-                      </td>
-                      <td
-                        style={{
-                          width: "40px",
-                          borderTop: "0px",
-                          textAlign: "right"
-                        }}
-                      >
-                        <button
-                          style={{ float: "right" }}
-                          className="btn btn-sm btn-primary mr-1"
-                          onClick={() =>
-                            this.setState({
-                              newTo: "",
-                              to: [...this.state.to, this.state.newTo]
-                            })
-                          }
-                        >
-                          <i className="fa fa-plus " />
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <Input
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
+                      this.setState({
+                        newTo: "",
+                        to: [...this.state.to, this.state.newTo]
+                      });
+                  }}}
+                  type="text"
+                  id="to"
+                  value={this.state.newTo}
+                  onChange={e =>
+                    this.setState({ newTo: e.target.value })
+                  }
+                />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -366,7 +346,7 @@ class AddComment extends Component {
                   {this.stringifyArray(this.state.cc)}
                   {this.state.cc.length !== 0 && (
                     <button
-                      className="btn btn-sm btn-danger mr-1"
+                      className="btn btn-sm btn-danger mr-1 redButton"
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ cc: [] })}
                     >
@@ -374,42 +354,22 @@ class AddComment extends Component {
                     </button>
                   )}
                 </div>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td style={{ borderTop: "0px", width: "100%" }}>
-                        <Input
-                          type="text"
-                          id="cc"
-                          value={this.state.newCC}
-                          onChange={e =>
-                            this.setState({ newCC: e.target.value })
-                          }
-                        />
-                      </td>
-                      <td
-                        style={{
-                          width: "40px",
-                          borderTop: "0px",
-                          textAlign: "right"
-                        }}
-                      >
-                        <button
-                          style={{ float: "right" }}
-                          className="btn btn-sm btn-primary mr-1"
-                          onClick={() =>
-                            this.setState({
-                              newCC: "",
-                              cc: [...this.state.cc, this.state.newCC]
-                            })
-                          }
-                        >
-                          <i className="fa fa-plus " />
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                  <Input
+                    type="text"
+                    id="cc"
+                    value={this.state.newCC}
+                    onKeyPress={(e)=>{
+                      if(e.key==='Enter'){
+                        this.setState({
+                          newCC: "",
+                          cc: [...this.state.cc, this.state.newCC]
+                        });
+                    }}}
+
+                    onChange={e =>
+                      this.setState({ newCC: e.target.value })
+                    }
+                  />
               </Col>
             </FormGroup>
 
@@ -422,7 +382,7 @@ class AddComment extends Component {
                   {this.stringifyArray(this.state.bcc)}
                   {this.state.bcc.length !== 0 && (
                     <button
-                      className="btn btn-sm btn-danger mr-1"
+                      className="btn btn-sm btn-danger mr-1 redButton"
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ bcc: [] })}
                     >
@@ -430,42 +390,21 @@ class AddComment extends Component {
                     </button>
                   )}
                 </div>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td style={{ borderTop: "0px", width: "100%" }}>
-                        <Input
-                          type="text"
-                          id="bcc"
-                          value={this.state.newBCC}
-                          onChange={e =>
-                            this.setState({ newBCC: e.target.value })
-                          }
-                        />
-                      </td>
-                      <td
-                        style={{
-                          width: "40px",
-                          borderTop: "0px",
-                          textAlign: "right"
-                        }}
-                      >
-                        <button
-                          style={{ float: "right" }}
-                          className="btn btn-sm btn-primary mr-1"
-                          onClick={() =>
-                            this.setState({
-                              newBCC: "",
-                              bcc: [...this.state.bcc, this.state.newBCC]
-                            })
-                          }
-                        >
-                          <i className="fa fa-plus " />
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <Input
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
+                      this.setState({
+                        newBCC: "",
+                        bcc: [...this.state.bcc, this.state.newBCC]
+                      });
+                  }}}
+                  type="text"
+                  id="bcc"
+                  value={this.state.newBCC}
+                  onChange={e =>
+                    this.setState({ newBCC: e.target.value })
+                  }
+                />
               </Col>
             </FormGroup>
 
@@ -492,9 +431,18 @@ class AddComment extends Component {
               />
             </div>
             <div className="form-group">
-              <Button color="link" size="sm">
-                <i className="fa fa-paperclip" />&nbsp;{i18n.t('addAttachment')}
-              </Button>
+              <label
+                className="text-info"
+                size="sm"
+                htmlFor={
+                  this.props.commentID
+                    ? "addAttachment" + this.props.commentID
+                    : "addAttachment"
+                }
+                style={{ cursor: "pointer", color: colors.textBlue}}
+              >
+                <i style={{ color: colors.textBlue }} className="fa fa-paperclip" /><span style={{ color: colors.textBlue, paddingRight:5 }}> {i18n.t('addAttachment')}</span>
+              </label>
               <Label
                 check
                 htmlFor={
@@ -520,7 +468,7 @@ class AddComment extends Component {
               </Label>
               <button
                 type="submit"
-                className="btn btn-sm btn-success mr-2 ml-2 float-right"
+                className="btn btn-sm btn-success mr-2 ml-2 float-right greenButton"
                 onClick={() => {
                   if (this.props.commentID) {
                     this.props.addCommentsComment(
@@ -585,7 +533,7 @@ class AddComment extends Component {
                     internal: false
                   })
                 }
-                className="btn btn-sm btn-danger float-right"
+                className="btn btn-sm btn-danger float-right redButton"
               >
                 {i18n.t('clear')}
               </button>

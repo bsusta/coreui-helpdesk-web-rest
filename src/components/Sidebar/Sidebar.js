@@ -11,6 +11,7 @@ import SidebarHeader from "./../SidebarHeader";
 import SidebarMinimizer from "./../SidebarMinimizer";
 import { getSidebar } from "../../redux/actions";
 import i18n from 'i18next';
+import colors from '../../../scss/colors';
 
 class Sidebar extends Component {
   handleClick(e) {
@@ -93,6 +94,7 @@ class Sidebar extends Component {
 
     // nav item with nav link
     const navItem = (item, key) => {
+      console.log(item.class);
       const classes = {
         item: classNames(item.class),
         link: classNames(
@@ -109,7 +111,7 @@ class Sidebar extends Component {
       const url = item.url ? item.url : "";
       return (
         <NavItem key={key} className={classes.item}>
-          <NavLink to={url} className={classes.link} activeClassName="active">
+          <NavLink to={url} className={classes.link} activeClassName="active activeNavItem fontBold">
             {item.icon && <i className={item.icon} />}
             <span
               style={
@@ -121,7 +123,7 @@ class Sidebar extends Component {
                         ? item.color
                         : "#" + item.color
                     }
-                  : {}
+                  : {color:colors.darkGrey}
               }
             >
             {i18n.t(item.name)}
@@ -135,7 +137,7 @@ class Sidebar extends Component {
     // nav dropdown
     const navDropdown = (item, key) => {
       return (
-        <li key={key} className={activeRoute(item.url, props) + " open"}>
+        <li key={key} className={activeRoute(item.url, props) + " open fontRegular sidebarSize"}>
           <a
             className="nav-link nav-dropdown-toggle"
             href="#"
@@ -145,7 +147,7 @@ class Sidebar extends Component {
 
             {i18n.t(item.name)}
           </a>
-          <ul className="nav-dropdown-items">{navList(item.children)}</ul>
+          <ul className="nav-dropdown-items fontLight sidebarSize">{navList(item.children)}</ul>
         </li>
       );
     };

@@ -86,10 +86,7 @@ class EditTask extends Component {
       startedAt: this.props.task.startedAt
       ? moment(this.props.task.startedAt * 1000)
       : null,
-      description: RichTextEditor.createValueFromString(
-        this.props.task.description,
-        "html"
-      ),
+      description: this.props.task.description?this.props.task.description:'',
       important: this.props.task.important,
       project: this.props.task.project.id,
       requestedBy,
@@ -161,7 +158,7 @@ class EditTask extends Component {
       state["taskSolver"] = "null";
     } else if(name==='requestedBy'){
       state['requestedBy'] = value;
-      state['company'] = this.props.companies[this.props.companies.findIndex((item)=>item.id===value.company.id)];      
+      state['company'] = this.props.companies[this.props.companies.findIndex((item)=>item.id===value.company.id)];
     } else if (name) {
       state[name] = value;
     }
@@ -191,7 +188,7 @@ class EditTask extends Component {
       {
         title: state.title,
         closedAt,
-        description: state.description.toString("html")===''?'null':state.description.toString("html"),
+        description: state.description === ''?'null':state.description,
         deadline:
         state.deadline !== null ? state.deadline.valueOf() / 1000 : "null",
         startedAt:
@@ -223,7 +220,7 @@ class EditTask extends Component {
 
   render() {
     return (
-      <div>
+      <div className="fontRegular">
         <Card>
           <CardHeader className="row justify-content-between" style={{margin:0,width:'inherit',position:'static',zIndex:1}}>
             <div>
@@ -394,16 +391,23 @@ class EditTask extends Component {
                                 />
                             </div>
 
-                            <RichTextEditor
-                              value={this.state.description}
-                              onChange={e => {
-                                this.autoSubmit("description", e);
-                                this.setState({ description: e });
-                              }}
-                              placeholder={i18n.t("enterDescription")}
-                              toolbarClassName="demo-toolbar"
-                              editorClassName="demo-editor"
-                              />
+                            <FormGroup>
+                              <label htmlFor="description">{i18n.t("description")}</label>
+                              <InputGroup>
+                                <textarea
+                                  className="form-control"
+                                  id="description"
+                                  rows={4}
+                                  value={this.state.description}
+                                  onChange={e => {
+                                    this.autoSubmit("description", e.target.value);
+                                    this.setState({ description: e.target.value });
+                                  }}
+                                  placeholder={i18n.t("enterDescription")}
+                                  />
+                              </InputGroup>
+                            </FormGroup>
+
                             <SubtasksLoader
                               taskID={this.props.task.id}
                               units={this.props.units.filter(unit => unit.is_active)}
@@ -425,11 +429,20 @@ class EditTask extends Component {
                                   <InputGroupAddon>
                                     <i className="fa fa-list" />
                                   </InputGroupAddon>
+                                  {this.state.status &&
+                                      <span className="coloredSelect"
+                                        style={{
+                                          color:this.props.statuses.find(
+                                          status => status.id == this.state.status
+                                        ).color}}
+                                        ><i className="fa fa-circle" style={{paddingTop:10}}/></span>
+                                  }
                                   <select
                                     className="form-control"
                                     style={{
-                                      color: "white",
-                                      backgroundColor: this.props.statuses.find(
+                                      borderLeft:'none',
+                                      paddingLeft:3,
+                                      color: this.props.statuses.find(
                                         status => status.id == this.state.status
                                       ).color
                                     }}
@@ -439,6 +452,7 @@ class EditTask extends Component {
                                       this.autoSubmit("status", e.target.value);
                                       this.setState({ status: e.target.value });
                                     }}
+
                                     >
                                     {this.props.statuses.map(status => (
                                       <option
@@ -736,12 +750,14 @@ class EditTask extends Component {
                                     }, 4000);
                                   }}
                                   />
+                                <div>
                                 <label
-                                  className="btn btn-primary btn-block"
                                   htmlFor="fileUpload"
+                                  className="btn btn-primary btn-block uploadButton"
                                   >
-                                  {i18n.t("addAttachment")}
+                                    {i18n.t("addAttachment")}
                                 </label>
+                              </div>
                               </div>
 
                               <div className="form-group">

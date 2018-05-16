@@ -10,6 +10,7 @@ import {
   editItem,
   deleteItem
 } from "../../redux/actions";
+import colors from '../../../scss/colors';
 
 class Subtasks extends Component {
   constructor(props) {
@@ -46,23 +47,25 @@ class Subtasks extends Component {
           </thead>
           <tbody>
             {this.props.subtasks.map(subtask => (
-              <tr key={subtask.id}>
+              <tr key={subtask.id} className="subtaskRow">
                 <td style={{ border: "0px" }}>
                   <div style={{ display: "flex" }}>
-                    <input
-                      key={subtask}
-                      type="checkbox"
-                      checked={subtask.done}
-                      onChange={() =>
+                    <span className="subtaskCheckbox"
+                      onClick={() =>
                         this.props.editSubtask(
                           { done: !subtask.done, title: subtask.title },
                           subtask.id,
                           this.props.taskID,
                           this.props.token
                         )
+                      }>
+                      {
+                        subtask.done &&
+                        <i
+                          className="fa fa-check"
+                          />
                       }
-                      style={{ margin: "auto", marginRight: 10 }}
-                    />
+                </span>
                     <input
                       type="text"
                       id="name"
@@ -92,9 +95,8 @@ class Subtasks extends Component {
                       onChange={e =>
                         this.setState({ editedSubtask: e.target.value })
                       }
-                      className="form-control"
+                      className="form-control subtaskEdit"
                       placeholder={i18n.t('enterSubtask')}
-                      style={{ border: "none" }}
                     />
                   </div>
                 </td>
@@ -126,40 +128,36 @@ class Subtasks extends Component {
                   <input
                     type="text"
                     id="name"
-                    className="form-control"
-                    placeholder={i18n.t('enterNewSubtask')}
+                    className="form-control smoothEdges"
+                    onKeyPress={(e)=>{
+                      if(e.key==='Enter'){
+                        this.props.addSubtask(
+                          { done: false, title: this.state.newSubtask },
+                          this.props.taskID,
+                          this.props.token
+                        );
+                        this.setState({ newSubtask: "" });
+                      }
+                    }}
+                    placeholder={'+ '+i18n.t('enterNewSubtask')}
                     value={this.state.newSubtask}
                     onChange={e =>
                       this.setState({ newSubtask: e.target.value })
                     }
                   />
-                  <button
-                    style={{ float: "right" }}
-                    className="btn btn-sm btn-link mr-1"
-                    onClick={() => {
-                      this.props.addSubtask(
-                        { done: false, title: this.state.newSubtask },
-                        this.props.taskID,
-                        this.props.token
-                      );
-                      this.setState({ newSubtask: "" });
-                    }}
-                  >
-                    <i className="fa fa-plus " />
-                  </button>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
 
-        <table className="table table-hover table-sm">
+        <table className="table table-hover table-sm table-noBorder">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ border: "0px" }}>{i18n.t('invoiceableItems')}</th>
-              <th style={{ width: "10%", border: "0px" }}>{i18n.t('amount')}</th>
-              <th style={{ width: "10%", border: "0px" }}>{i18n.t('pricePerUnit')}</th>
-              <th style={{ width: "15%", border: "0px" }}>{i18n.t('unit')}</th>
+              <th style={{ border: "0px" }}>  {i18n.t('invoiceableItems')}</th>
+              <th style={{ width: "10%", border: "0px" }}>  {i18n.t('amount')}</th>
+              <th style={{ width: "10%", border: "0px" }}>  {i18n.t('pricePerUnit')}</th>
+              <th style={{ width: "15%", border: "0px" }}>  {i18n.t('unit')}</th>
               <th
                 style={{ width: "40px", border: "0px", textAlign: "right" }}
               />
@@ -167,7 +165,7 @@ class Subtasks extends Component {
           </thead>
           <tbody>
             {this.props.items.map(item => (
-              <tr key={item.id}>
+              <tr key={item.id} className="invoiceRow">
                 <td>
                   <input
                     style={{ border: "none" }}
@@ -328,12 +326,53 @@ class Subtasks extends Component {
                 <input
                   type="text"
                   value={this.state.newItem}
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
+                      {
+                        this.props.addItem(
+                          {
+                            title: this.state.newItem,
+                            amount: this.state.newItemCount,
+                            unit_price: this.state.newItemPrice
+                          },
+                          this.state.newItemUnit,
+                          this.props.taskID,
+                          this.props.token
+                        );
+                        this.setState({
+                          newItem: "",
+                          newItemCount: 1,
+                          newItemPrice: 1
+                        });
+                      }
+                    }}}
+                  label="+ Add invoice item"
                   onChange={e => this.setState({ newItem: e.target.value })}
                   className="form-control"
                 />
               </td>
               <td>
                 <input
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
+                      {
+                        this.props.addItem(
+                          {
+                            title: this.state.newItem,
+                            amount: this.state.newItemCount,
+                            unit_price: this.state.newItemPrice
+                          },
+                          this.state.newItemUnit,
+                          this.props.taskID,
+                          this.props.token
+                        );
+                        this.setState({
+                          newItem: "",
+                          newItemCount: 1,
+                          newItemPrice: 1
+                        });
+                      }
+                    }}}
                   type="text"
                   value={this.state.newItemCount}
                   type="number"
@@ -345,6 +384,26 @@ class Subtasks extends Component {
               </td>
               <td>
                 <input
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
+                      {
+                        this.props.addItem(
+                          {
+                            title: this.state.newItem,
+                            amount: this.state.newItemCount,
+                            unit_price: this.state.newItemPrice
+                          },
+                          this.state.newItemUnit,
+                          this.props.taskID,
+                          this.props.token
+                        );
+                        this.setState({
+                          newItem: "",
+                          newItemCount: 1,
+                          newItemPrice: 1
+                        });
+                      }
+                    }}}
                   type="text"
                   value={this.state.newItemPrice}
                   type="number"
@@ -354,7 +413,7 @@ class Subtasks extends Component {
                   className="form-control"
                 />
               </td>
-              <td>
+              <td colSpan="2">
                 <select
                   className="form-control"
                   value={this.state.newItemUnit}
@@ -369,32 +428,6 @@ class Subtasks extends Component {
                     </option>
                   ))}
                 </select>
-              </td>
-
-              <td>
-                <button
-                  style={{ float: "right" }}
-                  onClick={() => {
-                    this.props.addItem(
-                      {
-                        title: this.state.newItem,
-                        amount: this.state.newItemCount,
-                        unit_price: this.state.newItemPrice
-                      },
-                      this.state.newItemUnit,
-                      this.props.taskID,
-                      this.props.token
-                    );
-                    this.setState({
-                      newItem: "",
-                      newItemCount: 1,
-                      newItemPrice: 1
-                    });
-                  }}
-                  className="btn-sm btn btn-link mr-1"
-                >
-                  <i className="fa fa-plus" />
-                </button>
               </td>
             </tr>
             <tr className="table-info">
