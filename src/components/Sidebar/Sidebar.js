@@ -94,7 +94,6 @@ class Sidebar extends Component {
 
     // nav item with nav link
     const navItem = (item, key) => {
-      console.log(item.class);
       const classes = {
         item: classNames(item.class),
         link: classNames(
