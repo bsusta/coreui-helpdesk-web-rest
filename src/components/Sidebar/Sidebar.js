@@ -44,7 +44,7 @@ class Sidebar extends Component {
       if (badge) {
         const classes = classNames(badge.class);
         return (
-          <Badge className={classes} color={badge.variant}>
+          <Badge className={classes} style={{border:'1px solid #a3a3a3', borderRadius:'10px'}} color={badge.variant}>
             {badge.text}
           </Badge>
         );
