@@ -122,7 +122,7 @@ class Sidebar extends Component {
                         ? item.color
                         : "#" + item.color
                     }
-                  : {color:colors.darkGrey}
+                  : {color:colors.black}
               }
             >
             {i18n.t(item.name)}
@@ -132,6 +132,7 @@ class Sidebar extends Component {
         </NavItem>
       );
     };
+
 
     // nav dropdown
     const navDropdown = (item, key) => {

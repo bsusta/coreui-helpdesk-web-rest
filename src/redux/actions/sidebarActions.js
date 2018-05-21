@@ -151,7 +151,7 @@ export const getSidebar = token => {
             })
           );
 
-          nav.push(filters, projects, tags, archived, reports);
+          nav.push(filters, projects, archived);
           dispatch({ type: SET_SIDEBAR, sidebar: nav });
         });
       })

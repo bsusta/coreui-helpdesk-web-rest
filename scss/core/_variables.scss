@@ -55,7 +55,7 @@ $navbar-brand-minimized-logo: url("../img/logo-symbol.png") !default;
 $navbar-brand-minimized-logo-size: 24px !default;
 $navbar-brand-minimized-border: $navbar-brand-border !default;
 
-$navbar-color: $gray-600 !default;
+$navbar-color: #1D70B5 !default;
 $navbar-hover-color: $gray-800 !default;
 $navbar-active-color: $gray-800 !default;
 $navbar-disabled-color: $gray-300 !default;
@@ -110,7 +110,7 @@ $sidebar-nav-link-active-bg: lighten($sidebar-bg, 5%) !default;
 $sidebar-nav-link-active-icon-color: theme-color("primary") !default;
 $sidebar-nav-link-active-borders: 0 !default;
 $sidebar-nav-dropdown-color: #fff !default;
-$sidebar-nav-dropdown-bg: #29363d !default;
+$sidebar-nav-dropdown-bg: #1D70B5 !default;
 $sidebar-nav-dropdown-borders: 0 !default;
 $sidebar-nav-dropdown-indicator-color: $gray-600 !default;
 $sidebar-nav-dropdown-indicator: str-replace(

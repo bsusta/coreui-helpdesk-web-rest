@@ -74,6 +74,7 @@ class Tasks extends Component {
           {
             !this.props.hideFilter && <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.setState({displayFilter:!this.state.displayFilter})} />
           }
+          <h2>+ Filter</h2>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
               <tr>
@@ -89,35 +90,7 @@ class Tasks extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-              </tr>
+    
               {this.props.tasks.map(task => (
                 <tr style={{ cursor: "pointer" }} key={task.id}>
                   <td style={{ verticalAlign: "center" }}>{task.id}</td>
