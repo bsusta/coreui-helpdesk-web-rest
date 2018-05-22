@@ -132,3 +132,25 @@ return (dispatch) => {
    dispatch({ type: SET_CAN_UPDATE,canUpdate });
  }
 }
+
+export const deleteFilter =(id, token)=>{
+  return (dispatch) => {
+      fetch(FILTERS_LIST+'/'+id+'/delete', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if(!response.ok){
+          response.text().then((data)=>{
+            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+          });
+          return;
+        }
+    }).catch(function (error) {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
+    });
+  }
+}

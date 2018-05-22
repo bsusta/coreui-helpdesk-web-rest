@@ -30,7 +30,7 @@ import {
   processCustomFilterAttributes,
   processRESTinput
 } from "../../helperFunctions";
-import {loadUnsavedFilter,createFilter, editFilter} from '../../redux/actions';
+import {loadUnsavedFilter,createFilter, editFilter, deleteFilter} from '../../redux/actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 
@@ -73,7 +73,7 @@ class Filter extends Component {
         projects:this.props.filter.filter.project?this.props.projects.filter((item)=>this.props.filter.filter.project.includes(item.id)):[],
         creators:this.props.filter.filter.creator?this.props.users.filter((item)=>this.props.filter.filter.creator.includes(item.id)):[],
         requesters:this.props.filter.filter.requester?this.props.users.filter((item)=>this.props.filter.filter.requester.includes(item.id)):[],
-        companies:this.props.filter.filter.company?this.props.companies.filter((item)=>this.props.filter.filter.company.includes(item.id)):[],
+        companies:this.props.filter.filter.taskCompany?this.props.companies.filter((item)=>this.props.filter.filter.taskCompany.includes(item.id)):[],
         assignedTos:this.props.filter.filter.assigned?this.props.users.filter((item)=>this.props.filter.filter.assigned.includes(item.id)):[],
         tags:this.props.filter.filter.tag?this.props.tags.filter((item)=>this.props.filter.filter.tag.includes(item.id)):[],
         followers:this.props.filter.filter.follower?this.props.users.filter((item)=>this.props.filter.filter.follower.includes(item.id)):[],
@@ -170,7 +170,7 @@ class Filter extends Component {
         project:this.state.projects.map((item)=>item.id),
         creator:this.state.creators.map((item)=>item.id),
         requester:this.state.requesters.map((item)=>item.id),
-        company:this.state.companies.map((item)=>item.id),
+        taskCompany:this.state.companies.map((item)=>item.id),
         assigned:this.state.assignedTos.map((item)=>item.id),
         tag:this.state.tags.map((item)=>item.id),
         follower:this.state.followers.map((item)=>item.id),
@@ -241,7 +241,7 @@ class Filter extends Component {
       project:this.state.projects.map((item)=>item.id),
       creator:this.state.creators.map((item)=>item.id),
       requester:this.state.requesters.map((item)=>item.id),
-      company:this.state.companies.map((item)=>item.id),
+      taskCompany:this.state.companies.map((item)=>item.id),
       assigned:this.state.assignedTos.map((item)=>item.id),
       tag:this.state.tags.map((item)=>item.id),
       follower:this.state.followers.map((item)=>item.id),
@@ -260,114 +260,121 @@ class Filter extends Component {
 
           <Modal
             isOpen={this.state.saveOpen}
-          >
-          <ModalHeader>
-            Creating new filter
-          </ModalHeader>
-          <ModalBody>
-            <FormGroup>
-              <label htmlFor="filterName">{i18n.t('filterName')}</label>
-              <input
-                className="form-control"
-                id="filterName"
-                value={this.state.filterName}
-                onChange={e => {
-                  this.setState({ filterName: e.target.value });
-                }}
-                placeholder={i18n.t('enterFilterName')}
-              />
-            {this.state.submitError && this.state.filterName===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
-            </FormGroup>
-            <FormGroup>
-              <label htmlFor="filterOrder">{i18n.t('orderFilter')}</label>
-              <input
-                className="form-control"
-                id="filterOrder"
-                type="number"
-                value={this.state.filterOrder}
-                onChange={e => {
-                  this.setState({ filterOrder: e.target.value });
-                }}
-                placeholder={i18n.t('enterOrderFilter')}
-              />
-            { this.state.filterOrder!==''&&isNaN(parseInt(this.state.filterOrder))&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionOrderNumberIsNotValid')}</label>}
-            { this.state.submitError &&this.state.filterOrder===''&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
-            </FormGroup>
-            <FormGroup>
-              <label htmlFor="filterIcon">{i18n.t('filterIcon')}</label>
-              <input
-                className="form-control"
-                id="filterIcon"
-                value={this.state.filterIcon}
-                onChange={e => {
-                  this.setState({ filterIcon: e.target.value });
-                }}
-                placeholder={i18n.t('enterFilterIcon')}
-              />
-            {this.state.submitError && this.state.filterIcon===''&&<label htmlFor="filterIcon" style={{color:'red'}}>{i18n.t('restrictionMustEnterFilterIcon')}</label>}
-            </FormGroup>
-            <div className="form-check">
-              <label className="form-check-label">
+            >
+            <ModalHeader>
+              Creating new filter
+            </ModalHeader>
+            <ModalBody>
+              <FormGroup>
+                <label htmlFor="filterName">{i18n.t('filterName')}</label>
                 <input
-                  type="checkbox"
-                  checked={this.state.filterPublic}
-                  onChange={() => {
-                    this.setState({ filterPublic: !this.state.filterPublic });
+                  className="form-control"
+                  id="filterName"
+                  value={this.state.filterName}
+                  onChange={e => {
+                    this.setState({ filterName: e.target.value });
                   }}
-                  className="form-check-input"
-                />
-              {i18n.t('public')}
-              </label>
-            </div>
-            <div className="form-check">
-              <label className="form-check-label">
+                  placeholder={i18n.t('enterFilterName')}
+                  />
+                {this.state.submitError && this.state.filterName===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
+              </FormGroup>
+              <FormGroup>
+                <label htmlFor="filterOrder">{i18n.t('orderFilter')}</label>
                 <input
-                  type="checkbox"
-                  checked={this.state.report}
-                  onChange={() => {
-                    this.setState({ report: !this.state.report });
+                  className="form-control"
+                  id="filterOrder"
+                  type="number"
+                  value={this.state.filterOrder}
+                  onChange={e => {
+                    this.setState({ filterOrder: e.target.value });
                   }}
-                  className="form-check-input"
-                />
-              {i18n.t('report')}
-              </label>
-            </div>
-            <div className="form-check">
-              <label className="form-check-label">
+                  placeholder={i18n.t('enterOrderFilter')}
+                  />
+                { this.state.filterOrder!==''&&isNaN(parseInt(this.state.filterOrder))&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionOrderNumberIsNotValid')}</label>}
+                { this.state.submitError &&this.state.filterOrder===''&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
+              </FormGroup>
+              <FormGroup>
+                <label htmlFor="filterIcon">{i18n.t('filterIcon')}</label>
                 <input
-                  type="checkbox"
-                  checked={this.state.filterDefault}
-                  onChange={() => {
-                    this.setState({ filterDefault: !this.state.filterDefault });
+                  className="form-control"
+                  id="filterIcon"
+                  value={this.state.filterIcon}
+                  onChange={e => {
+                    this.setState({ filterIcon: e.target.value });
                   }}
-                  className="form-check-input"
-                />
-              {i18n.t('default')}
-              </label>
-            </div>
-          </ModalBody>
-          <ModalFooter className="justify-content-between">
-            <button className="btn btn-danger mr-1"
-            onClick={()=>this.setState({saveOpen:false})}>
-              {i18n.t('cancel')}
-            </button>
+                  placeholder={i18n.t('enterFilterIcon')}
+                  />
+                {this.state.submitError && this.state.filterIcon===''&&<label htmlFor="filterIcon" style={{color:'red'}}>{i18n.t('restrictionMustEnterFilterIcon')}</label>}
+              </FormGroup>
+              <div className="form-check">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    checked={this.state.filterPublic}
+                    onChange={() => {
+                      this.setState({ filterPublic: !this.state.filterPublic });
+                    }}
+                    className="form-check-input"
+                    />
+                  {i18n.t('public')}
+                </label>
+              </div>
+              <div className="form-check">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    checked={this.state.report}
+                    onChange={() => {
+                      this.setState({ report: !this.state.report });
+                    }}
+                    className="form-check-input"
+                    />
+                  {i18n.t('report')}
+                </label>
+              </div>
+              <div className="form-check">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    checked={this.state.filterDefault}
+                    onChange={() => {
+                      this.setState({ filterDefault: !this.state.filterDefault });
+                    }}
+                    className="form-check-input"
+                    />
+                  {i18n.t('default')}
+                </label>
+              </div>
+            </ModalBody>
+            <ModalFooter className="justify-content-between">
+              <button className="btn btn-danger mr-1"
+                onClick={()=>this.setState({saveOpen:false})}>
+                {i18n.t('cancel')}
+              </button>
 
-            {this.state.editingFilter && <button className="btn btn-primary mr-1" onClick={()=>this.submit(true)}>
+              {this.state.editingFilter && <button className="btn btn-primary mr-1" onClick={()=>this.submit(true)}>
               {i18n.t('saveFilter')}
             </button>}
 
             <button className="btn btn-primary mr-1" onClick={()=>this.submit(false)}>
               {i18n.t('save')}
             </button>
-            </ModalFooter>
-          </Modal>
-
+          </ModalFooter>
+        </Modal>
           <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)}>
             {i18n.t('apply')}
           </button>
           <button type="button" className="btn btn-link" onClick={()=>this.setState({saveOpen:true, filterName:this.state.editingFilter?this.state.filterName:''})}>
             {i18n.t('save')}
           </button>
+          {
+            this.props.match.params.id && <button type="button" className="btn btn-link" onClick={()=>{
+              this.props.deleteFilter(this.props.match.params.id,this.props.token);
+              this.props.history.push('/filter/1,'+(this.props.match.params.count?this.props.match.params.count:20));
+              }}>
+              {i18n.t('delete') + ' '+i18n.t('filter')}
+            </button>
+          }
           <button type="button" className="btn btn-link" onClick={()=>this.setState({
               createdFrom:null,
               createdTo:null,
@@ -872,4 +879,4 @@ const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesRed
 };
 
 
-export default connect(mapStateToProps, {loadUnsavedFilter,createFilter, editFilter})(Filter);
+export default connect(mapStateToProps, {loadUnsavedFilter,createFilter,deleteFilter, editFilter})(Filter);

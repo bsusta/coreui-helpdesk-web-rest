@@ -19,7 +19,8 @@ class Sidebar extends Component {
     e.target.parentElement.classList.toggle("open");
   }
   componentWillMount() {
-    this.props.getSidebar(this.props.token);
+    this.props.getSidebar(this.props.date,this.props.token);
+    window.setInterval(()=>this.props.getSidebar(this.props.date,this.props.token), 7500);
   }
 
   activeRoute(routeName, props) {
@@ -187,9 +188,9 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = ({ sidebarReducer, login }) => {
-  const { sidebar } = sidebarReducer;
+  const { sidebar,date } = sidebarReducer;
   const { token } = login;
-  return { sidebar, token };
+  return { sidebar,date, token };
 };
 
 export default connect(mapStateToProps, { getSidebar })(Sidebar);

@@ -5,8 +5,34 @@ import { SIDEBAR_DATA } from "../urls";
  * Gets all sidebar data available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getSidebar = token => {
+export const getSidebar = (date,token) => {
   return dispatch => {
+    console.log(date);
+    if(date){
+      fetch(SIDEBAR_DATA+'/'+date, {
+        method: "get",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json"
+        }
+      })
+        .then(response => {
+          if(!response.ok){
+            response.text().then((data)=>{
+              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+            });
+            return;
+          }
+          response.json().then(data => {
+            console.log(data);
+          });
+        })
+        .catch(function(error) {
+          dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+          console.log(error);
+        });
+      return;
+    }
     fetch(SIDEBAR_DATA, {
       method: "get",
       headers: {
@@ -152,7 +178,7 @@ export const getSidebar = token => {
           );
 
           nav.push(filters, projects, tags, archived, reports);
-          dispatch({ type: SET_SIDEBAR, sidebar: nav });
+          dispatch({ type: SET_SIDEBAR, sidebar: nav, date:data.date });
         });
       })
       .catch(function(error) {
