@@ -1,14 +1,28 @@
-// core overrides
 //sidebar font and icon color
-$sidebar-color: black;
-$sidebar-nav-title-color: black;
-$sidebar-nav-link-color: black;
-$sidebar-nav-dropdown-color: black;
+$sidebar-color: #000;
+$sidebar-nav-title-color: $sidebar-color;
+$sidebar-nav-link-color: $sidebar-color;
+$sidebar-nav-dropdown-color: $sidebar-color;
+$sidebar-nav-link-icon-color: $sidebar-color;
+$sidebar-nav-dropdown-color: $sidebar-color;
+$sidebar-nav-dropdown-indicator-color: $sidebar-color !default;
+$sidebar-minimizer-indicator-color: $sidebar-color !default;
+$sidebar-minimizer-hover-indicator-color: $sidebar-color !default;
+$sidebar-nav-link-hover-icon-color:$sidebar-color !default;
+//sidebar active link
+$sidebar-nav-link-active-icon-color:#2A7EC5 !default;
+$sidebar-nav-link-active-color:#2A7EC5 !important;
 //Sidebar background
-$sidebar-nav-dropdown-bg: white;
+$sidebar-nav-dropdown-bg:white;
 $sidebar-bg: white;
 $sidebar-minimizer-bg: white;
+$sidebar-nav-link-active-bg:white;
+$sidebar-nav-link-hover-bg: #f4f9fd;
 
+//Navbar
 $navbar-bg: #1D70B5;
 $navbar-color: white;
 $navbar-hover-color: white;
+$navbar-hover-color: red !default;
+$navbar-active-color: red !default;
+$navbar-disabled-color: red !default;

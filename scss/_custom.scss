@@ -52,9 +52,7 @@
   border-right: 1px solid rgb(238, 238, 238);
 }
 
-.badge-info {
-  color: black;
-}
+
 
 .email-app .inbox .message {
   border-top: 1px solid #c2cfd6;
@@ -365,18 +363,16 @@ display: none;
   color:#2A7EC5 !important;
 }
 
-.activeNavItem span{
-  color:#2A7EC5 !important;
-  border-color: #2A7EC5 !important;
-}
-.activeNavItem i{
-  color:#2A7EC5 !important;
-}
+
 
 .sidebarSize{
   font-size: 1.05em;
 }
 
-.nav-link:hover{
-  background-color: #d3eef6 !important;
+
+.sidebarBadge {
+  border: 1px solid #0D0D0D;;
+  border-radius: 10px;
+  color:#0D0D0D;
 }
+
