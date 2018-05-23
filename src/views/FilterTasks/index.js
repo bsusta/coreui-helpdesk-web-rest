@@ -43,7 +43,7 @@ class FilterLoader extends Component {
     if(!this.props.filterTasksLoaded||this.props.sidebar.length===0){
       return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
     }
-    return <Filter history={this.props.history} match={this.props.match} setPage={(page)=>this.props.setState({page})} page={this.state.page}/>
+    return <Filter history={this.props.history} match={this.props.match} setPage={(page)=>this.setState({page})} page={this.state.page}/>
   }
 }
 

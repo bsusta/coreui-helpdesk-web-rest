@@ -319,6 +319,8 @@ export default {
   restrictionMustEnterFilterIcon:'You must enter icon name!',
   saveFilter:'Save current filter',
   500:'Internal server error',
+  addNew:'Add new',
+  now: 'Now',
 }
 
 /*

@@ -1,26 +1,34 @@
-import { SET_FILTERS, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE,SET_FILTER, SET_FILTER_LOADING, SET_FILTER_HIDE, SET_CAN_UPDATE } from '../types';
+import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER, ADD_ERROR_MESSAGE,SET_FILTER_LOADING, SET_ERROR_MESSAGE } from '../types';
 import { TASKS_LIST, FILTERS_LIST } from '../urls';
-import {processRESTinput} from '../../helperFunctions';
+import {processRESTinput,filterToFilterState ,filterBodyFromState} from '../../helperFunctions';
 
 export const clearFilterTasks = () => {
  return (dispatch) => {
-   dispatch({ type: SET_FILTERS, tasks:[], filterID:null, numberOfPages:0 });
+   dispatch({ type: CLEAR_FILTER_TASKS,  });
  }
 };
 
-
-export const setFilterHide = (hideFilter) => {
+export const setFilterPage = (page) => {
  return (dispatch) => {
-   dispatch({ type: SET_FILTER_HIDE, hideFilter });
+   dispatch({ type: SET_FILTER_PAGE,page });
  }
 };
 
-export const loadUnsavedFilter = (count,page,token,body,originalBody,hideFilter) => {
-  if(body.addedParameters){
-    body.addedParameters=processRESTinput(body.addedParameters,true);
-  }
+export const setShowFilter = (showFilter) => {
  return (dispatch) => {
-   fetch(TASKS_LIST+'?limit='+count+'&page='+page+'&order=title=>asc&'+processRESTinput(body,true), {
+   dispatch({ type: SET_SHOW_FILTER,showFilter });
+ }
+};
+
+export const startFilterLoading = (filterLoaded)=>{
+  return (dispatch) => {
+     dispatch({ type: SET_FILTER_LOADING, filterLoaded });
+   }
+}
+
+export const loadUnsavedFilter = (count,page,body,token) => {
+ return (dispatch) => {
+   fetch(TASKS_LIST+'?limit='+count+'&page='+page+'&order=title=>asc&'+body, {
      method: 'get',
      headers: {
        'Authorization': 'Bearer ' + token,
@@ -34,10 +42,9 @@ export const loadUnsavedFilter = (count,page,token,body,originalBody,hideFilter)
        return;
      }
    response.json().then((data) => {
-     dispatch({ type: SET_FILTERS, tasks:data.data, filterID:JSON.stringify(body),body, numberOfPages:data.numberOfPages,originalBody,hideFilter});
+     dispatch({ type: SET_FILTERED_TASKS, tasks:data.data, numberOfPages:data.numberOfPages});
      });
- }
-  ).catch(function (error) {
+ }).catch(function (error) {
    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
    console.log(error);
  });
@@ -96,13 +103,7 @@ export const editFilter = (body,id,token) => {
  }
 };
 
-export const startFilterLoading = ()=>{
-return (dispatch) => {
-   dispatch({ type: SET_FILTER_LOADING });
- }
-}
-
-export const getFilter = (id,token) => {
+export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,id,token) => {
   return (dispatch) => {
       fetch(FILTERS_LIST+'/'+id, {
         method: 'get',
@@ -118,7 +119,12 @@ export const getFilter = (id,token) => {
           return;
         }
       response.json().then((data) => {
-        dispatch({ type: SET_FILTER, filter:data.data});
+        let filterState = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
+        let body = filterBodyFromState(filterState,taskAttributes);
+        dispatch({ type: SET_FILTER,body,filterState,page:1 });
+        dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
+        return;
+        //save as body and state
       });
     }).catch(function (error) {
       dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
@@ -127,10 +133,10 @@ export const getFilter = (id,token) => {
   }
 }
 
-export const setCanUpdate = (canUpdate)=>{
-return (dispatch) => {
-   dispatch({ type: SET_CAN_UPDATE,canUpdate });
- }
+export const setFilterBody = (body,filterState,page)=>{
+  return (dispatch) => {
+     dispatch({ type: SET_FILTER,body,filterState,page });
+   }
 }
 
 export const deleteFilter =(id, token)=>{

@@ -297,7 +297,7 @@ export const fillCustomAttributesNulls= (attributes,originalAttributes)=>{
   return attributes;
 }
 
-export const containsNullRequiredAttribute= (attributes,originalAttributes)=>{
+export const containsNullRequiredAttribute = (attributes,originalAttributes)=>{
   for (let key in attributes) {
     let original = originalAttributes[originalAttributes.findIndex((item) => (item.id.toString() === key))]; //from ID find out everything about the field
     if(attributes[key]==='null' && original.required){
@@ -305,4 +305,149 @@ export const containsNullRequiredAttribute= (attributes,originalAttributes)=>{
     }
   }
   return false;
+}
+
+export const filterToFilterState = (filter,taskAttributes,statuses,projects,users,tags,companies)=>{
+  let task_data={};
+  if(filter.filter.addedParameters){
+    let processedParameters=filter.filter.addedParameters.split('&');
+    processedParameters.map(item=>{
+      let temp=item.split('=');
+      if(taskAttributes.find((attribute)=>attribute.id.toString()===temp[0]).type.includes('select')){
+        task_data[temp[0]]=temp[1].split(',').map((item)=>{return {label:item,value:item};});
+      }
+      else if(taskAttributes.find((attribute)=>attribute.id.toString()===temp[0]).type.includes('date')){
+        task_data[temp[0]]=moment(parseInt(temp[1])*1000);
+      }
+      else{
+        task_data[temp[0]]=temp[1];
+      }
+    })
+
+  }
+  return {
+    createdFrom:filter.filter.createdTime&& parseFilterStringToDate(filter.filter.createdTime).from,
+    createdFromNow:filter.filter.createdTime&& parseFilterStringToDate(filter.filter.createdTime).fromNow,
+    createdTo:filter.filter.createdTime&& parseFilterStringToDate(filter.filter.createdTime).to,
+    createdToNow:filter.filter.createdTime&& parseFilterStringToDate(filter.filter.createdTime).toNow,
+    deadlineFrom:filter.filter.deadlineTime&& parseFilterStringToDate(filter.filter.deadlineTime).from,
+    deadlineFromNow:filter.filter.deadlineTime&& parseFilterStringToDate(filter.filter.deadlineTime).fromNow,
+    deadlineTo:filter.filter.deadlineTime&& parseFilterStringToDate(filter.filter.deadlineTime).to,
+    deadlineToNow:filter.filter.deadlineTime&& parseFilterStringToDate(filter.filter.deadlineTime).toNow,
+    closedFrom:filter.filter.closedTime&& parseFilterStringToDate(filter.filter.closedTime).from,
+    closedFromNow:filter.filter.closedTime&& parseFilterStringToDate(filter.filter.closedTime).fromNow,
+    closedTo:filter.filter.closedTime&& parseFilterStringToDate(filter.filter.closedTime).to,
+    closedToNow:filter.filter.closedTime&& parseFilterStringToDate(filter.filter.closedTime).toNow,
+    title:filter.filter.search,
+    startedFrom:filter.filter.startedTime&& parseFilterStringToDate(filter.filter.startedTime).from,
+    startedFromNow:filter.filter.startedTime&& parseFilterStringToDate(filter.filter.startedTime).fromNow,
+    startedTo:filter.filter.startedTime&& parseFilterStringToDate(filter.filter.startedTime).to,
+    startedToNow:filter.filter.startedTime&& parseFilterStringToDate(filter.filter.startedTime).toNow,
+    archived:filter.filter.archived,
+    important:filter.filter.important,
+    statuses:filter.filter.status?statuses.filter((item)=>filter.filter.status.includes(item.id)):[],
+    projects:filter.filter.project?projects.filter((item)=>filter.filter.project.includes(item.id)):[],
+    creators:filter.filter.creator?users.filter((item)=>filter.filter.creator.includes(item.id)):[],
+    requesters:filter.filter.requester?users.filter((item)=>filter.filter.requester.includes(item.id)):[],
+    companies:filter.filter.taskCompany?companies.filter((item)=>filter.filter.taskCompany.includes(item.id)):[],
+    assignedTos:filter.filter.assigned?users.filter((item)=>filter.filter.assigned.includes(item.id)):[],
+    tags:filter.filter.tag?tags.filter((item)=>filter.filter.tag.includes(item.id)):[],
+    followers:filter.filter.follower?users.filter((item)=>filter.filter.follower.includes(item.id)):[],
+    task_data,
+    filterName:filter.title,
+    filterPublic:filter.public,
+    filterReport:filter.report,
+    filterIcon:filter.icon_class,
+    filterOrder:filter.order,
+  };
+}
+
+export const parseFilterStringToDate=(str)=>{
+  let result={to:null,from:null,toNow:false,fromNow:false};
+  let temp = str.replace('FROM=','').replace('TO=','').split(',');
+  if(temp.length===1){
+    if(str.includes('FROM=')){
+      if(temp[0]==='now'){
+        result.fromNow=true;
+      }
+      else{
+        result.from=moment(parseInt(temp[0])*1000);
+      }
+    }
+    else{
+      if(temp[0]==='now'){
+        result.toNow=true;
+      }
+      else{
+        result.to=moment(parseInt(temp[0])*1000);
+      }
+    }
+  }
+  else{
+    if(temp[0]==='now'){
+      result.fromNow=true;
+    }
+    else{
+      result.from=moment(parseInt(temp[0])*1000);
+    }
+    if(temp[1]==='now'){
+      result.toNow=true;
+    }
+    else{
+      result.to=moment(parseInt(temp[1])*1000);
+    }
+  }
+  return result;
+}
+
+export const parseFilterDateToString=(timeFrom,timeTo,fromNow,toNow)=>{
+  let from = "";
+  let to = "";
+  if(timeFrom){
+    let from = Math.ceil(timeFrom.valueOf() / 1000);
+  }
+  if(timeTo){
+    let to = Math.ceil(timeTo.valueOf() / 1000);
+  }
+  if(fromNow){
+    from="NOW";
+  }
+  if(toNow){
+    to="NOW";
+  }
+  if(from===""&& to===""){
+    return undefined;
+  }
+  if(from!==""&&to!==""){
+    return "FROM="+from+','+'TO='+to;
+  }
+  if(from!==""){
+    return "FROM="+from;
+  }
+  if(to!==""){
+    return 'TO='+to;
+  }
+}
+
+export const filterBodyFromState=(state,taskAttributes)=>{
+return processRESTinput({
+    createdTime:parseFilterDateToString(state.createdFrom,state.createdTo,state.createdFromNow,state.createdToNow),
+    startedTime:parseFilterDateToString(state.startedFrom,state.startedTo,state.startedFromNow,state.startedToNow),
+    deadlineTime:parseFilterDateToString(state.deadlineFrom,state.deadlineTo,state.deadlineFromNow,state.deadlineToNow),
+    closedTime:parseFilterDateToString(state.closedFrom,state.closedTo,state.closedFromNow,state.closedToNow),
+
+    //order:'Title',
+    search:state.title,
+    status:state.statuses.map((item)=>item.id),
+    project:state.projects.map((item)=>item.id),
+    creator:state.creators.map((item)=>item.id),
+    requester:state.requesters.map((item)=>item.id),
+    taskCompany:state.companies.map((item)=>item.id),
+    assigned:state.assignedTos.map((item)=>item.id),
+    tag:state.tags.map((item)=>item.id),
+    follower:state.followers.map((item)=>item.id),
+    archived:state.archived,
+    important:state.important,
+    addedParameters:processRESTinput(processCustomFilterAttributes({...state.task_data},[...taskAttributes]),true)
+  },true);
 }

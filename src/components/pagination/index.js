@@ -197,6 +197,9 @@ export default class Pag extends Component {
                   this.setState({pagination:value.target.value});
                   this.props.setPageNumber(1);
                   this.refetch(value.target.value,1);
+                  if(this.props.onPaginationChange){
+                    this.props.onPaginationChange(value.target.value);
+                  }
                   this.props.history.push("/"+this.props.link+"/"+1+","+value.target.value);
             }}
                 style={{ maxWidth: 70 }}
@@ -235,6 +238,9 @@ export default class Pag extends Component {
                 this.setState({pagination:value.target.value});
                 this.props.setPageNumber(this.props.numberOfPages>0?1:0);
                 this.refetch(value.target.value,1);
+                if(this.props.onPaginationChange){
+                  this.props.onPaginationChange(value.target.value);
+                }
                 this.props.history.push("/"+this.props.link+"/"+1+","+value.target.value);
           }}
               style={{ maxWidth: 70 }}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { loadUnsavedFilter, setCanUpdate } from "../../redux/actions";
+import { setFilterPage, setShowFilter, loadUnsavedFilter } from "../../redux/actions";
 import Filter from './Filter';
 import {
   Row,
@@ -28,32 +28,6 @@ import { timestampToString } from "../../helperFunctions";
 import i18n from 'i18next';
 
 class Tasks extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        displayFilter:!this.props.hideFilter,
-    };
-    this.canUpdate.bind(this);
-  }
-
-  componentWillMount(){
-    if(this.props.originalBody){
-      let page=this.props.match.params?this.props.match.params.page:1;
-      let count = this.props.match.params?this.props.match.params.count:20;
-      loadUnsavedFilter(page,count,this.props.token,this.props.body,this.props.originalBody,false);
-    }
-  }
-
-  canUpdate(){
-    this.props.setCanUpdate(true);
-  }
-
-  componentWillReceiveProps(props){
-      if(this.props.hideFilter!==props.hideFilter){
-        this.setState({displayFilter:!props.hideFilter});
-      }
-  }
-
   usersToString(users) {
     if (users.length === 0) {
       return  i18n.t('none');
@@ -64,16 +38,44 @@ class Tasks extends Component {
     );
     return text;
   }
+
+  componentWillMount(){
+    if(this.props.body!==null){
+      let page=this.props.match.params?this.props.match.params.page:1;
+      let count = this.props.match.params?this.props.match.params.count:20;
+      this.props.loadUnsavedFilter(this.props.match.params.count?this.props.match.params.count:20,this.props.page,this.props.body,this.props.token);
+    }
+  }
+
+
   render() {
+      let header="Unknown Filter";
+      if(this.props.match.params.id){
+        let index = this.props.filters.findIndex(filter =>
+          filter.url.includes(this.props.match.params.id)
+        );
+        if(index!==-1){
+          header = this.props.filters[index].name;
+        }
+      }
+      else if(this.props.body && !this.props.body.includes('&') && this.props.body.includes('search')){
+          header= 'Results for filter: ' + this.props.body.split('=')[1];
+        }
+        else{
+          header= '+ Filter';
+        }
+
     return (
       <div className="table-div row">
-        <div className="col-4" style={{display:this.state.displayFilter?'block':'none'}}>
-          <Filter history={this.props.history} match={this.props.match} setPageNumber={()=>{}} page={this.props.page}/>
+        <div className="col-4" style={{display:this.props.showFilter?'block':'none'}}>
+          <Filter history={this.props.history} match={this.props.match} />
         </div>
-        <div className={this.state.displayFilter?"col-8":''}>
-          {
-            !this.props.hideFilter && <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.setState({displayFilter:!this.state.displayFilter})} />
-          }
+        <div className={this.props.showFilter?"col-8":''}>
+          <h2>
+            <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.props.setShowFilter(!this.props.showFilter)} />
+            {" "}
+            { header }
+          </h2>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">
               <tr>
@@ -160,19 +162,24 @@ class Tasks extends Component {
           </table>
           <Pagination
             link={"filter"}
-            history={this.props.history}
+            history={{push:()=>{}}}
             numberOfPages={this.props.numberOfPages}
-            refetchData={this.props.loadUnsavedFilter}
+            refetchData={()=>{}}
             token={this.props.token}
-            disabled={this.props.body?false:true}
-            refetchParameters={[this.props.body,this.props.originalBody,this.props.hideFilter]}
+            disabled={this.props.body===null}
+            refetchParameters={[]}
             pageNumber={this.props.match.params.page?(this.props.tasks.length>0?parseInt(this.props.match.params.page, 10):0):0}
-            setPageNumber={(pageNumber)=>{}}
+            setPageNumber={(pageNumber)=>{this.props.setFilterPage(pageNumber)}}
             paginationOptions={[
               { title: 20, value: 20 },
               { title: 50, value: 50 },
               { title: 100, value: 100 }
             ]}
+            onPaginationChange={(count)=>{
+              this.props.history.push(
+                '/filter/'+(this.props.match.params.id?
+                  (this.props.match.params.id+'/1,'+count):('1,'+count)));
+            }}
             pagination={
               this.props.match.params.count
                 ? parseInt(this.props.match.params.count, 10)
@@ -185,17 +192,20 @@ class Tasks extends Component {
   }
 }
 
-const mapStateToProps = ({ filtersReducer,  login }) => {
-  const { tasks,numberOfPages, body,originalBody,hideFilter } = filtersReducer;
+const mapStateToProps = ({ filtersReducer,sidebarReducer,  login }) => {
+  const { tasks,numberOfPages, body,filterState,showFilter, page } = filtersReducer;
+  const { sidebar } = sidebarReducer;
   const { token } = login;
   return {
     tasks,
-    token,
     numberOfPages,
-    hideFilter,
     body,
-    originalBody
+    page,
+    filterState,
+    showFilter,
+    filters: sidebar[sidebar.findIndex(item => item.name === "filters")].children,
+    token
   };
 };
 
-export default connect(mapStateToProps, { loadUnsavedFilter, setCanUpdate })(Tasks);
+export default connect(mapStateToProps, { setFilterPage, setShowFilter, loadUnsavedFilter })(Tasks);

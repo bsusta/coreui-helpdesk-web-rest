@@ -168,17 +168,19 @@ export const SET_FOLLOWERS_LOADING = 'SET_FOLLOWERS_LOADING';
 export const ADD_FOLLOWER = 'ADD_FOLLOWER';
 export const DELETE_FOLLOWER = 'DELETE_FOLLOWER';
 
-//all constants for LOADING actions
+//all constants for ERROR actions
 export const CLEAR_ERROR_MESSAGE = 'CLEAR_ERROR_MESSAGE';
 export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
-export const SET_FILTERS = 'SET_FILTERS';
-export const SET_FILTER = 'SET_FILTER';
-export const SET_FILTER_LOADING = 'SET_FILTER_LOADING';
-export const SET_FILTER_HIDE = 'SET_FILTER_HIDE';
-export const SET_CAN_UPDATE = 'SET_CAN_UPDATE';
-
 export const CLEAR_ERROR_MESSAGES = 'CLEAR_ERROR_MESSAGES';
 export const ADD_ERROR_MESSAGE = 'ADD_ERROR_MESSAGE';
+
+//all constants for FILTER actions
+export const CLEAR_FILTER_TASKS = 'CLEAR_FILTER_TASKS';
+export const SET_FILTERED_TASKS = 'SET_FILTERED_TASKS';
+export const SET_FILTER = 'SET_FILTER';
+export const SET_FILTER_PAGE = 'SET_FILTER_PAGE';
+export const SET_SHOW_FILTER = 'SET_SHOW_FILTER';
+export const SET_FILTER_LOADING = 'SET_FILTER_LOADING';
 
 //all constants for MESSAGES actions
 export const SET_MESSAGES = 'SET_MESSAGES';

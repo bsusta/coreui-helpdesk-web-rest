@@ -7,7 +7,6 @@ import { SIDEBAR_DATA } from "../urls";
  */
 export const getSidebar = (date,token) => {
   return dispatch => {
-    console.log(date);
     if(date){
       fetch(SIDEBAR_DATA+'/'+date, {
         method: "get",
@@ -24,7 +23,7 @@ export const getSidebar = (date,token) => {
             return;
           }
           response.json().then(data => {
-            console.log(data);
+            //console.log(data);
           });
         })
         .catch(function(error) {
@@ -91,7 +90,7 @@ export const getSidebar = (date,token) => {
           data.filters.map(filter =>
             filters.children.push({
               name: filter.title,
-              url: "/filter/view/" + filter.id.toString()+'/1,20'
+              url: "/filter/" + filter.id.toString()+'/1,20'
               //icon: "fa fa-filter"
             })
           );

@@ -28,78 +28,35 @@ import { connect } from 'react-redux';
 import {
   initialiseCustomAttributes,
   processCustomFilterAttributes,
-  processRESTinput
+  processRESTinput,
+  filterBodyFromState,
+  parseFilterDateToString
 } from "../../helperFunctions";
-import {loadUnsavedFilter,createFilter, editFilter, deleteFilter} from '../../redux/actions';
+import {createFilter, editFilter, deleteFilter, setFilterBody} from '../../redux/actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 
 class Filter extends Component {
   constructor(props) {
     super(props);
-    let state={};
-    if(this.props.match.params.id){
-      let task_data={};
-      if(this.props.filter.filter.addedParameters){
-        let processedParameters=this.props.filter.filter.addedParameters.split('&');
-        processedParameters.map(item=>{
-          let temp=item.split('=');
-          if(this.props.taskAttributes.find((attribute)=>attribute.id.toString()===temp[0]).type.includes('select')){
-            task_data[temp[0]]=temp[1].split(',').map((item)=>{return {label:item,value:item};});
-          }
-          else if(this.props.taskAttributes.find((attribute)=>attribute.id.toString()===temp[0]).type.includes('date')){
-            task_data[temp[0]]=moment(parseInt(temp[1])*1000);
-          }
-          else{
-            task_data[temp[0]]=temp[1];
-          }
-        })
-
-      }
-      console.log(this.props.filter);
-      state={
-        createdFrom:this.props.filter.filter.createdTime&& this.getDate(this.props.filter.filter.createdTime).from?this.getDate(this.props.filter.filter.createdTime).from:null,
-        createdTo:this.props.filter.filter.createdTime&& this.getDate(this.props.filter.filter.createdTime).to?this.getDate(this.props.filter.filter.createdTime).to:null,
-        deadlineFrom:this.props.filter.filter.deadlineTime&& this.getDate(this.props.filter.filter.deadlineTime).from?this.getDate(this.props.filter.filter.deadlineTime).from:null,
-        deadlineTo:this.props.filter.filter.deadlineTime&& this.getDate(this.props.filter.filter.deadlineTime).to?this.getDate(this.props.filter.filter.deadlineTime).to:null,
-        closedFrom:this.props.filter.filter.closedTime&& this.getDate(this.props.filter.filter.closedTime).from?this.getDate(this.props.filter.filter.closedTime).from:null,
-        closedTo:this.props.filter.filter.closedTime&& this.getDate(this.props.filter.filter.closedTime).to?this.getDate(this.props.filter.filter.closedTime).to:null,
-        title:this.props.filter.filter.search,
-        startedFrom:this.props.filter.filter.startedTime&& this.getDate(this.props.filter.filter.startedTime).from?this.getDate(this.props.filter.filter.startedTime).from:null,
-        startedTo:this.props.filter.filter.startedTime&& this.getDate(this.props.filter.filter.startedTime).to?this.getDate(this.props.filter.filter.startedTime).to:null,
-        archived:this.props.filter.filter.archived,
-        important:this.props.filter.filter.important,
-        statuses:this.props.filter.filter.status?this.props.statuses.filter((item)=>this.props.filter.filter.status.includes(item.id)):[],
-        projects:this.props.filter.filter.project?this.props.projects.filter((item)=>this.props.filter.filter.project.includes(item.id)):[],
-        creators:this.props.filter.filter.creator?this.props.users.filter((item)=>this.props.filter.filter.creator.includes(item.id)):[],
-        requesters:this.props.filter.filter.requester?this.props.users.filter((item)=>this.props.filter.filter.requester.includes(item.id)):[],
-        companies:this.props.filter.filter.taskCompany?this.props.companies.filter((item)=>this.props.filter.filter.taskCompany.includes(item.id)):[],
-        assignedTos:this.props.filter.filter.assigned?this.props.users.filter((item)=>this.props.filter.filter.assigned.includes(item.id)):[],
-        tags:this.props.filter.filter.tag?this.props.tags.filter((item)=>this.props.filter.filter.tag.includes(item.id)):[],
-        followers:this.props.filter.filter.follower?this.props.users.filter((item)=>this.props.filter.filter.follower.includes(item.id)):[],
-        task_data,
-        saveOpen:false,
-        filterName:this.props.filter.title,
-        filterPublic:this.props.filter.public,
-        filterReport:this.props.filter.report,
-        filterDefault:false,
-        filterIcon:this.props.filter.icon_class,
-        filterOrder:this.props.filter.order,
-        submitError:false,
-        editingFilter:this.props.match.params.id?true:false,
-      };
-    }
-    else{
-      state={
+    let state ={
         createdFrom:null,
+        createdFromNow:false,
         createdTo:null,
+        createdToNow:false,
         deadlineFrom:null,
+        deadlineFromNow:false,
         deadlineTo:null,
+        deadlineToNow:false,
         closedFrom:null,
+        closedFromNow:false,
         closedTo:null,
+        closedToNow:false,
         title:'',
         startedFrom:null,
+        startedFromNow:false,
         startedTo:null,
+        startedToNow:false,
         archived:false,
         important:false,
         statuses:[],
@@ -111,48 +68,39 @@ class Filter extends Component {
         tags:[],
         followers:[],
         task_data:{},
-        saveOpen:false,
         filterName:'',
         filterPublic:false,
         filterReport:false,
-        filterDefault:false,
         filterIcon:'fa-filter',
         filterOrder:10,
-        submitError:false,
-        editingFilter:this.props.match.params.id?true:false,
+        stateeditingFilter:this.props.match.params.id?true:false,
+        statesaveOpen:false,
+        statefilterDefault:false,
+        statesubmitError:false,
       };
-      if(this.props.body){
-        Object.keys(this.props.body).map((key)=>state[key]=this.props.body[key]);
+      if(this.props.filterState){
+        Object.keys(this.props.filterState).map((key)=>state[key]=this.props.filterState[key]);
       }
-    }
     this.state=state;
   }
 
-  getDate(str){
-    let result=null;
-    if(str.includes('TO')&&str.includes('FROM')){
-      let temp = str.replace('FROM=','').replace('TO=','').split(',');
-      result= {from:temp[0]==='now'?moment():moment(parseInt(temp[0])*1000),to:temp[1]==='now'?moment():moment(temp[1]*1000)};
+  componentWillReceiveProps(props){
+    if(this.props.filterState!=props.filterState){
+      this.setState(props.filterState);
     }
-    else if(str.includes('TO')){
-      let temp = str.replace('TO=','');
-      if(temp==='now'){
-        result= {to:moment()};
-      }
-      else{
-        result= {to:moment(parseInt(temp)*1000)};
-      }
+  }
+
+  deleteFilter(){
+    if (
+      confirm(
+        "Are you sure you want to delete this filter?"
+      )
+    ) {
+      this.props.deleteFilter(this.props.match.params.id,this.props.token);
+      this.props.history.push('/filter/1,'+(this.props.match.params.count?this.props.match.params.count:20));
+    } else {
+      return;
     }
-    else{
-      str.replace('FROM=','');
-      if(temp==='now'){
-        result= {from:moment()};
-      }
-      else{
-        result= {from:moment(parseInt(temp)*1000)};
-      }
-    }
-    return result;
   }
 
   submit(savingChanges){
@@ -161,10 +109,10 @@ class Filter extends Component {
       return;
     }
     let filter={
-        createdTime:this.processTimes(this.state.createdFrom,this.state.createdTo),
-        startedTime:this.processTimes(this.state.startedFrom,this.state.startedTo),
-        deadlineTime:this.processTimes(this.state.deadlineFrom,this.state.deadlineTo),
-        closedTime:this.processTimes(this.state.closedFrom,this.state.closedTo),
+        createdTime:parseFilterDateToString(this.state.createdFrom,this.state.createdTo,this.state.createdFromNow,this.state.createdToNow),
+        startedTime:parseFilterDateToString(this.state.startedFrom,this.state.startedTo,this.state.startedFromNow,this.state.startedToNow),
+        deadlineTime:parseFilterDateToString(this.state.deadlineFrom,this.state.deadlineTo,this.state.deadlineFromNow,this.state.deadlineToNow),
+        closedTime:parseFilterDateToString(this.state.closedFrom,this.state.closedTo,this.state.closedFromNow,this.state.closedToNow),
         search:this.state.title,
         status:this.state.statuses.map((item)=>item.id),
         project:this.state.projects.map((item)=>item.id),
@@ -208,49 +156,10 @@ class Filter extends Component {
     this.setState({saveOpen:false})
   }
 
-  processTimes(timeFrom,timeTo){
-    if(timeFrom==null&&timeTo==null){
-      return undefined;
-    }
-    if(timeFrom&&timeTo){
-      let time1 = Math.ceil(timeFrom.valueOf() / 1000);
-      let time2 = Math.ceil(timeTo.valueOf() / 1000);
-      return 'FROM='+time1+',TO='+time2;
-    }
-    if(timeFrom){
-      let time1 = Math.ceil(timeFrom.valueOf() / 1000);
-      return 'FROM='+time1;
-    }
-    if(timeTo){
-      let time2 = Math.ceil(timeTo.valueOf() / 1000);
-      return 'TO='+time2;
-    }
-  }
 
   applyFilter(){
-
-    let body={
-      createdTime:this.processTimes(this.state.createdFrom,this.state.createdTo),
-      startedTime:this.processTimes(this.state.startedFrom,this.state.startedTo),
-      deadlineTime:this.processTimes(this.state.deadlineFrom,this.state.deadlineTo),
-      closedTime:this.processTimes(this.state.closedFrom,this.state.closedTo),
-
-      //order:'Title',
-      search:this.state.title,
-      status:this.state.statuses.map((item)=>item.id),
-      project:this.state.projects.map((item)=>item.id),
-      creator:this.state.creators.map((item)=>item.id),
-      requester:this.state.requesters.map((item)=>item.id),
-      taskCompany:this.state.companies.map((item)=>item.id),
-      assigned:this.state.assignedTos.map((item)=>item.id),
-      tag:this.state.tags.map((item)=>item.id),
-      follower:this.state.followers.map((item)=>item.id),
-      archived:this.state.archived,
-      important:this.state.important,
-      addedParameters:processCustomFilterAttributes({...this.state.task_data},[...this.props.taskAttributes])
-    }
-    this.props.history.push('/filter/1,'+(this.props.match.params.count?this.props.match.params.count:20));
-    this.props.loadUnsavedFilter(this.props.match.params.count?this.props.match.params.count:20,1,this.props.token,body,this.state);
+    let body=filterBodyFromState(this.state,this.props.taskAttributes);
+    this.props.setFilterBody(body,this.state,1);
   }
 
   render() {
@@ -352,12 +261,12 @@ class Filter extends Component {
                 {i18n.t('cancel')}
               </button>
 
-              {this.state.editingFilter && <button className="btn btn-primary mr-1" onClick={()=>this.submit(true)}>
+              {this.props.match.params.id && parseInt(this.props.match.params.id)>4 && <button className="btn btn-primary mr-1" onClick={()=>this.submit(true)}>
               {i18n.t('saveFilter')}
             </button>}
 
             <button className="btn btn-primary mr-1" onClick={()=>this.submit(false)}>
-              {i18n.t('save')}
+              {i18n.t('addNew')}
             </button>
           </ModalFooter>
         </Modal>
@@ -368,36 +277,55 @@ class Filter extends Component {
             {i18n.t('save')}
           </button>
           {
-            this.props.match.params.id && <button type="button" className="btn btn-link" onClick={()=>{
-              this.props.deleteFilter(this.props.match.params.id,this.props.token);
-              this.props.history.push('/filter/1,'+(this.props.match.params.count?this.props.match.params.count:20));
-              }}>
+            this.props.match.params.id && parseInt(this.props.match.params.id)>4 && <button type="button" className="btn btn-link" onClick={this.deleteFilter.bind(this)}>
               {i18n.t('delete') + ' '+i18n.t('filter')}
             </button>
           }
-          <button type="button" className="btn btn-link" onClick={()=>this.setState({
-              createdFrom:null,
-              createdTo:null,
-              deadlineFrom:null,
-              deadlineTo:null,
-              closedFrom:null,
-              closedTo:null,
-              title:'',
-              startedFrom:null,
-              startedTo:null,
-              archived:false,
-              important:false,
-              statuses:[],
-              projects:[],
-              creators:[],
-              requesters:[],
-              companies:[],
-              assignedTos:[],
-              tags:[],
-              followers:[],
-              task_data:{}
-            })
-            }>
+          <button type="button" className="btn btn-link" onClick={()=>{
+            let state ={
+                createdFrom:null,
+                createdFromNow:false,
+                createdTo:null,
+                createdToNow:false,
+                deadlineFrom:null,
+                deadlineFromNow:false,
+                deadlineTo:null,
+                deadlineToNow:false,
+                closedFrom:null,
+                closedFromNow:false,
+                closedTo:null,
+                closedToNow:false,
+                title:'',
+                startedFrom:null,
+                startedFromNow:false,
+                startedTo:null,
+                startedToNow:false,
+                archived:false,
+                important:false,
+                statuses:[],
+                projects:[],
+                creators:[],
+                requesters:[],
+                companies:[],
+                assignedTos:[],
+                tags:[],
+                followers:[],
+                task_data:{},
+                filterName:'',
+                filterPublic:false,
+                filterReport:false,
+                filterIcon:'fa-filter',
+                filterOrder:10,
+                stateeditingFilter:this.props.match.params.id?true:false,
+                statesaveOpen:false,
+                statefilterDefault:false,
+                statesubmitError:false,
+              };
+              if(this.props.filterState){
+                Object.keys(this.props.filterState).map((key)=>state[key]=this.props.filterState[key]);
+              }
+              this.setState(state);
+            }}>
             {i18n.t('reset')}
           </button>
           <FormGroup>
@@ -573,6 +501,7 @@ class Filter extends Component {
             </div>
           <label className="mt-2">{i18n.t('createdDate')}</label>
             <div className="d-flex flex-row justify-content-between fromToDates">
+              <div>
               <DatePicker
                 onChange={e => {
                   this.setState({createdFrom:e});
@@ -585,6 +514,20 @@ class Filter extends Component {
                 timeIntervals={30}
                 dateFormat="DD.MM.YYYY HH:mm"
               />
+              <div className="form-group">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={this.state.createdFromNow}
+                    onChange={() => this.setState({ createdFromNow: !this.state.createdFromNow })}
+                  />
+                {i18n.t('now')}
+                </label>
+              </div>
+
+          </div>
+          <div>
               <DatePicker
                 onChange={e => {
                   this.setState({createdTo:e});
@@ -598,11 +541,24 @@ class Filter extends Component {
                 timeIntervals={30}
                 dateFormat="DD.MM.YYYY HH:mm"
               />
+              <div className="form-group">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={this.state.createdToNow}
+                    onChange={() => this.setState({ createdToNow: !this.state.createdToNow })}
+                  />
+                  {i18n.t('now')}
+                </label>
+              </div>
             </div>
+          </div>
 
             <label className="mt-2">{i18n.t('startedAt')}</label>
 
             <div className="d-flex flex-row justify-content-between fromToDates">
+              <div>
               <DatePicker
                 onChange={e => {
                   this.setState({startedFrom:e});
@@ -615,6 +571,20 @@ class Filter extends Component {
                 timeIntervals={30}
                 dateFormat="DD.MM.YYYY HH:mm"
               />
+              <div className="form-group">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={this.state.startedFromNow}
+                    onChange={() => this.setState({ startedFromNow: !this.state.startedFromNow })}
+                  />
+                {i18n.t('now')}
+                </label>
+              </div>
+
+          </div>
+          <div>
               <DatePicker
                 onChange={e => {
                   this.setState({startedTo:e});
@@ -628,11 +598,23 @@ class Filter extends Component {
                 timeIntervals={30}
                 dateFormat="DD.MM.YYYY HH:mm"
               />
+              <div className="form-group">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={this.state.startedToNow}
+                    onChange={() => this.setState({ startedToNow: !this.state.startedToNow })}
+                  />
+                {i18n.t('now')}
+                </label>
+              </div>
+          </div>
             </div>
-
 
           <label className="mt-2">{i18n.t('deadline')}</label>
             <div className="d-flex flex-row justify-content-between fromToDates">
+              <div>
               <DatePicker
                 onChange={e => {
                   this.setState({deadlineFrom:e});
@@ -645,6 +627,19 @@ class Filter extends Component {
                 timeIntervals={30}
                 dateFormat="DD.MM.YYYY HH:mm"
               />
+              <div className="form-group">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={this.state.deadlineFromNow}
+                    onChange={() => this.setState({ deadlineFromNow: !this.state.deadlineFromNow })}
+                  />
+                {i18n.t('now')}
+                </label>
+              </div>
+          </div>
+          <div>
               <DatePicker
                 onChange={e => {
                   this.setState({deadlineTo:e});
@@ -658,11 +653,23 @@ class Filter extends Component {
                 timeIntervals={30}
                 dateFormat="DD.MM.YYYY HH:mm"
               />
+            <div className="form-group">
+              <label className="form-check-label">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  checked={this.state.deadlineToNow}
+                  onChange={() => this.setState({ deadlineToNow: !this.state.deadlineToNow })}
+                />
+              {i18n.t('now')}
+              </label>
             </div>
-
+            </div>
+        </div>
 
           <label className="mt-2">{i18n.t('closedAt')}</label>
             <div className="d-flex flex-row justify-content-between fromToDates">
+              <div>
               <DatePicker
                 onChange={e => {
                   this.setState({closedFrom:e});
@@ -675,6 +682,19 @@ class Filter extends Component {
                 timeIntervals={30}
                 dateFormat="DD.MM.YYYY HH:mm"
               />
+              <div className="form-group">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={this.state.closedFrom}
+                    onChange={() => this.setState({ closedFrom: !this.state.closedFrom })}
+                  />
+                {i18n.t('now')}
+                </label>
+              </div>
+          </div>
+          <div>
               <DatePicker
                 onChange={e => {
                   this.setState({closedTo:e});
@@ -688,6 +708,18 @@ class Filter extends Component {
                 timeIntervals={30}
                 dateFormat="DD.MM.YYYY HH:mm"
               />
+              <div className="form-group">
+                <label className="form-check-label">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={this.state.closedTo}
+                    onChange={() => this.setState({ closedTo: !this.state.closedTo })}
+                  />
+                {i18n.t('now')}
+                </label>
+              </div>
+          </div>
             </div>
 
             {this.props.taskAttributes.map(attribute => {
@@ -869,14 +901,14 @@ class Filter extends Component {
 const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesReducer, tagsReducer, taskAttributesReducer, login, filtersReducer }) => {
   const { taskProjects } = tasksReducer;
   const {taskStatuses} = statusesReducer;
-  const { originalBody, filter } = filtersReducer;
+  const { filterState, filter } = filtersReducer;
   const {users} = usersReducer;
   const { taskCompanies } = companiesReducer;
   const { tags } = tagsReducer;
   const { taskAttributes } = taskAttributesReducer;
   const { token } = login;
-  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags,taskAttributes, token, filter, body:originalBody};
+  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags,taskAttributes, token, filter, filterState};
 };
 
 
-export default connect(mapStateToProps, {loadUnsavedFilter,createFilter,deleteFilter, editFilter})(Filter);
+export default connect(mapStateToProps, {setFilterBody,createFilter,deleteFilter, editFilter})(Filter);

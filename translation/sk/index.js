@@ -318,7 +318,9 @@ export default {
   follower:'Follower',
   restrictionMustEnterFilterIcon:'Musíte zadať ikonu filtra',
   saveFilter:'Uložiť momentálny filter',
-  500: 'Vnútorná chyba serveru'
+  500: 'Vnútorná chyba serveru',
+  addNew: 'Pridať nový',
+  now:'Teraz',
 }
 
 /*

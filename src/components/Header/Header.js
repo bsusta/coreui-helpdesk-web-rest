@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
 import MessagesDropdown from "./MessagesDropdown";
-import {logoutUser, loadUnsavedFilter} from '../../redux/actions';
+import {logoutUser, setFilterBody} from '../../redux/actions';
 import { connect } from "react-redux";
 import i18n from 'i18next';
 import ErrorMessagesDropdown from './ErrorMessagesDropdown';
@@ -44,9 +44,9 @@ class Header extends Component {
 
             />
           <InputGroupAddon
-            style={{background: "white", borderLeft: "", cursor:'pointer'}} 
+            style={{background: "white", borderLeft: "", cursor:'pointer'}}
             onClick={()=>{
-              this.props.loadUnsavedFilter(20,1,this.props.token,{search:this.state.search},{title:this.state.search},true);
+              this.props.setFilterBody('search='+this.state.search,{title:this.state.search},1);
               this.props.history.push('/filter/1,20');
             }}>
               <i className="fa fa-search" />
@@ -94,4 +94,4 @@ const mapStateToProps = ({login, errorsReducer}) => {
   return {user,token,errorMessages};
 };
 
-export default connect(mapStateToProps, { logoutUser, loadUnsavedFilter })(Header);
+export default connect(mapStateToProps, { logoutUser, setFilterBody })(Header);
