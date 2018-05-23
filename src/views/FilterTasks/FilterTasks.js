@@ -70,7 +70,7 @@ class Project extends Component {
         </h2>
 
         <div>
-          <table className="table table-striped table-hover table-sm">
+          <table className="table table-hover table-sm">
             <thead className="thead-inverse">
               <tr>
                 <th style={{ width: "3%", borderTop: "0px" }}>{i18n.t('id')}</th>
