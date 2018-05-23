@@ -52,7 +52,6 @@ import TagTasks from "./views/TagTasks";
 import EditTask from "./views/EditTask";
 import AddTask from "./views/AddTask";
 import SecondEditTask from "./views/SecondEditTask";
-import TrojStlpec from "./views/TrojStlpec";
 import Messages from "./views/Messages";
 import Filter from "./views/Filter";
 import FilterTasks from "./views/FilterTasks";
@@ -393,18 +392,7 @@ class Full extends Component {
                   name="Second edit task"
                   component={SecondEditTask}
                 />
-                <Route
-                  exact
-                  path="/trojstlpec"
-                  name="TrojStlpec"
-                  component={TrojStlpec}
-                />
-                <Route
-                  exact
-                  path="/filter"
-                  name="Filter"
-                  component={Filter}
-                />
+                <Route exact path="/filter" name="Filter" component={Filter} />
                 <Route
                   exact
                   path="/filter/:id/:page,:count"
@@ -436,7 +424,6 @@ class Full extends Component {
                   name="Filtered task list"
                   component={FilterTasks}
                 />
-
               </Switch>
             </Container>
           </main>
