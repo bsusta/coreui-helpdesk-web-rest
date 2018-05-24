@@ -1,4 +1,5 @@
 import moment from "moment";
+import React, { Component } from "react";
 
 export const timestampToString = (timestamp) => {
   let date = (new Date(timestamp*1000));
@@ -300,7 +301,7 @@ export const fillCustomAttributesNulls= (attributes,originalAttributes)=>{
 export const containsNullRequiredAttribute = (attributes,originalAttributes)=>{
   for (let key in attributes) {
     let original = originalAttributes[originalAttributes.findIndex((item) => (item.id.toString() === key))]; //from ID find out everything about the field
-    if(attributes[key]==='null' && original.required){
+    if(attributes[key]==='null' && original.required && original.is_active){
       return true;
     }
   }
@@ -450,4 +451,24 @@ return processRESTinput({
     important:state.important,
     addedParameters:processRESTinput(processCustomFilterAttributes({...state.task_data},[...taskAttributes]),true)
   },true);
+}
+
+export const messageBodyToString=(body)=>{
+  if(typeof body === "string"){
+    return body;
+  }
+  else if(body.description.from && body.description.to){
+    return "Changed from " + body.description.from+ " to "+body.description.to;
+  }
+  else{
+    return "Message not defined";
+  }
+}
+
+export const hightlightText = (message,text)=>{
+  let index = message.toLowerCase().indexOf(text.toLowerCase());
+  if (index===-1){
+    return (<span>{message}</span>);
+  }
+  return (<span>{message.substring(0,index)}<span style={{color:'#F0E68C'}}>{message.substring(index,index+text.length)}</span>{message.substring(index+text.length,message.length)}</span>);
 }

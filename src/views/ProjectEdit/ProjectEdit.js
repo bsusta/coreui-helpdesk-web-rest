@@ -15,10 +15,11 @@ class ProjectEdit extends Component {
         1
       )
     );
+    /*
     filteredUsers.splice(
       filteredUsers.findIndex(item => item.id === this.props.user.id),
       1
-    );
+    );*/
     this.state = {
       title: this.props.project.title ? this.props.project.title : "",
       description: RichTextEditor.createValueFromString(

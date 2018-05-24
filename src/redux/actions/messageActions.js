@@ -82,8 +82,27 @@ export const setMessageStatus = (messages,read,token) => {
  }
 };
 
-export const deleteMessage = (id) => {
+export const deleteMessage = (limit,page,ids, token) => {
  return (dispatch) => {
-   dispatch({ type: DELETE_MESSAGE, id });
+   fetch(NOTIFICATIONS_LIST+'/delete', {//& order=title=>asc
+     method: 'delete',
+     headers: {
+       'Authorization': 'Bearer ' + token,
+       'Content-Type': 'application/json'
+     },
+     body:JSON.stringify({notifications:JSON.stringify(ids)}),
+   }).then((response) =>{
+     if(!response.ok){
+       response.text().then((data)=>{
+         dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+       });
+       return;
+     }
+    getMessages(limit,page,token)(dispatch);
+ }).catch(function (error) {
+   dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+   console.log(error);
+ });
+
  }
 };

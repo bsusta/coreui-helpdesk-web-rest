@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import {getTopMessages} from '../../redux/actions';
-import {timestampToString} from '../../helperFunctions';
+import {timestampToString, messageBodyToString} from '../../helperFunctions';
 
 class MessagesDropdown extends Component {
 
@@ -43,7 +43,7 @@ class MessagesDropdown extends Component {
                   <small className="text-muted" style={message.read?{fontSize:15}:{fontSize:15,fontWeight:'bold'}}>{message.task?message.task.title:'No task'}</small>
                   <small className="text-muted float-right mt-1" style={message.read?{}:{fontWeight:'bold'}}>{timestampToString(message.createdAt)}</small>
                 </div>
-                <div className="small text-muted text-truncate" style={message.read?{fontSize:14}:{fontSize:14,fontWeight:'bold'}}>{message.body}
+                <div className="small text-muted text-truncate" style={message.read?{fontSize:14}:{fontSize:14,fontWeight:'bold'}}>{messageBodyToString(message.body)}
                 </div>
               </div>
             </DropdownItem>

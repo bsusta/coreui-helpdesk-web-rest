@@ -321,7 +321,7 @@ class Filter extends Component {
                 statefilterDefault:false,
                 statesubmitError:false,
               };
-              if(this.props.filterState){
+              if(this.props.filterState && this.props.match.params.id){
                 Object.keys(this.props.filterState).map((key)=>state[key]=this.props.filterState[key]);
               }
               this.setState(state);

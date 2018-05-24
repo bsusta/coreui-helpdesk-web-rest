@@ -136,9 +136,10 @@ export const addComment = (body,taskID,token) => {
         });
         return;
       }
-
       response.json().then((response)=>{
+        console.log('A');
         if(response.data.createdBy.avatarSlug){
+          console.log('B');
           let newComment=response.data;
           fetch(GET_LOC+newComment.createdBy.avatarSlug+'/download-location', {
             method: 'get',
@@ -147,6 +148,7 @@ export const addComment = (body,taskID,token) => {
               'Content-Type': 'application/json'
             }
           }).then((response2)=>response2.json().then((data2)=>{
+            console.log('C');
             fetch(GET_FILE+data2.data.fileDir+'/'+data2.data.fileName, {
               method: 'get',
               headers: {
@@ -156,10 +158,11 @@ export const addComment = (body,taskID,token) => {
               if(!response3.ok){
                 response3.text().then((data)=>{
                   dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
+                  console.log('D');
                 });
                 return;
               }
-
+              console.log('E');
               newComment['avatar']=response3.url;
               dispatch({type: ADD_COMMENT, comment:newComment});
             }).catch(function (error) {

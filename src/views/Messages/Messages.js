@@ -6,7 +6,7 @@ import {
 } from "reactstrap";
 import { connect } from 'react-redux';
 import {getMessages, deleteMessage, setMessageStatus} from '../../redux/actions';
-import {timestampToString} from '../../helperFunctions';
+import {timestampToString, messageBodyToString, hightlightText} from '../../helperFunctions';
 import Pagination from '../../components/pagination';
 
 class Messages extends Component {
@@ -19,11 +19,51 @@ class Messages extends Component {
         ? parseInt(this.props.match.params.page, 10)
         : (this.props.messages.length>0?1:0),
     }
+    this.deleteMessage.bind(this);
+    this.deleteMultipleMessages.bind(this)
   }
+
+  deleteMultipleMessages(){
+    if(this.state.selected.length===0){
+      return;
+    }
+    if (
+      confirm(
+        "Are you sure you want to delete "+this.state.selected.length+(this.state.selected.length===1?" message ?":" messages ?")
+      )
+    ) {
+      this.setState({selected:[]});
+      this.props.deleteMessage(this.props.match.params.count,this.props.match.params.page,this.state.selected,this.props.token);
+    } else {
+      return;
+    }
+
+  }
+
+  deleteMessage(name,id){
+    if (
+      confirm(
+        "Are you sure you want to delete message "+name+"?"
+      )
+    ) {
+      this.props.deleteMessage(this.props.match.params.count,this.props.match.params.page,[id],this.props.token);
+      let index = this.state.selected.findIndex((item)=>item===id);
+      if(index!==-1){
+        let newSelected=this.state.selected.splice(1,index);
+        this.setState({selected:newSelected});
+      }
+    } else {
+      return;
+    }
+  }
+
 
   getFilteredData(){
     return this.props.messages
-      .filter(item =>item.body.toLowerCase().includes(this.state.filter.toLowerCase())||item.task.title.toLowerCase().includes(this.state.filter.toLowerCase()));
+      .filter(item =>messageBodyToString(item.body).toLowerCase().includes(this.state.filter.toLowerCase())
+      ||item.task.title.toLowerCase().includes(this.state.filter.toLowerCase())
+      ||item.title && item.title.toLowerCase().includes(this.state.filter.toLowerCase())
+    );
   }
 
   setPage(number) {
@@ -40,7 +80,7 @@ class Messages extends Component {
             paddingRight: 20,
             border: "0"
           }}>
-          <input style={{marginTop:'auto',marginBottom:'auto'}} type="checkbox" checked={this.props.messages.length===this.state.selected.length} onChange={()=>{
+          <input style={{marginTop:'auto',marginBottom:'auto'}} type="checkbox" checked={this.props.messages.length===this.state.selected.length && this.props.messages.length!==0 } onChange={()=>{
               if(this.props.messages.length===this.state.selected.length){
                 this.setState({selected:[]});
               }
@@ -52,6 +92,7 @@ class Messages extends Component {
             type="button"
             className="btn btn-danger btn-sm"
             style={{ color: "white", marginLeft: 5 }}
+            onClick={this.deleteMultipleMessages.bind(this)}
           >
             Delete
           </button>
@@ -129,7 +170,7 @@ class Messages extends Component {
                   }
                   style={{ paddingRight: 5, paddingLeft: 5, marginTop:'auto',marginBottom:'auto' }}
                 />
-              <span style={{fontSize:'1.4em'}}>{message.title}</span>
+              <span style={{fontSize:'1.4em'}}>{hightlightText(message.title,this.state.filter)}</span>
               </p>
               <span>
               <small className="text-muted"
@@ -146,7 +187,7 @@ class Messages extends Component {
                 }}>{timestampToString(message.createdAt)}</small>
               <i className="fa fa-remove fa-lg"
                 style={{ paddingLeft: 5, cursor:'pointer' }}
-                onClick={()=>{this.props.deleteMessage(message.id)}}
+                onClick={()=>{this.deleteMessage(message.title,message.id)}}
                 />
             </span>
             </div>
@@ -161,9 +202,9 @@ class Messages extends Component {
                 else{
                   this.setState({selected:[message.id,...this.state.selected]});
                 }
-              }}>{message.body}
+              }}>{hightlightText(messageBodyToString(message.body),this.state.filter)}
               <span className="float-right">
-                <a href={"#/task/edit/"+message.task.id}>{message.task.title}</a>
+                <a href={"#/task/edit/"+message.task.id}>{hightlightText(message.task.title,this.state.filter)}</a>
               </span>
             </div>
           </div>
