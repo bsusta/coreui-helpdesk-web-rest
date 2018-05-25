@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import { connect } from "react-redux";
-import i18n from "i18next";
+import i18n from 'i18next';
 import {
   addSubtask,
   editSubtask,
@@ -10,7 +10,7 @@ import {
   editItem,
   deleteItem
 } from "../../redux/actions";
-import colors from "../../../scss/colors";
+import colors from '../../../scss/colors';
 
 class Subtasks extends Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class Subtasks extends Component {
         <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ border: "0px" }}>{i18n.t("subtasks")}</th>
+              <th style={{ border: "0px" }}>{i18n.t('subtasks')}</th>
               <th
                 style={{ width: "40px", border: "0px", textAlign: "right" }}
               />
@@ -50,8 +50,7 @@ class Subtasks extends Component {
               <tr key={subtask.id} className="subtaskRow">
                 <td style={{ border: "0px" }}>
                   <div style={{ display: "flex" }}>
-                    <span
-                      className="subtaskCheckbox"
+                    <span className="subtaskCheckbox"
                       onClick={() =>
                         this.props.editSubtask(
                           { done: !subtask.done, title: subtask.title },
@@ -59,10 +58,14 @@ class Subtasks extends Component {
                           this.props.taskID,
                           this.props.token
                         )
+                      }>
+                      {
+                        subtask.done &&
+                        <i
+                          className="fa fa-check"
+                          />
                       }
-                    >
-                      {subtask.done && <i className="fa fa-check" />}
-                    </span>
+                </span>
                     <input
                       type="text"
                       id="name"
@@ -93,7 +96,7 @@ class Subtasks extends Component {
                         this.setState({ editedSubtask: e.target.value })
                       }
                       className="form-control subtaskEdit"
-                      placeholder={i18n.t("enterSubtask")}
+                      placeholder={i18n.t('enterSubtask')}
                     />
                   </div>
                 </td>
@@ -126,8 +129,8 @@ class Subtasks extends Component {
                     type="text"
                     id="name"
                     className="form-control smoothEdges"
-                    onKeyPress={e => {
-                      if (e.key === "Enter") {
+                    onKeyPress={(e)=>{
+                      if(e.key==='Enter'){
                         this.props.addSubtask(
                           { done: false, title: this.state.newSubtask },
                           this.props.taskID,
@@ -136,7 +139,7 @@ class Subtasks extends Component {
                         this.setState({ newSubtask: "" });
                       }
                     }}
-                    placeholder={"+ " + i18n.t("enterNewSubtask")}
+                    placeholder={'+ '+i18n.t('enterNewSubtask')}
                     value={this.state.newSubtask}
                     onChange={e =>
                       this.setState({ newSubtask: e.target.value })
@@ -151,16 +154,10 @@ class Subtasks extends Component {
         <table className="table table-hover table-sm table-noBorder">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ border: "0px" }}> {i18n.t("invoiceableItems")}</th>
-              <th style={{ width: "10%", border: "0px" }}>
-                {" "}
-                {i18n.t("amount")}
-              </th>
-              <th style={{ width: "10%", border: "0px" }}>
-                {" "}
-                {i18n.t("pricePerUnit")}
-              </th>
-              <th style={{ width: "15%", border: "0px" }}> {i18n.t("unit")}</th>
+              <th style={{ border: "0px" }}>  {i18n.t('invoiceableItems')}</th>
+              <th style={{ width: "10%", border: "0px" }}>  {i18n.t('amount')}</th>
+              <th style={{ width: "10%", border: "0px" }}>  {i18n.t('pricePerUnit')}</th>
+              <th style={{ width: "15%", border: "0px" }}>  {i18n.t('unit')}</th>
               <th
                 style={{ width: "40px", border: "0px", textAlign: "right" }}
               />
@@ -203,7 +200,7 @@ class Subtasks extends Component {
                       })
                     }
                     className="form-control"
-                    placeholder={i18n.t("itemName")}
+                    placeholder={i18n.t('itemName')}
                   />
                 </td>
                 <td>
@@ -240,7 +237,7 @@ class Subtasks extends Component {
                       })
                     }
                     className="form-control"
-                    placeholder={i18n.t("amount")}
+                    placeholder={i18n.t('amount')}
                   />
                 </td>
                 <td>
@@ -277,7 +274,7 @@ class Subtasks extends Component {
                       })
                     }
                     className="form-control"
-                    placeholder={i18n.t("pricePerUnit")}
+                    placeholder={i18n.t('pricePerUnit')}
                   />
                 </td>
                 <td>
@@ -329,8 +326,8 @@ class Subtasks extends Component {
                 <input
                   type="text"
                   value={this.state.newItem}
-                  onKeyPress={e => {
-                    if (e.key === "Enter") {
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
                       {
                         this.props.addItem(
                           {
@@ -348,8 +345,7 @@ class Subtasks extends Component {
                           newItemPrice: 1
                         });
                       }
-                    }
-                  }}
+                    }}}
                   label="+ Add invoice item"
                   onChange={e => this.setState({ newItem: e.target.value })}
                   className="form-control"
@@ -357,8 +353,8 @@ class Subtasks extends Component {
               </td>
               <td>
                 <input
-                  onKeyPress={e => {
-                    if (e.key === "Enter") {
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
                       {
                         this.props.addItem(
                           {
@@ -376,8 +372,7 @@ class Subtasks extends Component {
                           newItemPrice: 1
                         });
                       }
-                    }
-                  }}
+                    }}}
                   type="text"
                   value={this.state.newItemCount}
                   type="number"
@@ -389,8 +384,8 @@ class Subtasks extends Component {
               </td>
               <td>
                 <input
-                  onKeyPress={e => {
-                    if (e.key === "Enter") {
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
                       {
                         this.props.addItem(
                           {
@@ -408,8 +403,7 @@ class Subtasks extends Component {
                           newItemPrice: 1
                         });
                       }
-                    }
-                  }}
+                    }}}
                   type="text"
                   value={this.state.newItemPrice}
                   type="number"
@@ -438,7 +432,7 @@ class Subtasks extends Component {
             </tr>
             <tr className="table-info">
               <td style={{ textAlign: "right", paddingRight: 50 }} colSpan="5">
-                {i18n.t("priceWithoutVAT")}
+                {i18n.t('priceWithoutVAT')}
                 <span style={{ fontWeight: "bold" }}>
                   {(this.sumItems(this.props.items) * 0.8).toFixed(2)}
                 </span>
@@ -449,7 +443,7 @@ class Subtasks extends Component {
                 style={{ borderTop: 0, textAlign: "right", paddingRight: 50 }}
                 colSpan="5"
               >
-                {i18n.t("priceWithVAT")}
+                {i18n.t('priceWithVAT')}
                 <span style={{ fontWeight: "bold" }}>
                   {this.sumItems(this.props.items).toFixed(2)}
                 </span>

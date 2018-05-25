@@ -176,13 +176,8 @@ export const getSidebar = (date,token) => {
             })
           );
 
-<<<<<<< HEAD
           nav.push(filters, projects, tags, archived, reports);
           dispatch({ type: SET_SIDEBAR, sidebar: nav, date:data.date });
-=======
-          nav.push(filters, projects, archived);
-          dispatch({ type: SET_SIDEBAR, sidebar: nav });
->>>>>>> BS-UpravaDizajnu
         });
       })
       .catch(function(error) {
