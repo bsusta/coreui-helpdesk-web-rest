@@ -3,10 +3,6 @@
   vertical-align: middle;
 }
 
-.table-info {
-  background-color: #e5f4ff;
-}
-
 .filterDivInside {
   padding-bottom: 100px;
   margin-bottom: 100px;
@@ -41,7 +37,8 @@
 
 .card-header {
   border: 0;
-  background-color: #f4f9fd;
+  //background-color: #f4f9fd;
+  background-color: #F4F4F4
 }
 
 .sidebar .sidebar-nav {
@@ -50,10 +47,6 @@
 
 .sidebar .sidebar-minimizer {
   border-right: 1px solid rgb(238, 238, 238);
-}
-
-.badge-info {
-  color: black;
 }
 
 .email-app .inbox .message {
@@ -99,9 +92,9 @@
   padding: 0.375rem 0.75rem;
   font-size: 0.875rem;
   line-height: 1.5;
-  border-color: #ECECEC;
+  border-color: #ececec;
   border-image: none;
-  border-style:solid;
+  border-style: solid;
 }
 .react-datepicker-wrapper {
   width: 100%;
@@ -155,228 +148,239 @@
   z-index: 1020;
 }
 
-.fieldError{
-  margin-bottom:0;
-  padding-bottom:0;
+.fieldError {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
-.fieldError input{
+.fieldError input {
   border-color: red;
 }
-.fieldError div{
+.fieldError div {
   border-color: red;
 }
-.fieldError .input-group-addon{
+.fieldError .input-group-addon {
   border-color: white;
 }
 
 .fullWidth {
-  width:100%;
+  width: 100%;
 }
 
-.paginationItem{
-  margin-right:0.8em;
+.paginationItem {
+  margin-right: 0.8em;
 }
 
-.list-group :hover{
+.list-group :hover {
   background-color: #d3d3d3;
 }
 @font-face {
-    font-family: Segoe UI Light;
-    src:url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff);
+  font-family: Segoe UI Light;
+  src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff);
 }
 
 @font-face {
-    font-family: Segoe UI;
-    src:url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff);
+  font-family: Segoe UI;
+  src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff);
 }
 
 @font-face {
-    font-family: Segoe UI Semibold;
-    src:url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff);
+  font-family: Segoe UI Semibold;
+  src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff);
 }
 
 @font-face {
-    font-family: Segoe UI Bold;
-    src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff);
+  font-family: Segoe UI Bold;
+  src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff);
 }
 
-.fontLight{
+.fontLight {
   font-family: Segoe UI Light;
 }
 
-.fontRegular{
+.fontRegular {
   font-family: Segoe UI;
 }
 
-.fontSemibold{
+.fontSemibold {
   font-family: Segoe UI Semibold;
 }
 
-.fontBold{
+.fontBold {
   font-family: Segoe UI Bold;
 }
 
-.coloredSelect{
-  padding-top:auto;
-  padding-left:5px;
-  border: 1px solid #ECECEC;
-  border-right:none;
-  }
+.coloredSelect {
+  padding-top: auto;
+  padding-left: 5px;
+  border: 1px solid #ececec;
+  border-right: none;
+}
 
-  .selectored:focus{
-    border-width: 0px;
-  }
-  .selectored:active{
-    border-width: 0px;
-  }
-.noLeftRightSpaces{
-    padding-left:0px;
-    margin-left:0px;
-    padding-right:0px;
-    margin-right:0px;
+.selectored:focus {
+  border-width: 0px;
+}
+.selectored:active {
+  border-width: 0px;
+}
+.noLeftRightSpaces {
+  padding-left: 0px;
+  margin-left: 0px;
+  padding-right: 0px;
+  margin-right: 0px;
 }
 
 .uploadButton {
   font-family: Segoe UI Semibold;
-  background-color:white;
+  background-color: white;
   text-transform: uppercase;
-  border-color: #2A7EC5;
+  border-color: #2a7ec5;
   border-radius: 7px;
-  color:#2A7EC5;
+  color: #2a7ec5;
   width: 100%;
   font-weight: bolder;
 }
 
-.redButton{
+.redButton {
   font-family: Segoe UI Semibold;
-  background-color:white;
+  background-color: white;
   text-transform: uppercase;
   border-radius: 7px;
   font-weight: bolder;
-  color:#f5302e;
+  color: #f5302e;
 }
 
-.greenButton{
+.greenButton {
   font-family: Segoe UI Semibold;
-  background-color:white;
+  background-color: white;
   text-transform: uppercase;
   border-radius: 7px;
   font-weight: bolder;
-  color:#4dbd74;
+  color: #4dbd74;
 }
 
-.subtaskEdit{
-border: none;
-background-color:inherit;
+.subtaskEdit {
+  border: none;
+  background-color: inherit;
 }
 
-.subtaskRow:hover{
-  i{
-    color:green;
+.subtaskRow:hover {
+  i {
+    color: green;
   }
 }
 
-
-.smoothEdges{
+.smoothEdges {
   border-radius: 4px;
 }
 
-.subtaskRow:hover{
-  i{
-    color:#a3a3a3;
+.subtaskRow:hover {
+  i {
+    color: #a3a3a3;
   }
 }
 
-.subtaskRow i{
-    color:white;
+.subtaskRow i {
+  color: white;
 }
 
-.subtaskCheckbox{
-    background-color: white;
-    border: 2px solid #ECECEC;
-    border-radius: 7px;
-    height: 20px;
-    width: 20px;
-    margin:auto;
-    i{
-      color:#a3a3a3 !important;
-      position:relative;
-      bottom:2px;
-      left:1px;
-    }
-}
-
-.form-control{
-  border-color: #ECECEC;
-}
-
-.form-control::placeholder{
-  color:#a3a3a3;
-}
-
-.react-select__control{
-  border-color: #ECECEC;
-}
-.input-group-addon{
-  border-color: #ECECEC;
-}
-.table-noBorder{
-  border:none !important;
-  tr{
-    border:none !important;
-  }
-  td{
-    border:none !important;
-  }
-  tbody{
-    border:none !important;
-  }
-  th{
-    border:none !important;
+.subtaskCheckbox {
+  background-color: white;
+  border: 2px solid #ececec;
+  border-radius: 7px;
+  height: 20px;
+  width: 20px;
+  margin: auto;
+  i {
+    color: #a3a3a3 !important;
+    position: relative;
+    bottom: 2px;
+    left: 1px;
   }
 }
 
-.invoiceRow:hover{
-  i{
-    color:#a3a3a3;
+.form-control {
+  border-color: #ececec;
+}
+
+.form-control::placeholder {
+  color: #a3a3a3;
+}
+
+.react-select__control {
+  border-color: #ececec;
+}
+.input-group-addon {
+  border-color: #ececec;
+}
+.table-noBorder {
+  border: none !important;
+  tr {
+    border: none !important;
+  }
+  td {
+    border: none !important;
+  }
+  tbody {
+    border: none !important;
+  }
+  th {
+    border: none !important;
   }
 }
 
-.invoiceRow i{
-    color:white;
-}
-.invoiceRow input{
-    background-color: inherit;
+.invoiceRow:hover {
+  i {
+    color: #a3a3a3;
+  }
 }
 
-.invoiceRow select{
-    background-color: inherit;
-    border:none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
+.invoiceRow i {
+  color: white;
+}
+.invoiceRow input {
+  background-color: inherit;
+}
+
+.invoiceRow select {
+  background-color: inherit;
+  border: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 
 .invoiceRow select::-ms-expand {
-display: none;
+  display: none;
 }
 
-.attachmentInfo{
-  color:#2A7EC5 !important;
+.attachmentInfo {
+  color: #2a7ec5 !important;
 }
 
-.activeNavItem span{
-  color:#2A7EC5 !important;
-  border-color: #2A7EC5 !important;
-}
-.activeNavItem i{
-  color:#2A7EC5 !important;
-}
-
-.sidebarSize{
+.sidebarSize {
   font-size: 1.05em;
 }
 
-.nav-link:hover{
-  background-color: #d3eef6 !important;
+.sidebarBadge {
+  border: 1px solid #0d0d0d;
+  border-radius: 10px;
+  color: #0d0d0d;
+}
+
+.btn-link {
+  color: #515151;
+}
+
+.btn-link i {
+  color: #106ebe;
+}
+
+.task-name {
+  font-size: 27px;
+  border: none;
+  color: #515151;
+}
+
+.table-info > td {
+  background-color: #e5f4ff;
 }

@@ -10,16 +10,20 @@ import {
 } from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
 import MessagesDropdown from "./MessagesDropdown";
+<<<<<<< HEAD
 import {logoutUser, setFilterBody} from '../../redux/actions';
+=======
+import { logoutUser, loadUnsavedFilter } from "../../redux/actions";
+>>>>>>> BS-UpravaDizajnu
 import { connect } from "react-redux";
-import i18n from 'i18next';
-import ErrorMessagesDropdown from './ErrorMessagesDropdown';
+import i18n from "i18next";
+import ErrorMessagesDropdown from "./ErrorMessagesDropdown";
 
 class Header extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      search:''
+    this.state = {
+      search: ""
     };
   }
   render() {
@@ -30,25 +34,39 @@ class Header extends Component {
         </NavbarToggler>
         <NavbarToggler style={{ color: "white" }}>LanHelpdesk</NavbarToggler>
 
-
-
         <Nav className="d-md-down-none">
           <InputGroup>
             <Input
               type="text"
               id="search"
               value={this.state.search}
-              onChange={(e)=>this.setState({search:e.target.value})}
+              onChange={e => this.setState({ search: e.target.value })}
               placeholder="Search task"
               style={{ borderRight: "0", width: 300, marginLeft: 90 }}
-
             />
+<<<<<<< HEAD
           <InputGroupAddon
             style={{background: "white", borderLeft: "", cursor:'pointer'}}
             onClick={()=>{
               this.props.setFilterBody('search='+this.state.search,{title:this.state.search},1);
               this.props.history.push('/filter/1,20');
             }}>
+=======
+            <InputGroupAddon
+              style={{ background: "white", borderLeft: "", cursor: "pointer" }}
+              onClick={() => {
+                this.props.loadUnsavedFilter(
+                  20,
+                  1,
+                  this.props.token,
+                  { search: this.state.search },
+                  { title: this.state.search },
+                  true
+                );
+                this.props.history.push("/filter/1,20");
+              }}
+            >
+>>>>>>> BS-UpravaDizajnu
               <i className="fa fa-search" />
             </InputGroupAddon>
           </InputGroup>
@@ -58,40 +76,50 @@ class Header extends Component {
           type="button"
           className="btn btn-link"
           style={{ color: "white" }}
-          onClick={()=>this.props.history.push('/task/add')}
+          onClick={() => this.props.history.push("/task/add")}
         >
-          {i18n.t('addTask')}
+          {i18n.t("addTask")}
         </button>
-        <Nav className="ml-auto" navbar>
-          {this.props.errorMessages.length>0&&<ErrorMessagesDropdown />}
+
+        <Nav navbar className="ml-auto">
+          {/*Settings icon*/}
           <a
-            style={{margin:0, marginRight:10,color:'white'}}
+            style={{ margin: 0, padding: 0 }}
+            className="d-md-down-none "
+            href="#/settings"
+          >
+            <i className="icon-settings" style={{ color: "white" }} />
+          </a>
+          <MessagesDropdown />
+          {this.props.errorMessages.length > 0 && <ErrorMessagesDropdown />}
+          <a
+            style={{ margin: 0, marginRight: 10, color: "white" }}
             className="d-md-down-none"
-            href={"#/user/edit/"+this.props.user.id}
-            >
+            href={"#/user/edit/" + this.props.user.id}
+          >
             {this.props.user.username}
           </a>
-          <i className="fa fa-sign-out" style={{ color: "white",cursor: "pointer" }} onClick={this.props.logoutUser} />
-          <MessagesDropdown />
+          <i
+            className="fa fa-sign-out"
+            style={{ color: "white", cursor: "pointer", marginRight: 20 }}
+            onClick={this.props.logoutUser}
+          />
         </Nav>
-        <a
-          style={{margin:0, padding:0}}
-          className="d-md-down-none"
-          href="#/settings"
-        >
-        <i className="icon-settings" style={{ color: "white", marginRight: 20 }} />
-      </a>
-
       </header>
     );
   }
 }
 
-
-const mapStateToProps = ({login, errorsReducer}) => {
-  const {user, token}=login;
-  const {errorMessages}=errorsReducer;
-  return {user,token,errorMessages};
+const mapStateToProps = ({ login, errorsReducer }) => {
+  const { user, token } = login;
+  const { errorMessages } = errorsReducer;
+  return { user, token, errorMessages };
 };
 
+<<<<<<< HEAD
 export default connect(mapStateToProps, { logoutUser, setFilterBody })(Header);
+=======
+export default connect(mapStateToProps, { logoutUser, loadUnsavedFilter })(
+  Header
+);
+>>>>>>> BS-UpravaDizajnu

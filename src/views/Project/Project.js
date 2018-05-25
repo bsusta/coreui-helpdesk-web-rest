@@ -76,7 +76,7 @@ class Project extends Component {
           </div>
         </div>
         <div>
-          <table className="table table-striped table-hover table-sm">
+          <table className="table table-hover table-sm">
             <thead className="thead-inverse">
               <tr>
                 <th style={{ width: "3%", borderTop: "0px" }}>{i18n.t('id')}</th>
@@ -91,35 +91,7 @@ class Project extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-              </tr>
+           
               {this.props.tasks.map(task => (
                 <tr style={{ cursor: "pointer" }} key={task.id}>
                   <td style={{ verticalAlign: "center" }}>{task.id}</td>
