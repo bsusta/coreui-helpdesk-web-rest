@@ -316,6 +316,12 @@ class Full extends Component {
                 />
                 <Route
                   exact
+                  path="/archived/:id"
+                  name="Project task list"
+                  component={Project}
+                />
+                <Route
+                  exact
                   path="/archived/:id/:page,:count/:task"
                   name="Project task list"
                   component={Project}
@@ -323,6 +329,12 @@ class Full extends Component {
                 <Route
                   exact
                   path="/archived/:id/:page,:count"
+                  name="Project task list"
+                  component={Project}
+                />
+                <Route
+                  exact
+                  path="/project/:id"
                   name="Project task list"
                   component={Project}
                 />
@@ -374,7 +386,18 @@ class Full extends Component {
                   name="Tag Tasks"
                   component={TagTasks}
                 />
-
+                <Route
+                  exact
+                  path="/project/:id/task/edit/:task"
+                  name="Edit task"
+                  component={EditTask}
+                />
+                <Route
+                  exact
+                  path="/filter/:id/task/edit/:task"
+                  name="Edit task"
+                  component={EditTask}
+                />
                 <Route
                   exact
                   path="/task/edit/:task"
@@ -398,12 +421,6 @@ class Full extends Component {
                   path="/trojstlpec"
                   name="TrojStlpec"
                   component={TrojStlpec}
-                />
-                <Route
-                  exact
-                  path="/filter"
-                  name="Filter"
-                  component={Filter}
                 />
                 <Route
                   exact

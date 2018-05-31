@@ -40,6 +40,7 @@ class Tasks extends Component {
   }
 
   componentWillMount(){
+    return;
     if(this.props.body!==null){
       let page=this.props.match.params?this.props.match.params.page:1;
       let count = this.props.match.params?this.props.match.params.count:20;
@@ -128,7 +129,7 @@ class Tasks extends Component {
                   </td>
                   <td
                     onClick={() =>
-                      this.props.history.push("/task/edit/" + task.id)
+                      this.props.history.push("/filter/"+this.props.match.params.id+"/task/edit/" + task.id)
                     }
                   >
                     {task.title}

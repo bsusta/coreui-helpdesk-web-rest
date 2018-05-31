@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import { getFilter, startFilterLoading } from '../../redux/actions';
+import { getFilter, startFilterLoading, getUsersFilter, clearFilterTasks } from '../../redux/actions';
 import Tasks from './Tasks';
 import Loading from '../../components/Loading';
 
@@ -16,14 +16,26 @@ class FilterLoader extends Component {
   componentWillMount(){
     if(this.props.match.params.id){
       this.props.startFilterLoading(false);
+     if(this.props.match.params.id!=='add'){
       this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.match.params.id,this.props.token);
+      }
+      else{
+        this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.token);
+      }
     }
   }
 
   componentWillReceiveProps(props){
-    if(props.match.params.id && (!this.props.match.params.id||this.props.match.params.id!==props.match.params.id)){
-      this.props.startFilterLoading(false);
-      this.props.getFilter(props.taskAttributes,props.statuses,props.projects,props.users,props.tags,props.companies,props.match.params.id,props.token);
+    return;
+    if(props.match.params.id && this.props.match.params.id!==props.match.params.id){
+      if(props.match.params.id==='add'){
+        this.props.startFilterLoading(false);
+        this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.token);
+      }
+      else{
+        this.props.startFilterLoading(false);
+        this.props.getFilter(props.taskAttributes,props.statuses,props.projects,props.users,props.tags,props.companies,props.match.params.id,props.token);
+      }
     }
   }
 
@@ -55,4 +67,4 @@ const mapStateToProps = ({tasksReducer, statusesReducer,sidebarReducer, companie
   };
 
 
-export default connect(mapStateToProps, {getFilter, startFilterLoading})(FilterLoader);
+export default connect(mapStateToProps, {getFilter, startFilterLoading, getUsersFilter, clearFilterTasks})(FilterLoader);

@@ -138,12 +138,12 @@ export const editTag = (body,id,token) => {
             });
             return;
           }
-          response1.json().then((response1)=>{
-          dispatch({type: EDIT_TAG, tag:response1.data});
+          response.json().then((response)=>{
+          dispatch({type: EDIT_TAG, tag:response.data});
         })})
         .catch(function (error) {
+          console.log(error);
           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
-      console.log(error);
       });
 
   };

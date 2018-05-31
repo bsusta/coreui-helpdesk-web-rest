@@ -128,7 +128,7 @@ class Project extends Component {
                   </td>
                   <td
                     onClick={() =>
-                      this.props.history.push("/task/edit/" + task.id)
+                      this.props.history.push("/project/"+this.props.match.params.id+"/task/edit/" + task.id)
                     }
                   >
                     {task.title}

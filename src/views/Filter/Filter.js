@@ -39,53 +39,15 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 class Filter extends Component {
   constructor(props) {
     super(props);
-    let state ={
-        createdFrom:null,
-        createdFromNow:false,
-        createdTo:null,
-        createdToNow:false,
-        deadlineFrom:null,
-        deadlineFromNow:false,
-        deadlineTo:null,
-        deadlineToNow:false,
-        closedFrom:null,
-        closedFromNow:false,
-        closedTo:null,
-        closedToNow:false,
-        title:'',
-        startedFrom:null,
-        startedFromNow:false,
-        startedTo:null,
-        startedToNow:false,
-        archived:false,
-        important:false,
-        statuses:[],
-        projects:[],
-        creators:[],
-        requesters:[],
-        companies:[],
-        assignedTos:[],
-        tags:[],
-        followers:[],
-        task_data:{},
-        filterName:'',
-        filterPublic:false,
-        filterReport:false,
-        filterIcon:'fa-filter',
-        filterOrder:10,
-        stateeditingFilter:this.props.match.params.id?true:false,
-        statesaveOpen:false,
-        statefilterDefault:false,
-        statesubmitError:false,
-      };
-      if(this.props.filterState){
-        Object.keys(this.props.filterState).map((key)=>state[key]=this.props.filterState[key]);
-      }
-    this.state=state;
+    this.createState.bind(this);
+    this.state=this.createState();
   }
 
   componentWillReceiveProps(props){
-    if(this.props.filterState!=props.filterState){
+    if(props.filterState===null){
+      this.setState(this.createState());
+    }
+    else if(this.props.filterState!=props.filterState){
       this.setState(props.filterState);
     }
   }
@@ -160,6 +122,52 @@ class Filter extends Component {
   applyFilter(){
     let body=filterBodyFromState(this.state,this.props.taskAttributes);
     this.props.setFilterBody(body,this.state,1);
+  }
+
+  createState(){
+    let state ={
+        createdFrom:null,
+        createdFromNow:false,
+        createdTo:null,
+        createdToNow:false,
+        deadlineFrom:null,
+        deadlineFromNow:false,
+        deadlineTo:null,
+        deadlineToNow:false,
+        closedFrom:null,
+        closedFromNow:false,
+        closedTo:null,
+        closedToNow:false,
+        title:'',
+        startedFrom:null,
+        startedFromNow:false,
+        startedTo:null,
+        startedToNow:false,
+        archived:false,
+        important:false,
+        statuses:[],
+        projects:[],
+        creators:[],
+        requesters:[],
+        companies:[],
+        assignedTos:[],
+        tags:[],
+        followers:[],
+        task_data:{},
+        filterName:'',
+        filterPublic:false,
+        filterReport:false,
+        filterIcon:'fa-filter',
+        filterOrder:10,
+        stateeditingFilter:this.props.match.params.id?true:false,
+        statesaveOpen:false,
+        statefilterDefault:false,
+        statesubmitError:false,
+      };
+      if(this.props.filterState && this.props.match.params.id!=='add'){
+        Object.keys(this.props.filterState).map((key)=>state[key]=this.props.filterState[key]);
+      }
+      return state;
   }
 
   render() {
@@ -273,7 +281,7 @@ class Filter extends Component {
           <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)}>
             {i18n.t('apply')}
           </button>
-          <button type="button" className="btn btn-link" onClick={()=>this.setState({saveOpen:true, filterName:this.state.editingFilter?this.state.filterName:''})}>
+          <button type="button" className="btn btn-link" onClick={()=>this.setState({saveOpen:true})}>
             {i18n.t('save')}
           </button>
           {
@@ -282,52 +290,15 @@ class Filter extends Component {
             </button>
           }
           <button type="button" className="btn btn-link" onClick={()=>{
-            let state ={
-                createdFrom:null,
-                createdFromNow:false,
-                createdTo:null,
-                createdToNow:false,
-                deadlineFrom:null,
-                deadlineFromNow:false,
-                deadlineTo:null,
-                deadlineToNow:false,
-                closedFrom:null,
-                closedFromNow:false,
-                closedTo:null,
-                closedToNow:false,
-                title:'',
-                startedFrom:null,
-                startedFromNow:false,
-                startedTo:null,
-                startedToNow:false,
-                archived:false,
-                important:false,
-                statuses:[],
-                projects:[],
-                creators:[],
-                requesters:[],
-                companies:[],
-                assignedTos:[],
-                tags:[],
-                followers:[],
-                task_data:{},
-                filterName:'',
-                filterPublic:false,
-                filterReport:false,
-                filterIcon:'fa-filter',
-                filterOrder:10,
-                stateeditingFilter:this.props.match.params.id?true:false,
-                statesaveOpen:false,
-                statefilterDefault:false,
-                statesubmitError:false,
-              };
-              if(this.props.filterState && this.props.match.params.id){
-                Object.keys(this.props.filterState).map((key)=>state[key]=this.props.filterState[key]);
-              }
-              this.setState(state);
+              this.setState(this.createState());
             }}>
             {i18n.t('reset')}
           </button>
+          {this.props.total!==null &&
+            <span style={{float:'right',color:'red'}}>
+              Total number of tasks: {this.props.total}
+            </span>
+          }
           <FormGroup>
             <label htmlFor="title">{i18n.t('filterByName')}</label>
             <input
@@ -350,7 +321,7 @@ class Filter extends Component {
                   return status;
                 })}
                 isMulti
-                defaultValue={this.state.statuses}
+                value={this.state.statuses}
                 onChange={(e)=>this.setState({statuses:e})}
                 style={{ width: "100%" }}
               />
@@ -359,6 +330,7 @@ class Filter extends Component {
           <label className="mt-1">{i18n.t('requester')}</label>
             <Select
               isMulti
+              value={this.state.requesters}
               options={this.props.users.map(user => {
                 user.label =
                   (user.name ? user.name : "") +
@@ -373,7 +345,6 @@ class Filter extends Component {
                 return user;
               })}
               onChange={(e)=>this.setState({requesters:e})}
-              defaultValue={this.state.requesters}
             />
 
           <label className="mt-2">{i18n.t('company')}</label>
@@ -386,7 +357,7 @@ class Filter extends Component {
             isMulti
             style={{ width: "100%" }}
             onChange={(e)=>this.setState({companies:e})}
-            defaultValue={this.state.companies}
+            value={this.state.companies}
           />
 
         <label className="mt-2">{i18n.t('assigned')}</label>
@@ -406,7 +377,7 @@ class Filter extends Component {
                 return user;
               })}
               onChange={(e)=>this.setState({assignedTos:e})}
-              defaultValue={this.state.assignedTos}
+              value={this.state.assignedTos}
             />
 
           <label className="mt-2">{i18n.t('createdBy')}</label>
@@ -426,7 +397,7 @@ class Filter extends Component {
                   return user;
                 })}
                 onChange={(e)=>this.setState({creators:e})}
-                defaultValue={this.state.creators}
+                value={this.state.creators}
               />
 
             <label className="mt-2">{i18n.t('project')}</label>
@@ -439,7 +410,7 @@ class Filter extends Component {
               isMulti
               style={{ width: "100%" }}
               onChange={(e)=>this.setState({projects:e})}
-              defaultValue={this.state.projects}
+              value={this.state.projects}
             />
           <label className="mt-1">{i18n.t('follower')}</label>
             <Select
@@ -458,7 +429,7 @@ class Filter extends Component {
                 return user;
               })}
               onChange={(e)=>this.setState({followers:e})}
-              defaultValue={this.state.followers}
+              value={this.state.followers}
             />
           <label className="mt-2">{i18n.t('tag')}</label>
             <Select
@@ -470,7 +441,7 @@ class Filter extends Component {
               isMulti
               style={{ width: "100%" }}
               onChange={(e)=>this.setState({tags:e})}
-              defaultValue={this.state.tags}
+              value={this.state.tags}
             />
 
             <div className="form-check" style={{marginTop:10}}>
@@ -780,7 +751,7 @@ class Filter extends Component {
 
                           this.setState({ task_data: newData });
                         }}
-                        defaultValue={this.state.task_data[attribute.id]}
+                        value={this.state.task_data[attribute.id]}
                       />
                     </div>
                   );
@@ -804,7 +775,7 @@ class Filter extends Component {
 
                         this.setState({ task_data: newData });
                       }}
-                      defaultValue={this.state.task_data[attribute.id]}
+                      value={this.state.task_data[attribute.id]}
                     />
                 </div>);
                 case "date":
@@ -901,13 +872,13 @@ class Filter extends Component {
 const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesReducer, tagsReducer, taskAttributesReducer, login, filtersReducer }) => {
   const { taskProjects } = tasksReducer;
   const {taskStatuses} = statusesReducer;
-  const { filterState, filter } = filtersReducer;
+  const { filterState, filter, total, body } = filtersReducer;
   const {users} = usersReducer;
   const { taskCompanies } = companiesReducer;
   const { tags } = tagsReducer;
   const { taskAttributes } = taskAttributesReducer;
   const { token } = login;
-  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags,taskAttributes, token, filter, filterState};
+  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags,taskAttributes, token, filter, filterState,body, total};
 };
 
 

@@ -1,4 +1,4 @@
-import { SET_SIDEBAR,SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from "../types";
+import { SET_SIDEBAR,SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, UPDATE_SIDEBAR } from "../types";
 import { SIDEBAR_DATA } from "../urls";
 
 /**
@@ -23,7 +23,7 @@ export const getSidebar = (date,token) => {
             return;
           }
           response.json().then(data => {
-            //console.log(data);
+            dispatch({ type: UPDATE_SIDEBAR, ...data });
           });
         })
         .catch(function(error) {
@@ -57,6 +57,7 @@ export const getSidebar = (date,token) => {
           data.reports.map(report =>
             reports.children.push({
               name: report.title,
+              id: report.id,
               url: "/reports/" + report.id.toString()
               //icon: "fa fa-play"
             })
@@ -72,6 +73,7 @@ export const getSidebar = (date,token) => {
             tags.children.push({
               name: tag.title,
               color: tag.color,
+              id:tag.id,
               url: "/tag/" + tag.id.toString()
             })
           );
@@ -90,7 +92,8 @@ export const getSidebar = (date,token) => {
           data.filters.map(filter =>
             filters.children.push({
               name: filter.title,
-              url: "/filter/" + filter.id.toString()+'/1,20'
+              id:filter.id,
+              url: "/filter/" + filter.id.toString()
               //icon: "fa fa-filter"
             })
           );
@@ -129,7 +132,7 @@ export const getSidebar = (date,token) => {
 
           afterFilters.push({
             name: "filter",
-            url: "/filter",
+            url: "/filter/add",
             icon: "fa fa-plus"
           });
           filters.children = testFilters.concat(afterFilters);
@@ -143,7 +146,8 @@ export const getSidebar = (date,token) => {
           data.projects.map(project =>
             projects.children.push({
               name: project.title,
-              url: "/project/" + project.id.toString()+"/1,20",
+              id:project.id,
+              url: "/project/" + project.id.toString(),
               //icon: "icon-folder",
               badge: {
                 variant: "info",
@@ -167,7 +171,8 @@ export const getSidebar = (date,token) => {
           data.archived.map(project =>
             archived.children.push({
               name: project.title,
-              url: "/archived/" + project.id.toString()+"/1,20",
+              id:project.id,
+              url: "/archived/" + project.id.toString(),
               //icon: "icon-folder",
               badge: {
                 variant: "info",

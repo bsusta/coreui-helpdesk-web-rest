@@ -32,7 +32,7 @@ class ProjectLoader extends Component {
   componentWillReceiveProps(props){
     if(this.state.id!==parseInt(props.match.params.id, 10)){
       let randomFloat= Math.random();
-      this.setState({randomFloat,id:parseInt(props.match.params.id, 10)});
+      this.setState({randomFloat,id:parseInt(props.match.params.id, 10),page:1});
       this.props.clearErrorMessage(randomFloat);
       this.props.startProjectTasksLoading();
       this.props.getProjectTasks(props.match.params.count?parseInt(props.match.params.count, 10):20,props.match.params.page?parseInt(props.match.params.page, 10):1,props.token,parseInt(props.match.params.id, 10));

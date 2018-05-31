@@ -40,6 +40,8 @@ import {
 import MultiSelect from "../../components/multiSelect";
 import i18n from "i18next";
 
+const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
+
 class EditTask extends Component {
   constructor(props) {
     super(props);
@@ -98,7 +100,7 @@ class EditTask extends Component {
       .map(tag => tag.id),
       title: this.props.task.title,
       workTime: this.props.task.work_time ? this.props.task.work_time : "",
-      work: this.props.task.work ? this.props.task.work : "",
+      work_type: this.props.task.work_type ? this.props.task.work_type : "vzdialena podpora",
       newTags: [],
       newTag: "",
       ///////
@@ -194,7 +196,7 @@ class EditTask extends Component {
         startedAt:
         state.startedAt !== null ? state.startedAt.valueOf() / 1000 : "null",
         important: state.important,
-        work: state.work===''?'null':state.work,
+        workType: state.work_type===''?'null':state.work_type,
         workTime: state.workTime.length == 0 ? undefined : state.workTime,
         tag: JSON.stringify(tags),
         assigned:
@@ -665,16 +667,21 @@ class EditTask extends Component {
                                   <InputGroupAddon>
                                     <i className="fa fa-list" />
                                   </InputGroupAddon>
-                                  <input
+                                  <select
                                     className="form-control"
                                     id="work"
-                                    value={this.state.work}
+                                    value={this.state.work_type}
                                     onChange={e => {
-                                      this.autoSubmit("work", e.target.value);
-                                      this.setState({ work: e.target.value });
+                                      this.autoSubmit("work_type", e.target.value);
+                                      this.setState({ work_type: e.target.value });
                                     }}
-                                    placeholder={i18n.t("enterWorkToDo")}
-                                    />
+                                    >
+                                    {workTypes.map(type => (
+                                      <option key={type} value={type}>
+                                        {type}
+                                      </option>
+                                    ))}
+                                  </select>
                                 </InputGroup>
                               </FormGroup>
 

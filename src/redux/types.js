@@ -84,6 +84,7 @@ export const EDIT_COMPANY_ATTRIBUTE = 'EDIT_COMPANY_ATTRIBUTE';
 
 //all constants for SIDEBAR actions
 export const SET_SIDEBAR = 'SET_SIDEBAR';
+export const UPDATE_SIDEBAR = 'UPDATE_SIDEBAR';
 
 //all constants for TASK_ATTRIBUTES actions
 export const SET_TASK_ATTRIBUTES = 'SET_TASK_ATTRIBUTES';

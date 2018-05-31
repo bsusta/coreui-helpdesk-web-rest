@@ -2,6 +2,7 @@ import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER,SET_FILTER_PAGE,SET_
 
 const initialState = {
   numberOfPages:0,
+  total:null,
   tasks:[],
   body:null,
   filterState:null,
@@ -14,7 +15,7 @@ const initialState = {
 export default function filtersReducer(state = initialState, action) {
   switch (action.type) {
     case CLEAR_FILTER_TASKS:{
-      return {...state, tasks:[], numberOfPages:0, page:1};
+      return {...state, tasks:[], numberOfPages:0, page:1, total:null, body:null, filterState:null};
     }
     case SET_FILTER_LOADING:{
       return {...state, filterLoaded:action.filterLoaded};
@@ -26,7 +27,7 @@ export default function filtersReducer(state = initialState, action) {
       return {...state, showFilter:action.showFilter};
     }
     case SET_FILTERED_TASKS:{
-      return { ...state, tasks:action.tasks, numberOfPages:action.numberOfPages };
+      return { ...state, tasks:action.tasks, numberOfPages:action.numberOfPages, total:action.total };
     }
     case SET_FILTER:{
       return { ...state, body:action.body, filterState:action.filterState, page:action.page };

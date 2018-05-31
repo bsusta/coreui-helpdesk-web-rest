@@ -29,6 +29,8 @@ import { timestampToString, initialiseCustomAttributes, processCustomAttributes,
 import MultiSelect from "../../components/multiSelect";
 import i18n from 'i18next';
 
+const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
+
 class AddTask extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +47,7 @@ class AddTask extends Component {
       tags: [],
       title: "Task",
       workTime: "",
-      work: "",
+      work: "vzdialena podpora",
       newTags: [],
       newTag: "",
       submitError:false,
@@ -103,7 +105,7 @@ deleteFollower
         startedAt:
         state.startedAt !== null ? state.startedAt.valueOf() / 1000 : 'null',
         important: state.important,
-        work: state.work,
+        workType: state.work,
         workTime: state.workTime.length == 0 ? undefined : state.workTime,
         tag: JSON.stringify(tags),
         assigned:
@@ -488,20 +490,25 @@ deleteFollower
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="work">{i18n.t('work')}</label>
+                          <label htmlFor="work">{i18n.t("work")}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-list" />
                             </InputGroupAddon>
-                            <input
+                            <select
                               className="form-control"
                               id="work"
                               value={this.state.work}
                               onChange={e => {
                                 this.setState({ work: e.target.value });
                               }}
-                              placeholder={i18n.t('enterWorkToDo')}
-                              />
+                              >
+                              {workTypes.map(type => (
+                                <option key={type} value={type}>
+                                  {type}
+                                </option>
+                              ))}
+                            </select>
                           </InputGroup>
                         </FormGroup>
 
