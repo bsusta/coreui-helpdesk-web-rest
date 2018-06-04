@@ -49,6 +49,7 @@ class ErrorMessages extends Component {
             </div>
 
           {
+            //switches between small and large message window
             (this.state.showAll?this.props.errorMessages:this.props.errorMessages.slice(0,5)).map((message, key)=>
                 <div className= "list-group-item" key={Math.random()} style={{fontSize:14,fontWeight:'bold',color:'red',backgroundColor:key===0?'#d3d3d3':'white', border:'none'}}>
                   <div>
@@ -65,6 +66,7 @@ class ErrorMessages extends Component {
 }
 }
 
+//all below is just redux storage
 const mapStateToProps = ({errorsReducer}) => {
   const {errorMessages}=errorsReducer;
   return {errorMessages};

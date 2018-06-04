@@ -40,7 +40,7 @@ class Loading extends Component {
   }
 }
 
-
+//all below is just redux storage
 const mapStateToProps = ({ loadingReducer }) => {
   const { errorMessage,errorID } = loadingReducer;
   return { errorMessage,errorID };

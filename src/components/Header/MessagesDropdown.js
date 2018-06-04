@@ -15,13 +15,18 @@ class MessagesDropdown extends Component {
 
   constructor(props) {
     super(props);
+    //load messages and set it to automaticly load new after X ms
+    this.props.getTopMessages(this.props.token);
+    let intervalID=window.setInterval(()=>this.props.getTopMessages(this.props.token), 7500);
     this.state = {
       dropdownOpen: false,
+      intervalID
     };
   }
-  componentWillMount(){
-    this.props.getTopMessages(this.props.token);
-    window.setInterval(()=>this.props.getTopMessages(this.props.token), 7500);
+
+  //when logging out, stop the updates
+  componentWillUnmount(){
+    clearInterval(this.state.intervalID);
   }
 
   render() {
@@ -56,6 +61,7 @@ class MessagesDropdown extends Component {
 }
 }
 
+//all below is just redux storage
 const mapStateToProps = ({messagesReducer, login }) => {
   const {topMessages, count} = messagesReducer;
   const {token} = login;

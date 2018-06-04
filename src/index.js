@@ -21,7 +21,6 @@ import '../translation';
 import createStore from './redux/store';
 
 const store=createStore();
-console.disableYellowBox = true;
 ReactDOM.render((
   <Provider store={store}>
     <HashRouter>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Filter from "../Filter";
+import Filter from "../../../views/Filter";
 import ModalTask from "./ModalTask";
 import {
   Badge,

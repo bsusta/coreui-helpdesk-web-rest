@@ -10,7 +10,7 @@ import {
 import Comments from "./Comments";
 import AddComment from "./AddComment";
 import Subtask from "./Subtasks";
-import MultiSelect from "../../components/multiSelect";
+import MultiSelect from "../../multiSelect";
 
 let mockOptions = [
   { id: 0, title: "Moznost 1", color: "#57b141" },

@@ -26,7 +26,7 @@ import moment from "moment";
 import Select from "react-select";
 
 import "react-datepicker/dist/react-datepicker.css";
-import "../../../scss/vendors/react-select/react-select.scss";
+import "../../../../scss/vendors/react-select/react-select.scss";
 
 var options = [
   { value: "F1", label: "LAN Systems s.r.o." },

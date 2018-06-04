@@ -39,6 +39,7 @@ class AddTaskLoader extends Component {
   }
 
   render(){
+    //check if everything is loaded
     if(!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
     !this.props.usersLoaded){

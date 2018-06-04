@@ -34,6 +34,7 @@ const workTypes=['vzdialena podpora','servis IT','servis serverov','programovani
 class AddTask extends Component {
   constructor(props) {
     super(props);
+    //we initialize all tasks aditional attributes
     let task_data = initialiseCustomAttributes([...this.props.taskAttributes]);
     this.state = {
       company: this.props.companies[this.props.companies.findIndex((company)=>company.id===this.props.user.company.id)],
@@ -60,26 +61,29 @@ class AddTask extends Component {
     this.submit.bind(this);
   }
 
-
   componentWillMount() {
-    if(this.state.project){
+    //loads list of people that are allowed to work in this task
+    if(this.state.project){ //should be true to be even able to create task
       this.props.getTaskSolvers(this.state.project, this.props.token);
     }
   }
-/*
-addFollower,
-deleteFollower
 
+/**
+ * Adds new task
+ * @return {null}
  */
   submit() {
     this.setState({submitError:true});
+    //we create copy of the state so we can transform data
     let state={...this.state};
     let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
+    //checks if all requirements for creating were met
     if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||this.state.title===''||
     this.state.requestedBy.id===undefined|| this.state.company.id===undefined ){
       return;
     }
 
+    //as a tags we send titles not ids
     let tags = [];
     state.tags.map(addTag =>
       tags.push(
@@ -87,6 +91,7 @@ deleteFollower
         .title
       )
     );
+
     //ak je task uzvrety nastavi mu closedAt, ak nema startedAt tak ten tiez
     let closedAt=this.state.closedAt?this.state.closedAt:'null';
     if(state.status.toString()==='4'){
@@ -95,6 +100,7 @@ deleteFollower
         state.startedAt=closedAt*1000;
       }
     }
+
     this.props.addTask(
       {
         title: state.title,
@@ -133,6 +139,7 @@ deleteFollower
   }
 
   render() {
+    //cant create task without project
     if(!this.state.project){
       return (
         <div>
@@ -183,7 +190,6 @@ deleteFollower
                             </span>
                           </InputGroupAddon>
 
-                          {/*<label htmlFor ="title">Task Name</label>*/}
                           <input
                             className="form-control"
                             id="title"
@@ -512,7 +518,8 @@ deleteFollower
                           </InputGroup>
                         </FormGroup>
 
-                        {false &&<FormGroup>
+                        {false &&//this is not implemented yet
+                          <FormGroup>
                           <label htmlFor="assigned">Opakovanie</label>
                           <InputGroup>
                             <InputGroupAddon>
@@ -705,6 +712,7 @@ deleteFollower
                           </div>
 
                           {this.props.taskAttributes.map(attribute => {
+                            //Here we load in all custom attributes
                             switch (attribute.type) {
                               case "input":
                               return (
@@ -933,6 +941,7 @@ deleteFollower
                 }
               }
 
+              //all below is just redux storage
               const mapStateToProps = ({
                 tasksReducer,
                 statusesReducer,

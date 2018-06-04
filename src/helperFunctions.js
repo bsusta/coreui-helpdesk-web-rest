@@ -1,19 +1,40 @@
 import moment from "moment";
 import React, { Component } from "react";
 
+/**
+ * Converts timestamp from API to readable string
+ * @param  {int} timestamp timestamp according to PHP
+ * @return {string}           Standard Slovak date string
+ */
 export const timestampToString = (timestamp) => {
   let date = (new Date(timestamp*1000));
   return date.getHours()+":"+(date.getMinutes()<10?'0':'')+date.getMinutes()+" "+date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear();
 }
 
+/**
+ * Checks if this email is correct
+ * @param  {string}  email User entered e-mail
+ * @return {Boolean}       If its correct
+ */
 export const isEmail = (email) => {
   return (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(email);
 }
 
+/**
+ * Check, if this IP can potentially exist
+ * @param  {string}  ip IP
+ * @return {Boolean}    If its correct IP
+ */
 export const isIP = (ip) => {
   return (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip));
 }
 
+/**
+ * Checks if two objects are the same
+ * @param  {Object} object1 The first object
+ * @param  {Object} object2 The second object
+ * @return {Boolean}        If they have same content
+ */
 export const areObjectsSame = (object1, object2) => {
   for (let key in object1){
     if(object1[key]!==object2[key]){
@@ -23,6 +44,12 @@ export const areObjectsSame = (object1, object2) => {
   return true;
 }
 
+/**
+ * Converts object to x-form-url-encoded string
+ * @param  {object} input       Whatever data that are stored as object
+ * @param  {Boolean} deleteEmpty Should be empty values skipped
+ * @return {string}             x-form-url-encoded object
+ */
 export const processRESTinput = (input,deleteEmpty)=>{
   if(!input){
     return '';
@@ -36,6 +63,12 @@ export const processRESTinput = (input,deleteEmpty)=>{
   return result.substring(0,result.length-1);
 }
 
+/**
+ * Transforms savedAttributes/current state of attributes into processed object that is acceptable as JSON by API
+ * @param  {Object} savedAttributes    Current state of custom attributes
+ * @param  {Object} originalAttributes Object containing informations about every custom attribute
+ * @return {Object}                    Changed object that is acceptable by API
+ */
 export const processCustomFilterAttributes = (savedAttributes,originalAttributes) => {
   for (let key in savedAttributes) {
     let attribute = originalAttributes[originalAttributes.findIndex(item => item.id == key)]; //from ID find out everything about the field
@@ -90,7 +123,12 @@ export const processCustomFilterAttributes = (savedAttributes,originalAttributes
   return savedAttributes;
 }
 
-
+/**
+ * Transforms savedAttributes/current state of attributes into processed object that is acceptable as JSON by API
+ * @param  {Object} savedAttributes    Current state of custom attributes
+ * @param  {Object} originalAttributes Object containing informations about every custom attribute
+ * @return {Object}                    Changed object that is acceptable by API
+ */
 export const processCustomAttributes = (savedAttributes,originalAttributes) => {
   for (let key in savedAttributes) {
     let attribute = originalAttributes[originalAttributes.findIndex(item => item.id == key)]; //from ID find out everything about the field
@@ -139,6 +177,11 @@ export const processCustomAttributes = (savedAttributes,originalAttributes) => {
   return savedAttributes;
 }
 
+/**
+ * From attributes it creates new object, that contains empty custom attributes
+ * @param  {object} attributes Contains informations about all of the attributes that should be created
+ * @return {object}            Created object that contains empty attributes
+ */
 export const initialiseCustomAttributes=(attributes)=>{
   let data = {};
   attributes.map(attribute => {
@@ -178,6 +221,13 @@ export const initialiseCustomAttributes=(attributes)=>{
   return data;
 }
 
+/**
+ * Adds to cuttent state of custom attributes already existing values and overwrites them
+ * @param  {object} currentAttributes        Current state of attributes
+ * @param  {object} existingCustomAttributes Saved state of attributes
+ * @param  {object} originalAttributes       Contains informations about all of the attributes that should be processed
+ * @return {object}                          Returns new state of attributes, overwritten by existing ones
+ */
 export const importExistingCustomAttributesForTask=(currentAttributes,existingCustomAttributes,originalAttributes)=>{
   let keys=Object.keys(currentAttributes);
   let newAttributes= {...currentAttributes};
@@ -219,6 +269,13 @@ export const importExistingCustomAttributesForTask=(currentAttributes,existingCu
   return newAttributes;
 }
 
+/**
+ * Adds to cuttent state of custom attributes already existing values and overwrites them
+ * @param  {object} currentAttributes        Current state of attributes
+ * @param  {object} existingCustomAttributes Saved state of attributes
+ * @param  {object} originalAttributes       Contains informations about all of the attributes that should be processed
+ * @return {object}                          Returns new state of attributes, overwritten by existing ones
+ */
 export const importExistingCustomAttributesForCompany=(currentAttributes,existingCustomAttributes,originalAttributes)=>{
   let keys=Object.keys(currentAttributes);
   let newAttributes= {...currentAttributes};
@@ -260,6 +317,12 @@ export const importExistingCustomAttributesForCompany=(currentAttributes,existin
   return newAttributes;
 }
 
+/**
+ * Checks and replaces every null attribute with empty value
+ * @param  {object} attributes         Attributes that may contain null value
+ * @param  {object} originalAttributes Contains informations about all of the attributes that should be processed
+ * @return {object}                    Changed attributes that do not contain null value, but rather some predefined empty value
+ */
 export const fillCustomAttributesNulls= (attributes,originalAttributes)=>{
   for (let key in attributes) {
     if(attributes[key]===null){
@@ -298,6 +361,12 @@ export const fillCustomAttributesNulls= (attributes,originalAttributes)=>{
   return attributes;
 }
 
+/**
+ * Checks if custom attribute object contains any attribute that is required and has null value
+ * @param  {Object} attributes         Current state of custom attributes, that needs to be checked
+ * @param  {Object} originalAttributes Contains informations about all of the attributes that should be checked
+ * @return {Boolean}                    Return if conditions are met
+ */
 export const containsNullRequiredAttribute = (attributes,originalAttributes)=>{
   for (let key in attributes) {
     let original = originalAttributes[originalAttributes.findIndex((item) => (item.id.toString() === key))]; //from ID find out everything about the field
@@ -308,6 +377,17 @@ export const containsNullRequiredAttribute = (attributes,originalAttributes)=>{
   return false;
 }
 
+/**
+ * Converts filter from API to state that is acceptable by filter component
+ * @param  {object} filter         Filter object from API
+ * @param  {object} taskAttributes Information about task attributes
+ * @param  {object} statuses       Information about statuses
+ * @param  {object} projects       Information about projects
+ * @param  {object} users          Information about users
+ * @param  {object} tags           Information about tags
+ * @param  {object} companies      Information about companies
+ * @return {object}                Filter state that can be displayed and used
+ */
 export const filterToFilterState = (filter,taskAttributes,statuses,projects,users,tags,companies)=>{
   let task_data={};
   if(filter.filter.addedParameters){
@@ -363,6 +443,11 @@ export const filterToFilterState = (filter,taskAttributes,statuses,projects,user
   };
 }
 
+/**
+ * Processes special API filter string and extracts dates from it
+ * @param  {string} str String containing the dates
+ * @return {object}     Object containing date information in moments and booleans
+ */
 export const parseFilterStringToDate=(str)=>{
   let result={to:null,from:null,toNow:false,fromNow:false};
   let temp = str.replace('FROM=','').replace('TO=','').split(',');
@@ -401,6 +486,14 @@ export const parseFilterStringToDate=(str)=>{
   return result;
 }
 
+/**
+ * Converts dates to string acceptable by Filter API
+ * @param  {moment} timeFrom Moment containing the date
+ * @param  {moment} timeTo   Moment containing the date
+ * @param  {Boolean} fromNow  If date should be from now
+ * @param  {Boolean} toNow    If date should be till now
+ * @return {string}          Dates incoded into string
+ */
 export const parseFilterDateToString=(timeFrom,timeTo,fromNow,toNow)=>{
   let from = "";
   let to = "";
@@ -430,6 +523,12 @@ export const parseFilterDateToString=(timeFrom,timeTo,fromNow,toNow)=>{
   }
 }
 
+/**
+ * Converts filters state to body so it can be applied (NOT SAVED!!)
+ * @param  {object} state          Current state that contains all tasks values
+ * @param  {Object} taskAttributes Contains informations about all of the attributes
+ * @return {string}                Returns x-form-url-encoded string of the data
+ */
 export const filterBodyFromState=(state,taskAttributes)=>{
 return processRESTinput({
     createdTime:parseFilterDateToString(state.createdFrom,state.createdTo,state.createdFromNow,state.createdToNow),
@@ -453,6 +552,11 @@ return processRESTinput({
   },true);
 }
 
+/**
+ * Creates message that can be read from recieved data from API
+ * @param  {Object} body The message to be displayed
+ * @return {String}      Readable message for the user
+ */
 export const messageBodyToString=(body)=>{
   if(typeof body === "string"){
     return body;
@@ -465,6 +569,12 @@ export const messageBodyToString=(body)=>{
   }
 }
 
+/**
+ * Converts message so the text would be highlighted in the message
+ * @param  {string} message String containing the message
+ * @param  {string} text    Part that should be highlighted
+ * @return {component}         React component that has highlighted text in it
+ */
 export const hightlightText = (message,text)=>{
   let index = message.toLowerCase().indexOf(text.toLowerCase());
   if (index===-1){

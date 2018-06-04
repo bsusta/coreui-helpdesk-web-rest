@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import EditTask from "../EditTask/index";
+import EditTask from "../../../views/EditTask/index";
 export default class MyTasks extends Component {
   render() {
     return (

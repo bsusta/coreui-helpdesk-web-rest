@@ -14,13 +14,24 @@ import i18n from 'i18next';
 import colors from '../../../scss/colors';
 
 class Sidebar extends Component {
+  constructor(props){
+    super(props);
+    //load sidebar and set it to automaticly load after X ms
+    this.props.getSidebar(this.props.date,this.props.token);
+    let intervalID = window.setInterval(()=>this.props.getSidebar(this.props.date,this.props.token), 4500);
+    this.state={
+      intervalID
+    }
+  }
+
+  //when logging out, stop the updates
+  componentWillUnmount(){
+    clearInterval(this.state.intervalID);
+  }
+
   handleClick(e) {
     e.preventDefault();
     e.target.parentElement.classList.toggle("open");
-  }
-  componentWillMount() {
-    this.props.getSidebar(this.props.date,this.props.token);
-    window.setInterval(()=>this.props.getSidebar(this.props.date,this.props.token), 7500);
   }
 
   activeRoute(routeName, props) {

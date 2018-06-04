@@ -17,6 +17,12 @@ class Subtasks extends Component {
       editedItem: null
     };
   }
+
+  /**
+   * This function passes trough all materials and adds them together
+   * @param  {array} items Array of all materials
+   * @return {integer}       Sum of all items
+   */
   sumItems(items) {
     let count = 0;
     items.map(item => (count = count + item.amount * item.unit_price));
@@ -91,6 +97,7 @@ class Subtasks extends Component {
                 </td>
               </tr>
             ))}
+            {/*Row allowing new subtasks*/}
             <tr>
               <td colSpan="3" style={{ border: "0px" }}>
                 <div style={{ display: "flex" }}>
@@ -121,6 +128,8 @@ class Subtasks extends Component {
             </tr>
           </tbody>
         </table>
+        {/* Subtasks ends, materials starts*/}
+
         <table className="table table-hover table-sm">
           <thead className="thead-inverse">
             <tr>
@@ -220,6 +229,7 @@ class Subtasks extends Component {
                 </td>
               </tr>
             ))}
+            {/*Row allowing new materials*/}
             <tr>
               <td>
                 <input
