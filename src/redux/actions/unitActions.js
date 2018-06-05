@@ -1,4 +1,4 @@
-import { SET_UNITS,SET_UNITS_LOADING, ADD_UNIT, SET_UNIT, SET_UNIT_LOADING, EDIT_UNIT, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
+import { SET_UNITS,SET_UNITS_LOADING, ADD_UNIT, SET_UNIT, SET_UNIT_LOADING, EDIT_UNIT, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { UNITS_LIST } from '../urls';
 
 /**
@@ -23,6 +23,7 @@ export const getUnits= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -96,6 +97,7 @@ export const getUnit = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

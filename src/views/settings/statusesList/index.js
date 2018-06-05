@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getStatuses, startStatusesLoading, clearErrorMessage } from '../../../redux/actions';
+import {getStatuses, startStatusesLoading, clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import StatusesList from './statusesList';
 import Loading from '../../../components/Loading';
 
@@ -16,11 +16,12 @@ class StatusesListLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startStatusesLoading();
+    this.props.setActiveRequests(1);
     this.props.getStatuses(this.props.udateDate,this.props.token);
   }
   render(){
     if(!this.props.statusesLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <StatusesList history={this.props.history}/>
   }
@@ -34,4 +35,4 @@ const mapStateToProps = ({statusesReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getStatuses, startStatusesLoading, clearErrorMessage})(StatusesListLoader);
+export default connect(mapStateToProps, {getStatuses, startStatusesLoading, clearErrorMessage, setActiveRequests})(StatusesListLoader);

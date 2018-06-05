@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getTaskAttributes, startTaskAttributesLoading,clearErrorMessage } from '../../../redux/actions';
+import {getTaskAttributes, startTaskAttributesLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import TaskAttributesList from './taskAttributesList';
 import Loading from '../../../components/Loading';
 
@@ -16,11 +16,12 @@ class TaskAttributesListLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startTaskAttributesLoading();
+    this.props.setActiveRequests(1);
     this.props.getTaskAttributes(this.props.token);
   }
   render(){
     if(!this.props.taskAttributesLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <TaskAttributesList history={this.props.history} match={this.props.match}/>
   }
@@ -35,4 +36,4 @@ const mapStateToProps = ({taskAttributesReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getTaskAttributes, startTaskAttributesLoading,clearErrorMessage})(TaskAttributesListLoader);
+export default connect(mapStateToProps, {getTaskAttributes, startTaskAttributesLoading,clearErrorMessage, setActiveRequests})(TaskAttributesListLoader);

@@ -4,7 +4,7 @@ import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,ADD_ERROR_MESSAGE,
   SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING,
   DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHMENT,
-  SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID, SET_TRIPOD } from '../types';
+  SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID, SET_TRIPOD, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE } from '../urls';
 import {addFollower} from './followerActions';
 import {addItem} from './itemActions';
@@ -66,6 +66,7 @@ import i18n from 'i18next';
            'Content-Type': 'application/json'
          }
        }).then((response) =>{
+       dispatch({type: LOWER_ACTIVE_REQUESTS});
          if(!response.ok){
            if(response.status===500){
              dispatch({ type: SET_ERROR_MESSAGE, errorMessage:i18n.t(response.status)});
@@ -101,6 +102,7 @@ import i18n from 'i18next';
            'Content-Type': 'application/json'
          }
        }).then((response) =>{
+       dispatch({type: LOWER_ACTIVE_REQUESTS});
          if(!response.ok){
            response.text().then((data)=>{
              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -130,6 +132,7 @@ import i18n from 'i18next';
            'Content-Type': 'application/json'
          }
        }).then((response) =>{
+       dispatch({type: LOWER_ACTIVE_REQUESTS});
          if(!response.ok){
            response.text().then((data)=>{
              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -180,6 +183,7 @@ export const getTask = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -381,6 +385,7 @@ export const getTaskProjects= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

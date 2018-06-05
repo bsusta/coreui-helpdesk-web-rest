@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getSMTPs, startSMTPsLoading, clearErrorMessage } from '../../../redux/actions';
+import {getSMTPs, startSMTPsLoading, clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import SMTPsList from './smtpsList';
 import Loading from '../../../components/Loading';
 
@@ -16,11 +16,12 @@ class SMTPsListLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startSMTPsLoading();
+    this.props.setActiveRequests(1);
     this.props.getSMTPs(this.props.token);
   }
   render(){
     if(!this.props.SMTPsLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <SMTPsList history={this.props.history}/>
   }
@@ -35,4 +36,4 @@ const mapStateToProps = ({SMTPsReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getSMTPs, startSMTPsLoading, clearErrorMessage})(SMTPsListLoader);
+export default connect(mapStateToProps, {getSMTPs, startSMTPsLoading, clearErrorMessage, setActiveRequests})(SMTPsListLoader);

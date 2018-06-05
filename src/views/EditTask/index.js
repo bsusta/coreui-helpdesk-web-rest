@@ -6,7 +6,7 @@ import {startTaskLoading,startTaskProjectsLoading,startStatusesLoading,getTask,
 startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
  startUnitsLoading, getUnits, deleteTaskSolvers,startCommentsLoading, getComments,
 startUsersLoading, getUsers,startFollowersLoading, getFollowers,clearErrorMessage,
-startSubtasksLoading, getSubtasks,startItemsLoading,getItems } from '../../redux/actions';
+startSubtasksLoading, getSubtasks,startItemsLoading,getItems,setActiveRequests } from '../../redux/actions';
 import EditTask from './EditTask';
 import Loading from '../../components/Loading';
 
@@ -34,6 +34,8 @@ class EditTaskLoader extends Component {
     this.props.startCommentsLoading();
     this.props.startSubtasksLoading();
     this.props.startItemsLoading();
+
+    this.props.setActiveRequests(12);
     this.props.getSubtasks(this.state.taskID,this.props.token);
     this.props.getItems(this.state.taskID,this.props.token);
     this.props.getComments(this.state.taskID,this.props.token);
@@ -53,7 +55,7 @@ class EditTaskLoader extends Component {
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
       !this.props.usersLoaded||!this.props.followersLoaded||!this.props.commentsLoaded||
       !this.props.subtasksLoaded||!this.props.itemsLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <EditTask history={this.props.history} match={this.props.match} taskID={this.state.taskID}/>
   }
@@ -82,5 +84,5 @@ export default connect(mapStateToProps, {
   getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
   startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
   startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
-  startFollowersLoading, getFollowers,clearErrorMessage,
+  startFollowersLoading, getFollowers,clearErrorMessage,setActiveRequests,
   startCommentsLoading, getComments,startSubtasksLoading,getSubtasks,startItemsLoading,getItems})(EditTaskLoader);

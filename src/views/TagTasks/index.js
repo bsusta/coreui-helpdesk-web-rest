@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getTagTasks, startTagTasksLoading, clearErrorMessage } from '../../redux/actions';
+import {getTagTasks, startTagTasksLoading, clearErrorMessage, setActiveRequests } from '../../redux/actions';
 import TagTasks from './TagTasks';
 import Loading from '../../components/Loading';
 
@@ -22,6 +22,7 @@ class TagTasksLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startTagTasksLoading();
+    this.props.setActiveRequests(1);
     this.props.getTagTasks(this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,this.props.token,parseInt(this.props.match.params.id, 10));
   }
 
@@ -41,7 +42,7 @@ class TagTasksLoader extends Component {
 
   render(){
     if(!this.props.tagTasksLoaded||this.props.sidebar.length===0){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <TagTasks history={this.props.history} match={this.props.match} setPage={(page)=>this.props.setState({page})} page={this.state.page}/>
   }
@@ -57,4 +58,4 @@ const mapStateToProps = ({tasksReducer,sidebarReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getTagTasks, startTagTasksLoading, clearErrorMessage})(TagTasksLoader);
+export default connect(mapStateToProps, {getTagTasks, startTagTasksLoading, clearErrorMessage, setActiveRequests})(TagTasksLoader);

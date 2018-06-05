@@ -1,4 +1,4 @@
-import { SET_COMPANY_ATTRIBUTES,SET_COMPANY_ATTRIBUTES_LOADING, ADD_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE_LOADING, EDIT_COMPANY_ATTRIBUTE, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE } from '../types';
+import { SET_COMPANY_ATTRIBUTES,SET_COMPANY_ATTRIBUTES_LOADING, ADD_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE_LOADING, EDIT_COMPANY_ATTRIBUTE, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS, ADD_ERROR_MESSAGE } from '../types';
 import { COMPANY_ATTRIBUTES_LIST } from '../urls';
 
 /**
@@ -23,6 +23,7 @@ export const startCompanyAttributesLoading = () => {
            'Content-Type': 'application/json'
          }
        }).then((response) =>{
+         dispatch({type: LOWER_ACTIVE_REQUESTS});
          if(!response.ok){
            response.text().then((data)=>{
              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -54,6 +55,7 @@ export const startCompanyAttributesLoading = () => {
             'Content-Type': 'application/json'
           }
         }).then((response) =>{
+          dispatch({type: LOWER_ACTIVE_REQUESTS});
           if(!response.ok){
             response.text().then((data)=>{
               dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -128,6 +130,7 @@ export const getCompanyAttribute = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

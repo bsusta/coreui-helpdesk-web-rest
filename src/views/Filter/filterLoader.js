@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import { getFilter, startFilterLoading, getUsersFilter, clearFilterTasks } from '../../redux/actions';
+import { getFilter, startFilterLoading, getUsersFilter, clearFilterTasks, addActiveRequests } from '../../redux/actions';
 import Tasks from './Tasks';
 import Loading from '../../components/Loading';
 
@@ -16,6 +16,7 @@ class FilterLoader extends Component {
   componentWillMount(){
     if(this.props.match.params.id){
       this.props.startFilterLoading(false);
+      this.props.addActiveRequests(1);
      if(this.props.match.params.id!=='add'){
       this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.match.params.id,this.props.token);
       }
@@ -41,7 +42,7 @@ class FilterLoader extends Component {
 
   render(){
     if((this.props.match.params.id && !this.props.filterLoaded)||this.props.sidebar.length===0){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+    return null;
     }
     return <Tasks history={this.props.history} match={this.props.match} />
   }
@@ -67,4 +68,4 @@ const mapStateToProps = ({tasksReducer, statusesReducer,sidebarReducer, companie
   };
 
 
-export default connect(mapStateToProps, {getFilter, startFilterLoading, getUsersFilter, clearFilterTasks})(FilterLoader);
+export default connect(mapStateToProps, {getFilter, startFilterLoading, getUsersFilter, clearFilterTasks, addActiveRequests})(FilterLoader);

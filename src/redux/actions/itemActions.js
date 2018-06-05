@@ -1,4 +1,4 @@
-import { SET_ITEMS,SET_ITEMS_LOADING, ADD_ITEM, EDIT_ITEM,DELETE_ITEM, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE } from '../types';
+import { SET_ITEMS,SET_ITEMS_LOADING, ADD_ITEM, EDIT_ITEM,DELETE_ITEM, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST } from '../urls';
 
 /**
@@ -23,6 +23,7 @@ export const getItems= (taskID,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

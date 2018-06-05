@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getMessages, startMessagesLoading,clearErrorMessage  } from '../../redux/actions';
+import {getMessages, startMessagesLoading,clearErrorMessage ,setActiveRequests } from '../../redux/actions';
 import Loading from '../../components/Loading';
 import Messages from './Messages';
 
@@ -16,12 +16,13 @@ class MessagesLoader extends Component {
   componentWillMount(){
     this.props.startMessagesLoading();
     this.props.clearErrorMessage(this.state.randomFloat);
+    this.props.setActiveRequests(1);
     this.props.getMessages(this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,this.props.token);
   }
 
   render(){
     if(!this.props.messagesLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <Messages history={this.props.history} match={this.props.match}/>
   }
@@ -36,4 +37,4 @@ const mapStateToProps = ({messagesReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getMessages, startMessagesLoading,clearErrorMessage})(MessagesLoader);
+export default connect(mapStateToProps, {getMessages, startMessagesLoading,clearErrorMessage,setActiveRequests})(MessagesLoader);

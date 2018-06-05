@@ -1,4 +1,4 @@
-import { SET_TAGS,SET_TAGS_LOADING, ADD_TAG, SET_TAG, SET_TAG_LOADING, EDIT_TAG, DELETE_TAG, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
+import { SET_TAGS,SET_TAGS_LOADING, ADD_TAG, SET_TAG, SET_TAG_LOADING, EDIT_TAG, DELETE_TAG, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TAGS_LIST } from '../urls';
 
 /**
@@ -23,6 +23,7 @@ export const getTags= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -96,6 +97,7 @@ export const getTag = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

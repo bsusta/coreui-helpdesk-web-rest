@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {startTaskProjectsLoading,startStatusesLoading,loadUnsavedFilter,
+import {startTaskProjectsLoading,startStatusesLoading,loadUnsavedFilter,addActiveRequests,
 getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
 startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
 startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
@@ -28,6 +28,7 @@ class Loader extends Component {
     this.props.startUnitsLoading();
     this.props.startUsersLoading();
     this.props.deleteTaskSolvers();
+    this.props.addActiveRequests(7);
     this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
     this.props.getTaskProjects(this.props.token);
     this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
@@ -43,10 +44,12 @@ class Loader extends Component {
     if(props.match.params.id && this.props.match.params.id!==props.match.params.id){
       if(props.match.params.id==='add'){
         this.props.startFilterLoading(false);
+        this.props.addActiveRequests(1);
         this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.token);
       }
       else{
         this.props.startFilterLoading(false);
+        this.props.addActiveRequests(1);
         this.props.getFilter(props.taskAttributes,props.statuses,props.projects,props.users,props.tags,props.companies,props.match.params.id,props.token);
       }
     }
@@ -55,6 +58,7 @@ class Loader extends Component {
       let randomFloat= Math.random();
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
+      this.props.addActiveRequests(1);
       this.props.loadUnsavedFilter(props.match.params.count?props.match.params.count:20,props.page,props.body,props.token);
       if(!this.props.match.params.page){
         this.props.setFilterPage(1);
@@ -76,6 +80,7 @@ class Loader extends Component {
       let randomFloat= Math.random();
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
+      this.props.addActiveRequests(1);
       this.props.loadUnsavedFilter(props.match.params.count?props.match.params.count:20,props.page,props.body,props.token);
       this.props.history.push(
         '/filter/'+(props.match.params.id?
@@ -89,7 +94,7 @@ class Loader extends Component {
     if(!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
     !this.props.usersLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <FilterLoader history={this.props.history} match={this.props.match} />
   }
@@ -114,7 +119,7 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
 };
 
 export default connect(mapStateToProps, {
-  startTaskProjectsLoading,startStatusesLoading,loadUnsavedFilter,
+  startTaskProjectsLoading,startStatusesLoading,loadUnsavedFilter,addActiveRequests,
   getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
   startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
   startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,

@@ -1,4 +1,4 @@
-import { SET_COMPANIES,SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY, SET_COMPANY_LOADING, EDIT_COMPANY,SET_ERROR_MESSAGE, SET_TASK_COMPANIES,ADD_ERROR_MESSAGE } from '../types';
+import { SET_COMPANIES,SET_COMPANIES_LOADING, ADD_COMPANY, SET_COMPANY, SET_COMPANY_LOADING, EDIT_COMPANY,SET_ERROR_MESSAGE, SET_TASK_COMPANIES,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { COMPANIES_LIST } from '../urls';
 
 /**
@@ -23,6 +23,7 @@ export const startCompaniesLoading = () => {
          'Content-Type': 'application/json'
        }
      }).then((response) =>{
+       dispatch({type: LOWER_ACTIVE_REQUESTS});
        if(!response.ok){
          response.text().then((data)=>{
            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -54,6 +55,7 @@ export const startCompaniesLoading = () => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -128,6 +130,7 @@ export const getCompany = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getCompanyAttributes, startCompanyAttributesLoading, clearErrorMessage } from '../../../redux/actions';
+import {getCompanyAttributes, startCompanyAttributesLoading, clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import CompanyAttributesList from './companyAttributesList';
 import Loading from '../../../components/Loading';
 
@@ -16,11 +16,12 @@ class CompanyAttributesListLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startCompanyAttributesLoading();
+    this.props.setActiveRequests(1);
     this.props.getCompanyAttributes(this.props.token);
   }
   render(){
     if(!this.props.companyAttributesLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <CompanyAttributesList history={this.props.history} match={this.props.match}/>
   }
@@ -35,4 +36,4 @@ const mapStateToProps = ({companyAttributesReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getCompanyAttributes, startCompanyAttributesLoading, clearErrorMessage})(CompanyAttributesListLoader);
+export default connect(mapStateToProps, {getCompanyAttributes, startCompanyAttributesLoading, clearErrorMessage, setActiveRequests})(CompanyAttributesListLoader);

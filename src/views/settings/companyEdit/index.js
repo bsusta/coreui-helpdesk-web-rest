@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getCompany, startCompanyLoading, getActiveCompanyAttributes, startCompanyAttributesLoading, clearErrorMessage } from '../../../redux/actions';
+import {getCompany, startCompanyLoading, getActiveCompanyAttributes, startCompanyAttributesLoading, clearErrorMessage,setActiveRequests } from '../../../redux/actions';
 import CompanyEdit from './companyEdit';
 import Loading from '../../../components/Loading';
 
@@ -14,6 +14,7 @@ class CompanyEditLoader extends Component {
   }
   //before loader page is loaded, we send requests to get all user information
   componentWillMount(){
+    this.props.setActiveRequests(2);
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startCompanyLoading();
     this.props.startCompanyAttributesLoading();
@@ -23,7 +24,7 @@ class CompanyEditLoader extends Component {
 
   render(){
     if(!this.props.companyLoaded||!this.props.companyAttributesLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <CompanyEdit history={this.props.history}/>
   }
@@ -39,4 +40,4 @@ const mapStateToProps = ({ companiesReducer,companyAttributesReducer, login }) =
 };
 
 
-export default connect(mapStateToProps, {getCompany, startCompanyLoading ,getActiveCompanyAttributes,startCompanyAttributesLoading, clearErrorMessage})(CompanyEditLoader);
+export default connect(mapStateToProps, {getCompany, startCompanyLoading ,getActiveCompanyAttributes,startCompanyAttributesLoading, clearErrorMessage,setActiveRequests})(CompanyEditLoader);

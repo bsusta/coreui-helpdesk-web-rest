@@ -1,4 +1,4 @@
-import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT,ADD_ERROR_MESSAGE, ADD_COMMENT_AVATAR_URL,DELETE_COMMENT, SET_COMMENT_ATTACHMENT, SET_ERROR_MESSAGE } from '../types';
+import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT,ADD_ERROR_MESSAGE, ADD_COMMENT_AVATAR_URL,DELETE_COMMENT, SET_COMMENT_ATTACHMENT, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST, GET_LOC, GET_FILE, COMMENT_COMMENTS } from '../urls';
 
 /**
@@ -23,6 +23,7 @@ export const getComments= (taskID,token) => {
         'Content-Type': 'application/json'
       }
     }).then((response) =>{
+    dispatch({type: LOWER_ACTIVE_REQUESTS});
       if(!response.ok){
         response.text().then((data)=>{
           dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

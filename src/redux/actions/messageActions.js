@@ -1,4 +1,4 @@
-import { SET_MESSAGES,SET_MESSAGES_READ,DELETE_MESSAGE, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE, SET_TOP_MESSAGES, START_MESSAGES_LOADING } from '../types';
+import { SET_MESSAGES,SET_MESSAGES_READ,DELETE_MESSAGE, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE, SET_TOP_MESSAGES, START_MESSAGES_LOADING, LOWER_ACTIVE_REQUESTS } from '../types';
 import { NOTIFICATIONS_LIST } from '../urls';
 
 export const getMessages = (limit,page,token) => {
@@ -10,6 +10,7 @@ export const getMessages = (limit,page,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

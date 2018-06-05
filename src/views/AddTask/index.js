@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {startTaskProjectsLoading,startStatusesLoading,
   getTaskStatuses,getTaskProjects,startCompaniesLoading,getTaskCompanies,
 startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
- startUnitsLoading, getUnits, deleteTaskSolvers,
+ startUnitsLoading, getUnits, deleteTaskSolvers,setActiveRequests,
 startUsersLoading, getUsers,clearErrorMessage, clearTask } from '../../redux/actions';
 import AddTask from './AddTask';
 import Loading from '../../components/Loading';
@@ -29,6 +29,7 @@ class AddTaskLoader extends Component {
     this.props.startUsersLoading();
     this.props.deleteTaskSolvers();
 
+    this.props.setActiveRequests(7);
     this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
     this.props.getTaskProjects(this.props.token);
     this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
@@ -43,7 +44,7 @@ class AddTaskLoader extends Component {
     if(!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
     !this.props.usersLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+    return null;
     }
     return <AddTask history={this.props.history} match={this.props.match}/>
   }
@@ -68,6 +69,6 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
 export default connect(mapStateToProps, {
   startTaskProjectsLoading,startStatusesLoading,
   getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
-  startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
+  startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,setActiveRequests,
   startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
   clearErrorMessage, clearTask})(AddTaskLoader);

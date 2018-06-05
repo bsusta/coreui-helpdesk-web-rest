@@ -1,4 +1,4 @@
-import { SET_PROJECTS,SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT, SET_PROJECT_LOADING, EDIT_PROJECT, SET_PERMISSIONS_SAVED, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
+import { SET_PROJECTS,SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT, SET_PROJECT_LOADING, EDIT_PROJECT, SET_PERMISSIONS_SAVED, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { PROJECTS_LIST,UPDATE_PROJECT_ACL } from '../urls';
 
 /**
@@ -23,6 +23,7 @@ export const getProjects= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -96,6 +97,7 @@ export const getProject = (id,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

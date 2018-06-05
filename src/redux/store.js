@@ -54,7 +54,7 @@ const reducers = combineReducers({
   });
 
 const enhancers = compose(
-  applyMiddleware(ReduxThunk),
+  applyMiddleware(ReduxThunk)
 );
 
 

@@ -1,4 +1,4 @@
-import { SET_STATUSES,SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS, SET_STATUS_LOADING, EDIT_STATUS, SET_ERROR_MESSAGE, SET_TASK_STATUSES,ADD_ERROR_MESSAGE  } from '../types';
+import { SET_STATUSES,SET_STATUSES_LOADING, ADD_STATUS, SET_STATUS, SET_STATUS_LOADING, EDIT_STATUS, SET_ERROR_MESSAGE, SET_TASK_STATUSES,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { STATUSES_LIST } from '../urls';
 
 /**
@@ -19,6 +19,7 @@ export const getStatuses= (updateDate,token) => {
           'Authorization': 'Bearer ' + token,
         }
       }).then((response) =>{
+        dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -47,6 +48,7 @@ export const getTaskStatuses= (updateDate,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -118,6 +120,7 @@ export const getStatus = (token,id) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

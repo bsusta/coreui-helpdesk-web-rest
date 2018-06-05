@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getUserRole, startUserRoleLoading, clearErrorMessage } from '../../../redux/actions';
+import {getUserRole, startUserRoleLoading, clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import RoleEdit from './roleEdit';
 import Loading from '../../../components/Loading';
 
@@ -16,11 +16,12 @@ class RoleEditLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startUserRoleLoading();
+    this.props.setActiveRequests(1);
     this.props.getUserRole(parseInt(this.props.match.params.id, 10),this.props.token);
   }
   render(){
     if(!this.props.userRoleLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <RoleEdit history={this.props.history} match={this.props.match}/>
   }
@@ -35,4 +36,4 @@ const mapStateToProps = ({userRolesReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getUserRole, startUserRoleLoading, clearErrorMessage})(RoleEditLoader);
+export default connect(mapStateToProps, {getUserRole, startUserRoleLoading, clearErrorMessage, setActiveRequests })(RoleEditLoader);

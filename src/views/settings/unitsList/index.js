@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getUnits, startUnitsLoading,clearErrorMessage } from '../../../redux/actions';
+import {getUnits, startUnitsLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import UnitsList from './unitsList';
 import Loading from '../../../components/Loading';
 
@@ -16,11 +16,12 @@ class UnitsListLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startUnitsLoading();
+    this.props.setActiveRequests(1);
     this.props.getUnits(this.props.token);
   }
   render(){
     if(!this.props.unitsLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <UnitsList history={this.props.history}/>
   }
@@ -35,4 +36,4 @@ const mapStateToProps = ({unitsReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getUnits, startUnitsLoading,clearErrorMessage})(UnitsListLoader);
+export default connect(mapStateToProps, {getUnits, startUnitsLoading,clearErrorMessage, setActiveRequests})(UnitsListLoader);

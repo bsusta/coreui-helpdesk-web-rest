@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getCompanies, startCompaniesLoading, getUserRoles, startUserRolesLoading, clearErrorMessage } from '../../../redux/actions';
+import {getCompanies, startCompaniesLoading, getUserRoles, startUserRolesLoading, clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import UserAdd from './userAdd';
 import Loading from '../../../components/Loading';
 
@@ -17,12 +17,13 @@ class UserAddLoader extends Component {
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startCompaniesLoading();
     this.props.startUserRolesLoading();
+    this.props.setActiveRequests(2);
     this.props.getCompanies(this.props.updateDate,this.props.token);
     this.props.getUserRoles(this.props.token);
   }
   render(){
     if(!this.props.companiesLoaded || !this.props.userRolesLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+    return null;
     }
     return <UserAdd history={this.props.history}/>
   }
@@ -37,4 +38,4 @@ const mapStateToProps = ({ companiesReducer, login, userRolesReducer }) => {
 };
 
 
-export default connect(mapStateToProps, {getCompanies, startCompaniesLoading,getUserRoles, startUserRolesLoading, clearErrorMessage})(UserAddLoader);
+export default connect(mapStateToProps, {getCompanies, startCompaniesLoading,getUserRoles, startUserRolesLoading, clearErrorMessage, setActiveRequests})(UserAddLoader);

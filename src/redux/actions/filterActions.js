@@ -1,4 +1,4 @@
-import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER, ADD_ERROR_MESSAGE,SET_FILTER_LOADING, SET_ERROR_MESSAGE } from '../types';
+import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER, ADD_ERROR_MESSAGE,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST, FILTERS_LIST } from '../urls';
 import {processRESTinput,filterToFilterState ,filterBodyFromState} from '../../helperFunctions';
 
@@ -35,6 +35,7 @@ export const loadUnsavedFilter = (count,page,body,token) => {
        'Content-Type': 'application/json'
      }
    }).then((response) =>{
+   dispatch({type: LOWER_ACTIVE_REQUESTS});
      if(!response.ok){
        response.text().then((data)=>{
          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -113,6 +114,7 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -148,6 +150,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

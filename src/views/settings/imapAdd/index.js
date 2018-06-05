@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getProjects, startProjectsLoading,clearErrorMessage } from '../../../redux/actions';
+import {getProjects, startProjectsLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import ImapAdd from './imapAdd';
 import Loading from '../../../components/Loading';
 
@@ -16,11 +16,12 @@ class ImapAddLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startProjectsLoading();
+    this.props.setActiveRequests(1);
     this.props.getProjects(this.props.token);
   }
   render(){
     if(!this.props.projectsLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <ImapAdd history={this.props.history}/>
   }
@@ -35,4 +36,4 @@ const mapStateToProps = ({ projectsReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getProjects, startProjectsLoading,clearErrorMessage })(ImapAddLoader);
+export default connect(mapStateToProps, {getProjects, startProjectsLoading,clearErrorMessage, setActiveRequests })(ImapAddLoader);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getProjectTasks, startProjectTasksLoading,clearErrorMessage,startProjectLoading,getProject,  } from '../../redux/actions';
+import {getProjectTasks, startProjectTasksLoading,clearErrorMessage,startProjectLoading,getProject, setActiveRequests } from '../../redux/actions';
 import Loading from '../../components/Loading';
 import Project from './ProjectContainer';
 
@@ -25,6 +25,7 @@ class ProjectLoader extends Component {
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startProjectTasksLoading();
     this.props.startProjectLoading();
+    this.props.setActiveRequests(2);
     this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.token);
     this.props.getProjectTasks(this.props.match.params.count?parseInt(this.props.match.params.count, 10):20,this.props.match.params.page?parseInt(this.props.match.params.page, 10):1,this.props.token,parseInt(this.props.match.params.id, 10));
   }
@@ -35,9 +36,11 @@ class ProjectLoader extends Component {
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10),page:1});
       this.props.clearErrorMessage(randomFloat);
       this.props.startProjectTasksLoading();
+      this.props.setActiveRequests(1);
       this.props.getProjectTasks(props.match.params.count?parseInt(props.match.params.count, 10):20,props.match.params.page?parseInt(props.match.params.page, 10):1,props.token,parseInt(props.match.params.id, 10));
     }
     if(!isNaN(parseInt(props.match.params.page, 10))&&!isNaN(parseInt(props.match.params.count, 10))&&(this.state.page!==parseInt(props.match.params.page, 10)||this.state.count!==parseInt(props.match.params.count, 10))){
+      this.props.setActiveRequests(1);
       this.props.getProjectTasks(props.match.params.count?parseInt(props.match.params.count, 10):20,props.match.params.page?parseInt(props.match.params.page, 10):1,props.token,parseInt(props.match.params.id, 10));
       this.setState({page:parseInt(props.match.params.page, 10),count:parseInt(props.match.params.count, 10)});
     }
@@ -45,7 +48,7 @@ class ProjectLoader extends Component {
 
   render(){
     if(!this.props.projectTasksLoaded||!this.props.projectLoaded||this.props.sidebar.length===0){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+    return null;
     }
     return <Project history={this.props.history} match={this.props.match}  setPage={(page)=>this.setState({page})} page={this.state.page}/>
   }
@@ -62,4 +65,4 @@ const mapStateToProps = ({tasksReducer,projectsReducer,sidebarReducer, login }) 
 };
 
 
-export default connect(mapStateToProps, {getProjectTasks, startProjectTasksLoading,clearErrorMessage,startProjectLoading,getProject})(ProjectLoader);
+export default connect(mapStateToProps, {getProjectTasks, startProjectTasksLoading,clearErrorMessage,startProjectLoading,getProject, setActiveRequests})(ProjectLoader);

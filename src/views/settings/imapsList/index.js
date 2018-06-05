@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getImaps, startImapsLoading,clearErrorMessage } from '../../../redux/actions';
+import {getImaps, startImapsLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import ImapsList from './imapsList';
 import Loading from '../../../components/Loading';
 
@@ -16,11 +16,12 @@ class ImapsListLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startImapsLoading();
+    this.props.setActiveRequests(1);
     this.props.getImaps(this.props.token);
   }
   render(){
     if(!this.props.imapsLoaded){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+      return null;
     }
     return <ImapsList history={this.props.history}/>
   }
@@ -35,4 +36,4 @@ const mapStateToProps = ({imapsReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getImaps, startImapsLoading,clearErrorMessage})(ImapsListLoader);
+export default connect(mapStateToProps, {getImaps, startImapsLoading,clearErrorMessage, setActiveRequests})(ImapsListLoader);

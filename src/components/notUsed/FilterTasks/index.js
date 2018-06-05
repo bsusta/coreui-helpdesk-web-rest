@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getFilteredTasks, startFilterTasksLoading,clearErrorMessage } from '../../redux/actions';
+import {getFilteredTasks, startFilterTasksLoading,clearErrorMessage, setActiveRequests } from '../../redux/actions';
 import Loading from '../../components/Loading';
 import Filter from './FilterTasks';
 
@@ -24,6 +24,7 @@ class FilterLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startFilterTasksLoading();
+    this.props.setActiveRequests(1);
     this.props.getFilteredTasks(this.state.count,this.state.page,this.props.token,parseInt(this.props.match.params.id, 10));
   }
   componentWillReceiveProps(props){
@@ -32,16 +33,18 @@ class FilterLoader extends Component {
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
       this.props.startFilterTasksLoading();
+      this.props.setActiveRequests(1);
       this.props.getFilteredTasks(props.match.params.count?parseInt(props.match.params.count, 10):20,props.match.params.page?parseInt(props.match.params.page, 10):1,props.token,parseInt(props.match.params.id, 10));
     }
     if(!isNaN(parseInt(props.match.params.page, 10))&&!isNaN(parseInt(props.match.params.count, 10))&&(this.state.page!==parseInt(props.match.params.page, 10)||this.state.count!==parseInt(props.match.params.count, 10))){
+    this.props.setActiveRequests(1);
       this.props.getFilteredTasks(parseInt(props.match.params.count, 10),parseInt(props.match.params.page, 10),this.props.token,parseInt(props.match.params.id, 10));
       this.setState({page:parseInt(props.match.params.page, 10),count:parseInt(props.match.params.count, 10)});
     }
   }
   render(){
     if(!this.props.filterTasksLoaded||this.props.sidebar.length===0){
-      return(<Loading errorID={this.state.errorID} history={this.props.history}/>)
+    return null;
     }
     return <Filter history={this.props.history} match={this.props.match} setPage={(page)=>this.setState({page})} page={this.state.page}/>
   }
@@ -57,4 +60,4 @@ const mapStateToProps = ({tasksReducer,sidebarReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getFilteredTasks, startFilterTasksLoading,clearErrorMessage})(FilterLoader);
+export default connect(mapStateToProps, {getFilteredTasks, startFilterTasksLoading,clearErrorMessage, setActiveRequests})(FilterLoader);

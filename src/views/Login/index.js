@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Login from './Login';
 import { connect } from 'react-redux';
-import { checkToken } from '../../redux/actions';
+import { checkToken, setActiveRequests } from '../../redux/actions';
 
 
 class TokenChecker extends Component {
@@ -10,6 +10,7 @@ class TokenChecker extends Component {
   }
 
   componentWillMount(){
+    this.props.setActiveRequests(1);
     this.props.checkToken();
   }
 
@@ -29,4 +30,4 @@ const mapStateToProps = ({ login }) => {
   return {tokenChecked};
 };
 
-export default connect(mapStateToProps, {checkToken})(TokenChecker);
+export default connect(mapStateToProps, {checkToken, setActiveRequests})(TokenChecker);

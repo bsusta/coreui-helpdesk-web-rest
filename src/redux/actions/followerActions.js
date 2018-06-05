@@ -1,4 +1,4 @@
-import { SET_FOLLOWERS, SET_FOLLOWERS_LOADING, ADD_FOLLOWER, DELETE_FOLLOWER, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE } from '../types';
+import { SET_FOLLOWERS, SET_FOLLOWERS_LOADING, ADD_FOLLOWER, DELETE_FOLLOWER, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST } from '../urls';
 
 /**
@@ -23,6 +23,7 @@ export const getFollowers= (taskID,token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

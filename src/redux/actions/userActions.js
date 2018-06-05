@@ -1,4 +1,4 @@
-import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
+import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { USERS_LIST, IMAGE_UPLOAD, GET_LOC, GET_FILE } from '../urls';
 import i18n from 'i18next';
 
@@ -24,6 +24,7 @@ export const getUsers= (updateDate,token) => {
         'Content-Type': 'application/json'
       }
     }).then((response) =>{
+    dispatch({type: LOWER_ACTIVE_REQUESTS});
       if(!response.ok){
         response.text().then((data)=>{
           dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -144,6 +145,7 @@ export const addUser = (body,company,role,image,token) => {
               'Content-Type': 'application/json'
             }
           }).then((response) =>{
+          dispatch({type: LOWER_ACTIVE_REQUESTS});
             if(!response.ok){
               response.text().then((data)=>{
                 dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });

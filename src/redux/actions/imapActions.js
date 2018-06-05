@@ -1,4 +1,4 @@
-import { SET_IMAPS,SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP, SET_IMAP_LOADING, EDIT_IMAP, DELETE_IMAP, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE } from '../types';
+import { SET_IMAPS,SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP, SET_IMAP_LOADING, EDIT_IMAP, DELETE_IMAP, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { IMAPS_LIST } from '../urls';
 
 /**
@@ -23,6 +23,7 @@ export const getImaps= (token) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
@@ -96,6 +97,7 @@ export const getImap = (token,id) => {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           response.text().then((data)=>{
             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
