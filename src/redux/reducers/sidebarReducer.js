@@ -27,7 +27,7 @@ export default function sidebarReducer(state = initialState, action) {
           projects.splice(projects.length-1,0,{
             name: project.title,
             id:project.id,
-            url: "/project/" + project.id.toString(),
+            url: "/project/" + project.id.toString()+'/1,20',
             //icon: "icon-folder",
             badge: {
               variant: "info",
@@ -39,7 +39,7 @@ export default function sidebarReducer(state = initialState, action) {
           projects[index]={
             name: project.title,
             id:project.id,
-            url: "/project/" + project.id.toString(),
+            url: "/project/" + project.id.toString()+'/1,20',
             //icon: "icon-folder",
             badge: {
               variant: "info",
@@ -59,7 +59,7 @@ export default function sidebarReducer(state = initialState, action) {
           archived.splice(archived.length-1,0,{
             name: project.title,
             id:project.id,
-            url: "/project/" + project.id.toString(),
+            url: "/project/" + project.id.toString()+'/1,20',
             //icon: "icon-folder",
             badge: {
               variant: "info",
@@ -71,7 +71,7 @@ export default function sidebarReducer(state = initialState, action) {
           archived[index]={
             name: project.title,
             id:project.id,
-            url: "/project/" + project.id.toString(),
+            url: "/project/" + project.id.toString()+'/1,20',
             //icon: "icon-folder",
             badge: {
               variant: "info",
@@ -123,25 +123,28 @@ export default function sidebarReducer(state = initialState, action) {
         }
       });
 
-      action.reports.map((report)=>{
-        let index = reports.findIndex((item)=>item.id===report.id);
-        if(index===-1){
-          reports.splice(reports.length-1,0,{
-            name: report.title,
-            id: report.id,
-            url: "/reports/" + report.id.toString()
-            //icon: "fa fa-play"
-          });
-        }
-        else{
-          reports[index]={
-            name: report.title,
-            id: report.id,
-            url: "/reports/" + report.id.toString()
-            //icon: "fa fa-play"
+      if(action.reports){
+        action.reports
+        .map((report)=>{
+          let index = reports.findIndex((item)=>item.id===report.id);
+          if(index===-1){
+            reports.splice(reports.length-1,0,{
+              name: report.title,
+              id: report.id,
+              url: "/reports/" + report.id.toString()
+              //icon: "fa fa-play"
+            });
           }
-        }
-      });
+          else{
+            reports[index]={
+              name: report.title,
+              id: report.id,
+              url: "/reports/" + report.id.toString()
+              //icon: "fa fa-play"
+            }
+          }
+        });
+      }
 
       newSidebar[sidebarFilterIndex].children=filters;
       newSidebar[sidebarProjectIndex].children=projects;

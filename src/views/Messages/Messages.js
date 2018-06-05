@@ -33,7 +33,7 @@ class Messages extends Component {
       )
     ) {
       this.setState({selected:[]});
-      this.props.deleteMessage(this.props.match.params.count,this.props.match.params.page,this.state.selected,this.props.token);
+      this.props.deleteMessage(this.props.match.params.count?this.props.match.params.count:20,this.props.match.params.page?this.props.match.params.page:1,this.state.selected,this.props.token);
     } else {
       return;
     }
@@ -46,7 +46,7 @@ class Messages extends Component {
         "Are you sure you want to delete message "+name+"?"
       )
     ) {
-      this.props.deleteMessage(this.props.match.params.count,this.props.match.params.page,[id],this.props.token);
+      this.props.deleteMessage(this.props.match.params.count?this.props.match.params.count:20,this.props.match.params.page?this.props.match.params.page:1,[id],this.props.token);
       let index = this.state.selected.findIndex((item)=>item===id);
       if(index!==-1){
         let newSelected=this.state.selected.splice(1,index);
@@ -203,9 +203,11 @@ class Messages extends Component {
                   this.setState({selected:[message.id,...this.state.selected]});
                 }
               }}>{hightlightText(messageBodyToString(message.body),this.state.filter)}
-              <span className="float-right">
-                <a href={"#/task/edit/"+message.task.id}>{hightlightText(message.task.title,this.state.filter)}</a>
-              </span>
+              { message.task &&
+                <span className="float-right">
+                  <a href={"#/task/edit/"+message.task.id}>{hightlightText(message.task.title,this.state.filter)}</a>
+                </span>
+              }
             </div>
           </div>
         ))}

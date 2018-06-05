@@ -54,14 +54,16 @@ export const getSidebar = (date,token) => {
             icon: "fa fa-filter",
             children: []
           };
-          data.reports.map(report =>
-            reports.children.push({
-              name: report.title,
-              id: report.id,
-              url: "/reports/" + report.id.toString()
-              //icon: "fa fa-play"
-            })
-          );
+          if(data.reports){            
+            data.reports.map(report =>
+              reports.children.push({
+                name: report.title,
+                id: report.id,
+                url: "/reports/" + report.id.toString()
+                //icon: "fa fa-play"
+              })
+            );
+          }
 
           let tags = {
             name: "tags",
@@ -69,14 +71,16 @@ export const getSidebar = (date,token) => {
             icon: "fa fa-tags",
             children: []
           };
-          data.tags.map(tag =>
-            tags.children.push({
-              name: tag.title,
-              color: tag.color,
-              id:tag.id,
-              url: "/tag/" + tag.id.toString()
-            })
-          );
+          if(data.tags){
+            data.tags.map(tag =>
+              tags.children.push({
+                name: tag.title,
+                color: tag.color,
+                id:tag.id,
+                url: "/tag/" + tag.id.toString()
+              })
+            );
+          }
           tags.children.push({
             name: "tag",
             url: "/tag/add",
@@ -143,18 +147,23 @@ export const getSidebar = (date,token) => {
             icon: "icon-folder",
             children: []
           };
-          data.projects.map(project =>
-            projects.children.push({
-              name: project.title,
-              id:project.id,
-              url: "/project/" + project.id.toString(),
-              //icon: "icon-folder",
-              badge: {
-                variant: "info",
-                text: project.numberOfTasks
-              }
-            })
-          );
+
+          if(data.projects){
+            data.projects.map(project =>
+              projects.children.push({
+                name: project.title,
+                id:project.id,
+                url: "/project/" + project.id.toString()+'/1,20',
+                //icon: "icon-folder",
+                badge: {
+                  variant: "info",
+                  text: project.numberOfTasks
+                }
+              })
+            );
+
+          }
+
 
           projects.children.push({
             name: "project",
@@ -172,7 +181,7 @@ export const getSidebar = (date,token) => {
             archived.children.push({
               name: project.title,
               id:project.id,
-              url: "/archived/" + project.id.toString(),
+              url: "/archived/" + project.id.toString()+'/1,20',
               //icon: "icon-folder",
               badge: {
                 variant: "info",

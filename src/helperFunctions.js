@@ -558,11 +558,19 @@ return processRESTinput({
  * @return {String}      Readable message for the user
  */
 export const messageBodyToString=(body)=>{
+  if(!body){
+    return "";
+  }
   if(typeof body === "string"){
     return body;
   }
-  else if(body.description.from && body.description.to){
+  else if(body.description && body.description.from && body.description.to){
     return "Changed from " + body.description.from+ " to "+body.description.to;
+  }
+  else if(Object.keys(body).length>0){
+    let message ="Changed parameters: ";
+    Object.keys(body).map((item)=>message=message+item+", ");
+    return message.substring(0, message.length-2);
   }
   else{
     return "Message not defined";

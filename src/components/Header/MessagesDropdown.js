@@ -30,6 +30,7 @@ class MessagesDropdown extends Component {
   }
 
   render() {
+    console.log(this.props.messages);
     return (
       <Dropdown nav className="d-md-down-none" isOpen={this.state.dropdownOpen} toggle={()=>this.setState({ dropdownOpen: !this.state.dropdownOpen })}>
         <DropdownToggle nav>
@@ -39,7 +40,7 @@ class MessagesDropdown extends Component {
           <DropdownItem header tag="div"><strong>You have {this.props.count} new message/s</strong></DropdownItem>
           {
             this.props.messages.map((message)=>
-            <DropdownItem href={"#/task/edit/"+message.task.id} key={message.id}>
+            <DropdownItem href={message.task?"#/task/edit/"+message.task.id: '#/messages'} key={message.id}>
               <div className="message">
                 <div className=" float-left">
                     <i style={{fontSize:'1em'}} className={message.comment?"fa fa-comment-o fa-lg":"icon-envelope-letter fa-lg"}></i>
