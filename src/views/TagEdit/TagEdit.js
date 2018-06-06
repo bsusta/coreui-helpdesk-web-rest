@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editTag, deleteTag } from "../../redux/actions";
 import { SketchPicker } from "react-color";
-import { Card, CardHeader } from "reactstrap";
+import { Card, CardHeader, CardBody } from "reactstrap";
 import i18n from 'i18next';
+
 
 class TagEdit extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class TagEdit extends Component {
             className="btn btn-link"
             onClick={this.submit.bind(this)}
           >
-            {i18n.t('saved')}
+            {i18n.t('save')}
           </button>
           <button
             type="button"
@@ -67,6 +68,7 @@ class TagEdit extends Component {
             {i18n.t('delete')}
           </button>
         </CardHeader>
+        <CardBody>
         <div style={{ paddingLeft: 20, paddingRight: 20 }}>
           <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
             {i18n.t('editing')} {this.state.title}
@@ -121,6 +123,7 @@ class TagEdit extends Component {
             </form>
           </div>
         </div>
+        </CardBody>
       </Card>
     );
   }

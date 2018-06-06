@@ -67,7 +67,7 @@ class UsersList extends Component {
             <i className="fa fa-plus" /> {i18n.t('user')}
           </button>
         </CardHeader>
-        <div className="table-div">
+        <div className="table-div-panel">
           <h2 className="mb-3">{i18n.t('usersList')}</h2>
 
           <table className="table table-striped table-hover">

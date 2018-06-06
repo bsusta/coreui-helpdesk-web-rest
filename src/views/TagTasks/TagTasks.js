@@ -39,7 +39,7 @@ class Tag extends Component {
 
   render() {
     return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
+  <div className="table-div">
         <h2 style={{ marginTop: 20 }}>
           {this.props.tags[this.props.tags.findIndex((tag)=>tag.url.includes(this.props.match.params.id))].name} {" "}
           <a
@@ -70,35 +70,7 @@ class Tag extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-              </tr>
+           
               {
                 this.props.tasks.map((task)=><tr style={{ cursor: "pointer" }} key={task.id}>
                 <td style={{ verticalAlign: "center" }}>{task.id}</td>

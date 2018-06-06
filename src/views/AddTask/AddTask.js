@@ -153,7 +153,7 @@ class AddTask extends Component {
     return (
       <div>
         <Card>
-          <CardHeader style={{margin:0,width:'100',position:'fixed',zIndex:1}}>
+          <CardHeader >
             <button className="btn btn-link" onClick={this.props.history.goBack}>
               <i className="fa fa-ban" /> {i18n.t('cancel')}
               </button>

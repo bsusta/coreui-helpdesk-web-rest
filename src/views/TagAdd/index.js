@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { addTag } from "../../redux/actions";
 import { SketchPicker } from "react-color";
 import i18n from 'i18next';
+import { Card, CardHeader, CardBody } from "reactstrap";
 
 class TagAdd extends Component {
   constructor(props) {
@@ -31,7 +32,33 @@ class TagAdd extends Component {
 
   render() {
     return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
+      <Card>
+        <CardHeader>
+        <button className="btn btn-link" onClick={this.props.history.goBack}>
+            <i className="fa fa-angle-left" /> {i18n.t('goBack')}
+          </button>
+        
+        <button
+            type="button"
+            className="btn btn-link"
+
+            onClick={this.props.history.goBack}
+          >
+            {i18n.t('cancel')}
+          </button>
+          <button
+            type="button"
+            className="btn btn-link"
+  
+            onClick={this.submit.bind(this)}
+          >
+            {i18n.t('Save')}
+          </button>
+        
+        </CardHeader>
+      <CardBody>
+
+     
         <h2 style={{ paddingTop: 20, marginBottom: 20 }}>{i18n.t('addNewTag')}</h2>
         <div>
           <form style={{ marginTop: 15 }}>
@@ -78,25 +105,12 @@ class TagAdd extends Component {
               />
             </div>
           </form>
-          <button
-            type="button"
-            className="btn btn-danger btn-sm"
-            style={{ color: "white" }}
-            onClick={this.props.history.goBack}
-          >
-            {i18n.t('cancel')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary btn-sm"
-            style={{ color: "white", marginLeft: 5 }}
-            onClick={this.submit.bind(this)}
-          >
-            {i18n.t('submit')}
-          </button>
+      
         </div>
-      </div>
-    );
+
+      </CardBody>
+      </Card>
+     );
   }
 }
 

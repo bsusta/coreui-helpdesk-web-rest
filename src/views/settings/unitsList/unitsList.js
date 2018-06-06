@@ -56,7 +56,7 @@ class UnitsList extends Component {
             <i className="fa fa-plus" /> {i18n.t('unit')}
           </button>
         </CardHeader>
-        <div className="table-div">
+        <div className="table-div-panel">
           <h2 className="mb-3">{i18n.t('unitList')}</h2>
 
           <table className="table table-striped table-hover">

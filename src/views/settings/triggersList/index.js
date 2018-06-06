@@ -52,7 +52,7 @@ class TriggersList extends Component {
             <i className="fa fa-plus" /> Trigger
           </button>
         </CardHeader>
-        <div className="table-div">
+        <div className="table-div-panel">
           <h2 className="mb-3">Trigger list</h2>
 
           <table className="table table-striped table-hover">

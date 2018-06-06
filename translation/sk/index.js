@@ -273,7 +273,7 @@ export default {
   enterProjectName:'Zajdajte názov projektu',
   projectPermissions:'Práva v projekte',
   aclViewOwnTasks:'Prezeranie vlastných úloh',
-  aclViewCompanyUsersTasks:'Prezeranie úloh používateľov firmy',
+  aclViewCompanyUsersTasks:'Prezeranie úloh firmy',
   aclViewAllTasks:'Prezerať všetky úlohy',
   aclCreateTasks:'Vytvárať úlohy',
   aclResolveTasks:'Riešiť úlohy',

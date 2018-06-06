@@ -57,7 +57,7 @@ class AutomaticTasksList extends Component {
             <i className="fa fa-plus" /> Automatic Task
           </button>
         </CardHeader>
-        <div className="table-div">
+        <div className="table-div-panel">
           <h2 className="mb-3">Automatic tasks list</h2>
 
           <table className="table table-striped table-hover">

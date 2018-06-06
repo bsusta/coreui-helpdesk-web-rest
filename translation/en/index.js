@@ -273,7 +273,7 @@ export default {
   enterProjectName:'Enter project name',
   projectPermissions:'Project permissions',
   aclViewOwnTasks:'View own tasks',
-  aclViewCompanyUsersTasks:'View company users tasks',
+  aclViewCompanyUsersTasks:'View company tasks',
   aclViewAllTasks:'View all tasks',
   aclCreateTasks:'Create tasks',
   aclResolveTasks:'Resolve tasks',

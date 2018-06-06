@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editProject, savePermissions } from "../../redux/actions";
 import RichTextEditor from "react-rte";
-import { Card, CardHeader } from "reactstrap";
+import { Card, CardHeader, CardBody } from "reactstrap";
 import i18n from 'i18next';
 
 class ProjectEdit extends Component {
@@ -89,10 +89,10 @@ class ProjectEdit extends Component {
             className="btn btn-link"
             onClick={this.submit.bind(this)}
           >
-            {i18n.t('saved')}
+            {i18n.t('Save')}
           </button>
         </CardHeader>
-
+        <CardBody>
         <div style={{ paddingLeft: 20, paddingRight: 20 }}>
           <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
             Editing {this.state.title}
@@ -205,7 +205,7 @@ class ProjectEdit extends Component {
 
           <table
             className="table table-striped table-hover table-sm"
-            style={{ marginTop: 10 }}
+            style={{ marginTop: 10, textAlign:"center" }}
           >
             <thead className="thead-inverse">
               <tr>
@@ -368,6 +368,7 @@ class ProjectEdit extends Component {
             </label>
           )}
         </div>
+        </CardBody>
       </Card>
     );
   }
