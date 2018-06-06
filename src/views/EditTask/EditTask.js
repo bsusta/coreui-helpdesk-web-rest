@@ -224,7 +224,7 @@ class EditTask extends Component {
     return (
       <div className="fontRegular">
         <Card>
-          <CardHeader className="row justify-content-between" style={{margin:0,width:'inherit',position:'static',zIndex:1}}>
+          <CardHeader className="row justify-content-between" >
             <div>
               <button
                 className="btn btn-link"

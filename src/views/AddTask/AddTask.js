@@ -153,7 +153,7 @@ class AddTask extends Component {
     return (
       <div>
         <Card>
-          <CardHeader>
+          <CardHeader style={{margin:0,width:'100',position:'fixed',zIndex:1}}>
             <button className="btn btn-link" onClick={this.props.history.goBack}>
               <i className="fa fa-ban" /> {i18n.t('cancel')}
               </button>
@@ -433,6 +433,7 @@ class AddTask extends Component {
                               <i className="fa fa-user-o" />
                             </InputGroupAddon>
                             <Select
+                            className="fullWidth"
                               options={this.props.users.map(user => {
                                 user.label =
                                 (user.name ? user.name : "") +
@@ -462,6 +463,7 @@ class AddTask extends Component {
                               <i className="fa fa-building-o" />
                             </InputGroupAddon>
                             <Select
+                            className="fullWidth"
                               options={this.props.companies.map(company => {
                                 company.label = company.title;
                                 company.value = company.id;

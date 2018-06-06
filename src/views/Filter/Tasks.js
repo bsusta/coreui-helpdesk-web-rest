@@ -92,35 +92,7 @@ class Tasks extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-                <th>
-                  <Input type="text" id="input1-group1" name="input1-group1" />
-                </th>
-              </tr>
+         
               {this.props.tasks.map(task => (
                 <tr style={{ cursor: "pointer" }} key={task.id}>
                   <td style={{ verticalAlign: "center" }}>{task.id}</td>

@@ -42,6 +42,10 @@
 .card-header {
   border: 0;
   background-color: #f4f9fd;
+  margin:0;
+  width:100%;
+  position:fixed;
+  z-index: 100;
 }
 
 .sidebar .sidebar-nav {
@@ -119,6 +123,7 @@
   margin-left: auto;
   margin-right: auto;
   background-color: white;
+  margin-top:50px;
 }
 
 .card {
@@ -149,11 +154,7 @@
   display: inline;
 }
 
-.card-header {
-  position: fixed;
-  width: 100%;
-  z-index: 1020;
-}
+
 
 .fieldError{
   margin-bottom:0;
