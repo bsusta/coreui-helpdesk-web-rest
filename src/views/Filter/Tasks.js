@@ -68,7 +68,7 @@ class Tasks extends Component {
 
     return (
       <div className="table-div row">
-        <div className="col-4" style={{display:this.props.showFilter?'block':'none'}}>
+        <div className="col-4" style={{display:this.props.showFilter?'block':'none',marginTop:-20,marginLeft:-20}}>
           <Filter history={this.props.history} match={this.props.match} />
         </div>
         <div className={this.props.showFilter?"col-8":''}>
