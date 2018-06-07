@@ -59,7 +59,7 @@ class StatusesList extends Component {
             <i className="fa fa-plus" /> {i18n.t('status')}
           </button>
         </CardHeader>
-        <div className="table-div">
+        <div className="table-div-panel">
           <h2 className="mb-3">{i18n.t('statusList')}</h2>
 
           <table className="table table-striped table-hover">

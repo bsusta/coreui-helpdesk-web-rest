@@ -65,7 +65,7 @@ class ImapsList extends Component {
             <i className="fa fa-plus" /> {i18n.t('imap')}
           </button>
         </CardHeader>
-        <div className="table-div">
+        <div className="table-div-panel">
           <h2 className="mb-3">{i18n.t('imapList')}</h2>
 
           <table className="table table-striped table-hover">
