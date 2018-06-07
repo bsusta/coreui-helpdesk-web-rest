@@ -298,7 +298,7 @@ class Filter extends Component {
           </button>
           {this.props.total!==null &&
             <span style={{float:'right',color:'red'}}>
-              Total number of tasks: {this.props.total}
+              Number of tasks: {this.props.total}
             </span>
           }
 </div>
