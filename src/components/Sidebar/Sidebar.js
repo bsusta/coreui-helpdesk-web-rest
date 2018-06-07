@@ -37,7 +37,7 @@ class Sidebar extends Component {
   activeRoute(routeName, props) {
     // return this.props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
     return props.location.pathname.indexOf(routeName) > -1
-      ? "nav-item nav-dropdown open"
+      ? "nav-item nav-dropdown"
       : "nav-item nav-dropdown";
   }
 
@@ -148,7 +148,7 @@ class Sidebar extends Component {
     // nav dropdown
     const navDropdown = (item, key) => {
       return (
-        <li key={key} className={activeRoute(item.url, props) + " open fontRegular sidebarSize"}>
+        <li key={key} className={activeRoute(item.url, props) + (item.open?" open ": "") + " fontRegular sidebarSize"}>
           <a
             className="nav-link nav-dropdown-toggle"
             href="#"

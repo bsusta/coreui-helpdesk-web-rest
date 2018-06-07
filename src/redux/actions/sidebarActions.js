@@ -50,6 +50,7 @@ export const getSidebar = (date,token) => {
           let nav = [];
           let reports = {
             name: "reports",
+            open: false,
             url: "",
             icon: "fa fa-filter",
             children: []
@@ -67,6 +68,7 @@ export const getSidebar = (date,token) => {
 
           let tags = {
             name: "tags",
+            open: false,
             url: "",
             icon: "fa fa-tags",
             children: []
@@ -89,6 +91,7 @@ export const getSidebar = (date,token) => {
 
           let filters = {
             name: "filters",
+            open: true,
             url: "",
             icon: "fa fa-filter",
             children: []
@@ -143,6 +146,7 @@ export const getSidebar = (date,token) => {
 
           let projects = {
             name: "projects",
+            open: true,
             url: "",
             icon: "icon-folder",
             children: []
@@ -173,6 +177,7 @@ export const getSidebar = (date,token) => {
 
           let archived = {
             name: "archived",
+            open: false,
             url: "",
             icon: "fa fa-archive",
             children: []
