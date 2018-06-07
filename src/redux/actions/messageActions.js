@@ -1,5 +1,6 @@
-import { SET_MESSAGES,SET_MESSAGES_READ,DELETE_MESSAGE, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE, SET_TOP_MESSAGES, START_MESSAGES_LOADING, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_MESSAGES,SET_MESSAGES_READ,DELETE_MESSAGE, SET_ERROR_MESSAGE, SET_TOP_MESSAGES, START_MESSAGES_LOADING, LOWER_ACTIVE_REQUESTS } from '../types';
 import { NOTIFICATIONS_LIST } from '../urls';
+import {processError} from '../../helperFunctions';
 
 export const getMessages = (limit,page,token) => {
   return (dispatch) => {
@@ -12,9 +13,7 @@ export const getMessages = (limit,page,token) => {
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -37,9 +36,7 @@ export const getTopMessages = (token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -70,9 +67,7 @@ export const setMessageStatus = (messages,read,token) => {
    })
  .then((response)=>{
    if(!response.ok){
-     response.text().then((data)=>{
-       dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-     });
+     processError(response,dispatch);
    }
    dispatch({ type: SET_MESSAGES_READ, messages, read });
  })
@@ -94,9 +89,7 @@ export const deleteMessage = (limit,page,ids, token) => {
      body:JSON.stringify({notifications:JSON.stringify(ids)}),
    }).then((response) =>{
      if(!response.ok){
-       response.text().then((data)=>{
-         dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-       });
+       processError(response,dispatch);
        return;
      }
     getMessages(limit,page,token)(dispatch);

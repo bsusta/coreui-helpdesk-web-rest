@@ -1,5 +1,6 @@
-import { SET_PROJECTS,SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT, SET_PROJECT_LOADING, EDIT_PROJECT, SET_PERMISSIONS_SAVED, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_PROJECTS,SET_PROJECTS_LOADING, ADD_PROJECT, SET_PROJECT, SET_PROJECT_LOADING, EDIT_PROJECT, SET_PERMISSIONS_SAVED, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { PROJECTS_LIST,UPDATE_PROJECT_ACL } from '../urls';
+import {processError} from '../../helperFunctions';
 
 /**
  * Sets status if projects are loaded to false
@@ -25,9 +26,7 @@ export const getProjects= (token) => {
       }).then((response) =>{
         dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -58,9 +57,7 @@ export const addProject = (body,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
     response.json().then((response)=>{
@@ -99,9 +96,7 @@ export const getProject = (id,token) => {
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -143,15 +138,11 @@ export const editProject = (body,isActive,id,token) => {
           }
         })]).then(([response1,response2])=>{
           if(!response1.ok){
-            response1.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
-            });
+            processError(response1,dispatch);
             return;
           }
           if(!response2.ok){
-            response2.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
-            });
+            processError(response2,dispatch);
             return;
           }
           Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
@@ -184,9 +175,7 @@ export const savePermissions = (permissions,prev,projectID,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
     response.json().then((response)=>{

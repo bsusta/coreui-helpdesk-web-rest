@@ -1,5 +1,6 @@
-import { SET_SMTPS,SET_SMTPS_LOADING, ADD_SMTP, SET_SMTP, SET_SMTP_LOADING, EDIT_SMTP, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_SMTPS,SET_SMTPS_LOADING, ADD_SMTP, SET_SMTP, SET_SMTP_LOADING, EDIT_SMTP, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { SMTPS_LIST } from '../urls';
+import {processError} from '../../helperFunctions';
 
 /**
  * Sets status if SMTPs are loaded to false
@@ -25,9 +26,7 @@ export const getSMTPs= (token) => {
       }).then((response) =>{
         dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -58,9 +57,7 @@ export const addSMTP = (body,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
     response.json().then((response)=>{
@@ -99,9 +96,7 @@ export const getSMTP = (token,id) => {
       }).then((response) =>{
         dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -136,9 +131,7 @@ export const editSMTP = (body,id,token) => {
           body:JSON.stringify(body)
         })]).then(([response1])=>{
           if(!response.ok){
-            response.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-            });
+            processError(response,dispatch);
             return;
           }
           Promise.all([response1.json()]).then(([response1])=>{

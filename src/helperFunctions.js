@@ -1,5 +1,6 @@
 import moment from "moment";
 import React, { Component } from "react";
+import {LOGIN_LOGOUT,ADD_ERROR_MESSAGE} from './redux/types';
 
 /**
  * Converts timestamp from API to readable string
@@ -27,6 +28,19 @@ export const isEmail = (email) => {
  */
 export const isIP = (ip) => {
   return (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip));
+}
+
+/**
+ * Processes errors in actions
+ * @param  {function} dispatch dispatches error actions
+ */
+export const processError= (response,dispatch)=>{
+  if(response.status===401){
+    dispatch({ type: LOGIN_LOGOUT });
+  }
+  response.text().then((data)=>{
+    dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
+  });
 }
 
 /**

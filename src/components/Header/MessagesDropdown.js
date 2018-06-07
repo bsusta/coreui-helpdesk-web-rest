@@ -30,7 +30,6 @@ class MessagesDropdown extends Component {
   }
 
   render() {
-    console.log(this.props.messages);
     return (
       <Dropdown style={{zindex:"1040"}} nav className="d-md-down-none" isOpen={this.state.dropdownOpen} toggle={()=>this.setState({ dropdownOpen: !this.state.dropdownOpen })}>
         <DropdownToggle nav>

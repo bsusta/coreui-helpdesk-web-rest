@@ -1,5 +1,6 @@
-import { SET_FOLLOWERS, SET_FOLLOWERS_LOADING, ADD_FOLLOWER, DELETE_FOLLOWER, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_FOLLOWERS, SET_FOLLOWERS_LOADING, ADD_FOLLOWER, DELETE_FOLLOWER, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST } from '../urls';
+import {processError} from '../../helperFunctions';
 
 /**
  * Sets status if followers are loaded to false
@@ -25,9 +26,7 @@ export const getFollowers= (taskID,token) => {
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -58,9 +57,7 @@ export const addFollower = (userID,taskID,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
     response.json().then((response)=>{
@@ -84,9 +81,7 @@ export const deleteFollower = (userID,taskID,token) => {
     })
   .then((response)=>{
     if(!response.ok){
-      response.text().then((data)=>{
-        dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-      });
+      processError(response,dispatch);
       return;
     }
     dispatch({ type: DELETE_FOLLOWER,id: userID });

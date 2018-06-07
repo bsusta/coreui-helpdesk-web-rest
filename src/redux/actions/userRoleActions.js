@@ -1,6 +1,7 @@
 import { SET_USER_ROLES,SET_USER_ROLES_LOADING, ADD_USER_ROLE, SET_USER_ROLE, SET_USER_ROLE_LOADING,
-  EDIT_USER_ROLE, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+  EDIT_USER_ROLE, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { USER_ROLES_LIST } from '../urls';
+import {processError} from '../../helperFunctions';
 
 /**
 * Sets status if userRoles are loaded to false
@@ -26,9 +27,7 @@ export const getUserRoles= (token) => {
     }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
       response.json().then((data) => {
@@ -60,9 +59,7 @@ export const addUserRole = (body,token) => {
     })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
       response.json().then((response)=>{
@@ -101,9 +98,7 @@ export const addUserRole = (body,token) => {
       }).then((response) =>{
         dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
         response.json().then((data) => {
@@ -145,15 +140,11 @@ export const editUserRole = (body,isActive,id,token) => {
         }
       })]).then(([response1,response2])=>{
         if(!response1.ok){
-          response1.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
-          });
+          processError(response1,dispatch);
           return;
         }
         if(!response2.ok){
-          response2.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
         Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
