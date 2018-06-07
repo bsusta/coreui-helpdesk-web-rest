@@ -35,6 +35,13 @@ import {
 import {createFilter, editFilter, deleteFilter, setFilterBody} from '../../redux/actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
+const colourStyles = { 
+  control: styles => ({ ...styles, 
+                           backgroundColor: 'white', 
+                           borderRadius:"0",
+                           border: '1px solid #c2cfd6',
+                      }),
+}
 
 class Filter extends Component {
   constructor(props) {
@@ -328,12 +335,13 @@ class Filter extends Component {
                 isMulti
                 value={this.state.statuses}
                 onChange={(e)=>this.setState({statuses:e})}
-                style={{ width: "100%" }}
+                styles={colourStyles}
               />
           </FormGroup>
 
           <label className="mt-1">{i18n.t('requester')}</label>
             <Select
+              styles={colourStyles}
               isMulti
               value={this.state.requesters}
               options={this.props.users.map(user => {
@@ -360,13 +368,14 @@ class Filter extends Component {
               return company;
             })}
             isMulti
-            style={{ width: "100%" }}
+            styles={colourStyles}
             onChange={(e)=>this.setState({companies:e})}
             value={this.state.companies}
           />
 
         <label className="mt-2">{i18n.t('assigned')}</label>
             <Select
+             styles={colourStyles}
               isMulti
               options={this.props.users.map(user => {
                 user.label =
@@ -387,6 +396,7 @@ class Filter extends Component {
 
           <label className="mt-2">{i18n.t('createdBy')}</label>
               <Select
+               styles={colourStyles}
                 isMulti
                 options={this.props.users.map(user => {
                   user.label =
@@ -407,6 +417,7 @@ class Filter extends Component {
 
             <label className="mt-2">{i18n.t('project')}</label>
             <Select
+             styles={colourStyles}
               options={this.props.projects.map(project => {
                 project.label = project.title;
                 project.value = project.id;
@@ -420,6 +431,7 @@ class Filter extends Component {
           <label className="mt-1">{i18n.t('follower')}</label>
             <Select
               isMulti
+              styles={colourStyles}
               options={this.props.users.map(user => {
                 user.label =
                   (user.name ? user.name : "") +
@@ -444,6 +456,7 @@ class Filter extends Component {
                 return tag;
               })}
               isMulti
+              styles={colourStyles}
               style={{ width: "100%" }}
               onChange={(e)=>this.setState({tags:e})}
               value={this.state.tags}

@@ -42,6 +42,15 @@ import i18n from "i18next";
 
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
 
+const colourStyles = { 
+  control: styles => ({ ...styles, 
+                           backgroundColor: 'white', 
+                           borderRadius:"0",
+                           border: '1px solid #c2cfd6',
+                      }),
+}
+
+
 class EditTask extends Component {
   constructor(props) {
     super(props);
@@ -520,6 +529,7 @@ class EditTask extends Component {
                                     <i className="fa fa-user-o" />
                                   </InputGroupAddon>
                                   <Select
+                                    styles={colourStyles}
                                     className="fullWidth"
                                     options={this.props.users.map(user => {
                                       user.label =
@@ -551,6 +561,7 @@ class EditTask extends Component {
                                     <i className="fa fa-building-o" />
                                   </InputGroupAddon>
                                   <Select
+                                   styles={colourStyles}
                                     className="fullWidth"
                                     options={this.props.companies.map(company => {
                                       company.label = company.title;
