@@ -1,5 +1,6 @@
-import { SET_UNITS,SET_UNITS_LOADING, ADD_UNIT, SET_UNIT, SET_UNIT_LOADING, EDIT_UNIT, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_UNITS,SET_UNITS_LOADING, ADD_UNIT, SET_UNIT, SET_UNIT_LOADING, EDIT_UNIT, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { UNITS_LIST } from '../urls';
+import {processError} from '../../helperFunctions';
 
 /**
  * Sets status if units are loaded to false
@@ -25,9 +26,7 @@ export const getUnits= (token) => {
       }).then((response) =>{
         dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -58,9 +57,7 @@ export const addUnit = (body,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
     response.json().then((response)=>{
@@ -99,9 +96,7 @@ export const getUnit = (id,token) => {
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -143,15 +138,11 @@ export const editUnit = (body,isActive,id,token) => {
           }
         })]).then(([response1,response2])=>{
           if(!response1.ok){
-            response1.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
-            });
+            processError(response1,dispatch);
             return;
           }
           if(!response2.ok){
-            response2.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
-            });
+            processError(response2,dispatch);
             return;
           }
           Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{

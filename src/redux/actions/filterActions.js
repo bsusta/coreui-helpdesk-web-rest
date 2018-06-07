@@ -1,6 +1,6 @@
-import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER, ADD_ERROR_MESSAGE,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST, FILTERS_LIST } from '../urls';
-import {processRESTinput,filterToFilterState ,filterBodyFromState} from '../../helperFunctions';
+import {processError,processRESTinput,filterToFilterState ,filterBodyFromState} from '../../helperFunctions';
 
 export const clearFilterTasks = () => {
  return (dispatch) => {
@@ -37,9 +37,7 @@ export const loadUnsavedFilter = (count,page,body,token) => {
    }).then((response) =>{
    dispatch({type: LOWER_ACTIVE_REQUESTS});
      if(!response.ok){
-       response.text().then((data)=>{
-         dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-       });
+       processError(response,dispatch);
        return;
      }
    response.json().then((data) => {
@@ -63,9 +61,7 @@ export const createFilter = (body,token) => {
      body:JSON.stringify(body),
    }).then((response) =>{
      if(!response.ok){
-       response.text().then((data)=>{
-         dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-       });
+       processError(response,dispatch);
        return;
      }
    response.json().then((data) => {
@@ -89,9 +85,7 @@ export const editFilter = (body,id,token) => {
      body:JSON.stringify(body),
    }).then((response) =>{
      if(!response.ok){
-       response.text().then((data)=>{
-         dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-       });
+       processError(response,dispatch);
        return;
      }
    response.json().then((data) => {
@@ -116,9 +110,7 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -152,9 +144,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -188,9 +178,7 @@ export const deleteFilter =(id, token)=>{
         }
       }).then((response) =>{
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
     }).catch(function (error) {

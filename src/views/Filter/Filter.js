@@ -698,7 +698,7 @@ class Filter extends Component {
           </div>
             </div>
 
-            {this.props.taskAttributes.map(attribute => {
+            {this.props.taskAttributes.filter((item)=>item.is_active).map(attribute => {
               switch (attribute.type) {
                 case "input":
                   return (

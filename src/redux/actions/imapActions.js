@@ -1,5 +1,6 @@
-import { SET_IMAPS,SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP, SET_IMAP_LOADING, EDIT_IMAP, DELETE_IMAP, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_IMAPS,SET_IMAPS_LOADING, ADD_IMAP, SET_IMAP, SET_IMAP_LOADING, EDIT_IMAP, DELETE_IMAP, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { IMAPS_LIST } from '../urls';
+import {processError} from '../../helperFunctions';
 
 /**
  * Sets status if imaps are loaded to false
@@ -25,9 +26,7 @@ export const getImaps= (token) => {
       }).then((response) =>{
         dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -58,9 +57,7 @@ export const addImap = (body,project,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
     response.json().then((response)=>{
@@ -99,9 +96,7 @@ export const getImap = (token,id) => {
       }).then((response) =>{
         dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -144,15 +139,11 @@ export const editImap = (body,project,id,isActive,token) => {
         })
       ]).then(([response1,response2])=>{
         if(!response1.ok){
-          response1.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
-          });
+          processError(response1,dispatch);
           return;
         }
         if(!response2.ok){
-          response2.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
-          });
+        processError(response2,dispatch);
           return;
         }
         Promise.all([response1.json()]).then(([response1])=>{
@@ -175,9 +166,7 @@ export const deleteImap = (id,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
         dispatch({type: DELETE_IMAP, id});

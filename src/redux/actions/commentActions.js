@@ -1,5 +1,6 @@
-import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT,ADD_ERROR_MESSAGE, ADD_COMMENT_AVATAR_URL,DELETE_COMMENT, SET_COMMENT_ATTACHMENT, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_COMMENTS,SET_COMMENTS_LOADING, ADD_COMMENT, ADD_COMMENT_AVATAR_URL,DELETE_COMMENT, SET_COMMENT_ATTACHMENT, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST, GET_LOC, GET_FILE, COMMENT_COMMENTS } from '../urls';
+import {processError} from '../../helperFunctions';
 
 /**
 * Sets status if comments are loaded to false
@@ -25,9 +26,7 @@ export const getComments= (taskID,token) => {
     }).then((response) =>{
     dispatch({type: LOWER_ACTIVE_REQUESTS});
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
       response.json().then((data) => {
@@ -50,9 +49,7 @@ export const getComments= (taskID,token) => {
                 }
               }).then((response3) =>{
                 if(!response3.ok){
-                  response3.text().then((data)=>{
-                    dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
-                  });
+                  processError(response3,dispatch);
                   return;
                 }
 
@@ -85,9 +82,7 @@ export const getComments= (taskID,token) => {
               }
             }).then((response3) =>{
               if(!response3.ok){
-                response3.text().then((data)=>{
-                  dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
-                });
+                processError(response3,dispatch);
                 return;
               }
 
@@ -132,9 +127,7 @@ export const addComment = (body,taskID,token) => {
     })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
       response.json().then((response)=>{
@@ -154,9 +147,7 @@ export const addComment = (body,taskID,token) => {
               }
             }).then((response3) =>{
               if(!response3.ok){
-                response3.text().then((data)=>{
-                  dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
-                });
+                processError(response3,dispatch);
                 return;
               }
               newComment['avatar']=response3.url;
@@ -196,12 +187,10 @@ export const addCommentsComment = (body,commentID,token) => {
       body:JSON.stringify(body),
     })
     .then((response)=>{
-      if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
-        return;
-      }
+        if(!response.ok){
+          processError(response,dispatch);
+          return;
+        }
 
       response.json().then((response)=>{
         if(response.data.createdBy.avatarSlug){
@@ -220,9 +209,7 @@ export const addCommentsComment = (body,commentID,token) => {
               }
             }).then((response3) =>{
               if(!response3.ok){
-                response3.text().then((data)=>{
-                  dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
-                });
+                processError(response3,dispatch);
                 return;
               }
 
@@ -265,10 +252,7 @@ export const editComment = (body,commentID,unitID,taskID,token) => {
       body:JSON.stringify(body)
     }).then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
-        return;
+        processError(response,dispatch);
       }
 
       response.json().then((response)=>{
@@ -291,9 +275,7 @@ export const editComment = (body,commentID,unitID,taskID,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
 

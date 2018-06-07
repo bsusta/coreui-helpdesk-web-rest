@@ -1,4 +1,4 @@
-import { SET_SIDEBAR,SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, UPDATE_SIDEBAR, LOWER_ACTIVE_REQUESTS } from "../types";
+import { SET_SIDEBAR,SET_ERROR_MESSAGE, UPDATE_SIDEBAR, LOWER_ACTIVE_REQUESTS } from "../types";
 import { SIDEBAR_DATA } from "../urls";
 
 /**
@@ -17,9 +17,7 @@ export const getSidebar = (date,token) => {
       })
         .then(response => {
           if(!response.ok){
-            response.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-            });
+            processError(response,dispatch);
             return;
           }
           response.json().then(data => {
@@ -41,9 +39,7 @@ export const getSidebar = (date,token) => {
     })
       .then(response => {
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
         response.json().then(data => {
@@ -55,7 +51,7 @@ export const getSidebar = (date,token) => {
             icon: "fa fa-filter",
             children: []
           };
-          if(data.reports){            
+          if(data.reports){
             data.reports.map(report =>
               reports.children.push({
                 name: report.title,

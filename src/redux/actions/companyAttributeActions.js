@@ -1,5 +1,6 @@
-import { SET_COMPANY_ATTRIBUTES,SET_COMPANY_ATTRIBUTES_LOADING, ADD_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE_LOADING, EDIT_COMPANY_ATTRIBUTE, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS, ADD_ERROR_MESSAGE } from '../types';
+import { SET_COMPANY_ATTRIBUTES,SET_COMPANY_ATTRIBUTES_LOADING, ADD_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE, SET_COMPANY_ATTRIBUTE_LOADING, EDIT_COMPANY_ATTRIBUTE, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { COMPANY_ATTRIBUTES_LIST } from '../urls';
+import {processError} from '../../helperFunctions';
 
 /**
  * Sets status if companyAttributes are loaded to false
@@ -25,9 +26,7 @@ export const startCompanyAttributesLoading = () => {
        }).then((response) =>{
          dispatch({type: LOWER_ACTIVE_REQUESTS});
          if(!response.ok){
-           response.text().then((data)=>{
-             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-           });
+           processError(response,dispatch);
            return;
          }
        response.json().then((data) => {
@@ -57,9 +56,7 @@ export const startCompanyAttributesLoading = () => {
         }).then((response) =>{
           dispatch({type: LOWER_ACTIVE_REQUESTS});
           if(!response.ok){
-            response.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-            });
+            processError(response,dispatch);
             return;
           }
         response.json().then((data) => {
@@ -91,9 +88,7 @@ export const addCompanyAttribute = (body,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
     response.json().then((response)=>{
@@ -132,9 +127,7 @@ export const getCompanyAttribute = (id,token) => {
       }).then((response) =>{
         dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -176,15 +169,11 @@ export const editCompanyAttribute = (body,isActive,id,token) => {
           }
         })]).then(([response1,response2])=>{
           if(!response1.ok){
-            response1.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
-            });
+            processError(response1,dispatch);
             return;
           }
           if(!response2.ok){
-            response2.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
-            });
+            processError(response2,dispatch);
             return;
           }
           Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{

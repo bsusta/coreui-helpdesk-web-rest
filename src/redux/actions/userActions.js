@@ -1,6 +1,7 @@
-import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { USERS_LIST, IMAGE_UPLOAD, GET_LOC, GET_FILE } from '../urls';
 import i18n from 'i18next';
+import {processError} from '../../helperFunctions';
 
 /**
 * Sets status if users are loaded to false
@@ -26,9 +27,7 @@ export const getUsers= (updateDate,token) => {
     }).then((response) =>{
     dispatch({type: LOWER_ACTIVE_REQUESTS});
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
       response.json().then((data) => {
@@ -61,9 +60,7 @@ export const addUser = (body,company,role,image,token) => {
       })
       .then((response)=>{
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
         response.json().then((response)=>{
@@ -77,9 +74,7 @@ export const addUser = (body,company,role,image,token) => {
             body:JSON.stringify(body),
           }).then((response)=>{
             if(!response.ok){
-              response.text().then((data)=>{
-                dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-              });
+              processError(response,dispatch);
               return;
             }
             response.json().then((response)=>{
@@ -106,9 +101,7 @@ export const addUser = (body,company,role,image,token) => {
             body:JSON.stringify(body),
           }).then((response)=>{
             if(!response.ok){
-              response.text().then((data)=>{
-                dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-              });
+              processError(response,dispatch);
               return;
             }
             response.json().then((response)=>{
@@ -147,9 +140,7 @@ export const addUser = (body,company,role,image,token) => {
           }).then((response) =>{
           dispatch({type: LOWER_ACTIVE_REQUESTS});
             if(!response.ok){
-              response.text().then((data)=>{
-                dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-              });
+              processError(response,dispatch);
               return;
             }
             response.json().then((data) => {
@@ -162,9 +153,7 @@ export const addUser = (body,company,role,image,token) => {
                   }
                 }).then((response2)=>{
                   if(!response2.ok){
-                    response2.text().then((data)=>{
-                      dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
-                    });
+                    processError(response2,dispatch);
                     return;
                   }
                   response2.json().then((data2)=>{
@@ -175,9 +164,7 @@ export const addUser = (body,company,role,image,token) => {
                     }
                   }).then((response3) =>{
                     if(!response3.ok){
-                      response3.text().then((data)=>{
-                        dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
-                      });
+                      processError(response3,dispatch);
                       return;
                     }
                     let user = {...data.data};
@@ -240,15 +227,11 @@ export const addUser = (body,company,role,image,token) => {
             }
           })]).then(([response1,response2])=>{
             if(!response1.ok){
-              response1.text().then((data)=>{
-                dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
-              });
+              processError(response1,dispatch);
               return;
             }
             if(!response2.ok){
-              response2.text().then((data)=>{
-                dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
-              });
+              processError(response2,dispatch);
               return;
             }
             Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
@@ -271,9 +254,7 @@ export const addUser = (body,company,role,image,token) => {
           })
           .then((response)=>{
             if(!response.ok){
-              response.text().then((data)=>{
-                dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-              });
+              processError(response,dispatch);
               return;
             }
             response.json().then((response)=>{
@@ -296,15 +277,11 @@ export const addUser = (body,company,role,image,token) => {
                   }
                 })]).then(([response1,response2])=>{
                   if(!response2.ok){
-                    response2.text().then((data)=>{
-                      dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response2.statusText+ JSON.parse(data).message });
-                    });
+                    processError(response2,dispatch);
                     return;
                   }
                   if(!response1.ok){
-                    response1.text().then((data)=>{
-                      dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response1.statusText+ JSON.parse(data).message });
-                    });
+                    processError(response1,dispatch);
                     return;
                   }
                   Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{

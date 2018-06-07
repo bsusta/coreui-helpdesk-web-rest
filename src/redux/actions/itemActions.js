@@ -1,5 +1,6 @@
-import { SET_ITEMS,SET_ITEMS_LOADING, ADD_ITEM, EDIT_ITEM,DELETE_ITEM, SET_ERROR_MESSAGE, ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_ITEMS,SET_ITEMS_LOADING, ADD_ITEM, EDIT_ITEM,DELETE_ITEM, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST } from '../urls';
+import {processError} from '../../helperFunctions';
 
 /**
  * Sets status if items are loaded to false
@@ -25,9 +26,7 @@ export const getItems= (taskID,token) => {
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -59,9 +58,7 @@ export const addItem = (body,unitID,taskID,token) => {
       })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
     response.json().then((response)=>{
@@ -86,9 +83,7 @@ export const editItem = (body,itemID,unitID,taskID,token) => {
           body:JSON.stringify(body)
         }).then((response)=>{
           if(!response.ok){
-            response.text().then((data)=>{
-              dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-            });
+            processError(response,dispatch);
             return;
           }
           response.json().then((response)=>{
@@ -111,9 +106,7 @@ export const deleteItem = (id,taskID,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
         dispatch({type: DELETE_ITEM, id});

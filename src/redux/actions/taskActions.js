@@ -1,8 +1,8 @@
 import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   EDIT_TASK, SET_FILTER_LINKS, SET_PROJECT_LINKS,SET_PROJECT_TASKS_LOADING,
   SET_FILTER_TASKS_LOADING, SET_TAG_LINKS, SET_TAG_TASKS_LOADING,
-  SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,ADD_ERROR_MESSAGE,
-  SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING,
+  SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,
+  SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING, DELETE_TASK,
   DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHMENT,
   SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID, SET_TRIPOD, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE } from '../urls';
@@ -11,6 +11,8 @@ import {addItem} from './itemActions';
 import {addSubtask} from './subtaskActions';
 import {clearAttachments} from './attachmentActions';
 import i18n from 'i18next';
+import {processError} from '../../helperFunctions';
+
 /**
  * Sets status if tasks are loaded to false
  */
@@ -72,9 +74,7 @@ import i18n from 'i18next';
              dispatch({ type: SET_ERROR_MESSAGE, errorMessage:i18n.t(response.status)});
            }
            else{
-             response.text().then((data)=>{
-               dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-             });
+             processError(response,dispatch);
            }
            return;
          }
@@ -104,9 +104,7 @@ import i18n from 'i18next';
        }).then((response) =>{
        dispatch({type: LOWER_ACTIVE_REQUESTS});
          if(!response.ok){
-           response.text().then((data)=>{
-             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-           });
+           processError(response,dispatch);
            return;
          }
        response.json().then((data) => {
@@ -134,9 +132,7 @@ import i18n from 'i18next';
        }).then((response) =>{
        dispatch({type: LOWER_ACTIVE_REQUESTS});
          if(!response.ok){
-           response.text().then((data)=>{
-             dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-           });
+           processError(response,dispatch);
            return;
          }
        response.json().then((data) => {
@@ -185,9 +181,7 @@ export const getTask = (id,token) => {
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -211,9 +205,7 @@ export const getTask = (id,token) => {
               }
             }).then((response3) =>{
               if(!response3.ok){
-                response3.text().then((data)=>{
-                  dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response3.statusText+ JSON.parse(data).message });
-                });
+                processError(response3,dispatch);
                 return;
               }
               dispatch({type: ADD_ATTACHMENT, attachment:{url:response3.url,id:attachment.slug,file:{name:attachment.name}}});
@@ -260,9 +252,7 @@ export const addTask = (body,subtasks,materials,followers,projectID,statusID,req
     })
     .then((response)=>{
       if(!response.ok){
-        response.text().then((data)=>{
-          dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-        });
+        processError(response,dispatch);
         return;
       }
       response.json().then((response)=>{
@@ -387,9 +377,7 @@ export const getTaskProjects= (token) => {
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -421,9 +409,7 @@ export const getTasksAttributes = (token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -454,9 +440,7 @@ export const getTaskSolvers = (projectID,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
@@ -481,11 +465,10 @@ export const deleteTask = (id,token) => {
         }
       }).then((response) =>{
         if(!response.ok){
-          response.text().then((data)=>{
-            dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
-          });
+          processError(response,dispatch);
           return;
         }
+        dispatch({ type: DELETE_TASK, id});
     }
   ).catch(function (error) {
     dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
