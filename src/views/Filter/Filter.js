@@ -172,8 +172,9 @@ class Filter extends Component {
 
   render() {
     return (
+   
       <div className="filterDivInside">
-        <div style={{ paddingLeft: 20 }}>
+        <div>
 
           <Modal
             isOpen={this.state.saveOpen}
@@ -278,7 +279,8 @@ class Filter extends Component {
             </button>
           </ModalFooter>
         </Modal>
-          <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)}>
+<div className="filterButtons">
+          <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)} style={{paddingLeft:20}}>
             {i18n.t('apply')}
           </button>
           <button type="button" className="btn btn-link" onClick={()=>this.setState({saveOpen:true})}>
@@ -299,6 +301,9 @@ class Filter extends Component {
               Total number of tasks: {this.props.total}
             </span>
           }
+</div>
+<div style={{ paddingLeft: 20, paddingTop:20}}>
+
           <FormGroup>
             <label htmlFor="title">{i18n.t('filterByName')}</label>
             <input
@@ -863,9 +868,10 @@ class Filter extends Component {
                   return <div>{attribute.title}</div>;
               }
             })}
-
+</div>
         </div>
       </div>
+   
     );
   }
 }

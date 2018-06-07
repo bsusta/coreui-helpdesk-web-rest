@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { addProject } from "../../redux/actions";
 import RichTextEditor from "react-rte";
 import i18n from 'i18next';
+import { Card, CardHeader, CardBody } from "reactstrap";
 
 class ProjectAdd extends Component {
   constructor(props) {
@@ -30,8 +31,11 @@ class ProjectAdd extends Component {
 
   render() {
     return (
-      <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ paddingTop: 20, marginBottom: 20 }}>{i18n.t('addNewProject')}</h2>
+      <Card>
+
+      <CardBody>
+
+        <h2 style={{ marginBottom: 20 }}>{i18n.t('addNewProject')}</h2>
 
         <div>
           <div style={{ marginTop: 15 }}>
@@ -83,7 +87,10 @@ class ProjectAdd extends Component {
             </button>
           </div>
         </div>
-      </div>
+      
+      </CardBody>
+      </Card>
+
     );
   }
 }

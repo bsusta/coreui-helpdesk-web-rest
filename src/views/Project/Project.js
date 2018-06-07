@@ -42,7 +42,7 @@ class Project extends Component {
   render() {
     return (
       <div className="table-div">
-      <div className="justify-content-between row table-div">
+      <div className="justify-content-between row">
         <h2>
           {
             this.props.projects[
