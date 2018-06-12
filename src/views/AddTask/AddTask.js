@@ -30,9 +30,9 @@ import i18n from 'i18next';
 
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
 
-const colourStyles = { 
-  control: styles => ({ ...styles, 
-                           backgroundColor: 'white', 
+const colourStyles = {
+  control: styles => ({ ...styles,
+                           backgroundColor: 'white',
                            borderRadius:"0",
                            border: '1px solid #c2cfd6',
                       }),
@@ -112,7 +112,7 @@ class AddTask extends Component {
       {
         title: state.title,
         closedAt,
-        description: state.description,
+        description: state.description===""?"null":state.description,
         deadline:
         state.deadline !== null ? state.deadline.valueOf() / 1000 : 'null',
         startedAt:
