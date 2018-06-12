@@ -171,8 +171,9 @@ class Filter extends Component {
   }
 
   render() {
+    let ACL = this.props.user.user_role.acl;
     return (
-   
+
       <div className="filterDivInside">
         <div>
 
@@ -224,19 +225,24 @@ class Filter extends Component {
                   />
                 {this.state.submitError && this.state.filterIcon===''&&<label htmlFor="filterIcon" style={{color:'red'}}>{i18n.t('restrictionMustEnterFilterIcon')}</label>}
               </FormGroup>
-              <div className="form-check">
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    checked={this.state.filterPublic}
-                    onChange={() => {
-                      this.setState({ filterPublic: !this.state.filterPublic });
-                    }}
-                    className="form-check-input"
-                    />
-                  {i18n.t('public')}
-                </label>
-              </div>
+              {
+                ACL.includes('share_filters') &&
+                <div className="form-check">
+                  <label className="form-check-label">
+                    <input
+                      type="checkbox"
+                      checked={this.state.filterPublic}
+                      onChange={() => {
+                        this.setState({ filterPublic: !this.state.filterPublic });
+                      }}
+                      className="form-check-input"
+                      />
+                    {i18n.t('public')}
+                  </label>
+                </div>
+              }
+              {
+                ACL.includes('report_filters') &&
               <div className="form-check">
                 <label className="form-check-label">
                   <input
@@ -250,6 +256,7 @@ class Filter extends Component {
                   {i18n.t('report')}
                 </label>
               </div>
+            }
               <div className="form-check">
                 <label className="form-check-label">
                   <input
@@ -871,7 +878,7 @@ class Filter extends Component {
 </div>
         </div>
       </div>
-   
+
     );
   }
 }
@@ -883,8 +890,8 @@ const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesRed
   const { taskCompanies } = companiesReducer;
   const { tags } = tagsReducer;
   const { taskAttributes } = taskAttributesReducer;
-  const { token } = login;
-  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags,taskAttributes, token, filter, filterState,body, total};
+  const { token, user } = login;
+  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags,taskAttributes, token,user, filter, filterState,body, total};
 };
 
 

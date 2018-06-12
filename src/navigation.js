@@ -14,6 +14,7 @@ import UnitEdit from "./views/settings/unitEdit";
 import UsersList from "./views/settings/usersList";
 import UserAdd from "./views/settings/userAdd";
 import UserEdit from "./views/settings/userEdit";
+import Profile from "./views/Profile";
 import TaskAttributesList from "./views/settings/taskAttributesList";
 import TaskAttributeAdd from "./views/settings/taskAttributeAdd";
 import TaskAttributeEdit from "./views/settings/taskAttributeEdit";
@@ -50,6 +51,7 @@ import TagAdd from "./views/TagAdd";
 import TagEdit from "./views/TagEdit";
 import TagTasks from "./views/TagTasks";
 import EditTask from "./views/EditTask";
+import ViewTask from "./views/ViewTask";
 import AddTask from "./views/AddTask";
 import SecondEditTask from "./components/notUsed/SecondEditTask";
 import TrojStlpec from "./components/notUsed/TrojStlpec";
@@ -96,6 +98,12 @@ class Full extends Component {
                   path="/user/add"
                   name="User add"
                   component={UserAdd}
+                />
+                <Route
+                  exact
+                  path="/user/profile"
+                  name="User profile"
+                  component={Profile}
                 />
                 <Route
                   exact
@@ -387,7 +395,37 @@ class Full extends Component {
                 />
                 <Route
                   exact
+                  path="/project/:id/task/view/:task"
+                  name="View task"
+                  component={ViewTask}
+                />
+                <Route
+                  exact
+                  path="/tag/:id/task/view/:task"
+                  name="View task"
+                  component={ViewTask}
+                />
+                <Route
+                  exact
+                  path="/filter/:id/task/view/:task"
+                  name="View task"
+                  component={ViewTask}
+                />
+                <Route
+                  exact
+                  path="/task/view/:task"
+                  name="View task"
+                  component={ViewTask}
+                />
+                <Route
+                  exact
                   path="/project/:id/task/edit/:task"
+                  name="Edit task"
+                  component={EditTask}
+                />
+                <Route
+                  exact
+                  path="/tag/:id/task/edit/:task"
                   name="Edit task"
                   component={EditTask}
                 />

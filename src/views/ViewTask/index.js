@@ -22,38 +22,19 @@ class EditTaskLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startTaskLoading();
-    this.props.startTaskProjectsLoading();
-    this.props.startStatusesLoading();
-    this.props.startCompaniesLoading();
-    this.props.startTaskAttributesLoading();
-    this.props.startTagsLoading();
-    this.props.startUnitsLoading();
-    this.props.startUsersLoading();
-    this.props.deleteTaskSolvers();
-    this.props.startFollowersLoading();
     this.props.startCommentsLoading();
     this.props.startSubtasksLoading();
     this.props.startItemsLoading();
-
-    this.props.setActiveRequests(12);
+    
+    this.props.setActiveRequests(4);
     this.props.getSubtasks(this.state.taskID,this.props.token);
     this.props.getItems(this.state.taskID,this.props.token);
     this.props.getComments(this.state.taskID,this.props.token);
     this.props.getTask(this.state.taskID,this.props.token);
-    this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
-    this.props.getTaskProjects(this.props.token);
-    this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
-    this.props.getTaskAttributes(this.props.token);
-    this.props.getTags(this.props.token);
-    this.props.getTaskUnits(this.props.token);
-    this.props.getUsers("",this.props.token);
-    this.props.getFollowers(this.state.taskID,this.props.token);
-  }
+      }
 
   render(){
-    if(!this.props.taskLoaded||!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
-      !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
-      !this.props.usersLoaded||!this.props.followersLoaded||!this.props.commentsLoaded||
+    if(!this.props.taskLoaded||!this.props.commentsLoaded||
       !this.props.subtasksLoaded||!this.props.itemsLoaded){
       return null;
     }

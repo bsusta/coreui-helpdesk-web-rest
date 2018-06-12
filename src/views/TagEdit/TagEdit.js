@@ -46,6 +46,7 @@ class TagEdit extends Component {
   }
 
   render() {
+      let ACL = this.props.user.user_role.acl;
     return (
       <Card>
         <CardHeader>
@@ -77,7 +78,8 @@ class TagEdit extends Component {
           <div>
             <form style={{ marginTop: 15 }}>
               <div className="form-group">
-                <p>
+                {
+                  ACL.includes('share_tags') && <p>
                   <label className="switch switch-3d switch-primary">
                     <input
                       type="checkbox"
@@ -94,6 +96,7 @@ class TagEdit extends Component {
                     {this.state.public ? i18n.t('public') : i18n.t('private')}
                   </label>
                 </p>
+              }
                 <label htmlFor="title" className="req">{i18n.t('name')}</label>
                 <input
                   className="form-control"
@@ -131,8 +134,8 @@ class TagEdit extends Component {
 
 const mapStateToProps = ({ tagsReducer, login }) => {
   const { tag } = tagsReducer;
-  const { token } = login;
-  return { tag, token };
+  const { token, user } = login;
+  return { tag, token, user };
 };
 
 export default connect(mapStateToProps, { editTag, deleteTag })(TagEdit);

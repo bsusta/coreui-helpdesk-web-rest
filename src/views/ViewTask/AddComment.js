@@ -93,7 +93,7 @@ class AddComment extends Component {
               {i18n.t('addComment')}
             </NavLink>
           </NavItem>
-          { (this.props.task.loggedUserIsAdmin||this.props.task.loggedUserProjectAcl.includes('resolve_task'))&& this.props.task.loggedUserRoleAcl.includes('sent_emails_from_comments') &&
+          { (this.props.task.loggedUserIsAdmin||this.props.task.loggedUserProjectAcl.includes('resolve_task'))&&
             <NavItem>
               <NavLink
                 className={this.state.activeTab === "2"?"active fontBold":""}

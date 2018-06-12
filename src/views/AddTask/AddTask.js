@@ -16,7 +16,6 @@ import Subtasks from "./Subtasks";
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import moment from "moment";
-import RichTextEditor from "react-rte";
 import Select from "react-select";
 import {
   getTaskSolvers,
@@ -40,7 +39,7 @@ class AddTask extends Component {
       company: this.props.companies[this.props.companies.findIndex((company)=>company.id===this.props.user.company.id)],
       deadline: null,
       startedAt: null,
-      description: (RichTextEditor.createValueFromString("","html")),
+      description: "",
       important: false,
       project: (this.props.taskProjects.length>0?this.props.taskProjects[0].id:null),
       requestedBy: this.props.users[this.props.users.findIndex((user)=>user.id===this.props.user.id)],
@@ -79,7 +78,7 @@ class AddTask extends Component {
     let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
     //checks if all requirements for creating were met
     if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||this.state.title===''||
-    this.state.requestedBy.id===undefined|| this.state.company.id===undefined ){
+    this.state.requestedBy===undefined|| this.state.company===undefined ){
       return;
     }
 
@@ -105,7 +104,7 @@ class AddTask extends Component {
       {
         title: state.title,
         closedAt,
-        description: state.description.toString("html"),
+        description: state.description,
         deadline:
         state.deadline !== null ? state.deadline.valueOf() / 1000 : 'null',
         startedAt:
@@ -267,15 +266,22 @@ class AddTask extends Component {
                             />
                         </div>
 
-                        <RichTextEditor
-                          value={this.state.description}
-                          onChange={e => {
-                            this.setState({ description: e });
-                          }}
-                          placeholder={i18n.t('enterDescription')}
-                          toolbarClassName="demo-toolbar"
-                          editorClassName="demo-editor"
-                          />
+                        <FormGroup>
+                          <label htmlFor="description">{i18n.t("description")}</label>
+                          <InputGroup>
+                            <textarea
+                              className="form-control"
+                              id="description"
+                              rows={4}
+                              value={this.state.description}
+                              onChange={e => {
+                                this.setState({ description: e.target.value });
+                              }}
+                              placeholder={i18n.t("enterDescription")}
+                              />
+                          </InputGroup>
+                        </FormGroup>
+
                         <Subtasks
                           units={this.props.units.filter(unit => unit.is_active)}
                           subtasks={this.state.subtasks}
@@ -475,7 +481,7 @@ class AddTask extends Component {
                               }}
                               />
                           </InputGroup>
-                          {this.state.submitError && this.state.company.id===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
+                          {this.state.submitError && this.state.company===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
                         </FormGroup>
 
                         <FormGroup>
@@ -713,7 +719,7 @@ class AddTask extends Component {
                               />
                           </div>
 
-                          {this.props.taskAttributes.map(attribute => {
+                          {this.props.taskAttributes.filter((item)=>item.is_active).map(attribute => {
                             //Here we load in all custom attributes
                             switch (attribute.type) {
                               case "input":

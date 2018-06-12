@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {startTaskProjectsLoading,startStatusesLoading,loadUnsavedFilter,addActiveRequests,
 getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
 startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
-startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
+startUnitsLoading, getTaskUnits, deleteTaskSolvers, startUsersLoading, getUsers,
 clearErrorMessage, clearFilterTasks, getFilter, getUsersFilter,startFilterLoading, setFilterPage } from '../../redux/actions';
 import FilterLoader from './FilterLoader';
 import Loading from '../../components/Loading';
@@ -34,7 +34,7 @@ class Loader extends Component {
     this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
     this.props.getTaskAttributes(this.props.token);
     this.props.getTags(this.props.token);
-    this.props.getUnits(this.props.token);
+    this.props.getTaskUnits(this.props.token);
     this.props.getUsers("",this.props.token);
 
     this.props.setFilterPage(this.props.match.params?this.props.match.params.page:1);
@@ -122,5 +122,5 @@ export default connect(mapStateToProps, {
   startTaskProjectsLoading,startStatusesLoading,loadUnsavedFilter,addActiveRequests,
   getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
   startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
-  startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
+  startUnitsLoading, getTaskUnits, deleteTaskSolvers, startUsersLoading, getUsers,
   clearErrorMessage, clearFilterTasks, getFilter,getUsersFilter,startFilterLoading, setFilterPage})(Loader);

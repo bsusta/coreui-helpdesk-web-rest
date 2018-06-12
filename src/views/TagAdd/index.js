@@ -31,13 +31,14 @@ class TagAdd extends Component {
   }
 
   render() {
+      let ACL = this.props.user.user_role.acl;
     return (
       <Card>
         <CardHeader>
         <button className="btn btn-link" onClick={this.props.history.goBack}>
             <i className="fa fa-angle-left" /> {i18n.t('goBack')}
           </button>
-        
+
         <button
             type="button"
             className="btn btn-link"
@@ -49,30 +50,31 @@ class TagAdd extends Component {
           <button
             type="button"
             className="btn btn-link"
-  
+
             onClick={this.submit.bind(this)}
           >
             {i18n.t('Save')}
           </button>
-        
+
         </CardHeader>
       <CardBody>
 
-     
+
         <h2 style={{ paddingTop: 20, marginBottom: 20 }}>{i18n.t('addNewTag')}</h2>
         <div>
           <form style={{ marginTop: 15 }}>
             <div className="form-group">
-              <p>
+              {
+                ACL.includes('share_tags') && <p>
                 <label className="switch switch-3d switch-primary">
                   <input
-                    type="checkbox"
-                    className="switch-input"
-                    checked={this.state.public}
-                    onChange={() =>
-                      this.setState({ public: !this.state.public })
-                    }
-                  />
+                      type="checkbox"
+                      className="switch-input"
+                      checked={this.state.public}
+                      onChange={() =>
+                        this.setState({ public: !this.state.public })
+                      }
+                      />
                   <span className="switch-label" />
                   <span className="switch-handle" />
                 </label>
@@ -80,6 +82,7 @@ class TagAdd extends Component {
                   {this.state.public ? i18n.t('public') : i18n.t('private')}
                 </label>
               </p>
+              }
               <label htmlFor="title" className="req">{i18n.t('name')}</label>
               <input
                 className="form-control"
@@ -105,7 +108,7 @@ class TagAdd extends Component {
               />
             </div>
           </form>
-      
+
         </div>
 
       </CardBody>
@@ -115,8 +118,8 @@ class TagAdd extends Component {
 }
 
 const mapStateToProps = ({ login }) => {
-  const { token } = login;
-  return { token };
+  const { token, user } = login;
+  return { token, user };
 };
 
 export default connect(mapStateToProps, { addTag })(TagAdd);

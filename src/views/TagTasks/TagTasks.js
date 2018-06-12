@@ -70,14 +70,22 @@ class Tag extends Component {
               </tr>
             </thead>
             <tbody>
-           
+
               {
                 this.props.tasks.map((task)=><tr style={{ cursor: "pointer" }} key={task.id}>
                 <td style={{ verticalAlign: "center" }}>{task.id}</td>
                 <td>
                   <span className="badge badge-success" style={{backgroundColor:task.status.color}}>{task.status.title}</span>
                 </td>
-                <td onClick={() => this.props.history.push("/task/edit/"+task.id)}>
+                <td
+                 onClick={() =>{
+                  if(task.canEdit){
+                    this.props.history.push("/tag/"+this.props.tagID+"/task/edit/" + task.id)
+                  }else{
+                    this.props.history.push("/tag/"+this.props.tagID+"/task/view/" + task.id)
+                  }
+                  }}
+                >
                   {task.title}
                   <p>
                     {task.tags.map((tag)=><span className="badge mr-1" key={tag.id} style={{backgroundColor:(tag.color.includes('#')?'':'#')+tag.color, color:'white'}}>{tag.title}</span>

@@ -42,37 +42,37 @@ class Project extends Component {
   render() {
     return (
       <div className="table-div">
-      <div className="justify-content-between row">
-        <h2>
-          {
-            this.props.projects[
-              this.props.projects.findIndex(project =>
-                project.url.includes(this.props.match.params.id)
-              )
-            ].name
-          }
+        <div className="justify-content-between row">
+          <h2>
+            {
+              this.props.projects[
+                this.props.projects.findIndex(project =>
+                  project.url.includes(this.props.match.params.id)
+                )
+              ].name
+            }
           </h2>
           <div>
-          <i className="fa fa-columns"
-            style={{
-              cursor:'pointer',
-              border: "none",
-              color:"grey",
-              fontSize:'2em',
-            }}
-            onClick={()=>this.props.setTripod(true)}
-          />
-          <a
-            href={(this.props.project.canEdit?"#/project/edit/":"#/project/info/") + parseInt(this.props.match.params.id, 10)}
-            className="fa fa-info-circle"
-            style={{
-              border: "none",
-              color: "grey",
-              textDecoration: "none",
-              fontSize:'2em',
-              marginLeft:5,
-            }}
-          />
+            <i className="fa fa-columns"
+              style={{
+                cursor:'pointer',
+                border: "none",
+                color:"grey",
+                fontSize:'2em',
+              }}
+              onClick={()=>this.props.setTripod(true)}
+              />
+            <a
+              href={(this.props.project.canEdit?"#/project/edit/":"#/project/info/") + parseInt(this.props.match.params.id, 10)}
+              className="fa fa-info-circle"
+              style={{
+                border: "none",
+                color: "grey",
+                textDecoration: "none",
+                fontSize:'2em',
+                marginLeft:5,
+              }}
+              />
           </div>
         </div>
         <div>
@@ -91,17 +91,21 @@ class Project extends Component {
               </tr>
             </thead>
             <tbody>
-                          {this.props.tasks.map(task => (
+              {this.props.tasks.map(task => (
                 <tr style={{ cursor: "pointer" }} key={task.id}>
                   <td style={{ verticalAlign: "center" }}>{task.id}</td>
                   <td>
                     <span className="badge badge-success" style={{backgroundColor:task.status.color}}>{task.status.title}</span>
                   </td>
                   <td
-                    onClick={() =>
-                      this.props.history.push("/project/"+this.props.match.params.id+"/task/edit/" + task.id)
-                    }
-                  >
+                    onClick={() =>{
+                      if(task.canEdit){
+                        this.props.history.push("/project/"+this.props.match.params.id+"/task/edit/" + task.id)
+                      }else{
+                        this.props.history.push("/project/"+this.props.match.params.id+"/task/view/" + task.id)
+                      }
+                    }}
+                    >
                     {task.title}
                     <p>
                       {task.tags.map(tag => (
@@ -110,10 +114,10 @@ class Project extends Component {
                           className="badge mr-1"
                           style={{
                             backgroundColor:
-                              (tag.color.includes("#") ? "" : "#") + tag.color,
+                            (tag.color.includes("#") ? "" : "#") + tag.color,
                             color: "white"
                           }}
-                        >
+                          >
                           {tag.title}
                         </span>
                       ))}
@@ -148,10 +152,10 @@ class Project extends Component {
             ]}
             pagination={
               this.props.match.params.count
-                ? parseInt(this.props.match.params.count, 10)
-                : 20
+              ? parseInt(this.props.match.params.count, 10)
+              : 20
             }
-          />
+            />
         </div>
       </div>
     );
@@ -167,7 +171,7 @@ const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer, login }
     tasks,
     project,
     projects:
-      sidebar[sidebar.findIndex(item => item.name === "projects")].children.concat(sidebar[sidebar.findIndex(item => item.name === "archived")].children),
+    sidebar[sidebar.findIndex(item => item.name === "projects")].children.concat(sidebar[sidebar.findIndex(item => item.name === "archived")].children),
     numberOfPages: projectLinks.numberOfPages,
     projectID: projectLinks.id,
     token

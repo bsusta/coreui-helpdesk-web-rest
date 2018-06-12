@@ -196,6 +196,87 @@ export const addUser = (body,company,role,image,token) => {
     }
   }
 
+
+  export const editProfile = (body,id,image,company,role,token) => {
+    return (dispatch) => {
+      i18n.changeLanguage(body.language);
+      if(image===null){
+        Promise.all([
+          fetch(USERS_LIST + '/'+id+'/user-role/' + role + '/company/' + company, {
+            method: 'put',
+            headers: {
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(body)
+          })]).then(([response1])=>{
+            if(!response1.ok){
+              processError(response1,dispatch);
+              return;
+            }
+            Promise.all([response1.json()]).then(([response1])=>{
+            dispatch({type: EDIT_USER, user:response1.data});
+          })})
+          .catch(function (error) {
+            dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+            console.log(error);
+          });
+        }
+        else{
+          let formData = new FormData();
+          formData.append("file", image);
+          fetch(IMAGE_UPLOAD,{
+            headers: {
+              'Authorization': 'Bearer ' + token
+            },
+            method: 'POST',
+            body:formData,
+          })
+          .then((response)=>{
+            if(!response.ok){
+              processError(response,dispatch);
+              return;
+            }
+            response.json().then((response)=>{
+              body['image']=response.data.slug;
+              Promise.all([
+                fetch(USERS_LIST + '/'+id+'/user-role/' + role + '/company/' + company, {
+                  method: 'put',
+                  headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                  },
+                  body:JSON.stringify(body)
+                })]).then(([response1])=>{
+                  if(!response1.ok){
+                    processError(response1,dispatch);
+                    return;
+                  }
+                  Promise.all([response1.json()]).then(([response1])=>{
+                  dispatch({type: EDIT_USER, user:response1.data});
+                })})
+                .catch(function (error) {
+                  dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+                  console.log(error);
+                });
+
+              })
+              .catch(function (error) {
+                dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+                console.log(error);
+              });
+            })
+            .catch(function (error) {
+              dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+                console.log(error);
+            });
+
+          }
+
+        };
+      };
+
+
   /**
   * Edits selected user
   * @param  {object}  body     data about user except for isActive

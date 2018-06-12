@@ -17,8 +17,8 @@ class Sidebar extends Component {
   constructor(props){
     super(props);
     //load sidebar and set it to automaticly load after X ms
-    this.props.getSidebar(this.props.date,this.props.token);
-    let intervalID = window.setInterval(()=>this.props.getSidebar(this.props.date,this.props.token), 4500);
+    this.props.getSidebar(this.props.date,this.props.user.user_role.acl,this.props.token);
+    let intervalID = window.setInterval(()=>this.props.getSidebar(this.props.date,this.props.user.user_role.acl,this.props.token), 4500);
     this.state={
       intervalID
     }
@@ -200,8 +200,8 @@ class Sidebar extends Component {
 
 const mapStateToProps = ({ sidebarReducer, login }) => {
   const { sidebar,date } = sidebarReducer;
-  const { token } = login;
-  return { sidebar,date, token };
+  const { token, user } = login;
+  return { sidebar,date, token, user };
 };
 
 export default connect(mapStateToProps, { getSidebar })(Sidebar);

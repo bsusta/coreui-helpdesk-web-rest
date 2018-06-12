@@ -15,6 +15,36 @@ export const startUnitsLoading = () => {
  * Gets all units available with no pagination
  * @param {string} token universal token for API comunication
  */
+export const getTaskUnits= (token) => {
+  return (dispatch) => {
+      fetch(UNITS_LIST+'/all', {
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        dispatch({type: LOWER_ACTIVE_REQUESTS});
+        if(!response.ok){
+          processError(response,dispatch);
+          return;
+        }
+      response.json().then((data) => {
+        dispatch({type: SET_UNITS, units:data.data});
+        dispatch({ type: SET_UNITS_LOADING, unitsLoaded:true });
+      });
+    }
+  ).catch(function (error) {
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+    console.log(error);
+  });
+}
+}
+
+/**
+ * Gets all units available with no pagination
+ * @param {string} token universal token for API comunication
+ */
 export const getUnits= (token) => {
   return (dispatch) => {
       fetch(UNITS_LIST+'?limit=999', {

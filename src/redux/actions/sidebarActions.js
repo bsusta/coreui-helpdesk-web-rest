@@ -5,7 +5,7 @@ import { SIDEBAR_DATA } from "../urls";
  * Gets all sidebar data available with no pagination
  * @param {string} token universal token for API comunication
  */
-export const getSidebar = (date,token) => {
+export const getSidebar = (date,ACL,token) => {
   return dispatch => {
     if(date){
       fetch(SIDEBAR_DATA+'/'+date, {
@@ -51,7 +51,7 @@ export const getSidebar = (date,token) => {
             icon: "fa fa-filter",
             children: []
           };
-          if(data.reports){
+          if(ACL.includes('report_filters')&&data.reports){
             data.reports.map(report =>
               reports.children.push({
                 name: report.title,
@@ -164,12 +164,14 @@ export const getSidebar = (date,token) => {
 
           }
 
+            if(ACL.includes('create_projects')){
 
-          projects.children.push({
-            name: "project",
-            url: "/project/add",
-            icon: "fa fa-plus"
-          });
+              projects.children.push({
+                name: "project",
+                url: "/project/add",
+                icon: "fa fa-plus"
+              });
+            }
 
           let archived = {
             name: "archived",

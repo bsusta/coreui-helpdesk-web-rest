@@ -50,15 +50,17 @@ class Header extends Component {
             </InputGroupAddon>
           </InputGroup>
         </Nav>
-
-        <button
-          type="button"
-          className="btn btn-link"
-          style={{ color: "white" }}
-          onClick={() => this.props.history.push("/task/add")}
-        >
-          {i18n.t("addTask")}
-        </button>
+        {
+           this.props.user.user_role.acl.includes('create_tasks') &&
+          <button
+            type="button"
+            className="btn btn-link"
+            style={{ color: "white" }}
+            onClick={() => this.props.history.push("/task/add")}
+            >
+            {i18n.t("addTask")}
+          </button>
+        }
 
         <Nav navbar className="ml-auto">
           {/*Settings icon*/}
@@ -74,7 +76,7 @@ class Header extends Component {
           <a
             style={{ margin: 0, marginRight: 10, color: "white" }}
             className="d-md-down-none"
-            href={"#/user/edit/" + this.props.user.id}
+            href={"#/user/profile"}
           >
             {this.props.user.username}
           </a>

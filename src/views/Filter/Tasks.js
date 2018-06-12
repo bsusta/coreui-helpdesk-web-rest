@@ -92,7 +92,7 @@ class Tasks extends Component {
               </tr>
             </thead>
             <tbody>
-         
+
               {this.props.tasks.map(task => (
                 <tr style={{ cursor: "pointer" }} key={task.id}>
                   <td style={{ verticalAlign: "center" }}>{task.id}</td>
@@ -100,10 +100,14 @@ class Tasks extends Component {
                     <span className="badge badge-success" style={{backgroundColor:task.status.color}}>{task.status.title}</span>
                   </td>
                   <td
-                    onClick={() =>
-                      this.props.history.push("/filter/"+this.props.match.params.id+"/task/edit/" + task.id)
-                    }
-                  >
+                    onClick={() =>{
+                      if(task.canEdit){
+                        this.props.history.push("/filter/"+this.props.match.params.id+"/task/edit/" + task.id)
+                      }else{
+                        this.props.history.push("/filter/"+this.props.match.params.id+"/task/view/" + task.id)
+                      }
+                    }}
+                    >
                     {task.title}
                     <p>
                       {task.tags.map(tag => (

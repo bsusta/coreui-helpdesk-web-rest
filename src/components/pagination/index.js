@@ -25,7 +25,6 @@ export default class Pag extends Component {
       <div>
       <div className="row">
         { !this.props.small && (
-          //normal design
         <div className="col">
              <Pagination>
               <PaginationItem style={{ margin: 5 }}>
@@ -191,7 +190,6 @@ export default class Pag extends Component {
         </div>
 
         {!this.props.small && <div className="col">
-              {/*normal design*/}
           <Pagination className="float-right">
             <PaginationItem style={{ margin: 5 }}>
               Items per page
@@ -226,7 +224,6 @@ export default class Pag extends Component {
       </div>
       <div className="row justify-content-between" style={{margin:0,padding:0}}>
         { this.props.small && (
-            /*compact design*/
              <Pagination>
               <PaginationItem style={{ margin: 5 }}>
                 Page {this.props.pageNumber} of {this.props.numberOfPages}
@@ -235,7 +232,6 @@ export default class Pag extends Component {
       )}
 
       {this.props.small &&
-        /*compact design*/
         <Pagination className="float-right">
           <PaginationItem style={{ margin: 5 }}>
             Items per page

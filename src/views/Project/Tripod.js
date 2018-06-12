@@ -26,12 +26,14 @@ import Pagination from "../../components/pagination";
 import { timestampToString } from "../../helperFunctions";
 import i18n from 'i18next';
 import EditTask from '../EditTask';
+import ViewTask from '../ViewTask';
 
 class Project extends Component {
   constructor(props) {
     super(props);
     this.state = {
         taskID:this.props.tasks.length>0?this.props.tasks[0].id:null,
+        canEdit:this.props.tasks.length>0?this.props.tasks[0].canEdit:null
     };
     if(this.props.tasks.length>0){
       this.props.setTaskID(this.props.tasks[0].id);
@@ -88,7 +90,7 @@ class Project extends Component {
           <ul className="list-group" style={{paddingBottom:'1em'}}>
               {this.props.tasks.map(task => (
                   <li className={"list-group-item"+(task.id===this.props.taskID?" active":"")} style={{cursor:'pointer',borderLeft:'none',borderRight:'none'}} key={task.id} onClick={()=>{
-                      this.setState({taskID:task.id});
+                      this.setState({taskID:task.id, canEdit:task.canEdit});
                       this.props.history.push('/project/'+this.props.match.params.id+'/'+this.props.match.params.page+','+this.props.match.params.count+'/'+task.id);
                       setTimeout(()=>this.props.setTaskID(task.id), 30);
                     }}>
@@ -149,7 +151,8 @@ class Project extends Component {
           />
         </div>
         <div style={{height:'calc(100vh - 55px)', overflowY:'scroll',overflowX:'hidden',margin:0,padding:0}} className='col-8'>
-          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && <EditTask taskID={this.state.taskID} history={this.props.history} match={this.props.match}/>}
+          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && this.state.canEdit && <EditTask taskID={this.state.taskID} history={this.props.history} match={this.props.match}/>}
+          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && !this.state.canEdit && <EditTask taskID={this.state.taskID} history={this.props.history} match={this.props.match}/>}
         </div>
       </div>
     );

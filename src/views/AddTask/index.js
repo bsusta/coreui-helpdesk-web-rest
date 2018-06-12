@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {startTaskProjectsLoading,startStatusesLoading,
   getTaskStatuses,getTaskProjects,startCompaniesLoading,getTaskCompanies,
 startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
- startUnitsLoading, getUnits, deleteTaskSolvers,setActiveRequests,
+ startUnitsLoading, getTaskUnits, deleteTaskSolvers,setActiveRequests,
 startUsersLoading, getUsers,clearErrorMessage, clearTask } from '../../redux/actions';
 import AddTask from './AddTask';
 import Loading from '../../components/Loading';
@@ -35,7 +35,7 @@ class AddTaskLoader extends Component {
     this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
     this.props.getTaskAttributes(this.props.token);
     this.props.getTags(this.props.token);
-    this.props.getUnits(this.props.token);
+    this.props.getTaskUnits(this.props.token);
     this.props.getUsers("",this.props.token);
   }
 
@@ -70,5 +70,5 @@ export default connect(mapStateToProps, {
   startTaskProjectsLoading,startStatusesLoading,
   getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
   startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,setActiveRequests,
-  startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
+  startUnitsLoading, getTaskUnits, deleteTaskSolvers, startUsersLoading, getUsers,
   clearErrorMessage, clearTask})(AddTaskLoader);
