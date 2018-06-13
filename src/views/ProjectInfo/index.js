@@ -16,7 +16,7 @@ class ProjectInfoLoader extends Component {
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startProjectLoading();  // first it sets, that project hasnt been loaded
     this.props.setActiveRequests(1);
-    this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.token);  //send request for download and storing of the projects data
+    this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.history,this.props.token);  //send request for download and storing of the projects data
   }
   render(){
     if(!this.props.projectLoaded){ //data hasnt been loaded yet

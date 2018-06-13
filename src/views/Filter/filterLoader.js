@@ -18,7 +18,7 @@ class FilterLoader extends Component {
       this.props.startFilterLoading(false);
       this.props.addActiveRequests(1);
      if(this.props.match.params.id!=='add'){
-      this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.match.params.id,this.props.token);
+      this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.match.params.id,this.props.history,this.props.token);
       }
       else{
         this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.token);
@@ -29,13 +29,16 @@ class FilterLoader extends Component {
   componentWillReceiveProps(props){
     return;
     if(props.match.params.id && this.props.match.params.id!==props.match.params.id){
+      if(props.filters.findIndex(filter =>filter.url.includes('/'+props.match.params.id))===-1){
+        this.props.history.push('/404');
+      }
       if(props.match.params.id==='add'){
         this.props.startFilterLoading(false);
         this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.token);
       }
       else{
         this.props.startFilterLoading(false);
-        this.props.getFilter(props.taskAttributes,props.statuses,props.projects,props.users,props.tags,props.companies,props.match.params.id,props.token);
+        this.props.getFilter(props.taskAttributes,props.statuses,props.projects,props.users,props.tags,props.companies,props.match.params.id,this.props.history,props.token);
       }
     }
   }
@@ -64,7 +67,8 @@ const mapStateToProps = ({tasksReducer, statusesReducer,sidebarReducer, companie
 
   return {statuses:taskStatuses,projects:taskProjects,taskProjectsLoaded,taskAttributesLoaded, taskAttributes, statusesLoaded,
     statusesUpdateDate:updateDate,companiesLoaded,companies:taskCompanies, companiesUpdateDate:companiesReducer.updateDate,
-    tagsLoaded,tags, unitsLoaded, sidebar, usersLoaded,users,filterLoaded, filterState,body,page, token};
+    tagsLoaded,tags, unitsLoaded, sidebar, usersLoaded,users,filterLoaded, filterState,body,page, token,
+    filters: sidebar[sidebar.findIndex(item => item.name === "filters")].children};
   };
 
 

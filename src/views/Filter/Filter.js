@@ -35,9 +35,9 @@ import {
 import {createFilter, editFilter, deleteFilter, setFilterBody} from '../../redux/actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-const colourStyles = { 
-  control: styles => ({ ...styles, 
-                           backgroundColor: 'white', 
+const colourStyles = {
+  control: styles => ({ ...styles,
+                           backgroundColor: 'white',
                            borderRadius:"0",
                            border: '1px solid #c2cfd6',
                       }),
@@ -65,7 +65,7 @@ class Filter extends Component {
         "Are you sure you want to delete this filter?"
       )
     ) {
-      this.props.deleteFilter(this.props.match.params.id,this.props.token);
+      this.props.deleteFilter(this.props.match.params.id,this.props.user.user_role.acl,this.props.token);
       this.props.history.push('/filter/1,'+(this.props.match.params.count?this.props.match.params.count:20));
     } else {
       return;

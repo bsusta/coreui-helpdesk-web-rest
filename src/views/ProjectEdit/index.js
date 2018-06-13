@@ -17,7 +17,7 @@ class ProjectEditLoader extends Component {
     this.props.startProjectLoading();  // first it sets, that project hasnt been loaded
     this.props.startUsersLoading();
     this.props.setActiveRequests(2);
-    this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.token);  //send request for download and storing of the projects data
+    this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.history,this.props.token);  //send request for download and storing of the projects data
     this.props.getUsers(this.props.updateDate,this.props.token);
   }
   render(){

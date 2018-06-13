@@ -24,10 +24,11 @@ class TagEdit extends Component {
         i18n.t('deleteTagMessage') + this.state.title + "?"
       )
     ) {
-      this.props.deleteTag(this.props.tag.id, this.props.token);
+      this.props.deleteTag(this.props.tag.id,this.props.user.user_role.acl ,this.props.token);
     } else {
       return;
     }
+    this.props.history.goBack();
     this.props.history.goBack();
   }
 

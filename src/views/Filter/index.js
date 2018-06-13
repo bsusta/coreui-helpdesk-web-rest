@@ -50,7 +50,7 @@ class Loader extends Component {
       else{
         this.props.startFilterLoading(false);
         this.props.addActiveRequests(1);
-        this.props.getFilter(props.taskAttributes,props.statuses,props.projects,props.users,props.tags,props.companies,props.match.params.id,props.token);
+        this.props.getFilter(props.taskAttributes,props.statuses,props.projects,props.users,props.tags,props.companies,props.match.params.id,this.props.history,props.token);
       }
     }
 

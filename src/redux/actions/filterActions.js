@@ -1,6 +1,7 @@
 import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TASKS_LIST, FILTERS_LIST } from '../urls';
 import {processError,processRESTinput,filterToFilterState ,filterBodyFromState} from '../../helperFunctions';
+import {getSidebar} from './sidebarActions';
 
 export const clearFilterTasks = () => {
  return (dispatch) => {
@@ -133,7 +134,7 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
   }
 }
 
-export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,id,token) => {
+export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,id,history,token) => {
   return (dispatch) => {
       fetch(FILTERS_LIST+'/'+id, {
         method: 'get',
@@ -144,7 +145,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          processError(response,dispatch);
+          processError(response,dispatch,history);
           return;
         }
       response.json().then((data) => {
@@ -168,7 +169,7 @@ export const setFilterBody = (body,filterState,page)=>{
    }
 }
 
-export const deleteFilter =(id, token)=>{
+export const deleteFilter =(id,ACL, token)=>{
   return (dispatch) => {
       fetch(FILTERS_LIST+'/'+id+'/delete', {
         method: 'DELETE',
@@ -181,6 +182,7 @@ export const deleteFilter =(id, token)=>{
           processError(response,dispatch);
           return;
         }
+        getSidebar(null,ACL,token)(dispatch);
     }).catch(function (error) {
       dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
       console.log(error);

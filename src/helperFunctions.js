@@ -34,13 +34,17 @@ export const isIP = (ip) => {
  * Processes errors in actions
  * @param  {function} dispatch dispatches error actions
  */
-export const processError= (response,dispatch)=>{
+export const processError= (response,dispatch,history)=>{
   if(response.status===401){
     dispatch({ type: LOGIN_LOGOUT });
   }
   response.text().then((data)=>{
     dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
   });
+  if(history!==undefined && response.status===404){
+    console.log('404');
+    history.push('/404');
+  }
 }
 
 /**

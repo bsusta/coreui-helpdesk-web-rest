@@ -85,7 +85,7 @@ export const startProjectLoading = () => {
  * @param  {string} token universal token for API comunication
  * @param  {int} id    interger, that is ID of the project that we want to load
  */
-export const getProject = (id,token) => {
+export const getProject = (id, history,token) => {
   return (dispatch) => {
       fetch(PROJECTS_LIST+'/'+id, {
         method: 'get',
@@ -96,7 +96,7 @@ export const getProject = (id,token) => {
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          processError(response,dispatch);
+          processError(response,dispatch,history);
           return;
         }
       response.json().then((data) => {

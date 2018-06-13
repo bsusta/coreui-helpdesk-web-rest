@@ -51,18 +51,17 @@ class Project extends Component {
   }
 
   render() {
+    let index = this.props.projects.findIndex(project =>
+      project.url.includes(this.props.match.params.id)
+    );
+    let name = index===-1?'Undefined':this.props.projects[index].name;
+
     return (
       <div className="row">
         <div style={{overflowY:'scroll',height:'calc(100vh - 55px)',paddingRight:0, overflowX:'hidden'}} className='col-4'>
           <div className="justify-content-between row table-div">
             <h2>
-              {
-                this.props.projects[
-                  this.props.projects.findIndex(project =>
-                    project.url.includes(this.props.match.params.id)
-                  )
-                ].name
-              }
+              {name}
             </h2>
             <div>
               <i className="fa fa-columns"

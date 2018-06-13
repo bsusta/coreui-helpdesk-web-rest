@@ -1,6 +1,7 @@
 import { SET_TAGS,SET_TAGS_LOADING, ADD_TAG, SET_TAG, SET_TAG_LOADING, EDIT_TAG, DELETE_TAG, SET_ERROR_MESSAGE,ADD_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
 import { TAGS_LIST } from '../urls';
 import {processError} from '../../helperFunctions';
+import {getSidebar} from './sidebarActions';
 
 /**
  * Sets status if tags are loaded to false
@@ -144,7 +145,7 @@ export const editTag = (body,id,token) => {
   };
 };
 
-export const deleteTag = (id,token) => {
+export const deleteTag = (id,ACL,token) => {
   return (dispatch) => {
       fetch(TAGS_LIST+'/'+id, {
         method: 'delete',
@@ -157,7 +158,9 @@ export const deleteTag = (id,token) => {
           processError(response,dispatch);
           return;
         }
+        getSidebar(null,ACL,token)(dispatch);
         dispatch({type: DELETE_TAG, id});
+
     }
   ).catch(function (error) {
     dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });

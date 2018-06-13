@@ -43,6 +43,7 @@ import TriggersList from "./views/settings/triggersList";
 import TriggerAdd from "./views/settings/triggerAdd";
 import TriggerEdit from "./views/settings/triggerEdit";
 import MyTasks from "./components/notUsed/MyTasks";
+import Page404 from "./components/404";
 import Project from "./views/Project";
 import ProjectInfo from "./views/ProjectInfo";
 import ProjectEdit from "./views/ProjectEdit";
@@ -85,7 +86,12 @@ class Full extends Component {
                   name="Users list"
                   component={UsersList}
                 />
-
+                <Route
+                  exact
+                  path="/404"
+                  name="404"
+                  component={Page404}
+                />
                 <Route
                   exact
                   path="/usersList/:p,:nop"

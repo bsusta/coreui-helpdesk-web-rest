@@ -40,17 +40,15 @@ class Project extends Component {
   }
 
   render() {
+    let index = this.props.projects.findIndex(project =>
+      project.url.includes(this.props.match.params.id)
+    );
+    let name = index===-1?'Undefined':this.props.projects[index].name;
     return (
       <div className="table-div">
         <div className="justify-content-between row">
           <h2>
-            {
-              this.props.projects[
-                this.props.projects.findIndex(project =>
-                  project.url.includes(this.props.match.params.id)
-                )
-              ].name
-            }
+            {name}
           </h2>
           <div>
             <i className="fa fa-columns"

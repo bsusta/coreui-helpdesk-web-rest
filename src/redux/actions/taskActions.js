@@ -93,7 +93,7 @@ import {processError} from '../../helperFunctions';
  }
 
 
- export const getProjectTasks= (limit,page,token,id) => {
+ export const getProjectTasks= (limit,page,token,id, history) => {
    return (dispatch) => {
        fetch(TASKS_LIST+'?limit='+limit+'&page='+page+'&order=title=>asc'+'&project='+id, {
          method: 'get',
@@ -104,7 +104,7 @@ import {processError} from '../../helperFunctions';
        }).then((response) =>{
        dispatch({type: LOWER_ACTIVE_REQUESTS});
          if(!response.ok){
-           processError(response,dispatch);
+           processError(response,dispatch, history);
            return;
          }
        response.json().then((data) => {
