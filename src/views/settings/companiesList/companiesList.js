@@ -64,9 +64,9 @@ class CompaniesList extends Component {
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>{i18n.t('id')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
+                <th className="td-small" style={{ borderTop: "0px" }}>{i18n.t('id')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>         
               </tr>
             </thead>
             <tbody>
@@ -83,19 +83,19 @@ class CompaniesList extends Component {
                 <th>
                   <Input
                     type="text"
-                    id="active"
-                    value={this.state.active}
-                    name="active"
-                    onChange={e => this.setState({ active: e.target.value })}
+                    id="title"
+                    value={this.state.title}
+                    name="title"
+                    onChange={e => this.setState({ title: e.target.value })}
                   />
                 </th>
                 <th>
                   <Input
                     type="text"
-                    id="title"
-                    value={this.state.title}
-                    name="title"
-                    onChange={e => this.setState({ title: e.target.value })}
+                    id="active"
+                    value={this.state.active}
+                    name="active"
+                    onChange={e => this.setState({ active: e.target.value })}
                   />
                 </th>
               </tr>
@@ -107,6 +107,7 @@ class CompaniesList extends Component {
                   }
                 >
                   <td>{company.id}</td>
+                  <td>{company.title}</td>
                   <td>
                     {company.is_active ? (
                       <span className="badge badge-success">{i18n.t('yes')}</span>
@@ -114,7 +115,6 @@ class CompaniesList extends Component {
                       <span className="badge badge-danger">{i18n.t('no')}</span>
                     )}
                   </td>
-                  <td>{company.title}</td>
                 </tr>
               ))}
             </tbody>

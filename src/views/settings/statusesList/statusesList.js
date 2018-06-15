@@ -65,15 +65,24 @@ class StatusesList extends Component {
           <table className="table table-striped table-hover">
             <thead>
               <tr>
+              <th className="td-small" style={{ borderTop: "0px" }}>{i18n.t('order')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('name')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('color')}</th> 
                 <th style={{ borderTop: "0px" }}>{i18n.t('description')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('color')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('order')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th> 
               </tr>
             </thead>
             <tbody>
               <tr>
+              <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    name="input1-group1"
+                    disabled={true}
+                    style={{ display: "none" }}
+                  />
+                </th>
                 <th>
                   <Input
                     type="text"
@@ -81,6 +90,15 @@ class StatusesList extends Component {
                     value={this.state.name}
                     name="input1-group1"
                     onChange={e => this.setState({ name: e.target.value })}
+                  />
+                </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    name="input1-group1"
+                    disabled={true}
+                    style={{ display: "none" }}
                   />
                 </th>
                 <th>
@@ -98,27 +116,9 @@ class StatusesList extends Component {
                   <Input
                     type="text"
                     id="input1-group1"
-                    name="input1-group1"
-                    disabled={true}
-                    style={{ display: "none" }}
-                  />
-                </th>
-                <th>
-                  <Input
-                    type="text"
-                    id="input1-group1"
                     value={this.state.active}
                     name="input1-group1"
                     onChange={e => this.setState({ active: e.target.value })}
-                  />
-                </th>
-                <th>
-                  <Input
-                    type="text"
-                    id="input1-group1"
-                    name="input1-group1"
-                    disabled={true}
-                    style={{ display: "none" }}
                   />
                 </th>
               </tr>
@@ -129,8 +129,8 @@ class StatusesList extends Component {
                     this.props.history.push("/status/edit/" + status.id)
                   }
                 >
+                  <td>{status.order}</td>
                   <td>{status.title}</td>
-                  <td>{status.description}</td>
                   <td>
                     <span
                       className="badge"
@@ -144,6 +144,7 @@ class StatusesList extends Component {
                       {status.title}
                     </span>
                   </td>
+                  <td>{status.description}</td>
                   <td>
                     {status.is_active ? (
                       <span className="badge badge-success">Yes</span>
@@ -151,7 +152,7 @@ class StatusesList extends Component {
                       <span className="badge badge-danger">No</span>
                     )}
                   </td>
-                  <td>{status.order}</td>
+        
                 </tr>
               ))}
             </tbody>

@@ -57,13 +57,22 @@ class RolesList extends Component {
           <table className="table table-striped table-hover">
             <thead>
               <tr>
+              <th className="td-small" style={{ borderTop: "0px" }}>{i18n.t('order')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('order')}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
+              <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    name="input1-group1"
+                    disabled={true}
+                    style={{ display: "none" }}
+                  />
+                </th>
                 <th>
                   <Input
                     type="text"
@@ -82,16 +91,7 @@ class RolesList extends Component {
                     onChange={e => this.setState({ active: e.target.value })}
                   />
                 </th>
-                <th>
-                  <Input
-                    type="text"
-                    id="input1-group1"
-                    name="input1-group1"
-                    disabled={true}
-                    style={{ display: "none" }}
-                  />
-                </th>
-              </tr>
+               </tr>
               {this.getFilteredData().map(role => (
                 <tr
                   key={role.id}
@@ -99,6 +99,7 @@ class RolesList extends Component {
                     this.props.history.push("/role/edit/" + role.id)
                   }
                 >
+                     <td>{role.order}</td>
                   <td>{role.title}</td>
                   <td>
                     {role.is_active ? (
@@ -107,7 +108,6 @@ class RolesList extends Component {
                       <span className="badge badge-danger">{i18n.t('no')}</span>
                     )}
                   </td>
-                  <td>{role.order}</td>
                 </tr>
               ))}
             </tbody>

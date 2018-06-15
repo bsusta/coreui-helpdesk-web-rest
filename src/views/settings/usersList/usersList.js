@@ -73,10 +73,10 @@ class UsersList extends Component {
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th style={{ borderTop: "0px" }}>{i18n.t('id')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
+                <th className="td-small" style={{ borderTop: "0px" }}>{i18n.t('id')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('name')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('email')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
               </tr>
             </thead>
             <tbody>
@@ -88,15 +88,6 @@ class UsersList extends Component {
                     value={this.state.id}
                     name="input1-group1"
                     onChange={e => this.setState({ id: e.target.value })}
-                  />
-                </th>
-                <th>
-                  <Input
-                    type="text"
-                    id="input1-group1"
-                    value={this.state.active}
-                    name="input1-group1"
-                    onChange={e => this.setState({ active: e.target.value })}
                   />
                 </th>
                 <th>
@@ -117,6 +108,15 @@ class UsersList extends Component {
                     onChange={e => this.setState({ email: e.target.value })}
                   />
                 </th>
+                <th>
+                  <Input
+                    type="text"
+                    id="input1-group1"
+                    value={this.state.active}
+                    name="input1-group1"
+                    onChange={e => this.setState({ active: e.target.value })}
+                  />
+                </th>
               </tr>
               {this.getFilteredData().map(user => (
                 <tr
@@ -127,16 +127,16 @@ class UsersList extends Component {
                 >
                   <td>{user.id}</td>
                   <td>
+                    {user.surname} {user.name}
+                  </td>
+                  <td>{user.email}</td>
+                  <td>
                     {user.is_active ? (
                       <span className="badge badge-success">Yes</span>
                     ) : (
                       <span className="badge badge-danger">No</span>
                     )}
                   </td>
-                  <td>
-                    {user.surname} {user.name}
-                  </td>
-                  <td>{user.email}</td>
                 </tr>
               ))}
             </tbody>
