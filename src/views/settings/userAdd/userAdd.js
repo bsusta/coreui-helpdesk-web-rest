@@ -40,11 +40,10 @@ class UserAdd extends Component {
     };
   }
 
-  submit(e) {
-    e.preventDefault();
+  submit() {
     this.setState({submitError:true});
     let body = {
-      username: this.state.username,
+      username: this.state.email,
       password: this.state.password,
       email: this.state.email,
       detail_data: {
@@ -67,8 +66,8 @@ class UserAdd extends Component {
         google: this.state.google
       }
     };
+
     if(!isEmail(body.email)||
-    body.username===''||
     body.password.length<8){
       return;
     }
@@ -79,18 +78,19 @@ class UserAdd extends Component {
       this.state.image,
       this.props.token
     );
-    this.props.history.goBack();
+    if(this.props.modal){
+      this.props.modal();
+    }
+    else{
+      this.props.history.goBack();
+    }
   }
+
   render() {
     return (
       <div className="card">
         <h4 className="card-header">{i18n.t('addUser')}</h4>
         <div className="card-body">
-          <form
-            onSubmit={(event, value) => {
-              event.preventDefault();
-            }}
-          >
             <label htmlFor="avatar">{i18n.t('avatarUpload')} </label>
             <label htmlFor="avatar" style={{ fontSize: 10 }}>
               {i18n.t('willBeResized')}
@@ -160,17 +160,18 @@ class UserAdd extends Component {
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="username" className="req">{i18n.t('username')}</label>
+              <label htmlFor="email" className="req">{i18n.t('username')+"/"+i18n.t('email')}</label>
               <input
                 className="form-control"
-                id="username"
-                value={this.state.username}
-                onChange={target =>
-                  this.setState({ username: target.target.value })
+                id="email"
+                value={this.state.email}
+                onChange={target =>{
+                  this.setState({ email: target.target.value })}
                 }
-                placeholder={i18n.t('enterUsername')}
+                placeholder={i18n.t('enterUsername')+'/'+i18n.t('enterEmail')}
               />
-            {this.state.submitError && this.state.username===''&&<label htmlFor="username" style={{color:'red'}}>{i18n.t('restrictionMustEnterUsername')}</label>}
+              { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+                { this.state.submitError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
             </div>
 
             <div className="form-group">
@@ -187,20 +188,6 @@ class UserAdd extends Component {
             {this.state.password.length>0 && this.state.password.length<8 &&<label htmlFor="password" style={{color:'red'}}>{i18n.t('restrictionPasswordMustBe8')}</label>}
             {this.state.submitError && this.state.password===''&&<label htmlFor="password" style={{color:'red'}}>{i18n.t('restrictionMustEnterUserPassword')}</label>}
           </div>
-            <div className="form-group">
-              <label htmlFor="email" className="req">{i18n.t('email')}</label>
-              <input
-                className="form-control"
-                id="email"
-                value={this.state.email}
-                onChange={target =>
-                  this.setState({ email: target.target.value })
-                }
-                placeholder={i18n.t('enterEmail')}
-              />
-            { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
-              { this.state.submitError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
-            </div>
             <div className="form-group">
               <label htmlFor="language">{i18n.t('language')}</label>
               <select
@@ -464,12 +451,11 @@ class UserAdd extends Component {
               <button
                 type="button"
                 className="btn btn-danger"
-                onClick={() => this.props.history.goBack()}
+                onClick={() => {this.props.modal?this.props.modal(): this.props.history.goBack()}}
               >
                 {i18n.t('cancel')}
               </button>
             </div>
-          </form>
         </div>
       </div>
     );
@@ -477,10 +463,12 @@ class UserAdd extends Component {
 }
 
 const mapStateToProps = ({ companiesReducer, login, userRolesReducer }) => {
-  const { companies } = companiesReducer;
+  const { companies, taskCompanies } = companiesReducer;
   const { userRoles } = userRolesReducer;
   const { token } = login;
-  return { companies, token, userRoles };
+  console.log(companies);
+  console.log(taskCompanies);
+  return { companies:(companies.length===0?taskCompanies:companies), token, userRoles };
 };
 
 export default connect(mapStateToProps, { addUser })(UserAdd);

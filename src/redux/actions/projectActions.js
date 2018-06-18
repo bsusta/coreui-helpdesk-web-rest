@@ -45,7 +45,7 @@ export const getProjects= (token) => {
  * @param {object} body  All parameters in an object of the new project
  * @param {string} token universal token for API comunication
  */
-export const addProject = (body,token) => {
+export const addProject = (body,history,token) => {
   return (dispatch) => {
       fetch(PROJECTS_LIST,{
         headers: {
@@ -62,6 +62,7 @@ export const addProject = (body,token) => {
       }
     response.json().then((response)=>{
       dispatch({type: ADD_PROJECT, project:response.data});
+      history.push('/project/edit/' + response.data.id);
     })})
     .catch(function (error) {
       dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });

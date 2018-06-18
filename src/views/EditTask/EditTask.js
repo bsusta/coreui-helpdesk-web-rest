@@ -10,7 +10,8 @@ import {
   InputGroupAddon,
   InputGroupButton,
   Input,
-  FormGroup
+  FormGroup,
+  Modal, ModalHeader, ModalBody, ModalFooter
 } from "reactstrap";
 import CommentsLoader from "./Comments";
 import AddComment from "./AddComment";
@@ -20,6 +21,8 @@ import DatePicker from "react-datepicker";
 import moment from "moment";
 import RichTextEditor from "react-rte";
 import Select from "react-select";
+import CompanyAdd from '../settings/companyAdd';
+import UserAdd from '../settings/userAdd';
 import {
   getTaskSolvers,
   deleteTaskSolvers,
@@ -28,7 +31,9 @@ import {
   uploadFile,
   removeFile,
   addFollower,
-  deleteFollower
+  deleteFollower,
+  getTaskCompanies,
+  getUsers
 } from "../../redux/actions";
 import {
   timestampToString,
@@ -42,9 +47,9 @@ import i18n from "i18next";
 
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
 
-const colourStyles = { 
-  control: styles => ({ ...styles, 
-                           backgroundColor: 'white', 
+const colourStyles = {
+  control: styles => ({ ...styles,
+                           backgroundColor: 'white',
                            borderRadius:"0",
                            border: '1px solid #c2cfd6',
                       }),
@@ -120,7 +125,9 @@ class EditTask extends Component {
       attachments: [],
       task_data,
       followers: this.props.followers.map(follower => follower.id),
-      submitError
+      submitError,
+      openAddUser:false,
+      openAddCompany:false
     };
     this.autoSubmit.bind(this);
   }
@@ -232,6 +239,25 @@ class EditTask extends Component {
   render() {
     return (
       <div className="fontRegular">
+
+        <Modal isOpen={this.state.openAddCompany} className="lg">
+          <ModalBody style={{padding:0}}>
+            <CompanyAdd history={this.props.history} modal={()=>{
+                this.setState({openAddCompany:false});
+                this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
+              }}/>
+          </ModalBody>
+        </Modal>
+
+        <Modal isOpen={this.state.openAddUser} className="lg">
+          <ModalBody style={{padding:0}}>
+            <UserAdd history={this.props.history} modal={()=>{
+                this.setState({openAddUser:false})
+                this.props.getUsers("",this.props.token);
+            }} />
+          </ModalBody>
+        </Modal>
+
         <Card>
           <CardHeader className="row justify-content-between" >
             <div>
@@ -527,6 +553,16 @@ class EditTask extends Component {
 
                               <FormGroup>
                                 <label htmlFor="requester" className="req">{i18n.t('requester')}</label>
+                                {this.props.task.loggedUserRoleAcl.includes('user_settings')&&
+                                  <span style={{ float: "right" }}>
+                                    <button
+                                      style={{ float: "right", paddingTop:0,paddingBottom:0, paddingLeft:5,paddingRight:5}}
+                                      className="btn btn-sm btn-primary mr-1"
+                                      onClick={()=>this.setState({openAddUser:true})}
+                                    >
+                                      <i className="fa fa-plus " />
+                                    </button>
+                                </span>}
                                 <InputGroup className={this.state.requestedBy.id===undefined?"fieldError":""}>
                                   <InputGroupAddon>
                                     <i className="fa fa-user-o" />
@@ -559,6 +595,17 @@ class EditTask extends Component {
 
                               <FormGroup>
                                 <label htmlFor="company" className="req">{i18n.t('company')}</label>
+                                  {this.props.task.loggedUserRoleAcl.includes('company_settings')&&
+                                    <span style={{ float: "right" }}>
+                                      <button
+                                        style={{ float: "right", paddingTop:0,paddingBottom:0, paddingLeft:5,paddingRight:5}}
+                                        className="btn btn-sm btn-primary mr-1"
+                                        onClick={()=>this.setState({openAddCompany:true})}
+                                      >
+                                        <i className="fa fa-plus " />
+                                      </button>
+                                  </span>}
+
                                 <InputGroup className={this.state.company.id===undefined?"fieldError":""}>
                                   <InputGroupAddon>
                                     <i className="fa fa-building-o" />
@@ -1185,7 +1232,7 @@ class EditTask extends Component {
                       const { users } = usersReducer;
                       const { attachments } = attachmentsReducer;
                       const { followers } = followersReducer;
-                      const { token } = login;
+                      const { token,user } = login;
                       return {
                         task,
                         taskProjects,
@@ -1196,9 +1243,11 @@ class EditTask extends Component {
                         units,
                         taskSolvers,
                         users,
+                        user,
                         attachments,
                         followers,
-                        token
+                        token,
+                        companiesUpdateDate:companiesReducer.updateDate
                       };
                     };
 
@@ -1210,5 +1259,7 @@ class EditTask extends Component {
                       uploadFile,
                       removeFile,
                       addFollower,
-                      deleteFollower
+                      deleteFollower,
+                      getTaskCompanies,
+                      getUsers
                     })(EditTask);

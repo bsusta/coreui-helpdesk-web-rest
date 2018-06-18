@@ -25,8 +25,7 @@ class ProjectAdd extends Component {
     if (body.title === "") {
       return;
     }
-    this.props.addProject(body, this.props.token);
-    this.props.history.goBack();
+    this.props.addProject(body,this.props.history, this.props.token);
   }
 
   render() {
@@ -87,7 +86,7 @@ class ProjectAdd extends Component {
             </button>
           </div>
         </div>
-      
+
       </CardBody>
       </Card>
 

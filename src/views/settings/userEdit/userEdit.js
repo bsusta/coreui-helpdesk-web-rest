@@ -93,7 +93,7 @@ class UserEdit extends Component {
     e.preventDefault();
     this.setState({submitError:true});
     let body = {
-      username: this.state.username,
+      username: this.state.email,
       email: this.state.email,
       language: this.state.language === "" ? "null" : this.state.language,
       detail_data: {
@@ -122,7 +122,6 @@ class UserEdit extends Component {
       body["password"] = this.state.password;
     }
     if(!isEmail(body.email)||
-    body.username===''||
     (body.password&&body.password.length<8)){
       return;
     }
@@ -243,18 +242,19 @@ class UserEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="username" className="req">{i18n.t('username')}</label>
+              <label htmlFor="email" className="req">{i18n.t('username')+"/"+i18n.t('email')}</label>
               <input
                 className="form-control"
-                id="username"
-                value={this.state.username}
+                id="email"
+                value={this.state.email}
                 onChange={target =>{
-                  this.compareChanges('username', target.target.value);
-                  this.setState({ username: target.target.value })}
+                  this.compareChanges('email', target.target.value);
+                  this.setState({ email: target.target.value })}
                 }
-                placeholder={i18n.t('enterUsername')}
+                placeholder={i18n.t('enterUsername')+'/'+i18n.t('enterEmail')}
               />
-              {this.state.submitError && this.state.username===''&&<label htmlFor="username" style={{color:'red'}}>{i18n.t('restrictionMustEnterUsername')}</label>}
+              { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+                { this.state.submitError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
             </div>
 
             <div className="form-group">
@@ -269,21 +269,6 @@ class UserEdit extends Component {
                 placeholder={i18n.t('enterPassword')}
               />
               {this.state.password.length>0 && this.state.password.length<8 &&<label htmlFor="password" style={{color:'red'}}>{i18n.t('restrictionPasswordMustBe8')}</label>}
-            </div>
-            <div className="form-group">
-              <label htmlFor="email" className="req">{i18n.t('email')}</label>
-              <input
-                className="form-control"
-                id="email"
-                value={this.state.email}
-                onChange={target =>{
-                  this.compareChanges('email', target.target.value);
-                  this.setState({ email: target.target.value })}
-                }
-                placeholder={i18n.t('enterEmail')}
-              />
-              { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
-                { this.state.submitError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
             </div>
 
             <div className="form-group">
