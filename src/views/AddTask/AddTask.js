@@ -10,13 +10,16 @@ import {
   InputGroupAddon,
   InputGroupButton,
   Input,
-  FormGroup
+  FormGroup,
+  Modal, ModalHeader, ModalBody, ModalFooter
 } from "reactstrap";
 import Subtasks from "./Subtasks";
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import Select from "react-select";
+import CompanyAdd from '../settings/companyAdd';
+import UserAdd from '../settings/userAdd';
 import {
   getTaskSolvers,
   deleteTaskSolvers,
@@ -64,6 +67,8 @@ class AddTask extends Component {
       subtasks:[],
       materials:[],
       followers:[],
+      openAddUser:false,
+      openAddCompany:false
     };
     this.submit.bind(this);
   }
@@ -159,6 +164,24 @@ class AddTask extends Component {
     }
     return (
       <div>
+        <Modal isOpen={this.state.openAddCompany} className="lg">
+          <ModalBody style={{padding:0}}>
+            <CompanyAdd history={this.props.history} modal={()=>{
+                this.setState({openAddCompany:false});
+                this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
+              }}/>
+          </ModalBody>
+        </Modal>
+
+        <Modal isOpen={this.state.openAddUser} className="lg">
+          <ModalBody style={{padding:0}}>
+            <UserAdd history={this.props.history} modal={()=>{
+                this.setState({openAddUser:false})
+                this.props.getUsers("",this.props.token);
+            }} />
+          </ModalBody>
+        </Modal>
+
         <Card>
           <CardHeader >
             <button className="btn btn-link" onClick={this.props.history.goBack}>
@@ -291,7 +314,7 @@ class AddTask extends Component {
                         </FormGroup>
 
                         <Subtasks
-                          units={this.props.units.filter(unit => unit.is_active)}
+                          units={this.props.units}
                           subtasks={this.state.subtasks}
                           materials={this.state.materials}
                           onChangeSubtasks={(subtasks)=>{
@@ -442,6 +465,16 @@ class AddTask extends Component {
 
                         <FormGroup>
                           <label htmlFor="requester" className="req">{i18n.t('requester')}</label>
+                            {this.props.user.user_role.acl.includes('user_settings')&&
+                              <span style={{ float: "right" }}>
+                                <button
+                                  style={{ float: "right", paddingTop:0,paddingBottom:0, paddingLeft:5,paddingRight:5}}
+                                  className="btn btn-sm btn-primary mr-1"
+                                  onClick={()=>this.setState({openAddUser:true})}
+                                >
+                                  <i className="fa fa-plus " />
+                                </button>
+                            </span>}
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-user-o" />
@@ -473,6 +506,17 @@ class AddTask extends Component {
 
                         <FormGroup>
                           <label htmlFor="company" className="req">{i18n.t('company')}</label>
+                            {this.props.user.user_role.acl.includes('company_settings')&&
+                              <span style={{ float: "right" }}>
+                                <button
+                                  style={{ float: "right", paddingTop:0,paddingBottom:0, paddingLeft:5,paddingRight:5}}
+                                  className="btn btn-sm btn-primary mr-1"
+                                  onClick={()=>this.setState({openAddCompany:true})}
+                                >
+                                  <i className="fa fa-plus " />
+                                </button>
+                            </span>}
+
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-building-o" />

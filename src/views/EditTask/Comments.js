@@ -11,7 +11,8 @@ class Comments extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: null
+      comment: null,
+      newBody:'',
     };
   }
 
@@ -22,6 +23,24 @@ class Comments extends Component {
     }
     array.map(item => (result = result + item + ", "));
     return result.substring(0, result.length - 2);
+  }
+
+  getDisplayUsername(user){
+    let name="";
+    if(user.name){
+      name += user.name+" ";
+    }
+    if(user.surname){
+      name += user.surname+" ";
+    }
+    if(name.length===0){
+      name = user.email
+    }
+    else{
+      name+="("+user.email+")"
+    }
+    name+=" ";
+    return name;
   }
 
   render() {
@@ -37,16 +56,12 @@ class Comments extends Component {
     return (
       <div>
         <div
-          onClick={() => {
-            if (this.state.comment) {
-              this.setState({ comment: null });
-              this.props.removeAllCommentFiles();
-            }
-          }}
         >
           <AddComment
             taskID={this.props.taskID}
-            displayAttachments={this.state.comment === null}
+            displayAttachments={true}
+            body={this.state.newBody}
+            commentParent={this.state.comment}
           />
         </div>
         <div className="animated fadeIn">
@@ -58,16 +73,7 @@ class Comments extends Component {
               <ul className="messages">
                 {comments.map(comment => (
                   <li className="message" key={comment.id} style={{ paddingLeft: 5 }}>
-                    <div
-                      onClick={() => {
-                        if (comment.id === this.state.comment) {
-                          this.setState({ comment: null });
-                        } else {
-                          this.props.removeAllCommentFiles();
-                          this.setState({ comment: comment.id });
-                        }
-                      }}
-                    >
+                    <div>
                       <div className="header">
                         <img
                           src={
@@ -81,24 +87,13 @@ class Comments extends Component {
                         />
                         <span className="from">
                           {!comment.hasParent &&
-                            !comment.email &&<span><span className="fontBold">{
-                            comment.createdBy.name +
-                              " " +
-                              comment.createdBy.surname +
-                              " "}</span>{i18n.t('wroteComment')}</span>}
+                            !comment.email &&<span><span className="fontBold">{this.getDisplayUsername(comment.createdBy)}</span>{i18n.t('wroteComment')}</span>}
                           {!comment.hasParent &&
-                            comment.email &&<span><span className="fontBold">{
-                            comment.createdBy.name +
-                              " " +
-                              comment.createdBy.surname +
-                              " "}</span>{i18n.t('sentEmailTo')+": " +
+                            comment.email &&<span><span className="fontBold">{this.getDisplayUsername(comment.createdBy)}</span>{i18n.t('sentEmailTo')+": " +
                               this.stringifyArray(comment.email_to)}</span>}
                           {comment.hasParent &&
                             !comment.email &&
-                            <span><span className="fontBold">{comment.createdBy.name +
-                              " " +
-                              comment.createdBy.surname +
-                              " "}</span>{i18n.t('respondedToComment')+" " +
+                            <span><span className="fontBold">{this.getDisplayUsername(comment.createdBy)}</span>{i18n.t('respondedToComment')+" " +
                               timestampToString(
                                 comments[
                                   comments.findIndex(
@@ -107,17 +102,14 @@ class Comments extends Component {
                                 ].createdAt
                               ) +
                               " "+i18n.t('madeBy')+" " +
-                              comments[
+                              this.getDisplayUsername(comments[
                                 comments.findIndex(
                                   i1 => i1.id === comment.parentId
                                 )
-                              ].createdBy.email}</span>}
+                              ].createdBy.email)
+                              }</span>}
                           {comment.hasParent &&
-                            comment.email &&<span><span className="fontBold">{
-                            comment.createdBy.name +
-                              " " +
-                              comment.createdBy.surname +
-                              " "}</span>{i18n.t('respondedByEmailTo')+":" +
+                            comment.email &&<span><span className="fontBold">{this.getDisplayUsername(comment.createdBy)}</span>{i18n.t('respondedByEmailTo')+":" +
                               this.stringifyArray(comment.email_to)}</span>}
                         </span>
                         <span className="date">
@@ -125,8 +117,17 @@ class Comments extends Component {
                           <span style={{ backgroundColor: "yellow" }}>
                             {comment.internal ? (" "+i18n.t('internal')) : ""}
                           </span>{" "}
-                          {timestampToString(comment.createdAt)}
+                        <span>{timestampToString(comment.createdAt)}
+                        <div><span style={{float:'right'}}>
+                          <button
+                            onClick={()=>{this.setState({newBody:"\n\n------Original Message------\n" + comment.body, comment:comment.id})}}
+                            className="btn btn-sm btn-primary float-right blueButton"
+                          >
+                            {i18n.t('reply')}
+                          </button>
+                        </span></div>
                         </span>
+                      </span>
                       </div>
 
                       {comment.email && (
@@ -171,97 +172,8 @@ class Comments extends Component {
                     )
                   }
                   </div>
-                    {comment.id === this.state.comment && (
-                      <AddComment
-                        taskID={this.props.taskID}
-                        emails={comment.email_to}
-                        commentID={comment.id}
-                        message={comment.body}
-                        displayAttachments={this.state.comment === comment.id}
-                      />
-                    )}
                   </li>
                 ))}
-                {/*
-              <li
-                className="message"
-                style={{ borderTop: "1px solid #c2cfd6", paddingLeft:5 }}
-              >
-                  <div className="header">
-                    <img src={'img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" style={{height:35,marginRight:10}} onClick={(e)=>e.preventDefault()}/>
-                    <span className="from">Lukasz Holeczek wrote comment</span>
-                    <span className="date">
-                      <span className="fa fa-paper-clip" /> Today, 3:47 PM
-                    </span>
-                  </div>
-                  <div className="description" style={{display:'flex',paddingLeft:23}}>
-                    <div className="actions" style={{marginTop:'auto',marginBottom:'auto'}}>
-                      <span className="action">
-                        <i className="fa fa-comment" />
-                      </span>
-                    </div>
-
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </div>
-              </li>
-              <li className="message"
-                style={{ paddingLeft:5 }}>
-                  <div className="header">
-                    <img src={'img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" style={{height:30,marginRight:10}} onClick={(e)=>e.preventDefault()}/>
-                    <span className="from">
-                      Lukasz Holeczek send email to:susta@lansystems.sk
-                    </span>
-                    <span className="date">
-                      <span className="fa fa-paper-clip" /> Today, 3:47 PM
-                    </span>
-                  </div>
-                  <div className="title">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </div>
-                  <div className="description" style={{display:'flex',paddingLeft:23}}>
-                    <div className="actions" style={{marginTop:'auto',marginBottom:'auto'}}>
-                      <span className="action">
-                        <i className="fa fa-mail-forward" />
-                      </span>
-                    </div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </div>
-              </li>
-              <li className="message" style={{ paddingLeft:5 }}>
-                  <div className="header">
-                    <img src={'img/avatars/none.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" style={{height:25,marginRight:10}} onClick={(e)=>e.preventDefault()}/>
-                    <span className="from">
-                      email from branislav.susta@gmail.com
-                    </span>
-                    <span className="date">Today, 3:47 PM</span>
-                  </div>
-                  <div className="title">Lorem ipsum dolor sit amet.</div>
-                    <div className="description" style={{display:'flex',paddingLeft:23}}>
-                      <div className="actions" style={{marginTop:'auto',marginBottom:'auto'}}>
-                        <span className="action">
-                          <i className="fa fa-envelope-o" />
-                        </span>
-                      </div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur.
-                  </div>
-              </li>*/}
               </ul>
             </main>
           </div>

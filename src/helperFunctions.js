@@ -516,10 +516,10 @@ export const parseFilterDateToString=(timeFrom,timeTo,fromNow,toNow)=>{
   let from = "";
   let to = "";
   if(timeFrom){
-    let from = Math.ceil(timeFrom.valueOf() / 1000);
+    from = Math.ceil(timeFrom.valueOf() / 1000);
   }
   if(timeTo){
-    let to = Math.ceil(timeTo.valueOf() / 1000);
+    to = Math.ceil(timeTo.valueOf() / 1000);
   }
   if(fromNow){
     from="NOW";

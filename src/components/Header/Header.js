@@ -64,13 +64,16 @@ class Header extends Component {
 
         <Nav navbar className="ml-auto">
           {/*Settings icon*/}
-          <a
-            style={{ margin: 0, padding: 0 }}
-            className="d-md-down-none "
-            href="#/settings"
-          >
-            <i className="icon-settings" style={{ color: "white" }} />
-          </a>
+          {
+            this.props.user.user_role.acl.some((item)=>['company_settings','company_attribute_settings','user_settings','user_role_settings','imap_settings','smtp_settings','status_settings','task_attribute_settings','unit_settings'].includes(item))&&
+            <a
+              style={{ margin: 0, padding: 0 }}
+              className="d-md-down-none "
+              href="#/settings"
+            >
+              <i className="icon-settings" style={{ color: "white" }} />
+            </a>
+        }
           <MessagesDropdown />
           {this.props.errorMessages.length > 0 && <ErrorMessagesDropdown />}
           <a

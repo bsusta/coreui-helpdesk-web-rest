@@ -43,9 +43,7 @@ class AddComment extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: "1",
-      message: this.props.message
-        ? "\n\n------Original Message------\n" + this.props.message
-        : "",
+      message: this.props.body,
       to: this.props.emails ? this.props.emails : [],
       newTo: "",
       cc: [],
@@ -53,7 +51,8 @@ class AddComment extends Component {
       bcc: [],
       newBCC: "",
       subject: "",
-      internal: false
+      internal: false,
+      id:this.props.commentParent,
     };
     this.getSlug.bind(this);
   }
@@ -77,6 +76,15 @@ class AddComment extends Component {
     }
     array.map(item => (result = result + item + ", "));
     return result.substring(0, result.length - 2);
+  }
+
+  componentWillReceiveProps(props){
+    if(this.props.body!==props.body){
+      this.setState({message:props.body})
+    }
+    if(this.props.commentParent!==props.commentParent){
+      this.setState({id:props.commentParent})
+    }
   }
 
   render() {
@@ -532,7 +540,8 @@ class AddComment extends Component {
                     bcc: [],
                     newBCC: "",
                     subject: "",
-                    internal: false
+                    internal: false,
+                    id: null,
                   })
                 }
                 className="btn btn-sm btn-danger float-right redButton"

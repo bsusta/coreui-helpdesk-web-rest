@@ -43,22 +43,26 @@ class Subtasks extends Component {
           </thead>
           <tbody>
             {this.props.subtasks.map((subtask) => (
-              <tr key={subtask.id}>
+              <tr key={subtask.id} className="subtaskRow">
                 <td style={{ border: "0px" }}>
                   <div style={{ display: "flex" }}>
-                    <input
-                      key={subtask}
-                      type="checkbox"
-                      checked={subtask.done}
-                      onChange={() =>{
+                    <span className="subtaskCheckbox"
+                      onClick={() =>{
                           let subtasks = [...this.props.subtasks];
                           let index = subtasks.findIndex((sub)=>sub.id===subtask.id);
                           subtask.done=!subtask.done;
                           subtasks[index]= subtask;
                           this.props.onChangeSubtasks(subtasks);
                       }}
-                      style={{ margin: "auto", marginRight: 10 }}
-                    />
+                    >
+                    {
+                      subtask.done &&
+                      <i
+                        className="fa fa-check"
+                        />
+                    }
+                    </span>
+
                     <input
                       type="text"
                       id="name"
@@ -105,24 +109,20 @@ class Subtasks extends Component {
                     type="text"
                     id="name"
                     className="form-control"
-                    placeholder={i18n.t('enterNewSubtask')}
+                    onKeyPress={(e)=>{
+                      if(e.key==='Enter'){
+                        let subtasks = [...this.props.subtasks];
+                        subtasks.push({id:this.props.subtasks.length,title:this.state.newSubtask,done:false});
+                        this.setState({newSubtask:''});
+                        this.props.onChangeSubtasks(subtasks);
+                      }
+                    }}
+                    placeholder={'+'+i18n.t('enterNewSubtask')}
                     value={this.state.newSubtask}
                     onChange={e =>
                       this.setState({ newSubtask: e.target.value })
                     }
                   />
-                  <button
-                    style={{ float: "right" }}
-                    className="btn btn-sm btn-link mr-1"
-                    onClick={() => {
-                      let subtasks = [...this.props.subtasks];
-                      subtasks.push({id:this.props.subtasks.length,title:this.state.newSubtask,done:false});
-                      this.setState({newSubtask:''});
-                      this.props.onChangeSubtasks(subtasks);
-                    }}
-                  >
-                    <i className="fa fa-plus " />
-                  </button>
                 </div>
               </td>
             </tr>
@@ -137,9 +137,6 @@ class Subtasks extends Component {
               <th style={{ width: "10%", border: "0px" }}>{i18n.t('amount')}</th>
               <th style={{ width: "10%", border: "0px" }}>{i18n.t('pricePerUnit')}</th>
               <th style={{ width: "15%", border: "0px" }}>{i18n.t('unit')}</th>
-              <th
-                style={{ width: "40px", border: "0px", textAlign: "right" }}
-              />
             </tr>
           </thead>
           <tbody>
@@ -237,6 +234,18 @@ class Subtasks extends Component {
                   value={this.state.newItem}
                   onChange={e => this.setState({ newItem: e.target.value })}
                   className="form-control"
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
+                      let materials = [...this.props.materials];
+                      materials.push({id:this.props.materials.length,title:this.state.newItem,amount:this.state.newItemCount,unit_price:this.state.newItemPrice, unit:this.state.newItemUnit});
+                      this.setState({
+                        newItem: "",
+                        newItemCount: 1,
+                        newItemPrice: 1
+                      });
+                      this.props.onChangeMaterials(materials);
+                    }
+                  }}
                 />
               </td>
               <td>
@@ -244,6 +253,18 @@ class Subtasks extends Component {
                   type="text"
                   value={this.state.newItemCount}
                   type="number"
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
+                      let materials = [...this.props.materials];
+                      materials.push({id:this.props.materials.length,title:this.state.newItem,amount:this.state.newItemCount,unit_price:this.state.newItemPrice, unit:this.state.newItemUnit});
+                      this.setState({
+                        newItem: "",
+                        newItemCount: 1,
+                        newItemPrice: 1
+                      });
+                      this.props.onChangeMaterials(materials);
+                    }
+                  }}
                   onChange={e =>
                     this.setState({ newItemCount: e.target.value })
                   }
@@ -255,6 +276,18 @@ class Subtasks extends Component {
                   type="text"
                   value={this.state.newItemPrice}
                   type="number"
+                  onKeyPress={(e)=>{
+                    if(e.key==='Enter'){
+                      let materials = [...this.props.materials];
+                      materials.push({id:this.props.materials.length,title:this.state.newItem,amount:this.state.newItemCount,unit_price:this.state.newItemPrice, unit:this.state.newItemUnit});
+                      this.setState({
+                        newItem: "",
+                        newItemCount: 1,
+                        newItemPrice: 1
+                      });
+                      this.props.onChangeMaterials(materials);
+                    }
+                  }}
                   onChange={e =>
                     this.setState({ newItemPrice: e.target.value })
                   }
@@ -268,33 +301,13 @@ class Subtasks extends Component {
                   id="status"
                   onChange={e => {
                     this.setState({ newItemUnit: e.target.value });
-                  }}
-                >
+                  }}>
                   {this.props.units.map(unit => (
                     <option key={unit.id} value={unit.id}>
                       {unit.title}
                     </option>
                   ))}
                 </select>
-              </td>
-
-              <td>
-                <button
-                  style={{ float: "right" }}
-                  onClick={() => {
-                    let materials = [...this.props.materials];
-                    materials.push({id:this.props.materials.length,title:this.state.newItem,amount:this.state.newItemCount,unit_price:this.state.newItemPrice, unit:this.state.newItemUnit});
-                    this.setState({
-                      newItem: "",
-                      newItemCount: 1,
-                      newItemPrice: 1
-                    });
-                    this.props.onChangeMaterials(materials);
-                  }}
-                  className="btn-sm btn btn-link mr-1"
-                >
-                  <i className="fa fa-plus" />
-                </button>
               </td>
             </tr>
             <tr className="table-info">
