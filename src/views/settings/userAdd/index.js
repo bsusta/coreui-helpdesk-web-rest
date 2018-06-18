@@ -15,17 +15,19 @@ class UserAddLoader extends Component {
   //before loader page is loaded, we send requests to get all available users
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
-    this.props.startCompaniesLoading();
+    if(!this.props.modal){
+      this.props.startCompaniesLoading();
+      this.props.getCompanies(this.props.updateDate,this.props.token);
+    }
     this.props.startUserRolesLoading();
     this.props.setActiveRequests(2);
-    this.props.getCompanies(this.props.updateDate,this.props.token);
     this.props.getUserRoles(this.props.token);
   }
   render(){
-    if(!this.props.companiesLoaded || !this.props.userRolesLoaded){
+    if((this.props.modal&&!this.props.companiesLoaded) || !this.props.userRolesLoaded){
     return null;
     }
-    return <UserAdd history={this.props.history}/>
+    return <UserAdd history={this.props.history} modal={this.props.modal}/>
   }
 }
 //all below is just redux storage

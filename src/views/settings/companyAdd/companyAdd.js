@@ -49,7 +49,12 @@ class CompanyAdd extends Component {
       },
       this.props.token
     );
-    this.props.history.goBack();
+    if(this.props.modal){
+      this.props.modal();
+    }
+    else{
+      this.props.history.goBack();
+    }
   }
 
   render() {
@@ -60,7 +65,6 @@ class CompanyAdd extends Component {
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
-              this.props.history.goBack();
             }}
             >
             <div className="form-group">
@@ -383,7 +387,14 @@ class CompanyAdd extends Component {
                     <button
                       type="button"
                       className="btn btn-danger"
-                      onClick={() => this.props.history.goBack()}
+                      onClick={() => {
+                        if(this.props.modal){
+                          this.props.modal();
+                        }
+                        else{
+                          this.props.history.goBack();
+                        }
+                      }}
                       >
                       {i18n.t('cancel')}
                     </button>

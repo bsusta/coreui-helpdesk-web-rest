@@ -23,7 +23,7 @@ class companyAddLoader extends Component {
     if(!this.props.companyAttributesLoaded){
       return null;
     }
-    return <CompanyAdd history={this.props.history} match={this.props.match}/>
+    return <CompanyAdd history={this.props.history} match={this.props.match} modal={this.props.modal}/>
   }
 }
 
