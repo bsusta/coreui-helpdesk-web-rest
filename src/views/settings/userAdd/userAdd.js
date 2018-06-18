@@ -301,6 +301,7 @@ class UserAdd extends Component {
                 placeholder={i18n.t('enterTelephoneNumber')}
               />
             </div>
+            {/*
             <div className="form-group">
               <label htmlFor="fax">{i18n.t('fax')}</label>
               <input
@@ -417,7 +418,7 @@ class UserAdd extends Component {
                 placeholder={i18n.t('enterGoogle')}
               />
             </div>
-
+              */}
             <div className="form-group">
               <label htmlFor="company">{i18n.t('company')}</label>
               <select
