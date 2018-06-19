@@ -16,15 +16,15 @@ class UserAddLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     if(!this.props.modal){
+      this.props.setActiveRequests(2);
       this.props.startCompaniesLoading();
       this.props.getCompanies(this.props.updateDate,this.props.token);
     }
     this.props.startUserRolesLoading();
-    this.props.setActiveRequests(2);
     this.props.getUserRoles(this.props.token);
   }
   render(){
-    if((this.props.modal&&!this.props.companiesLoaded) || !this.props.userRolesLoaded){
+    if((!this.props.modal&&!this.props.companiesLoaded) || !this.props.userRolesLoaded){
     return null;
     }
     return <UserAdd history={this.props.history} modal={this.props.modal}/>

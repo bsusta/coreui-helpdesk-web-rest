@@ -127,7 +127,8 @@ class EditTask extends Component {
       followers: this.props.followers.map(follower => follower.id),
       submitError,
       openAddUser:false,
-      openAddCompany:false
+      openAddCompany:false,
+      showUploadError:false,
     };
     this.autoSubmit.bind(this);
   }
@@ -181,8 +182,9 @@ class EditTask extends Component {
       state[name] = value;
     }
     let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
+    console.log(task_data);
     if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||
-    state.title===''||state.requestedBy.id===undefined||state.company.id===undefined){
+    state.title===''||state.requestedBy===undefined||state.company===undefined){
       this.setState({submitError:true});
       return;
     }
@@ -221,7 +223,7 @@ class EditTask extends Component {
         : null,
         attachment:
         this.props.attachments.length === 0
-        ? undefined
+        ? '[]'
         : JSON.stringify(
           this.props.attachments.map(attachment => attachment.id)
         ),
@@ -261,18 +263,14 @@ class EditTask extends Component {
         <Card>
           <CardHeader className="row justify-content-between" >
             <div>
-              <button
-                className="btn btn-link"
-                onClick={this.props.history.goBack}
-                >
-                <i className="fa fa-close" /> {i18n.t("close")}
-                </button>
+              { !this.props.tripod &&               
                 <button
                   className="btn btn-link"
                   onClick={this.props.history.goBack}
                   >
-                  <i className="fa fa-ban" /> {i18n.t("cancel")}
+                  <i className="fa fa-close" /> {i18n.t("close")}
                   </button>
+              }
 
                   <button className="btn btn-link">
                     <i className="fa fa-print" /> {i18n.t("print")}
@@ -590,7 +588,7 @@ class EditTask extends Component {
                                     }}
                                     />
                                 </InputGroup>
-                                {this.state.requestedBy.id===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
+                                {this.state.requestedBy===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
                               </FormGroup>
 
                               <FormGroup>
@@ -606,7 +604,7 @@ class EditTask extends Component {
                                       </button>
                                   </span>}
 
-                                <InputGroup className={this.state.company.id===undefined?"fieldError":""}>
+                                <InputGroup className={this.state.company===undefined?"fieldError":""}>
                                   <InputGroupAddon>
                                     <i className="fa fa-building-o" />
                                   </InputGroupAddon>
@@ -625,7 +623,7 @@ class EditTask extends Component {
                                     }}
                                     />
                                 </InputGroup>
-                                {this.state.company.id===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
+                                {this.state.company===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
                               </FormGroup>
 
                               <FormGroup>
@@ -810,7 +808,12 @@ class EditTask extends Component {
                                   id="fileUpload"
                                   style={{ display: "none" }}
                                   onChange={e => {
+                                    this.setState({showUploadError:false});
                                     let file = e.target.files[0];
+                                    if(file.size>480000){
+                                      this.setState({showUploadError:true});
+                                      return;
+                                    }
                                     let self = this;
                                     this.props.uploadFile(file, this.props.token);
                                     setTimeout(function() {
@@ -827,6 +830,7 @@ class EditTask extends Component {
                                 </label>
                               </div>
                               </div>
+                              {this.state.showUploadError &&<span style={{color:'red'}}>This file is too big!</span>}
 
                               <div className="form-group">
                                 <div style={{ paddingTop: 5, paddingRight: 10 }}>

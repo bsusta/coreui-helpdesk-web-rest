@@ -32,12 +32,13 @@ class UserAdd extends Component {
       linkdin: "",
       google: "",
       image: "",
-      userRole: this.props.userRoles[0].id,
+      userRole: this.props.userRoles.filter((item)=>item.order>=this.props.user.user_role.order)[0].id,
       company: this.props.companies[0].id,
       image: null,
       imageURL: null,
       submitError:false
     };
+    console.log(this.props);
   }
 
   submit() {
@@ -433,7 +434,7 @@ class UserAdd extends Component {
                 id="role"
                 className="form-control"
               >
-                {this.props.userRoles.map(opt => (
+                {this.props.userRoles.filter((item)=>item.order>=this.props.user.user_role.order).map(opt => (
                   <option key={opt.id} value={opt.id}>
                     {opt.title}
                   </option>
@@ -466,10 +467,8 @@ class UserAdd extends Component {
 const mapStateToProps = ({ companiesReducer, login, userRolesReducer }) => {
   const { companies, taskCompanies } = companiesReducer;
   const { userRoles } = userRolesReducer;
-  const { token } = login;
-  console.log(companies);
-  console.log(taskCompanies);
-  return { companies:(companies.length===0?taskCompanies:companies), token, userRoles };
+  const { token, user } = login;
+  return { companies:(companies.length===0?taskCompanies:companies), token,user, userRoles };
 };
 
 export default connect(mapStateToProps, { addUser })(UserAdd);

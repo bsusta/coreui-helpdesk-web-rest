@@ -150,8 +150,8 @@ class Project extends Component {
           />
         </div>
         <div style={{height:'calc(100vh - 55px)', overflowY:'scroll',overflowX:'hidden',margin:0,padding:0}} className='col-8'>
-          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && this.state.canEdit && <EditTask taskID={this.state.taskID} history={this.props.history} match={this.props.match}/>}
-          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && !this.state.canEdit && <EditTask taskID={this.state.taskID} history={this.props.history} match={this.props.match}/>}
+          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && this.state.canEdit && <EditTask taskID={this.state.taskID} tripod={true} history={this.props.history} match={this.props.match}/>}
+          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && !this.state.canEdit && <EditTask taskID={this.state.taskID} tripod={true} history={this.props.history} match={this.props.match}/>}
         </div>
       </div>
     );

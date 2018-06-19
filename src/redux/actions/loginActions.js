@@ -13,6 +13,11 @@ export const loginUser = (username, password) => {
      }).then((JSONresponse) => {
        JSONresponse.json().then((response)=>{
          if(JSONresponse.ok){
+           if(jwt_decode(response.token).userRoleAcl===null||!jwt_decode(response.token).userRoleAcl.includes('login_to_system')){
+             console.log('a');
+             dispatch({ type: LOGIN_FAIL, error:'This user is not allowed to log in' });
+             return;
+           }
            storeTokenToStorage(response.token);
            checkToken()(dispatch);
            return;
@@ -56,6 +61,11 @@ export const logoutUser = () => {
             return;
           }
           response.json().then((data) => {
+            if(data.data.user_role.acl===null||!data.data.user_role.acl.includes('login_to_system')){
+              dispatch({ type: TOKEN_CHECKED });
+              localStorage.removeItem("lansystems");
+              return;
+            }
             let user=data.data;
             i18n.changeLanguage(user.language);
             dispatch({

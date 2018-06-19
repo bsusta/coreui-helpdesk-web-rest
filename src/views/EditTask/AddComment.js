@@ -53,6 +53,7 @@ class AddComment extends Component {
       subject: "",
       internal: false,
       id:this.props.commentParent,
+      displayUploadError:false
     };
     this.getSlug.bind(this);
   }
@@ -144,7 +145,12 @@ class AddComment extends Component {
                 }
                 style={{ display: "none" }}
                 onChange={e => {
+                  this.setState({displayUploadError:false});
                   let file = e.target.files[0];
+                  if(file.size>500000){
+                    this.setState({displayUploadError:true});
+                    return;
+                  }
                   this.props.uploadCommentFile(file, this.props.token);
                 }}
               />
@@ -252,6 +258,7 @@ class AddComment extends Component {
                 display: this.props.displayAttachments ? "block" : "none"
               }}
             >
+            {this.state.displayUploadError && <div style={{color:'red'}}>File is too big!</div>}
               <div style={{ paddingTop: 5, paddingRight: 10 }}>
                 {this.props.commentAttachments.map(item => (
                   <span

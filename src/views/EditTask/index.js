@@ -57,7 +57,7 @@ class EditTaskLoader extends Component {
       !this.props.subtasksLoaded||!this.props.itemsLoaded){
       return null;
     }
-    return <EditTask history={this.props.history} match={this.props.match} taskID={this.state.taskID}/>
+    return <EditTask history={this.props.history} match={this.props.match} taskID={this.state.taskID} tripod={this.props.tripod}/>
   }
 }
 

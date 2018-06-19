@@ -41,7 +41,8 @@ class UserEdit extends Component {
       company: user.company.id ? user.company.id : "",
       imageURL: null,
       submitError:false,
-      changed:false
+      changed:false,
+      disabled:this.props.me.user_role.order>=user.user_role.order
     };
     this.compareChanges.bind(this);
   }
@@ -153,6 +154,7 @@ class UserEdit extends Component {
               <label className="form-check-label">
                 <input
                   type="checkbox"
+                  disabled={this.state.disabled}
                   className="form-check-input"
                   checked={this.state.is_active}
                   onChange={() =>{
@@ -171,6 +173,7 @@ class UserEdit extends Component {
             </label>
             <div className="form-group" style={{ marginBottom: 0 }}>
               <input
+                disabled={this.state.disabled}
                 type="file"
                 accept="image/x-png,image/gif,image/jpeg,image/jpg"
                 onChange={e => {
@@ -245,6 +248,7 @@ class UserEdit extends Component {
               <label htmlFor="email" className="req">{i18n.t('username')+"/"+i18n.t('email')}</label>
               <input
                 className="form-control"
+                disabled={this.state.disabled}
                 id="email"
                 value={this.state.email}
                 onChange={target =>{
@@ -262,6 +266,7 @@ class UserEdit extends Component {
               <input
                 className="form-control"
                 id="password"
+                disabled={this.state.disabled}
                 value={this.state.password}
                 onChange={target =>
                   this.setState({ password: target.target.value })
@@ -276,6 +281,7 @@ class UserEdit extends Component {
               <select
                 value={this.state.language}
                 id="language"
+                disabled={this.state.disabled}
                 onChange={value =>{
                   this.compareChanges('language', value.target.value);
                   this.setState({ language: value.target.value });}
@@ -295,6 +301,7 @@ class UserEdit extends Component {
               <input
                 className="form-control"
                 id="name"
+                disabled={this.state.disabled}
                 value={this.state.name}
                 onChange={target =>{
                   this.compareChanges('name', target.target.value);
@@ -307,6 +314,7 @@ class UserEdit extends Component {
               <label htmlFor="surname">{i18n.t('surname')}</label>
               <input
                 className="form-control"
+                disabled={this.state.disabled}
                 id="surname"
                 value={this.state.surname}
                 onChange={target =>{
@@ -321,6 +329,7 @@ class UserEdit extends Component {
               <input
                 className="form-control"
                 id="title_before"
+                disabled={this.state.disabled}
                 value={this.state.title_before}
                 onChange={target =>{
                   this.compareChanges('title_before', target.target.value);
@@ -335,6 +344,7 @@ class UserEdit extends Component {
                 className="form-control"
                 id="title_after"
                 value={this.state.title_after}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('title_after', target.target.value);
                   this.setState({ title_after: target.target.value })}
@@ -348,6 +358,7 @@ class UserEdit extends Component {
                 className="form-control"
                 id="func"
                 value={this.state.func}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('func', target.target.value);
                   this.setState({ func: target.target.value })}
@@ -361,6 +372,7 @@ class UserEdit extends Component {
               <input
                 className="form-control"
                 id="mobile"
+                disabled={this.state.disabled}
                 value={this.state.mobile}
                 onChange={target =>{
                   this.compareChanges('mobile', target.target.value);
@@ -374,6 +386,7 @@ class UserEdit extends Component {
               <input
                 className="form-control"
                 id="tel"
+                disabled={this.state.disabled}
                 value={this.state.tel}
                 onChange={target =>{
                   this.compareChanges('tel', target.target.value);
@@ -388,6 +401,7 @@ class UserEdit extends Component {
                 className="form-control"
                 id="fax"
                 value={this.state.fax}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('fax', target.target.value);
                   this.setState({ fax: target.target.value })}
@@ -401,6 +415,7 @@ class UserEdit extends Component {
                 className="form-control"
                 id="signature"
                 value={this.state.signature}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('signature', target.target.value);
                   this.setState({ signature: target.target.value })}
@@ -413,6 +428,7 @@ class UserEdit extends Component {
               <input
                 className="form-control"
                 id="street"
+                disabled={this.state.disabled}
                 value={this.state.street}
                 onChange={target =>{
                   this.compareChanges('street', target.target.value);
@@ -426,6 +442,7 @@ class UserEdit extends Component {
               <input
                 className="form-control"
                 id="city"
+                disabled={this.state.disabled}
                 value={this.state.city}
                 onChange={target =>{
                   this.compareChanges('city', target.target.value);
@@ -438,6 +455,7 @@ class UserEdit extends Component {
               <label htmlFor="zip">{i18n.t('zip')}</label>
               <input
                 className="form-control"
+                disabled={this.state.disabled}
                 id="zip"
                 value={this.state.zip}
                 onChange={target =>{
@@ -453,6 +471,7 @@ class UserEdit extends Component {
                 className="form-control"
                 id="country"
                 value={this.state.country}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('country', target.target.value);
                   this.setState({ country: target.target.value })}
@@ -466,6 +485,7 @@ class UserEdit extends Component {
                 className="form-control"
                 id="facebook"
                 value={this.state.facebook}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('facebook', target.target.value);
                   this.setState({ facebook: target.target.value })}
@@ -479,6 +499,7 @@ class UserEdit extends Component {
                 className="form-control"
                 id="twitter"
                 value={this.state.twitter}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('twitter', target.target.value);
                   this.setState({ twitter: target.target.value })}
@@ -492,6 +513,7 @@ class UserEdit extends Component {
                 className="form-control"
                 id="linkdin"
                 value={this.state.linkdin}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('linkdin', target.target.value);
                   this.setState({ linkdin: target.target.value })}
@@ -504,6 +526,7 @@ class UserEdit extends Component {
               <input
                 className="form-control"
                 id="google"
+                disabled={this.state.disabled}
                 value={this.state.google}
                 onChange={target =>{
                   this.compareChanges('google', target.target.value);
@@ -518,6 +541,7 @@ class UserEdit extends Component {
               <select
                 id="company"
                 value={this.state.company}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('company', target.target.value);
                   this.setState({ company: target.target.value })}
@@ -535,6 +559,7 @@ class UserEdit extends Component {
               <label htmlFor="role">{i18n.t('role')}</label>
               <select
                 value={this.state.userRole}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('userRole', target.target.value);
                   this.setState({ userRole: target.target.value })}
@@ -542,7 +567,7 @@ class UserEdit extends Component {
                 id="role"
                 className="form-control"
               >
-                {this.props.userRoles.map(opt => (
+                {(this.props.disabled?this.props.userRoles:this.props.userRoles.filter((item)=>item.order>=this.props.me.user_role.order)).map(opt => (
                   <option key={opt.id} value={opt.id}>
                     {opt.title}
                   </option>
@@ -554,6 +579,7 @@ class UserEdit extends Component {
               <button
                 type="submit"
                 className="btn btn-primary mr-2"
+                disabled={this.state.disabled}
                 onClick={this.submit.bind(this)}
               >
               {i18n.t('submit')}
@@ -583,7 +609,7 @@ const mapStateToProps = ({
   const { userRoles } = userRolesReducer;
   const { user } = usersReducer;
   const { token } = login;
-  return { companies, token, userRoles, user, userID:login.user.id };
+  return { companies, token, userRoles, user, userID:login.user.id, me:login.user };
 };
 
 export default connect(mapStateToProps, { editUser })(UserEdit);

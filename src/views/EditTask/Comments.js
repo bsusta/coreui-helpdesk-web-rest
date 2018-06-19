@@ -106,7 +106,7 @@ class Comments extends Component {
                                 comments.findIndex(
                                   i1 => i1.id === comment.parentId
                                 )
-                              ].createdBy.email)
+                              ].createdBy)
                               }</span>}
                           {comment.hasParent &&
                             comment.email &&<span><span className="fontBold">{this.getDisplayUsername(comment.createdBy)}</span>{i18n.t('respondedByEmailTo')+":" +

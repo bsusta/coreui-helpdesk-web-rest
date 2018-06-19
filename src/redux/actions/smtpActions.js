@@ -130,12 +130,12 @@ export const editSMTP = (body,id,token) => {
           },
           body:JSON.stringify(body)
         })]).then(([response1])=>{
-          if(!response.ok){
+          if(!response1.ok){
             processError(response,dispatch);
             return;
           }
           Promise.all([response1.json()]).then(([response1])=>{
-          dispatch({type: EDIT_SMTP, SMTP:{...response1.data,is_active:isActive}});
+          dispatch({type: EDIT_SMTP, SMTP:{...response1.data}});
         })})
         .catch(function (error) {
           dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
