@@ -182,7 +182,6 @@ class EditTask extends Component {
       state[name] = value;
     }
     let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
-    console.log(task_data);
     if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||
     state.title===''||state.requestedBy===undefined||state.company===undefined){
       this.setState({submitError:true});
@@ -239,7 +238,6 @@ class EditTask extends Component {
   }
 
   render() {
-    console.log(this.props.task);
     return (
       <div className="fontRegular">
 

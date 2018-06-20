@@ -51,12 +51,14 @@ class Tasks extends Component {
 
   render() {
       let header=i18n.t('unknownSearch');
+      let icon = "fa fa-search";
       if(this.props.match.params.id && this.props.match.params.id!=='add'){
         let index = this.props.filters.findIndex(filter =>
           filter.url.includes(this.props.match.params.id)
         );
         if(index!==-1){
           header = this.props.filters[index].name;
+          icon = this.props.filters[index].icon;
         }
       }
       else if(this.props.body && this.props.body.includes('search')){
@@ -72,10 +74,23 @@ class Tasks extends Component {
           <Filter history={this.props.history} match={this.props.match} />
         </div>
         <div className={this.props.showFilter?"col-8":''}>
-          <h2>
-            <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.props.setShowFilter(!this.props.showFilter)} />
-            <i className="fa fa-search" style={{fontSize:28, marginLeft:10}} />
-            { " "+ header }
+          <h2 className="row">
+            <p style={{marginLeft:10, fontSize:20, marginTop:5}}>
+              <label className="switch switch-3d switch-primary">
+                <input
+                  type="checkbox"
+                  className="switch-input"
+                  checked={this.props.showFilter}
+                  onChange={()=>this.props.setShowFilter(!this.props.showFilter)} />
+                <span className="switch-label" />
+                <span className="switch-handle" />
+              </label>
+              <label style={{ paddingLeft: 10 }}>
+                {this.props.showFilter ? i18n.t('show') : i18n.t('hide')}
+              </label>
+            </p>
+            <i className={icon} style={{fontSize:28, marginLeft:10, marginTop:5}} />
+            <span style={{marginLeft:10}}>{ header }</span>
           </h2>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">

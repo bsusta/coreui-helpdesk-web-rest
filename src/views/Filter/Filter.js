@@ -51,7 +51,6 @@ class Filter extends Component {
   }
 
   componentWillReceiveProps(props){
-    console.log(props.filterState);
     if(props.filterState===null){
       this.setState(this.createState(true));
     }

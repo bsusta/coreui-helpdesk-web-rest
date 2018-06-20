@@ -42,7 +42,6 @@ export const processError= (response,dispatch,history)=>{
     dispatch({ type: ADD_ERROR_MESSAGE, errorMessage:response.statusText+ JSON.parse(data).message });
   });
   if(history!==undefined && response.status===404){
-    console.log('404');
     history.push('/404');
   }
 }

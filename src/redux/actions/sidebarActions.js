@@ -135,7 +135,8 @@ export const getSidebar = (date,ACL,token) => {
 
           afterFilters.push({
             name: "search",
-            url: "/filter/add"
+            url: "/filter/add",
+            icon: "fa fa-search"
           });
           filters.children = testFilters.concat(afterFilters);
 

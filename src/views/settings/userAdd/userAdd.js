@@ -38,7 +38,6 @@ class UserAdd extends Component {
       imageURL: null,
       submitError:false
     };
-    console.log(this.props);
   }
 
   submit() {

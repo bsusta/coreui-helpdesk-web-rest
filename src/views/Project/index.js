@@ -33,10 +33,8 @@ class ProjectLoader extends Component {
   componentWillReceiveProps(props){
     if(this.state.id!==parseInt(props.match.params.id, 10)){
       if(props.projects.findIndex(project =>project.url.includes(props.match.params.id))===-1){
-        console.log('404');
         this.props.history.push('/404');
       }
-      console.log(props.projects.findIndex(project =>project.url.includes(props.match.params.id)));
       let randomFloat= Math.random();
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10),page:1});
       this.props.clearErrorMessage(randomFloat);

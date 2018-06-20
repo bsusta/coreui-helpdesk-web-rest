@@ -68,6 +68,7 @@ class Full extends Component {
     console.log(info);
     this.setState({error:false});
   }
+
   render() {
     return (
       <div className="app" style={{ maxWidth: 1920, margin: "auto" }}>

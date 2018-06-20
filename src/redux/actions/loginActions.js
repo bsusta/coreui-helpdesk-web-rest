@@ -14,7 +14,6 @@ export const loginUser = (username, password) => {
        JSONresponse.json().then((response)=>{
          if(JSONresponse.ok){
            if(jwt_decode(response.token).userRoleAcl===null||!jwt_decode(response.token).userRoleAcl.includes('login_to_system')){
-             console.log('a');
              dispatch({ type: LOGIN_FAIL, error:'This user is not allowed to log in' });
              return;
            }
