@@ -239,6 +239,7 @@ class EditTask extends Component {
   }
 
   render() {
+    console.log(this.props.task);
     return (
       <div className="fontRegular">
 
@@ -263,7 +264,7 @@ class EditTask extends Component {
         <Card>
           <CardHeader className="row justify-content-between" >
             <div>
-              { !this.props.tripod &&               
+              { !this.props.tripod &&
                 <button
                   className="btn btn-link"
                   onClick={this.props.history.goBack}
@@ -276,7 +277,7 @@ class EditTask extends Component {
                     <i className="fa fa-print" /> {i18n.t("print")}
                     </button>
                     {
-                      (this.props.task.loggedUserRoleAcl.includes('delete_task') || this.props.task.loggedUserIsAdmin)&&
+                      (this.props.task.loggedUserProjectAcl.includes('delete_task') || this.props.task.loggedUserIsAdmin)&&
                       <button className="btn btn-link" onClick={this.delete.bind(this)}>
                         <i className="fa fa-trash" /> {i18n.t("delete")}
                         </button>

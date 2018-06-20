@@ -50,8 +50,8 @@ class Tasks extends Component {
 
 
   render() {
-      let header="Unknown Filter";
-      if(this.props.match.params.id){
+      let header=i18n.t('unknownSearch');
+      if(this.props.match.params.id && this.props.match.params.id!=='add'){
         let index = this.props.filters.findIndex(filter =>
           filter.url.includes(this.props.match.params.id)
         );
@@ -59,11 +59,11 @@ class Tasks extends Component {
           header = this.props.filters[index].name;
         }
       }
-      else if(this.props.body && !this.props.body.includes('&') && this.props.body.includes('search')){
-          header= 'Results for filter: ' + this.props.body.split('=')[1];
+      else if(this.props.body && this.props.body.includes('search')){
+          header= i18n.t('search')+ ': ' + this.props.body.split('=')[1].split('&')[0];
         }
         else{
-          header= '+ Filter';
+          header=  i18n.t('search');
         }
 
     return (
@@ -74,8 +74,8 @@ class Tasks extends Component {
         <div className={this.props.showFilter?"col-8":''}>
           <h2>
             <i className="fa fa-filter" style={{fontSize:20}} onClick={()=>this.props.setShowFilter(!this.props.showFilter)} />
-            {" "}
-            { header }
+            <i className="fa fa-search" style={{fontSize:28, marginLeft:10}} />
+            { " "+ header }
           </h2>
           <table className="table table-striped table-hover table-sm">
             <thead className="thead-inverse">

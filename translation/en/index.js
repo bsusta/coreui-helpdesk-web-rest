@@ -1,4 +1,5 @@
 export default {
+  unknownSearch:'Unknown search',
   activated: 'Active',
   addCompany: 'Add company',
   addCompanyAttribute: 'Add extra company field',
@@ -321,6 +322,7 @@ export default {
   500:'Internal server error',
   addNew:'Add new',
   now: 'Now',
+  search: 'Search',
 }
 
 /*

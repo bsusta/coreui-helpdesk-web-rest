@@ -59,12 +59,26 @@ import TrojStlpec from "./components/notUsed/TrojStlpec";
 import Messages from "./views/Messages";
 import Filter from "./views/Filter";
 class Full extends Component {
+  constructor(props){
+    super(props);
+    this.state={error:false}
+  }
+  componentDidCatch(error, info) {
+    console.log(error);
+    console.log(info);
+    this.setState({error:false});
+  }
   render() {
     return (
       <div className="app" style={{ maxWidth: 1920, margin: "auto" }}>
         <Header history={this.props.history} />
         <div className="app-body">
           <Sidebar {...this.props} />
+          {
+            this.state.error && <span>Nastala chyba, prosim refreshnite stranku</span>
+          }
+          {
+            !this.state.error &&
           <main className="main" style={{ backgroundColor: "#f4f4f4" }}>
             <Container fluid style={{ padding: 0 }}>
               <Switch>
@@ -487,6 +501,7 @@ class Full extends Component {
               </Switch>
             </Container>
           </main>
+        }
           <Aside />
         </div>
       </div>

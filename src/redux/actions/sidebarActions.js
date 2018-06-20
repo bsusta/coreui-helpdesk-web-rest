@@ -134,9 +134,8 @@ export const getSidebar = (date,ACL,token) => {
           });
 
           afterFilters.push({
-            name: "filter",
-            url: "/filter/add",
-            icon: "fa fa-plus"
+            name: "search",
+            url: "/filter/add"
           });
           filters.children = testFilters.concat(afterFilters);
 

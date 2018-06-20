@@ -4,6 +4,7 @@ import { editProject, savePermissions } from "../../redux/actions";
 import RichTextEditor from "react-rte";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import i18n from 'i18next';
+import Select from "react-select";
 
 class ProjectEdit extends Component {
   constructor(props) {
@@ -30,14 +31,14 @@ class ProjectEdit extends Component {
       permissions: this.props.project.userHasProjects
         ? this.props.project.userHasProjects
         : [],
-      newUser: filteredUsers.length === 0 ? "" : filteredUsers[0].id,
+      newUser: filteredUsers.length === 0 ? "" : this.userToSelectUser(filteredUsers[0]),
       filteredUsers,
       lastSavedPermissions: this.props.project.userHasProjects
         ? this.props.project.userHasProjects
         : [],
       submitError: false
     };
-    this.setPermission.bind(this);
+    this.setPermission.bind(this);  
   }
 
   submit() {
@@ -74,6 +75,21 @@ class ProjectEdit extends Component {
     this.setState({
       permissions: newPermissions
     });
+  }
+
+  userToSelectUser(user){
+    let newUser = {...user};
+      newUser.label =
+      (newUser.name ? newUser.name : "") +
+      " " +
+      (newUser.surname ? newUser.surname : "");
+      if (newUser.label === " ") {
+        newUser.label = newUser.email;
+      } else {
+        newUser.label = newUser.label ;
+      }
+      newUser.value = newUser.id;
+      return newUser;
   }
 
   render() {
@@ -155,34 +171,28 @@ class ProjectEdit extends Component {
           </h2>
 
           <div className="form-inline">
-            <select
+            <Select
+              className="fullWidth"
+              options={this.state.filteredUsers.map(user => this.userToSelectUser(user))}
               value={this.state.newUser}
-              id="company"
-              onChange={e =>
-                this.setState({ newUser: parseInt(e.target.value, 10) })
-              }
-              className="form-control"
-            >
-              {this.state.filteredUsers.map(opt => (
-                <option key={opt.id} value={opt.id}>
-                  {opt.username + " , " + opt.email}
-                </option>
-              ))}
-            </select>
+              onChange={e => {
+                this.setState({ newUser: e })
+              }}
+              />
             <button
               type="button"
               className="btn btn-success"
               style={{ color: "white", marginLeft: 5, paddingLeft: 5 }}
               onClick={() => {
                 let index = this.state.filteredUsers.findIndex(
-                  user => user.id === this.state.newUser
+                  user => user.id === this.state.newUser.id
                 );
                 let newFilteredUsers = [...this.state.filteredUsers];
                 newFilteredUsers.splice(index, 1);
 
                 this.setState({
                   newUser:
-                    newFilteredUsers.length === 0 ? "" : newFilteredUsers[0].id,
+                    newFilteredUsers.length === 0 ? "" : this.userToSelectUser(newFilteredUsers[0]),
 
                   filteredUsers: newFilteredUsers,
                   permissions: [

@@ -1,4 +1,5 @@
 export default {
+  unknownSearch: 'Neznáme vyhľadávanie',
   activated: 'Aktívne',
   addCompany: 'Pridať Firmu',
   addCompanyAttribute: 'Pridať volitelné pole firmy',
@@ -321,6 +322,7 @@ export default {
   500: 'Vnútorná chyba serveru',
   addNew: 'Pridať nový',
   now:'Teraz',
+  search: 'Vyhľadávanie',
 }
 
 /*

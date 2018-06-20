@@ -47,15 +47,17 @@ class Filter extends Component {
   constructor(props) {
     super(props);
     this.createState.bind(this);
-    this.state=this.createState();
+    this.state=this.createState(true);
   }
 
   componentWillReceiveProps(props){
+    console.log(props.filterState);
     if(props.filterState===null){
-      this.setState(this.createState());
+      this.setState(this.createState(true));
     }
     else if(this.props.filterState!=props.filterState){
-      this.setState(props.filterState);
+      this.setState({...this.createState(false),...props.filterState});
+      ;
     }
   }
 
@@ -131,7 +133,7 @@ class Filter extends Component {
     this.props.setFilterBody(body,this.state,1);
   }
 
-  createState(){
+  createState(restore){
     let state ={
         createdFrom:null,
         createdFromNow:false,
@@ -171,7 +173,7 @@ class Filter extends Component {
         statefilterDefault:false,
         statesubmitError:false,
       };
-      if(this.props.filterState && this.props.match.params.id!=='add'){
+      if(this.props.filterState && this.props.match.params.id!=='add'&& restore){
         Object.keys(this.props.filterState).map((key)=>state[key]=this.props.filterState[key]);
       }
       return state;
@@ -306,7 +308,7 @@ class Filter extends Component {
             </button>
           }
           <button type="button" className="btn btn-link" onClick={()=>{
-              this.setState(this.createState());
+              this.setState(this.createState(true));
             }}>
             {i18n.t('reset')}
           </button>

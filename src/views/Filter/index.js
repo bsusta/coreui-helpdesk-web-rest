@@ -93,7 +93,7 @@ class Loader extends Component {
   render(){
     if(!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
-    !this.props.usersLoaded){
+    !this.props.usersLoaded||this.props.sidebar.length===0){
       return null;
     }
     return <FilterLoader history={this.props.history} match={this.props.match} />
@@ -102,7 +102,7 @@ class Loader extends Component {
 
 //all below is just redux storage
 
-const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,taskAttributesReducer,unitsReducer, usersReducer,filtersReducer, login }) => {
+const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,taskAttributesReducer,unitsReducer, usersReducer,filtersReducer,sidebarReducer, login }) => {
   const {taskProjectsLoaded, taskProjects } = tasksReducer;
   const {statusesLoaded, updateDate, taskStatuses } = statusesReducer;
   const {companiesLoaded, taskCompanies } = companiesReducer;
@@ -111,11 +111,12 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
   const {unitsLoaded} = unitsReducer;
   const {usersLoaded, users} = usersReducer;
   const { body, filterState, page } = filtersReducer;
+  const { sidebar } = sidebarReducer;
   const {token} = login;
 
   return {statuses:taskStatuses,projects:taskProjects,taskProjectsLoaded,taskAttributesLoaded, taskAttributes, statusesLoaded,
     statusesUpdateDate:updateDate,companiesLoaded,companies:taskCompanies,companiesUpdateDate:companiesReducer.updateDate,
-    tagsLoaded,tags, unitsLoaded, usersLoaded,users, filterState,body,page, token};
+    tagsLoaded,tags, unitsLoaded, usersLoaded,users, filterState,body,page,sidebar,  token};
 };
 
 export default connect(mapStateToProps, {
