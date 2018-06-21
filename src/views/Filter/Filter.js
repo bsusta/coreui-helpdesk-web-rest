@@ -294,6 +294,7 @@ class Filter extends Component {
             </button>
           </ModalFooter>
         </Modal>
+  
 <div className="filterButtons">
           <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)} style={{paddingLeft:20}}>
             {i18n.t('apply')}
@@ -311,14 +312,17 @@ class Filter extends Component {
             }}>
             {i18n.t('reset')}
           </button>
+
+</div>
+
+<div style={{ padding:"1.75rem",paddingTop:50}}>
+          <FormGroup>
           {this.props.total!==null &&
-            <span style={{float:'right',color:'red'}}>
+            <span style={{float:'right',color:'red',padding:'6px'}}>
               Number of tasks: {this.props.total}
             </span>
           }
-</div>
-<div style={{ paddingLeft: 20, paddingTop:20}}>
-
+          </FormGroup>
           <FormGroup>
             <label htmlFor="title">{i18n.t('filterByName')}</label>
             <input
@@ -889,7 +893,7 @@ class Filter extends Component {
                   return <div>{attribute.title}</div>;
               }
             })}
-</div>
+            </div>
         </div>
       </div>
 

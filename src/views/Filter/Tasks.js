@@ -70,12 +70,18 @@ class Tasks extends Component {
 
     return (
       <div className="table-div row">
-        <div className="col-4" style={{display:this.props.showFilter?'block':'none',marginTop:-20,marginLeft:-20}}>
+        <div className="col-3" style={{display:this.props.showFilter?'block':'none',padding:'0'}}>
           <Filter history={this.props.history} match={this.props.match} />
         </div>
-        <div className={this.props.showFilter?"col-8":''}>
-          <h2 className="row">
-            <p style={{marginLeft:10, fontSize:20, marginTop:5}}>
+
+
+
+
+
+        <div className={this.props.showFilter?"col-9":''} style={{padding:"0"}}>
+        <Card>
+        <CardHeader>
+
               <label className="switch switch-3d switch-primary">
                 <input
                   type="checkbox"
@@ -86,10 +92,13 @@ class Tasks extends Component {
                 <span className="switch-handle" />
               </label>
               <label style={{ paddingLeft: 10 }}>
-                {this.props.showFilter ? i18n.t('show') : i18n.t('hide')}
+                {this.props.showFilter ? i18n.t('Hide filter') : i18n.t('Show filter')}
               </label>
-            </p>
-            <i className={icon} style={{fontSize:28, marginLeft:10, marginTop:5}} />
+   
+          </CardHeader>
+          <div style={{background:"white",marginTop:"50px",padding:"1.75rem"}}>
+          <h2>         
+            <i className={icon} style={{fontSize:28, marginTop:5}} />
             <span style={{marginLeft:10}}>{ header }</span>
           </h2>
           <table className="table table-striped table-hover table-sm">
@@ -178,8 +187,12 @@ class Tasks extends Component {
                 : 20
             }
           />
+            </div>
+          </Card>
         </div>
+  
       </div>
+    
     );
   }
 }

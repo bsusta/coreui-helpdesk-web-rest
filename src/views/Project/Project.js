@@ -46,11 +46,8 @@ class Project extends Component {
     let name = index===-1?'Undefined':this.props.projects[index].name;
     return (
       <div className="table-div">
-        <div className="justify-content-between row">
-          <h2>
-            {name}
-          </h2>
-          <div>
+      <CardHeader>
+      <div>
             <i className="fa fa-columns"
               style={{
                 cursor:'pointer',
@@ -72,6 +69,13 @@ class Project extends Component {
               }}
               />
           </div>
+        </CardHeader>
+        <div style={{padding:"60px 50px 1.75rem 1.75rem"}}>
+        <div className="justify-content-between">
+          <h2>
+            {name}
+          </h2>
+        
         </div>
         <div>
           <table className="table table-striped table-hover table-sm">
@@ -155,6 +159,7 @@ class Project extends Component {
             }
             />
         </div>
+      </div>
       </div>
     );
   }
