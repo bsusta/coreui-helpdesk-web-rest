@@ -57,8 +57,9 @@ class TaskAttributeAdd extends Component {
   render() {
     return (
       <div className="card">
-        <h4 className="card-header">{i18n.t('addTaskAttribute')}</h4>
+        <div className="card-header"></div>
         <div className="card-body">
+        <h2 className="h2-setting-list">{i18n.t('addTaskAttribute')}</h2>
           <div className="list-group">
             <div className="form-check">
               <label className="form-check-label">

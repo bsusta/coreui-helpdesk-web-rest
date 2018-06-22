@@ -58,8 +58,8 @@ class CompanyAttributeAdd extends Component {
   render() {
     return (
       <div className="card">
-        <h4 className="card-header">{i18n.t('addCompanyAttribute')}</h4>
         <div className="card-body">
+        <h2 className="h2-setting-form">{i18n.t('addCompanyAttribute')}</h2>
           <div className="list-group">
             <div className="form-check">
               <label className="form-check-label">

@@ -115,8 +115,9 @@ class CompanyAttributeEdit extends Component {
         className="card"
         style={{ border: this.state.changed ? "1px solid red" : null }}
       >
-        <h4 className="card-header">{i18n.t('editCompanyAttribute')}</h4>
+        <div className="card-header"></div>
         <div className="card-body">
+        <h2 className="h2-setting-form">{i18n.t('editCompanyAttribute')}</h2>
           <div className="list-group">
             <div className="form-check">
               <label className="form-check-label">

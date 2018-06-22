@@ -35,8 +35,9 @@ class UnitAdd extends Component {
   render() {
     return (
       <div className="card">
-        <h4 className="card-header">{i18n.t('addUnit')}</h4>
+        <div className="card-header"></div>
         <div className="card-body">
+        <h2 className="h2-setting-form">{i18n.t('addUnit')}</h2>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();

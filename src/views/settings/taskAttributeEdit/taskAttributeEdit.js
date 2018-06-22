@@ -84,11 +84,12 @@ class TaskAttributeEdit extends Component {
     return (
       <div
         className="card"
-        style={{ maxWidth: 1380, margin: "auto", borderTop: "0",border:this.state.changed?'1px solid red':null }}
+        style={{border:this.state.changed?'1px solid red':null }}
         >
 
-        <h4 className="card-header">{i18n.t('addTaskAttribute')}</h4>
+        <div className="card-header"></div>
         <div className="card-body">
+        <h2 className="h2-setting-form">{i18n.t('addTaskAttribute')}</h2>
           <div className="list-group">
 
             <div className="form-check">

@@ -56,8 +56,9 @@ class ImapAdd extends Component {
     //PROJECT,host, port, name, password, inbox_email, move_email, ssl, ignore_certificate
     return (
       <div className="card">
-        <h4 className="card-header">{i18n.t('addImap')}</h4>
+        <div className="card-header"></div>
         <div className="card-body">
+        <h2 className="h2-setting-form">{i18n.t('addImap')}</h2>
           {this.state.project===null&&<h5 className="card-header" style={{color:'red'}}>{i18n.t('restrictionMustHaveProjectImap')}</h5>}
           <form
             onSubmit={(event, value) => {

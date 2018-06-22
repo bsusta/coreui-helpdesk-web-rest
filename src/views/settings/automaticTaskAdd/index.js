@@ -8,8 +8,8 @@ export default class AutomaticTaskAdd extends Component {
 
     return (
       <div className="card">
-        <h4 className="card-header">Add automatic task</h4>
-        <div className="card-body">
+         <div className="card-body">
+         <h4 className="card-header">Add automatic task</h4>
           <div className="form-check">
             <label className="form-check-label">
               <input type="checkbox" className="form-check-input" />

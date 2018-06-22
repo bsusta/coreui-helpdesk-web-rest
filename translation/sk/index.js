@@ -142,7 +142,7 @@ export default {
   taskInProgress:'Úloha prebieha',
   completedTask:'Dokončená úloha',
   closedTask:'Uzavretá úloha',
-  addStatus:'Pridať úlohu',
+  addStatus:'Pridať status',
   statusName:'Názov statusu',
   enterStatusName:'Zadajte názov statusu',
   restrictionMustEnterStatusName:'Musíte zadať názov statusu!',
