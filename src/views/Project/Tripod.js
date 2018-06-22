@@ -59,11 +59,7 @@ class Project extends Component {
     return (
       <div className="row">
         <div style={{overflowY:'scroll',height:'calc(100vh - 55px)',paddingRight:0, overflowX:'hidden'}} className='col-4'>
-          <div className="justify-content-between row table-div">
-            <h2>
-              {name}
-            </h2>
-            <div>
+        <CardHeader>   
               <i className="fa fa-columns"
                 style={{
                   border: "none",
@@ -83,8 +79,12 @@ class Project extends Component {
                   fontSize:'2em',
                   marginLeft:5,
                 }}
-                />
-            </div>
+                />   
+      </CardHeader>
+          <div className="justify-content-between row table-div">
+            <h2 style={{padding:'20px 10px 1.75rem 1.75rem'}}>
+              {name}
+            </h2>
           </div>
           <ul className="list-group" style={{paddingBottom:'1em'}}>
               {this.props.tasks.map(task => (

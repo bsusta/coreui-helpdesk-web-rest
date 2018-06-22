@@ -87,7 +87,7 @@ export const getSidebar = (date,ACL,token) => {
 
           let filters = {
             name: "filters",
-            open: false,
+            open: true,
             url: "",
             icon: "fa fa-filter",
             children: []
@@ -104,25 +104,30 @@ export const getSidebar = (date,ACL,token) => {
           //mockup data filter
           let testFilters = [];
           let afterFilters = [];
+          testFilters.push({
+            name: "search",
+            url: "/filter/add",
+            icon: "fa fa-search"
+          });
           filters.children.map(filter => {
             switch (filter.name) {
               case "DO IT": {
-                testFilters[0] = filter;
+                testFilters[1] = filter;
                 filter.icon = "fa fa-play";
                 break;
               }
               case "REQUESTED": {
-                testFilters[1] = filter;
+                testFilters[2] = filter;
                 filter.icon = "fa fa-users";
                 break;
               }
               case "IMPORTANT": {
-                testFilters[2] = filter;
+                testFilters[3] = filter;
                 filter.icon = "fa fa-exclamation";
                 break;
               }
               case "SCHEDULED": {
-                testFilters[3] = filter;
+                testFilters[4] = filter;
                 filter.icon = "fa fa-pause";
                 break;
               }
@@ -133,11 +138,7 @@ export const getSidebar = (date,ACL,token) => {
             }
           });
 
-          afterFilters.push({
-            name: "search",
-            url: "/filter/add",
-            icon: "fa fa-search"
-          });
+
           filters.children = testFilters.concat(afterFilters);
 
           let projects = {

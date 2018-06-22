@@ -314,7 +314,7 @@ export default {
   createdDate:'Vytvorené',
   dateFrom:'Od',
   dateTo:'do',
-  saved:'Uložené',
+  saved:'Uložiť',
   important:'Dôležité',
   follower:'Follower',
   restrictionMustEnterFilterIcon:'Musíte zadať ikonu filtra',
