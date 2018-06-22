@@ -42,16 +42,15 @@ class Tag extends Component {
 				<CardHeader />
 				<div className="table-div">
 					<h2>
-          <a
-							href={'#/tag/edit/' + parseInt(this.props.match.params.id, 10)}
-							className="fa fa-cog tag-settings-icon"
+						<a
+						href={'#/tag/edit/' + parseInt(this.props.match.params.id, 10)}
+						className="fa fa-cog tag-settings-icon"
 						/>
 						{
 							this.props.tags[
 								this.props.tags.findIndex(tag => tag.url.includes(this.props.match.params.id))
 							].name
 						}{' '}
-
 					</h2>
 
 					<div>

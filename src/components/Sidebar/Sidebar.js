@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { Badge, Nav, NavItem, NavLink as RsNavLink } from "reactstrap";
 import classNames from "classnames";
 import { connect } from "react-redux";
-
 import nav from "./_nav";
 import SidebarFooter from "./../SidebarFooter";
 import SidebarForm from "./../SidebarForm";
@@ -134,7 +133,7 @@ class Sidebar extends Component {
                         ? item.color
                         : "#" + item.color
                     }
-                  : {color:colors.darkGrey}
+                  : {color:colors.sidebarText}
               }
             >
             {i18n.t(item.name)}
