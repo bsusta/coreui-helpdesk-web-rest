@@ -128,7 +128,7 @@ class Subtasks extends Component {
                   <input
                     type="text"
                     id="name"
-                    className="form-control smoothEdges"
+                    className="form-control"
                     onKeyPress={(e)=>{
                       if(e.key==='Enter'){
                         this.props.addSubtask(

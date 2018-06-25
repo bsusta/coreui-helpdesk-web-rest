@@ -68,7 +68,7 @@ class Header extends Component {
               className="headerIcons"
               href="#/settings"
             >
-              <i className="icon-settings headerIcons" />
+              <i className="fa fa-cog headerIcons" />
             </a>
         }
           <MessagesDropdown />
@@ -79,10 +79,12 @@ class Header extends Component {
           >
             {this.props.user.username}
           </a>
+          <i className="headerIcons">
           <i
-            className="fa fa-sign-out headerIcons"
+            className="fa fa-sign-out"
             onClick={this.props.logoutUser}
           />
+      </i>
       </div>
       </header>
     );

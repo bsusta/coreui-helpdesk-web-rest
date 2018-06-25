@@ -41,6 +41,21 @@
 
 //Header
 .headerIcons{
+	i{
+		font-size: 1.2em;
+	}
+	a{
+		margin-bottom: auto;
+		margin-top: auto;
+		i{
+			font-size: 1.2em;
+			margin-bottom: auto;
+			margin-top: auto;
+		}
+	}
+	padding:0;
+	margin:0;
+	margin-bottom: auto;
 	margin-top: auto;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -49,8 +64,17 @@
 	background-color: #173849;
 	border:none;
 }
+
+.headerIcons button{
+	padding:0;
+	margin:0;
+}
+
 .headerIcons span{
+	padding:0;
+	margin:0;
 	color:white;
+	margin-bottom: auto;
 	margin-top: auto;
 }
 .headerIcons:hover{
@@ -90,6 +114,13 @@
 }
 .headerCommandBar{
 	padding-right: 25px;
+	.dropdown{
+		.dropdown-menu{
+			button{
+				color:#20a8d8;
+			}
+		}
+	}
 }
 
 //Sidebar
@@ -178,11 +209,29 @@
 	width: 100%;
 }
 
-//Select
+//React select nastavenia
 .react-select__container {
 	width: 100%;
-	border:none;
+	box-shadow: none !important;
+	border:none !important;
+	box-shadow: none !important;
 }
+.react-select__container:focus {
+	border:none !important;
+	box-shadow: none !important;
+}
+.react-select__control{
+	border-radius:0px;
+	border: 1px solid #ececec !important;
+	min-height: 33px;
+	max-height: 33px;
+}
+
+.react-select__control:focus{
+	border: 1px solid blue !important;
+	box-shadow: none !important;
+}
+
 //nastavenia color atd textu
 .react-select__single-value {
 	padding-right: 45px;
@@ -194,6 +243,12 @@
 	z-index: 0;
 }
 
+//nastavenia border farby pocas focusu pre standardne inputy a selecty
+.form-control:focus{
+	border: 1px solid blue !important;
+	box-shadow: none !important;
+}
+
 //Datepicker
 .react-datepicker-popper {
 	z-index: 7;
@@ -202,7 +257,7 @@
 	padding-left: 0;
 	padding-right: 0;
 }
-//nastavenia farby textu, fontu a pod
+//nastavenia farby textu, fontu borderu a pod
 .react-datepicker__input-container input {
 	width: 100%;
 	display: flex;
@@ -212,9 +267,22 @@
 	padding: 0.375rem 0.75rem;
 	font-size: 0.875rem;
 	line-height: 1.5;
-	border-color: #ececec;
-	border-image: none;
-	border-style: solid;
+	border-radius:0px;
+	border: 1px solid #ececec;
+	box-shadow: none !important;
+}
+.react-datepicker__input-container input:focus {
+	border: 1px solid blue;
+	box-shadow: none !important;
+	outline: none;
+}
+.react-datepicker__input-container{
+	border:none !important;
+	box-shadow: none !important;
+}
+.react-datepicker__input-container:focus{
+	border:none !important;
+	box-shadow: none !important;
 }
 .react-datepicker-wrapper {
 	width: 100%;
@@ -224,6 +292,9 @@
 }
 .datepickerWrap div input {
 	width: 100%;
+}
+.datepickerWrap:active{
+	border:none !important;
 }
 
 //Card
@@ -350,6 +421,7 @@
 .react-select__control {
 	border-color: #ececec;
 }
+
 
 //Edit/Add task
 .underlined-input {
