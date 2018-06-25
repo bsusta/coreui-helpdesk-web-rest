@@ -72,7 +72,7 @@ class Tasks extends Component {
 					<Filter history={this.props.history} match={this.props.match} />
 				</div>
 
-				<div className={this.props.showFilter ? 'col-9' : ''} style={{ padding: '0' }}>
+				<div className={this.props.showFilter ? 'col-9' : ''} style={{ padding: '0',width:'100%' }}>
 					<Card>
 						<CardHeader>
 							<label className="switch switch-text switch-primary">

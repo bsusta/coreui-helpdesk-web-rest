@@ -296,18 +296,18 @@ class Filter extends Component {
         </Modal>
   
 <div className="filterButtons">
-          <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)} style={{paddingLeft:20}}>
+          <button type="button" className="btn btn-link btn-filter" onClick={this.applyFilter.bind(this)} style={{paddingLeft:20}}>
             {i18n.t('apply')}
           </button>
-          <button type="button" className="btn btn-link" onClick={()=>this.setState({saveOpen:true})}>
+          <button type="button" className="btn btn-link btn-filter" onClick={()=>this.setState({saveOpen:true})}>
             {i18n.t('save')}
           </button>
           {
-            this.props.match.params.id && parseInt(this.props.match.params.id)>4 && <button type="button" className="btn btn-link" onClick={this.deleteFilter.bind(this)}>
+            this.props.match.params.id && parseInt(this.props.match.params.id)>4 && <button type="button" className="btn btn-link btn-filter" onClick={this.deleteFilter.bind(this)}>
               {i18n.t('delete') + ' '+i18n.t('filter')}
             </button>
           }
-          <button type="button" className="btn btn-link" onClick={()=>{
+          <button type="button" className="btn btn-link btn-filter" onClick={()=>{
               this.setState(this.createState(true));
             }}>
             {i18n.t('reset')}
@@ -315,7 +315,7 @@ class Filter extends Component {
 
 </div>
 
-<div style={{ padding:"1.75rem",paddingTop:50}}>
+<div style={{ padding:20}}>
           <FormGroup>
           {this.props.total!==null &&
             <span style={{float:'right',color:'red',padding:'6px'}}>

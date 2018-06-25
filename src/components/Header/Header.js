@@ -30,7 +30,7 @@ class Header extends Component {
         </NavbarToggler>
         <NavbarToggler style={{ color: "white" }}>LanHelpdesk</NavbarToggler>
 
-        <Nav className="d-md-down-none">
+        <Nav className="d-md-down-none" style={{paddingLeft:30}}>
           <InputGroup>
             <Input
               type="text"

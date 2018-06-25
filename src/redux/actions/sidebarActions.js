@@ -48,7 +48,7 @@ export const getSidebar = (date,ACL,token) => {
             name: "reports",
             open: false,
             url: "",
-            icon: "fa fa-filter",
+            icon: "fa fa-file-text",
             children: []
           };
           if(ACL.includes('report_filters')&&data.reports){
@@ -61,7 +61,7 @@ export const getSidebar = (date,ACL,token) => {
               })
             );
           }
-
+/*
           let tags = {
             name: "tags",
             open: false,
@@ -84,7 +84,7 @@ export const getSidebar = (date,ACL,token) => {
             url: "/tag/add",
             icon: "fa fa-plus"
           });
-
+*/
           let filters = {
             name: "filters",
             open: true,
@@ -140,15 +140,14 @@ export const getSidebar = (date,ACL,token) => {
 
 
           filters.children = testFilters.concat(afterFilters);
-
+  /* 
           let projects = {
             name: "projects",
-            open: true,
+            open: false,
             url: "",
             icon: "icon-folder",
             children: []
-          };
-
+            };
           if(data.projects){
             data.projects.map(project =>
               projects.children.push({
@@ -164,7 +163,6 @@ export const getSidebar = (date,ACL,token) => {
             );
 
           }
-
             if(ACL.includes('create_projects')){
 
               projects.children.push({
@@ -193,8 +191,8 @@ export const getSidebar = (date,ACL,token) => {
               }
             })
           );
-
-          nav.push(filters, projects, tags, archived, reports);
+*/
+          nav.push(filters, reports);
           dispatch({ type: SET_SIDEBAR, sidebar: nav, date:data.date });
         });
       })

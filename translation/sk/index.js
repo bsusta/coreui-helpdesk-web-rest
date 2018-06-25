@@ -296,7 +296,7 @@ export default {
   tags:'Tagy',
   tag:'Tag',
   archived:'Archívované',
-  reports:'Hlásenia',
+  reports:'Výkazy',
   addTask:'Pridať úlohu',
   filter:'Filter',
   filterName:'Názov filtra',
