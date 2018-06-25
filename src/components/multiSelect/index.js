@@ -117,7 +117,7 @@ export default class MultiSelect extends Component {
             caret
             style={this.props.toggleStyle ? this.props.toggleStyle : {}}
           >
-            {this.props.label ? this.props.label : ""}
+            <label className="input-label">{this.props.label ? this.props.label : ""}</label>
           </DropdownToggle>
           <DropdownMenu>
             <div className="list-group">

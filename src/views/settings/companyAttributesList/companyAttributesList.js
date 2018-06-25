@@ -66,7 +66,7 @@ class CompanyAttributesList extends Component {
           </button>
         </CardHeader>
         <div className="table-div-panel">
-          <h2 className="mb-3">{i18n.t('companyAttributesList')}</h2>
+          <h2 className="h2" className="mb-3">{i18n.t('companyAttributesList')}</h2>
 
           <table className="table table-striped table-hover">
             <thead>

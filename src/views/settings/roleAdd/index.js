@@ -79,7 +79,7 @@ class RoleAdd extends Component {
 			<div className="card">
 				<div className="card-header"></div>
 				<div className="card-body">
-					<h2 className="h2-setting-form">{i18n.t('addRole')}</h2>
+					<h2 className="h2" className="h2-setting-form">{i18n.t('addRole')}</h2>
 					<form
 						onSubmit={(event, value) => {
 							event.preventDefault();
@@ -87,7 +87,7 @@ class RoleAdd extends Component {
 						}}
 					>
 						<div className="form-group">
-							<label htmlFor="title" className="req">
+							<label className= "input-label" htmlFor="title" className="req input-label">
 								{i18n.t('roleName')}
 							</label>
 							<input
@@ -100,13 +100,13 @@ class RoleAdd extends Component {
 						</div>
 						{this.state.submitError &&
 							this.state.title === '' && (
-								<label htmlFor="title" style={{ color: 'red' }}>
+								<label className= "input-label" htmlFor="title" style={{ color: 'red' }}>
 									{i18n.t('restrictionMustEnterTitle')}
 								</label>
 							)}
 
 						<div className="form-group">
-							<label htmlFor="description">{i18n.t('description')}</label>
+							<label className= "input-label" htmlFor="description">{i18n.t('description')}</label>
 							<textarea
 								className="form-control"
 								id="description"
@@ -117,7 +117,7 @@ class RoleAdd extends Component {
 						</div>
 
 						<div className="form-group">
-							<label htmlFor="homepage" className="req">
+							<label className= "input-label" htmlFor="homepage" className="req input-label">
 								{i18n.t('homepage')}
 							</label>
 							<input
@@ -130,13 +130,13 @@ class RoleAdd extends Component {
 						</div>
 						{this.state.submitError &&
 							this.state.homepage === '' && (
-								<label htmlFor="homepage" style={{ color: 'red' }}>
+								<label className= "input-label" htmlFor="homepage" style={{ color: 'red' }}>
 									{i18n.t('restrictionMustEnterRolesHomepage')}
 								</label>
 							)}
 
 						<div className="form-group">
-							<label htmlFor="order" className="req">
+							<label className= "input-label" htmlFor="order" className="req input-label">
 								{i18n.t('order')}
 							</label>
 							<input
@@ -150,13 +150,13 @@ class RoleAdd extends Component {
 						</div>
 						{this.state.order !== '' &&
 							isNaN(parseInt(this.state.order)) && (
-								<label htmlFor="order" style={{ color: 'red' }}>
+								<label className= "input-label" htmlFor="order" style={{ color: 'red' }}>
 									{i18n.t('restrictionOrderNumberIsNotValid')}
 								</label>
 							)}
 						{this.state.submitError &&
 							this.state.order === '' && (
-								<label htmlFor="order" style={{ color: 'red' }}>
+								<label className= "input-label" htmlFor="order" style={{ color: 'red' }}>
 									{i18n.t('restrictionMustEnterOrderNumber')}
 								</label>
 							)}

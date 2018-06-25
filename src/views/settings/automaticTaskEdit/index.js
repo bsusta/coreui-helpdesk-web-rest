@@ -15,11 +15,11 @@ class AutomticTaskEdit extends Component {
             </label>
           </div>
           <div className="form-group">
-            <label htmlFor="title">Automatic task name</label>
+            <label className= "input-label" htmlFor="title">Automatic task name</label>
             <input className="form-control" id="title" placeholder="Enter title" />
           </div>
           <div className="form-group">
-            <label htmlFor="shortcut">Description</label>
+            <label className= "input-label" htmlFor="shortcut">Description</label>
             <input
               className="form-control"
               id="shortcut"
@@ -31,7 +31,7 @@ class AutomticTaskEdit extends Component {
             <tbody>
               <tr>
                 <td>
-                  <h2>IF</h2>
+                  <h2 className="h2">IF</h2>
                 </td>
                 <td>
                   <select
@@ -59,7 +59,7 @@ class AutomticTaskEdit extends Component {
               </tr>
               <tr>
                 <td>
-                  <h2>AND</h2>
+                  <h2 className="h2">AND</h2>
                 </td>
                 <td>
                   <select
@@ -87,7 +87,7 @@ class AutomticTaskEdit extends Component {
               </tr>
               <tr>
                 <td>
-                  <h2>AND</h2>
+                  <h2 className="h2">AND</h2>
                 </td>
                 <td>
                   <select
@@ -122,12 +122,12 @@ class AutomticTaskEdit extends Component {
               </tr>
             </tbody>
           </table>
-          <h2 style={{ marginLeft: "50%" }}>OR</h2>
+          <h2 className="h2" style={{ marginLeft: "50%" }}>OR</h2>
           <table className="table">
             <tbody>
               <tr>
                 <td>
-                  <h2>IF</h2>
+                  <h2 className="h2">IF</h2>
                 </td>
                 <td>
                   <select
@@ -155,7 +155,7 @@ class AutomticTaskEdit extends Component {
               </tr>
               <tr>
                 <td>
-                  <h2>AND</h2>
+                  <h2 className="h2">AND</h2>
                 </td>
                 <td>
                   <select
@@ -183,7 +183,7 @@ class AutomticTaskEdit extends Component {
               </tr>
               <tr>
                 <td>
-                  <h2>AND</h2>
+                  <h2 className="h2">AND</h2>
                 </td>
                 <td>
                   <select
@@ -280,11 +280,11 @@ class AutomticTaskEdit extends Component {
             </tbody>
           </table>
           <div className="form-group">
-            <label htmlFor="title">Subject</label>
+            <label className= "input-label" htmlFor="title">Subject</label>
             <input className="form-control" id="subject" placeholder="Subject" />
           </div>
           <div className="form-group">
-            <label htmlFor="body">E-mail body</label>
+            <label className= "input-label" htmlFor="body">E-mail body</label>
             <textarea
               className="form-control"
               id="body"

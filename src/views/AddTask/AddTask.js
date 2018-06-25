@@ -233,7 +233,7 @@ class AddTask extends Component {
                         </InputGroup>
                       </div>
                     </div>
-                    {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTaskTitle')}</label>}
+                    {this.state.submitError && this.state.title===''&&<label htmlFor="title" className="input-label" style={{color:'red'}}>{i18n.t('restrictionMustEnterTaskTitle')}</label>}
                   </div>
                   <div>
 
@@ -298,7 +298,7 @@ class AddTask extends Component {
                         </div>
 
                         <FormGroup>
-                          <label htmlFor="description">{i18n.t("description")}</label>
+                          <label htmlFor="description" className="input-label">{i18n.t("description")}</label>
                           <InputGroup>
                             <textarea
                               className="form-control"
@@ -328,7 +328,7 @@ class AddTask extends Component {
 
                       <div className="col-4">
                         <FormGroup>
-                          <label htmlFor="status">{i18n.t('status')}</label>
+                          <label htmlFor="status" className="input-label">{i18n.t('status')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-list" />
@@ -363,7 +363,7 @@ class AddTask extends Component {
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
-                          <label htmlFor="deadline">{i18n.t('dueDate')}</label>
+                          <label htmlFor="deadline" className="input-label">{i18n.t('dueDate')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-clock-o" />
@@ -386,7 +386,7 @@ class AddTask extends Component {
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="startedAt">{i18n.t('startedAt')}</label>
+                          <label htmlFor="startedAt" className="input-label">{i18n.t('startedAt')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-clock-o" />
@@ -409,7 +409,7 @@ class AddTask extends Component {
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="project" className="req">{i18n.t('project')}</label>
+                          <label htmlFor="project" className="req input-label">{i18n.t('project')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-folder-o" />
@@ -439,7 +439,7 @@ class AddTask extends Component {
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
-                          <label htmlFor="assigned">{i18n.t('assigned')}</label>
+                          <label htmlFor="assigned" className="input-label">{i18n.t('assigned')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-user-plus" />
@@ -464,7 +464,7 @@ class AddTask extends Component {
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="requester" className="req">{i18n.t('requester')}</label>
+                          <label htmlFor="requester" className="req input-label">{i18n.t('requester')}</label>
                             {this.props.user.user_role.acl.includes('user_settings')&&
                               <span style={{ float: "right" }}>
                                 <button
@@ -501,11 +501,11 @@ class AddTask extends Component {
                               }}
                               />
                           </InputGroup>
-                          {this.state.submitError && this.state.requestedBy.id===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
+                          {this.state.submitError && this.state.requestedBy.id===undefined &&<label htmlFor="title" className="input-label" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="company" className="req">{i18n.t('company')}</label>
+                          <label htmlFor="company" className="req input-label">{i18n.t('company')}</label>
                             {this.props.user.user_role.acl.includes('company_settings')&&
                               <span style={{ float: "right" }}>
                                 <button
@@ -535,11 +535,11 @@ class AddTask extends Component {
                               }}
                               />
                           </InputGroup>
-                          {this.state.submitError && this.state.company===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
+                          {this.state.submitError && this.state.company===undefined &&<label htmlFor="title" className="input-label" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="workTime">{i18n.t('workTime')}</label>
+                          <label htmlFor="workTime" className="input-label">{i18n.t('workTime')}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-hourglass-o" />
@@ -558,7 +558,7 @@ class AddTask extends Component {
                         </FormGroup>
 
                         <FormGroup>
-                          <label htmlFor="work">{i18n.t("work")}</label>
+                          <label htmlFor="work" className="input-label">{i18n.t("work")}</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-list" />
@@ -582,7 +582,7 @@ class AddTask extends Component {
 
                         {false &&//this is not implemented yet
                           <FormGroup>
-                          <label htmlFor="assigned">Opakovanie</label>
+                          <label htmlFor="assigned" className="input-label">Opakovanie</label>
                           <InputGroup>
                             <InputGroupAddon>
                               <i className="fa fa-repeat" />
@@ -604,7 +604,7 @@ class AddTask extends Component {
                               </DropdownToggle>
                               <DropdownMenu style={{ width: "100%" }}>
                                 <div className="form-group" style={{ width: "100%" }}>
-                                  <label htmlFor="exampleDropdownFormEmail1">
+                                  <label htmlFor="exampleDropdownFormEmail1" className="input-label">
                                     Repeat every
                                   </label>
                                   <input
@@ -615,7 +615,7 @@ class AddTask extends Component {
                                     />
                                 </div>
                                 <div className="form-group">
-                                  <label htmlFor="exampleDropdownFormEmail1">
+                                  <label htmlFor="exampleDropdownFormEmail1" className="input-label">
                                     Start date
                                   </label>
                                   <input
@@ -634,7 +634,7 @@ class AddTask extends Component {
                         </FormGroup>}
 
                         <div className="form-group" style={{ marginBottom: 0 }}>
-                          <label htmlFor="fileUpload">{i18n.t('attachments')}</label>
+                          <label htmlFor="fileUpload" className="input-label">{i18n.t('attachments')}</label>
                           <input
                             type="file"
                             id="fileUpload"
@@ -779,7 +779,7 @@ class AddTask extends Component {
                               case "input":
                               return (
                                 <div className="form-group" key={attribute.id}>
-                                  <label htmlFor={attribute.id}  className={attribute.required?"req":""}>{attribute.title}</label>
+                                  <label htmlFor={attribute.id}  className={attribute.required?"req input-label":" input-label"}>{attribute.title}</label>
                                   <input
                                     className="form-control"
                                     id={attribute.id}
@@ -797,7 +797,7 @@ class AddTask extends Component {
                               case "text_area":
                               return (
                                 <div className="form-group" key={attribute.id}>
-                                  <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
+                                  <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                   <textarea
                                     className="form-control"
                                     id={attribute.id}
@@ -815,7 +815,7 @@ class AddTask extends Component {
                               case "simple_select":
                               return (
                                 <div className="form-group" key={attribute.id}>
-                                  <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
+                                  <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                   <select
                                     className="form-control"
                                     id={attribute.id}
@@ -912,7 +912,7 @@ class AddTask extends Component {
                                   case "date":
                                   return (
                                     <div className="form-group" key={attribute.id}>
-                                      <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
+                                      <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                       <DatePicker
                                         selected={this.state.task_data[attribute.id]}
                                         onChange={e => {
@@ -933,7 +933,7 @@ class AddTask extends Component {
                                   case "decimal_number":
                                   return (
                                     <div className="form-group" key={attribute.id}>
-                                      <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
+                                      <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                       <input
                                         className="form-control"
                                         type="number"
@@ -952,7 +952,7 @@ class AddTask extends Component {
                                   case "integer_number":
                                   return (
                                     <div className="form-group" key={attribute.id}>
-                                      <label htmlFor={attribute.id} className={attribute.required?"req":""}>{attribute.title}</label>
+                                      <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                       <input
                                         className="form-control"
                                         type="number"

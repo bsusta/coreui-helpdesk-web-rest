@@ -58,7 +58,7 @@ class ImapAdd extends Component {
       <div className="card">
         <div className="card-header"></div>
         <div className="card-body">
-        <h2 className="h2-setting-form">{i18n.t('addImap')}</h2>
+        <h2 className="h2" className="h2-setting-form">{i18n.t('addImap')}</h2>
           {this.state.project===null&&<h5 className="card-header" style={{color:'red'}}>{i18n.t('restrictionMustHaveProjectImap')}</h5>}
           <form
             onSubmit={(event, value) => {
@@ -67,7 +67,7 @@ class ImapAdd extends Component {
             }}
             >
             <div className="form-group">
-              <label htmlFor="inbox_email" className="req">{i18n.t('inboxEmail')}</label>
+              <label className= "input-label" htmlFor="inbox_email" className="req input-label">{i18n.t('inboxEmail')}</label>
               <input
                 className="form-control"
                 id="inbox_email"
@@ -77,11 +77,11 @@ class ImapAdd extends Component {
                 placeholder={i18n.t('enterInboxEmail')}
                 />
             </div>
-            { this.state.inbox_email!==''&&!isEmail(this.state.inbox_email)&&<label htmlFor="inbox_email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
-            { this.state.submitError && this.state.inbox_email===''&&<label htmlFor="inbox_email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
+            { this.state.inbox_email!==''&&!isEmail(this.state.inbox_email)&&<label className= "input-label" htmlFor="inbox_email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+            { this.state.submitError && this.state.inbox_email===''&&<label className= "input-label" htmlFor="inbox_email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="move_email" className="req">{i18n.t('moveEmail')}</label>
+              <label className= "input-label" htmlFor="move_email" className="req input-label">{i18n.t('moveEmail')}</label>
               <input
                 className="form-control"
                 id="move_email"
@@ -91,11 +91,11 @@ class ImapAdd extends Component {
                 placeholder={i18n.t('enterMoveEmail')}
                 />
             </div>
-            { this.state.move_email!==''&&!isEmail(this.state.move_email)&&<label htmlFor="move_email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
-            { this.state.submitError && this.state.move_email===''&&<label htmlFor="move_email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
+            { this.state.move_email!==''&&!isEmail(this.state.move_email)&&<label className= "input-label" htmlFor="move_email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+            { this.state.submitError && this.state.move_email===''&&<label className= "input-label" htmlFor="move_email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="server" className="req">{i18n.t('serverAddress')}</label>
+              <label className= "input-label" htmlFor="server" className="req input-label">{i18n.t('serverAddress')}</label>
               <input
                 className="form-control"
                 id="server"
@@ -104,10 +104,10 @@ class ImapAdd extends Component {
                 placeholder={i18n.t('enterServerAddress')}
                 />
             </div>
-            {this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>{i18n.t('restrictionMustEnterServerAddress')}</label>}
+            {this.state.submitError && this.state.host===''&&<label className= "input-label" htmlFor="server" style={{color:'red'}}>{i18n.t('restrictionMustEnterServerAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="port" className="req">{i18n.t('port')}</label>
+              <label className= "input-label" htmlFor="port" className="req input-label">{i18n.t('port')}</label>
               <input
                 className="form-control"
                 id="port"
@@ -117,11 +117,11 @@ class ImapAdd extends Component {
                 placeholder={i18n.t('enterPort')}
                 />
             </div>
-            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionPortNotValid')}</label>}
-            { this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionMustEnterPort')}</label>}
+            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label className= "input-label" htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionPortNotValid')}</label>}
+            { this.state.submitError && this.state.port===''&&<label className= "input-label" htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionMustEnterPort')}</label>}
 
             <div className="form-group">
-              <label htmlFor="log" className="req">{i18n.t('login')}</label>
+              <label className= "input-label" htmlFor="log" className="req input-label">{i18n.t('login')}</label>
               <input
                 className="form-control"
                 id="log"
@@ -130,10 +130,10 @@ class ImapAdd extends Component {
                 placeholder={i18n.t('enterLogin')}
                 />
             </div>
-            {this.state.submitError && this.state.name===''&&<label htmlFor="log" style={{color:'red'}}>{i18n.t('mustHaveLogin')}</label>}
+            {this.state.submitError && this.state.name===''&&<label className= "input-label" htmlFor="log" style={{color:'red'}}>{i18n.t('mustHaveLogin')}</label>}
 
             <div className="form-group">
-              <label htmlFor="pass" className="req">{i18n.t('password')}</label>
+              <label className= "input-label" htmlFor="pass" className="req input-label">{i18n.t('password')}</label>
               <input
                 className="form-control"
                 id="pass"
@@ -142,10 +142,10 @@ class ImapAdd extends Component {
                 placeholder={i18n.t('enterPassword')}
                 />
             </div>
-            {this.state.submitError && this.state.password===''&&<label htmlFor="pass" style={{color:'red'}}>{i18n.t('mustEnterPassword')}</label>}
+            {this.state.submitError && this.state.password===''&&<label className= "input-label" htmlFor="pass" style={{color:'red'}}>{i18n.t('mustEnterPassword')}</label>}
 
             <div className="form-group">
-              <label htmlFor="descr">{i18n.t('description')}</label>
+              <label className= "input-label" htmlFor="descr">{i18n.t('description')}</label>
               <textarea
                 className="form-control"
                 id="descr"

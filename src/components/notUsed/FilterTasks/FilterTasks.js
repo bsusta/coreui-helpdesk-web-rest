@@ -45,7 +45,7 @@ class Project extends Component {
   render() {
     return (
       <div className="table-div">
-        <h2>
+        <h2 className="h2">
           <a
             className="fa fa-filter"
             style={{

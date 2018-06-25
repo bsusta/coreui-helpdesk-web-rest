@@ -193,7 +193,7 @@ class Filter extends Component {
             </ModalHeader>
             <ModalBody>
               <FormGroup>
-                <label htmlFor="filterName">{i18n.t('filterName')}</label>
+                <label htmlFor="filterName" className="input-label">{i18n.t('filterName')}</label>
                 <input
                   className="form-control"
                   id="filterName"
@@ -206,7 +206,7 @@ class Filter extends Component {
                 {this.state.submitError && this.state.filterName===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
               </FormGroup>
               <FormGroup>
-                <label htmlFor="filterOrder">{i18n.t('orderFilter')}</label>
+                <label htmlFor="filterOrder" className="input-label">{i18n.t('orderFilter')}</label>
                 <input
                   className="form-control"
                   id="filterOrder"
@@ -221,7 +221,7 @@ class Filter extends Component {
                 { this.state.submitError &&this.state.filterOrder===''&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
               </FormGroup>
               <FormGroup>
-                <label htmlFor="filterIcon">{i18n.t('filterIcon')}</label>
+                <label htmlFor="filterIcon"  className="input-label">{i18n.t('filterIcon')}</label>
                 <input
                   className="form-control"
                   id="filterIcon"
@@ -294,7 +294,7 @@ class Filter extends Component {
             </button>
           </ModalFooter>
         </Modal>
-  
+
 <div className="filterButtons">
           <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)} style={{paddingLeft:20}}>
             {i18n.t('apply')}
@@ -324,7 +324,7 @@ class Filter extends Component {
           }
           </FormGroup>
           <FormGroup>
-            <label htmlFor="title">{i18n.t('filterByName')}</label>
+            <label htmlFor="title" className="input-label">{i18n.t('filterByName')}</label>
             <input
               className="form-control"
               id="title"
@@ -337,7 +337,7 @@ class Filter extends Component {
           </FormGroup>
 
           <FormGroup>
-            <label htmlFor="status">{i18n.t('status')}</label>
+            <label htmlFor="status" className="input-label">{i18n.t('status')}</label>
               <Select
                 options={this.props.statuses.map(status => {
                   status.label = status.title;
@@ -351,7 +351,7 @@ class Filter extends Component {
               />
           </FormGroup>
 
-          <label className="mt-1">{i18n.t('requester')}</label>
+          <label className="mt-1 input-label">{i18n.t('requester')}</label>
             <Select
               styles={colourStyles}
               isMulti
@@ -372,7 +372,7 @@ class Filter extends Component {
               onChange={(e)=>this.setState({requesters:e})}
             />
 
-          <label className="mt-2">{i18n.t('company')}</label>
+          <label className="mt-2 input-label">{i18n.t('company')}</label>
           <Select
             options={this.props.companies.map(company => {
               company.label = company.title;
@@ -385,7 +385,7 @@ class Filter extends Component {
             value={this.state.companies}
           />
 
-        <label className="mt-2">{i18n.t('assigned')}</label>
+        <label className="mt-2 input-label">{i18n.t('assigned')}</label>
             <Select
              styles={colourStyles}
               isMulti
@@ -406,7 +406,7 @@ class Filter extends Component {
               value={this.state.assignedTos}
             />
 
-          <label className="mt-2">{i18n.t('createdBy')}</label>
+          <label className="mt-2 input-label">{i18n.t('createdBy')}</label>
               <Select
                styles={colourStyles}
                 isMulti
@@ -427,7 +427,7 @@ class Filter extends Component {
                 value={this.state.creators}
               />
 
-            <label className="mt-2">{i18n.t('project')}</label>
+            <label className="mt-2 input-label">{i18n.t('project')}</label>
             <Select
              styles={colourStyles}
               options={this.props.projects.map(project => {
@@ -460,7 +460,7 @@ class Filter extends Component {
               onChange={(e)=>this.setState({followers:e})}
               value={this.state.followers}
             />
-          <label className="mt-2">{i18n.t('tag')}</label>
+          <label className="mt-2 input-label">{i18n.t('tag')}</label>
             <Select
               options={this.props.tags.map(tag => {
                 tag.label = tag.title;
@@ -475,7 +475,7 @@ class Filter extends Component {
             />
 
             <div className="form-check" style={{marginTop:10}}>
-              <label className="form-check-label">
+              <label className="form-check-label input-label">
                 <input
                   type="checkbox"
                   checked={this.state.archived}
@@ -488,7 +488,7 @@ class Filter extends Component {
               </label>
             </div>
             <div className="form-check">
-              <label className="form-check-label">
+              <label className="form-check-label input-label">
                 <input
                   type="checkbox"
                   checked={this.state.important}
@@ -500,7 +500,7 @@ class Filter extends Component {
               {i18n.t('important')}
               </label>
             </div>
-          <label className="mt-2">{i18n.t('createdDate')}</label>
+          <label className="mt-2 input-label">{i18n.t('createdDate')}</label>
             <div className="d-flex flex-row justify-content-between fromToDates">
               <div>
               <DatePicker
@@ -516,7 +516,7 @@ class Filter extends Component {
                 dateFormat="DD.MM.YYYY HH:mm"
               />
               <div className="form-group">
-                <label className="form-check-label">
+                <label className="form-check-label input-label">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -543,7 +543,7 @@ class Filter extends Component {
                 dateFormat="DD.MM.YYYY HH:mm"
               />
               <div className="form-group">
-                <label className="form-check-label">
+                <label className="form-check-label input-label">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -556,7 +556,7 @@ class Filter extends Component {
             </div>
           </div>
 
-            <label className="mt-2">{i18n.t('startedAt')}</label>
+            <label className="mt-2 input-label">{i18n.t('startedAt')}</label>
 
             <div className="d-flex flex-row justify-content-between fromToDates">
               <div>
@@ -573,7 +573,7 @@ class Filter extends Component {
                 dateFormat="DD.MM.YYYY HH:mm"
               />
               <div className="form-group">
-                <label className="form-check-label">
+                <label className="form-check-label input-label">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -600,7 +600,7 @@ class Filter extends Component {
                 dateFormat="DD.MM.YYYY HH:mm"
               />
               <div className="form-group">
-                <label className="form-check-label">
+                <label className="form-check-label input-label">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -613,7 +613,7 @@ class Filter extends Component {
           </div>
             </div>
 
-          <label className="mt-2">{i18n.t('deadline')}</label>
+          <label className="mt-2 input-label">{i18n.t('deadline')}</label>
             <div className="d-flex flex-row justify-content-between fromToDates">
               <div>
               <DatePicker
@@ -629,7 +629,7 @@ class Filter extends Component {
                 dateFormat="DD.MM.YYYY HH:mm"
               />
               <div className="form-group">
-                <label className="form-check-label">
+                <label className="form-check-label input-label">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -655,7 +655,7 @@ class Filter extends Component {
                 dateFormat="DD.MM.YYYY HH:mm"
               />
             <div className="form-group">
-              <label className="form-check-label">
+              <label className="form-check-label input-label">
                 <input
                   type="checkbox"
                   className="form-check-input"
@@ -668,7 +668,7 @@ class Filter extends Component {
             </div>
         </div>
 
-          <label className="mt-2">{i18n.t('closedAt')}</label>
+          <label className="mt-2 input-label">{i18n.t('closedAt')}</label>
             <div className="d-flex flex-row justify-content-between fromToDates">
               <div>
               <DatePicker
@@ -684,7 +684,7 @@ class Filter extends Component {
                 dateFormat="DD.MM.YYYY HH:mm"
               />
               <div className="form-group">
-                <label className="form-check-label">
+                <label className="form-check-label input-label">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -710,7 +710,7 @@ class Filter extends Component {
                 dateFormat="DD.MM.YYYY HH:mm"
               />
               <div className="form-group">
-                <label className="form-check-label">
+                <label className="form-check-label input-label">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -728,7 +728,7 @@ class Filter extends Component {
                 case "input":
                   return (
                     <div className={"form-group"} key={attribute.id} >
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
+                      <label htmlFor={attribute.id} className="input-label">{attribute.title}</label>
                       <input
                         className="form-control"
                         id={attribute.id}
@@ -746,7 +746,7 @@ class Filter extends Component {
                 case "text_area":
                   return (
                     <div className={"form-group"} key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
+                      <label htmlFor={attribute.id} className="input-label">{attribute.title}</label>
                       <textarea
                         className="form-control"
                         id={attribute.id}
@@ -765,6 +765,7 @@ class Filter extends Component {
                   return (
                     <div className="form-group" key={attribute.id}>
                       <label
+                         className="input-label"
                         htmlFor={attribute.id}
                       >
                         {attribute.title}
@@ -789,6 +790,7 @@ class Filter extends Component {
                   return (<div className="form-group" key={attribute.id}>
                     <label
                       htmlFor={attribute.id}
+                       className="input-label"
                     >
                       {attribute.title}
                     </label>
@@ -811,7 +813,7 @@ class Filter extends Component {
                 case "date":
                   return (
                     <div className={"form-group"} key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
+                      <label htmlFor={attribute.id} className="input-label">{attribute.title}</label>
                       <DatePicker
                         selected={this.state.task_data[attribute.id]}
                         onChange={e => {
@@ -832,7 +834,7 @@ class Filter extends Component {
                 case "decimal_number":
                   return (
                     <div className={"form-group"} key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
+                      <label htmlFor={attribute.id} className="input-label">{attribute.title}</label>
                       <input
                         className="form-control"
                         type="number"
@@ -851,7 +853,7 @@ class Filter extends Component {
                 case "integer_number":
                   return (
                     <div className={"form-group"} key={attribute.id}>
-                      <label htmlFor={attribute.id}>{attribute.title}</label>
+                      <label htmlFor={attribute.id} className="input-label">{attribute.title}</label>
                       <input
                         className="form-control"
                         type="number"
@@ -870,7 +872,7 @@ class Filter extends Component {
                 case "checkbox":
                   return (
                     <div className="form-group" key={attribute.id}>
-                      <label className="form-check-label">
+                      <label className="form-check-label input-label">
                         <input
                           type="checkbox"
                           className="form-check-input"

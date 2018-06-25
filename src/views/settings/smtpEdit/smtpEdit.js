@@ -71,7 +71,7 @@ class SMTPEdit extends Component {
       <div className="card">
         <div className="card-header"></div>
         <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
-        <h2 className="h2-setting-form">{i18n.t('editSMTP')}</h2>
+        <h2 className="h2" className="h2-setting-form">{i18n.t('editSMTP')}</h2>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -79,7 +79,7 @@ class SMTPEdit extends Component {
             }}
           >
             <div className="form-group">
-            <label htmlFor="email" className="req">{i18n.t('email')}</label>
+            <label className= "input-label" htmlFor="email" className="req input-label">{i18n.t('email')}</label>
               <input
                 className="form-control"
                 value={this.state.email}
@@ -92,11 +92,11 @@ class SMTPEdit extends Component {
                 placeholder={i18n.t('email')}
               />
             </div>
-            { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
-            {this.state.addError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
+            { this.state.email!==''&&!isEmail(this.state.email)&&<label className= "input-label" htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+            {this.state.addError && this.state.email===''&&<label className= "input-label" htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
 
             <div className="form-group">
-              <label htmlFor="server" className="req">{i18n.t('serverAddress')}</label>
+              <label className= "input-label" htmlFor="server" className="req input-label">{i18n.t('serverAddress')}</label>
               <input
                 className="form-control"
                 id="server"
@@ -108,9 +108,9 @@ class SMTPEdit extends Component {
                 placeholder={i18n.t('enterServerAddress')}
               />
             </div>
-            {this.state.submitError && this.state.host===''&&<label htmlFor="server" style={{color:'red'}}>{i18n.t('restrictionMustEnterServerAddress')}</label>}
+            {this.state.submitError && this.state.host===''&&<label className= "input-label" htmlFor="server" style={{color:'red'}}>{i18n.t('restrictionMustEnterServerAddress')}</label>}
             <div className="form-group">
-              <label htmlFor="port" className="req">{i18n.t('port')}</label>
+              <label className= "input-label" htmlFor="port" className="req input-label">{i18n.t('port')}</label>
               <input
                 className="form-control"
                 id="port"
@@ -123,11 +123,11 @@ class SMTPEdit extends Component {
                 placeholder={i18n.t('enterPort')}
               />
             </div>
-            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionPortNotValid')}</label>}
-            {this.state.submitError && this.state.port===''&&<label htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionMustEnterPort')}</label>}
+            { this.state.port!==''&&isNaN(parseInt(this.state.port))&&<label className= "input-label" htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionPortNotValid')}</label>}
+            {this.state.submitError && this.state.port===''&&<label className= "input-label" htmlFor="port" style={{color:'red'}}>{i18n.t('restrictionMustEnterPort')}</label>}
 
             <div className="form-group">
-              <label htmlFor="login" className="req">{i18n.t('login')}</label>
+              <label className= "input-label" htmlFor="login" className="req input-label">{i18n.t('login')}</label>
               <input
                 className="form-control"
                 id="login"
@@ -138,11 +138,11 @@ class SMTPEdit extends Component {
                 }
                 placeholder={i18n.t('enterLogin')}
               />
-            {this.state.submitError && this.state.name===''&&<label htmlFor="login" style={{color:'red'}}>{i18n.t('mustHaveLogin')}</label>}
+            {this.state.submitError && this.state.name===''&&<label className= "input-label" htmlFor="login" style={{color:'red'}}>{i18n.t('mustHaveLogin')}</label>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="pass" className="req">{i18n.t('password')}</label>
+              <label className= "input-label" htmlFor="pass" className="req input-label">{i18n.t('password')}</label>
               <input
                 className="form-control"
                 id="pass"
@@ -153,7 +153,7 @@ class SMTPEdit extends Component {
                 }
                 placeholder={i18n.t('enterPassword')}
               />
-            {this.state.submitError && this.state.password===''&&<label htmlFor="password" style={{color:'red'}}>{i18n.t('mustEnterPassword')}</label>}
+            {this.state.submitError && this.state.password===''&&<label className= "input-label" htmlFor="password" style={{color:'red'}}>{i18n.t('mustEnterPassword')}</label>}
             </div>
 
             <div className="form-check">

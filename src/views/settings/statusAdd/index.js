@@ -51,7 +51,7 @@ class StatusAdd extends Component {
 			<div className="card">
 				<div className="card-header" />
 				<div className="card-body">
-					<h2 className="h2-setting-list">{i18n.t('addStatus')}</h2>
+					<h2 className="h2" className="h2-setting-list">{i18n.t('addStatus')}</h2>
 					<form
 						onSubmit={(event, value) => {
 							event.preventDefault();
@@ -59,7 +59,7 @@ class StatusAdd extends Component {
 						}}
 					>
 						<div className="form-group">
-							<label htmlFor="title" className="req">
+							<label className= "input-label" htmlFor="title" className="req input-label">
 								{i18n.t('statusName')}
 							</label>
 							<input
@@ -72,13 +72,13 @@ class StatusAdd extends Component {
 						</div>
 						{this.state.submitError &&
 							this.state.title === '' && (
-								<label htmlFor="title" style={{ color: 'red' }}>
+								<label className= "input-label" htmlFor="title" style={{ color: 'red' }}>
 									{i18n.t('restrictionMustEnterStatusName')}
 								</label>
 							)}
 
 						<div className="form-group">
-							<label htmlFor="order" className="req">
+							<label className= "input-label" htmlFor="order" className="req input-label">
 								{i18n.t('order')}
 							</label>
 							<input
@@ -91,26 +91,26 @@ class StatusAdd extends Component {
 							/>
 							{this.state.order !== '' &&
 								isNaN(parseInt(this.state.order)) && (
-									<label htmlFor="order" style={{ color: 'red' }}>
+									<label className= "input-label" htmlFor="order" style={{ color: 'red' }}>
 										{i18n.t('restrictionOrderNumberIsNotValid')}
 									</label>
 								)}
 							{this.state.submitError &&
 								this.state.order === '' && (
-									<label htmlFor="order" style={{ color: 'red' }}>
+									<label className= "input-label" htmlFor="order" style={{ color: 'red' }}>
 										{i18n.t('restrictionMustEnterOrderNumber')}
 									</label>
 								)}
 							{this.state.order !== '' &&
 								parseInt(this.state.order) < 5 && (
-									<label htmlFor="order" style={{ color: 'orange' }}>
+									<label className= "input-label" htmlFor="order" style={{ color: 'orange' }}>
 										{i18n.t('reccomendationOrderMoreThanFour')}
 									</label>
 								)}
 						</div>
 
 						<div className="form-group">
-							<label htmlFor="description">{i18n.t('description')}</label>
+							<label className= "input-label" htmlFor="description">{i18n.t('description')}</label>
 							<textarea
 								className="form-control"
 								id="description"
@@ -121,7 +121,7 @@ class StatusAdd extends Component {
 						</div>
 
 						<div className="form-group">
-							<label htmlFor="func">{i18n.t('func')}</label>
+							<label className= "input-label" htmlFor="func">{i18n.t('func')}</label>
 							<select
 								value={this.state.func}
 								id="func"
@@ -136,7 +136,7 @@ class StatusAdd extends Component {
 							</select>
 						</div>
 						<div className="form-group">
-							<label htmlFor="color" className="req">
+							<label className= "input-label" htmlFor="color" className="req input-label">
 								{i18n.t('color')}
 							</label>
 							<SketchPicker

@@ -55,7 +55,7 @@ class Sidebar extends Component {
       if (badge) {
         const classes = classNames(badge.class);
         return (
-          <Badge className={classes} style={{border:'1px solid #a3a3a3', borderRadius:'10px'}} color={badge.variant}>
+          <Badge className={classes+" sidebarBadges"} color={badge.variant}>
             {badge.text}
           </Badge>
         );
@@ -122,18 +122,17 @@ class Sidebar extends Component {
       return (
         <NavItem key={key} className={classes.item}>
           <NavLink to={url} className={classes.link} activeClassName="active activeNavItem fontBold">
-            {item.icon && <i className={item.icon} />}
+            {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
             <span
+              className="sidebarItem"
               style={
                 item.color
                   ? {
-                      padding: 4,
-                      color: "white",
                       backgroundColor: item.color.includes("#")
                         ? item.color
                         : "#" + item.color
                     }
-                  : {color:colors.sidebarText}
+                  : {}
               }
             >
             {i18n.t(item.name)}

@@ -46,7 +46,7 @@ class UserEdit extends Component {
     };
     this.compareChanges.bind(this);
   }
-  //we compare if there have been made any changes to the user in comparison to the original props, if yes we trigger warning htmlFor the user
+  //we compare if there have been made any changes to the user in comparison to the original props, if yes we trigger warning className= "input-label" htmlFor the user
   compareChanges(change,val){
     let newState = {...this.state};
     newState.submitError=undefined;
@@ -144,7 +144,7 @@ class UserEdit extends Component {
       <div className="card">
         <div className="card-header">{i18n.t('editUser')}</div>
         <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
-        <h2 className="h2-setting-form">{i18n.t('editUser')}</h2>
+        <h2 className="h2" className="h2-setting-form">{i18n.t('editUser')}</h2>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -168,8 +168,8 @@ class UserEdit extends Component {
               </label>
             </div>
 
-            <label htmlFor="avatar">{i18n.t('avatarUpload')} </label>
-            <label htmlFor="avatar" style={{ fontSize: 10 }}>
+            <label className= "input-label" htmlFor="avatar">{i18n.t('avatarUpload')} </label>
+            <label className= "input-label" htmlFor="avatar" style={{ fontSize: 10 }}>
               {i18n.t('willBeResized')}
             </label>
             <div className="form-group" style={{ marginBottom: 0 }}>
@@ -203,7 +203,7 @@ class UserEdit extends Component {
                         let ctx = canvas.getContext("2d");
                         ctx.drawImage(img, 0, 0, 50, 50);
                         let imageURL = canvas.toDataURL("image/png");
-                        //converts it to file ready htmlFor upload
+                        //converts it to file ready className= "input-label" htmlFor upload
                         function dataURLtoFile(dataurl, filename) {
                           var arr = dataurl.split(","),
                             mime = arr[0].match(/:(.*?);/)[1],
@@ -246,7 +246,7 @@ class UserEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="email" className="req">{i18n.t('username')+"/"+i18n.t('email')}</label>
+              <label className= "input-label" htmlFor="email" className="req input-label">{i18n.t('username')+"/"+i18n.t('email')}</label>
               <input
                 className="form-control"
                 disabled={this.state.disabled}
@@ -258,12 +258,12 @@ class UserEdit extends Component {
                 }
                 placeholder={i18n.t('enterUsername')+'/'+i18n.t('enterEmail')}
               />
-              { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
-                { this.state.submitError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
+              { this.state.email!==''&&!isEmail(this.state.email)&&<label className= "input-label" htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+                { this.state.submitError && this.state.email===''&&<label className= "input-label" htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">{i18n.t('password')}</label>
+              <label className= "input-label" htmlFor="password">{i18n.t('password')}</label>
               <input
                 className="form-control"
                 id="password"
@@ -274,11 +274,11 @@ class UserEdit extends Component {
                 }
                 placeholder={i18n.t('enterPassword')}
               />
-              {this.state.password.length>0 && this.state.password.length<8 &&<label htmlFor="password" style={{color:'red'}}>{i18n.t('restrictionPasswordMustBe8')}</label>}
+              {this.state.password.length>0 && this.state.password.length<8 &&<label className= "input-label" htmlFor="password" style={{color:'red'}}>{i18n.t('restrictionPasswordMustBe8')}</label>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="language">{i18n.t('language')}</label>
+              <label className= "input-label" htmlFor="language">{i18n.t('language')}</label>
               <select
                 value={this.state.language}
                 id="language"
@@ -298,7 +298,7 @@ class UserEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="name">{i18n.t('firstname')}</label>
+              <label className= "input-label" htmlFor="name">{i18n.t('firstname')}</label>
               <input
                 className="form-control"
                 id="name"
@@ -312,7 +312,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="surname">{i18n.t('surname')}</label>
+              <label className= "input-label" htmlFor="surname">{i18n.t('surname')}</label>
               <input
                 className="form-control"
                 disabled={this.state.disabled}
@@ -326,7 +326,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="title_before">{i18n.t('titleBeforeName')}</label>
+              <label className= "input-label" htmlFor="title_before">{i18n.t('titleBeforeName')}</label>
               <input
                 className="form-control"
                 id="title_before"
@@ -340,7 +340,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="title_after">{i18n.t('titleAfterName')}</label>
+              <label className= "input-label" htmlFor="title_after">{i18n.t('titleAfterName')}</label>
               <input
                 className="form-control"
                 id="title_after"
@@ -354,7 +354,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="func">{i18n.t('func')}</label>
+              <label className= "input-label" htmlFor="func">{i18n.t('func')}</label>
               <input
                 className="form-control"
                 id="func"
@@ -369,7 +369,7 @@ class UserEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="mobile">{i18n.t('mobileNumber')}</label>
+              <label className= "input-label" htmlFor="mobile">{i18n.t('mobileNumber')}</label>
               <input
                 className="form-control"
                 id="mobile"
@@ -383,7 +383,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="tel">{i18n.t('telephoneNumber')}</label>
+              <label className= "input-label" htmlFor="tel">{i18n.t('telephoneNumber')}</label>
               <input
                 className="form-control"
                 id="tel"
@@ -397,7 +397,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="fax">{i18n.t('fax')}</label>
+              <label className= "input-label" htmlFor="fax">{i18n.t('fax')}</label>
               <input
                 className="form-control"
                 id="fax"
@@ -411,7 +411,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="signature">{i18n.t('signature')}</label>
+              <label className= "input-label" htmlFor="signature">{i18n.t('signature')}</label>
               <input
                 className="form-control"
                 id="signature"
@@ -425,7 +425,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="street">{i18n.t('street')}</label>
+              <label className= "input-label" htmlFor="street">{i18n.t('street')}</label>
               <input
                 className="form-control"
                 id="street"
@@ -439,7 +439,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="city">{i18n.t('city')}</label>
+              <label className= "input-label" htmlFor="city">{i18n.t('city')}</label>
               <input
                 className="form-control"
                 id="city"
@@ -453,7 +453,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="zip">{i18n.t('zip')}</label>
+              <label className= "input-label" htmlFor="zip">{i18n.t('zip')}</label>
               <input
                 className="form-control"
                 disabled={this.state.disabled}
@@ -467,7 +467,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="country">{i18n.t('country')}</label>
+              <label className= "input-label" htmlFor="country">{i18n.t('country')}</label>
               <input
                 className="form-control"
                 id="country"
@@ -481,7 +481,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="facebook">{i18n.t('facebook')}</label>
+              <label className= "input-label" htmlFor="facebook">{i18n.t('facebook')}</label>
               <input
                 className="form-control"
                 id="facebook"
@@ -495,7 +495,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="twitter">{i18n.t('twitter')}</label>
+              <label className= "input-label" htmlFor="twitter">{i18n.t('twitter')}</label>
               <input
                 className="form-control"
                 id="twitter"
@@ -509,7 +509,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="linkdin">{i18n.t('linkdin')}</label>
+              <label className= "input-label" htmlFor="linkdin">{i18n.t('linkdin')}</label>
               <input
                 className="form-control"
                 id="linkdin"
@@ -523,7 +523,7 @@ class UserEdit extends Component {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="google">{i18n.t('google')}</label>
+              <label className= "input-label" htmlFor="google">{i18n.t('google')}</label>
               <input
                 className="form-control"
                 id="google"
@@ -538,7 +538,7 @@ class UserEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="company">{i18n.t('company')}</label>
+              <label className= "input-label" htmlFor="company">{i18n.t('company')}</label>
               <select
                 id="company"
                 value={this.state.company}
@@ -557,7 +557,7 @@ class UserEdit extends Component {
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="role">{i18n.t('role')}</label>
+              <label className= "input-label" htmlFor="role">{i18n.t('role')}</label>
               <select
                 value={this.state.userRole}
                 disabled={this.state.disabled}

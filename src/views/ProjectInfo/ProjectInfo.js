@@ -30,7 +30,7 @@ class ProjectInfo extends Component {
           )}
         </CardHeader>
         <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-          <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
+          <h2 className="h2">
             {" "}
             {this.props.project.title}
           </h2>

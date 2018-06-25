@@ -30,7 +30,7 @@ class Settings extends Component {
 
     return (
       <div className="table-div">
-        <h2 className="mb-3">{i18n.t('settings')}</h2>
+        <h2 className="h2" className="mb-3">{i18n.t('settings')}</h2>
         <Table hover striped responsive>
           <tbody>
             {false && <tr style={{ cursor: "pointer" }}>

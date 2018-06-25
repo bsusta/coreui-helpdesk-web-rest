@@ -57,7 +57,7 @@ class CompaniesList extends Component {
           </button>
         </CardHeader>
         <div className="table-div-panel">
-          <h2 className="mb-3">{i18n.t('companiesList')}</h2>
+          <h2 className="h2" className="mb-3">{i18n.t('companiesList')}</h2>
 
           <div style={{ display: "flex", marginTop: 20 }} />
 

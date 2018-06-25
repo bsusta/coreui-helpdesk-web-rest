@@ -73,7 +73,7 @@ class Messages extends Component {
   render() {
     return (
       <div className="table-div">
-        <h2> Messages</h2>
+        <h2 className="h2"> Messages</h2>
         <div className="d-flex flex-row"
           style={{
             paddingLeft: 20,

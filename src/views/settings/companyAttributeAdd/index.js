@@ -59,7 +59,7 @@ class CompanyAttributeAdd extends Component {
     return (
       <div className="card">
         <div className="card-body">
-        <h2 className="h2-setting-form">{i18n.t('addCompanyAttribute')}</h2>
+        <h2 className="h2" className="h2-setting-form">{i18n.t('addCompanyAttribute')}</h2>
           <div className="list-group">
             <div className="form-check">
               <label className="form-check-label">
@@ -76,7 +76,7 @@ class CompanyAttributeAdd extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="title" className="req">{i18n.t('title')}</label>
+              <label className= "input-label" htmlFor="title" className="req input-label">{i18n.t('title')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -86,11 +86,11 @@ class CompanyAttributeAdd extends Component {
                 }}
                 placeholder={i18n.t('enterTitle')}
               />
-            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restictionMustHave')+' '+i18n.t('title')}</label>}
+            {this.state.submitError && this.state.title===''&&<label className= "input-label" htmlFor="title" style={{color:'red'}}>{i18n.t('restictionMustHave')+' '+i18n.t('title')}</label>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">{i18n.t('description')}</label>
+              <label className= "input-label" htmlFor="description">{i18n.t('description')}</label>
               <textarea
                 className="form-control"
                 id="description"
@@ -103,7 +103,7 @@ class CompanyAttributeAdd extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="title">{i18n.t('type')}</label>
+              <label className= "input-label" htmlFor="title">{i18n.t('type')}</label>
               <select
                 className="form-control"
                 value={this.state.type}
@@ -206,7 +206,7 @@ class CompanyAttributeAdd extends Component {
                     </td>
                   </tr>
                 </tbody>
-                { this.state.submitError && this.state.options.length===0 && <label htmlFor="title" style={{color:'red'}}>{i18n.t('restictionAtLeastOneOption')}</label>}
+                { this.state.submitError && this.state.options.length===0 && <label className= "input-label" htmlFor="title" style={{color:'red'}}>{i18n.t('restictionAtLeastOneOption')}</label>}
               </table>
             )}
             <div className="form-group">

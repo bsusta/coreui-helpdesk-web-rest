@@ -1,26 +1,174 @@
-// Here you can add other styles
+//Loading fonts
+@font-face {
+	font-family: Segoe UI Light;
+	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff);
+}
+@font-face {
+	font-family: Segoe UI;
+	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff);
+}
+@font-face {
+	font-family: Segoe UI Semibold;
+	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff);
+}
+@font-face {
+	font-family: Segoe UI Bold;
+	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff);
+}
+
+//font classes
+.fontLight {
+	font-family: Segoe UI Light;
+}
+.fontRegular {
+	font-family: Segoe UI;
+}
+.fontSemibold {
+	font-family: Segoe UI Semibold;
+}
+.fontBold {
+	font-family: Segoe UI Bold;
+}
+
+//App
+.app{
+	max-width: 1920px;
+	margin: auto;
+}
+.container-fluid{
+	padding:0 !important;
+}
+
+//Header
+.headerIcons{
+	margin-top: auto;
+	padding-left: 5px;
+	padding-right: 5px;
+	color:white;
+	cursor:pointer;
+	background-color: #173849;
+	border:none;
+}
+.headerIcons span{
+	color:white;
+	margin-top: auto;
+}
+.headerIcons:hover{
+	text-decoration: none;
+	color:white;
+	background-color: #173849;
+	border:none;
+}
+.headerIcons:focus{
+	border:none;
+}
+.noDots{
+	list-style-type: none;
+}//stops deopdown li element from containing dot list
+.app-header{
+		 max-width: 1920px;
+}
+.app-header button{
+	color:white;
+}
+.app-header button:hover{
+	color:white;
+}
+.headerText{
+	color:white;
+}
+.searchInput{
+	border-right: 0px;
+	background-color: white;
+	width: 250px !important;
+ 	margin-left: 90px;
+}
+.searchButton{
+	background: white;
+	border-left: 0px;
+	cursor: pointer;
+}
+.headerCommandBar{
+	padding-right: 25px;
+}
+
+//Sidebar
+.sidebar .sidebar-nav {
+	border-right: 1px solid rgb(238, 238, 238);
+}
+.sidebar .sidebar-minimizer {
+	border-right: 1px solid rgb(238, 238, 238);
+}
+.badge-info {
+	color: black;
+}
+.sidebarSize {
+	font-size: 1.05em;
+}
+.badge-info {
+	background-color: transparent;
+}
+.sidebarBadges{
+	border:1px solid #a3a3a3;
+	border-radius:10px;
+}
+.sidebarIcon{
+	color:$sidebar-color !important;
+	font-size: $sidebar-text-size!important;
+}
+.sidebarItem{
+	color: $sidebar-color !important;
+	font-size: $sidebar-text-size;
+	padding: 4;
+}
+.activeNavItem span {
+	color: $sidebar-active-color !important;
+	border-color: $sidebar-active-color !important;
+}
+.activeNavItem i {
+	color: $sidebar-active-color !important;
+}
+
+.nav-link:hover {
+	background-color: #d3eef6 !important;
+}
+
+//Table
 .table td {
 	vertical-align: middle;
 }
-
 .table-info {
 	background-color: #e5f4ff;
 }
+.table-div {
+	background-color: white;
+	padding: 20px;
+}
+.table-div-panel {
+	background-color: white;
+	padding: 20px;
+}
+.td-small {
+	width: 5%;
+}
 
+//Filter
 .filterDivInside {
 	border-right: 1px solid #eeeeee;
 	padding-left: 10px;
 	background-color: white;
 }
-
 .filterDiv {
 	width: 250px;
 	border-right: 1px solid #c2cfd6;
 	flex-direction: row;
 	min-height: 95%;
 }
-
+//nastavenia card headeru vo filtri
 .filterButtons {
+	button{
+		//nastavenia textu v buttonoch
+	}
 	border: 0;
 	background-color: #f4f9fd;
 	margin: 0;
@@ -30,74 +178,31 @@
 	width: 100%;
 }
 
-.newEditCard {
-	max-width: 1380px;
-	border-top: 0px;
-}
-
-.underlined-input {
-	border: none;
-	border-bottom: 1px solid #c2cfd6;
-	border-width: 1px;
-	background-color: white;
-}
-
-.badge-info {
-	background-color: transparent;
-}
-
-.card-header {
-	border: 0;
-	background-color: #f4f9fd;
-	margin: 0;
-	width: 100%;
-	z-index: 100;
-	height: 50px;
-}
-
-.sidebar .sidebar-nav {
-	border-right: 1px solid rgb(238, 238, 238);
-}
-
-.sidebar .sidebar-minimizer {
-	border-right: 1px solid rgb(238, 238, 238);
-}
-
-.badge-info {
-	color: black;
-}
-
-.email-app .inbox .message {
-	border-top: 1px solid #c2cfd6;
-}
-
-.react-datepicker-popper {
-	z-index: 7;
-}
-
-.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
-	padding-left: 0;
-	padding-right: 0;
-}
-
+//Select
 .react-select__container {
 	width: 100%;
+	border:none;
 }
-
-.css-1qdiza0 {
-	background-color: white;
+//nastavenia color atd textu
+.react-select__single-value {
+	padding-right: 45px;
 }
 .input-group .form-control {
 	z-index: 0;
 }
-.react-select__single-value {
-	padding-right: 45px;
-}
-
 .form-control .input-group {
 	z-index: 0;
 }
 
+//Datepicker
+.react-datepicker-popper {
+	z-index: 7;
+}
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+	padding-left: 0;
+	padding-right: 0;
+}
+//nastavenia farby textu, fontu a pod
 .react-datepicker__input-container input {
 	width: 100%;
 	display: flex;
@@ -121,14 +226,23 @@
 	width: 100%;
 }
 
-.card-body {
-	max-width: 1200px;
-	min-width: 800px;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: white;
+//Card
+.card-header {
+	button{
+		//nastavenia card headeru v inych cards
+	}
+	border: 0;
+	background-color: #f4f9fd;
+	margin: 0;
+	width: 100%;
+	z-index: 100;
+	height: 50px;
+	div{
+		button{
+			//nastavenia card headeru v edite tasku
+		}
+	}
 }
-
 .card {
 	margin: auto;
 	border: 0;
@@ -137,20 +251,22 @@
 	min-height: 100%;
 	height: 100%;
 }
-
-.table-div {
+.card-body {
+	max-width: 1200px;
+	min-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
 	background-color: white;
-	padding: 20px;
 }
-
-.table-div-panel {
-	background-color: white;
-	padding: 20px;
-}
-
 .smallCard {
 	min-width: 0;
 }
+.newEditCard {
+	max-width: 1380px;
+	border-top: 0px;
+}
+
+//Form required params
 .req {
 	font-weight: bold;
 }
@@ -159,12 +275,10 @@
 	content: ' *';
 	display: inline;
 }
-
 .fieldError {
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
-
 .fieldError input {
 	border-color: red;
 }
@@ -175,73 +289,75 @@
 	border-color: white;
 }
 
-.fullWidth {
-	width: 100%;
-}
-
+//pagination
 .paginationItem {
 	margin-right: 0.8em;
 }
-
+.fullWidth {
+	width: 100%;
+}
 .list-group :hover {
 	background-color: #d3d3d3;
 }
-@font-face {
-	font-family: Segoe UI Light;
-	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff);
+
+//Form
+//set inputs icon css
+.input-group-addon {
+	border-color: #ececec;
+}
+//nastavenia input blackgroundu, borders, color
+.form-control {
+	border-color: #ececec;
+}
+.form-control::placeholder {
+	color: #a3a3a3;
 }
 
-@font-face {
-	font-family: Segoe UI;
-	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff);
+//h2 nastavenia
+.h2{
+	font-size: 2em;
+}
+.h2{
+	span{
+		margin-left: 10px;
+	}
 }
 
-@font-face {
-	font-family: Segoe UI Semibold;
-	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff);
+//label nastavenia
+.input-label{
+	font-size: 1em;
+}
+//nastavenia tabuliek v edit a add tasku
+.table-in-form{
+	thead{
+		tr{
+			th{
+				//text headerov tabulky
+			}
+		}
+	}
+}
+//nastavenia add comment textu
+.comment-text{
+	font-size: 1em;
+}
+//nastavenia disabled inputu
+.form-control:disabled {
+	background-color: white;
 }
 
-@font-face {
-	font-family: Segoe UI Bold;
-	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff);
+//nastavenia border, background selectu
+.react-select__control {
+	border-color: #ececec;
 }
 
-.fontLight {
-	font-family: Segoe UI Light;
+//Edit/Add task
+.underlined-input {
+	border: none;
+	border-bottom: 1px solid #c2cfd6;
+	border-width: 1px;
+	background-color: white;
 }
-
-.fontRegular {
-	font-family: Segoe UI;
-}
-
-.fontSemibold {
-	font-family: Segoe UI Semibold;
-}
-
-.fontBold {
-	font-family: Segoe UI Bold;
-}
-
-.coloredSelect {
-	padding-top: auto;
-	padding-left: 5px;
-	border: 1px solid #ececec;
-	border-right: none;
-}
-
-.selectored:focus {
-	border-width: 0px;
-}
-.selectored:active {
-	border-width: 0px;
-}
-.noLeftRightSpaces {
-	padding-left: 0px;
-	margin-left: 0px;
-	padding-right: 0px;
-	margin-right: 0px;
-}
-
 .uploadButton {
 	font-family: Segoe UI Semibold;
 	background-color: white;
@@ -252,58 +368,42 @@
 	width: 100%;
 	font-weight: bolder;
 }
-
-.redButton {
-	font-family: Segoe UI Semibold;
-	background-color: white;
-	text-transform: uppercase;
-	border-radius: 7px;
-	font-weight: bolder;
-	color: #f5302e;
+.coloredSelect {
+	padding-top: auto;
+	padding-left: 5px;
+	border: 1px solid #ececec;
+	border-right: none;
 }
-.blueButton {
-	font-family: Segoe UI Semibold;
-	background-color: white;
-	text-transform: uppercase;
-	border-radius: 7px;
-	font-weight: bolder;
-	color: #20a8d8;
-}
-
-.greenButton {
-	font-family: Segoe UI Semibold;
-	background-color: white;
-	text-transform: uppercase;
-	border-radius: 7px;
-	font-weight: bolder;
-	color: #4dbd74;
-}
-
-.subtaskEdit {
-	border: none;
-	background-color: inherit;
-}
-
-.subtaskRow:hover {
+//Invoice
+.invoiceRow:hover {
 	i {
-		color: green;
+		color: #a3a3a3;
 	}
 }
-
-.smoothEdges {
-	border-radius: 4px;
+.invoiceRow i {
+	color: white;
 }
-
+.invoiceRow input {
+	background-color: inherit;
+}
+.invoiceRow select {
+	background-color: inherit;
+	border: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+}
+.invoiceRow select::-ms-expand {
+	display: none;
+}
+//Subtask
 .subtaskRow:hover {
 	i {
 		color: #a3a3a3;
 	}
 }
-
 .subtaskRow i {
 	color: white;
 }
-
 .subtaskCheckbox {
 	background-color: white;
 	border: 2px solid #ececec;
@@ -318,21 +418,20 @@
 		left: 1px;
 	}
 }
-
-.form-control {
-	border-color: #ececec;
+.subtaskEdit {
+	border: none;
+	background-color: inherit;
+}
+.subtaskRow:hover {
+	i {
+		color: green;
+	}
+}
+.smoothEdges {
+	border-radius: 4px;
 }
 
-.form-control::placeholder {
-	color: #a3a3a3;
-}
-
-.react-select__control {
-	border-color: #ececec;
-}
-.input-group-addon {
-	border-color: #ececec;
-}
+//in edit task is table without borders
 .table-noBorder {
 	border: none !important;
 	tr {
@@ -349,63 +448,7 @@
 	}
 }
 
-.invoiceRow:hover {
-	i {
-		color: #a3a3a3;
-	}
-}
-
-.invoiceRow i {
-	color: white;
-}
-.invoiceRow input {
-	background-color: inherit;
-}
-
-.invoiceRow select {
-	background-color: inherit;
-	border: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-}
-
-.invoiceRow select::-ms-expand {
-	display: none;
-}
-
-.attachmentInfo {
-	color: #2a7ec5 !important;
-}
-
-.activeNavItem span {
-	color: #2a7ec5 !important;
-	border-color: #2a7ec5 !important;
-}
-.activeNavItem i {
-	color: #2a7ec5 !important;
-}
-
-.sidebarSize {
-	font-size: 1.05em;
-}
-
-.nav-link:hover {
-	background-color: #d3eef6 !important;
-}
-
-.css-1aya2g8 {
-	background-color: white;
-	border-color: #ececec;
-	border-radius: 0;
-}
-.form-control:disabled {
-	background-color: white;
-}
-
-.td-small {
-	width: 5%;
-}
-
+//Tag list icon
 .tag-settings-icon {
 	border: none;
 	text-decoration: none;
@@ -413,6 +456,76 @@
 	color: #151b1e;
 }
 
+//header 2 text
 .h2-setting-form {
   margin-bottom: 10px;
 }
+
+//sets text red
+.colorRed{
+	color:red !important;
+}
+.colorRed span{
+	color:red !important;
+}
+.redButton {
+	font-family: Segoe UI Semibold;
+	background-color: white;
+	text-transform: uppercase;
+	border-radius: 7px;
+	font-weight: bolder;
+	color: #f5302e;
+}
+.blueButton {
+	font-family: Segoe UI Semibold;
+	background-color: white;
+	text-transform: uppercase;
+	border-radius: 7px;
+	font-weight: bolder;
+	color: #20a8d8;
+}
+.greenButton {
+	font-family: Segoe UI Semibold;
+	background-color: white;
+	text-transform: uppercase;
+	border-radius: 7px;
+	font-weight: bolder;
+	color: #4dbd74;
+}
+//no margin no padding on sides
+.noLeftRightSpaces {
+	padding-left: 0px;
+	margin-left: 0px;
+	padding-right: 0px;
+	margin-right: 0px;
+}
+
+// this css does nothing I think, commented until found
+/*
+.css-1aya2g8 {
+	background-color: green;
+	border-color: #ececec;
+	border-radius: 0;
+}
+
+.selectored:focus {
+	border-width: 0px;
+}
+.selectored:active {
+	border-width: 0px;
+}
+
+.css-1qdiza0 {
+	background-color: white;
+}
+
+
+.attachmentInfo {
+	color: #2a7ec5 !important;
+}
+
+
+.email-app .inbox .message {
+	border-top: 1px solid #c2cfd6;
+}
+*/

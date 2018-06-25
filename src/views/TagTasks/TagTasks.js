@@ -41,7 +41,7 @@ class Tag extends Component {
 			<div>
 				<CardHeader />
 				<div className="table-div">
-					<h2>
+					<h2 className="h2">
 						<a
 						href={'#/tag/edit/' + parseInt(this.props.match.params.id, 10)}
 						className="fa fa-cog tag-settings-icon"

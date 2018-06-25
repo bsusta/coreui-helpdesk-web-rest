@@ -32,7 +32,7 @@ class Subtasks extends Component {
   render() {
     return (
       <div>
-        <table className="table table-hover table-sm">
+        <table className="table table-hover table-sm table-in-form">
           <thead className="thead-inverse">
             <tr>
               <th style={{ border: "0px" }}>{i18n.t('subtasks')}</th>
@@ -130,7 +130,7 @@ class Subtasks extends Component {
         </table>
         {/* Subtasks ends, materials starts*/}
 
-        <table className="table table-hover table-sm">
+        <table className="table table-hover table-sm table-in-form">
           <thead className="thead-inverse">
             <tr>
               <th style={{ border: "0px" }}>{i18n.t('invoiceableItems')}</th>

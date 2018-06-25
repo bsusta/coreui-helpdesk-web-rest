@@ -118,7 +118,7 @@ class RoleEdit extends Component {
       <div className="card">
         <div className="card-header"></div>
         <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
-        <h2 className="h2-setting-form">{i18n.t('editRole')}</h2>
+        <h2 className="h2" className="h2-setting-form">{i18n.t('editRole')}</h2>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -141,7 +141,7 @@ class RoleEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="title" className="req">{i18n.t('roleName')}</label>
+              <label className= "input-label" htmlFor="title" className="req input-label">{i18n.t('roleName')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -153,11 +153,11 @@ class RoleEdit extends Component {
                 placeholder={i18n.t('enterRoleName')}
               />
             </div>
-            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
+            {this.state.submitError && this.state.title===''&&<label className= "input-label" htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
 
 
             <div className="form-group">
-              <label htmlFor="description">{i18n.t('description')}</label>
+              <label className= "input-label" htmlFor="description">{i18n.t('description')}</label>
               <textarea
                 className="form-control"
                 id="description"
@@ -171,7 +171,7 @@ class RoleEdit extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="homepage" className="req">{i18n.t('homepage')}</label>
+              <label className= "input-label" htmlFor="homepage" className="req input-label">{i18n.t('homepage')}</label>
               <input
                 className="form-control"
                 id="homepage"
@@ -183,10 +183,10 @@ class RoleEdit extends Component {
                 placeholder={i18n.t('enterHomepage')}
               />
             </div>
-            {this.state.submitError && this.state.homepage===''&&<label htmlFor="homepage" style={{color:'red'}}>{i18n.t('restrictionMustEnterRolesHomepage')}</label>}
+            {this.state.submitError && this.state.homepage===''&&<label className= "input-label" htmlFor="homepage" style={{color:'red'}}>{i18n.t('restrictionMustEnterRolesHomepage')}</label>}
 
             <div className="form-group">
-              <label htmlFor="order" className="req">{i18n.t('order')}</label>
+              <label className= "input-label" htmlFor="order" className="req input-label">{i18n.t('order')}</label>
               <input
                 className="form-control"
                 id="order"
@@ -199,8 +199,8 @@ class RoleEdit extends Component {
                 placeholder={i18n.t('enterRoleOrder')}
               />
             </div>
-            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionOrderNumberIsNotValid')}</label>}
-            { this.state.submitError && this.state.order===''&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
+            { this.state.order!==''&&isNaN(parseInt(this.state.order))&&<label className= "input-label" htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionOrderNumberIsNotValid')}</label>}
+            { this.state.submitError && this.state.order===''&&<label className= "input-label" htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
 
             <h3>{i18n.t('acls')}</h3>
             {ACLs.map(acl => (

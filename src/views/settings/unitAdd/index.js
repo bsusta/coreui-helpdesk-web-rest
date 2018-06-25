@@ -37,7 +37,7 @@ class UnitAdd extends Component {
       <div className="card">
         <div className="card-header"></div>
         <div className="card-body">
-        <h2 className="h2-setting-form">{i18n.t('addUnit')}</h2>
+        <h2 className="h2" className="h2-setting-form">{i18n.t('addUnit')}</h2>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -45,7 +45,7 @@ class UnitAdd extends Component {
             }}
           >
             <div className="form-group">
-              <label htmlFor="title" className="req">{i18n.t('title')}</label>
+              <label className= "input-label" htmlFor="title" className="req input-label">{i18n.t('title')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -53,12 +53,12 @@ class UnitAdd extends Component {
                 value={this.state.title}
                 onChange={value => this.setState({ title: value.target.value })}
               />
-            {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
+            {this.state.submitError && this.state.title===''&&<label className= "input-label" htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
             </div>
 
 
             <div className="form-group">
-              <label htmlFor="shortcut" className="req">{i18n.t('shortcut')}</label>
+              <label className= "input-label" htmlFor="shortcut" className="req input-label">{i18n.t('shortcut')}</label>
               <input
                 className="form-control"
                 id="shortcut"
@@ -68,7 +68,7 @@ class UnitAdd extends Component {
                   this.setState({ shortcut: value.target.value })
                 }
               />
-            {this.state.submitError && this.state.shortcut===''&&<label htmlFor="shortcut" style={{color:'red'}}>{i18n.t('restrictionMustEnterShortcut')}</label>}
+            {this.state.submitError && this.state.shortcut===''&&<label className= "input-label" htmlFor="shortcut" style={{color:'red'}}>{i18n.t('restrictionMustEnterShortcut')}</label>}
             </div>
 
             <div className="form-group">

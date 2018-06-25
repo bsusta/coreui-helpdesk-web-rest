@@ -155,7 +155,7 @@ class AddComment extends Component {
                 }}
               />
               <label
-                className="text-info"
+                className="text-info comment-text"
                 size="sm"
                 htmlFor={
                   this.props.commentID
@@ -174,7 +174,7 @@ class AddComment extends Component {
                     : "internal"
                 }
                 style={{ marginLeft: 5 }}
-                className="align-middle"
+                className="align-middle comment-text"
               >
                 <Input
                   type="checkbox"
@@ -449,7 +449,7 @@ class AddComment extends Component {
             </div>
             <div className="form-group">
               <label
-                className="text-info"
+                className="text-info comment-text"
                 size="sm"
                 htmlFor={
                   this.props.commentID
@@ -467,7 +467,7 @@ class AddComment extends Component {
                     ? "internal" + this.props.commentID
                     : "internal"
                 }
-                className="align-middle"
+                className="align-middle comment-text"
               >
                 <Input
                   type="checkbox"

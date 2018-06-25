@@ -23,9 +23,9 @@ class ErrorMessages extends Component {
 
   render() {
     return (
-      <Dropdown nav className="d-md-down-none" isOpen={this.state.dropdownOpen} toggle={()=>this.setState({ dropdownOpen: !this.state.dropdownOpen })}>
-        <DropdownToggle nav>
-          <i className="fa fa-exclamation-triangle" style={{color:'red',fontSize:'1em'}}/><Badge pill color="red" style={{color:'red',backgroundColor:'none'}}>{this.props.errorMessages.length}</Badge>
+      <Dropdown nav className="d-md-down-none noDots" isOpen={this.state.dropdownOpen} toggle={()=>this.setState({ dropdownOpen: !this.state.dropdownOpen })}>
+        <DropdownToggle className="headerIcons">
+          <i className="fa fa-exclamation-triangle colorRed"/><Badge pill color="red" className="colorRed">{this.props.errorMessages.length}</Badge>
         </DropdownToggle>
         <DropdownMenu right className="dropdown-menu"  style={{width:450,overflowY:'scroll',overflowX:'visible',maxHeight:'80vh'}}>
           <DropdownItem header tag="div"><strong>Some error(s) has occured</strong></DropdownItem>

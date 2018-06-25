@@ -60,7 +60,7 @@ class TagAdd extends Component {
       <CardBody>
 
 
-        <h2 style={{ paddingTop: 20, marginBottom: 20 }}>{i18n.t('addNewTag')}</h2>
+        <h2 className="h2">{i18n.t('addNewTag')}</h2>
         <div>
           <form style={{ marginTop: 15 }}>
             <div className="form-group">

@@ -38,7 +38,7 @@ class ProjectEdit extends Component {
         : [],
       submitError: false
     };
-    this.setPermission.bind(this);  
+    this.setPermission.bind(this);
   }
 
   submit() {
@@ -110,7 +110,7 @@ class ProjectEdit extends Component {
         </CardHeader>
         <CardBody>
         <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-          <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
+          <h2 className="h2">
             Editing {this.state.title}
           </h2>
 
@@ -134,7 +134,7 @@ class ProjectEdit extends Component {
                     {this.state.is_active ? i18n.t('activated') : i18n.t('archived')}
                   </label>
                 </p>
-                <label htmlFor="title" className="req">{i18n.t('projectName')}</label>
+                <label htmlFor="title" className="req input-label">{i18n.t('projectName')}</label>
                 <input
                   className="form-control"
                   placeholder={i18n.t('enterProjectName')}
@@ -145,13 +145,13 @@ class ProjectEdit extends Component {
                 />
                 {this.state.submitError &&
                   this.state.title === "" && (
-                    <label htmlFor="title" style={{ color: "red" }}>
+                    <label htmlFor="title" className="input-label" style={{ color: "red" }}>
                       {i18n.t('restrictionMustEnterTitle')}
                     </label>
                   )}
               </div>
               <div className="form-group">
-                <label htmlFor="description">{i18n.t('description')}</label>
+                <label htmlFor="description" className="input-label">{i18n.t('description')}</label>
                 <RichTextEditor
                   value={this.state.description}
                   onChange={e => {
@@ -165,7 +165,7 @@ class ProjectEdit extends Component {
             </form>
           </div>
 
-          <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
+          <h2 className="h2">
             {" "}
             {i18n.t('projectPermissions')}
           </h2>

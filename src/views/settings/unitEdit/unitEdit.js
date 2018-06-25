@@ -17,7 +17,7 @@ class UnitEdit extends Component {
     };
   }
 
-  //we compare if there have been made any changes to the unit in comparison to the original unit, if yes we trigger warning htmlFor the user
+  //we compare if there have been made any changes to the unit in comparison to the original unit, if yes we trigger warning className= "input-label" htmlFor the user
   compareChanges(change,val){
     var newState = {...this.state};
     newState[change]=val;
@@ -59,7 +59,7 @@ class UnitEdit extends Component {
 
         <div className="card-header"></div>
         <div className="card-body">
-        <h2 className="h2-setting-form">{i18n.t('editUnit')}</h2>
+        <h2 className="h2" className="h2-setting-form">{i18n.t('editUnit')}</h2>
           <div className="list-group">
             <form
               onSubmit={(event, value) => {
@@ -83,7 +83,7 @@ class UnitEdit extends Component {
               </label>
             </div>
             <div className="form-group">
-              <label htmlFor="title" className="req">{i18n.t('title')}</label>
+              <label className= "input-label" htmlFor="title" className="req input-label">{i18n.t('title')}</label>
               <input
                 className="form-control"
                 id="title"
@@ -96,10 +96,10 @@ class UnitEdit extends Component {
               placeholder={i18n.t('enterTitle')}
               />
           </div>
-          {this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
+          {this.state.submitError && this.state.title===''&&<label className= "input-label" htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTitle')}</label>}
 
           <div className="form-group">
-            <label htmlFor="shortcut" className="req">{i18n.t('shortcut')}</label>
+            <label className= "input-label" htmlFor="shortcut" className="req input-label">{i18n.t('shortcut')}</label>
             <input
               className="form-control"
               id="shortcut"
@@ -111,7 +111,7 @@ class UnitEdit extends Component {
             }
             placeholder={i18n.t('enterShortcut')}
             />
-            {this.state.submitError && this.state.shortcut===''&&<label htmlFor="shortcut" style={{color:'red'}}>{i18n.t('restrictionMustEnterShortcut')}</label>}
+            {this.state.submitError && this.state.shortcut===''&&<label className= "input-label" htmlFor="shortcut" style={{color:'red'}}>{i18n.t('restrictionMustEnterShortcut')}</label>}
 
         </div>
         <div className="form-group">

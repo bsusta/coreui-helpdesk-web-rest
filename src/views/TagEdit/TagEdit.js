@@ -72,7 +72,7 @@ class TagEdit extends Component {
         </CardHeader>
         <CardBody>
         <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-          <h2 style={{ paddingTop: 20, marginBottom: 20 }}>
+          <h2 className="h2">
             {i18n.t('editing')} {this.state.title}
           </h2>
 

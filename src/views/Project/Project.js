@@ -71,7 +71,7 @@ class Project extends Component {
 				</CardHeader>
 				<div className="table-div">
 					<div className="justify-content-between">
-						<h2>{name}</h2>
+						<h2 className="h2">{name}</h2>
 					</div>
 					<div>
 						<table className="table table-striped table-hover table-sm">

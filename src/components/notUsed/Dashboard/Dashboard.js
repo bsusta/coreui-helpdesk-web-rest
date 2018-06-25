@@ -25,7 +25,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ marginTop: 20 }}>Dashboard</h2>
+        <h2 className="h2">Dashboard</h2>
 
         <button type="button" class="btn btn-link pl-0">
           <i className="fa fa-filter" />

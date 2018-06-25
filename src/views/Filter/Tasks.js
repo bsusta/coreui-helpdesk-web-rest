@@ -89,11 +89,11 @@ class Tasks extends Component {
 								{this.props.showFilter ? i18n.t('Filter') : i18n.t('Filter')}
 							</label>
 						</CardHeader>
-            
+
 						<div className="table-div">
-							<h2>
-								<i className={icon} style={{ fontSize: 28, marginTop: 5 }} />
-								<span style={{ marginLeft: 10 }}>{header}</span>
+							<h2 className="h2">
+								<i className={icon} />
+								<span>{header}</span>
 							</h2>
 							<table className="table table-striped table-hover table-sm">
 								<thead className="thead-inverse">

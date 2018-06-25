@@ -34,12 +34,12 @@ class ProjectAdd extends Component {
 
       <CardBody>
 
-        <h2 style={{ marginBottom: 20 }}>{i18n.t('addNewProject')}</h2>
+        <h2 className="h2">{i18n.t('addNewProject')}</h2>
 
         <div>
           <div style={{ marginTop: 15 }}>
             <div className="form-group">
-              <label htmlFor="title" className="req">{i18n.t('projectName')}</label>
+              <label htmlFor="title" className="req input-label">{i18n.t('projectName')}</label>
               <input
                 className="form-control"
                 placeholder={i18n.t('enterProjectName')}
@@ -50,13 +50,13 @@ class ProjectAdd extends Component {
               />
               {this.state.submitError &&
                 this.state.title === "" && (
-                  <label htmlFor="title" style={{ color: "red" }}>
+                  <label htmlFor="title" className="input-label" style={{ color: "red" }}>
                     {i18n.t('restrictionMustEnterTitle')}
                   </label>
                 )}
             </div>
             <div className="form-group">
-              <label htmlFor="description">{i18n.t('description')}</label>
+              <label htmlFor="description" className="input-label">{i18n.t('description')}</label>
               <RichTextEditor
                 value={this.state.description}
                 onChange={e => {

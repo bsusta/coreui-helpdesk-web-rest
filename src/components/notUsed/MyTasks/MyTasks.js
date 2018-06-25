@@ -38,7 +38,7 @@ class MyTasks extends Component {
   render() {
     return (
       <div style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <h2 style={{ paddingTop: 20 }}> Add Filter</h2>
+        <h2 className="h2" style={{ paddingTop: 20 }}> Add Filter</h2>
         <div style={{ minHeight: 920 }}>
           <ModalTask
             open={this.state.modalTaskOpen}

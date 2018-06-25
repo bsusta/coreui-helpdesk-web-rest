@@ -24,13 +24,12 @@ class Header extends Component {
   }
   render() {
     return (
-      <header className="app-header navbar" style={{ maxWidth: 1920 }}>
+      <header className="app-header navbar">
         <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
-        <NavbarToggler style={{ color: "white" }}>LanHelpdesk</NavbarToggler>
-
-        <Nav className="d-md-down-none">
+        <NavbarToggler className="headerText">LanHelpdesk</NavbarToggler>
+        <div className="d-md-down-none">
           <InputGroup>
             <Input
               type="text"
@@ -38,10 +37,10 @@ class Header extends Component {
               value={this.state.search}
               onChange={e => this.setState({ search: e.target.value })}
               placeholder="Search task"
-              style={{ borderRight: "0", width: 300, marginLeft: 90 }}
+              className="searchInput"
             />
           <InputGroupAddon
-            style={{background: "white", borderLeft: "", cursor:'pointer'}}
+            className="searchButton"
             onClick={()=>{
               this.props.setFilterBody('search='+this.state.search,{title:this.state.search},1);
               this.props.history.push('/filter/1,20');
@@ -49,46 +48,42 @@ class Header extends Component {
               <i className="fa fa-search" />
             </InputGroupAddon>
           </InputGroup>
-        </Nav>
+        </div>
         {
            this.props.user.user_role.acl.includes('create_tasks') &&
           <button
             type="button"
             className="btn btn-link"
-            style={{ color: "white" }}
             onClick={() => this.props.history.push("/task/add")}
             >
             {i18n.t("addTask")}
           </button>
         }
 
-        <Nav navbar className="ml-auto">
+        <div className="ml-auto row headerCommandBar">
           {/*Settings icon*/}
           {
             this.props.user.user_role.acl.some((item)=>['company_settings','company_attribute_settings','user_settings','user_role_settings','imap_settings','smtp_settings','status_settings','task_attribute_settings','unit_settings'].includes(item))&&
             <a
-              style={{ margin: 0, padding: 0 }}
-              className="d-md-down-none "
+              className="headerIcons"
               href="#/settings"
             >
-              <i className="icon-settings" style={{ color: "white" }} />
+              <i className="icon-settings headerIcons" />
             </a>
         }
           <MessagesDropdown />
           {this.props.errorMessages.length > 0 && <ErrorMessagesDropdown />}
           <a
-            style={{ margin: 0, marginRight: 10, color: "white" }}
-            className="d-md-down-none"
+            className="d-md-down-none headerIcons"
             href={"#/user/profile"}
           >
             {this.props.user.username}
           </a>
           <i
-            className="fa fa-sign-out"
-            style={{ color: "white", cursor: "pointer", marginRight: 20 }}
+            className="fa fa-sign-out headerIcons"
             onClick={this.props.logoutUser}
           />
-        </Nav>
+      </div>
       </header>
     );
   }

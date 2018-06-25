@@ -8,7 +8,7 @@ class TriggerEdit extends Component {
 			<div className="card">
 				<div className="card-header">Edit trigger</div>
 				<div className="card-body">
-					<h2 className="h2-setting-form">Edit trigger</h2>
+					<h2 className="h2" className="h2-setting-form">Edit trigger</h2>
 					<div className="form-check">
 						<label className="form-check-label">
 							<input type="checkbox" className="form-check-input" />
@@ -16,11 +16,11 @@ class TriggerEdit extends Component {
 						</label>
 					</div>
 					<div className="form-group">
-						<label htmlFor="title">Automatic task name</label>
+						<label className= "input-label" htmlFor="title">Automatic task name</label>
 						<input className="form-control" id="title" placeholder="Enter title" />
 					</div>
 					<div className="form-group">
-						<label htmlFor="shortcut">Description</label>
+						<label className= "input-label" htmlFor="shortcut">Description</label>
 						<input className="form-control" id="shortcut" placeholder="Enter description" />
 					</div>
 					<h3>Meet these conditions:</h3>
@@ -28,7 +28,7 @@ class TriggerEdit extends Component {
 						<tbody>
 							<tr>
 								<td>
-									<h2>IF</h2>
+									<h2 className="h2">IF</h2>
 								</td>
 								<td>
 									<select className="form-control" placeholder="Select ticket attribute...">
@@ -53,7 +53,7 @@ class TriggerEdit extends Component {
 							</tr>
 							<tr>
 								<td>
-									<h2>AND</h2>
+									<h2 className="h2">AND</h2>
 								</td>
 								<td>
 									<select className="form-control" placeholder="Select ticket attribute...">
@@ -78,7 +78,7 @@ class TriggerEdit extends Component {
 							</tr>
 							<tr>
 								<td>
-									<h2>AND</h2>
+									<h2 className="h2">AND</h2>
 								</td>
 								<td>
 									<select className="form-control" placeholder="Select ticket attribute...">
@@ -108,12 +108,12 @@ class TriggerEdit extends Component {
 							</tr>
 						</tbody>
 					</table>
-					<h2 style={{ marginLeft: '50%' }}>OR</h2>
+					<h2 className="h2" style={{ marginLeft: '50%' }}>OR</h2>
 					<table className="table">
 						<tbody>
 							<tr>
 								<td>
-									<h2>IF</h2>
+									<h2 className="h2">IF</h2>
 								</td>
 								<td>
 									<select className="form-control" placeholder="Select ticket attribute...">
@@ -138,7 +138,7 @@ class TriggerEdit extends Component {
 							</tr>
 							<tr>
 								<td>
-									<h2>AND</h2>
+									<h2 className="h2">AND</h2>
 								</td>
 								<td>
 									<select className="form-control" placeholder="Select ticket attribute...">
@@ -163,7 +163,7 @@ class TriggerEdit extends Component {
 							</tr>
 							<tr>
 								<td>
-									<h2>AND</h2>
+									<h2 className="h2">AND</h2>
 								</td>
 								<td>
 									<select className="form-control" placeholder="Select ticket attribute...">
@@ -249,11 +249,11 @@ class TriggerEdit extends Component {
 						</tbody>
 					</table>
 					<div className="form-group">
-						<label htmlFor="title">Subject</label>
+						<label className= "input-label" htmlFor="title">Subject</label>
 						<input className="form-control" id="subject" placeholder="Subject" />
 					</div>
 					<div className="form-group">
-						<label htmlFor="body">E-mail body</label>
+						<label className= "input-label" htmlFor="body">E-mail body</label>
 						<textarea className="form-control" id="body" label="Enter e-mail here..." />
 					</div>
 

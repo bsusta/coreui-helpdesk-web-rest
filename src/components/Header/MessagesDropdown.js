@@ -31,9 +31,9 @@ class MessagesDropdown extends Component {
 
   render() {
     return (
-      <Dropdown style={{zindex:"1040"}} nav className="d-md-down-none" isOpen={this.state.dropdownOpen} toggle={()=>this.setState({ dropdownOpen: !this.state.dropdownOpen })}>
-        <DropdownToggle nav>
-          <i className="icon-envelope-letter"></i><Badge pill color="info" style={{color:'white'}}>{this.props.count}</Badge>
+      <Dropdown style={{zindex:"1040"}} nav className="d-md-down-none noDots" isOpen={this.state.dropdownOpen} toggle={()=>this.setState({ dropdownOpen: !this.state.dropdownOpen })}>
+        <DropdownToggle className="headerIcons">
+          <i className="icon-envelope-letter"></i><Badge pill color="info">{this.props.count}</Badge>
         </DropdownToggle>
         <DropdownMenu right className="dropdown-menu-lg" >
           <DropdownItem header tag="div"><strong>You have {this.props.count} new message/s</strong></DropdownItem>

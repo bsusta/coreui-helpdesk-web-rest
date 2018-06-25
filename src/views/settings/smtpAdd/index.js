@@ -46,7 +46,7 @@ class SMTPAdd extends Component {
             }}
           >
             <div className="form-group">
-              <label htmlFor="email" className="req">{i18n.t('email')}</label>
+              <label className= "input-label" htmlFor="email" className="req input-label">{i18n.t('email')}</label>
               <input
                 className="form-control"
                 value={this.state.email}
@@ -55,12 +55,12 @@ class SMTPAdd extends Component {
                 type="email"
                 placeholder={i18n.t('email')}
               />
-              { this.state.email!==''&&!isEmail(this.state.email)&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
-              {this.state.addError && this.state.email===''&&<label htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
+              { this.state.email!==''&&!isEmail(this.state.email)&&<label className= "input-label" htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionEmailNotValid')}</label>}
+              {this.state.addError && this.state.email===''&&<label className= "input-label" htmlFor="email" style={{color:'red'}}>{i18n.t('restrictionMustEnterEmailAddress')}</label>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="server" className="req">{i18n.t('serverAddress')}</label>
+              <label className= "input-label" htmlFor="server" className="req input-label">{i18n.t('serverAddress')}</label>
               <input
                 className="form-control"
                 id="server"
@@ -71,7 +71,7 @@ class SMTPAdd extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="port" className="req">{i18n.t('port')}</label>
+              <label className= "input-label" htmlFor="port" className="req input-label">{i18n.t('port')}</label>
               <input
                 className="form-control"
                 id="port"
@@ -82,7 +82,7 @@ class SMTPAdd extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="login" className="req">{i18n.t('login')}</label>
+              <label className= "input-label" htmlFor="login" className="req input-label">{i18n.t('login')}</label>
               <input
                 className="form-control"
                 id="login"
@@ -93,7 +93,7 @@ class SMTPAdd extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="pass"  className="req">{i18n.t('password')}</label>
+              <label className= "input-label" htmlFor="pass"  className="req input-label">{i18n.t('password')}</label>
               <input
                 className="form-control"
                 id="pass"

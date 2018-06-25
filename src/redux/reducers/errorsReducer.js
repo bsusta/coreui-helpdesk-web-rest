@@ -1,7 +1,7 @@
 import { CLEAR_ERROR_MESSAGES, ADD_ERROR_MESSAGE,SET_ERROR_MESSAGE, LOGIN_LOGOUT } from '../types'
 
 const initialState = {
-  errorMessages:[],
+  errorMessages:[{date:(new Date()).getTime()/1000,message:'This is a test error message'}],
 };
 
 export default function sidebarReducer(state = initialState, action) {
