@@ -55,7 +55,7 @@ class Header extends Component {
           <button
             type="button"
             className="btn btn-link"
-            style={{ color: "white" }}
+            style={{ color: "white"}}
             onClick={() => this.props.history.push("/task/add")}
             >
             {i18n.t("addTask")}
