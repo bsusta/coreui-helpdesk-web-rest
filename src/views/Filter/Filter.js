@@ -56,7 +56,6 @@ class Filter extends Component {
     }
     else if(this.props.filterState!=props.filterState){
       this.setState({...this.createState(false),...props.filterState});
-      ;
     }
   }
 
@@ -431,7 +430,7 @@ class Filter extends Component {
             <Select
              styles={colourStyles}
               options={this.props.projects.map(project => {
-                project.label = project.title;
+                project.label = project.name;
                 project.value = project.id;
                 return project;
               })}
@@ -902,7 +901,7 @@ class Filter extends Component {
     );
   }
 }
-const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesReducer, tagsReducer, taskAttributesReducer, login, filtersReducer }) => {
+const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesReducer, tagsReducer, taskAttributesReducer, login, filtersReducer, sidebarReducer }) => {
   const { taskProjects } = tasksReducer;
   const {taskStatuses} = statusesReducer;
   const { filterState, filter, total, body } = filtersReducer;
@@ -910,8 +909,13 @@ const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesRed
   const { taskCompanies } = companiesReducer;
   const { tags } = tagsReducer;
   const { taskAttributes } = taskAttributesReducer;
+  const { sidebar } = sidebarReducer;
   const { token, user } = login;
-  return {statuses:taskStatuses,companies:taskCompanies,projects:taskProjects, users,tags,taskAttributes, token,user, filter, filterState,body, total};
+	let index = sidebar.findIndex(item => item.name === "projects");
+	let index2 = sidebar.findIndex(item => item.name === "archived");
+  return {statuses:taskStatuses,companies:taskCompanies,
+    projects:(index===-1?[]:sidebar[index].children).concat(index2===-1?[]:sidebar[index2].children),
+    users,tags,taskAttributes, token,user, filter, filterState,body, total};
 };
 
 

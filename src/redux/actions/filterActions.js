@@ -1,4 +1,4 @@
-import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS, SET_FILTER_ORDER } from '../types';
 import { TASKS_LIST, FILTERS_LIST } from '../urls';
 import {processError,processRESTinput,filterToFilterState ,filterBodyFromState} from '../../helperFunctions';
 import {getSidebar} from './sidebarActions';
@@ -6,6 +6,12 @@ import {getSidebar} from './sidebarActions';
 export const clearFilterTasks = () => {
  return (dispatch) => {
    dispatch({ type: CLEAR_FILTER_TASKS  });
+ }
+};
+
+export const setFilterOrder = (order) => {
+ return (dispatch) => {
+   dispatch({ type: SET_FILTER_ORDER, order  });
  }
 };
 
@@ -27,9 +33,9 @@ export const startFilterLoading = (filterLoaded)=>{
    }
 }
 
-export const loadUnsavedFilter = (count,page,body,token) => {
+export const loadUnsavedFilter = (count,page,body,order,token) => {
  return (dispatch) => {
-   fetch(TASKS_LIST+'?limit='+count+'&page='+page+'&order=title=>asc&'+body, {
+   fetch(TASKS_LIST+'?limit='+count+'&page='+page+'&'+order+'&'+body, {
      method: 'get',
      headers: {
        'Authorization': 'Bearer ' + token,

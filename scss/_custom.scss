@@ -182,6 +182,10 @@
 .td-small {
 	width: 5%;
 }
+.tableArrow{
+	margin-left: 5px;
+	cursor: pointer;
+}
 
 //Filter
 .filterDivInside {
@@ -540,6 +544,18 @@
 .colorRed span{
 	color:red !important;
 }
+.colorLightBlue{
+	color: #20a8d8 !important;
+}
+.colorLightBlue span{
+	color: #20a8d8 !important;
+}
+.colorBlue{
+	color: #2a7ec5 !important;
+}
+.colorBlue span{
+	color:#2a7ec5 !important;
+}
 .redButton {
 	font-family: Segoe UI Semibold;
 	background-color: white;
@@ -570,6 +586,11 @@
 	margin-left: 0px;
 	padding-right: 0px;
 	margin-right: 0px;
+}
+
+//sets cursor to pointer
+.clickableIcon{
+	cursor: pointer;
 }
 
 // this css does nothing I think, commented until found

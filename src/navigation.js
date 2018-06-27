@@ -64,8 +64,6 @@ class Full extends Component {
     this.state={error:false}
   }
   componentDidCatch(error, info) {
-    console.log(error);
-    console.log(info);
     this.setState({error:false});
   }
 
@@ -344,37 +342,19 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/archived/:id"
+                  path="/project/:projectID"
                   name="Project task list"
                   component={Project}
                 />
                 <Route
                   exact
-                  path="/archived/:id/:page,:count/:task"
+                  path="/project/:projectID/:page,:count"
                   name="Project task list"
                   component={Project}
                 />
                 <Route
                   exact
-                  path="/archived/:id/:page,:count"
-                  name="Project task list"
-                  component={Project}
-                />
-                <Route
-                  exact
-                  path="/project/:id"
-                  name="Project task list"
-                  component={Project}
-                />
-                <Route
-                  exact
-                  path="/project/:id/:page,:count"
-                  name="Project task list"
-                  component={Project}
-                />
-                <Route
-                  exact
-                  path="/project/:id/:page,:count/:task"
+                  path="/project/:projectID/:page,:count/:task"
                   name="Project task list"
                   component={Project}
                 />
@@ -404,14 +384,20 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/tag/:id/:page,:count"
+                  path="/tag/:tagID"
                   name="Tag task list"
                   component={TagTasks}
                 />
                 <Route
                   exact
-                  path="/tag/:id"
-                  name="Tag Tasks"
+                  path="/tag/:tagID/:page,:count"
+                  name="Tag task list"
+                  component={TagTasks}
+                />
+                <Route
+                  exact
+                  path="/tag/:tagID/:page,:count/:task"
+                  name="Tag task list"
                   component={TagTasks}
                 />
                 <Route

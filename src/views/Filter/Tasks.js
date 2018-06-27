@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setFilterPage, setShowFilter, loadUnsavedFilter } from '../../redux/actions';
+import { setFilterPage, setShowFilter, loadUnsavedFilter, setFilterOrder } from '../../redux/actions';
 import Filter from './Filter';
 import {
 	Row,
@@ -28,6 +28,10 @@ import { timestampToString } from '../../helperFunctions';
 import i18n from 'i18next';
 
 class Tasks extends Component {
+	constructor(props){
+		super(props);
+		this.createArrow.bind(this);
+	}
 	usersToString(users) {
 		if (users.length === 0) {
 			return i18n.t('none');
@@ -46,10 +50,23 @@ class Tasks extends Component {
 				this.props.match.params.count ? this.props.match.params.count : 20,
 				this.props.page,
 				this.props.body,
+				this.props.order,
 				this.props.token
 			);
 		}
 	}
+
+	createArrow(type){
+		if(this.props.order==='order='+type+'=>asc'){
+			return <span className="tableArrow">
+				<i className="fa fa-arrow-up colorLightBlue" onClick={()=>this.props.setFilterOrder('order='+type+'=>desc')}/>
+			</span>
+		}
+		return <span className="tableArrow">
+		<i className={this.props.order==='order='+type+'=>desc'?"fa fa-arrow-down colorLightBlue":"fa fa-arrow-down"}
+		onClick={()=>this.props.setFilterOrder((this.props.order===('order='+type+'=>desc'))?('order='+type+'=>asc'):('order='+type+'=>desc'))}/>
+	</span>
+}
 
 	render() {
 		let header = i18n.t('unknownSearch');
@@ -60,7 +77,20 @@ class Tasks extends Component {
 				header = this.props.filters[index].name;
 				icon = this.props.filters[index].icon;
 			}
-		} else if (this.props.body && this.props.body.includes('search')) {
+		} else if (this.props.match.params.tagID) {
+			let index = this.props.tags.findIndex(tag => tag.id && tag.id.toString() === this.props.match.params.tagID);
+			if (index !== -1) {
+				header = this.props.tags[index].name;
+				icon = 'fa fa-cog clickableIcon';
+			}
+		}else if (this.props.match.params.projectID) {
+			console.log(this.props.projects);
+			let index = this.props.projects.findIndex(project => project.id && project.id.toString() === this.props.match.params.projectID);
+			if (index !== -1) {
+				header = this.props.projects[index].name;
+				icon = 'fa fa-info-circle clickableIcon';
+			}
+		}else if (this.props.body && this.props.body.includes('search')) {
 			header = i18n.t('search') + ': ' + this.props.body.split('=')[1].split('&')[0];
 		} else {
 			header = i18n.t('search');
@@ -92,21 +122,48 @@ class Tasks extends Component {
 
 						<div className="table-div">
 							<h2 className="h2">
-								<i className={icon} />
+								<i className={icon} onClick={()=>{
+										if(this.props.match.params.projectID){
+											this.props.history.push((
+												(this.props.project && this.props.project.id.toString()===this.props.match.params.projectID.toString() && this.props.project.canEdit) ?
+												'/project/edit/' : '/project/info/') + this.props.match.params.projectID);
+										}else if(this.props.match.params.tagID){
+											this.props.history.push('/tag/edit/' + this.props.match.params.tagID);
+										}
+									}} />
 								<span>{header}</span>
 							</h2>
 							<table className="table table-striped table-hover table-sm">
 								<thead className="thead-inverse">
 									<tr>
-										<th style={{ width: '3%', borderTop: '0px' }}>{i18n.t('id')}</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('status')}</th>
-										<th style={{ borderTop: '0px' }}>{i18n.t('title')}</th>
-										<th style={{ width: '10%', borderTop: '0px' }}>{i18n.t('requester')}</th>
-										<th style={{ width: '10%', borderTop: '0px' }}>{i18n.t('company')}</th>
-										<th style={{ width: '10%', borderTop: '0px' }}>{i18n.t('assigned')}</th>
-										<th style={{ width: '10%', borderTop: '0px' }}>{i18n.t('project')}</th>
-										<th style={{ width: '10%', borderTop: '0px' }}>{i18n.t('createdAt')}</th>
-										<th style={{ width: '10%', borderTop: '0px' }}>{i18n.t('dueDate')}</th>
+										<th style={{ width: '3%', borderTop: '0px' }}>
+											{i18n.t('id')}
+											{this.createArrow('id')}
+										</th>
+										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('status')}
+											{this.createArrow('status')}
+										</th>
+										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('title')}
+											{this.createArrow('title')}
+										</th>
+										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('requester')}
+											{this.createArrow('requester')}
+										</th>
+										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('company')}
+											{this.createArrow('TaskCompany')}
+										</th>
+										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('assigned')}
+											{this.createArrow('assigned')}
+										</th>
+										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('project')}
+											{this.createArrow('project')}
+										</th>
+										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('createdAt')}
+											{this.createArrow('createdtime')}
+										</th>
+										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('dueDate')}
+											{this.createArrow('DeadlineTime')}
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -123,20 +180,38 @@ class Tasks extends Component {
 											</td>
 											<td
 												onClick={() => {
-													if (task.canEdit) {
-														this.props.history.push(
-															'/filter/' +
+													if(this.props.match.params.id){
+														if (task.canEdit) {
+															this.props.history.push(
+																'/filter/' +
 																this.props.match.params.id +
 																'/task/edit/' +
 																task.id
-														);
-													} else {
-														this.props.history.push(
-															'/filter/' +
+															);
+														} else {
+															this.props.history.push(
+																'/filter/' +
 																this.props.match.params.id +
 																'/task/view/' +
 																task.id
-														);
+															);
+														}
+													}else if(this.props.match.params.projectID){
+														if (task.canEdit) {
+															this.props.history.push(
+																'/project/' +
+																this.props.match.params.projectID +
+																'/task/edit/' +
+																task.id
+															);
+														} else {
+															this.props.history.push(
+																'/project/' +
+																this.props.match.params.projectID +
+																'/task/view/' +
+																task.id
+															);
+														}
 													}
 												}}
 											>
@@ -168,7 +243,7 @@ class Tasks extends Component {
 								</tbody>
 							</table>
 							<Pagination
-								link={'filter'}
+								link={this.props.match.params.projectID?"project":'filter'}
 								history={{ push: () => {} }}
 								numberOfPages={this.props.numberOfPages}
 								refetchData={() => {}}
@@ -210,17 +285,27 @@ class Tasks extends Component {
 	}
 }
 
-const mapStateToProps = ({ filtersReducer, sidebarReducer, login }) => {
-	const { tasks, numberOfPages, body, filterState, showFilter, page } = filtersReducer;
+const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projectsReducer, login }) => {
+	const { tasks, numberOfPages, body, filterState, showFilter, page, order } = filtersReducer;
+	const { taskProjects } = tasksReducer;
 	const { sidebar } = sidebarReducer;
+	const { project } = projectsReducer;
 	const { token } = login;
+	let index = sidebar.findIndex(item => item.name === "projects");
+	let index2 = sidebar.findIndex(item => item.name === "archived");
+	let index3 = sidebar.findIndex(item => item.name === "tags");
+
 	return {
 		tasks,
+		order,
+		projects:(index===-1?[]:sidebar[index].children).concat(index2===-1?[]:sidebar[index2].children),
+		tags:(index3===-1?[]:sidebar[index3].children),
 		numberOfPages,
 		body,
 		page,
 		filterState,
 		showFilter,
+		project,
 		filters: sidebar[sidebar.findIndex(item => item.name === 'filters')].children,
 		token,
 	};
@@ -228,5 +313,5 @@ const mapStateToProps = ({ filtersReducer, sidebarReducer, login }) => {
 
 export default connect(
 	mapStateToProps,
-	{ setFilterPage, setShowFilter, loadUnsavedFilter }
+	{ setFilterPage, setShowFilter, loadUnsavedFilter, setFilterOrder }
 )(Tasks);

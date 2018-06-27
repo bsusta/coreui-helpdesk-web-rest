@@ -154,7 +154,7 @@ export const getSidebar = (date,ACL,token) => {
               projects.children.push({
                 name: project.title,
                 id:project.id,
-                url: "/project/" + project.id.toString()+'/1,20',
+                url: "/project/" + project.id.toString(),
                 //icon: "icon-folder",
                 badge: {
                   variant: "info",
@@ -185,7 +185,7 @@ export const getSidebar = (date,ACL,token) => {
             archived.children.push({
               name: project.title,
               id:project.id,
-              url: "/archived/" + project.id.toString()+'/1,20',
+              url: "/project/" + project.id.toString()+'/1,20',
               //icon: "icon-folder",
               badge: {
                 variant: "info",

@@ -93,7 +93,7 @@ class Sidebar extends Component {
     const navLabel = (item, key) => {
       const classes = {
         item: classNames("hidden-cn", item.class),
-        link: classNames("nav-label", item.class ? item.class : ""),
+        link: classNames("nav-link", item.class ? item.class : ""),
         icon: classNames(
           !item.icon ? "fa fa-circle" : item.icon,
           item.label.variant ? `text-${item.label.variant}` : "",
