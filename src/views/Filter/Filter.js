@@ -316,6 +316,9 @@ class Filter extends Component {
 </div>
 
 <div style={{ padding:20}}>
+<h2>
+						Filter
+							</h2>
           <FormGroup>
           {this.props.total!==null &&
             <span style={{float:'right',color:'red',padding:'6px'}}>
