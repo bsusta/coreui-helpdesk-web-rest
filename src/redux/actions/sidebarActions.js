@@ -75,6 +75,7 @@ export const getSidebar = (date,ACL,token) => {
                 name: tag.title,
                 color: tag.color,
                 id:tag.id,
+                public:tag.public,
                 url: "/tag/" + tag.id.toString()
               })
             );
@@ -84,6 +85,7 @@ export const getSidebar = (date,ACL,token) => {
             url: "/tag/add",
             icon: "fa fa-plus"
           });
+
 
           let filters = {
             name: "filters",
@@ -105,9 +107,9 @@ export const getSidebar = (date,ACL,token) => {
           let testFilters = [];
           let afterFilters = [];
           testFilters.push({
-            name: "search",
+            name: "filter",
             url: "/filter/add",
-            icon: "fa fa-search"
+            icon: "fa fa-plus"
           });
           filters.children.map(filter => {
             switch (filter.name) {

@@ -80,17 +80,20 @@ class Tasks extends Component {
 		} else if (this.props.match.params.tagID) {
 			let index = this.props.tags.findIndex(tag => tag.id && tag.id.toString() === this.props.match.params.tagID);
 			if (index !== -1) {
-				header = this.props.tags[index].name;
-				icon = 'fa fa-cog clickableIcon';
+				header = this.props.tags[index].name
+				icon = this.props.user.user_role.acl.includes('share_tags')||!this.props.tags[index].public ?'fa fa-cog clickableIcon':'fa fa-cog';
 			}
 		}else if (this.props.match.params.projectID) {
-			console.log(this.props.projects);
 			let index = this.props.projects.findIndex(project => project.id && project.id.toString() === this.props.match.params.projectID);
 			if (index !== -1) {
 				header = this.props.projects[index].name;
 				icon = 'fa fa-info-circle clickableIcon';
 			}
-		}else if (this.props.body && this.props.body.includes('search')) {
+		}else if (this.props.match.params.id==='add') {
+			header = i18n.t('filter');
+			icon = 'fa fa-plus';
+		}
+		else if (this.props.body && this.props.body.includes('search')) {
 			header = i18n.t('search') + ': ' + this.props.body.split('=')[1].split('&')[0];
 		} else {
 			header = i18n.t('search');
@@ -127,7 +130,7 @@ class Tasks extends Component {
 											this.props.history.push((
 												(this.props.project && this.props.project.id.toString()===this.props.match.params.projectID.toString() && this.props.project.canEdit) ?
 												'/project/edit/' : '/project/info/') + this.props.match.params.projectID);
-										}else if(this.props.match.params.tagID){
+										}else if(this.props.match.params.tagID && (this.props.user.user_role.acl.includes('share_tags')||!this.props.tags[index].public)){
 											this.props.history.push('/tag/edit/' + this.props.match.params.tagID);
 										}
 									}} />
@@ -290,7 +293,7 @@ const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projects
 	const { taskProjects } = tasksReducer;
 	const { sidebar } = sidebarReducer;
 	const { project } = projectsReducer;
-	const { token } = login;
+	const { token,user } = login;
 	let index = sidebar.findIndex(item => item.name === "projects");
 	let index2 = sidebar.findIndex(item => item.name === "archived");
 	let index3 = sidebar.findIndex(item => item.name === "tags");
@@ -303,6 +306,7 @@ const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projects
 		numberOfPages,
 		body,
 		page,
+		user,
 		filterState,
 		showFilter,
 		project,

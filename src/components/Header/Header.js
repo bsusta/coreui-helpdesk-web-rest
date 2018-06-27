@@ -14,6 +14,7 @@ import {logoutUser, setFilterBody} from '../../redux/actions';
 import { connect } from "react-redux";
 import i18n from "i18next";
 import ErrorMessagesDropdown from "./ErrorMessagesDropdown";
+import SimpleLoadingBar from 'react-simple-loading-bar';
 
 class Header extends Component {
   constructor(props) {
@@ -25,6 +26,9 @@ class Header extends Component {
   render() {
     return (
       <header className="app-header navbar">
+        <SimpleLoadingBar
+          activeRequests={this.props.activeRequests} color="#2A7EC5">
+        </SimpleLoadingBar>
         <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
@@ -91,10 +95,11 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ login, errorsReducer }) => {
+const mapStateToProps = ({ login, loadingReducer, errorsReducer }) => {
   const { user, token } = login;
   const { errorMessages } = errorsReducer;
-  return { user, token, errorMessages };
+  const { activeRequests } = loadingReducer;
+  return { user, token, activeRequests, errorMessages };
 };
 
 export default connect(mapStateToProps, { logoutUser, setFilterBody })(Header);

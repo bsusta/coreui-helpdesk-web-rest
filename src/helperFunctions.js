@@ -423,6 +423,9 @@ export const filterToFilterState = (filter,taskAttributes,statuses,projects,user
     })
 
   }
+
+  let others = [{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}];
+
   return {
     createdFrom:filter.filter.createdTime&& parseFilterStringToDate(filter.filter.createdTime).from,
     createdFromNow:filter.filter.createdTime&& parseFilterStringToDate(filter.filter.createdTime).fromNow,
@@ -445,10 +448,10 @@ export const filterToFilterState = (filter,taskAttributes,statuses,projects,user
     important:filter.filter.important?true:false,
     statuses:filter.filter.status?statuses.filter((item)=>filter.filter.status.includes(item.id)):[],
     projects:filter.filter.project?projects.filter((item)=>filter.filter.project.includes(item.id)):[],
-    creators:filter.filter.creator?users.filter((item)=>filter.filter.creator.includes(item.id)):[],
-    requesters:filter.filter.requester?users.filter((item)=>filter.filter.requester.includes(item.id)):[],
+    creators:filter.filter.creator?(Array.isArray(filter.filter.creator)?users.filter((item)=>filter.filter.creator.includes(item.id)):others.filter((item)=>filter.filter.creator.toLowerCase().includes(item.id.toLowerCase()))):[],
+    requesters:filter.filter.requester?(Array.isArray(filter.filter.requester)?users.filter((item)=>filter.filter.requester.includes(item.id)):others.filter((item)=>filter.filter.requester.toLowerCase().includes(item.id.toLowerCase()))):[],
     companies:filter.filter.taskCompany?companies.filter((item)=>filter.filter.taskCompany.includes(item.id)):[],
-    assignedTos:filter.filter.assigned?users.filter((item)=>filter.filter.assigned.includes(item.id)):[],
+    assignedTos:filter.filter.assigned?(Array.isArray(filter.filter.assigned)?users.filter((item)=>filter.filter.assigned.includes(item.id)):others.filter((item)=>filter.filter.assigned.toLowerCase().includes(item.id.toLowerCase()))):[],
     tags:filter.filter.tag?tags.filter((item)=>filter.filter.tag.includes(item.id)):[],
     followers:filter.filter.follower?users.filter((item)=>filter.filter.follower.includes(item.id)):[],
     task_data,

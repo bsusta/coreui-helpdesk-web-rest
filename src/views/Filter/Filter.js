@@ -355,7 +355,7 @@ class Filter extends Component {
               styles={colourStyles}
               isMulti
               value={this.state.requesters}
-              options={this.props.users.map(user => {
+              options={[{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(this.props.users.map(user => {
                 user.label =
                   (user.name ? user.name : "") +
                   " " +
@@ -367,7 +367,7 @@ class Filter extends Component {
                 }
                 user.value = user.id;
                 return user;
-              })}
+              }))}
               onChange={(e)=>this.setState({requesters:e})}
             />
 
@@ -388,7 +388,7 @@ class Filter extends Component {
             <Select
              styles={colourStyles}
               isMulti
-              options={this.props.users.map(user => {
+              options={[{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(this.props.users.map(user => {
                 user.label =
                   (user.name ? user.name : "") +
                   " " +
@@ -400,7 +400,7 @@ class Filter extends Component {
                 }
                 user.value = user.id;
                 return user;
-              })}
+              }))}
               onChange={(e)=>this.setState({assignedTos:e})}
               value={this.state.assignedTos}
             />
@@ -409,7 +409,7 @@ class Filter extends Component {
               <Select
                styles={colourStyles}
                 isMulti
-                options={this.props.users.map(user => {
+                options={[{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(this.props.users.map(user => {
                   user.label =
                     (user.name ? user.name : "") +
                     " " +
@@ -421,7 +421,7 @@ class Filter extends Component {
                   }
                   user.value = user.id;
                   return user;
-                })}
+                }))}
                 onChange={(e)=>this.setState({creators:e})}
                 value={this.state.creators}
               />
@@ -429,11 +429,11 @@ class Filter extends Component {
             <label className="mt-2 input-label">{i18n.t('project')}</label>
             <Select
              styles={colourStyles}
-              options={this.props.projects.map(project => {
+              options={[{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(this.props.projects.map(project => {
                 project.label = project.name;
                 project.value = project.id;
                 return project;
-              })}
+              }))}
               isMulti
               style={{ width: "100%" }}
               onChange={(e)=>this.setState({projects:e})}
@@ -443,7 +443,7 @@ class Filter extends Component {
             <Select
               isMulti
               styles={colourStyles}
-              options={this.props.users.map(user => {
+              options={[{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(this.props.users.map(user => {
                 user.label =
                   (user.name ? user.name : "") +
                   " " +
@@ -455,7 +455,7 @@ class Filter extends Component {
                 }
                 user.value = user.id;
                 return user;
-              })}
+              }))}
               onChange={(e)=>this.setState({followers:e})}
               value={this.state.followers}
             />

@@ -47,6 +47,7 @@ class Loader extends Component {
       }
     }
     if(this.props.match.params.projectID){
+      this.props.addActiveRequests(1);
       this.props.getProject(this.props.match.params.projectID,this.props.history,this.props.token);
     }
 
@@ -74,6 +75,7 @@ class Loader extends Component {
       }
       project.label=project.name;
       project.value=project.id;
+      this.props.addActiveRequests(1);
       this.props.getProject(props.match.params.projectID,this.props.history,this.props.token);
       props.setFilterBody('project='+props.match.params.projectID,{projects:[project]},1);
     }
@@ -100,9 +102,11 @@ class Loader extends Component {
         this.props.history.push('/project/'+props.match.params.projectID+'/1,'+(props.match.params.count?props.match.params.count:20));
       }else if(props.match.params.tagID){
         this.props.history.push('/tag/'+props.match.params.tagID+'/1,'+(props.match.params.count?props.match.params.count:20));
+      }else if(props.match.params.id){
+        this.props.history.push('/filter/'+props.match.params.id+'/1,'+(props.match.params.count?props.match.params.count:20));
       }
       else{
-        this.props.history.push('/filter/'+props.match.params.id+'/1,'+(props.match.params.count?props.match.params.count:20));
+        this.props.history.push('/filter/1,'+(props.match.params.count?props.match.params.count:20));
       }
       }
       else if(props.match.params.page===undefined&&props.match.params.id!=="add"){
@@ -111,8 +115,11 @@ class Loader extends Component {
         }else if(props.match.params.tagID){
           this.props.history.push('/tag/'+props.match.params.tagID+'/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
         }
-        else{
+      else if(props.match.params.id){
           this.props.history.push('/filter/'+props.match.params.id+'/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
+        }
+        else{
+          this.props.history.push('/filter/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
         }
       }
     else if((this.props.page!=props.page && props.body!==null )||(this.props.match.params.count!=props.match.params.count && props.body!==null)){
