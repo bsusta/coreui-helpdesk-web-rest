@@ -323,6 +323,8 @@ export default {
   addNew:'Add new',
   now: 'Now',
   search: 'Search',
+  cantEditUser:'You don\'t have rights to edit this user',
+  cantEditUser:'You don\'t have rights to edit this role',
 }
 
 /*

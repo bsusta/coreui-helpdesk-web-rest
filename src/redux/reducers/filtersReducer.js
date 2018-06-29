@@ -9,7 +9,7 @@ const initialState = {
   page:1,
   showFilter:true,
   filterLoaded:false,
-  order:'order=title=>asc'
+  order:'order=status=>asc'
 };
 
 

@@ -323,6 +323,8 @@ export default {
   addNew: 'Pridať nový',
   now:'Teraz',
   search: 'Vyhľadávanie',
+  cantEditUser:'Nemáte práva na úpravu tohto používateľa',
+  cantEditRole:'Nemáte práva na úpravu tohto role',
 }
 
 /*

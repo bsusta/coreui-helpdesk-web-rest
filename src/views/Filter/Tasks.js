@@ -171,7 +171,58 @@ class Tasks extends Component {
 								</thead>
 								<tbody>
 									{this.props.tasks.map(task => (
-										<tr style={{ cursor: 'pointer' }} key={task.id}>
+										<tr style={{ cursor: 'pointer' }} key={task.id}
+											onClick={() => {
+												if(this.props.match.params.id){
+													if (task.canEdit) {
+														this.props.history.push(
+															'/filter/' +
+															this.props.match.params.id +
+															'/task/edit/' +
+															task.id
+														);
+													} else {
+														this.props.history.push(
+															'/filter/' +
+															this.props.match.params.id +
+															'/task/view/' +
+															task.id
+														);
+													}
+												}else if(this.props.match.params.projectID){
+													if (task.canEdit) {
+														this.props.history.push(
+															'/project/' +
+															this.props.match.params.projectID +
+															'/task/edit/' +
+															task.id
+														);
+													} else {
+														this.props.history.push(
+															'/project/' +
+															this.props.match.params.projectID +
+															'/task/view/' +
+															task.id
+														);
+													}
+												}else if(this.props.match.params.tagID){
+													if (task.canEdit) {
+														this.props.history.push(
+															'/tag/' +
+															this.props.match.params.tagID +
+															'/task/edit/' +
+															task.id
+														);
+													} else {
+														this.props.history.push(
+															'/tag/' +
+															this.props.match.params.tagID +
+															'/task/view/' +
+															task.id
+														);
+													}
+												}
+											}}>
 											<td style={{ verticalAlign: 'center' }}>{task.id}</td>
 											<td>
 												<span
@@ -181,43 +232,7 @@ class Tasks extends Component {
 													{task.status.title}
 												</span>
 											</td>
-											<td
-												onClick={() => {
-													if(this.props.match.params.id){
-														if (task.canEdit) {
-															this.props.history.push(
-																'/filter/' +
-																this.props.match.params.id +
-																'/task/edit/' +
-																task.id
-															);
-														} else {
-															this.props.history.push(
-																'/filter/' +
-																this.props.match.params.id +
-																'/task/view/' +
-																task.id
-															);
-														}
-													}else if(this.props.match.params.projectID){
-														if (task.canEdit) {
-															this.props.history.push(
-																'/project/' +
-																this.props.match.params.projectID +
-																'/task/edit/' +
-																task.id
-															);
-														} else {
-															this.props.history.push(
-																'/project/' +
-																this.props.match.params.projectID +
-																'/task/view/' +
-																task.id
-															);
-														}
-													}
-												}}
-											>
+											<td>
 												{task.title}
 												<p>
 													{task.tags.map(tag => (

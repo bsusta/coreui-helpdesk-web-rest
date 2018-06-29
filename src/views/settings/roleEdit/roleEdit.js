@@ -33,6 +33,8 @@ const ACLs = [
 class RoleEdit extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.me);
+    console.log(this.props.user_role);
     this.state = {
       is_active: this.props.userRole.is_active ? true : false,
       title: this.props.userRole.title ? this.props.userRole.title : "",
@@ -45,7 +47,8 @@ class RoleEdit extends Component {
       order: this.props.userRole.order ? this.props.userRole.order.toString() : "",
       acl: this.props.userRole.acl ? this.props.userRole.acl : [],
       submitError:false,
-      changed:false
+      changed:false,
+      disabled:this.props.me.user_role.order>=this.props.userRole.order&& this.props.me.user_role.order!==1
     };
     this.compareChanges.bind(this);
     this.aclChange.bind(this);
@@ -118,7 +121,7 @@ class RoleEdit extends Component {
       <div className="card">
         <div className="card-header"></div>
         <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
-        <h2 className="h2" className="h2-setting-form">{i18n.t('editRole')}</h2>
+        <h2 className="h2" className="h2-setting-form">{this.state.disabled?i18n.t('cantEditRole'):i18n.t('editRole')}</h2>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -129,6 +132,7 @@ class RoleEdit extends Component {
               <label className="form-check-label">
                 <input
                   type="checkbox"
+                  disabled={this.state.disabled}
                   checked={this.state.is_active}
                   onChange={target =>{
                     this.compareChanges('is_active', !this.state.is_active);
@@ -144,6 +148,7 @@ class RoleEdit extends Component {
               <label className= "input-label" htmlFor="title" className="req input-label">{i18n.t('roleName')}</label>
               <input
                 className="form-control"
+                disabled={this.state.disabled}
                 id="title"
                 value={this.state.title}
                 onChange={target =>{
@@ -162,6 +167,7 @@ class RoleEdit extends Component {
                 className="form-control"
                 id="description"
                 placeholder={i18n.t('enterDescription')}
+                disabled={this.state.disabled}
                 value={this.state.description}
                 onChange={target =>{
                   this.compareChanges('description', target.target.value);
@@ -176,6 +182,7 @@ class RoleEdit extends Component {
                 className="form-control"
                 id="homepage"
                 value={this.state.homepage}
+                disabled={this.state.disabled}
                 onChange={target =>{
                   this.compareChanges('homepage', target.target.value);
                   this.setState({ homepage: target.target.value })}
@@ -190,6 +197,7 @@ class RoleEdit extends Component {
               <input
                 className="form-control"
                 id="order"
+                disabled={this.state.disabled}
                 type="number"
                 value={this.state.order}
                 onChange={target =>{
@@ -208,6 +216,7 @@ class RoleEdit extends Component {
                 <label className="form-check-label">
                   <input
                     type="checkbox"
+                    disabled={this.state.disabled}
                     className="form-check-input"
                     checked={this.state.acl.includes(acl.value)}
                     onChange={() => this.aclChange(acl.value)}
@@ -220,6 +229,7 @@ class RoleEdit extends Component {
             <div className="form-group">
               <button
                 type="submit"
+                disabled={this.state.disabled}
                 className="btn btn-primary mr-2"
                 onClick={this.submit.bind(this)}
               >
@@ -243,7 +253,7 @@ class RoleEdit extends Component {
 const mapStateToProps = ({ userRolesReducer, login }) => {
   const { userRole } = userRolesReducer;
   const { token } = login;
-  return { userRole, token };
+  return { userRole, token, me:login.user };
 };
 
 export default connect(mapStateToProps, { editUserRole })(RoleEdit);

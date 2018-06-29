@@ -42,7 +42,7 @@ class UserEdit extends Component {
       imageURL: null,
       submitError:false,
       changed:false,
-      disabled:this.props.me.user_role.order>=user.user_role.order
+      disabled:this.props.me.user_role.order>user.user_role.order
     };
     this.compareChanges.bind(this);
   }
@@ -144,7 +144,7 @@ class UserEdit extends Component {
       <div className="card">
         <div className="card-header">{i18n.t('editUser')}</div>
         <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
-        <h2 className="h2" className="h2-setting-form">{i18n.t('editUser')}</h2>
+        <h2 className="h2" className="h2-setting-form">{this.state.disabled?i18n.t('cantEditUser'):i18n.t('editUser')}</h2>
           <form
             onSubmit={(event, value) => {
               event.preventDefault();
@@ -568,7 +568,7 @@ class UserEdit extends Component {
                 id="role"
                 className="form-control"
               >
-                {(this.props.disabled?this.props.userRoles:this.props.userRoles.filter((item)=>item.order>=this.props.me.user_role.order)).map(opt => (
+                {(this.state.disabled?this.props.userRoles:this.props.userRoles.filter((item)=>item.order>=this.props.me.user_role.order)).map(opt => (
                   <option key={opt.id} value={opt.id}>
                     {opt.title}
                   </option>
