@@ -593,6 +593,12 @@
 	cursor: pointer;
 }
 
+//table tr  style={{ cursor: "pointer" }}
+.table-hover td {
+	cursor: pointer;
+}
+
+
 // this css does nothing I think, commented until found
 /*
 .css-1aya2g8 {
