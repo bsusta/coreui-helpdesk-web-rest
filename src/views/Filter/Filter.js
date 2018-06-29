@@ -294,8 +294,8 @@ class Filter extends Component {
           </ModalFooter>
         </Modal>
 
-<div className="filterButtons">
-          <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)} style={{paddingLeft:20}}>
+<div className="card-header">
+          <button type="button" className="btn btn-link" onClick={this.applyFilter.bind(this)}>
             {i18n.t('apply')}
           </button>
           <button type="button" className="btn btn-link" onClick={()=>this.setState({saveOpen:true})}>
@@ -314,7 +314,9 @@ class Filter extends Component {
 
 </div>
 
-<div style={{ padding:"1.75rem",paddingTop:50}}>
+<div className="filterAttributes">
+
+          <h2>Filter</h2>
           <FormGroup>
           {this.props.total!==null &&
             <span style={{float:'right',color:'red',padding:'6px'}}>

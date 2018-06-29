@@ -200,17 +200,10 @@
 	min-height: 95%;
 }
 //nastavenia card headeru vo filtri
-.filterButtons {
-	button{
-		//nastavenia textu v buttonoch
-	}
-	border: 0;
-	background-color: #f4f9fd;
-	margin: 0;
-	z-index: 100;
-	height: 50px;
-	position: fixed;
-	width: 100%;
+
+
+.filterAttributes {
+	padding: 20px;
 }
 
 //React select nastavenia
@@ -312,12 +305,19 @@
 	width: 100%;
 	z-index: 100;
 	height: 50px;
+	
 	div{
 		button{
 			//nastavenia card headeru v edite tasku
 		}
 	}
 }
+
+.card-header .btn {
+	padding: 0;
+	padding-right: 10px;
+}
+
 .card {
 	margin: auto;
 	border: 0;
