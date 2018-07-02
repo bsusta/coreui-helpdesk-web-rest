@@ -88,7 +88,7 @@ class UserAdd extends Component {
 					<label className= "input-label" htmlFor="avatar" style={{ fontSize: 10 }}>
 						{i18n.t('willBeResized')}
 					</label>
-					<div className="form-group" style={{ marginBottom: 0 }}>
+					<div className="form-group">
 						<input
 							type="file"
 							accept="image/x-png,image/gif,image/jpeg,image/jpg"
@@ -169,6 +169,27 @@ class UserAdd extends Component {
 							)}
 					</div>
 
+						<div className="form-group">
+						<label className= "input-label" htmlFor="name">{i18n.t('firstname')}</label>
+						<input
+							className="form-control"
+							id="name"
+							value={this.state.name}
+							onChange={target => this.setState({ name: target.target.value })}
+							placeholder={i18n.t('enterFirstName')}
+						/>
+					</div>
+					<div className="form-group">
+						<label className= "input-label" htmlFor="surname">{i18n.t('surname')}</label>
+						<input
+							className="form-control"
+							id="surname"
+							value={this.state.surname}
+							onChange={target => this.setState({ surname: target.target.value })}
+							placeholder={i18n.t('enterSurname')}
+						/>
+					</div>
+
 					<div className="form-group">
 						<label className= "input-label" htmlFor="password" className="req input-label">
 							{i18n.t('password')}
@@ -194,6 +215,38 @@ class UserAdd extends Component {
 							)}
 					</div>
 					<div className="form-group">
+						<label className= "input-label" htmlFor="role">{i18n.t('role')}</label>
+						<select
+							value={this.state.userRole}
+							onChange={value => this.setState({ userRole: value.target.value })}
+							id="role"
+							className="form-control"
+						>
+							{this.props.userRoles
+								.filter(item => item.order >= this.props.user.user_role.order)
+								.map(opt => (
+									<option key={opt.id} value={opt.id}>
+										{opt.title}
+									</option>
+								))}
+						</select>
+					</div>
+					<div className="form-group">
+						<label className= "input-label" htmlFor="company">{i18n.t('company')}</label>
+						<select
+							value={this.state.company}
+							id="company"
+							onChange={value => this.setState({ company: value.target.value })}
+							className="form-control"
+						>
+							{this.props.companies.map(opt => (
+								<option key={opt.id} value={opt.id}>
+									{opt.title}
+								</option>
+							))}
+						</select>
+					</div>
+					<div className="form-group">
 						<label className= "input-label" htmlFor="language">{i18n.t('language')}</label>
 						<select
 							value={this.state.language}
@@ -207,26 +260,6 @@ class UserAdd extends Component {
 								</option>
 							))}
 						</select>
-					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="name">{i18n.t('firstname')}</label>
-						<input
-							className="form-control"
-							id="name"
-							value={this.state.name}
-							onChange={target => this.setState({ name: target.target.value })}
-							placeholder={i18n.t('enterFirstName')}
-						/>
-					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="surname">{i18n.t('surname')}</label>
-						<input
-							className="form-control"
-							id="surname"
-							value={this.state.surname}
-							onChange={target => this.setState({ surname: target.target.value })}
-							placeholder={i18n.t('enterSurname')}
-						/>
 					</div>
 					<div className="form-group">
 						<label className= "input-label" htmlFor="title_before">{i18n.t('titleBeforeName')}</label>
@@ -397,38 +430,6 @@ class UserAdd extends Component {
               />
             </div>
               */}
-					<div className="form-group">
-						<label className= "input-label" htmlFor="company">{i18n.t('company')}</label>
-						<select
-							value={this.state.company}
-							id="company"
-							onChange={value => this.setState({ company: value.target.value })}
-							className="form-control"
-						>
-							{this.props.companies.map(opt => (
-								<option key={opt.id} value={opt.id}>
-									{opt.title}
-								</option>
-							))}
-						</select>
-					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="role">{i18n.t('role')}</label>
-						<select
-							value={this.state.userRole}
-							onChange={value => this.setState({ userRole: value.target.value })}
-							id="role"
-							className="form-control"
-						>
-							{this.props.userRoles
-								.filter(item => item.order >= this.props.user.user_role.order)
-								.map(opt => (
-									<option key={opt.id} value={opt.id}>
-										{opt.title}
-									</option>
-								))}
-						</select>
-					</div>
 
 					<div className="form-group">
 						<button type="submit" className="btn btn-primary mr-2" onClick={this.submit.bind(this)}>
