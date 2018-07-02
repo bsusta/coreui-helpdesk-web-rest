@@ -89,6 +89,22 @@ class AddTask extends Component {
     this.state.requestedBy===undefined|| this.state.company===undefined ){
       return;
     }
+  }
+
+/**
+ * Adds new task
+ * @return {null}
+ */
+  submit() {
+    this.setState({submitError:true});
+    //we create copy of the state so we can transform data
+    let state={...this.state};
+    let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
+    //checks if all requirements for creating were met
+    if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||this.state.title===''||
+    this.state.requestedBy===undefined|| this.state.company===undefined ){
+      return;
+    }
 
     //as a tags we send titles not ids
     let tags = [];
@@ -628,42 +644,31 @@ class AddTask extends Component {
                           </InputGroup>
                         </FormGroup>}
 
-									<div className="form-group">
-										<div style={{ paddingTop: 5, paddingRight: 10 }}>
-											{this.props.attachments.map(item => (
-												<span
-													key={item.id}
-													className="badge"
-													style={{
-														backgroundColor: '#d3eef6',
-														color: 'black',
-														paddingLeft: 10,
-														paddingRight: 10,
-														paddingTop: 5,
-														paddingBottom: 5,
-														marginLeft: 5,
-														marginTop: 1,
-														width: '100%',
-														display: 'flex',
-													}}
-												>
-													<div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-														{!item.url && item.file.name}
-														{item.url && <a href={item.url}>{item.file.name}</a>}
-													</div>
-													<div style={{ flex: 1 }} />
-													{item.file.size && (
-														<div
-															style={{
-																marginTop: 'auto',
-																marginBottom: 'auto',
-															}}
-														>
-															{item.file.size > 10000 &&
-																Math.ceil(item.file.size / 1000) + 'kb'}
-															{item.file.size <= 10000 && item.file.size + 'b'}
-														</div>
-													)}
+                        <div className="form-group" style={{ marginBottom: 0 }}>
+                          <label htmlFor="fileUpload" className="input-label">{i18n.t('attachments')}</label>
+                          <input
+                            type="file"
+                            id="fileUpload"
+                            style={{ display: "none" }}
+                            onChange={e => {
+                              this.setState({showUploadError:false});
+                              let file = e.target.files[0];
+                              if(file===undefined){
+                                return;
+                              }
+                              if(file.size>10000000){
+                                this.setState({showUploadError:true});
+                                return;
+                              }
+                              let self=this;
+                              this.props.uploadFile(file, this.props.token);
+                            }}
+                            />
+                          <label className="btn btn-primary btn-block" htmlFor="fileUpload">
+                            {i18n.t('addAttachment')}
+                          </label>
+                        </div>
+                        {this.state.showUploadError &&<span style={{color:'red'}}>This file is too big!</span>}
 
                         <div className="form-group">
                           <div style={{ paddingTop: 5, paddingRight: 10 }}>

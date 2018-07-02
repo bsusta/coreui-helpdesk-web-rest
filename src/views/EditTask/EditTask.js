@@ -57,28 +57,84 @@ const colourStyles = {
 
 
 class EditTask extends Component {
-	constructor(props) {
-		super(props);
-		let task_data = importExistingCustomAttributesForTask(
-			initialiseCustomAttributes([...this.props.taskAttributes]),
-			[...this.props.task.taskData],
-			[...this.props.taskAttributes]
-		);
-		//task_data=this.fillCustomAttributesNulls(task_data,this.props.taskAttributes);
-		let requestedBy;
-		if (this.props.task.requestedBy) {
-			requestedBy = { ...this.props.task.requestedBy };
-			requestedBy.label =
-				(requestedBy.name ? requestedBy.name : '') + ' ' + (requestedBy.surname ? requestedBy.surname : '');
-			if (requestedBy.label === ' ') {
-				requestedBy.label = requestedBy.email;
-			} else {
-				requestedBy.label = requestedBy.label + ' (' + requestedBy.email + ')';
-			}
-			requestedBy.value = requestedBy.id;
-		} else {
-			requestedBy = null;
-		}
+  constructor(props) {
+    super(props);
+    let task_data = importExistingCustomAttributesForTask(
+      initialiseCustomAttributes([...this.props.taskAttributes]),
+      [...this.props.task.taskData],
+      [...this.props.taskAttributes]
+    );
+    //task_data=this.fillCustomAttributesNulls(task_data,this.props.taskAttributes);
+    let requestedBy;
+    if (this.props.task.requestedBy) {
+      requestedBy = { ...this.props.task.requestedBy };
+      requestedBy.label =
+      (requestedBy.name ? requestedBy.name : "") +
+      " " +
+      (requestedBy.surname ? requestedBy.surname : "");
+      if (requestedBy.label === " ") {
+        requestedBy.label = requestedBy.email;
+      } else {
+        requestedBy.label = requestedBy.label + " (" + requestedBy.email + ")";
+      }
+      requestedBy.value = requestedBy.id;
+    } else {
+      requestedBy = null;
+    }
+
+    let company;
+    if (this.props.task.company) {
+      company = { ...this.props.task.company };
+      company.value = company.id;
+      company.label = company.title;
+    } else {
+      company = null;
+    }
+    let submitError = containsNullRequiredAttribute(
+      processCustomAttributes({ ...task_data }, [...this.props.taskAttributes]),
+      [...this.props.taskAttributes]
+    );
+    this.state = {
+      company,
+      deadline: this.props.task.deadline
+      ? moment(this.props.task.deadline * 1000)
+      : null,
+      closedAt: this.props.task.closedAt
+      ? moment(this.props.task.closedAt * 1000)
+      : null,
+      startedAt: this.props.task.startedAt
+      ? moment(this.props.task.startedAt * 1000)
+      : null,
+      description: this.props.task.description?this.props.task.description:'',
+      important: this.props.task.important,
+      project: this.props.task.project.id,
+      requestedBy,
+      status: this.props.task.status.id,
+      tags: this.props.task.tags
+      .filter(
+        tag => this.props.tags.findIndex(item => item.id === tag.id) != -1
+      )
+      .map(tag => tag.id),
+      title: this.props.task.title,
+      workTime: this.props.task.work_time ? this.props.task.work_time : "",
+      work_type: this.props.task.work_type ? this.props.task.work_type : "vzdialena podpora",
+      newTags: [],
+      newTag: "",
+      ///////
+      taskSolver:
+      this.props.task.taskHasAssignedUsers.length == 0
+      ? "null"
+      : Object.values(this.props.task.taskHasAssignedUsers)[0].user.id,
+      attachments: [],
+      task_data,
+      followers: this.props.followers.map(follower => follower.id),
+      submitError,
+      openAddUser:false,
+      openAddCompany:false,
+      showUploadError:false,
+    };
+    this.autoSubmit.bind(this);
+  }
 
   fillCustomAttributesNulls(attributes, originalAttributes) {
     for (let key in attributes) {
@@ -117,9 +173,78 @@ class EditTask extends Component {
     this.props.getTaskSolvers(this.props.task.project.id, this.props.token);
   }
 
-	componentWillMount() {
-		this.props.getTaskSolvers(this.props.task.project.id, this.props.token);
-	}
+  autoSubmit(name, value, id) {
+    let state = { ...this.state };
+    if (name === "project") {
+      state["project"] = value.project;
+      state["taskSolver"] = "null";
+    } else if(name==='requestedBy'){
+      state['requestedBy'] = value;
+      state['company'] = this.props.companies[this.props.companies.findIndex((item)=>item.id===value.company.id)];
+    } else if (name==='status') {
+      state['closedAt'] = moment();
+      state[name] = value;
+    } else if (name) {
+      state[name] = value;
+    }
+    let task_data = processCustomAttributes({...state.task_data},[...this.props.taskAttributes]);
+    if(containsNullRequiredAttribute(task_data,[...this.props.taskAttributes])||
+    state.title===''||state.requestedBy===undefined||state.company===undefined){
+      this.setState({submitError:true});
+      return;
+    }
+    this.setState({ submitError: false });
+    let tags = [];
+    state.tags.map(addTag =>
+      tags.push(
+        this.props.tags.concat(state.newTags).find(tag => tag.id == addTag)
+        .title
+      )
+    );
+    /*
+    //ak je task uzvrety nastavi mu closedAt, ak nema startedAt tak ten tiez
+    let closedAt = this.state.closedAt ? this.state.closedAt : "null";
+    if (state.status.toString() === "4") {
+      closedAt = Math.ceil(moment().valueOf() / 1000);
+      if (state.startedAt === null) {
+        state.startedAt = closedAt * 1000;
+      }
+    }*/
+
+    this.props.editTask(
+      {
+        title: state.title,
+        description: state.description === ''?'null':state.description,
+        closedAt:
+        state.closedAt !== null ? state.closedAt.valueOf() / 1000 : "null",
+        deadline:
+        state.deadline !== null ? state.deadline.valueOf() / 1000 : "null",
+        startedAt:
+        state.startedAt !== null ? state.startedAt.valueOf() / 1000 : "null",
+        important: state.important,
+        workType: state.work_type===''?'null':state.work_type,
+        workTime: state.workTime.length == 0 ? undefined : state.workTime,
+        tag: JSON.stringify(tags),
+        assigned:
+        state.taskSolver != "null"
+        ? JSON.stringify([{ userId: parseInt(state.taskSolver) }])
+        : null,
+        attachment:
+        this.props.attachments.length === 0
+        ? '[]'
+        : JSON.stringify(
+          this.props.attachments.map(attachment => attachment.id)
+        ),
+        taskData: JSON.stringify(task_data)
+      },
+      this.props.task.id,
+      state.project,
+      state.status,
+      state.requestedBy.id,
+      state.company.id,
+      this.props.token
+    );
+  }
 
   render() {
     return (
@@ -336,43 +461,42 @@ class EditTask extends Component {
                             <CommentsLoader taskID={this.props.task.id} />
                           </div>
 
-									<FormGroup>
-										<label htmlFor="project" className="req input-label">
-											{i18n.t('project')}
-										</label>
-										<InputGroup>
-											<InputGroupAddon>
-												<i className="fa fa-folder-o" />
-											</InputGroupAddon>
-											<select
-												className="form-control"
-												id="project"
-												value={this.state.project}
-												onChange={e => {
-													this.autoSubmit('project', {
-														project: e.target.value,
-														taskSolver: 'null',
-													});
-													this.setState({
-														project: e.target.value,
-														taskSolver: 'null',
-													});
-													this.setState({
-														project: e.target.value,
-														taskSolver: 'null',
-													});
-													this.props.deleteTaskSolvers();
-													this.props.getTaskSolvers(e.target.value, this.props.token);
-												}}
-											>
-												{this.props.taskProjects.map(project => (
-													<option key={project.id} value={project.id}>
-														{project.title}
-													</option>
-												))}
-											</select>
-										</InputGroup>
-									</FormGroup>
+                          <div className="col-4">
+                            <FormGroup>
+                              <label htmlFor="status" className="input-label">{i18n.t("status")}</label>
+                              {this.state.closedAt &&
+                                <span style={{ float: "right" }}>
+                                    {i18n.t("changedAt")}:{" "}
+                                    {timestampToString(this.state.closedAt/1000)}
+                                  </span>
+                                }
+                                <InputGroup>
+                                  <InputGroupAddon>
+                                    <i className="fa fa-list" />
+                                  </InputGroupAddon>
+                                  {this.state.status &&
+                                      <span className="coloredSelect"
+                                        style={{
+                                          color:this.props.statuses.find(
+                                          status => status.id == this.state.status
+                                        ).color}}
+                                        ><i className="fa fa-circle" style={{paddingTop:10}}/></span>
+                                  }
+                                  <select
+                                    className="form-control"
+                                    style={{
+                                      borderLeft:'none',
+                                      paddingLeft:3,
+                                      color: this.props.statuses.find(
+                                        status => status.id == this.state.status
+                                      ).color
+                                    }}
+                                    value={this.state.status}
+                                    id="status"
+                                    onChange={e => {
+                                      this.autoSubmit("status", e.target.value);
+                                      this.setState({ status: e.target.value, closedAt:moment()});
+                                    }}
 
                                     >
                                     {this.props.statuses.map(status => (
@@ -684,37 +808,40 @@ class EditTask extends Component {
                                 </FormGroup>
                               )}
 
-													<button
-														type="button"
-														className="close"
-														aria-label="Close"
-														style={{ marginTop: 'auto', marginBottom: 'auto' }}
-														onClick={() => {
-															this.props.removeFile(item.id, this.props.token);
-															let self = this;
-															setTimeout(function() {
-																self.autoSubmit();
-															}, 3000);
-														}}
-													>
-														<span
-															aria-hidden="true"
-															style={{
-																color: 'black',
-																padding: 5,
-																paddingBottom: 10,
-																margin: 0,
-															}}
-														>
-															&times;
-														</span>
-													</button>
-												</span>
-											))}
-										</div>
-									</div>
+                              <div className="form-group" style={{ marginBottom: 0 }}>
+                                <label htmlFor="fileUpload" className="input-label">{i18n.t("attachments")}</label>
+                                <input
+                                  type="file"
+                                  id="fileUpload"
+                                  style={{ display: "none" }}
+                                  onChange={e => {
+                                    this.setState({showUploadError:false});
+                                    let file = e.target.files[0];
+                                    if(file===undefined){
+                                      return;
+                                    }
+                                    if(file.size>10000000){
+                                      this.setState({showUploadError:true});
+                                      return;
+                                    }
+                                    let self = this;
+                                    this.props.uploadFile(file, this.props.token);
+                                    setTimeout(function() {
+                                      self.autoSubmit();
+                                    }, 4000);
+                                  }}
+                                  />
+                                <div>
+                                <label
+                                  htmlFor="fileUpload"
+                                  className="btn btn-primary btn-block uploadButton"
+                                  >
+                                    {i18n.t("addAttachment")}
+                                </label>
+                              </div>
+                              </div>
+                              {this.state.showUploadError &&<span style={{color:'red'}}>This file is too big!</span>}
 
-<<<<<<< HEAD
                               <div className="form-group">
                                 <div style={{ paddingTop: 5, paddingRight: 10 }}>
                                   {this.props.attachments.map(item => (
@@ -755,430 +882,6 @@ class EditTask extends Component {
                                             {item.file.size <= 10000 && item.file.size + "b"}
                                           </div>
                                         )}
-=======
-									<div className="form-group">
-										<MultiSelect
-											data={this.props.users}
-											displayValue="email"
-											selectedIds={this.props.followers.map(follower => follower.id)}
-											limit={true}
-											idValue="id"
-											filterBy="email"
-											display="column"
-											colored={false}
-											menuItemStyle={{
-												marginLeft: 7,
-												marginRight: 7,
-												marginTop: 2,
-												marginBottom: 2,
-												paddingTop: 2,
-												paddingBottom: 2,
-											}}
-											renderItem={item => (
-												<div
-													className="badge"
-													key={item.id}
-													style={{
-														borderRadius: '3px',
-														paddingLeft: 10,
-														paddingRight: 10,
-														paddingTop: 5,
-														paddingBottom: 5,
-														marginLeft: 5,
-														width: '100%',
-													}}
-												>
-													{item.email + ' (' + item.username + ')'}
-												</div>
-											)}
-											titleStyle={{
-												backgroundColor: '#f4f4f4',
-												color: 'black',
-												size: '0.875rem',
-											}}
-											toggleStyle={{
-												backgroundColor: 'white',
-												border: 'none',
-												padding: 0,
-												fontSize: '0.875rem',
-											}}
-											label={i18n.t('selectFollowers')}
-											labelStyle={{ marginLeft: 10 }}
-											searchStyle={{ margin: 5 }}
-											onChange={(ids, items, item) => {
-												if (ids.map(id => id.toString()).includes(item.toString())) {
-													this.props.addFollower(item, this.props.task.id, this.props.token);
-												} else {
-													this.props.deleteFollower(
-														item,
-														this.props.task.id,
-														this.props.token
-													);
-												}
-											}}
-										/>
-									</div>
-									{this.props.taskAttributes.filter(item => item.is_active).map(attribute => {
-										switch (attribute.type) {
-											case 'input':
-												return (
-													<div
-														className={
-															'form-group' +
-															(attribute.required &&
-															this.state.task_data[attribute.id] === ''
-																? ' fieldError'
-																: '')
-														}
-														key={attribute.id}
-													>
-														<label
-															htmlFor={attribute.id}
-															className={
-																attribute.required ? 'req input-label' : 'input-label'
-															}
-														>
-															{attribute.title}
-														</label>
-														<input
-															className="form-control"
-															id={attribute.id}
-															value={this.state.task_data[attribute.id]}
-															onChange={e => {
-																let newData = { ...this.state.task_data };
-																newData[attribute.id] = e.target.value;
-																this.autoSubmit('task_data', newData);
-																this.setState({ task_data: newData });
-															}}
-															placeholder={i18n.t('enter') + ' ' + attribute.title}
-														/>
-														{attribute.required &&
-															this.state.task_data[attribute.id] === '' && (
-																<span>
-																	<i
-																		className={'fa fa-exclamation-circle'}
-																		style={{ color: 'red', paddingRight: 3 }}
-																	/>
-																	<label htmlFor="title" style={{ color: 'red' }}>
-																		{i18n.t('restrictionFieldRequired')}
-																	</label>
-																</span>
-															)}
-													</div>
-												);
-											case 'text_area':
-												return (
-													<div
-														className={
-															'form-group' +
-															(attribute.required &&
-															this.state.task_data[attribute.id] === ''
-																? ' fieldError'
-																: '')
-														}
-														key={attribute.id}
-													>
-														<label
-															htmlFor={attribute.id}
-															className={
-																attribute.required ? 'req input-label' : 'input-label'
-															}
-														>
-															{attribute.title}
-														</label>
-														<textarea
-															className="form-control"
-															id={attribute.id}
-															value={this.state.task_data[attribute.id]}
-															onChange={e => {
-																let newData = { ...this.state.task_data };
-																newData[attribute.id] = e.target.value;
-																this.autoSubmit('task_data', newData);
-																this.setState({ task_data: newData });
-															}}
-															placeholder={i18n.t('enter') + ' ' + attribute.title}
-														/>
-														{attribute.required &&
-															this.state.task_data[attribute.id] === '' && (
-																<span>
-																	<i
-																		className={'fa fa-exclamation-circle'}
-																		style={{ color: 'red', paddingRight: 3 }}
-																	/>
-																	<label htmlFor="title" style={{ color: 'red' }}>
-																		{i18n.t('restrictionFieldRequired')}
-																	</label>
-																</span>
-															)}
-													</div>
-												);
-											case 'simple_select':
-												return (
-													<div className="form-group" key={attribute.id}>
-														<label
-															htmlFor={attribute.id}
-															className={attribute.required ? 'req' : ''}
-														>
-															{attribute.title}
-														</label>
-														<select
-															className="form-control"
-															id={attribute.id}
-															value={this.state.task_data[attribute.id]}
-															onChange={e => {
-																let newData = { ...this.state.task_data };
-																newData[attribute.id] = e.target.value;
-																this.autoSubmit('task_data', newData);
-																this.setState({ task_data: newData });
-															}}
-														>
-															{Array.isArray(attribute.options) &&
-																attribute.options.map(opt => (
-																	<option key={opt} value={opt}>
-																		{opt}
-																	</option>
-																))}
-															{!Array.isArray(attribute.options) &&
-																Object.keys(attribute.options).map(key => (
-																	<option key={key} value={key}>
-																		{key}
-																	</option>
-																))}
-														</select>
-													</div>
-												);
-											case 'multi_select': {
-												let opt = [];
-												attribute.options.map(att =>
-													opt.push({
-														id: attribute.options.indexOf(att),
-														title: att,
-													})
-												);
-												return (
-													<div className="form-group" key={attribute.id}>
-														<MultiSelect
-															id={attribute.id}
-															data={opt}
-															displayValue="title"
-															selectedIds={this.state.task_data[attribute.id]}
-															idValue="id"
-															filterBy="title"
-															title={attribute.title}
-															display="row"
-															displayBoxStyle={{ width: 100 }}
-															menuItemStyle={{
-																marginLeft: 7,
-																marginRight: 7,
-																marginTop: 2,
-																marginBottom: 2,
-																paddingTop: 2,
-																paddingBottom: 2,
-															}}
-															renderItem={item => (
-																<span
-																	className="badge"
-																	key={item.id}
-																	style={{
-																		margin: 'auto',
-																		border: '1px solid black',
-																		borderRadius: '3px',
-																		paddingLeft: 10,
-																		paddingRight: 10,
-																		paddingTop: 5,
-																		paddingBottom: 5,
-																		marginLeft: 5,
-																	}}
-																>
-																	{item.title}
-																</span>
-															)}
-															titleStyle={{
-																backgroundColor: 'white',
-																color: 'black',
-																size: 15,
-															}}
-															toggleStyle={{
-																backgroundColor: 'white',
-																border: 'none',
-																padding: 0,
-															}}
-															label={attribute.title}
-															labelStyle={{ marginLeft: 10 }}
-															searchStyle={{ margin: 5 }}
-															onChange={(ids, items) => {
-																let newData = { ...this.state.task_data };
-																newData[attribute.id] = ids;
-																this.autoSubmit('task_data', newData);
-																this.setState({ task_data: newData });
-															}}
-														/>
-													</div>
-												);
-											}
-											case 'date':
-												return (
-													<div
-														className={
-															'form-group' +
-															(attribute.required &&
-															this.state.task_data[attribute.id] === null
-																? ' fieldError'
-																: '')
-														}
-														key={attribute.id}
-													>
-														<label
-															htmlFor={attribute.id}
-															className={
-																attribute.required ? 'req input-label' : 'input-label'
-															}
-														>
-															{attribute.title}
-														</label>
-														<DatePicker
-															selected={this.state.task_data[attribute.id]}
-															onChange={e => {
-																let newData = { ...this.state.task_data };
-																newData[attribute.id] = e;
-																this.autoSubmit('task_data', newData);
-																this.setState({ task_data: newData });
-															}}
-															locale="en-gb"
-															placeholderText={attribute.title}
-															showTimeSelect
-															timeFormat="HH:mm"
-															timeIntervals={30}
-															dateFormat="DD.MM.YYYY HH:mm"
-														/>
-														{attribute.required &&
-															this.state.task_data[attribute.id] === null && (
-																<span>
-																	<i
-																		className={'fa fa-exclamation-circle'}
-																		style={{ color: 'red', paddingRight: 3 }}
-																	/>
-																	<label htmlFor="title" style={{ color: 'red' }}>
-																		{i18n.t('restrictionFieldRequired')}
-																	</label>
-																</span>
-															)}
-													</div>
-												);
-											case 'decimal_number':
-												return (
-													<div
-														className={
-															'form-group' +
-															(attribute.required &&
-															isNaN(parseFloat(this.state.task_data[attribute.id]))
-																? ' fieldError'
-																: '')
-														}
-														key={attribute.id}
-													>
-														<label
-															htmlFor={attribute.id}
-															className={
-																attribute.required ? 'req input-label' : 'input-label'
-															}
-														>
-															{attribute.title}
-														</label>
-														<input
-															className="form-control"
-															type="number"
-															id={attribute.id}
-															value={this.state.task_data[attribute.id]}
-															onChange={e => {
-																let newData = { ...this.state.task_data };
-																newData[attribute.id] = e.target.value;
-																this.autoSubmit('task_data', newData);
-																this.setState({ task_data: newData });
-															}}
-															placeholder={i18n.t('enter') + ' ' + attribute.title}
-														/>
-														{attribute.required &&
-															isNaN(parseFloat(this.state.task_data[attribute.id])) && (
-																<span>
-																	<i
-																		className={'fa fa-exclamation-circle'}
-																		style={{ color: 'red', paddingRight: 3 }}
-																	/>
-																	<label htmlFor="title" style={{ color: 'red' }}>
-																		{i18n.t('restrictionFieldRequiredAndNotValid')}
-																	</label>
-																</span>
-															)}
-													</div>
-												);
-											case 'integer_number':
-												return (
-													<div
-														className={
-															'form-group' +
-															(attribute.required &&
-															isNaN(parseFloat(this.state.task_data[attribute.id]))
-																? ' fieldError'
-																: '')
-														}
-														key={attribute.id}
-													>
-														<label
-															htmlFor={attribute.id}
-															className={
-																attribute.required ? 'req input-label' : 'input-label'
-															}
-														>
-															{attribute.title}
-														</label>
-														<input
-															className="form-control"
-															type="number"
-															id={attribute.id}
-															value={this.state.task_data[attribute.id]}
-															onChange={e => {
-																let newData = { ...this.state.task_data };
-																newData[attribute.id] = e.target.value;
-																this.autoSubmit('task_data', newData);
-																this.setState({ task_data: newData });
-															}}
-															placeholder={i18n.t('enter') + ' ' + attribute.title}
-														/>
-														{attribute.required &&
-															isNaN(parseFloat(this.state.task_data[attribute.id])) && (
-																<span>
-																	<i
-																		className={'fa fa-exclamation-circle'}
-																		style={{ color: 'red', paddingRight: 3 }}
-																	/>
-																	<label htmlFor="title" style={{ color: 'red' }}>
-																		{i18n.t('restrictionFieldRequiredAndNotValid')}
-																	</label>
-																</span>
-															)}
-													</div>
-												);
-											case 'checkbox':
-												return (
-													<div className="form-group" key={attribute.id}>
-														<label className="form-check-label">
-															<input
-																type="checkbox"
-																className="form-check-input"
-																checked={this.state.task_data[attribute.id]}
-																onChange={() => {
-																	let newData = { ...this.state.task_data };
-																	newData[attribute.id] = !newData[attribute.id];
-																	this.autoSubmit('task_data', newData);
-																	this.setState({ task_data: newData });
-																}}
-															/>
-															{attribute.title}
-														</label>
-													</div>
-												);
->>>>>>> ae3f834cbc607d3a608aa56de0af3b9090c21569
 
                                         <button
                                           type="button"
