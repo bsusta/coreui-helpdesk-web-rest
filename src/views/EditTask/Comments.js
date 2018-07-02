@@ -68,7 +68,7 @@ class Comments extends Component {
           <div className="email-app mb-4" style={{ border: 0 }}>
             <main
               className="inbox"
-              style={{ padding: 0, backgroundColor: "white" }}
+              style={{ padding: 0, backgroundColor: "#f4f4f4" }}
             >
               <ul className="messages">
                 {comments.map(comment => (

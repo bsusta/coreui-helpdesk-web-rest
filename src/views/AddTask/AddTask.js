@@ -208,7 +208,7 @@ class AddTask extends Component {
                   style={{ borderBottom: "1px solid #eee", marginBottom: 17 }}
                   >
                   <div className="col-8">
-                    <div className="form-group">
+                    <div className="form-group task-name-input">
                       <InputGroup>
                         <InputGroupAddon style={{backgroundColor:'white',border:'none'}}>
                           <span className="float">
@@ -289,12 +289,12 @@ class AddTask extends Component {
                               </span>
                             )}
                             titleStyle={{
-                              backgroundColor: "white",
+                              backgroundColor: "#f4f4f4",
                               color: "black",
                               size: "0.875rem"
                             }}
                             toggleStyle={{
-                              backgroundColor: "white",
+                              backgroundColor: "#f4f4f4",
                               border: "none",
                               padding: 0,
                               fontSize: "0.875rem"
@@ -774,12 +774,12 @@ class AddTask extends Component {
                                 </div>
                               )}
                               titleStyle={{
-                                backgroundColor: "white",
+                                backgroundColor: "#f4f4f4",
                                 color: "black",
                                 size: "0.875rem"
                               }}
                               toggleStyle={{
-                                backgroundColor: "white",
+                                backgroundColor: "#f4f4f4",
                                 border: "none",
                                 padding: 0,
                                 fontSize: "0.875rem"

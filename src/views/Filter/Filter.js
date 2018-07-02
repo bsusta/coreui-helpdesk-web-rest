@@ -343,12 +343,12 @@ class Filter extends Component {
 						</ModalFooter>
 					</Modal>
 
-					<div className="filterButtons">
+					<div className="card-header">
 						<button
 							type="button"
 							className="btn btn-link"
 							onClick={this.applyFilter.bind(this)}
-							style={{ paddingLeft: 20 }}
+							style={{ paddingLeft: 0 }}
 						>
 							{i18n.t('apply')}
 						</button>
