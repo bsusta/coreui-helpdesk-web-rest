@@ -120,7 +120,7 @@ class AddComment extends Component {
             borderLeft: 0,
             borderRight: 0,
             borderBottom: 0,
-            backgroundColor: "white"
+            backgroundColor: "#f4f4f4"
           }}
           activeTab={this.state.activeTab}
         >

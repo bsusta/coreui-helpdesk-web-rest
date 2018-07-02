@@ -293,7 +293,7 @@ class EditTask extends Component {
 							<div className="col-8">
 								<div className="form-group">
 									<InputGroup>
-										<InputGroupAddon style={{ backgroundColor: 'white', border: 'none' }}>
+										<InputGroupAddon style={{ backgroundColor: 'white' }}>
 											<span className="float">
 												<i
 													className={'fa fa-star icon-star'}
@@ -333,7 +333,7 @@ class EditTask extends Component {
 											id="title"
 											placeholder={i18n.t('enterTitle')}
 											value={this.state.title}
-											style={{ fontSize: 24, border: 'none' }}
+											style={{ fontSize: 24, borderLeftStyle:'none' }}
 											onChange={e => {
 												this.autoSubmit('title', e.target.value);
 												this.setState({ title: e.target.value });
@@ -400,12 +400,12 @@ class EditTask extends Component {
 												</span>
 											)}
 											titleStyle={{
-												backgroundColor: 'white',
+												backgroundColor: '#f4f4f4',
 												color: 'black',
 												size: '0.875rem',
 											}}
 											toggleStyle={{
-												backgroundColor: 'white',
+												backgroundColor: '#f4f4f4',
 												border: 'none',
 												padding: 0,
 												fontSize: '0.875rem',
@@ -974,12 +974,12 @@ class EditTask extends Component {
 												</div>
 											)}
 											titleStyle={{
-												backgroundColor: 'white',
+												backgroundColor: '#f4f4f4',
 												color: 'black',
 												size: '0.875rem',
 											}}
 											toggleStyle={{
-												backgroundColor: 'white',
+												backgroundColor: '#f4f4f4',
 												border: 'none',
 												padding: 0,
 												fontSize: '0.875rem',
