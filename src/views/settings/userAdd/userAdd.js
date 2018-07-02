@@ -83,71 +83,82 @@ class UserAdd extends Component {
 			<div className="card">
 				<div className="card-header" />
 				<div className="card-body">
-					<h2 className="h2" className="h2-settings-form">{i18n.t('addUser')}</h2>
-					<label className= "input-label" htmlFor="avatar">{i18n.t('avatarUpload')} </label>
-					<label className= "input-label" htmlFor="avatar" style={{ fontSize: 10 }}>
-						{i18n.t('willBeResized')}
-					</label>
-					<div className="form-group">
-						<input
-							type="file"
-							accept="image/x-png,image/gif,image/jpeg,image/jpg"
-							onChange={e => {
-								//check sufix,resize image, save to store
-								let value = e.target.files[0];
-								if (!value) {
-									return;
-								}
+					<h2 className="h2" className="h2-settings-form">
+						{i18n.t('addUser')}
+					</h2>
 
-								let extFile = value.name
-									.substr(value.name.lastIndexOf('.') + 1, value.name.length)
-									.toLowerCase();
-								if (extFile == 'gif' || extFile == 'jpeg' || extFile == 'png' || extFile == 'jpg') {
-									let reader = new FileReader();
-									let img = new Image();
-									let self = this;
-									reader.onloadend = () => {
-										img.onload = function() {
-											let canvas = document.createElement('canvas');
-											canvas.width = 50;
-											canvas.height = 50;
-											let ctx = canvas.getContext('2d');
-											ctx.drawImage(img, 0, 0, 50, 50);
-											let imageURL = canvas.toDataURL('image/png');
-											//converts it to file ready className= "input-label" htmlFor upload
-											function dataURLtoFile(dataurl, filename) {
-												var arr = dataurl.split(','),
-													mime = arr[0].match(/:(.*?);/)[1],
-													bstr = atob(arr[1]),
-													n = bstr.length,
-													u8arr = new Uint8Array(n);
-												while (n--) {
-													u8arr[n] = bstr.charCodeAt(n);
+					<div className="row form-group">
+						<div className="col-md-4">
+							<label className="input-label" htmlFor="avatar">
+								{i18n.t('avatarUpload')}{' '}
+							</label>
+							<label className="input-label" htmlFor="avatar" style={{ fontSize: 10 }}>
+								{i18n.t('willBeResized')}
+							</label>
+						</div>
+						<div className="col-md-8" style={{ paddingLeft: 0 }}>
+							<input
+								type="file"
+								accept="image/x-png,image/gif,image/jpeg,image/jpg"
+								onChange={e => {
+									//check sufix,resize image, save to store
+									let value = e.target.files[0];
+									if (!value) {
+										return;
+									}
+
+									let extFile = value.name
+										.substr(value.name.lastIndexOf('.') + 1, value.name.length)
+										.toLowerCase();
+									if (extFile == 'gif' || extFile == 'jpeg' || extFile == 'png' || extFile == 'jpg') {
+										let reader = new FileReader();
+										let img = new Image();
+										let self = this;
+										reader.onloadend = () => {
+											img.onload = function() {
+												let canvas = document.createElement('canvas');
+												canvas.width = 50;
+												canvas.height = 50;
+												let ctx = canvas.getContext('2d');
+												ctx.drawImage(img, 0, 0, 50, 50);
+												let imageURL = canvas.toDataURL('image/png');
+												//converts it to file ready className= "input-label" htmlFor upload
+												function dataURLtoFile(dataurl, filename) {
+													var arr = dataurl.split(','),
+														mime = arr[0].match(/:(.*?);/)[1],
+														bstr = atob(arr[1]),
+														n = bstr.length,
+														u8arr = new Uint8Array(n);
+													while (n--) {
+														u8arr[n] = bstr.charCodeAt(n);
+													}
+													return new File([u8arr], filename, { type: mime });
 												}
-												return new File([u8arr], filename, { type: mime });
-											}
-											let image = dataURLtoFile(imageURL, value.name);
-											self.setState({
-												image,
-												imageURL,
-											});
+												let image = dataURLtoFile(imageURL, value.name);
+												self.setState({
+													image,
+													imageURL,
+												});
+											};
+											img.src = reader.result;
 										};
-										img.src = reader.result;
-									};
-									reader.readAsDataURL(value);
-								} else {
-									alert(i18n.t('onlyImageFormats'));
-								}
-							}}
-						/>
-						{this.state.image && <img style={{ maxWidth: 50, maxHeight: 50 }} src={this.state.imageURL} />}
+										reader.readAsDataURL(value);
+									} else {
+										alert(i18n.t('onlyImageFormats'));
+									}
+								}}
+							/>
+							{this.state.image && (
+								<img style={{ maxWidth: 50, maxHeight: 50 }} src={this.state.imageURL} />
+							)}
+						</div>
 					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="email" className="req input-label">
+					<div className="form-group row">
+						<label className="col-md-4 col-form-label req" htmlFor="email">
 							{i18n.t('username') + '/' + i18n.t('email')}
 						</label>
 						<input
-							className="form-control"
+							className="form-control col-md-8"
 							id="email"
 							value={this.state.email}
 							onChange={target => {
@@ -157,32 +168,37 @@ class UserAdd extends Component {
 						/>
 						{this.state.email !== '' &&
 							!isEmail(this.state.email) && (
-								<label className= "input-label" htmlFor="email" style={{ color: 'red' }}>
+								<label className="input-label" htmlFor="email" style={{ color: 'red' }}>
 									{i18n.t('restrictionEmailNotValid')}
 								</label>
 							)}
 						{this.state.submitError &&
 							this.state.email === '' && (
-								<label className= "input-label" htmlFor="email" style={{ color: 'red' }}>
+								<label className="input-label" htmlFor="email" style={{ color: 'red' }}>
 									{i18n.t('restrictionMustEnterEmailAddress')}
 								</label>
 							)}
 					</div>
 
-						<div className="form-group">
-						<label className= "input-label" htmlFor="name">{i18n.t('firstname')}</label>
+					<div className="form-group row">
+						<label className="col-md-4 col-form-label" htmlFor="name">
+							{i18n.t('firstname')}
+						</label>
 						<input
-							className="form-control"
+							className="col-md-8 form-control"
 							id="name"
 							value={this.state.name}
 							onChange={target => this.setState({ name: target.target.value })}
 							placeholder={i18n.t('enterFirstName')}
 						/>
 					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="surname">{i18n.t('surname')}</label>
+
+					<div className="form-group row">
+						<label className="col-md-4 col-form-label" htmlFor="surname">
+							{i18n.t('surname')}
+						</label>
 						<input
-							className="form-control"
+							className="col-md-8 form-control"
 							id="surname"
 							value={this.state.surname}
 							onChange={target => this.setState({ surname: target.target.value })}
@@ -190,12 +206,12 @@ class UserAdd extends Component {
 						/>
 					</div>
 
-					<div className="form-group">
-						<label className= "input-label" htmlFor="password" className="req input-label">
+					<div className="form-group row">
+						<label className="input-label col-md-4 col-form-label req" htmlFor="password">
 							{i18n.t('password')}
 						</label>
 						<input
-							className="form-control"
+							className="col-md-8 form-control"
 							id="password"
 							value={this.state.password}
 							onChange={target => this.setState({ password: target.target.value })}
@@ -203,24 +219,27 @@ class UserAdd extends Component {
 						/>
 						{this.state.password.length > 0 &&
 							this.state.password.length < 8 && (
-								<label className= "input-label" htmlFor="password" style={{ color: 'red' }}>
+								<label className="input-label" htmlFor="password" style={{ color: 'red' }}>
 									{i18n.t('restrictionPasswordMustBe8')}
 								</label>
 							)}
 						{this.state.submitError &&
 							this.state.password === '' && (
-								<label className= "input-label" htmlFor="password" style={{ color: 'red' }}>
+								<label className="input-label" htmlFor="password" style={{ color: 'red' }}>
 									{i18n.t('restrictionMustEnterUserPassword')}
 								</label>
 							)}
 					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="role">{i18n.t('role')}</label>
+
+					<div className="form-group row">
+						<label className="col-md-4 col-form-label req" htmlFor="role">
+							{i18n.t('role')}
+						</label>
 						<select
 							value={this.state.userRole}
 							onChange={value => this.setState({ userRole: value.target.value })}
 							id="role"
-							className="form-control"
+							className="form-control col-md-8"
 						>
 							{this.props.userRoles
 								.filter(item => item.order >= this.props.user.user_role.order)
@@ -231,13 +250,16 @@ class UserAdd extends Component {
 								))}
 						</select>
 					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="company">{i18n.t('company')}</label>
+
+					<div className="form-group row">
+						<label className="col-md-4 col-form-label req" htmlFor="company">
+							{i18n.t('company')}
+						</label>
 						<select
 							value={this.state.company}
 							id="company"
 							onChange={value => this.setState({ company: value.target.value })}
-							className="form-control"
+							className="form-control col-md-8"
 						>
 							{this.props.companies.map(opt => (
 								<option key={opt.id} value={opt.id}>
@@ -246,13 +268,15 @@ class UserAdd extends Component {
 							))}
 						</select>
 					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="language">{i18n.t('language')}</label>
+					<div className="form-group row">
+						<label className="col-md-4 col-form-label req" htmlFor="language">
+							{i18n.t('language')}
+						</label>
 						<select
 							value={this.state.language}
 							id="language"
 							onChange={value => this.setState({ language: value.target.value })}
-							className="form-control"
+							className="form-control col-md-8"
 						>
 							{languages.map(opt => (
 								<option key={opt.id} value={opt.id}>
@@ -261,7 +285,45 @@ class UserAdd extends Component {
 							))}
 						</select>
 					</div>
-					<div className="form-group">
+					<div className="form-group row">
+						<label className="col-md-4 col-form-label" htmlFor="func">
+							{i18n.t('func')}
+						</label>
+						<input
+							className="form-control col-md-8"
+							id="func"
+							value={this.state.func}
+							onChange={target => this.setState({ func: target.target.value })}
+							placeholder={i18n.t('enterFunc')}
+						/>
+					</div>
+
+					<div className="form-group row">
+						<label className="col-md-4 col-form-label" htmlFor="mobile">
+							{i18n.t('mobileNumber')}
+						</label>
+						<input
+							className="form-control col-md-8"
+							id="mobile"
+							value={this.state.mobile}
+							onChange={target => this.setState({ mobile: target.target.value })}
+							placeholder={i18n.t('enterMobileNumber')}
+						/>
+					</div>
+					<div className="form-group row">
+						<label className="col-md-4 col-form-label" htmlFor="tel">
+							{i18n.t('telephoneNumber')}
+						</label>
+						<input
+							className="form-control col-md-8"
+							id="tel"
+							value={this.state.tel}
+							onChange={target => this.setState({ tel: target.target.value })}
+							placeholder={i18n.t('enterTelephoneNumber')}
+						/>
+					</div>
+					{/*
+							<div className="form-group">
 						<label className= "input-label" htmlFor="title_before">{i18n.t('titleBeforeName')}</label>
 						<input
 							className="form-control"
@@ -281,38 +343,6 @@ class UserAdd extends Component {
 							placeholder={i18n.t('enterTitleAfterName')}
 						/>
 					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="func">{i18n.t('func')}</label>
-						<input
-							className="form-control"
-							id="func"
-							value={this.state.func}
-							onChange={target => this.setState({ func: target.target.value })}
-							placeholder={i18n.t('enterFunc')}
-						/>
-					</div>
-
-					<div className="form-group">
-						<label className= "input-label" htmlFor="mobile">{i18n.t('mobileNumber')}</label>
-						<input
-							className="form-control"
-							id="mobile"
-							value={this.state.mobile}
-							onChange={target => this.setState({ mobile: target.target.value })}
-							placeholder={i18n.t('enterMobileNumber')}
-						/>
-					</div>
-					<div className="form-group">
-						<label className= "input-label" htmlFor="tel">{i18n.t('telephoneNumber')}</label>
-						<input
-							className="form-control"
-							id="tel"
-							value={this.state.tel}
-							onChange={target => this.setState({ tel: target.target.value })}
-							placeholder={i18n.t('enterTelephoneNumber')}
-						/>
-					</div>
-					{/*
             <div className="form-group">
               <label className= "input-label" htmlFor="fax">{i18n.t('fax')}</label>
               <input
