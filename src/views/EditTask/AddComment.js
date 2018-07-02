@@ -317,7 +317,7 @@ class AddComment extends Component {
             style={{
               paddingLeft: 0,
               paddingRight: 0,
-              backgroundColor: "white"
+              backgroundColor: "#f4f4f4"
             }}
           >
             <FormGroup row>
