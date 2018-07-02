@@ -659,27 +659,47 @@ class EditTask extends Component {
                                 </InputGroup>
                               </FormGroup>
 
-                              <FormGroup>
-                                <label htmlFor="deadline" className="input-label">{i18n.t("dueDate")}</label>
+                                                            <FormGroup>
+                                <label htmlFor="work" className="input-label">{i18n.t("work")}</label>
                                 <InputGroup>
                                   <InputGroupAddon>
-                                    <i className="fa fa-clock-o" />
+                                    <i className="fa fa-list" />
                                   </InputGroupAddon>
-                                  <div style={{ width: "100%" }} className="datepickerWrap">
-                                    <DatePicker
-                                      selected={this.state.deadline}
-                                      onChange={e => {
-                                        this.autoSubmit("deadline", e);
-                                        this.setState({ deadline: e });
-                                      }}
-                                      locale="en-gb"
-                                      placeholderText="Deadline"
-                                      showTimeSelect
-                                      timeFormat="HH:mm"
-                                      timeIntervals={30}
-                                      dateFormat="DD.MM.YYYY HH:mm"
-                                      />
-                                  </div>
+                                  <select
+                                    className="form-control"
+                                    id="work"
+                                    value={this.state.work_type}
+                                    onChange={e => {
+                                      this.autoSubmit("work_type", e.target.value);
+                                      this.setState({ work_type: e.target.value });
+                                    }}
+                                    >
+                                    {workTypes.map(type => (
+                                      <option key={type} value={type}>
+                                        {type}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </InputGroup>
+                              </FormGroup>
+
+                               <FormGroup>
+                                <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
+                                <InputGroup>
+                                  <InputGroupAddon>
+                                    <i className="fa fa-hourglass-o" />
+                                  </InputGroupAddon>
+                                  <input
+                                    className="form-control"
+                                    type="number"
+                                    id="workTime"
+                                    value={this.state.workTime}
+                                    onChange={e => {
+                                      this.autoSubmit("workTime", e.target.value);
+                                      this.setState({ workTime: e.target.value });
+                                    }}
+                                    placeholder={i18n.t("enterWorkTime")}
+                                    />
                                 </InputGroup>
                               </FormGroup>
 
@@ -708,46 +728,26 @@ class EditTask extends Component {
                               </FormGroup>
 
                               <FormGroup>
-                                <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
+                                <label htmlFor="deadline" className="input-label">{i18n.t("dueDate")}</label>
                                 <InputGroup>
                                   <InputGroupAddon>
-                                    <i className="fa fa-hourglass-o" />
+                                    <i className="fa fa-clock-o" />
                                   </InputGroupAddon>
-                                  <input
-                                    className="form-control"
-                                    type="number"
-                                    id="workTime"
-                                    value={this.state.workTime}
-                                    onChange={e => {
-                                      this.autoSubmit("workTime", e.target.value);
-                                      this.setState({ workTime: e.target.value });
-                                    }}
-                                    placeholder={i18n.t("enterWorkTime")}
-                                    />
-                                </InputGroup>
-                              </FormGroup>
-
-                              <FormGroup>
-                                <label htmlFor="work" className="input-label">{i18n.t("work")}</label>
-                                <InputGroup>
-                                  <InputGroupAddon>
-                                    <i className="fa fa-list" />
-                                  </InputGroupAddon>
-                                  <select
-                                    className="form-control"
-                                    id="work"
-                                    value={this.state.work_type}
-                                    onChange={e => {
-                                      this.autoSubmit("work_type", e.target.value);
-                                      this.setState({ work_type: e.target.value });
-                                    }}
-                                    >
-                                    {workTypes.map(type => (
-                                      <option key={type} value={type}>
-                                        {type}
-                                      </option>
-                                    ))}
-                                  </select>
+                                  <div style={{ width: "100%" }} className="datepickerWrap">
+                                    <DatePicker
+                                      selected={this.state.deadline}
+                                      onChange={e => {
+                                        this.autoSubmit("deadline", e);
+                                        this.setState({ deadline: e });
+                                      }}
+                                      locale="en-gb"
+                                      placeholderText="Deadline"
+                                      showTimeSelect
+                                      timeFormat="HH:mm"
+                                      timeIntervals={30}
+                                      dateFormat="DD.MM.YYYY HH:mm"
+                                      />
+                                  </div>
                                 </InputGroup>
                               </FormGroup>
 

@@ -373,51 +373,9 @@ class AddTask extends Component {
                             </select>
                           </InputGroup>
                         </FormGroup>
-                        <FormGroup>
-                          <label htmlFor="deadline" className="input-label">{i18n.t('dueDate')}</label>
-                          <InputGroup>
-                            <InputGroupAddon>
-                              <i className="fa fa-clock-o" />
-                            </InputGroupAddon>
-                            <div style={{ width: "100%" }} className="datepickerWrap">
-                              <DatePicker
-                                selected={this.state.deadline}
-                                onChange={e => {
-                                  this.setState({ deadline: e });
-                                }}
-                                locale="en-gb"
-                                placeholderText={i18n.t('deadline')}
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={30}
-                                dateFormat="DD.MM.YYYY HH:mm"
-                                />
-                            </div>
-                          </InputGroup>
-                        </FormGroup>
-
-                        <FormGroup>
-                          <label htmlFor="startedAt" className="input-label">{i18n.t('startedAt')}</label>
-                          <InputGroup>
-                            <InputGroupAddon>
-                              <i className="fa fa-clock-o" />
-                            </InputGroupAddon>
-                            <div style={{ width: "100%" }} className="datepickerWrap">
-                              <DatePicker
-                                selected={this.state.startedAt}
-                                onChange={e => {
-                                  this.setState({ startedAt: e });
-                                }}
-                                locale="en-gb"
-                                placeholderText="Started at"
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={30}
-                                dateFormat="DD.MM.YYYY HH:mm"
-                                />
-                            </div>
-                          </InputGroup>
-                        </FormGroup>
+                      
+                              
+                    
 
                         <FormGroup>
                           <label htmlFor="project" className="req input-label">{i18n.t('project')}</label>
@@ -449,32 +407,8 @@ class AddTask extends Component {
                             </select>
                           </InputGroup>
                         </FormGroup>
-                        <FormGroup>
-                          <label htmlFor="assigned" className="input-label">{i18n.t('assigned')}</label>
-                          <InputGroup>
-                            <InputGroupAddon>
-                              <i className="fa fa-user-plus" />
-                            </InputGroupAddon>
-                            <select
-                              className="form-control"
-                              id="assigned"
-                              value={this.state.taskSolver}
-                              onChange={e => {
-                                this.setState({ taskSolver: e.target.value });
-                              }}
-                              >
-                              {[{ id: "null", username: i18n.t('noone') }]
-                              .concat(this.props.taskSolvers)
-                              .map(solver => (
-                                <option key={solver.id} value={solver.id}>
-                                  {solver.username}
-                                </option>
-                              ))}
-                            </select>
-                          </InputGroup>
-                        </FormGroup>
 
-                        <FormGroup>
+                                                <FormGroup>
                           <label htmlFor="requester" className="req input-label">{i18n.t('requester')}</label>
                             {this.props.user.user_role.acl.includes('user_settings')&&
                               <span style={{ float: "right" }}>
@@ -548,23 +482,28 @@ class AddTask extends Component {
                           </InputGroup>
                           {this.state.submitError && this.state.company===undefined &&<label htmlFor="title" className="input-label" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
                         </FormGroup>
-
                         <FormGroup>
-                          <label htmlFor="workTime" className="input-label">{i18n.t('workTime')}</label>
+                          <label htmlFor="assigned" className="input-label">{i18n.t('assigned')}</label>
                           <InputGroup>
                             <InputGroupAddon>
-                              <i className="fa fa-hourglass-o" />
+                              <i className="fa fa-user-plus" />
                             </InputGroupAddon>
-                            <input
+                            <select
                               className="form-control"
-                              type="number"
-                              id="workTime"
-                              value={this.state.workTime}
+                              id="assigned"
+                              value={this.state.taskSolver}
                               onChange={e => {
-                                this.setState({ workTime: e.target.value });
+                                this.setState({ taskSolver: e.target.value });
                               }}
-                              placeholder={i18n.t('enterWorkTime')}
-                              />
+                              >
+                              {[{ id: "null", username: i18n.t('noone') }]
+                              .concat(this.props.taskSolvers)
+                              .map(solver => (
+                                <option key={solver.id} value={solver.id}>
+                                  {solver.username}
+                                </option>
+                              ))}
+                            </select>
                           </InputGroup>
                         </FormGroup>
 
@@ -588,6 +527,71 @@ class AddTask extends Component {
                                 </option>
                               ))}
                             </select>
+                          </InputGroup>
+                        </FormGroup>
+
+                        <FormGroup>
+                          <label htmlFor="workTime" className="input-label">{i18n.t('workTime')}</label>
+                          <InputGroup>
+                            <InputGroupAddon>
+                              <i className="fa fa-hourglass-o" />
+                            </InputGroupAddon>
+                            <input
+                              className="form-control"
+                              type="number"
+                              id="workTime"
+                              value={this.state.workTime}
+                              onChange={e => {
+                                this.setState({ workTime: e.target.value });
+                              }}
+                              placeholder={i18n.t('enterWorkTime')}
+                              />
+                          </InputGroup>
+                        </FormGroup>
+
+                        <FormGroup>
+                          <label htmlFor="startedAt" className="input-label">{i18n.t('startedAt')}</label>
+                          <InputGroup>
+                            <InputGroupAddon>
+                              <i className="fa fa-clock-o" />
+                            </InputGroupAddon>
+                            <div style={{ width: "100%" }} className="datepickerWrap">
+                              <DatePicker
+                                selected={this.state.startedAt}
+                                onChange={e => {
+                                  this.setState({ startedAt: e });
+                                }}
+                                locale="en-gb"
+                                placeholderText="Started at"
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={30}
+                                dateFormat="DD.MM.YYYY HH:mm"
+                                />
+                            </div>
+                          </InputGroup>
+                        </FormGroup>
+
+                          <FormGroup>
+                          <label htmlFor="deadline" className="input-label">{i18n.t('dueDate')}</label>
+                          <InputGroup>
+                            <InputGroupAddon>
+                              <i className="fa fa-clock-o" />
+                            </InputGroupAddon>
+                            <div style={{ width: "100%" }} className="datepickerWrap">
+                              <DatePicker
+                                selected={this.state.deadline}
+                                onChange={e => {
+                                  this.setState({ deadline: e });
+                                }}
+                                locale="en-gb"
+                                placeholderText={i18n.t('deadline')}
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={30}
+                                dateFormat="DD.MM.YYYY HH:mm"
+                                />
+                            </div>
                           </InputGroup>
                         </FormGroup>
 
