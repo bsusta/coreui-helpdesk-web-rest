@@ -42,44 +42,38 @@ const colourStyles = {
 }
 
 class AddTask extends Component {
-  constructor(props) {
-    super(props);
-    //we initialize all tasks aditional attributes
-    let task_data = initialiseCustomAttributes([...this.props.taskAttributes]);
-    this.state = {
-      company: this.props.companies[this.props.companies.findIndex((company)=>company.id===this.props.user.company.id)],
-      deadline: null,
-      startedAt: null,
-      description: "",
-      important: false,
-      project: (this.props.taskProjects.length>0?this.props.taskProjects[0].id:null),
-      requestedBy: this.props.users[this.props.users.findIndex((user)=>user.id===this.props.user.id)],
-      status: (this.props.statuses.length>0?this.props.statuses[0].id:null),
-      tags: [],
-      title: "Task",
-      workTime: "",
-      work: "vzdialena podpora",
-      newTags: [],
-      newTag: "",
-      submitError:false,
-      task_data,
-      taskSolver:'null',
-      subtasks:[],
-      materials:[],
-      followers:[],
-      openAddUser:false,
-      openAddCompany:false,
-      showUploadError:false,
-    };
-    this.submit.bind(this);
-  }
-
-  componentWillMount() {
-    //loads list of people that are allowed to work in this task
-    if(this.state.project){ //should be true to be even able to create task
-      this.props.getTaskSolvers(this.state.project, this.props.token);
-    }
-  }
+	constructor(props) {
+		super(props);
+		//we initialize all tasks aditional attributes
+		let task_data = initialiseCustomAttributes([...this.props.taskAttributes]);
+		this.state = {
+			company: this.props.companies[
+				this.props.companies.findIndex(company => company.id === this.props.user.company.id)
+			],
+			deadline: null,
+			startedAt: null,
+			description: '',
+			important: false,
+			project: this.props.taskProjects.length > 0 ? this.props.taskProjects[0].id : null,
+			requestedBy: this.props.users[this.props.users.findIndex(user => user.id === this.props.user.id)],
+			status: this.props.statuses.length > 0 ? this.props.statuses[0].id : null,
+			tags: [],
+			title: 'Task',
+			workTime: '',
+			work: 'vzdialena podpora',
+			newTags: [],
+			newTag: '',
+			submitError: false,
+			task_data,
+			taskSolver: 'null',
+			subtasks: [],
+			materials: [],
+			followers: [],
+			openAddUser: false,
+			openAddCompany: false,
+		};
+		this.submit.bind(this);
+	}
 
 /**
  * Adds new task
@@ -634,31 +628,42 @@ class AddTask extends Component {
                           </InputGroup>
                         </FormGroup>}
 
-                        <div className="form-group" style={{ marginBottom: 0 }}>
-                          <label htmlFor="fileUpload" className="input-label">{i18n.t('attachments')}</label>
-                          <input
-                            type="file"
-                            id="fileUpload"
-                            style={{ display: "none" }}
-                            onChange={e => {
-                              this.setState({showUploadError:false});
-                              let file = e.target.files[0];
-                              if(file===undefined){
-                                return;
-                              }
-                              if(file.size>10000000){
-                                this.setState({showUploadError:true});
-                                return;
-                              }
-                              let self=this;
-                              this.props.uploadFile(file, this.props.token);
-                            }}
-                            />
-                          <label className="btn btn-primary btn-block" htmlFor="fileUpload">
-                            {i18n.t('addAttachment')}
-                          </label>
-                        </div>
-                        {this.state.showUploadError &&<span style={{color:'red'}}>This file is too big!</span>}
+									<div className="form-group">
+										<div style={{ paddingTop: 5, paddingRight: 10 }}>
+											{this.props.attachments.map(item => (
+												<span
+													key={item.id}
+													className="badge"
+													style={{
+														backgroundColor: '#d3eef6',
+														color: 'black',
+														paddingLeft: 10,
+														paddingRight: 10,
+														paddingTop: 5,
+														paddingBottom: 5,
+														marginLeft: 5,
+														marginTop: 1,
+														width: '100%',
+														display: 'flex',
+													}}
+												>
+													<div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+														{!item.url && item.file.name}
+														{item.url && <a href={item.url}>{item.file.name}</a>}
+													</div>
+													<div style={{ flex: 1 }} />
+													{item.file.size && (
+														<div
+															style={{
+																marginTop: 'auto',
+																marginBottom: 'auto',
+															}}
+														>
+															{item.file.size > 10000 &&
+																Math.ceil(item.file.size / 1000) + 'kb'}
+															{item.file.size <= 10000 && item.file.size + 'b'}
+														</div>
+													)}
 
                         <div className="form-group">
                           <div style={{ paddingTop: 5, paddingRight: 10 }}>
