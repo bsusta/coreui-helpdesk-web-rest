@@ -1,4 +1,4 @@
-import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS, SET_FILTER_ORDER } from '../types';
+import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS, SET_FILTER_ORDER, SET_UPDATE_AT } from '../types';
 import { TASKS_LIST, FILTERS_LIST } from '../urls';
 import {processError,processRESTinput,filterToFilterState ,filterBodyFromState} from '../../helperFunctions';
 import {getSidebar} from './sidebarActions';
@@ -14,6 +14,13 @@ export const setFilterOrder = (order) => {
    dispatch({ type: SET_FILTER_ORDER, order  });
  }
 };
+
+export const changeUpdateAt = () => {
+ return (dispatch) => {
+   dispatch({ type: SET_UPDATE_AT, updateAt:(new Date()).getTime()  });
+ }
+};
+
 
 export const setFilterPage = (page) => {
  return (dispatch) => {
@@ -158,7 +165,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
         let filterState = filterToFilterState(data.data,taskAttributes,statuses,[{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(projects),
           [{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(users),tags,companies);
         let body = filterBodyFromState(filterState,taskAttributes);
-        dispatch({ type: SET_FILTER,body,filterState,filter:data.data,page:1 }); 
+        dispatch({ type: SET_FILTER,body,filterState,filter:data.data,page:1 });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         return;
         //save as body and state

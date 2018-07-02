@@ -1,4 +1,4 @@
-import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER,SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, LOGIN_LOGOUT, SET_FILTER_ORDER } from '../types'
+import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER,SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, LOGIN_LOGOUT, SET_FILTER_ORDER, SET_UPDATE_AT } from '../types'
 
 const initialState = {
   numberOfPages:0,
@@ -11,6 +11,7 @@ const initialState = {
   filterLoaded:false,
   order:'order=status=>asc',
   filter:null,
+  updateAt:(new Date()).getTime(),
 };
 
 
@@ -18,6 +19,9 @@ export default function filtersReducer(state = initialState, action) {
   switch (action.type) {
     case SET_FILTER_ORDER:{
       return {...state, order:action.order};
+    }
+    case SET_UPDATE_AT:{
+      return {...state, updateAt:action.updateAt};
     }
     case CLEAR_FILTER_TASKS:{
       return {...state, tasks:[], numberOfPages:0, page:1, total:null, body:null, filterState:null};

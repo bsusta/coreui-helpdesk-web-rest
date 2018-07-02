@@ -113,21 +113,8 @@ class Loader extends Component {
         this.props.history.push('/filter/1,'+(props.match.params.count?props.match.params.count:20));
       }
       }
-/*      else if(props.match.params.page===undefined&&props.match.params.id!=="add"){
-        if(props.match.params.projectID){
-          this.props.history.push('/project/'+props.match.params.projectID+'/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
-        }else if(props.match.params.tagID){
-          this.props.history.push('/tag/'+props.match.params.tagID+'/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
-        }
-      else if(props.match.params.id){
-          this.props.history.push('/filter/'+props.match.params.id+'/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
-        }
-        else{
-          this.props.history.push('/filter/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
-        }
-      }*/
     //ak sa zmeni stranka, nacitaj tasky a zmen URL
-    else if((this.props.page!=props.page && props.body!==null )||(this.props.match.params.count!=props.match.params.count && props.body!==null)){
+    else if((this.props.page!=props.page && props.body!==null )||(this.props.match.params.count!=props.match.params.count && props.body!==null)||(this.props.updateAt!==props.updateAt && props.body!==null)){
       let randomFloat= Math.random();
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
@@ -164,7 +151,7 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
   const {taskAttributesLoaded, taskAttributes} = taskAttributesReducer;
   const {unitsLoaded} = unitsReducer;
   const {usersLoaded, users} = usersReducer;
-  const { body, filterState, page, order } = filtersReducer;
+  const { body, filterState, page, order, updateAt } = filtersReducer;
   const { sidebar } = sidebarReducer;
   const {token} = login;
 	let index = sidebar.findIndex(item => item.name === "projects");
@@ -172,7 +159,7 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
 
   return {statuses:taskStatuses,
     projects:(index===-1?[]:sidebar[index].children).concat(index2===-1?[]:sidebar[index2].children),
-    taskProjectsLoaded,taskAttributesLoaded, taskAttributes, statusesLoaded,
+    taskProjectsLoaded,taskAttributesLoaded, taskAttributes, statusesLoaded,updateAt,
     statusesUpdateDate:updateDate,companiesLoaded,companies:taskCompanies,companiesUpdateDate:companiesReducer.updateDate,
     tagsLoaded,tags, unitsLoaded, usersLoaded,users, filterState,body,page,sidebar, order, token};
   };
