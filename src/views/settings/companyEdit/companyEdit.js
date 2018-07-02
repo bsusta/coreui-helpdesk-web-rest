@@ -113,10 +113,10 @@ class CompanyEdit extends Component {
               </label>
             </div>
 
-            <div className="form-group">
-              <label className= "input-label" htmlFor="title" className="req input-label">{i18n.t('companyName')}</label>
+            <div className="form-group row">
+              <label className= "col-md-2 col-form-label req" htmlFor="title">{i18n.t('companyName')}</label>
               <input
-                className="form-control"
+                className="form-control col-md-10"
                 id="title"
                 value={this.state.title}
                 onChange={e => {
@@ -127,10 +127,10 @@ class CompanyEdit extends Component {
               {this.state.submitError && this.state.title===''&&<label className= "input-label" htmlFor="title" style={{color:'red'}}>You must enter company title</label>}
             </div>
 
-            <div className="form-group">
-              <label className= "input-label" htmlFor="ICO">{i18n.t('ico')}</label>
+            <div className="form-group row">
+              <label className= "col-md-2 col-form-label" htmlFor="ICO">{i18n.t('ico')}</label>
               <input
-                className="form-control"
+                className="form-control col-md-10"
                 id="title"
                 value={this.state.ico}
                 onChange={e =>{
@@ -141,10 +141,10 @@ class CompanyEdit extends Component {
                 />
             </div>
 
-            <div className="form-group">
-              <label className= "input-label" htmlFor="DIC">{i18n.t('dic')}</label>
+            <div className="form-group row">
+              <label className= "col-md-2 col-form-label" htmlFor="DIC">{i18n.t('dic')}</label>
               <input
-                className="form-control"
+                className="form-control col-md-10"
                 id="DIC"
                 value={this.state.dic}
                 onChange={e =>{
@@ -156,10 +156,10 @@ class CompanyEdit extends Component {
                 />
             </div>
 
-            <div className="form-group">
-              <label className= "input-label" htmlFor="ic_dph">{i18n.t('icDPH')}</label>
+            <div className="form-group row">
+              <label className= "col-md-2 col-form-label" htmlFor="ic_dph">{i18n.t('icDPH')}</label>
               <input
-                className="form-control"
+                className="form-control col-md-10"
                 id="ic_dph"
                 value={this.state.ic_dph}
                 onChange={e =>{
@@ -170,10 +170,10 @@ class CompanyEdit extends Component {
                 />
             </div>
 
-            <div className="form-group">
-              <label className= "input-label" htmlFor="street">{i18n.t('street')}</label>
+            <div className="form-group row">
+              <label className= "col-md-2 col-form-label" htmlFor="street">{i18n.t('street')}</label>
               <input
-                className="form-control"
+                className="form-control col-md-10"
                 id="street"
                 value={this.state.street}
                 onChange={e =>{
@@ -184,10 +184,10 @@ class CompanyEdit extends Component {
                 />
             </div>
 
-            <div className="form-group">
-              <label className= "input-label" htmlFor="city">{i18n.t('city')}</label>
+            <div className="form-group row">
+              <label className= "col-md-2 col-form-label" htmlFor="city">{i18n.t('city')}</label>
               <input
-                className="form-control"
+                className="form-control col-md-10"
                 id="city"
                 value={this.state.city}
                 onChange={e =>{
@@ -198,10 +198,10 @@ class CompanyEdit extends Component {
                 />
             </div>
 
-            <div className="form-group">
-              <label className= "input-label" htmlFor="PSC">{i18n.t('zip')}</label>
+            <div className="form-group row">
+              <label className= "col-md-2 col-form-label" htmlFor="PSC">{i18n.t('zip')}</label>
               <input
-                className="form-control"
+                className="form-control col-md-10"
                 id="PSC"
                 placeholder={i18n.t('enterZIP')}
                 value={this.state.zip}
@@ -212,10 +212,10 @@ class CompanyEdit extends Component {
                 />
             </div>
 
-            <div className="form-group">
-              <label className= "input-label" htmlFor="country">{i18n.t('country')}</label>
+            <div className="form-group row">
+              <label className= "col-md-2 col-form-label" htmlFor="country">{i18n.t('country')}</label>
               <input
-                className="form-control"
+                className="form-control col-md-10"
                 id="country"
                 placeholder={i18n.t('enterCountry')}
                 value={this.state.country}
@@ -229,10 +229,10 @@ class CompanyEdit extends Component {
               switch (attribute.type) {
                 case "input":
                 return (
-                  <div className="form-group" key={attribute.id}>
-                    <label className= "input-label" htmlFor={attribute.id}>{attribute.title}</label>
+                  <div className="form-group row" key={attribute.id}>
+                    <label className= "col-md-2 col-form-label" htmlFor={attribute.id}>{attribute.title}</label>
                     <input
-                      className="form-control"
+                      className="form-control col-md-10"
                       id={attribute.id}
                       value={this.state.company_data[attribute.id]}
                       onChange={e => {
@@ -248,10 +248,10 @@ class CompanyEdit extends Component {
                 );
                 case "text_area":
                 return (
-                  <div className="form-group" key={attribute.id}>
-                    <label className= "input-label" htmlFor={attribute.id}>{attribute.title}</label>
+                  <div className="form-group row" key={attribute.id}>
+                    <label className= "col-md-2 col-form-label" htmlFor={attribute.id}>{attribute.title}</label>
                     <textarea
-                      className="form-control"
+                      className="form-control col-md-10"
                       id={attribute.id}
                       value={this.state.company_data[attribute.id]}
                       onChange={e => {
@@ -267,10 +267,10 @@ class CompanyEdit extends Component {
                 );
                 case "simple_select":
                 return (
-                  <div className="form-group" key={attribute.id}>
-                    <label className= "input-label" htmlFor={attribute.id}>{attribute.title}</label>
+                  <div className="form-group row" key={attribute.id}>
+                    <label className= "col-md-2 col-form-label" htmlFor={attribute.id}>{attribute.title}</label>
                     <select
-                      className="form-control"
+                      className="form-control col-md-10"
                       id={attribute.id}
                       value={this.state.company_data[attribute.id]}
                       onChange={e => {
@@ -304,7 +304,7 @@ class CompanyEdit extends Component {
                         })
                       );
                       return (
-                        <div className="form-group" key={attribute.id}>
+                        <div className="form-group row" key={attribute.id}>
                           <MultiSelect
                             id={attribute.id}
                             data={opt}
@@ -366,8 +366,8 @@ class CompanyEdit extends Component {
                     }
                     case "date":
                     return (
-                      <div className="form-group" key={attribute.id}>
-                        <label className= "input-label" htmlFor={attribute.id}>{attribute.title}</label>
+                      <div className="form-group row" key={attribute.id}>
+                        <label className= "input-label col-md-2 col-form-label" htmlFor={attribute.id}>{attribute.title}</label>
                         <DatePicker
                           selected={this.state.company_data[attribute.id]}
                           onChange={e => {
@@ -388,10 +388,10 @@ class CompanyEdit extends Component {
                     );
                     case "decimal_number":
                     return (
-                      <div className="form-group" key={attribute.id}>
-                        <label className= "input-label" htmlFor={attribute.id}>{attribute.title}</label>
+                      <div className="form-group row" key={attribute.id}>
+                        <label className= "col-md-2 col-form-label" htmlFor={attribute.id}>{attribute.title}</label>
                         <input
-                          className="form-control"
+                          className="form-control col-md-10"
                           type="number"
                           id={attribute.id}
                           value={this.state.company_data[attribute.id]}
@@ -408,10 +408,10 @@ class CompanyEdit extends Component {
                     );
                     case "integer_number":
                     return (
-                      <div className="form-group" key={attribute.id}>
-                        <label className= "input-label" htmlFor={attribute.id}>{attribute.title}</label>
+                      <div className="form-group row" key={attribute.id}>
+                        <label className= "col-md-2 col-form-label" htmlFor={attribute.id}>{attribute.title}</label>
                         <input
-                          className="form-control"
+                          className="form-control col-md-10"
                           type="number"
                           id={attribute.id}
                           value={this.state.company_data[attribute.id]}
@@ -428,11 +428,11 @@ class CompanyEdit extends Component {
                     );
                     case "checkbox":
                     return (
-                      <div className="form-group" key={attribute.id}>
-                        <label className="form-check-label">
+                      <div className="form-group row" key={attribute.id}>
+                        <label className="form-check-label col-md-2 col-form-label">
                           <input
                             type="checkbox"
-                            className="form-check-input"
+                            className="form-check-input col-md-10"
                             checked={this.state.company_data[attribute.id]}
                             onChange={() => {
                               let newData = { ...this.state.company_data };
