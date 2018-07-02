@@ -227,7 +227,7 @@ export default {
   restrictionMustSelectCompany:'You must select company!',
   workTime:'Work time',
   enterWorkTime:'Enter work time',
-  work_type:'Work type',
+  work:'Work',
   enterWorkToDo:'Enter work to do',
   attachments:'Attachments',
   addAttachment:'Add attachment',

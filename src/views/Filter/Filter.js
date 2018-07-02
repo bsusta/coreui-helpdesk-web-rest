@@ -1,48 +1,47 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
-	Row,
-	Col,
-	Button,
-	ButtonDropdown,
-	DropdownToggle,
-	DropdownMenu,
-	DropdownItem,
-	Card,
-	CardHeader,
-	CardFooter,
-	CardBody,
-	Form,
-	FormGroup,
-	FormText,
-	Label,
-	Input,
-	InputGroup,
-	InputGroupAddon,
-	InputGroupButton,
-} from 'reactstrap';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
+  Row,
+  Col,
+  Button,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Card,
+  CardHeader,
+  CardFooter,
+  CardBody,
+  Form,
+  FormGroup,
+  FormText,
+  Label,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton
+} from "reactstrap";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 import i18n from 'i18next';
-import Select from 'react-select';
+import Select from "react-select";
 import { connect } from 'react-redux';
 import {
-	initialiseCustomAttributes,
-	processCustomFilterAttributes,
-	processRESTinput,
-	filterBodyFromState,
-	parseFilterDateToString,
-} from '../../helperFunctions';
-import { createFilter, editFilter, deleteFilter, setFilterBody } from '../../redux/actions';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+  initialiseCustomAttributes,
+  processCustomFilterAttributes,
+  processRESTinput,
+  filterBodyFromState,
+  parseFilterDateToString
+} from "../../helperFunctions";
+import {createFilter, editFilter, deleteFilter, setFilterBody} from '../../redux/actions';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 const colourStyles = {
-	control: styles => ({
-		...styles,
-		backgroundColor: 'white',
-		borderRadius: '0',
-		border: '1px solid #c2cfd6',
-	}),
-};
+  control: styles => ({ ...styles,
+                           backgroundColor: 'white',
+                           borderRadius:"0",
+                           border: '1px solid #c2cfd6',
+                      }),
+}
 
 class Filter extends Component {
   constructor(props) {
@@ -903,45 +902,22 @@ class Filter extends Component {
     );
   }
 }
-const mapStateToProps = ({
-	tasksReducer,
-	statusesReducer,
-	usersReducer,
-	companiesReducer,
-	tagsReducer,
-	taskAttributesReducer,
-	login,
-	filtersReducer,
-	sidebarReducer,
-}) => {
-	const { taskProjects } = tasksReducer;
-	const { taskStatuses } = statusesReducer;
-	const { filterState, filter, total, body } = filtersReducer;
-	const { users } = usersReducer;
-	const { taskCompanies } = companiesReducer;
-	const { tags } = tagsReducer;
-	const { taskAttributes } = taskAttributesReducer;
-	const { sidebar } = sidebarReducer;
-	const { token, user } = login;
-	let index = sidebar.findIndex(item => item.name === 'projects');
-	let index2 = sidebar.findIndex(item => item.name === 'archived');
-	return {
-		statuses: taskStatuses,
-		companies: taskCompanies,
-		projects: (index === -1 ? [] : sidebar[index].children).concat(index2 === -1 ? [] : sidebar[index2].children),
-		users,
-		tags,
-		taskAttributes,
-		token,
-		user,
-		filter,
-		filterState,
-		body,
-		total,
-	};
+const mapStateToProps = ({tasksReducer,statusesReducer,usersReducer,companiesReducer, tagsReducer, taskAttributesReducer, login, filtersReducer, sidebarReducer }) => {
+  const { taskProjects } = tasksReducer;
+  const {taskStatuses} = statusesReducer;
+  const { filterState, filter, total, body } = filtersReducer;
+  const {users} = usersReducer;
+  const { taskCompanies } = companiesReducer;
+  const { tags } = tagsReducer;
+  const { taskAttributes } = taskAttributesReducer;
+  const { sidebar } = sidebarReducer;
+  const { token, user } = login;
+	let index = sidebar.findIndex(item => item.name === "projects");
+	let index2 = sidebar.findIndex(item => item.name === "archived");
+  return {statuses:taskStatuses,companies:taskCompanies,
+    projects:(index===-1?[]:sidebar[index].children).concat(index2===-1?[]:sidebar[index2].children),
+    users,tags,taskAttributes, token,user, filter, filterState,body, total};
 };
 
-export default connect(
-	mapStateToProps,
-	{ setFilterBody, createFilter, deleteFilter, editFilter }
-)(Filter);
+
+export default connect(mapStateToProps, {setFilterBody,createFilter,deleteFilter, editFilter})(Filter);

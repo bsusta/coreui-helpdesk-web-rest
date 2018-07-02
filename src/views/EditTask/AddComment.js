@@ -120,7 +120,7 @@ class AddComment extends Component {
             borderLeft: 0,
             borderRight: 0,
             borderBottom: 0,
-            backgroundColor: "#f4f4f4"
+            backgroundColor: "white"
           }}
           activeTab={this.state.activeTab}
         >
@@ -317,7 +317,7 @@ class AddComment extends Component {
             style={{
               paddingLeft: 0,
               paddingRight: 0,
-              backgroundColor: "#f4f4f4"
+              backgroundColor: "white"
             }}
           >
             <FormGroup row>

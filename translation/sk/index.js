@@ -227,7 +227,7 @@ export default {
   restrictionMustSelectCompany:'Musíte vybrať firmu!',
   workTime:'Odpracovaný čas',
   enterWorkTime:'Zadajte opracovaný čas',
-  work_type:'Typ práce',
+  work:'Práca',
   enterWorkToDo:'Zadajte prácu',
   attachments:'Prílohy',
   addAttachment:'Pridať prílohu',
