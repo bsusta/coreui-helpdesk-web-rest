@@ -153,7 +153,7 @@ class Tasks extends Component {
 											{this.createArrow('requester')}
 										</th>
 										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('company')}
-											{this.createArrow('TaskCompany')}
+											{this.createArrow('taskCompany')}
 										</th>
 										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('assigned')}
 											{this.createArrow('assigned')}
@@ -162,10 +162,10 @@ class Tasks extends Component {
 											{this.createArrow('project')}
 										</th>
 										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('createdAt')}
-											{this.createArrow('createdtime')}
+											{this.createArrow('createdTime')}
 										</th>
 										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('dueDate')}
-											{this.createArrow('DeadlineTime')}
+											{this.createArrow('deadlineTime')}
 										</th>
 									</tr>
 								</thead>

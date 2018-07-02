@@ -32,6 +32,7 @@ class FilterLoader extends Component {
       if(props.filters.findIndex(filter =>filter.url.includes('/'+props.match.params.id))===-1){
         this.props.history.push('/404');
       }
+      /*
       if(props.match.params.id==='add'){
         this.props.startFilterLoading(false);
         this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.token);
@@ -39,13 +40,13 @@ class FilterLoader extends Component {
       else{
         this.props.startFilterLoading(false);
         this.props.getFilter(props.taskAttributes,props.statuses,props.projects,props.users,props.tags,props.companies,props.match.params.id,this.props.history,props.token);
-      }
+      }*/
     }
   }
 
   render(){
     if((this.props.match.params.id && !this.props.filterLoaded)||this.props.sidebar.length===0){
-    return null;
+      return <Tasks history={this.props.history} match={this.props.match} />
     }
     return <Tasks history={this.props.history} match={this.props.match} />
   }

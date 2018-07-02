@@ -147,7 +147,7 @@ class AddComment extends Component {
                 onChange={e => {
                   this.setState({displayUploadError:false});
                   let file = e.target.files[0];
-                  if(file.size>500000){
+                  if(file.size>10000000){
                     this.setState({displayUploadError:true});
                     return;
                   }

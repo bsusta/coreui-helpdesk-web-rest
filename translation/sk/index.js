@@ -1,6 +1,8 @@
 export default {
   unknownSearch: 'Neznáme vyhľadávanie',
   activated: 'Aktívne',
+  restrictionOrderNumberMustBeBigger:'Poradie filtra musí byť väčšie ako 4',
+  changedAt:'Zmenené',
   addCompany: 'Pridať Firmu',
   addCompanyAttribute: 'Pridať volitelné pole firmy',
   editCompany: 'Upraviť firmu',
@@ -301,7 +303,7 @@ export default {
   filter:'Filter',
   filterName:'Názov filtra',
   enterFilterName:'Zadajte názov filtra',
-  orderFilter:'Poradie filtra',
+  orderFilter:'Poradie filtra (väčšie ako 4)',
   enterOrderFilter:'Zadajte poradie filtra',
   filterIcon:'Ikona filtra',
   enterFilterIcon:'Zajdajte ikonu filtra',

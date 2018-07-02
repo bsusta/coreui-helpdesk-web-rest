@@ -68,7 +68,8 @@ class AddTask extends Component {
       materials:[],
       followers:[],
       openAddUser:false,
-      openAddCompany:false
+      openAddCompany:false,
+      showUploadError:false,
     };
     this.submit.bind(this);
   }
@@ -640,7 +641,15 @@ class AddTask extends Component {
                             id="fileUpload"
                             style={{ display: "none" }}
                             onChange={e => {
+                              this.setState({showUploadError:false});
                               let file = e.target.files[0];
+                              if(file===undefined){
+                                return;
+                              }
+                              if(file.size>10000000){
+                                this.setState({showUploadError:true});
+                                return;
+                              }
                               let self=this;
                               this.props.uploadFile(file, this.props.token);
                             }}
@@ -649,6 +658,7 @@ class AddTask extends Component {
                             {i18n.t('addAttachment')}
                           </label>
                         </div>
+                        {this.state.showUploadError &&<span style={{color:'red'}}>This file is too big!</span>}
 
                         <div className="form-group">
                           <div style={{ paddingTop: 5, paddingRight: 10 }}>

@@ -9,7 +9,8 @@ const initialState = {
   page:1,
   showFilter:true,
   filterLoaded:false,
-  order:'order=status=>asc'
+  order:'order=status=>asc',
+  filter:null,
 };
 
 
@@ -34,7 +35,7 @@ export default function filtersReducer(state = initialState, action) {
       return { ...state, tasks:action.tasks, numberOfPages:action.numberOfPages, total:action.total };
     }
     case SET_FILTER:{
-      return { ...state, body:action.body, filterState:action.filterState, page:action.page };
+      return { ...state, body:action.body, filterState:action.filterState,filter:action.filter?action.filter:state.filter, page:action.page };
     }
     case LOGIN_LOGOUT:
       return { ...initialState };

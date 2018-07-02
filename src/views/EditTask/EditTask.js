@@ -99,6 +99,9 @@ class EditTask extends Component {
       deadline: this.props.task.deadline
       ? moment(this.props.task.deadline * 1000)
       : null,
+      closedAt: this.props.task.closedAt
+      ? moment(this.props.task.closedAt * 1000)
+      : null,
       startedAt: this.props.task.startedAt
       ? moment(this.props.task.startedAt * 1000)
       : null,
@@ -178,6 +181,9 @@ class EditTask extends Component {
     } else if(name==='requestedBy'){
       state['requestedBy'] = value;
       state['company'] = this.props.companies[this.props.companies.findIndex((item)=>item.id===value.company.id)];
+    } else if (name==='status') {
+      state['closedAt'] = moment();
+      state[name] = value;
     } else if (name) {
       state[name] = value;
     }
@@ -195,6 +201,7 @@ class EditTask extends Component {
         .title
       )
     );
+    /*
     //ak je task uzvrety nastavi mu closedAt, ak nema startedAt tak ten tiez
     let closedAt = this.state.closedAt ? this.state.closedAt : "null";
     if (state.status.toString() === "4") {
@@ -202,12 +209,14 @@ class EditTask extends Component {
       if (state.startedAt === null) {
         state.startedAt = closedAt * 1000;
       }
-    }
+    }*/
+
     this.props.editTask(
       {
         title: state.title,
-        closedAt,
         description: state.description === ''?'null':state.description,
+        closedAt:
+        state.closedAt !== null ? state.closedAt.valueOf() / 1000 : "null",
         deadline:
         state.deadline !== null ? state.deadline.valueOf() / 1000 : "null",
         startedAt:
@@ -455,13 +464,12 @@ class EditTask extends Component {
                           <div className="col-4">
                             <FormGroup>
                               <label htmlFor="status" className="input-label">{i18n.t("status")}</label>
-                              {this.props.task.closedAt &&
-                                this.state.status.toString() === "4" && (
-                                  <span style={{ float: "right" }}>
-                                    {i18n.t("closedAt")}:{" "}
-                                    {timestampToString(this.props.task.closedAt)}
+                              {this.state.closedAt &&
+                                <span style={{ float: "right" }}>
+                                    {i18n.t("changedAt")}:{" "}
+                                    {timestampToString(this.state.closedAt/1000)}
                                   </span>
-                                )}
+                                }
                                 <InputGroup>
                                   <InputGroupAddon>
                                     <i className="fa fa-list" />
@@ -487,7 +495,7 @@ class EditTask extends Component {
                                     id="status"
                                     onChange={e => {
                                       this.autoSubmit("status", e.target.value);
-                                      this.setState({ status: e.target.value });
+                                      this.setState({ status: e.target.value, closedAt:moment()});
                                     }}
 
                                     >
@@ -809,7 +817,10 @@ class EditTask extends Component {
                                   onChange={e => {
                                     this.setState({showUploadError:false});
                                     let file = e.target.files[0];
-                                    if(file.size>480000){
+                                    if(file===undefined){
+                                      return;
+                                    }
+                                    if(file.size>10000000){
                                       this.setState({showUploadError:true});
                                       return;
                                     }

@@ -1,6 +1,8 @@
 export default {
   unknownSearch:'Unknown search',
   activated: 'Active',
+  restrictionOrderNumberMustBeBigger:'Filter order must be bigger than 4',
+  changedAt:'Changed at',
   addCompany: 'Add company',
   addCompanyAttribute: 'Add extra company field',
   editCompany: 'Edit company',
@@ -301,7 +303,7 @@ export default {
   filter:'Filter',
   filterName:'Filter name',
   enterFilterName:'Enter filter name',
-  orderFilter:'Order of filter',
+  orderFilter:'Order of filter (bigger than 4)',
   enterOrderFilter:'Enter order number of filter',
   filterIcon:'Filter icon',
   enterFilterIcon:'Enter filter icon',

@@ -74,7 +74,7 @@ class Filter extends Component {
 
   submit(savingChanges){
     this.setState({submitError:true});
-    if(this.state.filterIcon===''||this.state.filterName===''||isNaN(parseInt(this.state.filterOrder))){
+    if(this.state.filterIcon===''||this.state.filterName===''||isNaN(parseInt(this.state.filterOrder))||parseInt(this.state.filterOrder)<5){
       return;
     }
     let filter={
@@ -216,7 +216,8 @@ class Filter extends Component {
                   }}
                   placeholder={i18n.t('enterOrderFilter')}
                   />
-                { this.state.filterOrder!==''&&isNaN(parseInt(this.state.filterOrder))&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionOrderNumberIsNotValid')}</label>}
+                  { this.state.filterOrder!==''&&isNaN(parseInt(this.state.filterOrder))&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionOrderNumberIsNotValid')}</label>}
+                  { this.state.filterOrder!==''&&!isNaN(parseInt(this.state.filterOrder))&&parseInt(this.state.filterOrder)<=4&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionOrderNumberMustBeBigger')}</label>}
                 { this.state.submitError &&this.state.filterOrder===''&&<label htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
               </FormGroup>
               <FormGroup>
@@ -284,7 +285,7 @@ class Filter extends Component {
                 {i18n.t('cancel')}
               </button>
 
-              {this.props.match.params.id && parseInt(this.props.match.params.id)>4 && <button className="btn btn-primary mr-1" onClick={()=>this.submit(true)}>
+              {this.props.filter && this.props.match.params.id && this.props.filter.id=== parseInt(this.props.match.params.id) && parseInt(this.props.filter.order)>4 && <button className="btn btn-primary mr-1" onClick={()=>this.submit(true)}>
               {i18n.t('saveFilter')}
             </button>}
 
@@ -302,7 +303,7 @@ class Filter extends Component {
             {i18n.t('save')}
           </button>
           {
-            this.props.match.params.id && parseInt(this.props.match.params.id)>4 && <button type="button" className="btn btn-link" onClick={this.deleteFilter.bind(this)}>
+            this.props.filter && this.props.match.params.id && this.props.filter.id=== parseInt(this.props.match.params.id) && parseInt(this.props.filter.order)>4 && <button type="button" className="btn btn-link" onClick={this.deleteFilter.bind(this)}>
               {i18n.t('delete') + ' '+i18n.t('filter')}
             </button>
           }
@@ -429,7 +430,7 @@ class Filter extends Component {
             <label className="mt-2 input-label">{i18n.t('project')}</label>
             <Select
              styles={colourStyles}
-              options={[{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(this.props.projects.map(project => {
+              options={[{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(this.props.projects.filter((item)=>item.id).map(project => {
                 project.label = project.name;
                 project.value = project.id;
                 return project;

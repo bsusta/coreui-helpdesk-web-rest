@@ -41,7 +41,7 @@ class Loader extends Component {
       this.setState({randomFloat,id:parseInt(this.props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
       this.props.addActiveRequests(1);
-      this.props.loadUnsavedFilter(this.props.match.params.count?this.props.match.params.count:20,this.props.page,this.props.body,this.props.order,this.props.token);
+      this.props.loadUnsavedFilter(this.props.match.params.count?this.props.match.params.count:20,this.props.page?this.props.page:1,this.props.body,this.props.order,this.props.token);
       if(!this.props.match.params.page){
         this.props.setFilterPage(1);
       }
@@ -55,6 +55,7 @@ class Loader extends Component {
   }
 
   componentWillReceiveProps(props){
+    //ak sa zmeni filter, nacitaj ho
     if(props.match.params.id && this.props.match.params.id!==props.match.params.id){
       if(props.match.params.id==='add'){
         this.props.startFilterLoading(false);
@@ -67,6 +68,7 @@ class Loader extends Component {
         this.props.getFilter(props.taskAttributes,props.statuses,props.projects,props.users,props.tags,props.companies,props.match.params.id,this.props.history,props.token);
       }
     }
+    //ak sa zmeni project, nacitaj ho
     else if(props.match.params.projectID && this.props.match.params.projectID!==props.match.params.projectID){
       let project=props.projects.find((item)=>item.id&&item.id.toString()===props.match.params.projectID);
       if(project===undefined){
@@ -79,6 +81,7 @@ class Loader extends Component {
       this.props.getProject(props.match.params.projectID,this.props.history,this.props.token);
       props.setFilterBody('project='+props.match.params.projectID,{projects:[project]},1);
     }
+    //ak sa zmeni tag, nacitaj ho
     else if(props.match.params.tagID && this.props.match.params.tagID!==props.match.params.tagID){
       let tag=props.tags.find((item)=>item.id&&item.id.toString()===props.match.params.tagID);
       if(tag===undefined){
@@ -89,12 +92,13 @@ class Loader extends Component {
       tag.value=tag.id;
       props.setFilterBody('tag='+props.match.params.tagID,{tags:[tag]},1);
     }
+    //ak sa ymeni body alebo order nacitaj nanovo tasky
     else if((props.body!==null && (this.props.body===null) ||this.props.order!==props.order|| JSON.stringify(this.props.body)!=JSON.stringify(props.body))){
       let randomFloat= Math.random();
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
       this.props.addActiveRequests(1);
-      this.props.loadUnsavedFilter(props.match.params.count?props.match.params.count:20,props.page,props.body,props.order,props.token);
+      this.props.loadUnsavedFilter(props.match.params.count?props.match.params.count:20,props.page?props.page:1,props.body,props.order,props.token);
       if(!this.props.match.params.page){
         this.props.setFilterPage(1);
       }
@@ -109,7 +113,7 @@ class Loader extends Component {
         this.props.history.push('/filter/1,'+(props.match.params.count?props.match.params.count:20));
       }
       }
-      else if(props.match.params.page===undefined&&props.match.params.id!=="add"){
+/*      else if(props.match.params.page===undefined&&props.match.params.id!=="add"){
         if(props.match.params.projectID){
           this.props.history.push('/project/'+props.match.params.projectID+'/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
         }else if(props.match.params.tagID){
@@ -121,13 +125,14 @@ class Loader extends Component {
         else{
           this.props.history.push('/filter/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
         }
-      }
+      }*/
+    //ak sa zmeni stranka, nacitaj tasky a zmen URL
     else if((this.props.page!=props.page && props.body!==null )||(this.props.match.params.count!=props.match.params.count && props.body!==null)){
       let randomFloat= Math.random();
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
       this.props.addActiveRequests(1);
-      this.props.loadUnsavedFilter(props.match.params.count?props.match.params.count:20,props.page,props.body,props.order,props.token);
+      this.props.loadUnsavedFilter(props.match.params.count?props.match.params.count:20,props.page?props.page:1,props.body,props.order,props.token);
       if(props.match.params.projectID){
         this.props.history.push('/project/'+props.match.params.projectID+'/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
       }else if(props.match.params.tagID){
