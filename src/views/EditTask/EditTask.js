@@ -184,6 +184,9 @@ class EditTask extends Component {
     } else if (name==='status') {
       state['closedAt'] = moment();
       state[name] = value;
+      if(this.props.statuses.find((item)=>item.id.toString()===state.status.toString()).title!=='Closed'){
+        state['closedAt'] = 'null';
+      }
     } else if (name) {
       state[name] = value;
     }
