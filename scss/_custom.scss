@@ -166,7 +166,7 @@
 //Main
 
 .main {
-	background-color: white;
+	background-color: $main-bg-color;
 }
 
 //Table
@@ -177,7 +177,7 @@
 	background-color: #e5f4ff;
 }
 .table-div {
-	background-color: white;
+	background-color: $table-div-bg-color;
 	padding: 20px;
 }
 .table-div-panel {
@@ -223,16 +223,14 @@
 	box-shadow: none !important;
 	border:none !important;
 	box-shadow: none !important;
-}
+	}
 .react-select__container:focus {
 	border:none !important;
 	box-shadow: none !important;
 }
-.react-select__control{
-	border-radius:0px;
-	border: 1px solid #ececec !important;
-	min-height: 33px;
-	max-height: 33px;
+.css-1re5pvr {
+	border-radius:none;
+	border: $inputs-border !important;
 }
 
 .react-select__control:focus{
@@ -275,8 +273,8 @@
 	padding: 0.375rem 0.75rem;
 	font-size: 0.875rem;
 	line-height: 1.5;
-	border-radius:0px;
-	border: 1px solid #c2cfd6;
+	border-radius:none;
+	border: $inputs-border;
 	box-shadow: none !important;
 }
 .react-datepicker__input-container input:focus {
@@ -305,10 +303,6 @@
 	border:none !important;
 }
 
-//task name input
-.task-name-input {
-	border: 1px solid #c2cfd6;
-}
 
 //Card
 .card-header {
@@ -316,7 +310,7 @@
 		//nastavenia card headeru v inych cards
 	}
 	border: 0;
-	background-color: #f4f9fd;
+	background-color:$card-header-bg-color;
 	margin: 0;
 	width: 100%;
 	z-index: 100;
@@ -331,7 +325,7 @@
 	margin: auto;
 	border: 0;
 	min-width: 800px;
-	background-color: white;
+	background-color: $main-bg-color;
 	min-height: 100%;
 	height: 100%;
 }
@@ -340,8 +334,8 @@
 	min-width: 800px;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: #f4f4f4;
-	border: 1px solid #c2cfd6;
+	background-color: $card-body-bg-color;
+	border: $card-body-border;
 }
 .smallCard {
 	min-width: 0;
@@ -389,16 +383,24 @@
 //set inputs icon css
 .input-group-addon {
 	border-color: #ececec;
-	border: 1px solid #c2cfd6;
+	border:$inputs-border !important;
+	border-right:none !important;
+	border-radius: $inputs-radius;
+}
+.input-group {
+	border: none;
+	border-radius: $inputs-radius;
 }
 //nastavenia input blackgroundu, borders, color
 .form-control {
-	border-color: #ececec;
-	border: 1px solid #c2cfd6;
+	border: $inputs-border;
+	border-radius: $inputs-radius;
 }
+
 .form-control::placeholder {
 	color: #a3a3a3;
 }
+
 
 //h2 nastavenia
 .h2{
@@ -459,7 +461,7 @@
 .coloredSelect {
 	padding-top: auto;
 	padding-left: 5px;
-	border: 1px solid #c2cfd6;
+	border: $inputs-border;
 	border-right: none;
 	background: white;
 }
@@ -635,8 +637,6 @@
 .attachmentInfo {
 	color: #2a7ec5 !important;
 }
-
-
 
 */
 .email-app .inbox .message {

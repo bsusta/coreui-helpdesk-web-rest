@@ -301,10 +301,10 @@ class EditTask extends Component {
                       style={{ borderBottom: "1px solid #eee", marginBottom: 17 }}
                       >
                       <div className="col-8">
-                        <div className="form-group task-name-input">
+                        <div className="form-group">
                           <InputGroup>
                             <InputGroupAddon
-                              style={{ backgroundColor: "white", border: "none" }}
+                              style={{ backgroundColor: "white" }}
                               >
                               <span className="float">
                                 <i
@@ -347,7 +347,7 @@ class EditTask extends Component {
                                 id="title"
                                 placeholder={i18n.t("enterTitle")}
                                 value={this.state.title}
-                                style={{ fontSize: 24, border: "none" }}
+                                style={{ fontSize: 24 }}
                                 onChange={e => {
                                   this.autoSubmit("title", e.target.value);
                                   this.setState({ title: e.target.value });
