@@ -102,14 +102,16 @@
 	color:white;
 }
 .searchInput{
-	border-right: 0px;
+	border: $input-search-border;
+	border-radius: $input-search-radius;
 	background-color: white;
 	width: 250px !important;
  	margin-left: 90px;
 }
 .searchButton{
+	border: $input-search-border;
+	border-radius: $input-search-button-radius;
 	background: white;
-	border-left: 0px;
 	cursor: pointer;
 }
 .headerCommandBar{

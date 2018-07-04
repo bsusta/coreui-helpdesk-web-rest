@@ -48,7 +48,9 @@ $inputs-border-onFocus:1px solid blue;
 $inputs-radius: 2.3px;
 //inputs whit icons color, background, border
 $input-group-addon: 1px solid #D9D9D9;
-
+$input-search-border:none;
+$input-search-radius:2.3px 0px 0px 2.3px !important;
+$input-search-button-radius:0px 2.3px 2.3px 0px !important;
 
 
 //inputs and select labels - color, font, font size
