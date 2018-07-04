@@ -120,9 +120,9 @@ class AddComment extends Component {
             borderLeft: 0,
             borderRight: 0,
             borderBottom: 0,
-            backgroundColor: "#f4f4f4"
-          }}
+            }}
           activeTab={this.state.activeTab}
+          className="card-background"
         >
           <TabPane tabId="1" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <div className="form-group">

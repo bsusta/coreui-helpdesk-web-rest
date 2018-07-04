@@ -67,8 +67,8 @@ class Comments extends Component {
         <div className="animated fadeIn">
           <div className="email-app mb-4" style={{ border: 0 }}>
             <main
-              className="inbox"
-              style={{ padding: 0, backgroundColor: "#f4f4f4" }}
+              className="inbox card-background"
+              style={{ padding: 0 }}
             >
               <ul className="messages">
                 {comments.map(comment => (

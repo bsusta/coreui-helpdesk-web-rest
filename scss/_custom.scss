@@ -163,8 +163,12 @@
 .nav-link:hover {
 	background-color: #d3eef6 !important;
 }
-//Main
 
+.sidebar .nav-dropdown.open .nav-dropdown-toggle {
+	background: $sidebar-nav-dropdown-toggle-open !important;
+}
+
+//Main
 .main {
 	background-color: $main-bg-color;
 }
@@ -196,7 +200,7 @@
 .filterDivInside {
 	border-right: 1px solid #eeeeee;
 	padding-left: 10px;
-	background-color: #f4f4f4;
+	background-color: $filter-bg;
 }
 .filterDiv {
 	width: 250px;
@@ -442,6 +446,24 @@
 
 
 //Edit/Add task
+.task-header {
+	margin-bottom: 17px;
+	border-bottom:1px solid #D9D9D9;
+}
+
+.task-header-input {
+	border:none !important;
+	background: $card-body-bg-color;
+}
+
+.task-edit-col-1 {
+	background: white;
+	border-right:1px solid #D9D9D9;
+}
+.task-edit-col-2 {
+
+	background: white;
+}
 .underlined-input {
 	border: none;
 	border-bottom: 1px solid #c2cfd6;
@@ -613,7 +635,11 @@
 	cursor: pointer;
 }
 
+//comments background
 
+.card-background {
+	background: $card-body-bg-color;
+}
 // this css does nothing I think, commented until found
 /*
 .css-1aya2g8 {
@@ -642,4 +668,8 @@
 .email-app .inbox .message {
 	border-top: 1px solid #c2cfd6;
 	border-bottom:0;
+}
+
+.tags-multiselect-button:hover {
+	background: none;
 }

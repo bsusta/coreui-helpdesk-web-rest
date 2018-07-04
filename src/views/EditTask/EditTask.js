@@ -297,14 +297,14 @@ class EditTask extends Component {
                   </CardHeader>
                   <CardBody>
                     <div
-                      className="row"
-                      style={{ borderBottom: "1px solid #eee", marginBottom: 17 }}
+                      className="row task-header"
                       >
                       <div className="col-8">
                         <div className="form-group">
                           <InputGroup>
                             <InputGroupAddon
                               style={{ backgroundColor: "white" }}
+                              className="task-header-input"
                               >
                               <span className="float">
                                 <i
@@ -343,7 +343,7 @@ class EditTask extends Component {
 
                               {/*<label htmlFor ="title">Task Name</label>*/}
                               <input
-                                className="form-control"
+                                className="form-control task-header-input"
                                 id="title"
                                 placeholder={i18n.t("enterTitle")}
                                 value={this.state.title}
@@ -364,7 +364,7 @@ class EditTask extends Component {
                             justifyContent: "flex-end"
                           }}
                           >
-                          <label className="float-right input-label">
+                          <label className="float- input-label">
                             Vytvoril: {this.props.task.createdBy.username} ({
                               this.props.task.createdBy.email
                             }) {timestampToString(this.props.task.createdAt)}
@@ -376,9 +376,8 @@ class EditTask extends Component {
 
                         <div className="row">
                           <div
-                            className="col-8"
-                            style={{ borderRight: "1px solid #eee" }}
-                            >
+                            className="col-8 task-edit-col-1"
+                              >
                             <div className="form-group">
                               <MultiSelect
                                 id="tags"
@@ -420,12 +419,10 @@ class EditTask extends Component {
                                   </span>
                                 )}
                                 titleStyle={{
-                                  backgroundColor: "#f4f4f4",
                                   color: "black",
                                   size: "0.875rem"
                                 }}
                                 toggleStyle={{
-                                  backgroundColor: "#f4f4f4",
                                   border: "none",
                                   padding: 0,
                                   fontSize: "0.875rem"
@@ -464,7 +461,7 @@ class EditTask extends Component {
                             <CommentsLoader taskID={this.props.task.id} />
                           </div>
 
-                          <div className="col-4">
+                          <div className="col-4 task-edit-col-2">
                             <FormGroup>
                               <label htmlFor="status" className="input-label">{i18n.t("status")}</label>
                               {this.state.closedAt &&
@@ -954,12 +951,12 @@ class EditTask extends Component {
                                       </div>
                                     )}
                                     titleStyle={{
-                                      backgroundColor: "#f4f4f4",
+                                     
                                       color: "black",
                                       size: "0.875rem"
                                     }}
                                     toggleStyle={{
-                                      backgroundColor: "#f4f4f4",
+                          
                                       border: "none",
                                       padding: 0,
                                       fontSize: "0.875rem"

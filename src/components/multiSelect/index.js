@@ -97,7 +97,7 @@ export default class MultiSelect extends Component {
   render() {
     return (
       <div
-        style={{
+          style={{
           display: this.props.display == "row" ? "flex" : "block",
           marginTop: "auto",
           marginBottom: "auto"
@@ -115,6 +115,7 @@ export default class MultiSelect extends Component {
         >
           <DropdownToggle
             caret
+            className="card-background tags-multiselect-button"
             style={this.props.toggleStyle ? this.props.toggleStyle : {}}
           >
             <label className="input-label">{this.props.label ? this.props.label : ""}</label>

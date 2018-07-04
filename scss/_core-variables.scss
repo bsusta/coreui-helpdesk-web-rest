@@ -6,25 +6,25 @@ $navbar-color: white;
 $navbar-hover-color: #f4f4f4;
 
 //sidebar - background color
-$sidebar-bg-color:#f4f4f4;
-$sidebar-nav-dropdown-bg: $sidebar-bg-color;
+$sidebar-bg-color:white;
+$sidebar-nav-dropdown-bg: #F9F9F9;
 $sidebar-bg: $sidebar-bg-color;
 $sidebar-minimizer-bg: $sidebar-bg-color;
-$sidebar-nav-link-active-bg: $sidebar-bg-color;
+$sidebar-nav-link-active-bg: #F9F9F9;
+$sidebar-nav-dropdown-toggle-open:#F1F1F1;
 
 //sidebar icon and text color
-$sidebar-color: #111111;
-$sidebar-active-color: #2a7ec5;
-$sidebar-text-size:1.1em;
+$sidebar-color: #515151;
+$sidebar-active-color: #106EBE;
+$sidebar-text-size:16px;
 
 //sidebar font and icon color
-$sidebar-color: #000;
 $sidebar-nav-title-color: $sidebar-color;
 $sidebar-nav-link-color: $sidebar-color;
 $sidebar-nav-dropdown-color: $sidebar-color;
 
 //main+card background
-$main-bg-color:white;
+$main-bg-color:#EFEFEF;
 
 //h2 font,color,size
 
@@ -36,19 +36,20 @@ $table-div-bg-color:white;
 $card-header-bg-color:#f4f9fd;
 
 //card-body - background, border
-$card-body-bg-color:#f4f4f4;
-$card-body-border:1px solid #c2cfd6;
+$card-body-bg-color:white;
+$card-body-border:none;
 
 
 //inputs and selects color, background, border
-$inputs-border:1px solid #c2cfd6;
+$inputs-border:1px solid #D9D9D9;
 $inputs-border-onFocus:1px solid blue;
-$inputs-radius: 0px;
+$inputs-radius: 2.3px;
 //inputs whit icons color, background, border
-$input-group-addon: 1px solid red;
+$input-group-addon: 1px solid #D9D9D9;
 
 
 
 //inputs and select labels - color, font, font size
 
 //filter background, border, color
+$filter-bg:#F9F9F9;
