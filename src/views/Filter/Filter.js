@@ -324,6 +324,8 @@ class Filter extends Component {
 					</Modal>
 
 					<div className="filterButtons">
+					
+				
 						<button
 							type="button"
 							className="btn btn-link btn-filter"
@@ -358,13 +360,11 @@ class Filter extends Component {
 						>
 							{i18n.t('reset')}
 						</button>
+		
 					</div>
 
 					<div style={{ padding: 20 }}>
-						<div className="row" style={{marginBottom:25}}>
-							<div className="col-6">
-								<h2>Filter</h2>
-							</div>
+						<div className="row">
 							<div className="col-6">
 								{this.props.total !== null && (
 									<span style={{ float: 'right', color: 'red', paddingTop: '12px' }}>
@@ -373,19 +373,6 @@ class Filter extends Component {
 								)}
 							</div>
 						</div>
-
-						<FormGroup>
-							<label htmlFor="title">{i18n.t('filterByName')}</label>
-							<input
-								className="form-control"
-								id="title"
-								value={this.state.title}
-								onChange={e => {
-									this.setState({ title: e.target.value });
-								}}
-								placeholder={i18n.t('filterByName')}
-							/>
-						</FormGroup>
 
 						<FormGroup>
 							<label htmlFor="status">{i18n.t('status')}</label>

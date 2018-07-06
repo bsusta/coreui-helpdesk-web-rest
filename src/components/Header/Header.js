@@ -29,7 +29,7 @@ class Header extends Component {
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
         <NavbarToggler style={{ color: "white" }}>LanHelpdesk</NavbarToggler>
-
+{/*
         <Nav className="d-md-down-none" style={{paddingLeft:30}}>
           <InputGroup>
             <Input
@@ -61,7 +61,7 @@ class Header extends Component {
             {i18n.t("addTask")}
           </button>
         }
-
+*/}
         <Nav navbar className="ml-auto">
           {/*Settings icon*/}
           {

@@ -68,13 +68,15 @@ class Tasks extends Component {
 
 		return (
 			<div className="row">
-				<div className="col-3" style={{ display: this.props.showFilter ? 'block' : 'none', padding: '0' }}>
-					<Filter history={this.props.history} match={this.props.match} />
-				</div>
-
-				<div className={this.props.showFilter ? 'col-9' : ''} style={{ padding: '0',width:'100%' }}>
-					<Card>
-						<CardHeader>
+				<Card>
+					<CardHeader>
+						<div className="row">
+							<InputGroup style={{ padding: '0px 20px 0px 20px', maxWidth: 300 }}>
+								<Input type="text" id="search" placeholder="Search task" />
+								<InputGroupAddon style={{ background: 'white', borderLeft: '', cursor: 'pointer' }}>
+									<i className="fa fa-search" />
+								</InputGroupAddon>
+							</InputGroup>
 							<label className="switch switch-text switch-primary">
 								<input
 									type="checkbox"
@@ -88,8 +90,14 @@ class Tasks extends Component {
 							<label style={{ paddingLeft: 10 }}>
 								{this.props.showFilter ? i18n.t('Filter') : i18n.t('Filter')}
 							</label>
-						</CardHeader>
-            
+						</div>
+					</CardHeader>
+
+					<div className="col-3" style={{ display: this.props.showFilter ? 'block' : 'none', padding: '0' }}>
+						<Filter history={this.props.history} match={this.props.match} />
+					</div>
+
+					<div className={this.props.showFilter ? 'col-9' : ''} style={{ padding: '0', width: '100%' }}>
 						<div className="table-div">
 							<h2>
 								<i className={icon} style={{ fontSize: 28, marginTop: 5 }} />
@@ -203,8 +211,8 @@ class Tasks extends Component {
 								}
 							/>
 						</div>
-					</Card>
-				</div>
+					</div>
+				</Card>
 			</div>
 		);
 	}
