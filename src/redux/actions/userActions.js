@@ -1,4 +1,4 @@
-import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS } from '../types';
+import { SET_USERS,SET_USERS_LOADING, ADD_USER, SET_USER, SET_USER_LOADING, EDIT_USER, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS, SET_USER_EMAIL_ERROR } from '../types';
 import { USERS_LIST, IMAGE_UPLOAD, GET_LOC, GET_FILE } from '../urls';
 import i18n from 'i18next';
 import {processError} from '../../helperFunctions';
@@ -41,12 +41,20 @@ export const getUsers= (updateDate,token) => {
   });
 }
 }
+
+export const setUserEmailError = (userLoaded) => {
+  return (dispatch) => {
+    dispatch({ type: SET_USER_EMAIL_ERROR, userLoaded });
+  }
+};
+
+
 /**
 * Adds new user
 * @param {object} body  All parameters in an object of the new user
 * @param {string} token universal token for API comunication
 */
-export const addUser = (body,company,role,image,token) => {
+export const addUser = (body,company,role,image,afterSuccess,token) => {
   return (dispatch) => {
     if(image!==null){
       let formData = new FormData();
@@ -74,11 +82,17 @@ export const addUser = (body,company,role,image,token) => {
             body:JSON.stringify(body),
           }).then((response)=>{
             if(!response.ok){
-              processError(response,dispatch);
+              if(response.status===409){
+                dispatch({type: SET_USER_EMAIL_ERROR, nameError:true});
+              }
+              else{
+                processError(response,dispatch);
+              }
               return;
             }
             response.json().then((response)=>{
               dispatch({type: ADD_USER, user:response.data});
+              afterSuccess();
             })})
             .catch(function (error) {
               dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
@@ -101,11 +115,17 @@ export const addUser = (body,company,role,image,token) => {
             body:JSON.stringify(body),
           }).then((response)=>{
             if(!response.ok){
-              processError(response,dispatch);
+              if(response.status===409){
+                dispatch({type: SET_USER_EMAIL_ERROR, nameError:true});
+              }
+              else{
+                processError(response,dispatch);
+              }
               return;
             }
             response.json().then((response)=>{
               dispatch({type: ADD_USER, user:response.data});
+              afterSuccess();
             })})
             .catch(function (error) {
               dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });

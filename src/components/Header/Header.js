@@ -32,7 +32,14 @@ class Header extends Component {
         <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
-        <NavbarToggler className="headerText">LanHelpdesk</NavbarToggler>
+        <NavbarToggler className="headerText">
+          <a
+            className="headerIcons"
+            href="#"
+          >
+            LanHelpdesk
+          </a>
+          </NavbarToggler>
         <div className="d-md-down-none">
           <InputGroup>
             <Input
@@ -42,6 +49,12 @@ class Header extends Component {
               onChange={e => this.setState({ search: e.target.value })}
               placeholder="Search task"
               className="searchInput"
+              onKeyPress={(e)=>{
+                if(e.key==='Enter'){
+                  this.props.setFilterBody('search='+this.state.search,{title:this.state.search},1);
+                  this.props.history.push('/filter/1,20');
+                }
+              }}
             />
           <InputGroupAddon
             className="searchButton"

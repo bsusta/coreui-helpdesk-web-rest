@@ -303,6 +303,7 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
         },
         body:JSON.stringify(data)
       }).then((response)=>response.json().then((data)=>{
+        console.log('saved');
         dispatch({ type: EDIT_TASK, task:data.data });
       })).catch(function (error) {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
@@ -318,6 +319,7 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
         },
         body:JSON.stringify(data)
       }).then((response)=>response.json().then((data)=>{
+        console.log('saved');
         dispatch({ type: EDIT_TASK, task:data.data });
       })).catch(function (error) {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
@@ -334,6 +336,7 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
         },
         body:JSON.stringify(data)
       }).then((response)=>response.json().then((data)=>{
+        console.log('saved');
         dispatch({ type: EDIT_TASK, task:data.data });
       })).catch(function (error) {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
@@ -350,6 +353,7 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
         },
         body:JSON.stringify(data)
       }).then((response)=>response.json().then((data)=>{
+        console.log('saved');
         dispatch({ type: EDIT_TASK, task:data.data });
       })).catch(function (error) {
         dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });

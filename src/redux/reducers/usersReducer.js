@@ -1,4 +1,4 @@
-import { SET_USERS, SET_USERS_LOADING, ADD_USER, SET_USER_LOADING, SET_USER, EDIT_USER, LOGIN_LOGOUT } from '../types'
+import { SET_USERS, SET_USERS_LOADING, ADD_USER, SET_USER_LOADING, SET_USER, EDIT_USER, LOGIN_LOGOUT, SET_USER_EMAIL_ERROR } from '../types'
 
 const initialState = {
   users:[],
@@ -6,10 +6,14 @@ const initialState = {
   user:null,
   userLoaded:false,
   updateDate:null,
+  nameError:false,
 };
 
 export default function usersReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_USER_EMAIL_ERROR:{
+      return { ...state, nameError:action.nameError };
+    }
     case SET_USERS:{
       if(!state.updateDate){
         return { ...state, users:action.users, updateDate:action.updateDate };

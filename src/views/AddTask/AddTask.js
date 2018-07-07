@@ -64,6 +64,11 @@ class AddTask extends Component {
 		super(props);
 		//we initialize all tasks aditional attributes
 		let task_data = initialiseCustomAttributes([...this.props.taskAttributes]);
+		let id =this.props.filterState&&this.props.filterState.projects&&this.props.filterState.projects.length>0?this.props.filterState.projects[0].id:null;
+		let project = "null";
+		if(id!==null && this.props.taskProjects.some((item)=>item.id===id)){
+			project = id;
+		}
 		this.state = {
 			company: this.props.companies[
 				this.props.companies.findIndex(company => company.id === this.props.user.company.id)
@@ -72,7 +77,7 @@ class AddTask extends Component {
 			startedAt: null,
 			description: '',
 			important: false,
-			project: this.props.taskProjects.length > 0 ? this.props.taskProjects[0].id : null,
+			project,
 			requestedBy: this.props.users[this.props.users.findIndex(user => user.id === this.props.user.id)],
 			status: this.props.statuses.length > 0 ? this.props.statuses[0].id : null,
 			tags: [],
@@ -107,26 +112,7 @@ class AddTask extends Component {
 			containsNullRequiredAttribute(task_data, [...this.props.taskAttributes]) ||
 			this.state.title === '' ||
 			this.state.requestedBy === undefined ||
-			this.state.company === undefined
-		) {
-			return;
-		}
-	}
-
-	/**
-	 * Adds new task
-	 * @return {null}
-	 */
-	submit() {
-		this.setState({ submitError: true });
-		//we create copy of the state so we can transform data
-		let state = { ...this.state };
-		let task_data = processCustomAttributes({ ...state.task_data }, [...this.props.taskAttributes]);
-		//checks if all requirements for creating were met
-		if (
-			containsNullRequiredAttribute(task_data, [...this.props.taskAttributes]) ||
-			this.state.title === '' ||
-			this.state.requestedBy === undefined ||
+			this.state.project === 'null' ||
 			this.state.company === undefined
 		) {
 			return;
@@ -177,7 +163,7 @@ class AddTask extends Component {
 
 	render() {
 		//cant create task without project
-		if (!this.state.project) {
+		if (this.props.taskProjects.length===0) {
 			return (
 				<div>
 					<Card>
@@ -428,16 +414,24 @@ class AddTask extends Component {
 														taskSolver: 'null',
 													});
 													this.props.deleteTaskSolvers();
-													this.props.getTaskSolvers(e.target.value, this.props.token);
+													if(e.target.value!=='null'){
+														this.props.getTaskSolvers(e.target.value, this.props.token);
+													}
 												}}
 											>
-												{this.props.taskProjects.map(project => (
+												{[{id:"null",title:''}].concat(this.props.taskProjects).map(project => (
 													<option key={project.id} value={project.id}>
 														{project.title}
 													</option>
 												))}
 											</select>
 										</InputGroup>
+										{this.state.submitError &&
+											this.state.project === "null" && (
+												<label htmlFor="title" className="input-label" style={{ color: 'red' }}>
+													{i18n.t('restrictionMustSelectProject')}
+												</label>
+											)}
 									</FormGroup>
 
 									<FormGroup>
@@ -1188,6 +1182,7 @@ const mapStateToProps = ({
 	attachmentsReducer,
 	followersReducer,
 	taskAttributesReducer,
+	filtersReducer,
 }) => {
 	const { task, taskProjects, taskSolvers } = tasksReducer;
 	const { taskAttributes } = taskAttributesReducer;
@@ -1196,12 +1191,14 @@ const mapStateToProps = ({
 	const { tags } = tagsReducer;
 	const { units } = unitsReducer;
 	const { users } = usersReducer;
+	const { filterState } = filtersReducer;
 	const { attachments } = attachmentsReducer;
 	const { followers } = followersReducer;
 	const { user, token } = login;
 	return {
 		task,
 		taskProjects,
+		filterState,
 		companies: taskCompanies,
 		taskAttributes,
 		statuses: taskStatuses,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addUser } from '../../../redux/actions';
+import { addUser, setUserEmailError } from '../../../redux/actions';
 import { isEmail } from '../../../helperFunctions';
 import i18n from 'i18next';
 
@@ -9,6 +9,7 @@ const languages = [{ id: 'en', name: 'English' }, { id: 'sk', name: 'Slovensky' 
 class UserAdd extends Component {
 	constructor(props) {
 		super(props);
+		this.props.setUserEmailError(false);
 		this.state = {
 			username: '',
 			password: '',
@@ -70,12 +71,7 @@ class UserAdd extends Component {
 		if (!isEmail(body.email) || body.password.length < 8) {
 			return;
 		}
-		this.props.addUser(body, this.state.company, this.state.userRole, this.state.image, this.props.token);
-		if (this.props.modal) {
-			this.props.modal();
-		} else {
-			this.props.history.goBack();
-		}
+		this.props.addUser(body, this.state.company, this.state.userRole, this.state.image,this.props.modal?this.props.modal:this.props.history.goBack, this.props.token);
 	}
 
 	render() {
@@ -162,10 +158,18 @@ class UserAdd extends Component {
 							id="email"
 							value={this.state.email}
 							onChange={target => {
+								if(this.props.nameError){
+									this.props.setUserEmailError(false);
+								}
 								this.setState({ email: target.target.value });
 							}}
 							placeholder={i18n.t('enterUsername') + '/' + i18n.t('enterEmail')}
 						/>
+					{this.props.nameError &&
+								<label className="input-label" htmlFor="email" style={{ color: 'red' }}>
+									{i18n.t('restrictionEmailUsed')}
+								</label>
+							}
 						{this.state.email !== '' &&
 							!isEmail(this.state.email) && (
 								<label className="input-label" htmlFor="email" style={{ color: 'red' }}>
@@ -481,14 +485,15 @@ class UserAdd extends Component {
 	}
 }
 
-const mapStateToProps = ({ companiesReducer, login, userRolesReducer }) => {
+const mapStateToProps = ({ companiesReducer, login, userRolesReducer, usersReducer }) => {
 	const { companies, taskCompanies } = companiesReducer;
+	const { nameError } = usersReducer;
 	const { userRoles } = userRolesReducer;
 	const { token, user } = login;
-	return { companies: companies.length === 0 ? taskCompanies : companies, token, user, userRoles };
+	return { companies: companies.length === 0 ? taskCompanies : companies,nameError, token, user, userRoles };
 };
 
 export default connect(
 	mapStateToProps,
-	{ addUser }
+	{ addUser, setUserEmailError }
 )(UserAdd);

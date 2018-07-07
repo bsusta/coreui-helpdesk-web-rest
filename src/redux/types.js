@@ -19,6 +19,7 @@ export const ADD_USER = 'ADD_USER';
 export const SET_USER = 'SET_USER';
 export const SET_USER_LOADING = 'SET_USER_LOADING';
 export const EDIT_USER = 'EDIT_USER';
+export const SET_USER_EMAIL_ERROR = 'SET_USER_EMAIL_ERROR';
 
 //all constants for companies actions
 export const SET_COMPANIES = 'SET_COMPANIES';

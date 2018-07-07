@@ -52,9 +52,13 @@ class Filter extends Component {
 	}
 
 	componentWillReceiveProps(props) {
-		if (props.filterState === null) {
+		if (props.filterState === null&&this.props.filterState!==null) {
+			console.log('delete all');
 			this.setState(this.createState(true));
-		} else if (this.props.filterState != props.filterState) {
+		} else if (JSON.stringify(this.props.filterState) !== JSON.stringify(props.filterState)) {
+			console.log('delete all 2 ');
+			console.log(JSON.stringify(this.props.filterState));
+			console.log(JSON.stringify(props.filterState));
 			this.setState({ ...this.createState(false), ...props.filterState });
 		}
 	}
@@ -776,8 +780,8 @@ class Filter extends Component {
 										<input
 											type="checkbox"
 											className="form-check-input"
-											checked={this.state.closedFrom}
-											onChange={() => this.setState({ closedFrom: !this.state.closedFrom })}
+											checked={this.state.closedFromNow}
+											onChange={() => this.setState({ closedFromNow: !this.state.closedFromNow })}
 										/>
 										{i18n.t('now')}
 									</label>
@@ -802,8 +806,8 @@ class Filter extends Component {
 										<input
 											type="checkbox"
 											className="form-check-input"
-											checked={this.state.closedTo}
-											onChange={() => this.setState({ closedTo: !this.state.closedTo })}
+											checked={this.state.closedToNow}
+											onChange={() => this.setState({ closedToNow: !this.state.closedToNow })}
 										/>
 										{i18n.t('now')}
 									</label>
