@@ -248,7 +248,7 @@ export default {
   close:'Zavrieť',
   print:'Vytlačiť',
   restrictionTaskWontSave:"Úloha nebude uložená pokým nevyplníte všetky požadované polia!",
-  closedAt:'Uzavierka',
+  closedAt:'Zatvorené',
   select:'Vyberte ',
   internal:'Vnútorná správa',
   to:'Adresát',
