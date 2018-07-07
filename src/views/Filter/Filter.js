@@ -53,12 +53,8 @@ class Filter extends Component {
 
 	componentWillReceiveProps(props) {
 		if (props.filterState === null&&this.props.filterState!==null) {
-			console.log('delete all');
 			this.setState(this.createState(true));
 		} else if (JSON.stringify(this.props.filterState) !== JSON.stringify(props.filterState)) {
-			console.log('delete all 2 ');
-			console.log(JSON.stringify(this.props.filterState));
-			console.log(JSON.stringify(props.filterState));
 			this.setState({ ...this.createState(false), ...props.filterState });
 		}
 	}
@@ -454,11 +450,12 @@ class Filter extends Component {
 
 						<label className="mt-2 input-label">{i18n.t('company')}</label>
 						<Select
-							options={this.props.companies.map(company => {
+							options={[{ label: 'Current user', id: 'CURRENT-USER', value: 'CURRENT-USER' }].concat(
+								this.props.companies.map(company => {
 								company.label = company.title;
 								company.value = company.id;
 								return company;
-							})}
+							}))}
 							isMulti
 							styles={colourStyles}
 							onChange={e => this.setState({ companies: e })}

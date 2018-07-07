@@ -27,7 +27,7 @@ export default function sidebarReducer(state = initialState, action) {
           projects.splice(projects.length-1,0,{
             name: project.title,
             id:project.id,
-            url: "/project/" + project.id.toString()+'/1,20',
+            url: "/project/" + project.id.toString(),
             //icon: "icon-folder",
             badge: {
               variant: "info",
@@ -39,7 +39,7 @@ export default function sidebarReducer(state = initialState, action) {
           projects[index]={
             name: project.title,
             id:project.id,
-            url: "/project/" + project.id.toString()+'/1,20',
+            url: "/project/" + project.id.toString(),
             //icon: "icon-folder",
             badge: {
               variant: "info",
@@ -59,7 +59,7 @@ export default function sidebarReducer(state = initialState, action) {
           archived.splice(archived.length-1,0,{
             name: project.title,
             id:project.id,
-            url: "/project/" + project.id.toString()+'/1,20',
+            url: "/project/" + project.id.toString(),
             //icon: "icon-folder",
             badge: {
               variant: "info",
@@ -71,7 +71,7 @@ export default function sidebarReducer(state = initialState, action) {
           archived[index]={
             name: project.title,
             id:project.id,
-            url: "/project/" + project.id.toString()+'/1,20',
+            url: "/project/" + project.id.toString(),
             //icon: "icon-folder",
             badge: {
               variant: "info",

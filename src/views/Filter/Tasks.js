@@ -221,6 +221,18 @@ class Tasks extends Component {
 															task.id
 														);
 													}
+												}else{
+													if (task.canEdit) {
+														this.props.history.push(
+															'/filter/add/task/edit/'+
+															task.id
+														);
+													} else {
+														this.props.history.push(
+															'/filter/add/task/view/'+
+															task.id
+														);
+													}
 												}
 											}}>
 											<td style={{ verticalAlign: 'center' }}>{task.id}</td>
