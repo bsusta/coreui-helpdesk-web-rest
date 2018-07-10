@@ -100,7 +100,7 @@ class Tasks extends Component {
 		}
 
 		return (
-			<div className="row">
+			<div className="row tasksDiv">
 				<div className="col-3" style={{ display: this.props.showFilter ? 'block' : 'none', padding: '0' }}>
 					<Filter history={this.props.history} match={this.props.match} />
 				</div>
@@ -164,7 +164,7 @@ class Tasks extends Component {
 										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('createdAt')}
 											{this.createArrow('createdTime')}
 										</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('dueDate')}
+										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('deadline')}
 											{this.createArrow('deadlineTime')}
 										</th>
 									</tr>
@@ -244,7 +244,7 @@ class Tasks extends Component {
 													{task.status.title}
 												</span>
 											</td>
-											<td>
+											<td style={{width:'14%'}}>
 												{task.title}
 												<p>
 													{task.tags.map(tag => (

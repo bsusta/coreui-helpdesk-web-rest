@@ -175,6 +175,12 @@
 	background-color: $main-bg-color;
 }
 
+//tasksDiv
+.tasksDiv {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 //Table
 .table td {
 	vertical-align: middle;
@@ -204,7 +210,6 @@
 //Filter
 .filterDivInside {
 	border-right: 1px solid #eeeeee;
-	padding-left: 10px;
 	background-color: $filter-bg;
 }
 .filterDiv {
