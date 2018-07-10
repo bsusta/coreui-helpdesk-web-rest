@@ -186,7 +186,7 @@ class Filter extends Component {
 			filterName: '',
 			filterPublic: false,
 			filterReport: false,
-			filterIcon: 'fa-filter',
+			filterIcon: 'fa fa-filter',
 			filterOrder: 10,
 			stateeditingFilter: this.props.match.params.id ? true : false,
 			statesaveOpen: false,
