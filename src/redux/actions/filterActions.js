@@ -129,7 +129,7 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
         }
       response.json().then((data) => {
         if(data){
-          let filterState = filterToFilterState(data.data,taskAttributes,statuses,[{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(projects),[{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(users),tags,companies);
+          let filterState = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
           let body = filterBodyFromState(filterState,taskAttributes);
           dispatch({ type: SET_FILTER,body,filterState,page:1 });
           dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
@@ -162,8 +162,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
           return;
         }
       response.json().then((data) => {
-        let filterState = filterToFilterState(data.data,taskAttributes,statuses,[{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(projects),
-          [{label:'NOT', id:'NOT',value:"NOT"},{label:'Current user', id:'CURRENT-USER',value:"CURRENT-USER"}].concat(users),tags,companies);
+        let filterState = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
         let body = filterBodyFromState(filterState,taskAttributes);
         dispatch({ type: SET_FILTER,body,filterState,filter:data.data,page:1 });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });

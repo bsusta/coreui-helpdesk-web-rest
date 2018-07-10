@@ -75,8 +75,7 @@ class Filter extends Component {
 		if (
 			this.state.filterIcon === '' ||
 			this.state.filterName === '' ||
-			isNaN(parseInt(this.state.filterOrder)) ||
-			parseInt(this.state.filterOrder) < 5
+			isNaN(parseInt(this.state.filterOrder))
 		) {
 			return;
 		}
@@ -248,13 +247,6 @@ class Filter extends Component {
 											{i18n.t('restrictionOrderNumberIsNotValid')}
 										</label>
 									)}
-								{this.state.filterOrder !== '' &&
-									!isNaN(parseInt(this.state.filterOrder)) &&
-									parseInt(this.state.filterOrder) <= 4 && (
-										<label htmlFor="order" style={{ color: 'red' }}>
-											{i18n.t('restrictionOrderNumberMustBeBigger')}
-										</label>
-									)}
 								{this.state.submitError &&
 									this.state.filterOrder === '' && (
 										<label htmlFor="order" style={{ color: 'red' }}>
@@ -333,8 +325,7 @@ class Filter extends Component {
 
 							{this.props.filter &&
 								this.props.match.params.id &&
-								this.props.filter.id === parseInt(this.props.match.params.id) &&
-								parseInt(this.props.filter.order) > 4 && (
+								this.props.filter.id === parseInt(this.props.match.params.id) && (
 									<button className="btn btn-primary mr-1" onClick={() => this.submit(true)}>
 										{i18n.t('saveFilter')}
 									</button>
@@ -364,8 +355,7 @@ class Filter extends Component {
 						</button>
 						{this.props.filter &&
 							this.props.match.params.id &&
-							this.props.filter.id === parseInt(this.props.match.params.id) &&
-							parseInt(this.props.filter.order) > 4 && (
+							this.props.filter.id === parseInt(this.props.match.params.id) && (
 								<button type="button" className="btn btn-link" onClick={this.deleteFilter.bind(this)}>
 									{i18n.t('delete') + ' ' + i18n.t('filter')}
 								</button>
@@ -600,19 +590,6 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-								<div className="form-group">
-									<label className="form-check-label input-label">
-										<input
-											type="checkbox"
-											className="form-check-input"
-											checked={this.state.createdFromNow}
-											onChange={() =>
-												this.setState({ createdFromNow: !this.state.createdFromNow })
-											}
-										/>
-										{i18n.t('now')}
-									</label>
-								</div>
 							</div>
 							<div>
 								<DatePicker
@@ -658,19 +635,6 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-								<div className="form-group">
-									<label className="form-check-label input-label">
-										<input
-											type="checkbox"
-											className="form-check-input"
-											checked={this.state.startedFromNow}
-											onChange={() =>
-												this.setState({ startedFromNow: !this.state.startedFromNow })
-											}
-										/>
-										{i18n.t('now')}
-									</label>
-								</div>
 							</div>
 							<div>
 								<DatePicker
@@ -715,19 +679,6 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-								<div className="form-group">
-									<label className="form-check-label input-label">
-										<input
-											type="checkbox"
-											className="form-check-input"
-											checked={this.state.deadlineFromNow}
-											onChange={() =>
-												this.setState({ deadlineFromNow: !this.state.deadlineFromNow })
-											}
-										/>
-										{i18n.t('now')}
-									</label>
-								</div>
 							</div>
 							<div>
 								<DatePicker
@@ -772,17 +723,6 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-								<div className="form-group">
-									<label className="form-check-label input-label">
-										<input
-											type="checkbox"
-											className="form-check-input"
-											checked={this.state.closedFromNow}
-											onChange={() => this.setState({ closedFromNow: !this.state.closedFromNow })}
-										/>
-										{i18n.t('now')}
-									</label>
-								</div>
 							</div>
 							<div>
 								<DatePicker

@@ -252,7 +252,6 @@ class EditTask extends Component {
   render() {
     return (
       <div className="fontRegular">
-
         <Modal isOpen={this.state.openAddCompany} className="lg">
           <ModalBody style={{padding:0}}>
             <CompanyAdd history={this.props.history} modal={()=>{
@@ -951,12 +950,11 @@ class EditTask extends Component {
                                       </div>
                                     )}
                                     titleStyle={{
-                                     
                                       color: "black",
                                       size: "0.875rem"
                                     }}
                                     toggleStyle={{
-                          
+
                                       border: "none",
                                       padding: 0,
                                       fontSize: "0.875rem"
