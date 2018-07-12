@@ -28,9 +28,12 @@ import { timestampToString } from '../../helperFunctions';
 import i18n from 'i18next';
 
 class Tasks extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.createArrow.bind(this);
+		this.state = {
+			search: '',
+		};
 	}
 	usersToString(users) {
 		if (users.length === 0) {
@@ -56,17 +59,36 @@ class Tasks extends Component {
 		}
 	}
 
-	createArrow(type){
-		if(this.props.order==='order='+type+'=>asc'){
-			return <span className="tableArrow">
-				<i className="fa fa-arrow-up colorLightBlue" onClick={()=>this.props.setFilterOrder('order='+type+'=>desc')}/>
-			</span>
+	createArrow(type) {
+		if (this.props.order === 'order=' + type + '=>asc') {
+			return (
+				<span className="tableArrow">
+					<i
+						className="fa fa-arrow-up colorLightBlue"
+						onClick={() => this.props.setFilterOrder('order=' + type + '=>desc')}
+					/>
+				</span>
+			);
 		}
-		return <span className="tableArrow">
-		<i className={this.props.order==='order='+type+'=>desc'?"fa fa-arrow-down colorLightBlue":"fa fa-arrow-down"}
-		onClick={()=>this.props.setFilterOrder((this.props.order===('order='+type+'=>desc'))?('order='+type+'=>asc'):('order='+type+'=>desc'))}/>
-	</span>
-}
+		return (
+			<span className="tableArrow">
+				<i
+					className={
+						this.props.order === 'order=' + type + '=>desc'
+							? 'fa fa-arrow-down colorLightBlue'
+							: 'fa fa-arrow-down'
+					}
+					onClick={() =>
+						this.props.setFilterOrder(
+							this.props.order === 'order=' + type + '=>desc'
+								? 'order=' + type + '=>asc'
+								: 'order=' + type + '=>desc'
+						)
+					}
+				/>
+			</span>
+		);
+	}
 
 	render() {
 		let header = i18n.t('unknownSearch');
@@ -80,20 +102,24 @@ class Tasks extends Component {
 		} else if (this.props.match.params.tagID) {
 			let index = this.props.tags.findIndex(tag => tag.id && tag.id.toString() === this.props.match.params.tagID);
 			if (index !== -1) {
-				header = this.props.tags[index].name
-				icon = this.props.user.user_role.acl.includes('share_tags')||!this.props.tags[index].public ?'fa fa-cog clickableIcon':'fa fa-cog';
+				header = this.props.tags[index].name;
+				icon =
+					this.props.user.user_role.acl.includes('share_tags') || !this.props.tags[index].public
+						? 'fa fa-cog clickableIcon'
+						: 'fa fa-cog';
 			}
-		}else if (this.props.match.params.projectID) {
-			let index = this.props.projects.findIndex(project => project.id && project.id.toString() === this.props.match.params.projectID);
+		} else if (this.props.match.params.projectID) {
+			let index = this.props.projects.findIndex(
+				project => project.id && project.id.toString() === this.props.match.params.projectID
+			);
 			if (index !== -1) {
 				header = this.props.projects[index].name;
 				icon = 'fa fa-info-circle clickableIcon';
 			}
-		}else if (this.props.match.params.id==='add') {
+		} else if (this.props.match.params.id === 'add') {
 			header = i18n.t('filter');
 			icon = 'fa fa-plus';
-		}
-		else if (this.props.body && this.props.body.includes('search')) {
+		} else if (this.props.body && this.props.body.includes('search')) {
 			header = i18n.t('search') + ': ' + this.props.body.split('=')[1].split('&')[0];
 		} else {
 			header = i18n.t('search');
@@ -107,33 +133,84 @@ class Tasks extends Component {
 
 				<div className={this.props.showFilter ? 'col-9' : ''} style={{ padding: '0' }}>
 					<Card>
-						<CardHeader>
-							<label className="switch switch-text switch-primary">
-								<input
-									type="checkbox"
-									className="switch-input"
-									checked={this.props.showFilter}
-									onChange={() => this.props.setShowFilter(!this.props.showFilter)}
-								/>
-								<span className="switch-label" data-on="On" data-off="Off" />
-								<span className="switch-handle" />
-							</label>
-							<label style={{ paddingLeft: 10 }}>
-								{this.props.showFilter ? i18n.t('Filter') : i18n.t('Filter')}
-							</label>
-						</CardHeader>
+						<div className="row" style={{ height: 50, backgroundColor:"#f4f9fd", margin:0 }}>
+							<div className="col-3" style={{padding:"0.5rem 1.25rem"}}>
+								<InputGroup style={{borderRight:"1px solid #D9D9D9"}}>
+									<Input
+										type="text"
+										id="search"
+										
+										value={this.state.search}
+										onChange={e => this.setState({ search: e.target.value })}
+										placeholder="Search task"
+										className="searchInput"
+										onKeyPress={e => {
+											if (e.key === 'Enter') {
+												this.props.setFilterBody(
+													'search=' + this.state.search,
+													{ title: this.state.search },
+													1
+												);
+												this.props.history.push('/filter/1,20');
+											}
+										}}
+									/>
+									<InputGroupAddon
+										className="searchButton"
+									
+										onClick={() => {
+											this.props.setFilterBody(
+												'search=' + this.state.search,
+												{ title: this.state.search },
+												1
+											);
+											this.props.history.push('/filter/1,20');
+										}}
+									>
+										<i className="fa fa-search" />
+									</InputGroupAddon>
+								</InputGroup>
+							</div>
+							<div className="col-9" style={{padding:"0.75rem 1.25rem"}}>
+								<label className="switch switch-text switch-primary">
+									<input
+										type="checkbox"
+										className="switch-input"
+										checked={this.props.showFilter}
+										onChange={() => this.props.setShowFilter(!this.props.showFilter)}
+									/>
+									<span className="switch-label" data-on="On" data-off="Off" />
+									<span className="switch-handle" />
+								</label>
+								<label style={{ paddingLeft: 10 }}>
+									{this.props.showFilter ? i18n.t('Filter') : i18n.t('Filter')}
+								</label>
+							</div>
+						</div>
 
 						<div className="table-div">
 							<h2 className="h2">
-								<i className={icon} onClick={()=>{
-										if(this.props.match.params.projectID){
-											this.props.history.push((
-												(this.props.project && this.props.project.id.toString()===this.props.match.params.projectID.toString() && this.props.project.canEdit) ?
-												'/project/edit/' : '/project/info/') + this.props.match.params.projectID);
-										}else if(this.props.match.params.tagID && (this.props.user.user_role.acl.includes('share_tags')||!this.props.tags[index].public)){
+								<i
+									className={icon}
+									onClick={() => {
+										if (this.props.match.params.projectID) {
+											this.props.history.push(
+												(this.props.project &&
+												this.props.project.id.toString() ===
+													this.props.match.params.projectID.toString() &&
+												this.props.project.canEdit
+													? '/project/edit/'
+													: '/project/info/') + this.props.match.params.projectID
+											);
+										} else if (
+											this.props.match.params.tagID &&
+											(this.props.user.user_role.acl.includes('share_tags') ||
+												!this.props.tags[index].public)
+										) {
 											this.props.history.push('/tag/edit/' + this.props.match.params.tagID);
 										}
-									}} />
+									}}
+								/>
 								<span>{header}</span>
 							</h2>
 							<table className="table table-striped table-hover table-sm">
@@ -143,98 +220,103 @@ class Tasks extends Component {
 											{i18n.t('id')}
 											{this.createArrow('id')}
 										</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('status')}
+										<th style={{ width: '5%', borderTop: '0px' }}>
+											{i18n.t('status')}
 											{this.createArrow('status')}
 										</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('title')}
+										<th style={{ width: '5%', borderTop: '0px' }}>
+											{i18n.t('title')}
 											{this.createArrow('title')}
 										</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('requester')}
+										<th style={{ width: '5%', borderTop: '0px' }}>
+											{i18n.t('requester')}
 											{this.createArrow('requester')}
 										</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('company')}
+										<th style={{ width: '5%', borderTop: '0px' }}>
+											{i18n.t('company')}
 											{this.createArrow('taskCompany')}
 										</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('assigned')}
+										<th style={{ width: '5%', borderTop: '0px' }}>
+											{i18n.t('assigned')}
 											{this.createArrow('assigned')}
 										</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('project')}
+										<th style={{ width: '5%', borderTop: '0px' }}>
+											{i18n.t('project')}
 											{this.createArrow('project')}
 										</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('createdAt')}
+										<th style={{ width: '5%', borderTop: '0px' }}>
+											{i18n.t('createdAt')}
 											{this.createArrow('createdTime')}
 										</th>
-										<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('deadline')}
+										<th style={{ width: '5%', borderTop: '0px' }}>
+											{i18n.t('deadline')}
 											{this.createArrow('deadlineTime')}
 										</th>
 									</tr>
 								</thead>
 								<tbody>
 									{this.props.tasks.map(task => (
-										<tr style={{ cursor: 'pointer' }} key={task.id}
+										<tr
+											style={{ cursor: 'pointer' }}
+											key={task.id}
 											onClick={() => {
-												if(this.props.match.params.id){
+												if (this.props.match.params.id) {
 													if (task.canEdit) {
 														this.props.history.push(
 															'/filter/' +
-															this.props.match.params.id +
-															'/task/edit/' +
-															task.id
+																this.props.match.params.id +
+																'/task/edit/' +
+																task.id
 														);
 													} else {
 														this.props.history.push(
 															'/filter/' +
-															this.props.match.params.id +
-															'/task/view/' +
-															task.id
+																this.props.match.params.id +
+																'/task/view/' +
+																task.id
 														);
 													}
-												}else if(this.props.match.params.projectID){
+												} else if (this.props.match.params.projectID) {
 													if (task.canEdit) {
 														this.props.history.push(
 															'/project/' +
-															this.props.match.params.projectID +
-															'/task/edit/' +
-															task.id
+																this.props.match.params.projectID +
+																'/task/edit/' +
+																task.id
 														);
 													} else {
 														this.props.history.push(
 															'/project/' +
-															this.props.match.params.projectID +
-															'/task/view/' +
-															task.id
+																this.props.match.params.projectID +
+																'/task/view/' +
+																task.id
 														);
 													}
-												}else if(this.props.match.params.tagID){
+												} else if (this.props.match.params.tagID) {
 													if (task.canEdit) {
 														this.props.history.push(
 															'/tag/' +
-															this.props.match.params.tagID +
-															'/task/edit/' +
-															task.id
+																this.props.match.params.tagID +
+																'/task/edit/' +
+																task.id
 														);
 													} else {
 														this.props.history.push(
 															'/tag/' +
-															this.props.match.params.tagID +
-															'/task/view/' +
-															task.id
+																this.props.match.params.tagID +
+																'/task/view/' +
+																task.id
 														);
 													}
-												}else{
+												} else {
 													if (task.canEdit) {
-														this.props.history.push(
-															'/filter/add/task/edit/'+
-															task.id
-														);
+														this.props.history.push('/filter/add/task/edit/' + task.id);
 													} else {
-														this.props.history.push(
-															'/filter/add/task/view/'+
-															task.id
-														);
+														this.props.history.push('/filter/add/task/view/' + task.id);
 													}
 												}
-											}}>
+											}}
+										>
 											<td style={{ verticalAlign: 'center' }}>{task.id}</td>
 											<td>
 												<span
@@ -244,7 +326,7 @@ class Tasks extends Component {
 													{task.status.title}
 												</span>
 											</td>
-											<td style={{width:'14%'}}>
+											<td style={{ width: '14%' }}>
 												{task.title}
 												<p>
 													{task.tags.map(tag => (
@@ -273,7 +355,7 @@ class Tasks extends Component {
 								</tbody>
 							</table>
 							<Pagination
-								link={this.props.match.params.projectID?"project":'filter'}
+								link={this.props.match.params.projectID ? 'project' : 'filter'}
 								history={{ push: () => {} }}
 								numberOfPages={this.props.numberOfPages}
 								refetchData={() => {}}
@@ -315,21 +397,21 @@ class Tasks extends Component {
 	}
 }
 
-const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projectsReducer, login }) => {
+const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, projectsReducer, login }) => {
 	const { tasks, numberOfPages, body, filterState, showFilter, page, order } = filtersReducer;
 	const { taskProjects } = tasksReducer;
 	const { sidebar } = sidebarReducer;
 	const { project } = projectsReducer;
-	const { token,user } = login;
-	let index = sidebar.findIndex(item => item.name === "projects");
-	let index2 = sidebar.findIndex(item => item.name === "archived");
-	let index3 = sidebar.findIndex(item => item.name === "tags");
+	const { token, user } = login;
+	let index = sidebar.findIndex(item => item.name === 'projects');
+	let index2 = sidebar.findIndex(item => item.name === 'archived');
+	let index3 = sidebar.findIndex(item => item.name === 'tags');
 
 	return {
 		tasks,
 		order,
-		projects:(index===-1?[]:sidebar[index].children).concat(index2===-1?[]:sidebar[index2].children),
-		tags:(index3===-1?[]:sidebar[index3].children),
+		projects: (index === -1 ? [] : sidebar[index].children).concat(index2 === -1 ? [] : sidebar[index2].children),
+		tags: index3 === -1 ? [] : sidebar[index3].children,
 		numberOfPages,
 		body,
 		page,

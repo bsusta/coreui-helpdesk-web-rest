@@ -40,7 +40,9 @@ class Header extends Component {
             LanHelpdesk
           </a>
           </NavbarToggler>
+            {/*
         <div className="d-md-down-none">
+      
           <InputGroup>
             <Input
               type="text"
@@ -65,12 +67,16 @@ class Header extends Component {
               <i className="fa fa-search" />
             </InputGroupAddon>
           </InputGroup>
+     
+
         </div>
+             */}
         {
            this.props.user.user_role.acl.includes('create_tasks') &&
           <button
             type="button"
             className="btn btn-link"
+            style={{marginLeft:100}}
             onClick={() => this.props.history.push("/task/add")}
             >
             {i18n.t("addTask")}

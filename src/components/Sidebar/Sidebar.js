@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import { Badge, Nav, NavItem, NavLink as RsNavLink } from "reactstrap";
+import { Badge, Nav, NavItem, NavLink as RsNavLink, Form, FormGroup, FormText, Label, Input, InputGroup,InputGroupAddon,NavbarToggler  } from 'reactstrap';
 import classNames from "classnames";
 import { connect } from "react-redux";
 import nav from "./_nav";
@@ -187,6 +187,34 @@ class Sidebar extends Component {
         <SidebarHeader />
         <SidebarForm />
         <nav className="sidebar-nav">
+
+
+        <FormGroup style={{ padding: '0.75rem 1rem', marginBottom: 0 }}>
+						<Label htmlFor="ccmonth">
+							<i class="icon-folder" />
+							<span style={{ fontSize: '1.05em', marginLeft: '0.5rem' }}>Projekt</span>
+						</Label>
+						<Input type="select" name="project" id="project">
+							<option value="1">All</option>
+							<option value="2">Projekt 1</option>
+							<option value="3">Projekt 2</option>
+						</Input>
+					</FormGroup>
+					<FormGroup style={{ padding: '0.75rem 1rem', marginBottom: 0 }}>
+						<label className="switch switch-text switch-primary">
+							<input
+								type="checkbox"
+								className="switch-input"
+								checked="true"
+								onChange={() => this.props.setShowFilter(!this.props.showFilter)}
+							/>
+							<span className="switch-label" data-on="" data-off="" />
+							<span className="switch-handle" />
+						</label>
+						<label style={{ paddingLeft: 10 }}>
+                Active Projects
+						</label>
+					</FormGroup>
           <Nav>{navList(this.props.sidebar.concat(nav.items))}</Nav>
         </nav>
         <SidebarFooter />

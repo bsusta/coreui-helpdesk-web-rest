@@ -48,7 +48,7 @@ export const getSidebar = (date,ACL,token) => {
             name: "reports",
             open: false,
             url: "",
-            icon: "fa fa-filter",
+            icon: "fa fa-file",
             children: []
           };
           if(ACL.includes('report_filters')&&data.reports){
@@ -61,32 +61,6 @@ export const getSidebar = (date,ACL,token) => {
               })
             );
           }
-
-          let tags = {
-            name: "tags",
-            open: false,
-            url: "",
-            icon: "fa fa-tags",
-            children: []
-          };
-          if(data.tags){
-            data.tags.map(tag =>
-              tags.children.push({
-                name: tag.title,
-                color: tag.color,
-                id:tag.id,
-                public:tag.public,
-                url: "/tag/" + tag.id.toString()
-              })
-            );
-          }
-          tags.children.push({
-            name: "tag",
-            url: "/tag/add",
-            icon: "fa fa-plus"
-          });
-
-
           let filters = {
             name: "filters",
             open: true,
@@ -110,9 +84,37 @@ export const getSidebar = (date,ACL,token) => {
              icon: "fa fa-plus"
            });
 
+           let tags = "";
+           let projects = "";
+           let archived = "";
+           {/*
+                     let tags = {
+                       name: "tags",
+                       open: false,
+                       url: "",
+                       icon: "fa fa-tags",
+                       children: []
+                     };
+                     if(data.tags){
+                       data.tags.map(tag =>
+                         tags.children.push({
+                           name: tag.title,
+                           color: tag.color,
+                           id:tag.id,
+                           public:tag.public,
+                           url: "/tag/" + tag.id.toString()
+                         })
+                       );
+                     }
+                     tags.children.push({
+                       name: "tag",
+                       url: "/tag/add",
+                       icon: "fa fa-plus"
+                     });
+        
           let projects = {
             name: "projects",
-            open: true,
+            open: false,
             url: "",
             icon: "icon-folder",
             children: []
@@ -162,8 +164,8 @@ export const getSidebar = (date,ACL,token) => {
               }
             })
           );
-
-          nav.push(filters, projects, tags, archived, reports);
+   */}
+          nav.push(filters, reports ,projects, tags, archived);
           dispatch({ type: SET_SIDEBAR, sidebar: nav, date:data.date });
         });
       })
