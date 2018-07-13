@@ -133,16 +133,34 @@ class Tasks extends Component {
 
 				<div className={this.props.showFilter ? 'col-9' : ''} style={{ padding: '0' }}>
 					<Card>
-						<div className="row" style={{ height: 50, backgroundColor:"#f4f9fd", margin:0 }}>
-							<div className="col-3" style={{padding:"0.5rem 1.25rem"}}>
-								<InputGroup style={{borderRight:"1px solid #D9D9D9"}}>
+						<div
+							className="d-flex align-items-center"
+							style={{ height: 50, backgroundColor: '#f4f9fd', margin: 0 }}
+						>
+							<div className="p-2 align-self-center" style={{}}>
+							<label style={{ paddingRight: 10, marginBottom: 0 }}>
+									{this.props.showFilter ? i18n.t('Filter') : i18n.t('Filter')}
+								</label>
+								<label className="switch switch-text switch-primary" style={{ marginBottom: 0 }}>
+									<input
+										type="checkbox"
+										className="switch-input"
+										checked={this.props.showFilter}
+										onChange={() => this.props.setShowFilter(!this.props.showFilter)}
+									/>
+									<span className="switch-label" data-on="On" data-off="Off" />
+									<span className="switch-handle" />
+								</label>
+							</div>
+							<div className="p-2" style={{}}>
+								<InputGroup style={{ borderRight: '1px solid #D9D9D9' }}>
 									<Input
 										type="text"
 										id="search"
-										
+										style={{ width: 300 }}
 										value={this.state.search}
 										onChange={e => this.setState({ search: e.target.value })}
-										placeholder="Search task"
+										placeholder="Search task name"
 										className="searchInput"
 										onKeyPress={e => {
 											if (e.key === 'Enter') {
@@ -157,7 +175,6 @@ class Tasks extends Component {
 									/>
 									<InputGroupAddon
 										className="searchButton"
-									
 										onClick={() => {
 											this.props.setFilterBody(
 												'search=' + this.state.search,
@@ -171,20 +188,13 @@ class Tasks extends Component {
 									</InputGroupAddon>
 								</InputGroup>
 							</div>
-							<div className="col-9" style={{padding:"0.75rem 1.25rem"}}>
-								<label className="switch switch-text switch-primary">
-									<input
-										type="checkbox"
-										className="switch-input"
-										checked={this.props.showFilter}
-										onChange={() => this.props.setShowFilter(!this.props.showFilter)}
-									/>
-									<span className="switch-label" data-on="On" data-off="Off" />
-									<span className="switch-handle" />
-								</label>
-								<label style={{ paddingLeft: 10 }}>
-									{this.props.showFilter ? i18n.t('Filter') : i18n.t('Filter')}
-								</label>
+							<span style={{  color: 'red'}}>
+										Tasks number: {this.props.total}
+									</span>
+							<div className="p-2 align-self-center" style={{}}>
+								<button type="button" className="btn btn-link" style={{}}>
+									Click to global search
+								</button>
 							</div>
 						</div>
 

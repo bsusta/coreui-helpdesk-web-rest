@@ -379,7 +379,7 @@ class Filter extends Component {
 							<div className="col-6">
 								{this.props.total !== null && (
 									<span style={{ float: 'right', color: 'red', paddingTop: '12px' }}>
-										tasks: {this.props.total}
+										Tasks number: {this.props.total}
 									</span>
 								)}
 							</div>
