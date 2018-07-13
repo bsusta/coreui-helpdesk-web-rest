@@ -271,7 +271,7 @@ class EditTask extends Component {
         </Modal>
 
         <Card>
-          <CardHeader className="row justify-content-between" >
+          <CardHeader className="d-flex flex-row" >
             <div>
               { !this.props.tripod &&
                 <button
@@ -293,7 +293,7 @@ class EditTask extends Component {
                     }
                     </div>
                     {this.state.submitError && <span><h5 style={{color:'red'}}> {i18n.t('restrictionTaskWontSave')}</h5></span>}
-                  </CardHeader>
+                </CardHeader>
                   <CardBody>
                     <div
                       className="row task-header"

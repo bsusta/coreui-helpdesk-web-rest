@@ -137,8 +137,8 @@ class Tasks extends Component {
 							className="d-flex align-items-center"
 							style={{ height: 50, backgroundColor: '#f4f9fd', margin: 0 }}
 						>
-							<div className="p-2 align-self-center" style={{}}>
-							<label style={{ paddingRight: 10, marginBottom: 0 }}>
+							<div className="p-2 align-self-center" style={{marginLeft:10 }}>
+							<label style={{ paddingRight: 10, marginBottom: 0}}>
 									{this.props.showFilter ? i18n.t('Filter') : i18n.t('Filter')}
 								</label>
 								<label className="switch switch-text switch-primary" style={{ marginBottom: 0 }}>
