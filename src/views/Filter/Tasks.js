@@ -137,21 +137,21 @@ class Tasks extends Component {
 							className="d-flex align-items-center"
 							style={{ height: 50, backgroundColor: '#f4f9fd', margin: 0 }}
 						>
-							<div className="p-2 align-self-center" style={{marginLeft:10 }}>
-							<label style={{ paddingRight: 10, marginBottom: 0}}>
-									{this.props.showFilter ? i18n.t('Filter') : i18n.t('Filter')}
-								</label>
-								<label className="switch switch-text switch-primary" style={{ marginBottom: 0 }}>
-									<input
-										type="checkbox"
-										className="switch-input"
-										checked={this.props.showFilter}
-										onChange={() => this.props.setShowFilter(!this.props.showFilter)}
-									/>
-									<span className="switch-label" data-on="On" data-off="Off" />
-									<span className="switch-handle" />
-								</label>
-							</div>
+						
+								<div className="p-2 align-self-center" style={{}}>
+									<button
+										type="button"
+										className="btn btn-link"
+										style={{}}
+										onClick={() => this.props.setShowFilter(!this.props.showFilter)}
+									>
+										<span className="mr-2">
+											<i class="fa fa-filter" />
+										</span>
+										Filter
+									</button>
+								</div>
+					
 							<div className="p-2" style={{}}>
 								<InputGroup style={{ borderRight: '1px solid #D9D9D9' }}>
 									<Input
@@ -188,14 +188,12 @@ class Tasks extends Component {
 									</InputGroupAddon>
 								</InputGroup>
 							</div>
-							<span style={{  color: 'red'}}>
-										Tasks number: {this.props.total}
-									</span>
 							<div className="p-2 align-self-center" style={{}}>
 								<button type="button" className="btn btn-link" style={{}}>
 									Click to global search
 								</button>
 							</div>
+							<span style={{ color: 'red' }}>Tasks number: {this.props.total}</span>
 						</div>
 
 						<div className="table-div">
