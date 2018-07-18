@@ -150,49 +150,7 @@ class Tasks extends Component {
 										</span>
 										Filter
 									</button>
-								</div>
-					
-							<div className="p-2" style={{}}>
-								<InputGroup style={{ borderRight: '1px solid #D9D9D9' }}>
-									<Input
-										type="text"
-										id="search"
-										style={{ width: 300 }}
-										value={this.state.search}
-										onChange={e => this.setState({ search: e.target.value })}
-										placeholder="Search task name"
-										className="searchInput"
-										onKeyPress={e => {
-											if (e.key === 'Enter') {
-												this.props.setFilterBody(
-													'search=' + this.state.search,
-													{ title: this.state.search },
-													1
-												);
-												this.props.history.push('/filter/1,20');
-											}
-										}}
-									/>
-									<InputGroupAddon
-										className="searchButton"
-										onClick={() => {
-											this.props.setFilterBody(
-												'search=' + this.state.search,
-												{ title: this.state.search },
-												1
-											);
-											this.props.history.push('/filter/1,20');
-										}}
-									>
-										<i className="fa fa-search" />
-									</InputGroupAddon>
-								</InputGroup>
-							</div>
-							<div className="p-2 align-self-center" style={{}}>
-								<button type="button" className="btn btn-link" style={{}}>
-									Click to global search
-								</button>
-							</div>
+								</div>				
 							<span style={{ color: 'red' }}>Tasks number: {this.props.total}</span>
 						</div>
 

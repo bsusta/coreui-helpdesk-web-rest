@@ -278,23 +278,22 @@ class EditTask extends Component {
 						style={{ maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto' }}
 					>
 						<div>
+							{!this.props.tripod && (
+								<button className="btn btn-link" onClick={this.props.history.goBack}>
+									<i className="fa fa-arrow-left" /> {i18n.t('Back')}
+								</button>
+							)}
 							<div class="btn-group" role="group" aria-label="Basic example">
-								<button type="button" class="btn btn-block btn-outline-primary">
+								<button type="button" class="btn btn-link">
 									Open
 								</button>
-								<button type="button" class="btn btn-block btn-outline-primary">
+								<button type="button" class="btn btn-link">
 									Pending
 								</button>
-								<button type="button" class="btn btn-block btn-outline-primary">
+								<button type="button" class="btn btn-link">
 									Close
 								</button>
 							</div>
-
-							{!this.props.tripod && (
-								<button className="btn btn-link" onClick={this.props.history.goBack}>
-									<i className="fa fa-close" /> {i18n.t('close')}
-								</button>
-							)}
 
 							<button className="btn btn-link">
 								<i className="fa fa-print" /> {i18n.t('print')}
