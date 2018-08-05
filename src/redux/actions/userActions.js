@@ -42,6 +42,36 @@ export const getUsers= (updateDate,token) => {
 }
 }
 
+/**
+* Gets all users available with no pagination
+* @param {string} token universal token for API comunication
+*/
+export const getAllUsers= (token) => {
+  return (dispatch) => {
+    fetch(USERS_LIST+'?limit=999', {
+      method: 'get',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    }).then((response) =>{
+    dispatch({type: LOWER_ACTIVE_REQUESTS});
+      if(!response.ok){
+        processError(response,dispatch);
+        return;
+      }
+      response.json().then((data) => {
+        dispatch({type: SET_USERS, users:data.data,updateDate:null});
+        dispatch({ type: SET_USERS_LOADING, usersLoaded:true });
+      });
+    }
+  ).catch(function (error) {
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+    console.log(error);
+  });
+}
+}
+
 export const setUserEmailError = (userLoaded) => {
   return (dispatch) => {
     dispatch({ type: SET_USER_EMAIL_ERROR, userLoaded });

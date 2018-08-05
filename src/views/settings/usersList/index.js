@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {getUsers, startUsersLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
+import {getAllUsers, startUsersLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import UsersList from './usersList';
 import Loading from '../../../components/Loading';
 
@@ -17,7 +17,7 @@ class UsersListLoader extends Component {
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.startUsersLoading();
     this.props.setActiveRequests(1);
-    this.props.getUsers(this.props.updateDate,this.props.token);
+    this.props.getAllUsers(this.props.token);
   }
   render(){
     if(!this.props.usersLoaded){
@@ -36,4 +36,4 @@ const mapStateToProps = ({usersReducer, login }) => {
 };
 
 
-export default connect(mapStateToProps, {getUsers, startUsersLoading,clearErrorMessage, setActiveRequests})(UsersListLoader);
+export default connect(mapStateToProps, {getAllUsers, startUsersLoading,clearErrorMessage, setActiveRequests})(UsersListLoader);

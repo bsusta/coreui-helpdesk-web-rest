@@ -181,12 +181,6 @@ class EditTask extends Component {
     } else if(name==='requestedBy'){
       state['requestedBy'] = value;
       state['company'] = this.props.companies[this.props.companies.findIndex((item)=>item.id===value.company.id)];
-    } else if (name==='status') {
-      state['closedAt'] = moment();
-      state[name] = value;
-      if(this.props.statuses.find((item)=>item.id.toString()===state.status.toString()).title!=='Closed'){
-        state['closedAt'] = 'null';
-      }
     } else if (name) {
       state[name] = value;
     }
@@ -204,15 +198,18 @@ class EditTask extends Component {
         .title
       )
     );
-    /*
+
+
     //ak je task uzvrety nastavi mu closedAt, ak nema startedAt tak ten tiez
-    let closedAt = this.state.closedAt ? this.state.closedAt : "null";
-    if (state.status.toString() === "4") {
-      closedAt = Math.ceil(moment().valueOf() / 1000);
-      if (state.startedAt === null) {
-        state.startedAt = closedAt * 1000;
-      }
-    }*/
+    let tempStatus=this.props.statuses.find((item)=>item.id.toString()===state.status.toString());
+    if(tempStatus.title!=='Closed'||!tempStatus.default){
+      state['closedAt'] = null;
+      this.setState({closedAt:null});
+    }
+    else{
+      state['closedAt']=moment();
+      this.setState({closedAt:state['closedAt'].valueOf()});
+    }
 
     this.props.editTask(
       {
@@ -465,7 +462,7 @@ class EditTask extends Component {
                               <label htmlFor="status" className="input-label">{i18n.t("status")}</label>
                               {this.state.closedAt &&
                                 <span style={{ float: "right" }}>
-                                    {i18n.t("changedAt")}:{" "}
+                                    {i18n.t("closedAt")}:{" "}
                                     {timestampToString(this.state.closedAt/1000)}
                                   </span>
                                 }
@@ -494,7 +491,7 @@ class EditTask extends Component {
                                     id="status"
                                     onChange={e => {
                                       this.autoSubmit("status", e.target.value);
-                                      this.setState({ status: e.target.value, closedAt:moment()});
+                                      this.setState({ status: e.target.value});
                                     }}
 
                                     >
