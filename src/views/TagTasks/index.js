@@ -28,7 +28,7 @@ class TagLoader extends Component {
   }
 
   render(){
-    if(this.props.sidebar){
+    if(!this.props.sidebar){
     return null;
     }
     return <Filter history={this.props.history} match={this.props.match}/>

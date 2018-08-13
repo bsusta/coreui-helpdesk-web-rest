@@ -8,21 +8,40 @@ import Loading from '../../components/Loading';
 class FilterLoader extends Component {
   constructor(props){
     super(props);
-    console.log('beh');
     this.state={
       randomFloat:Math.random(),
     }
   }
+
+  getFilterItem(ID,items){
+    let res=items.find((item)=>item.id!==undefined&&item.id.toString()===ID);
+    if(res===undefined){
+      return false;
+    }
+    res.label=res.name;
+    res.value=res.id;
+    return res;
+  }
+
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
     if(this.props.match.params.id){
       this.props.startFilterLoading(false);
       this.props.addActiveRequests(1);
+      let project;
+      if(this.props.match.params.projectID!=='all'){
+        project= this.getFilterItem(this.props.match.params.projectID, this.props.projects);
+        if(!project){
+          this.props.history.push('/404');
+          return;
+        }
+      }
      if(this.props.match.params.id!=='add'){
-      this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.match.params.id,this.props.history,this.props.token);
+      this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.match.params.id,this.props.history,project,this.props.token);
       }
       else{
-        this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.token);
+        console.log('extra');
+        this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,project,this.props.token);
       }
     }
   }
@@ -45,8 +64,11 @@ const mapStateToProps = ({tasksReducer, statusesReducer,sidebarReducer, companie
   const {usersLoaded, users} = usersReducer;
   const { body, filterState, page, filterLoaded } = filtersReducer;
   const {token} = login;
+  let projectsOnly = sidebar?sidebar.projects.children:[];
+  let archived = sidebar?sidebar.archived.children:[];
 
-  return {statuses:taskStatuses,projects:taskProjects,taskProjectsLoaded,taskAttributesLoaded, taskAttributes, statusesLoaded,
+
+  return {statuses:taskStatuses,projects: (projectsOnly.concat(archived)),taskProjectsLoaded,taskAttributesLoaded, taskAttributes, statusesLoaded,
     statusesUpdateDate:updateDate,companiesLoaded,companies:taskCompanies, companiesUpdateDate:companiesReducer.updateDate,
     tagsLoaded,tags, unitsLoaded, sidebar, usersLoaded,users,filterLoaded, filterState,body,page, token,
     filters: sidebar.filters.children};

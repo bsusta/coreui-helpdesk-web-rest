@@ -69,7 +69,6 @@ class Tasks extends Component {
 }
 
 	render() {
-		console.log('did it');
 		let header = i18n.t('unknownSearch');
 		let icon = 'fa fa-search';
 		if (this.props.match.params.id && this.props.match.params.id !== 'add') {

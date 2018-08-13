@@ -414,7 +414,7 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/filter/:id/task/view/:task"
+                  path="/filter/:id/project/:projectID/task/view/:task"
                   name="View task"
                   component={ViewTask}
                 />
@@ -438,7 +438,7 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/filter/:id/task/edit/:task"
+                  path="/filter/:id/project/:projectID/task/edit/:task"
                   name="Edit task"
                   component={EditTask}
                 />
@@ -468,19 +468,13 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/filter/:id/:page,:count"
+                  path="/filter/:id/project/:projectID/:page,:count"
                   name="Filter"
                   component={Filter}
                 />
                 <Route
                   exact
-                  path="/filter/:page,:count"
-                  name="Filter"
-                  component={Filter}
-                />
-                <Route
-                  exact
-                  path="/filter/:id"
+                  path="/filter/:id/project/:projectID"
                   name="Filter"
                   component={Filter}
                 />

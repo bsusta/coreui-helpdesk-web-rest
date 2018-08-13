@@ -112,8 +112,7 @@ export const editFilter = (body,id,token) => {
  }
 };
 
-
-export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,companies,token) => {
+export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,companies,project,token) => {
   return (dispatch) => {
       fetch(FILTERS_LIST+'/user-remembered', {
         method: 'get',
@@ -130,10 +129,16 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
       response.json().then((data) => {
         if(data){
           let filterState = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
+          if(project){
+            filterState['projects']=[projects.find((item)=>item.id===project.id)];
+          }
           let body = filterBodyFromState(filterState,taskAttributes);
           dispatch({ type: SET_FILTER,body,filterState,page:1 });
           dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         } else{
+          if(project){
+            dispatch({ type: SET_FILTER,{projects:filterToFilterState([projects.find((item)=>item.id===project.id)])},{projects:[projects.find((item)=>item.id===project.id)]},page:1 });
+          }
           dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
           dispatch({ type: CLEAR_FILTER_TASKS  });
         }
@@ -147,7 +152,8 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
   }
 }
 
-export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,id,history,token) => {
+
+export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,id,history,project,token) => {
   return (dispatch) => {
       fetch(FILTERS_LIST+'/'+id, {
         method: 'get',
@@ -163,6 +169,9 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
         }
       response.json().then((data) => {
         let filterState = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
+        if(project){
+          filterState['projects']=[projects.find((item)=>item.id===project.id)];
+        }
         let body = filterBodyFromState(filterState,taskAttributes);
         dispatch({ type: SET_FILTER,body,filterState,filter:data.data,page:1 });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });

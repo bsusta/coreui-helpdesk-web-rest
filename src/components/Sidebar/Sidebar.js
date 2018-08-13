@@ -333,6 +333,18 @@ class Sidebar extends Component {
                         </NavLink>
                       </NavItem>
                     )}
+                    <NavItem key={'addTag'} className={classNames(undefined)}>
+                      <NavLink
+                        onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
+                        to={"/tag/add"}
+                        className={classNames("nav-link","")}
+                        activeClassName="active activeNavItem fontBold">
+                        <i className={'fa fa-plus sidebarIcon'} />
+                        <span className="sidebarItem">
+                        {i18n.t('tag')}
+                        </span>
+                      </NavLink>
+                    </NavItem>
                   </ul>
                 </li>
           </Nav>

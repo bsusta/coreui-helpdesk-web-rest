@@ -81,12 +81,6 @@ export const getSidebar = (date,ACL,token) => {
               })
             );
           }
-          tags.children.push({
-            name: "tag",
-            url: "/tag/add",
-            icon: "fa fa-plus"
-          });
-
 
           let filters = {
             name: "filters",
