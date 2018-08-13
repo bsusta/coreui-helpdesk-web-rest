@@ -1,7 +1,7 @@
 import { SET_SIDEBAR, SET_SIDEBAR_LOADING, LOGIN_LOGOUT,UPDATE_SIDEBAR } from '../types'
 
 const initialState = {
-  sidebar:[],
+  sidebar:null,
   date:null,
 };
 

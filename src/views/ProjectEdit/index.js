@@ -20,14 +20,23 @@ class ProjectEditLoader extends Component {
     this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.history,this.props.token);  //send request for download and storing of the projects data
     this.props.getUsers(this.props.updateDate,this.props.token);
   }
+
+  componentWillReceiveProps(props){
+    if(this.props.match.params.id!==props.match.params.id){
+      this.props.setActiveRequests(1);
+      this.props.startProjectLoading();  // first it sets, that project hasnt been loaded
+      this.props.getProject(parseInt(props.match.params.id, 10),this.props.history,this.props.token);  //send request for download and storing of the projects data
+    }
+  }
+
   render(){
     if(!this.props.projectLoaded||!this.props.usersLoaded){ //data hasnt been loaded yet
     return null;
     }
     return <ProjectEdit history={this.props.history}/>
   }
-}
 
+}
 //All below is redux information storage
 const mapStateToProps = ({projectsReducer,usersReducer, login }) => {
   const {projectLoaded} = projectsReducer;

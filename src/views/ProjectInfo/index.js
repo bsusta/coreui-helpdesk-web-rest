@@ -18,6 +18,14 @@ class ProjectInfoLoader extends Component {
     this.props.setActiveRequests(1);
     this.props.getProject(parseInt(this.props.match.params.id, 10),this.props.history,this.props.token);  //send request for download and storing of the projects data
   }
+  componentWillReceiveProps(props){
+    if(this.props.match.params.id!==props.match.params.id){
+      this.props.setActiveRequests(1);
+      this.props.startProjectLoading();  // first it sets, that project hasnt been loaded
+      this.props.getProject(parseInt(props.match.params.id, 10),this.props.history,this.props.token);  //send request for download and storing of the projects data
+    }
+  }
+
   render(){
     if(!this.props.projectLoaded){ //data hasnt been loaded yet
     return null;

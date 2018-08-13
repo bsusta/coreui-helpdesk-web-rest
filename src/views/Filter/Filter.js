@@ -496,25 +496,6 @@ class Filter extends Component {
 							onChange={e => this.setState({ creators: e })}
 							value={this.state.creators}
 						/>
-
-						<label className="mt-2 input-label">{i18n.t('project')}</label>
-						<Select
-							styles={colourStyles}
-							options={[
-								{ label: 'NOT', id: 'NOT', value: 'NOT' },
-								{ label: 'Current user', id: 'CURRENT-USER', value: 'CURRENT-USER' },
-							].concat(
-								this.props.projects.filter(item => item.id).map(project => {
-									project.label = project.name;
-									project.value = project.id;
-									return project;
-								})
-							)}
-							isMulti
-							style={{ width: '100%' }}
-							onChange={e => this.setState({ projects: e })}
-							value={this.state.projects}
-						/>
 						<label className="mt-1">{i18n.t('follower')}</label>
 						<Select
 							isMulti
@@ -958,12 +939,14 @@ const mapStateToProps = ({
 	const { taskAttributes } = taskAttributesReducer;
 	const { sidebar } = sidebarReducer;
 	const { token, user } = login;
-	let index = sidebar.findIndex(item => item.name === 'projects');
-	let index2 = sidebar.findIndex(item => item.name === 'archived');
+	let projectsOnly = sidebar?sidebar.projects.children:[];
+	let archived = sidebar?sidebar.archived.children:[];
+
+
 	return {
 		statuses: taskStatuses,
 		companies: taskCompanies,
-		projects: (index === -1 ? [] : sidebar[index].children).concat(index2 === -1 ? [] : sidebar[index2].children),
+		projects: (projectsOnly.concat(archived)),
 		users,
 		tags,
 		taskAttributes,

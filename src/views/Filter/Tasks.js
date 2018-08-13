@@ -69,6 +69,7 @@ class Tasks extends Component {
 }
 
 	render() {
+		console.log('did it');
 		let header = i18n.t('unknownSearch');
 		let icon = 'fa fa-search';
 		if (this.props.match.params.id && this.props.match.params.id !== 'add') {
@@ -321,15 +322,16 @@ const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projects
 	const { sidebar } = sidebarReducer;
 	const { project } = projectsReducer;
 	const { token,user } = login;
-	let index = sidebar.findIndex(item => item.name === "projects");
-	let index2 = sidebar.findIndex(item => item.name === "archived");
-	let index3 = sidebar.findIndex(item => item.name === "tags");
+	let projectsOnly = sidebar?sidebar.projects.children:[];
+	let archived = sidebar?sidebar.archived.children:[];
+	let tags = sidebar?sidebar.tags.children:[];
+	let filters = sidebar?sidebar.filters.children:[];
 
 	return {
 		tasks,
 		order,
-		projects:(index===-1?[]:sidebar[index].children).concat(index2===-1?[]:sidebar[index2].children),
-		tags:(index3===-1?[]:sidebar[index3].children),
+		projects:projectsOnly.concat(archived),
+		tags,
 		numberOfPages,
 		body,
 		page,
@@ -337,7 +339,7 @@ const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projects
 		filterState,
 		showFilter,
 		project,
-		filters: sidebar[sidebar.findIndex(item => item.name === 'filters')].children,
+		filters,
 		token,
 	};
 };

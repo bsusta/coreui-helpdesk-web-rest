@@ -8,6 +8,7 @@ import { SIDEBAR_DATA } from "../urls";
 export const getSidebar = (date,ACL,token) => {
   return dispatch => {
     if(date){
+      return;
       fetch(SIDEBAR_DATA+'/'+date, {
         method: "get",
         headers: {
@@ -128,10 +129,10 @@ export const getSidebar = (date,ACL,token) => {
                 badge: {
                   variant: "info",
                   text: project.numberOfTasks
-                }
+                },
+                canEdit:project.canEdit
               })
             );
-
           }
 
             if(ACL.includes('create_projects')){
@@ -159,12 +160,11 @@ export const getSidebar = (date,ACL,token) => {
               badge: {
                 variant: "info",
                 text: project.numberOfTasks
-              }
+              },
+              canEdit:project.canEdit,
             })
           );
-
-          nav.push(filters, projects, tags, archived, reports);
-          dispatch({ type: SET_SIDEBAR, sidebar: nav, date:data.date });
+          dispatch({ type: SET_SIDEBAR, sidebar: {filters, projects, tags, archived, reports}, date:data.date });
         });
       })
       .catch(function(error) {

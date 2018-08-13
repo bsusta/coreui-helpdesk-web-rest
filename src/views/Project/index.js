@@ -42,9 +42,10 @@ componentWillReceiveProps(props){
 
 const mapStateToProps = ({sidebarReducer }) => {
   const { sidebar } = sidebarReducer;
-  let index = sidebar.findIndex(item => item.name === "projects");
-  let index2 = sidebar.findIndex(item => item.name === "archived");
-  return {sidebar,projects:(index===-1?[]:sidebar[index].children).concat(index2===-1?[]:sidebar[index2].children)};
+  let projectsOnly = sidebar?sidebar.projects.children:[];
+	let archived = sidebar?sidebar.archived.children:[];
+
+  return {sidebar,projects: projectsOnly.concat(archived)};
 };
 
 

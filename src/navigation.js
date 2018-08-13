@@ -384,19 +384,19 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/tag/:tagID"
+                  path="/tag/:tagID/project/:projectID"
                   name="Tag task list"
                   component={TagTasks}
                 />
                 <Route
                   exact
-                  path="/tag/:tagID/:page,:count"
+                  path="/tag/:tagID/project/:projectID/:page,:count"
                   name="Tag task list"
                   component={TagTasks}
                 />
                 <Route
                   exact
-                  path="/tag/:tagID/:page,:count/:task"
+                  path="/tag/:tagID/project/:projectID/:page,:count/:task"
                   name="Tag task list"
                   component={TagTasks}
                 />

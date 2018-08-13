@@ -76,6 +76,16 @@ class Header extends Component {
             {i18n.t("addTask")}
           </button>
         }
+        {
+          this.props.user.user_role.acl.includes('create_projects') &&
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.history.push("/project/add")}
+            >
+            {i18n.t("addProject")}
+          </button>
+        }
 
         <div className="ml-auto row headerCommandBar">
           {/*Settings icon*/}

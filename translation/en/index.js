@@ -1,4 +1,6 @@
 export default {
+  editProject:'Edit project',
+viewProject:'View project',
   unknownSearch:'Unknown search',
   activated: 'Active',
   restrictionOrderNumberMustBeBigger:'Filter order must be bigger than 4',
@@ -329,6 +331,7 @@ export default {
   search: 'Search',
   cantEditUser:'You don\'t have rights to edit this user',
   cantEditUser:'You don\'t have rights to edit this role',
+  addProject:'Add project',
 }
 
 /*

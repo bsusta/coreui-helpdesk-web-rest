@@ -1,4 +1,6 @@
 export default {
+  editProject:'Upraviť projekt',
+  viewProject:'Prezrieť projekt',
   unknownSearch: 'Neznáme vyhľadávanie',
   activated: 'Aktívne',
   restrictionOrderNumberMustBeBigger:'Poradie filtra musí byť väčšie ako 4',
@@ -329,6 +331,7 @@ export default {
   search: 'Vyhľadávanie',
   cantEditUser:'Nemáte práva na úpravu tohto používateľa',
   cantEditRole:'Nemáte práva na úpravu tohto role',
+  addProject:'Pridať projekt'
 }
 
 /*

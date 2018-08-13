@@ -288,6 +288,29 @@ class EditTask extends Component {
                         <i className="fa fa-trash" /> {i18n.t("delete")}
                         </button>
                     }
+                    {this.props.statuses.map((item)=>
+                      <span
+                        key={item.id}
+                        className="badge"
+                        style={{
+                          margin: "auto",
+                          borderRadius: "3px",
+                          color: this.state.status===item.id ? "white" : "black",
+                          backgroundColor: this.state.status===item.id ? item.color : "#bdbdbd",
+                          paddingLeft: 10,
+                          paddingRight: 10,
+                          paddingTop: 5,
+                          paddingBottom: 5,
+                          marginLeft: 5
+                        }}
+                        onClick={()=>{
+                          this.autoSubmit("status", parseInt(item.id));
+                          this.setState({ status: parseInt(item.id)});
+                        }}
+                        >
+                        {item.title}
+                      </span>
+                    )}
                     </div>
                     {this.state.submitError && <span><h5 style={{color:'red'}}> {i18n.t('restrictionTaskWontSave')}</h5></span>}
                   </CardHeader>
@@ -490,8 +513,8 @@ class EditTask extends Component {
                                     value={this.state.status}
                                     id="status"
                                     onChange={e => {
-                                      this.autoSubmit("status", e.target.value);
-                                      this.setState({ status: e.target.value});
+                                      this.autoSubmit("status", parseInt(e.target.value));
+                                      this.setState({ status: parseInt(e.target.value)});
                                     }}
 
                                     >

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {startTaskProjectsLoading,startStatusesLoading,loadUnsavedFilter,addActiveRequests,
-getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,setFilterBody,
+import {startStatusesLoading,loadUnsavedFilter,addActiveRequests,
+getTaskStatuses, startCompaniesLoading,getTaskCompanies,setFilterBody,
 startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,getProject,
 startUnitsLoading, getTaskUnits, deleteTaskSolvers, startUsersLoading, getUsers,
 clearErrorMessage, clearFilterTasks, getFilter, getUsersFilter,startFilterLoading, setFilterPage } from '../../redux/actions';
@@ -20,7 +20,6 @@ class Loader extends Component {
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
-    this.props.startTaskProjectsLoading();
     this.props.startStatusesLoading();
     this.props.startCompaniesLoading();
     this.props.startTaskAttributesLoading();
@@ -28,9 +27,8 @@ class Loader extends Component {
     this.props.startUnitsLoading();
     this.props.startUsersLoading();
     this.props.deleteTaskSolvers();
-    this.props.addActiveRequests(7);
+    this.props.addActiveRequests(6);
     this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
-    this.props.getTaskProjects(this.props.token);
     this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
     this.props.getTaskAttributes(this.props.token);
     this.props.getTags(this.props.token);
@@ -46,7 +44,7 @@ class Loader extends Component {
         this.props.setFilterPage(1);
       }
     }
-    if(this.props.match.params.projectID){
+    if(this.props.match.params.projectID && this.props.match.params.projectID!=='all'){
       this.props.addActiveRequests(1);
       this.props.getProject(this.props.match.params.projectID,this.props.history,this.props.token);
     }
@@ -69,7 +67,7 @@ class Loader extends Component {
       }
     }
     //ak sa zmeni project, nacitaj ho
-    else if(props.match.params.projectID && this.props.match.params.projectID!==props.match.params.projectID){
+    else if(props.match.params.projectID && this.props.match.params.projectID!==props.match.params.projectID&& props.match.params.projectID!=='all' ){
       let project=props.projects.find((item)=>item.id&&item.id.toString()===props.match.params.projectID);
       if(project===undefined){
         this.props.history.push('/404');
@@ -132,9 +130,9 @@ class Loader extends Component {
   }
 
   render(){
-    if(!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
+    if(!this.props.statusesLoaded||
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
-    !this.props.usersLoaded||this.props.sidebar.length===0){
+    !this.props.usersLoaded||!this.props.sidebar){
       return null;
     }
     return <FilterLoader history={this.props.history} match={this.props.match} />
@@ -144,7 +142,6 @@ class Loader extends Component {
 //all below is just redux storage
 
 const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,taskAttributesReducer,unitsReducer, usersReducer,filtersReducer,sidebarReducer, login }) => {
-  const {taskProjectsLoaded } = tasksReducer;
   const {statusesLoaded, updateDate, taskStatuses } = statusesReducer;
   const {companiesLoaded, taskCompanies } = companiesReducer;
   const {tagsLoaded, tags} = tagsReducer;
@@ -154,19 +151,22 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
   const { body, filterState, page, order, updateAt } = filtersReducer;
   const { sidebar } = sidebarReducer;
   const {token} = login;
-	let index = sidebar.findIndex(item => item.name === "projects");
-	let index2 = sidebar.findIndex(item => item.name === "archived");
+  let projectsOnly = sidebar?sidebar.projects.children:[];
+	let archived = sidebar?sidebar.archived.children:[];
+  console.log({
+    taskAttributesLoaded, statusesLoaded,
+    companiesLoaded,tagsLoaded, unitsLoaded, usersLoaded});
 
   return {statuses:taskStatuses,
-    projects:(index===-1?[]:sidebar[index].children).concat(index2===-1?[]:sidebar[index2].children),
-    taskProjectsLoaded,taskAttributesLoaded, taskAttributes, statusesLoaded,updateAt,
+    projects: (projectsOnly.concat(archived)),
+    taskAttributesLoaded, taskAttributes, statusesLoaded,updateAt,
     statusesUpdateDate:updateDate,companiesLoaded,companies:taskCompanies,companiesUpdateDate:companiesReducer.updateDate,
     tagsLoaded,tags, unitsLoaded, usersLoaded,users, filterState,body,page,sidebar, order, token};
   };
 
 export default connect(mapStateToProps, {
-  startTaskProjectsLoading,startStatusesLoading,loadUnsavedFilter,addActiveRequests,
-  getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,getProject,
+  startStatusesLoading,loadUnsavedFilter,addActiveRequests,
+  getTaskStatuses, startCompaniesLoading,getTaskCompanies,getProject,
   startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
   startUnitsLoading, getTaskUnits, deleteTaskSolvers, startUsersLoading, getUsers,
   clearErrorMessage, clearFilterTasks, getFilter,getUsersFilter,startFilterLoading, setFilterPage,
