@@ -71,11 +71,16 @@ class Tasks extends Component {
 	render() {
 		let header = i18n.t('unknownSearch');
 		let icon = 'fa fa-search';
-		if (this.props.match.params.id && this.props.match.params.id !== 'add') {
-			let index = this.props.filters.findIndex(filter => filter.url.includes(this.props.match.params.id));
-			if (index !== -1) {
-				header = this.props.filters[index].name;
-				icon = this.props.filters[index].icon;
+		if (this.props.match.params.id) {
+			if(this.props.match.params.id !== 'add'){
+				let index = this.props.filters.findIndex(filter => filter.url.includes(this.props.match.params.id));
+				if (index !== -1) {
+					header = this.props.filters[index].name;
+					icon = this.props.filters[index].icon;
+				}
+			}else{
+					header = i18n.t('newFilter'),
+					icon = 'fa fa-filter'
 			}
 		} else if (this.props.match.params.tagID) {
 			let index = this.props.tags.findIndex(tag => tag.id && tag.id.toString() === this.props.match.params.tagID);
@@ -119,18 +124,14 @@ class Tasks extends Component {
 								<span className="switch-handle" />
 							</label>
 							<label style={{ paddingLeft: 10 }}>
-								{this.props.showFilter ? i18n.t('Filter') : i18n.t('Filter')}
+								{this.props.showFilter ? i18n.t('filter') : i18n.t('filter')}
 							</label>
 						</CardHeader>
 
 						<div className="table-div">
 							<h2 className="h2">
 								<i className={icon} onClick={()=>{
-										if(this.props.match.params.projectID){
-											this.props.history.push((
-												(this.props.project && this.props.project.id.toString()===this.props.match.params.projectID.toString() && this.props.project.canEdit) ?
-												'/project/edit/' : '/project/info/') + this.props.match.params.projectID);
-										}else if(this.props.match.params.tagID && (this.props.user.user_role.acl.includes('share_tags')||!this.props.tags[index].public)){
+										if(this.props.match.params.tagID && (this.props.user.user_role.acl.includes('share_tags')||!this.props.tags[index].public)){
 											this.props.history.push('/tag/edit/' + this.props.match.params.tagID);
 										}
 									}} />
@@ -178,20 +179,6 @@ class Tasks extends Component {
 														this.props.history.push(
 															'/filter/' +
 															this.props.match.params.id +
-															'/task/edit/' +
-															task.id
-														);
-													} else {
-														this.props.history.push(
-															'/filter/' +
-															this.props.match.params.id +
-															'/task/view/' +
-															task.id
-														);
-													}
-												}else if(this.props.match.params.projectID){
-													if (task.canEdit) {
-														this.props.history.push(
 															'/project/' +
 															this.props.match.params.projectID +
 															'/task/edit/' +
@@ -199,6 +186,8 @@ class Tasks extends Component {
 														);
 													} else {
 														this.props.history.push(
+															'/filter/' +
+															this.props.match.params.id +
 															'/project/' +
 															this.props.match.params.projectID +
 															'/task/view/' +
@@ -210,6 +199,8 @@ class Tasks extends Component {
 														this.props.history.push(
 															'/tag/' +
 															this.props.match.params.tagID +
+															'/project/' +
+															this.props.match.params.projectID +
 															'/task/edit/' +
 															task.id
 														);
@@ -217,22 +208,14 @@ class Tasks extends Component {
 														this.props.history.push(
 															'/tag/' +
 															this.props.match.params.tagID +
+															'/project/' +
+															this.props.match.params.projectID +
 															'/task/view/' +
 															task.id
 														);
 													}
 												}else{
-													if (task.canEdit) {
-														this.props.history.push(
-															'/filter/add/task/edit/'+
-															task.id
-														);
-													} else {
-														this.props.history.push(
-															'/filter/add/task/view/'+
-															task.id
-														);
-													}
+													console.log('unexpected');
 												}
 											}}>
 											<td style={{ verticalAlign: 'center' }}>{task.id}</td>

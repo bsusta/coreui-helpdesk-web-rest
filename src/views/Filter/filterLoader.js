@@ -40,8 +40,7 @@ class FilterLoader extends Component {
       this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.match.params.id,this.props.history,project,this.props.token);
       }
       else{
-        console.log('extra');
-        this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,project,this.props.token);
+        this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,project,this.props.match.params,this.props.order,this.props.token);
       }
     }
   }
@@ -62,7 +61,7 @@ const mapStateToProps = ({tasksReducer, statusesReducer,sidebarReducer, companie
   const {unitsLoaded} = unitsReducer;
   const {sidebar} = sidebarReducer;
   const {usersLoaded, users} = usersReducer;
-  const { body, filterState, page, filterLoaded } = filtersReducer;
+  const { body, filterState, page, filterLoaded, order } = filtersReducer;
   const {token} = login;
   let projectsOnly = sidebar?sidebar.projects.children:[];
   let archived = sidebar?sidebar.archived.children:[];
@@ -70,7 +69,7 @@ const mapStateToProps = ({tasksReducer, statusesReducer,sidebarReducer, companie
 
   return {statuses:taskStatuses,projects: (projectsOnly.concat(archived)),taskProjectsLoaded,taskAttributesLoaded, taskAttributes, statusesLoaded,
     statusesUpdateDate:updateDate,companiesLoaded,companies:taskCompanies, companiesUpdateDate:companiesReducer.updateDate,
-    tagsLoaded,tags, unitsLoaded, sidebar, usersLoaded,users,filterLoaded, filterState,body,page, token,
+    tagsLoaded,tags, unitsLoaded, sidebar, usersLoaded,users,filterLoaded, filterState,body,page, token,order,
     filters: sidebar.filters.children};
   };
 

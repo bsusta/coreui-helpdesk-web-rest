@@ -112,8 +112,9 @@ export const editFilter = (body,id,token) => {
  }
 };
 
-export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,companies,project,token) => {
+export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,companies,project,params,order,token) => {
   return (dispatch) => {
+      dispatch({ type: CLEAR_FILTER_TASKS  });
       fetch(FILTERS_LIST+'/user-remembered', {
         method: 'get',
         headers: {
@@ -123,11 +124,13 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          processError(response,dispatch);
+          console.log('failed');
+          //processError(response,dispatch);
           return;
         }
       response.json().then((data) => {
         if(data){
+          console.log('there are data');
           let filterState = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
           if(project){
             filterState['projects']=[projects.find((item)=>item.id===project.id)];
@@ -137,10 +140,13 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
           dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         } else{
           if(project){
-            dispatch({ type: SET_FILTER,{projects:filterToFilterState([projects.find((item)=>item.id===project.id)])},{projects:[projects.find((item)=>item.id===project.id)]},page:1 });
+            dispatch({ type: SET_FILTER,body:'project='+ project.id,filterState:{projects:[projects.find((item)=>item.id===project.id)]},page:1 });
+            console.log('this is done');
+            console.log(project);
+          }else{
+            loadUnsavedFilter(params.count?params.count:20,params.page?params.page:1,'',order,token)(dispatch);
           }
           dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
-          dispatch({ type: CLEAR_FILTER_TASKS  });
         }
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         //save as body and state
@@ -174,6 +180,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
         }
         let body = filterBodyFromState(filterState,taskAttributes);
         dispatch({ type: SET_FILTER,body,filterState,filter:data.data,page:1 });
+        console.log('trough filter set body');
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         return;
         //save as body and state
@@ -188,6 +195,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
 export const setFilterBody = (body,filterState,page)=>{
   return (dispatch) => {
      dispatch({ type: SET_FILTER,body,filterState,page });
+     console.log('functionally changed body');
    }
 }
 

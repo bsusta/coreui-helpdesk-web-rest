@@ -1,6 +1,6 @@
 import { SET_SIDEBAR,SET_ERROR_MESSAGE, UPDATE_SIDEBAR, LOWER_ACTIVE_REQUESTS } from "../types";
 import { SIDEBAR_DATA } from "../urls";
-
+import i18n from 'i18next';
 /**
  * Gets all sidebar data available with no pagination
  * @param {string} token universal token for API comunication
@@ -8,7 +8,6 @@ import { SIDEBAR_DATA } from "../urls";
 export const getSidebar = (date,ACL,token) => {
   return dispatch => {
     if(date){
-      return;
       fetch(SIDEBAR_DATA+'/'+date, {
         method: "get",
         headers: {
@@ -100,9 +99,10 @@ export const getSidebar = (date,ACL,token) => {
           );
 
           filters.children.push({
-             name: "filter",
+             name: i18n.t('filter'),
              url: "/filter/add",
-             icon: "fa fa-plus"
+             icon: "fa fa-plus",
+             id:'add'
            });
 
           let projects = {

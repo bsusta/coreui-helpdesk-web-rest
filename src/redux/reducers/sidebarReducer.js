@@ -9,17 +9,11 @@ export default function sidebarReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_SIDEBAR:{
       let newSidebar = state.sidebar;
-      let sidebarFilterIndex=newSidebar.findIndex((item)=>item.name==="filters");
-      let sidebarProjectIndex=newSidebar.findIndex((item)=>item.name==="projects");
-      let sidebarTagIndex=newSidebar.findIndex((item)=>item.name==="tags");
-      let sidebarArchivedIndex=newSidebar.findIndex((item)=>item.name==="archived");
-      let sidebarReportsIndex=newSidebar.findIndex((item)=>item.name==="reports");
-
-      let filters=newSidebar[sidebarFilterIndex].children;
-      let projects=newSidebar[sidebarProjectIndex].children;
-      let tags=newSidebar[sidebarTagIndex].children;
-      let archived=newSidebar[sidebarArchivedIndex].children;
-      let reports=newSidebar[sidebarReportsIndex].children;
+      let filters=newSidebar.filters.children;
+      let projects=newSidebar.projects.children;
+      let tags=newSidebar.tags.children;
+      let archived=newSidebar.archived.children;
+      let reports=newSidebar.reports.children;
 
       action.projects.map((project)=>{
         let index = projects.findIndex((item)=>item.id===project.id);
@@ -146,11 +140,11 @@ export default function sidebarReducer(state = initialState, action) {
         });
       }
 
-      newSidebar[sidebarFilterIndex].children=filters;
-      newSidebar[sidebarProjectIndex].children=projects;
-      newSidebar[sidebarTagIndex].children=tags;
-      newSidebar[sidebarArchivedIndex].children=archived;
-      newSidebar[sidebarReportsIndex].children=reports;
+      newSidebar.filters.children=filters;
+      newSidebar.projects.children=projects;
+      newSidebar.tags.children=tags;
+      newSidebar.archived.children=archived;
+      newSidebar.reports.children=reports;
 
       return { ...state, sidebar:newSidebar,date:action.date };
     }

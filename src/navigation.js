@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, Switch, Route, Redirect } from "react-router-dom";
 import { Container } from "reactstrap";
 import Header from "./components/Header/";
-import Sidebar from "./components/Sidebar/";
+import Sidebar from "./components/Sidebar";
 import Aside from "./components/notUsed/Aside/";
 
 import Dashboard from "./components/notUsed/Dashboard/";
@@ -396,19 +396,13 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/tag/:tagID/project/:projectID/:page,:count/:task"
+                  path="/tag/:tagID/project/:projectID/task/edit/:task"
                   name="Tag task list"
-                  component={TagTasks}
+                  component={EditTask}
                 />
                 <Route
                   exact
-                  path="/project/:id/task/view/:task"
-                  name="View task"
-                  component={ViewTask}
-                />
-                <Route
-                  exact
-                  path="/tag/:id/task/view/:task"
+                  path="/tag/:tagID/project/:projectID/task/view/:task"
                   name="View task"
                   component={ViewTask}
                 />

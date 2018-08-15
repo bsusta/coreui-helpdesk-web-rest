@@ -2,6 +2,19 @@ import moment from "moment";
 import React, { Component } from "react";
 import {LOGIN_LOGOUT,ADD_ERROR_MESSAGE} from './redux/types';
 
+//to sort it run
+export const sortObject= (obj)=>{
+  let arrayForm=[];
+  Object.keys(obj).map((key)=>arrayForm.push({key,value:obj[key]}));
+  arrayForm=arrayForm.sort((item,item2)=>(item.key < item2.key)?-1:1);
+  let stringForm="{\n";
+  arrayForm.map((item)=>stringForm+='  '+item.key+':\''+item.value.split("'").join("\\'")+"',\n");
+  stringForm=stringForm.substring(0,stringForm.length-2);
+  stringForm+='\n}';
+  console.log(stringForm);
+}
+
+
 /**
  * Converts timestamp from API to readable string
  * @param  {int} timestamp timestamp according to PHP
@@ -9,7 +22,7 @@ import {LOGIN_LOGOUT,ADD_ERROR_MESSAGE} from './redux/types';
  */
 export const timestampToString = (timestamp) => {
   let date = (new Date(timestamp*1000));
-  return date.getHours()+":"+(date.getMinutes()<10?'0':'')+date.getMinutes()+" "+date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear();
+  return date.getHours()+":"+(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()+" "+date.getDate()+"."+(date.getMonth()+1)+"."+date.getFullYear();
 }
 
 /**

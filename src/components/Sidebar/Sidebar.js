@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { Badge, Nav, NavItem, NavLink as RsNavLink,FormGroup, InputGroup } from "reactstrap";
 import classNames from "classnames";
 import { connect } from "react-redux";
-import nav from "./_nav";
 import SidebarFooter from "./../SidebarFooter";
 import SidebarForm from "./../SidebarForm";
 import SidebarHeader from "./../SidebarHeader";
@@ -17,14 +16,27 @@ class Sidebar extends Component {
   constructor(props){
     super(props);
     //load sidebar and set it to automaticly load after X ms
-    this.props.getSidebar(this.props.date,this.props.user.user_role.acl,this.props.token);
     let intervalID = window.setInterval(()=>this.props.getSidebar(this.props.date,this.props.user.user_role.acl,this.props.token), 4500);
+    let url = this.props.history.location.pathname;
+    let projectID;
+    let secondID;
+    if(url.includes('/project/')){
+      projectID = url.substring(url.indexOf('/project/')+9,url.length);
+      projectID = projectID.substring(0,projectID.indexOf('/'));
+      secondID = url.substring(0,url.indexOf('/project/'));
+      secondID = secondID.substring(secondID.lastIndexOf('/')+1,secondID.length);
+    }
+    let allProjects = [{value:'all',label:'All',name:'All',id:'all'}].concat(this.props.archived).concat(this.props.projects).map(proj => {
+      proj.label = proj.name;
+      proj.value = proj.id;
+      return proj;
+    });
     this.state={
       intervalID,
-      project:{value:'all',label:'All'},
+      project:projectID?allProjects.find((item)=>item.value.toString()===projectID):allProjects[0],
       archived:false,
-      filterSelected:null,
-      tagSelected:null
+      filterSelected:url.includes('/filter/')?secondID:null,
+      tagSelected:url.includes('/tag/')?secondID:null,
     }
   }
 
@@ -46,11 +58,6 @@ class Sidebar extends Component {
       : "nav-item nav-dropdown";
   }
 
-  // todo Sidebar nav secondLevel
-  // secondLevelActive(routeName) {
-  //   return this.props.location.pathname.indexOf(routeName) > -1 ? "nav nav-second-level collapse in" : "nav nav-second-level collapse";
-  // }
-
   render() {
     const props = this.props;
     const activeRoute = this.activeRoute;
@@ -68,124 +75,6 @@ class Sidebar extends Component {
       }
     };
 
-    // simple wrapper for nav-title item
-    const wrapper = item => {
-      return item.wrapper && item.wrapper.element
-        ? React.createElement(
-            item.wrapper.element,
-            item.wrapper.attributes,
-            item.name
-          )
-        : item.name;
-    };
-
-    // nav list section title
-    const title = (title, key) => {
-      const classes = classNames("nav-title", title.class);
-      return (
-        <li key={key} className={classes}>
-          {wrapper(title)}{" "}
-        </li>
-      );
-    };
-
-    // nav list divider
-    const divider = (divider, key) => {
-      const classes = classNames("divider", divider.class);
-      return <li key={key} className={classes} />;
-    };
-
-    // nav label with nav link
-    const navLabel = (item, key) => {
-      const classes = {
-        item: classNames("hidden-cn", item.class),
-        link: classNames("nav-link", item.class ? item.class : ""),
-        icon: classNames(
-          !item.icon ? "fa fa-circle" : item.icon,
-          item.label.variant ? `text-${item.label.variant}` : "",
-          item.label.class ? item.label.class : ""
-        )
-      };
-      return navLink(item, key, classes);
-    };
-
-    // nav item with nav link
-    const navItem = (item, key) => {
-      const classes = {
-        item: classNames(item.class),
-        link: classNames(
-          "nav-link",
-          item.variant ? `nav-link-${item.variant}` : ""
-        ),
-        icon: classNames(item.icon)
-      };
-      return navLink(item, key, classes);
-    };
-
-    // nav link
-    const navLink = (item, key, classes) => {
-      const url = item.url ? item.url : "";
-      return (
-        <NavItem key={key} className={classes.item}>
-          <NavLink to={url} className={classes.link} activeClassName="active activeNavItem fontBold">
-            {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
-            <span
-              className="sidebarItem"
-              style={
-                item.color
-                  ? {
-                      backgroundColor: item.color.includes("#")
-                        ? item.color
-                        : "#" + item.color
-                    }
-                  : {}
-              }
-            >
-            {i18n.t(item.name)}
-            </span>
-            {badge(item.badge)}
-          </NavLink>
-        </NavItem>
-      );
-    };
-
-    // nav dropdown
-    const navDropdown = (item, key) => {
-      return (
-        <li key={key} className={activeRoute(item.url, props) + (item.open?" open ": "") + " fontRegular sidebarSize"}>
-          <a
-            className="nav-link nav-dropdown-toggle"
-            href="#"
-            onClick={handleClick.bind(this)}
-          >
-            {item.icon && <i className={item.icon} />}
-
-            {i18n.t(item.name)}
-          </a>
-          <ul className="nav-dropdown-items fontLight sidebarSize">{navList(item.children)}</ul>
-        </li>
-      );
-    };
-
-    // nav type
-    const navType = (item, idx) =>
-      item.title
-        ? title(item, idx)
-        : item.divider
-          ? divider(item, idx)
-          : item.label
-            ? navLabel(item, idx)
-            : item.children ? navDropdown(item, idx) : navItem(item, idx);
-
-    // nav list
-    const navList = items => {
-      return items.map((item, index) => navType(item, index));
-    };
-
-    const isExternal = url => {
-      const link = url ? url.substring(0, 4) : "";
-      return link === "http";
-    };
     // sidebar-nav root
     return (
       <div className="sidebar">
@@ -210,6 +99,9 @@ class Sidebar extends Component {
                     this.props.history.push('/filter/'+this.state.filterSelected+'/project/'+e.value);
                   }else if(this.state.tagSelected){
                     this.props.history.push('/tag/'+this.state.tagSelected+'/project/'+e.value);
+                  }else{
+                      console.log('nothing');
+                      console.log(this.state);
                   }
                 }}
                 />
@@ -222,6 +114,13 @@ class Sidebar extends Component {
                 checked={this.state.archived}
                 onChange={() => {
                   this.setState({ archived: !this.state.archived,project:{value:'all',label:'All'} });
+                  if(this.state.filterSelected){
+                    this.props.history.push('/filter/'+this.state.filterSelected+'/project/all');
+                  }else if(this.state.tagSelected){
+                    this.props.history.push('/tag/'+this.state.tagSelected+'/project/all');
+                  }else{
+                      console.log('nothing');
+                  }
                 }}
                 className="form-check-input"
               />
@@ -256,7 +155,7 @@ class Sidebar extends Component {
                   >
                   {this.props.sidebar.filters.icon && <i className={this.props.sidebar.filters.icon} />}
 
-                  {i18n.t(this.props.sidebar.filters.name)}
+                  {i18n.t('filters')}
                 </a>
                 <ul className="nav-dropdown-items fontLight sidebarSize">
                   {
@@ -265,7 +164,7 @@ class Sidebar extends Component {
                     <NavItem key={index} className={classNames(item.class)}>
                       <NavLink
                         onClick={()=>this.setState({filterSelected:item.id,tagSelected:null})}
-                        to={item.url ? item.url+'/project/'+this.state.project.value  : ""}
+                        to={item.url ? item.url+'/project/'+this.state.project.value : ""}
                         className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
                         activeClassName="active activeNavItem fontBold">
                         {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
@@ -281,7 +180,7 @@ class Sidebar extends Component {
                               : {}
                           }
                         >
-                        {i18n.t(item.name)}
+                        {item.name}
                         </span>
                         {badge(item.badge)}
                       </NavLink>
@@ -297,7 +196,7 @@ class Sidebar extends Component {
                     >
                     {this.props.sidebar.tags.icon && <i className={this.props.sidebar.tags.icon} />}
 
-                    {i18n.t(this.props.sidebar.tags.name)}
+                    {i18n.t('tags')}
                   </a>
                   <ul className="nav-dropdown-items fontLight sidebarSize">
                     {
@@ -305,7 +204,7 @@ class Sidebar extends Component {
 
                       <NavItem key={index} className={classNames(item.class)}>
                         <NavLink
-                          onClick={()=>this.setState({filterSelected:null,tagSelected:item.id})}
+                          onClick={()=>{this.setState({filterSelected:null,tagSelected:item.id});console.log(item);}}
                           to={item.url ? item.url+'/project/'+this.state.project.value  : ""}
                           className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
                           activeClassName="active activeNavItem fontBold">
@@ -327,7 +226,7 @@ class Sidebar extends Component {
                                 : {}
                             }
                           >
-                          {i18n.t(item.name)}
+                          {item.name}
                           </span>
                           {badge(item.badge)}
                         </NavLink>

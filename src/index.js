@@ -20,6 +20,10 @@ import '../translation';
 
 import createStore from './redux/store';
 
+//import transl from '../translation/sk'
+//import {sortObject} from './helperFunctions';
+//sortObject(transl);
+
 const store=createStore();
 ReactDOM.render((
   <Provider store={store}>
