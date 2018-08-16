@@ -26,21 +26,11 @@ class FilterLoader extends Component {
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
     if(this.props.match.params.id){
-      this.props.startFilterLoading(false);
-      this.props.addActiveRequests(1);
-      let project;
-      if(this.props.match.params.projectID!=='all'){
-        project= this.getFilterItem(this.props.match.params.projectID, this.props.projects);
-        if(!project){
-          this.props.history.push('/404');
-          return;
-        }
-      }
      if(this.props.match.params.id!=='add'){
-      this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.match.params.id,this.props.history,project,this.props.token);
+      //this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.match.params.id,this.props.history,project,this.props.token);
       }
       else{
-        this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,project,this.props.match.params,this.props.order,this.props.token);
+        //this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,project,this.props.match.params,this.props.order,this.props.token);
       }
     }
   }

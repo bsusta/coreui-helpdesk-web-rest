@@ -1,6 +1,7 @@
 import { SET_SIDEBAR,SET_ERROR_MESSAGE, UPDATE_SIDEBAR, LOWER_ACTIVE_REQUESTS } from "../types";
 import { SIDEBAR_DATA } from "../urls";
 import i18n from 'i18next';
+import {processError} from '../../helperFunctions';
 /**
  * Gets all sidebar data available with no pagination
  * @param {string} token universal token for API comunication

@@ -1,22 +1,66 @@
-import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER,SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, LOGIN_LOGOUT, SET_FILTER_ORDER, SET_UPDATE_AT, EDIT_TASK } from '../types'
+import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER,SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, LOGIN_LOGOUT, SET_FILTER_ORDER, SET_UPDATE_AT, EDIT_TASK,
+  SET_FILTER_BODY, ADD_TO_FILTER_BODY } from '../types'
 
 const initialState = {
   numberOfPages:0,
   total:null,
   tasks:[],
-  body:null,
-  filterState:null,
-  page:1,
+  body:{page:1,count:20,projectID:'all',filterID:null,tagID:null,body:null,order:'order=status=>asc'},
   showFilter:true,
   filterLoaded:false,
-  order:'order=status=>asc',
   filter:null,
-  updateAt:(new Date()).getTime(),
 };
 
 
 export default function filtersReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_FILTER_BODY:{
+      let newBody={...state.body};
+      if(action.page){
+        newBody.page=action.page;
+      }
+      if(action.count){
+        newBody.count=action.count;
+      }
+      if(action.projectID){
+        newBody.projectID=action.projectID;
+      }
+      if(action.filterID){
+        newBody.filterID=action.filterID;
+      }
+      if(action.tagID){
+        newBody.tagID=action.tagID;
+      }
+      if(action.order){
+        newBody.order=action.order;
+      }
+      if(action.body){
+        if(action.partial){
+          Object.keys(action.body).map(key=>{
+            newBody.body[key]=action.body[key];
+          });
+        }else{
+          newBody.body=action.body;
+        }
+      }
+      console.log(newBody);
+      return {...state, body:newBody,filter:action.filter?action.filter:state.filter};
+    }
+    case ADD_TO_FILTER_BODY:{
+      let newBody={...state.body};
+      Object.keys(action.body).map(key=>{
+        if(Object.keys(newBody).includes(key)){
+          newBody[key]=[...newBody[key],action.body[key]]
+        }else{
+          newBody[key]=action.body[key];
+        }
+      });
+      if(action.body){
+        newBody.body=action.body;
+      }
+      return {...state, body:newBody};
+    }
+
     case EDIT_TASK:{
       //finds location of the current task and replaces it with newer
       let newTasks=[...state.tasks];
@@ -29,12 +73,6 @@ export default function filtersReducer(state = initialState, action) {
     }
     case SET_FILTER_ORDER:{
       return {...state, order:action.order};
-    }
-    case SET_UPDATE_AT:{
-      return {...state, updateAt:action.updateAt};
-    }
-    case CLEAR_FILTER_TASKS:{
-      return {...state, tasks:[], numberOfPages:0, page:1, total:null, body:null, filterState:null};
     }
     case SET_FILTER_LOADING:{
       return {...state, filterLoaded:action.filterLoaded};
