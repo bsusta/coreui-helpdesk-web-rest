@@ -41,21 +41,6 @@ class Tasks extends Component {
 		return text;
 	}
 
-	componentWillMount() {
-		return;
-		if (this.props.body !== null) {
-			let page = this.props.match.params ? this.props.match.params.page : 1;
-			let count = this.props.match.params ? this.props.match.params.count : 20;
-			this.props.loadUnsavedFilter(
-				this.props.match.params.count ? this.props.match.params.count : 20,
-				this.props.page,
-				this.props.body,
-				this.props.order,
-				this.props.token
-			);
-		}
-	}
-
 	createArrow(type){
 		if(this.props.order==='order='+type+'=>asc'){
 			return <span className="tableArrow">

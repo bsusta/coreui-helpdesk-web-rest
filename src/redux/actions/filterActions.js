@@ -55,6 +55,8 @@ export const loadUnsavedFilter = (count,page,body,order,token) => {
        return;
      }
    response.json().then((data) => {
+     console.log('sending tasks');
+     console.log(body);
      dispatch({ type: SET_FILTERED_TASKS, tasks:data.data, numberOfPages:data.numberOfPages,total:data.total});
      });
  }).catch(function (error) {
@@ -114,7 +116,6 @@ export const editFilter = (body,id,token) => {
 
 export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,companies,project,params,order,token) => {
   return (dispatch) => {
-      dispatch({ type: CLEAR_FILTER_TASKS  });
       fetch(FILTERS_LIST+'/user-remembered', {
         method: 'get',
         headers: {

@@ -35,15 +35,16 @@ class Loader extends Component {
     this.props.getTags(this.props.token);
     this.props.getTaskUnits(this.props.token);
     this.props.getUsers("",this.props.token);
+    console.log('constructor');
     if(this.props.body){
       let randomFloat= Math.random();
       this.setState({randomFloat,id:parseInt(this.props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
       this.props.addActiveRequests(1);
       this.props.loadUnsavedFilter(this.props.match.params.count?this.props.match.params.count:20,this.props.page?this.props.page:1,this.props.body,this.props.order,this.props.token);
-      if(!this.props.match.params.page){
-        this.props.setFilterPage(1);
-      }
+    }
+    if(!this.props.match.params.page){
+      this.props.setFilterPage(1);
     }
     if(this.props.match.params.projectID){
       let project;
@@ -67,10 +68,6 @@ class Loader extends Component {
       }
 
       let filter = this.props.match.params.id!=='add'?this.props.match.params.id:undefined;
-      console.log(project);
-      console.log(tag);
-      console.log(filter);
-      console.log('START');
       if(project && tag){
         this.props.setFilterBody('tag='+this.props.match.params.tagID+'&project='+this.props.match.params.projectID,{tags:[tag], projects:[project]},1);
       }else if(project && filter){
@@ -105,7 +102,9 @@ class Loader extends Component {
   componentWillReceiveProps(props){
     //ak sa zmeni filter, nacitaj ho
     if(props.match.params.id && this.props.match.params.id!==props.match.params.id){
+      this.props.setFilterPage(1);
       if(props.match.params.id==='add'){
+        console.log('change in filter - add');
         this.props.startFilterLoading(false);
         this.props.addActiveRequests(1);
         let project;
@@ -119,6 +118,7 @@ class Loader extends Component {
         this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,project,this.props.match.params,this.props.order,this.props.token);
       }
       else{
+        console.log('change in filter - id');
         this.props.startFilterLoading(false);
         this.props.addActiveRequests(1);
         let project;
@@ -134,8 +134,8 @@ class Loader extends Component {
     }
     //ak sa zmeni project, nacitaj ho
     else if(props.match.params.projectID && this.props.match.params.projectID!==props.match.params.projectID ){
-      console.log('change');
       let project;
+      console.log('change in project');
       if(props.match.params.projectID!=='all'){
         project= this.getFilterItem(props.match.params.projectID, props.projects);
         if(!project){
@@ -172,9 +172,11 @@ class Loader extends Component {
       }else{
         console.log('nothing happened');
       }
+      this.props.setFilterPage(1);
     }
     //ak sa zmeni tag, nacitaj ho
     else if(props.match.params.tagID && props.match.params.tagID!==this.props.match.params.tagID){
+      console.log('change in tag');
       let project;
       if(props.match.params.projectID!=='all'){
         project= this.getFilterItem(props.match.params.projectID, props.projects);
@@ -197,6 +199,7 @@ class Loader extends Component {
       }else{
         this.props.setFilterBody('tag='+props.match.params.tagID,{tags:[tag]},1);
       }
+      this.props.setFilterPage(1);
     }
     //ak sa ymeni body alebo order nacitaj nanovo tasky
     else if((props.body!==null && (this.props.body===null) ||this.props.order!==props.order|| JSON.stringify(this.props.body)!=JSON.stringify(props.body))){
@@ -204,8 +207,7 @@ class Loader extends Component {
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
       this.props.addActiveRequests(1);
-      console.log('load new body');
-      console.log(this.props.body);
+      console.log('change in body');
       console.log(props.body);
       this.props.loadUnsavedFilter(props.match.params.count?props.match.params.count:20,props.page?props.page:1,props.body,props.order,props.token);
       if(!props.match.params.page){
@@ -219,11 +221,12 @@ class Loader extends Component {
     }
     //ak sa zmeni stranka, nacitaj tasky a zmen URL
     else if((this.props.page!=props.page)||(this.props.match.params.count!=props.match.params.count)||(this.props.updateAt!==props.updateAt)){
-      console.log('change in page');
       let randomFloat= Math.random();
       this.setState({randomFloat,id:parseInt(props.match.params.id, 10)});
       this.props.clearErrorMessage(randomFloat);
       this.props.addActiveRequests(1);
+      console.log('change in page');
+      console.log(props.body);
       this.props.loadUnsavedFilter(props.match.params.count?props.match.params.count:20,props.page?props.page:1,props.body?props.body:'',props.order,props.token);
       if(props.match.params.tagID){
         this.props.history.push('/tag/'+props.match.params.tagID+'/project/'+props.match.params.projectID+'/'+(props.page===undefined?1:props.page)+','+(props.match.params.count?props.match.params.count:20));
@@ -249,7 +252,7 @@ class Loader extends Component {
   const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsReducer,taskAttributesReducer,unitsReducer, usersReducer,filtersReducer,sidebarReducer, login }) => {
     const {statusesLoaded, updateDate, taskStatuses } = statusesReducer;
     const {companiesLoaded, taskCompanies } = companiesReducer;
-    const {tagsLoaded, tags} = tagsReducer;
+    const {tagsLoaded} = tagsReducer;
     const {taskAttributesLoaded, taskAttributes} = taskAttributesReducer;
     const {unitsLoaded} = unitsReducer;
     const {usersLoaded, users} = usersReducer;
@@ -258,7 +261,7 @@ class Loader extends Component {
     const {token} = login;
     let projectsOnly = sidebar?sidebar.projects.children:[];
     let archived = sidebar?sidebar.archived.children:[];
-
+    let tags = sidebar?sidebar.tags.children:[];
       return {statuses:taskStatuses,
         projects: (projectsOnly.concat(archived)),
         taskAttributesLoaded, taskAttributes, statusesLoaded,updateAt,

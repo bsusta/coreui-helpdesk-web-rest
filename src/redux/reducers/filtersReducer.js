@@ -46,6 +46,8 @@ export default function filtersReducer(state = initialState, action) {
       return {...state, showFilter:action.showFilter};
     }
     case SET_FILTERED_TASKS:{
+      console.log(action);
+      console.log('saved');
       return { ...state, tasks:action.tasks, numberOfPages:action.numberOfPages, total:action.total };
     }
     case SET_FILTER:{
