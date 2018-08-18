@@ -130,15 +130,6 @@ export const getSidebar = (date,ACL,token) => {
             );
           }
 
-            if(ACL.includes('create_projects')){
-
-              projects.children.push({
-                name: "project",
-                url: "/project/add",
-                icon: "fa fa-plus"
-              });
-            }
-
           let archived = {
             name: "archived",
             open: false,

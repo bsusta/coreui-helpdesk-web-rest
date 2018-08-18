@@ -16,25 +16,25 @@ export default function filtersReducer(state = initialState, action) {
   switch (action.type) {
     case SET_FILTER_BODY:{
       let newBody={...state.body};
-      if(action.page){
+      if(action.page!==undefined){
         newBody.page=action.page;
       }
-      if(action.count){
+      if(action.count!==undefined){
         newBody.count=action.count;
       }
-      if(action.projectID){
+      if(action.projectID!==undefined){
         newBody.projectID=action.projectID;
       }
-      if(action.filterID){
+      if(action.filterID!==undefined){
         newBody.filterID=action.filterID;
       }
-      if(action.tagID){
+      if(action.tagID!==undefined){
         newBody.tagID=action.tagID;
       }
-      if(action.order){
+      if(action.order!==undefined){
         newBody.order=action.order;
       }
-      if(action.body){
+      if(action.body!==undefined){
         if(action.partial){
           Object.keys(action.body).map(key=>{
             newBody.body[key]=action.body[key];
@@ -43,7 +43,6 @@ export default function filtersReducer(state = initialState, action) {
           newBody.body=action.body;
         }
       }
-      console.log(newBody);
       return {...state, body:newBody,filter:action.filter?action.filter:state.filter};
     }
     case ADD_TO_FILTER_BODY:{
@@ -84,8 +83,6 @@ export default function filtersReducer(state = initialState, action) {
       return {...state, showFilter:action.showFilter};
     }
     case SET_FILTERED_TASKS:{
-      console.log(action);
-      console.log('saved');
       return { ...state, tasks:action.tasks, numberOfPages:action.numberOfPages, total:action.total };
     }
     case SET_FILTER:{

@@ -48,14 +48,13 @@ class Filter extends Component {
 	constructor(props) {
 		super(props);
 		this.createState.bind(this);
-		this.state = this.createState(true);
+		this.state = { ...this.createState(false), ...props.body.body };
+
 	}
 
 	componentWillReceiveProps(props) {
-		if (props.filterState === null&&this.props.filterState!==null) {
-			this.setState(this.createState(true));
-		} else if (JSON.stringify(this.props.filterState) !== JSON.stringify(props.filterState)) {
-			this.setState({ ...this.createState(false), ...props.filterState });
+		if (JSON.stringify(this.props.body.body) !== JSON.stringify(props.body.body)) {
+			this.setState({ ...this.createState(false), ...props.body.body });
 		}
 	}
 
@@ -932,7 +931,7 @@ const mapStateToProps = ({
 }) => {
 	const { taskProjects } = tasksReducer;
 	const { taskStatuses } = statusesReducer;
-	const { filterState, filter, total, body } = filtersReducer;
+	const { filter, total, body } = filtersReducer;
 	const { users } = usersReducer;
 	const { taskCompanies } = companiesReducer;
 	const { tags } = tagsReducer;
@@ -953,7 +952,6 @@ const mapStateToProps = ({
 		token,
 		user,
 		filter,
-		filterState,
 		body,
 		total,
 	};

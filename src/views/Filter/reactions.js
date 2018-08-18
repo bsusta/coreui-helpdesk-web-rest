@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import FilterLoader from './Tasks';
+import Tasks from './Tasks';
 import Loading from '../../components/Loading';
+import {createEmptyFilterBody} from '../../helperFunctions';
 
 class Loader extends Component {
 
@@ -23,34 +24,97 @@ class Loader extends Component {
     this.props.getTaskUnits(this.props.token);
     this.props.getUsers("",this.props.token);
     let urlData=this.props.match.params;
-    let body={};
+    let body={body:createEmptyFilterBody()};
     if(urlData.id){
       body.filterID=urlData.id;
+    }else{
+      body.filterID=null;
     }
     if(urlData.tagID){
       body.tagID=urlData.tagID;
+      let tag = this.getFilterItem(urlData.tagID,this.props.tags);
+      body.body.tags=tag?[tag]:[];
+    }
+    if(!urlData.tagID){
+      body.tagID=null;
     }
     if(urlData.projectID){
       body.projectID=urlData.projectID;
+      let project = this.getFilterItem(urlData.projectID,this.props.projects);
+        body.body.projects=project?[project]:[];
+    }
+    if(urlData.count){
+      body.count=urlData.count;
+    }
+    if(urlData.page){
+      body.page=urlData.page;
     }
     this.props.setFilterBody(body);
   }
 
+  getFilterItem(ID,items){
+    let res=items.find((item)=>item.id&&item.id.toString()===ID);
+    if(res===undefined){
+      return false;
+    }
+    res.label=res.name;
+    res.value=res.id;
+    return res;
+  }
+
   componentWillReceiveProps(props){
     //ak sa zmeni filter, nacitaj ho
-    if(props.match.params.id && this.props.match.params.id!==props.match.params.id){
+    if(JSON.stringify(this.props.body)!==JSON.stringify(props.body)){
+      console.log('something has changed in body');
+      if((this.props.body.filterID!==props.body.filterID||this.props.body.projectID!==props.body.projectID) && props.body.filterID!==null){
+        console.log('filter has changed');
+        if(props.body.filterID!=='add'){
+        this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.history,props.body,this.props.token);
+        }else{
+          this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,props.body,this.props.token);
+        }
+      }
+      else{
+        //neziskali sme novu ID filtra, nacitame z body
+        this.props.loadUnsavedFilter(props.body,this.props.taskAttributes,this.props.token);
+      }
     }
-    //ak sa zmeni project, nacitaj ho
-    else if(props.match.params.projectID && this.props.match.params.projectID!==props.match.params.projectID ){
-    }
-    //ak sa zmeni tag, nacitaj ho
-    else if(props.match.params.tagID && props.match.params.tagID!==this.props.match.params.tagID){
-    }
-    //ak sa ymeni body alebo order nacitaj nanovo tasky
-    else if((props.body!==null && (this.props.body===null) ||this.props.order!==props.order|| JSON.stringify(this.props.body)!=JSON.stringify(props.body))){
-    }
-    //ak sa zmeni stranka, nacitaj tasky a zmen URL
-    else if((this.props.page!=props.page)||(this.props.match.params.count!=props.match.params.count)||(this.props.updateAt!==props.updateAt)){
+    else if(
+      this.props.match.params.projectID!==props.match.params.projectID||
+      this.props.match.params.tagID!==props.match.params.tagID||
+      this.props.match.params.page!=props.match.params.page||
+      this.props.match.params.count!=props.match.params.count||
+      this.props.match.params.id!==props.match.params.id
+    ){
+      console.log('something has changed in parameters');
+      let urlData=props.match.params;
+      let body={body:props.body.body};
+      if(urlData.id){
+        body.filterID=urlData.id;
+      }else{
+        body.filterID=null;
+      }
+      if(urlData.tagID && this.props.match.params.tagID!==props.match.params.tagID){
+        body.body=createEmptyFilterBody();
+        body.tagID=urlData.tagID;
+        let tag = this.getFilterItem(urlData.tagID,props.tags);
+        body.body.tags=tag?[tag]:[];
+      }
+      if(!urlData.tagID){
+        body.tagID=null;
+      }
+      if(urlData.projectID){
+        body.projectID=urlData.projectID;
+        let project = this.getFilterItem(urlData.projectID,props.projects);
+          body.body.projects=project?[project]:[];
+      }
+      if(urlData.count){
+        body.count=urlData.count;
+      }
+      if(urlData.page){
+        body.page=urlData.page;
+      }
+      this.props.setFilterBody(body);
     }
   }
 
@@ -60,7 +124,7 @@ class Loader extends Component {
       !this.props.usersLoaded||!this.props.sidebar){
         return null;
       }
-      return <FilterLoader history={this.props.history} match={this.props.match} />
+      return <Tasks history={this.props.history} match={this.props.match} />
     }
 }
 

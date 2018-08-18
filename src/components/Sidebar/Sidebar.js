@@ -96,9 +96,9 @@ class Sidebar extends Component {
                 onChange={e => {
                   this.setState({project:e});
                   if(this.state.filterSelected){
-                    this.props.history.push('/filter/'+this.state.filterSelected+'/project/'+e.value);
+                    this.props.history.push('/filter/'+this.state.filterSelected+'/project/'+e.value+'/1,'+this.props.body.count);
                   }else if(this.state.tagSelected){
-                    this.props.history.push('/tag/'+this.state.tagSelected+'/project/'+e.value);
+                    this.props.history.push('/tag/'+this.state.tagSelected+'/project/'+e.value+'/1,'+this.props.body.count);
                   }else{
                       console.log('nothing');
                       console.log(this.state);
@@ -115,9 +115,9 @@ class Sidebar extends Component {
                 onChange={() => {
                   this.setState({ archived: !this.state.archived,project:{value:'all',label:'All'} });
                   if(this.state.filterSelected){
-                    this.props.history.push('/filter/'+this.state.filterSelected+'/project/all');
+                    this.props.history.push('/filter/'+this.state.filterSelected+'/project/all'+'/1,'+this.props.body.count);
                   }else if(this.state.tagSelected){
-                    this.props.history.push('/tag/'+this.state.tagSelected+'/project/all');
+                    this.props.history.push('/tag/'+this.state.tagSelected+'/project/all'+'/1,'+this.props.body.count);
                   }else{
                       console.log('nothing');
                   }
@@ -164,7 +164,7 @@ class Sidebar extends Component {
                     <NavItem key={index} className={classNames(item.class)}>
                       <NavLink
                         onClick={()=>this.setState({filterSelected:item.id,tagSelected:null})}
-                        to={item.url ? item.url+'/project/'+this.state.project.value : ""}
+                        to={item.url ? item.url+'/project/'+this.state.project.value+'/1,'+this.props.body.count : ""}
                         className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
                         activeClassName="active activeNavItem fontBold">
                         {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
@@ -205,7 +205,7 @@ class Sidebar extends Component {
                       <NavItem key={index} className={classNames(item.class)}>
                         <NavLink
                           onClick={()=>{this.setState({filterSelected:null,tagSelected:item.id});console.log(item);}}
-                          to={item.url ? item.url+'/project/'+this.state.project.value  : ""}
+                          to={item.url ? item.url+'/project/'+this.state.project.value+'/1,'+this.props.body.count  : ""}
                           className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
                           activeClassName="active activeNavItem fontBold">
                           {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
@@ -256,12 +256,13 @@ class Sidebar extends Component {
   }
 }
 
-const mapStateToProps = ({ sidebarReducer, login }) => {
+const mapStateToProps = ({ sidebarReducer, login, filtersReducer }) => {
   const { sidebar,date } = sidebarReducer;
   const { token, user } = login;
+  const {body} =filtersReducer;
   let projects = sidebar?sidebar.projects.children:[];
   let archived = sidebar?sidebar.archived.children:[];
-  return { sidebar,date, token, user, projects,archived };
+  return { sidebar,date, token, user, projects,archived, body };
 };
 
 export default connect(mapStateToProps, { getSidebar })(Sidebar);

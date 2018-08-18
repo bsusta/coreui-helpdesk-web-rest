@@ -2,6 +2,10 @@ import moment from "moment";
 import React, { Component } from "react";
 import {LOGIN_LOGOUT,ADD_ERROR_MESSAGE} from './redux/types';
 
+export const createEmptyFilterBody = ()=>{
+  return filterToFilterState({filter:{}},[],[],[],[],[],[]);
+}
+
 
 /**
 * Converts filter from API to state that is acceptable by filter component

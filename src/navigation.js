@@ -50,7 +50,6 @@ import ProjectEdit from "./views/ProjectEdit";
 import ProjectAdd from "./views/ProjectAdd";
 import TagAdd from "./views/TagAdd";
 import TagEdit from "./views/TagEdit";
-import TagTasks from "./views/TagTasks";
 import EditTask from "./views/EditTask";
 import ViewTask from "./views/ViewTask";
 import AddTask from "./views/AddTask";
@@ -386,13 +385,13 @@ class Full extends Component {
                   exact
                   path="/tag/:tagID/project/:projectID"
                   name="Tag task list"
-                  component={TagTasks}
+                  component={Filter}
                 />
                 <Route
                   exact
                   path="/tag/:tagID/project/:projectID/:page,:count"
                   name="Tag task list"
-                  component={TagTasks}
+                  component={Filter}
                 />
                 <Route
                   exact

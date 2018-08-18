@@ -1,7 +1,7 @@
 import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS, SET_FILTER_ORDER, SET_UPDATE_AT,
   SET_FILTER_BODY, ADD_TO_FILTER_BODY } from '../types';
 import { TASKS_LIST, FILTERS_LIST } from '../urls';
-import {processError,processRESTinput,filterToFilterState ,filterBodyFromState} from '../../helperFunctions';
+import {processError,processRESTinput,filterToFilterState ,filterBodyFromState,createEmptyFilterBody} from '../../helperFunctions';
 import {getSidebar} from './sidebarActions';
 
 export const clearFilterTasks = () => {
@@ -36,7 +36,7 @@ export const startFilterLoading = (filterLoaded)=>{
 
 export const loadUnsavedFilter = (body,taskAttributes,token) => {
  return (dispatch) => {
-   fetch(TASKS_LIST+'?limit='+body.count+'&page='+body.page+'&'+body.order+'&'+filterBodyFromState(body.body,taskAttributes), {
+   fetch(TASKS_LIST+'?limit='+body.count+'&page='+body.page+'&'+body.order+(body.body?('&'+filterBodyFromState(body.body,taskAttributes)):""), {
      method: 'get',
      headers: {
        'Authorization': 'Bearer ' + token,
@@ -122,13 +122,19 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
           return;
         }
       response.json().then((data) => {
+        let newBody;
         if(data){
-          let body = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
-          if(project){
-            body['projects']=[projects.find((item)=>item.id===project.id)];
-          }
-          dispatch({ type: SET_FILTER_BODY,body,page:1 });
+          newBody = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
+        }else{
+          newBody = createEmptyFilterBody();
         }
+        if(body.projectID!=='all'){
+          newBody.projects=[projects.find((item)=>item.id.toString()===body.projectID.toString())];
+        }else{
+          newBody.projects=[];
+        }
+        loadUnsavedFilter({...body,body:newBody},taskAttributes,token)(dispatch);
+        dispatch({ type: SET_FILTER_BODY,body:newBody,page:1 });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         //save as body and state
       });
@@ -140,9 +146,9 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
 }
 
 
-export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,history,token) => {
+export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,history,body,token) => {
   return (dispatch) => {
-      fetch(FILTERS_LIST+'/'+id, {
+      fetch(FILTERS_LIST+'/'+body.filterID, {
         method: 'get',
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -155,8 +161,16 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
           return;
         }
       response.json().then((data) => {
-        let body = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
-        dispatch({ type: SET_FILTER_BODY,body,filter:data.data,page:1 });
+        console.log(data);
+        let filterBody = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
+        //PRIDAT Z BODY PROJECT
+        if(body.projectID!=='all'){
+          filterBody.projects=[projects.find((item)=>item.id.toString()===body.projectID.toString())];
+        }
+        else{
+          body.projects=[];
+        }
+        dispatch({ type: SET_FILTER_BODY,body:filterBody,filter:data.data,page:1 });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         return;
         //save as body and state
