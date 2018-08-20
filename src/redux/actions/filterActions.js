@@ -175,7 +175,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
         console.log('loading filter');
         loadUnsavedFilter({...body,body:newBody},taskAttributes,token)(dispatch);
         console.log('loaded filter set the body');
-        dispatch({ type: SET_FILTER_BODY,body:newBody,filter:data.data,page:body.page });
+        dispatch({ type: SET_FILTER_BODY,...body,body:newBody,filter:data.data,page:body.page });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         return;
         //save as body and state

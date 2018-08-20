@@ -5,7 +5,7 @@ const initialState = {
   numberOfPages:0,
   total:null,
   tasks:[],
-  body:{page:1,count:20,projectID:'all',filterID:null,tagID:null,body:createEmptyFilterBody(),search:'',order:'order=status=>asc'},
+  body:{page:1,count:20,projectID:'all',filterID:null,tagID:null,forcedUpdate:null,body:createEmptyFilterBody(),search:'',order:'order=status=>asc'},
   showFilter:true,
   filterLoaded:false,
   filter:null,
@@ -36,6 +36,9 @@ export default function filtersReducer(state = initialState, action) {
       }
       if(action.search!==undefined){
         newBody.search=action.search;
+      }
+      if(action.forcedUpdate!==undefined){
+        newBody.forcedUpdate=action.forcedUpdate;
       }
       if(action.body!==undefined){
         if(action.partial){

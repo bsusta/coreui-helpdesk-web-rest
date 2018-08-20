@@ -353,12 +353,6 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/project/:projectID/:page,:count/:task"
-                  name="Project task list"
-                  component={Project}
-                />
-                <Route
-                  exact
                   path="/project/info/:id"
                   name="Project info"
                   component={ProjectInfo}
@@ -395,49 +389,25 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/tag/:tagID/project/:projectID/task/edit/:task"
+                  path="/tag/:y/project/:x/task/edit/:task"
                   name="Tag task list"
                   component={EditTask}
                 />
                 <Route
                   exact
-                  path="/tag/:tagID/project/:projectID/task/view/:task"
+                  path="/tag/:y/project/:x/task/view/:task"
                   name="View task"
                   component={ViewTask}
                 />
                 <Route
                   exact
-                  path="/filter/:id/project/:projectID/task/view/:task"
+                  path="/filter/:y/project/:x/task/view/:task"
                   name="View task"
                   component={ViewTask}
                 />
                 <Route
                   exact
-                  path="/task/view/:task"
-                  name="View task"
-                  component={ViewTask}
-                />
-                <Route
-                  exact
-                  path="/project/:id/task/edit/:task"
-                  name="Edit task"
-                  component={EditTask}
-                />
-                <Route
-                  exact
-                  path="/tag/:id/task/edit/:task"
-                  name="Edit task"
-                  component={EditTask}
-                />
-                <Route
-                  exact
-                  path="/filter/:id/project/:projectID/task/edit/:task"
-                  name="Edit task"
-                  component={EditTask}
-                />
-                <Route
-                  exact
-                  path="/task/edit/:task"
+                  path="/filter/:y/project/:x/task/edit/:task"
                   name="Edit task"
                   component={EditTask}
                 />
