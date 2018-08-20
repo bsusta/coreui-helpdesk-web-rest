@@ -49,11 +49,10 @@ class Filter extends Component {
 		super(props);
 		this.createState.bind(this);
 		this.state = { ...this.createState(false), ...props.body.body };
-
 	}
 
 	componentWillReceiveProps(props) {
-		if (JSON.stringify(this.props.body.body) !== JSON.stringify(props.body.body)) {
+		if (JSON.stringify(this.props.body.body) !== JSON.stringify(props.body.body)||this.props.body.search!==props.body.search) {
 			this.setState({ ...this.createState(false), ...props.body.body });
 		}
 	}
@@ -145,11 +144,7 @@ class Filter extends Component {
 	}
 
 	applyFilter() {
-		let body = filterBodyFromState(this.state, this.props.taskAttributes);
-		if(JSON.stringify(body)===JSON.stringify(this.props.body)){
-			this.props.changeUpdateAt();
-		}
-		this.props.setFilterBody(body, this.state, 1);
+		this.props.setFilterBody({body:this.state});
 	}
 
 	createState(restore) {

@@ -5,7 +5,7 @@ import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING, DELETE_TASK,
   DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHMENT,
   SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID, SET_TRIPOD, LOWER_ACTIVE_REQUESTS } from '../types';
-import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE } from '../urls';
+import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE, REPEATS_LIST } from '../urls';
 import {addFollower} from './followerActions';
 import {addItem} from './itemActions';
 import {addSubtask} from './subtaskActions';
@@ -358,6 +358,31 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
     }
 
   };
+};
+
+export const addRepeat = (body,taskID,token) => {
+  return (dispatch) => {
+    fetch(REPEATS_LIST+'/'+taskID, {
+      method: 'post',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify(body)
+    }).then((response) =>{
+      if(!response.ok){
+        processError(response,dispatch);
+        return;
+      }
+    response.json().then((data) => {
+      console.log(data);
+    });
+  }
+).catch(function (error) {
+  dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+  console.log(error);
+});
+  }
 };
 
 export const startTaskProjectsLoading = () => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setFilterPage, setShowFilter, loadUnsavedFilter, setFilterOrder } from '../../redux/actions';
+import { setFilterPage, setShowFilter, loadUnsavedFilter, setFilterOrder, setFilterBody } from '../../redux/actions';
 import Filter from './Filter';
 import {
 	Row,
@@ -42,49 +42,46 @@ class Tasks extends Component {
 	}
 
 	createArrow(type){
-		if(this.props.order==='order='+type+'=>asc'){
+		if(this.props.body.order==='order='+type+'=>asc'){
 			return <span className="tableArrow">
 				<i className="fa fa-arrow-up colorLightBlue" onClick={()=>this.props.setFilterOrder('order='+type+'=>desc')}/>
 			</span>
 		}
 		return <span className="tableArrow">
-		<i className={this.props.order==='order='+type+'=>desc'?"fa fa-arrow-down colorLightBlue":"fa fa-arrow-down"}
-		onClick={()=>this.props.setFilterOrder((this.props.order===('order='+type+'=>desc'))?('order='+type+'=>asc'):('order='+type+'=>desc'))}/>
+		<i className={this.props.body.order==='order='+type+'=>desc'?"fa fa-arrow-down colorLightBlue":"fa fa-arrow-down"}
+		onClick={()=>this.props.setFilterOrder((this.props.body.order===('order='+type+'=>desc'))?('order='+type+'=>asc'):('order='+type+'=>desc'))}/>
 	</span>
 }
 
 	render() {
 		let header = i18n.t('unknownSearch');
 		let icon = 'fa fa-search';
-		if (this.props.match.params.id) {
-			if(this.props.match.params.id !== 'add'){
-				let index = this.props.filters.findIndex(filter => filter.url.includes(this.props.match.params.id));
+		if (this.props.body.filterID) {
+			if(this.props.body.filterID !== 'add'){
+				let index = this.props.filters.findIndex(filter => filter.url.includes(this.props.body.filterID));
 				if (index !== -1) {
 					header = this.props.filters[index].name;
 					icon = this.props.filters[index].icon;
 				}
 			}else{
-					header = i18n.t('newFilter'),
-					icon = 'fa fa-filter'
-			}
-		} else if (this.props.match.params.tagID) {
+				let index = this.props.projects.findIndex(project => project.id && project.id.toString() === this.props.match.params.projectID);
+				if(this.props.body.projectID!=='all' && index !== -1){
+						header = this.props.projects[index].name;
+						icon = 'fa fa-folder-open';
+					}else{
+						header = i18n.t('newFilter'),
+						icon = 'fa fa-filter'
+					}
+				}
+			} else if (this.props.match.params.tagID) {
 			let index = this.props.tags.findIndex(tag => tag.id && tag.id.toString() === this.props.match.params.tagID);
 			if (index !== -1) {
 				header = this.props.tags[index].name
 				icon = this.props.user.user_role.acl.includes('share_tags')||!this.props.tags[index].public ?'fa fa-cog clickableIcon':'fa fa-cog';
 			}
-		}else if (this.props.match.params.projectID) {
-			let index = this.props.projects.findIndex(project => project.id && project.id.toString() === this.props.match.params.projectID);
-			if (index !== -1) {
-				header = this.props.projects[index].name;
-				icon = 'fa fa-info-circle clickableIcon';
-			}
-		}else if (this.props.match.params.id==='add') {
-			header = i18n.t('filter');
-			icon = 'fa fa-plus';
 		}
-		else if (this.props.body && this.props.body.includes('search')) {
-			header = i18n.t('search') + ': ' + this.props.body.split('=')[1].split('&')[0];
+		else if (this.props.body.body.search!=='') {
+			header = i18n.t('search') + ': ' + this.props.body.body.search;
 		} else {
 			header = i18n.t('search');
 		}
@@ -109,15 +106,18 @@ class Tasks extends Component {
 								<span className="switch-handle" />
 							</label>
 							<label style={{ paddingLeft: 10 }}>
-								{this.props.showFilter ? i18n.t('filter') : i18n.t('filter')}
+								{i18n.t('filter')}
 							</label>
 						</CardHeader>
 
 						<div className="table-div">
 							<h2 className="h2">
 								<i className={icon} onClick={()=>{
-										if(this.props.match.params.tagID && (this.props.user.user_role.acl.includes('share_tags')||!this.props.tags[index].public)){
-											this.props.history.push('/tag/edit/' + this.props.match.params.tagID);
+										if(this.props.body.tagID){
+											if(this.props.user.user_role.acl.includes('share_tags')||tag.public){
+												let tag=this.props.tags.find((item)=>parseInt(item.id)===parseInt(this.props.body.tagID));
+												this.props.history.push('/tag/edit/' + this.props.body.tagID);
+											}
 										}
 									}} />
 								<span>{header}</span>
@@ -159,11 +159,11 @@ class Tasks extends Component {
 									{this.props.tasks.map(task => (
 										<tr style={{ cursor: 'pointer' }} key={task.id}
 											onClick={() => {
-												if(this.props.match.params.id){
+												if(this.props.body.filterID){
 													if (task.canEdit) {
 														this.props.history.push(
 															'/filter/' +
-															this.props.match.params.id +
+															this.props.body.filterID +
 															'/project/' +
 															this.props.match.params.projectID +
 															'/task/edit/' +
@@ -172,7 +172,7 @@ class Tasks extends Component {
 													} else {
 														this.props.history.push(
 															'/filter/' +
-															this.props.match.params.id +
+															this.props.body.filterID +
 															'/project/' +
 															this.props.match.params.projectID +
 															'/task/view/' +
@@ -241,22 +241,18 @@ class Tasks extends Component {
 								</tbody>
 							</table>
 							<Pagination
-								link={this.props.match.params.projectID?"project":'filter'}
-								history={{ push: () => {} }}
+								link={this.props.body.filterID?
+									'filter/'+this.props.body.filterID+'/project/'+this.props.body.projectID:
+									'tag/'+this.props.body.tagID+'/project/'+this.props.body.projectID}
+								history={this.props.history}
 								numberOfPages={this.props.numberOfPages}
 								refetchData={() => {}}
 								token={this.props.token}
 								disabled={this.props.body === null}
 								refetchParameters={[]}
-								pageNumber={
-									this.props.match.params.page
-										? this.props.tasks.length > 0
-											? parseInt(this.props.match.params.page, 10)
-											: 0
-										: 0
-								}
-								setPageNumber={pageNumber => {
-									this.props.setFilterPage(pageNumber);
+								pageNumber={parseInt(this.props.body.page)}
+								setPageNumber={page => {
+									this.props.setFilterBody({page});
 								}}
 								paginationOptions={[
 									{ title: 20, value: 20 },
@@ -264,15 +260,10 @@ class Tasks extends Component {
 									{ title: 100, value: 100 },
 								]}
 								onPaginationChange={count => {
-									this.props.history.push(
-										'/filter/' +
-											(this.props.match.params.id
-												? this.props.match.params.id + '/1,' + count
-												: '1,' + count)
-									);
+									this.props.setFilterBody({count});
 								}}
 								pagination={
-									this.props.match.params.count ? parseInt(this.props.match.params.count, 10) : 20
+									parseInt(this.props.body.count)
 								}
 							/>
 						</div>
@@ -284,7 +275,7 @@ class Tasks extends Component {
 }
 
 const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projectsReducer, login }) => {
-	const { tasks, numberOfPages, body, filterState, showFilter, page, order } = filtersReducer;
+	const { tasks, numberOfPages, body, showFilter } = filtersReducer;
 	const { taskProjects } = tasksReducer;
 	const { sidebar } = sidebarReducer;
 	const { project } = projectsReducer;
@@ -296,14 +287,11 @@ const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projects
 
 	return {
 		tasks,
-		order,
 		projects:projectsOnly.concat(archived),
 		tags,
 		numberOfPages,
 		body,
-		page,
 		user,
-		filterState,
 		showFilter,
 		project,
 		filters,
@@ -313,5 +301,5 @@ const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projects
 
 export default connect(
 	mapStateToProps,
-	{ setFilterPage, setShowFilter, loadUnsavedFilter, setFilterOrder }
+	{ setFilterPage, setShowFilter, loadUnsavedFilter, setFilterOrder,setFilterBody }
 )(Tasks);

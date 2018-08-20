@@ -51,16 +51,16 @@ class Header extends Component {
               className="searchInput"
               onKeyPress={(e)=>{
                 if(e.key==='Enter'){
-                  this.props.setFilterBody('search='+this.state.search,{title:this.state.search},1);
-                  this.props.history.push('/filter/1,20');
+                  this.props.setFilterBody({search:this.state.search, projectID:'all', filterID:'add', tagID:null,body:{title:this.state.search}},true);
+                  this.props.history.push('/filter/add/project/all/'+this.props.body.page+','+this.props.body.count);
                 }
               }}
             />
           <InputGroupAddon
             className="searchButton"
             onClick={()=>{
-              this.props.setFilterBody('search='+this.state.search,{title:this.state.search},1);
-              this.props.history.push('/filter/1,20');
+              this.props.setFilterBody({search:this.state.search, projectID:'all', filterID:'add', tagID:null,body:{title:this.state.search}},true);
+              this.props.history.push('/filter/add/project/all/'+this.props.body.page+','+this.props.body.count);
             }}>
               <i className="fa fa-search" />
             </InputGroupAddon>
@@ -118,11 +118,12 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ login, loadingReducer, errorsReducer }) => {
+const mapStateToProps = ({ login, loadingReducer, errorsReducer, filtersReducer }) => {
   const { user, token } = login;
   const { errorMessages } = errorsReducer;
   const { activeRequests } = loadingReducer;
-  return { user, token, activeRequests, errorMessages };
+  const { body } = filtersReducer;
+  return { user, token, activeRequests, errorMessages, body };
 };
 
 export default connect(mapStateToProps, { logoutUser, setFilterBody })(Header);

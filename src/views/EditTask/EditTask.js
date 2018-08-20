@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   ButtonGroup,
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   Input,
+  Label,
   FormGroup,
   Modal, ModalHeader, ModalBody, ModalFooter
 } from "reactstrap";
@@ -44,6 +41,7 @@ import {
 } from "../../helperFunctions";
 import MultiSelect from "../../components/multiSelect";
 import i18n from "i18next";
+import Repeat from './repeat';
 
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
 
@@ -132,6 +130,7 @@ class EditTask extends Component {
       openAddUser:false,
       openAddCompany:false,
       showUploadError:false,
+      openRepeat:false
     };
     this.autoSubmit.bind(this);
   }
@@ -678,7 +677,7 @@ class EditTask extends Component {
                                 </InputGroup>
                               </FormGroup>
 
-                                                            <FormGroup>
+                              <FormGroup>
                                 <label htmlFor="work" className="input-label">{i18n.t("work")}</label>
                                 <InputGroup>
                                   <InputGroupAddon>
@@ -769,64 +768,7 @@ class EditTask extends Component {
                                   </div>
                                 </InputGroup>
                               </FormGroup>
-
-                              {false && (
-                                <FormGroup>
-                                  <label htmlFor="assigned" className="input-label">Opakovanie</label>
-                                  <InputGroup>
-                                    <InputGroupAddon>
-                                      <i className="fa fa-repeat" />
-                                    </InputGroupAddon>
-                                    <Dropdown
-                                      isOpen={this.state.dropdownOpen}
-                                      toggle={this.toggle}
-                                      style={{ width: "100%" }}
-                                      >
-                                      <DropdownToggle
-                                        style={{
-                                          width: "100%",
-                                          textAlign: "left",
-                                          backgroundColor: "white"
-                                        }}
-                                        caret
-                                        >
-                                        no repeat
-                                      </DropdownToggle>
-                                      <DropdownMenu style={{ width: "100%" }}>
-                                        <div
-                                          className="form-group"
-                                          style={{ width: "100%" }}
-                                          >
-                                          <label htmlFor="exampleDropdownFormEmail1">
-                                            Repeat every
-                                          </label>
-                                          <input
-                                            type="email"
-                                            className="form-control"
-                                            id="exampleDropdownFormEmail1"
-                                            style={{ width: "100%" }}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                          <label htmlFor="exampleDropdownFormEmail1">
-                                            Start date
-                                          </label>
-                                          <input
-                                            type="email"
-                                            className="form-control"
-                                            id="exampleDropdownFormEmail1"
-                                            style={{ width: "100%" }}
-                                            />
-                                        </div>
-                                        <button type="submit" className="btn btn-primary">
-                                          Save
-                                        </button>
-                                      </DropdownMenu>
-                                    </Dropdown>
-                                  </InputGroup>
-                                </FormGroup>
-                              )}
-
+                              <Repeat onToogle={()=>this.setState({openRepeat:!this.state.openRepeat})} open={this.state.openRepeat} taskID={this.props.task.id} />
                               <div className="form-group" style={{ marginBottom: 0 }}>
                                 <label htmlFor="fileUpload" className="input-label">{i18n.t("attachments")}</label>
                                 <input

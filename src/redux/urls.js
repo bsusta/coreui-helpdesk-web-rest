@@ -13,6 +13,8 @@ export const STATUSES_LIST = BASE_URL + '/task-bundle/status';
 export const ROLES_LIST = BASE_URL + '/task-bundle/user-roles';
 export const ASSIGNERS_LIST = BASE_URL + '/task-bundle/project/assigners';
 
+export const REPEATS_LIST = BASE_URL + '/task-bundle/repeating-tasks';
+
 export const SMTPS_LIST = BASE_URL + '/task-bundle/smtp';
 export const IMAPS_LIST = BASE_URL + '/task-bundle/imap';
 export const COMPANY_ATTRIBUTES_LIST = BASE_URL + '/task-bundle/company-attributes';

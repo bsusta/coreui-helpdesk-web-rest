@@ -1,11 +1,11 @@
 import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER,SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, LOGIN_LOGOUT, SET_FILTER_ORDER, SET_UPDATE_AT, EDIT_TASK,
-  SET_FILTER_BODY, ADD_TO_FILTER_BODY } from '../types'
-
+  SET_FILTER_BODY, ADD_TO_FILTER_BODY } from '../types';
+import {createEmptyFilterBody} from '../../helperFunctions';
 const initialState = {
   numberOfPages:0,
   total:null,
   tasks:[],
-  body:{page:1,count:20,projectID:'all',filterID:null,tagID:null,body:null,order:'order=status=>asc'},
+  body:{page:1,count:20,projectID:'all',filterID:null,tagID:null,body:createEmptyFilterBody(),search:'',order:'order=status=>asc'},
   showFilter:true,
   filterLoaded:false,
   filter:null,
@@ -33,6 +33,9 @@ export default function filtersReducer(state = initialState, action) {
       }
       if(action.order!==undefined){
         newBody.order=action.order;
+      }
+      if(action.search!==undefined){
+        newBody.search=action.search;
       }
       if(action.body!==undefined){
         if(action.partial){

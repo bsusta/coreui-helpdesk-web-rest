@@ -36,6 +36,7 @@ export const startFilterLoading = (filterLoaded)=>{
 
 export const loadUnsavedFilter = (body,taskAttributes,token) => {
  return (dispatch) => {
+   console.log(filterBodyFromState(body.body,taskAttributes));
    fetch(TASKS_LIST+'?limit='+body.count+'&page='+body.page+'&'+body.order+(body.body?('&'+filterBodyFromState(body.body,taskAttributes)):""), {
      method: 'get',
      headers: {
@@ -133,8 +134,10 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
         }else{
           newBody.projects=[];
         }
+        newBody.title=body.search;
         loadUnsavedFilter({...body,body:newBody},taskAttributes,token)(dispatch);
-        dispatch({ type: SET_FILTER_BODY,body:newBody,page:1 });
+        console.log('user filter set the body');
+        dispatch({ type: SET_FILTER_BODY,body:newBody,page:body.page });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         //save as body and state
       });
@@ -161,16 +164,18 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
           return;
         }
       response.json().then((data) => {
-        console.log(data);
-        let filterBody = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
+        let newBody = filterToFilterState(data.data,taskAttributes,statuses,projects,users,tags,companies);
         //PRIDAT Z BODY PROJECT
         if(body.projectID!=='all'){
-          filterBody.projects=[projects.find((item)=>item.id.toString()===body.projectID.toString())];
+          newBody.projects=[projects.find((item)=>item.id.toString()===body.projectID.toString())];
         }
         else{
           body.projects=[];
         }
-        dispatch({ type: SET_FILTER_BODY,body:filterBody,filter:data.data,page:1 });
+        console.log('loading filter');
+        loadUnsavedFilter({...body,body:newBody},taskAttributes,token)(dispatch);
+        console.log('loaded filter set the body');
+        dispatch({ type: SET_FILTER_BODY,body:newBody,filter:data.data,page:body.page });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         return;
         //save as body and state
@@ -184,6 +189,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
 
 export const setFilterBody = (body, partial)=>{
   return (dispatch) => {
+    console.log('function set the body');
      dispatch({ type: SET_FILTER_BODY,...body,partial });
    }
 }
