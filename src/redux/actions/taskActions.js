@@ -4,7 +4,8 @@ import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   SET_TASK_PROJECTS,  SET_TASK_PROJECTS_LOADING,
   SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING, DELETE_TASK,
   DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHMENT,
-  SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID, SET_TRIPOD, LOWER_ACTIVE_REQUESTS } from '../types';
+  SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID, SET_TRIPOD, LOWER_ACTIVE_REQUESTS,
+  SET_REPEAT, SET_REPEAT_LOADING } from '../types';
 import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE, REPEATS_LIST } from '../urls';
 import {addFollower} from './followerActions';
 import {addItem} from './itemActions';
@@ -360,6 +361,41 @@ export const editTask = (data,taskID,projectID,statusID,requesterID,companyID,to
   };
 };
 
+/**
+ * Sets repeat if task is loaded to false
+ */
+export const setRepeatLoaded = (repeatLoaded) => {
+  return (dispatch) => {
+    dispatch({ type: SET_REPEAT_LOADING, repeatLoaded });
+  }
+};
+
+export const getRepeat= (taskID,token) => {
+  return (dispatch) => {
+      fetch(TASKS_LIST+'/'+taskID+'/repeating-task', {
+        method: 'get',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+      dispatch({type: LOWER_ACTIVE_REQUESTS});
+        if(!response.ok){
+          processError(response,dispatch);
+          return;
+        }
+      response.json().then((data) => {
+        dispatch({type: SET_REPEAT, repeat:data.data});
+      });
+    }
+  ).catch(function (error) {
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+      console.log(error);
+  });
+  }
+}
+
+
 export const addRepeat = (body,taskID,token) => {
   return (dispatch) => {
     fetch(REPEATS_LIST+'/'+taskID, {
@@ -375,15 +411,61 @@ export const addRepeat = (body,taskID,token) => {
         return;
       }
     response.json().then((data) => {
-      console.log(data);
+      dispatch({type: SET_REPEAT, repeat:[data.data]});
     });
-  }
-).catch(function (error) {
-  dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
-  console.log(error);
-});
+  }).catch(function (error) {
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+    console.log(error);
+  });
   }
 };
+
+export const editRepeat = (body,id,token) => {
+  return (dispatch) => {
+    fetch(REPEATS_LIST+'/'+id, {
+      method: 'put',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify(body)
+    }).then((response) =>{
+      if(!response.ok){
+        processError(response,dispatch);
+        return;
+      }
+    response.json().then((data) => {
+      dispatch({type: SET_REPEAT, repeat:[data.data]});
+    });
+  }).catch(function (error) {
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+    console.log(error);
+  });
+  }
+};
+
+export const deleteRepeat = (id,token) => {
+  return (dispatch) => {
+      fetch(REPEATS_LIST+'/'+id, {
+        method: 'delete',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if(!response.ok){
+          processError(response,dispatch);
+          return;
+        }
+        dispatch({ type: SET_REPEAT, repeat:[]});
+    }
+  ).catch(function (error) {
+    dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });
+    console.log(error);
+  });
+  }
+}
+
 
 export const startTaskProjectsLoading = () => {
   return (dispatch) => {

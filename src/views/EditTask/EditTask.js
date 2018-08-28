@@ -768,7 +768,7 @@ class EditTask extends Component {
                                   </div>
                                 </InputGroup>
                               </FormGroup>
-                              <Repeat onToogle={()=>this.setState({openRepeat:!this.state.openRepeat})} open={this.state.openRepeat} taskID={this.props.task.id} />
+                              <Repeat onToogle={()=>this.setState({openRepeat:!this.state.openRepeat})} open={this.state.openRepeat} defaultState={this.props.repeat} taskID={this.props.task.id} />
                               <div className="form-group" style={{ marginBottom: 0 }}>
                                 <label htmlFor="fileUpload" className="input-label">{i18n.t("attachments")}</label>
                                 <input
@@ -1197,7 +1197,7 @@ class EditTask extends Component {
                       followersReducer,
                       taskAttributesReducer
                     }) => {
-                      const { task, taskProjects, taskSolvers } = tasksReducer;
+                      const { task, taskProjects, taskSolvers, repeat } = tasksReducer;
                       const { taskAttributes } = taskAttributesReducer;
                       const { taskStatuses } = statusesReducer;
                       const { taskCompanies } = companiesReducer;
@@ -1210,6 +1210,7 @@ class EditTask extends Component {
                       return {
                         task,
                         taskProjects,
+                        repeat:repeat.length>0?repeat[0]:null,
                         companies: taskCompanies,
                         taskAttributes,
                         statuses: taskStatuses,

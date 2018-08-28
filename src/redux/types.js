@@ -132,6 +132,9 @@ export const SET_TASK_SOLVERS = 'SET_TASK_SOLVERS';
 export const DELETE_TASK_SOLVERS = 'DELETE_TASK_SOLVERS';
 export const SET_TRIPOD = 'SET_TRIPOD';
 
+export const SET_REPEAT = 'SET_REPEAT';
+export const SET_REPEAT_LOADING = 'SET_REPEAT_LOADING';
+
 //all constants for ATTACHMENTS actions
 export const ADD_ATTACHMENT = 'ADD_ATTACHMENT';
 export const EDIT_ATTACHMENT = 'EDIT_ATTACHMENT';

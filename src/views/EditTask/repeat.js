@@ -15,7 +15,7 @@ import {
 import DatePicker from "react-datepicker";
 import { connect } from "react-redux";
 import {
-  addRepeat
+  addRepeat, deleteRepeat,editRepeat
 } from "../../redux/actions";
 import i18n from 'i18next';
 import moment from "moment";
@@ -25,14 +25,32 @@ class Repeat extends Component {
     super(props);
     let defaultState=this.props.defaultState?this.props.defaultState:{};
     this.state = {
-      repeatStart:defaultState.repeatStart?defaultState.repeatStart:moment(),
-      repeatEvery:defaultState.repeatEvery?defaultState.repeatEvery:0,
-      repeatFrequency:defaultState.repeatFrequency?defaultState.repeatFrequency:'week',
-      repeatUntil:defaultState.repeatUntil?defaultState.repeatUntil:'forever',
-      numberOfRepeats:defaultState.numberOfRepeats?defaultState.numberOfRepeats:1,
-      added: this.props.defaultState ? true : false
+      repeatStart:defaultState.startAt?moment(defaultState.startAt*1000):moment(),
+      repeatEvery:defaultState.intervalLength?defaultState.intervalLength:0,
+      repeatFrequency:defaultState.interval?defaultState.interval:'week',
+      repeatUntil:defaultState.repeatsNumber!==null?'number':'forever',
+      numberOfRepeats:defaultState.repeatsNumber?defaultState.repeatsNumber:1,
+      added: this.props.defaultState!==null ? true : false
     };
     this.submit.bind(this);
+    this.delete.bind(this);
+  }
+
+  delete() {
+    if (confirm(i18n.t('deleteRepeatMessage'))) {
+      this.props.deleteRepeat(this.props.defaultState.id, this.props.token);
+      this.setState({
+        repeatStart:moment(),
+        repeatEvery:0,
+        repeatFrequency:'week',
+        repeatUntil:'forever',
+        numberOfRepeats:1,
+        added:false,
+      })
+      this.props.onToogle();
+    } else {
+      return;
+    }
   }
 
   submit(){
@@ -47,6 +65,8 @@ class Repeat extends Component {
     }
     if(!this.state.added){
       this.props.addRepeat(body,this.props.taskID,this.props.token);
+    }else{
+      this.props.editRepeat(body,this.props.defaultState.id,this.props.token);
     }
     this.setState({added:true});
     this.props.onToogle();
@@ -71,9 +91,8 @@ class Repeat extends Component {
                 textAlign: "left",
                 backgroundColor: "white"
               }}
-              caret
               >
-              {this.state.added?'aaa':i18n.t("noRepeat")}
+              {this.state.added&& this.props.defaultState!==null ?i18n.t("every")+' '+this.props.defaultState.intervalLength+' '+i18n.t(this.props.defaultState.interval):i18n.t("noRepeat")}
             </DropdownToggle>
             <DropdownMenu style={{ width: "100%", borderWidth:4 }}>
               <div
@@ -166,6 +185,11 @@ class Repeat extends Component {
                       <button onClick={()=>this.props.onToogle()} className="btn btn-danger">
                         {i18n.t('close')}
                       </button>
+                      { this.state.added &&
+                        <button onClick={this.delete.bind(this)} className="btn btn-danger">
+                          {i18n.t('delete')}
+                        </button>
+                      }
                       <button
                         disabled={(this.state.repeatUntil==='number' && (isNaN(parseInt(this.state.numberOfRepeats))||parseInt(this.state.numberOfRepeats) < 1))||
                           isNaN(parseInt(this.state.repeatEvery))||parseInt(this.state.repeatEvery) < 1}
@@ -191,5 +215,5 @@ class Repeat extends Component {
     };
 
     export default connect(mapStateToProps, {
-      addRepeat
+      addRepeat, deleteRepeat, editRepeat
     })(Repeat);

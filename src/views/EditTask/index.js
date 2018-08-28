@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import {startTaskLoading,startTaskProjectsLoading,startStatusesLoading,getTask,
-  getTaskStatuses,getTaskProjects,startCompaniesLoading,getTaskCompanies,
-startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
- startUnitsLoading, getTaskUnits, deleteTaskSolvers,startCommentsLoading, getComments,
-startUsersLoading, getUsers,startFollowersLoading, getFollowers,clearErrorMessage,
-startSubtasksLoading, getSubtasks,startItemsLoading,getItems,setActiveRequests } from '../../redux/actions';
+import {  startTaskLoading,startTaskProjectsLoading,startStatusesLoading,getTask,
+  getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
+  startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
+  startUnitsLoading, getTaskUnits, deleteTaskSolvers, startUsersLoading, getUsers,
+  startFollowersLoading, getFollowers,clearErrorMessage,setActiveRequests,
+  startCommentsLoading, getComments,startSubtasksLoading,getSubtasks,startItemsLoading,getItems,
+  setRepeatLoaded,getRepeat} from '../../redux/actions';
 import EditTask from './EditTask';
 import Loading from '../../components/Loading';
 
@@ -34,6 +35,7 @@ class EditTaskLoader extends Component {
     this.props.startCommentsLoading();
     this.props.startSubtasksLoading();
     this.props.startItemsLoading();
+    this.props.setRepeatLoaded(false);
 
     this.props.setActiveRequests(12);
     this.props.getSubtasks(this.state.taskID,this.props.token);
@@ -48,13 +50,14 @@ class EditTaskLoader extends Component {
     this.props.getTaskUnits(this.props.token);
     this.props.getUsers("",this.props.token);
     this.props.getFollowers(this.state.taskID,this.props.token);
+    this.props.getRepeat(this.state.taskID,this.props.token);
   }
 
   render(){
     if(!this.props.taskLoaded||!this.props.taskProjectsLoaded||!this.props.statusesLoaded||
       !this.props.companiesLoaded||!this.props.taskAttributesLoaded||!this.props.tagsLoaded||!this.props.unitsLoaded||
       !this.props.usersLoaded||!this.props.followersLoaded||!this.props.commentsLoaded||
-      !this.props.subtasksLoaded||!this.props.itemsLoaded){
+      !this.props.subtasksLoaded||!this.props.itemsLoaded||!this.props.repeatLoaded){
       return null;
     }
     return <EditTask history={this.props.history} match={this.props.match} taskID={this.state.taskID} tripod={this.props.tripod}/>
@@ -63,7 +66,7 @@ class EditTaskLoader extends Component {
 
 //all below is just redux storage
 const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,commentsReducer,tagsReducer,unitsReducer, usersReducer, followersReducer, taskAttributesReducer,subtasksReducer,itemsReducer, login }) => {
-  const {taskLoaded,taskProjectsLoaded } = tasksReducer;
+  const {taskLoaded,taskProjectsLoaded, repeatLoaded } = tasksReducer;
   const {statusesLoaded, updateDate } = statusesReducer;
   const {companiesLoaded } = companiesReducer;
   const {tagsLoaded} = tagsReducer;
@@ -75,7 +78,7 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,commen
     const {subtasksLoaded } = subtasksReducer;
     const {itemsLoaded } = itemsReducer;
   const {token} = login;
-  return {taskLoaded,taskProjectsLoaded,taskAttributesLoaded, statusesLoaded, statusesUpdateDate:updateDate,companiesLoaded,companiesUpdateDate:companiesReducer.updateDate,tagsLoaded,unitsLoaded, usersLoaded,followersLoaded,commentsLoaded,subtasksLoaded, itemsLoaded, token};
+  return {taskLoaded,taskProjectsLoaded,repeatLoaded,taskAttributesLoaded, statusesLoaded, statusesUpdateDate:updateDate,companiesLoaded,companiesUpdateDate:companiesReducer.updateDate,tagsLoaded,unitsLoaded, usersLoaded,followersLoaded,commentsLoaded,subtasksLoaded, itemsLoaded, token};
 };
 
 
@@ -85,4 +88,5 @@ export default connect(mapStateToProps, {
   startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
   startUnitsLoading, getTaskUnits, deleteTaskSolvers, startUsersLoading, getUsers,
   startFollowersLoading, getFollowers,clearErrorMessage,setActiveRequests,
-  startCommentsLoading, getComments,startSubtasksLoading,getSubtasks,startItemsLoading,getItems})(EditTaskLoader);
+  startCommentsLoading, getComments,startSubtasksLoading,getSubtasks,startItemsLoading,getItems,
+  setRepeatLoaded,getRepeat})(EditTaskLoader);
