@@ -28,10 +28,28 @@ class Repeat extends Component {
       repeatStart:defaultState.repeatStart?defaultState.repeatStart:moment(),
       repeatEvery:defaultState.repeatEvery?defaultState.repeatEvery:0,
       repeatFrequency:defaultState.repeatFrequency?defaultState.repeatFrequency:'week',
-      numberOfRepeats:defaultState.numberOfRepeats?defaultState.numberOfRepeats:1,
       repeatUntil:defaultState.repeatUntil?defaultState.repeatUntil:'forever',
+      numberOfRepeats:defaultState.numberOfRepeats?defaultState.numberOfRepeats:1,
       added: this.props.defaultState ? true : false
     };
+    this.submit.bind(this);
+  }
+
+  submit(){
+    let body={
+      title:'repeat',
+      startAt:Math.ceil(this.state.repeatStart.valueOf() / 1000),
+      interval:this.state.repeatFrequency,
+      intervalLength: this.state.repeatEvery,
+    }
+    if(this.state.repeatUntil==='number'){
+      body.repeatsNumber=parseInt(this.state.numberOfRepeats);
+    }
+    if(!this.state.added){
+      this.props.addRepeat(body,this.props.taskID,this.props.token);
+    }
+    this.setState({added:true});
+    this.props.onToogle();
   }
 
   render() {
@@ -151,17 +169,7 @@ class Repeat extends Component {
                       <button
                         disabled={(this.state.repeatUntil==='number' && (isNaN(parseInt(this.state.numberOfRepeats))||parseInt(this.state.numberOfRepeats) < 1))||
                           isNaN(parseInt(this.state.repeatEvery))||parseInt(this.state.repeatEvery) < 1}
-                        onClick={()=>{
-                          if(!this.state.added){
-                            this.props.addRepeat({title:'repeat',
-                              startAt:Math.ceil(this.state.repeatStart.valueOf() / 1000),
-                              interval:this.state.repeatFrequency,
-                              intervalLength: this.state.repeatUntil==='number'?parseInt(this.state.numberOfRepeats):999,
-                            },this.props.taskID,this.props.token);
-                          }
-                          this.setState({added:true});
-                          this.props.onToogle();
-                        }}
+                        onClick={this.submit.bind(this)}
                         className="btn btn-primary">
                         {i18n.t('submit')}
                       </button>

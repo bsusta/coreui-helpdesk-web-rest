@@ -81,7 +81,7 @@ class AddTask extends Component {
 			requestedBy: this.props.users[this.props.users.findIndex(user => user.id === this.props.user.id)],
 			status: this.props.statuses.length > 0 ? this.props.statuses[0].id : null,
 			tags: [],
-			title: 'Task',
+			title: '',
 			workTime: '',
 			work: 'vzdialena podpora',
 			newTags: [],
