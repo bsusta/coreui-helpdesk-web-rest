@@ -26,6 +26,7 @@ class UsersList extends Component {
   }
 
   getFilteredData() {
+    console.log(this.props.users);
     return this.props.users
       .filter(item =>
         (item.name + " " + item.surname)
@@ -44,12 +45,14 @@ class UsersList extends Component {
       .filter(
         item =>
           item.is_active ==
-            (this.state.active.toLowerCase().includes("y") ||
-              this.state.active.toLowerCase().includes("t") ||
-              this.state.active.toLowerCase().includes("c")) ||
+          (this.state.active.toLowerCase().includes("y") ||
+          this.state.active.toLowerCase().includes("an") ||
+          this.state.active.toLowerCase().includes("á") ||
+          this.state.active.toLowerCase().includes("t") ||
+          this.state.active.toLowerCase().includes("c")) ||
           this.state.active == ""
       )
-      .sort((item, item2) => item.surname > item2.surname);
+      .sort((item, item2) => item.email > item2.email?1:-1)
   }
 
   render() {

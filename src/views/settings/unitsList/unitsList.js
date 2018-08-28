@@ -16,7 +16,7 @@ class UnitsList extends Component {
     this.state = {
       title: "",
       shortcut: "",
-      activated: ""
+      active: ""
     };
     this.getFilteredData.bind(this);
   }
@@ -33,12 +33,14 @@ class UnitsList extends Component {
       .filter(
         item =>
           item.is_active ==
-            (this.state.activated.toLowerCase().includes("y") ||
-              this.state.activated.toLowerCase().includes("t") ||
-              this.state.activated.toLowerCase().includes("c")) ||
-          this.state.activated == ""
+          (this.state.active.toLowerCase().includes("y") ||
+          this.state.active.toLowerCase().includes("an") ||
+          this.state.active.toLowerCase().includes("á") ||
+          this.state.active.toLowerCase().includes("t") ||
+          this.state.active.toLowerCase().includes("c")) ||
+          this.state.active == ""
       )
-      .sort((item, item2) => item.title > item2.title);
+      .sort((item, item2) => item.title > item2.title?1:-1);
   }
 
   render() {
@@ -64,7 +66,7 @@ class UnitsList extends Component {
               <tr>
                 <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('shortcut')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
+                <th style={{ borderTop: "0px" }}>{i18n.t('active')}</th>
               </tr>
             </thead>
             <tbody>
@@ -91,9 +93,9 @@ class UnitsList extends Component {
                   <Input
                     type="text"
                     id="input1-group1"
-                    value={this.state.activated}
+                    value={this.state.active}
                     name="input1-group1"
-                    onChange={e => this.setState({ activated: e.target.value })}
+                    onChange={e => this.setState({ active: e.target.value })}
                   />
                 </th>
               </tr>

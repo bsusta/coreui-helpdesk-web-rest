@@ -33,9 +33,11 @@ class CompanyAttributesList extends Component {
       .filter(
         item =>
           item.is_active ==
-            (this.state.active.toLowerCase().includes("y") ||
-              this.state.active.toLowerCase().includes("t") ||
-              this.state.active.toLowerCase().includes("c")) ||
+          (this.state.active.toLowerCase().includes("y") ||
+          this.state.active.toLowerCase().includes("an") ||
+          this.state.active.toLowerCase().includes("á") ||
+          this.state.active.toLowerCase().includes("t") ||
+          this.state.active.toLowerCase().includes("c")) ||
           this.state.active == ""
       )
       .filter(
@@ -46,8 +48,7 @@ class CompanyAttributesList extends Component {
               this.state.required.toLowerCase().includes("c")) ||
           this.state.required == ""
       )
-      .sort((item, item2) => item.title > item2.title)
-      .sort((item, item2) => item2.is_active - item.is_active);
+      .sort((item, item2) => item.title > item2.title?1:-1)
   }
 
   render() {

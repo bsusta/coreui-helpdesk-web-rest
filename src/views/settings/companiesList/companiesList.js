@@ -33,12 +33,13 @@ class CompaniesList extends Component {
         item =>
           item.is_active ==
             (this.state.active.toLowerCase().includes("y") ||
-              this.state.active.toLowerCase().includes("t") ||
-              this.state.active.toLowerCase().includes("c")) ||
+            this.state.active.toLowerCase().includes("an") ||
+            this.state.active.toLowerCase().includes("á") ||
+            this.state.active.toLowerCase().includes("t") ||
+            this.state.active.toLowerCase().includes("c")) ||
           this.state.active == ""
       )
-      .sort((item, item2) => item.title > item2.title)
-      .sort((item, item2) => item2.is_active - item.is_active);
+      .sort((item, item2) => item.title > item2.title ?1:-1)
   }
 
   render() {
@@ -66,7 +67,7 @@ class CompaniesList extends Component {
               <tr>
                 <th className="td-small" style={{ borderTop: "0px" }}>{i18n.t('id')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('title')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>         
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
               </tr>
             </thead>
             <tbody>

@@ -130,18 +130,22 @@ class Subtasks extends Component {
         </table>
         {/* Subtasks ends, materials starts*/}
 
-        <table className="table table-hover table-sm table-in-form">
+        <table className="table table-hover table-sm table-noBorder table-in-form">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ border: "0px" }}>{i18n.t('invoiceableItems')}</th>
-              <th style={{ width: "10%", border: "0px" }}>{i18n.t('amount')}</th>
-              <th style={{ width: "10%", border: "0px" }}>{i18n.t('pricePerUnit')}</th>
-              <th style={{ width: "15%", border: "0px" }}>{i18n.t('unit')}</th>
+              <th style={{ border: "0px" }}>  {i18n.t('invoiceableItems')}</th>
+              <th style={{ width: "10%", border: "0px" }}>  {i18n.t('amount')}</th>
+              <th style={{ width: "15%", border: "0px" }}>  {i18n.t('unit')}</th>
+              <th style={{ width: "10%", border: "0px" }}>  {i18n.t('pricePerUnit')}</th>
+              <th
+                style={{ width: "40px", border: "0px", textAlign: "right" }}
+              />
             </tr>
+
           </thead>
           <tbody>
             {this.props.materials.map(material => (
-              <tr key={material.id}>
+              <tr key={material.id} className="invoiceRow">
                 <td>
                   <input
                     style={{ border: "none" }}
@@ -175,22 +179,6 @@ class Subtasks extends Component {
                   />
                 </td>
                 <td>
-                  <input
-                    style={{ border: "none" }}
-                    type="text"
-                    value={material.unit_price}
-                    onChange={(e) =>{
-                        let materials = [...this.props.materials];
-                        let index = materials.findIndex((mat)=>mat.id===material.id);
-                        material.unit_price=e.target.value;
-                        materials[index]= material;
-                        this.props.onChangeMaterials(materials);
-                    }}
-                    className="form-control"
-                    placeholder={i18n.t('pricePerUnit')}
-                  />
-                </td>
-                <td>
                   <select
                     className="form-control"
                     value={material.unit}
@@ -210,7 +198,22 @@ class Subtasks extends Component {
                     ))}
                   </select>
                 </td>
-
+                <td>
+                  <input
+                    style={{ border: "none" }}
+                    type="text"
+                    value={material.unit_price}
+                    onChange={(e) =>{
+                        let materials = [...this.props.materials];
+                        let index = materials.findIndex((mat)=>mat.id===material.id);
+                        material.unit_price=e.target.value;
+                        materials[index]= material;
+                        this.props.onChangeMaterials(materials);
+                    }}
+                    className="form-control"
+                    placeholder={i18n.t('pricePerUnit')}
+                  />
+                </td>
                 <td>
                   <button
                     style={{ float: "right" }}
@@ -272,6 +275,21 @@ class Subtasks extends Component {
                 />
               </td>
               <td>
+                <select
+                  className="form-control"
+                  value={this.state.newItemUnit}
+                  id="status"
+                  onChange={e => {
+                    this.setState({ newItemUnit: e.target.value });
+                  }}>
+                  {this.props.units.map(unit => (
+                    <option key={unit.id} value={unit.id}>
+                      {unit.title}
+                    </option>
+                  ))}
+                </select>
+              </td>
+              <td  colSpan="2">
                 <input
                   type="text"
                   value={this.state.newItemPrice}
@@ -293,21 +311,6 @@ class Subtasks extends Component {
                   }
                   className="form-control"
                 />
-              </td>
-              <td>
-                <select
-                  className="form-control"
-                  value={this.state.newItemUnit}
-                  id="status"
-                  onChange={e => {
-                    this.setState({ newItemUnit: e.target.value });
-                  }}>
-                  {this.props.units.map(unit => (
-                    <option key={unit.id} value={unit.id}>
-                      {unit.title}
-                    </option>
-                  ))}
-                </select>
               </td>
             </tr>
             <tr className="table-info">

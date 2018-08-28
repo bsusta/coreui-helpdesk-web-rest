@@ -42,12 +42,14 @@ class ImapsList extends Component {
       .filter(
         item =>
           item.is_active ==
-            (this.state.is_active.toLowerCase().includes("y") ||
-              this.state.is_active.toLowerCase().includes("t") ||
-              this.state.is_active.toLowerCase().includes("c")) ||
+          (this.state.active.toLowerCase().includes("y") ||
+          this.state.active.toLowerCase().includes("an") ||
+          this.state.active.toLowerCase().includes("á") ||
+          this.state.active.toLowerCase().includes("t") ||
+          this.state.active.toLowerCase().includes("c")) ||
           this.state.is_active == ""
       )
-      .sort((item, item2) => item.inbox_email > item2.inbox_email);
+      .sort((item, item2) => item.inbox_email > item2.inbox_email?1:-1);
   }
 
   render() {

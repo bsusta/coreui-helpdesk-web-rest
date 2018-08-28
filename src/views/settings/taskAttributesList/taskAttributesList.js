@@ -33,20 +33,24 @@ class taskAttributesList extends Component {
       .filter(
         item =>
           item.is_active ==
-            (this.state.active.toLowerCase().includes("y") ||
-              this.state.active.toLowerCase().includes("t") ||
-              this.state.active.toLowerCase().includes("c")) ||
+          (this.state.active.toLowerCase().includes("y") ||
+          this.state.active.toLowerCase().includes("an") ||
+          this.state.active.toLowerCase().includes("á") ||
+          this.state.active.toLowerCase().includes("t") ||
+          this.state.active.toLowerCase().includes("c")) ||
           this.state.active == ""
       )
       .filter(
         item =>
           item.required ==
-            (this.state.required.toLowerCase().includes("y") ||
-              this.state.required.toLowerCase().includes("t") ||
-              this.state.required.toLowerCase().includes("c")) ||
+          (this.state.required.toLowerCase().includes("y") ||
+          this.state.required.toLowerCase().includes("an") ||
+          this.state.required.toLowerCase().includes("á") ||
+          this.state.required.toLowerCase().includes("t") ||
+          this.state.required.toLowerCase().includes("c")) ||
           this.state.required == ""
       )
-      .sort((item, item2) => item.title > item2.title);
+      .sort((item, item2) => item.title > item2.title?1:-1);
   }
 
   render() {

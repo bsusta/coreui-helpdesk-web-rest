@@ -36,12 +36,14 @@ class StatusesList extends Component {
       .filter(
         item =>
           item.is_active ==
-            (this.state.active.toLowerCase().includes("y") ||
-              this.state.active.toLowerCase().includes("t") ||
-              this.state.active.toLowerCase().includes("c")) ||
+          (this.state.active.toLowerCase().includes("y") ||
+          this.state.active.toLowerCase().includes("an") ||
+          this.state.active.toLowerCase().includes("á") ||
+          this.state.active.toLowerCase().includes("t") ||
+          this.state.active.toLowerCase().includes("c")) ||
           this.state.active == ""
       )
-      .sort((item, item2) => item.order > item2.order);
+      .sort((item, item2) => item.order > item2.order?1:-1);
   }
 
   render() {
@@ -67,9 +69,9 @@ class StatusesList extends Component {
               <tr>
               <th className="td-small" style={{ borderTop: "0px" }}>{i18n.t('order')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('name')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('color')}</th> 
+                <th style={{ borderTop: "0px" }}>{i18n.t('color')}</th>
                 <th style={{ borderTop: "0px" }}>{i18n.t('description')}</th>
-                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th> 
+                <th style={{ borderTop: "0px" }}>{i18n.t('activated')}</th>
               </tr>
             </thead>
             <tbody>
@@ -152,7 +154,7 @@ class StatusesList extends Component {
                       <span className="badge badge-danger">No</span>
                     )}
                   </td>
-        
+
                 </tr>
               ))}
             </tbody>

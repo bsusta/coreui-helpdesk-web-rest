@@ -156,8 +156,8 @@ class Subtasks extends Component {
             <tr>
               <th style={{ border: "0px" }}>  {i18n.t('invoiceableItems')}</th>
               <th style={{ width: "10%", border: "0px" }}>  {i18n.t('amount')}</th>
-              <th style={{ width: "10%", border: "0px" }}>  {i18n.t('pricePerUnit')}</th>
               <th style={{ width: "15%", border: "0px" }}>  {i18n.t('unit')}</th>
+              <th style={{ width: "10%", border: "0px" }}>  {i18n.t('pricePerUnit')}</th>
               <th
                 style={{ width: "40px", border: "0px", textAlign: "right" }}
               />
@@ -241,6 +241,32 @@ class Subtasks extends Component {
                   />
                 </td>
                 <td>
+                  <select
+                    className="form-control"
+                    value={item.unit.id}
+                    id="status"
+                    onChange={e => {
+                      this.props.editItem(
+                        {
+                          title: item.title,
+                          amount: item.amount,
+                          unit_price: item.unit_price
+                        },
+                        item.id,
+                        e.target.value,
+                        this.props.taskID,
+                        this.props.token
+                      );
+                    }}
+                  >
+                    {this.props.units.map(unit => (
+                      <option key={unit.id} value={unit.id}>
+                        {unit.title}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td>
                   <input
                     style={{ border: "none" }}
                     type="text"
@@ -276,32 +302,6 @@ class Subtasks extends Component {
                     className="form-control"
                     placeholder={i18n.t('pricePerUnit')}
                   />
-                </td>
-                <td>
-                  <select
-                    className="form-control"
-                    value={item.unit.id}
-                    id="status"
-                    onChange={e => {
-                      this.props.editItem(
-                        {
-                          title: item.title,
-                          amount: item.amount,
-                          unit_price: item.unit_price
-                        },
-                        item.id,
-                        e.target.value,
-                        this.props.taskID,
-                        this.props.token
-                      );
-                    }}
-                  >
-                    {this.props.units.map(unit => (
-                      <option key={unit.id} value={unit.id}>
-                        {unit.title}
-                      </option>
-                    ))}
-                  </select>
                 </td>
 
                 <td>
@@ -383,6 +383,22 @@ class Subtasks extends Component {
                 />
               </td>
               <td>
+                <select
+                  className="form-control"
+                  value={this.state.newItemUnit}
+                  id="status"
+                  onChange={e => {
+                    this.setState({ newItemUnit: e.target.value });
+                  }}
+                >
+                  {this.props.units.map(unit => (
+                    <option key={unit.id} value={unit.id}>
+                      {unit.title}
+                    </option>
+                  ))}
+                </select>
+              </td>
+              <td colSpan="2">
                 <input
                   onKeyPress={(e)=>{
                     if(e.key==='Enter'){
@@ -412,22 +428,6 @@ class Subtasks extends Component {
                   }
                   className="form-control"
                 />
-              </td>
-              <td colSpan="2">
-                <select
-                  className="form-control"
-                  value={this.state.newItemUnit}
-                  id="status"
-                  onChange={e => {
-                    this.setState({ newItemUnit: e.target.value });
-                  }}
-                >
-                  {this.props.units.map(unit => (
-                    <option key={unit.id} value={unit.id}>
-                      {unit.title}
-                    </option>
-                  ))}
-                </select>
               </td>
             </tr>
             <tr className="table-info">

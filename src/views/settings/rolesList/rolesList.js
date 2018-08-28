@@ -28,12 +28,14 @@ class RolesList extends Component {
       .filter(
         item =>
           item.is_active ==
-            (this.state.active.toLowerCase().includes("y") ||
-              this.state.active.toLowerCase().includes("t") ||
-              this.state.active.toLowerCase().includes("c")) ||
+          (this.state.active.toLowerCase().includes("y") ||
+          this.state.active.toLowerCase().includes("an") ||
+          this.state.active.toLowerCase().includes("á") ||
+          this.state.active.toLowerCase().includes("t") ||
+          this.state.active.toLowerCase().includes("c")) ||
           this.state.active == ""
       )
-      .sort((item, item2) => item.order > item2.order);
+      .sort((item, item2) => item.order > item2.order?1:-1);
   }
 
   render() {
