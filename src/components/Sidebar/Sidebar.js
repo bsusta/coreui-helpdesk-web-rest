@@ -51,18 +51,14 @@ class Sidebar extends Component {
     e.target.parentElement.classList.toggle("open");
   }
 
-  activeRoute(routeName, props) {
-    // return this.props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
-    return props.location.pathname.indexOf(routeName) > -1
-      ? "nav-item nav-dropdown"
-      : "nav-item nav-dropdown";
+  activeRoute(routeName, url) {
+    return url.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
   }
 
   render() {
-    const props = this.props;
     const activeRoute = this.activeRoute;
     const handleClick = this.handleClick;
-
+    const url = this.props.history.location.pathname;
     // badge addon to NavItem
     const badge = badge => {
       if (badge) {
@@ -147,7 +143,7 @@ class Sidebar extends Component {
                     {i18n.t('viewProject')}
                   </NavLink>
                 </NavItem>}
-            <li key={this.props.sidebar.filters.key} className={activeRoute(this.props.sidebar.filters.url, props) + (this.props.sidebar.filters.open?" open ": "") + " fontRegular sidebarSize"}>
+            <li key={this.props.sidebar.filters.key} className={activeRoute('filter', url) + (this.props.sidebar.filters.open?" open ": "") + " fontRegular sidebarSize"}>
                 <a
                   className="nav-link nav-dropdown-toggle"
                   href="#"
@@ -164,7 +160,7 @@ class Sidebar extends Component {
                     <NavItem key={index} className={classNames(item.class)}>
                       <NavLink
                         onClick={()=>this.setState({filterSelected:item.id,tagSelected:null})}
-                        to={item.url ? item.url+'/project/'+this.state.project.value+'/1,'+this.props.body.count : ""}
+                        to={item.url ? item.url+'/project/'+this.state.project.value : ""}
                         className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
                         activeClassName="active activeNavItem fontBold">
                         {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
@@ -188,7 +184,7 @@ class Sidebar extends Component {
                   )}
                 </ul>
               </li>
-              <li key={this.props.sidebar.tags.key} className={activeRoute(this.props.sidebar.tags.url, props) + (this.props.sidebar.tags.open?" open ": "") + " fontRegular sidebarSize"}>
+              <li key={this.props.sidebar.tags.key} className={activeRoute('tag', url) + (this.props.sidebar.tags.open?" open ": "") + " fontRegular sidebarSize"}>
                   <a
                     className="nav-link nav-dropdown-toggle"
                     href="#"
@@ -205,7 +201,7 @@ class Sidebar extends Component {
                       <NavItem key={index} className={classNames(item.class)}>
                         <NavLink
                           onClick={()=>{this.setState({filterSelected:null,tagSelected:item.id});console.log(item);}}
-                          to={item.url ? item.url+'/project/'+this.state.project.value+'/1,'+this.props.body.count  : ""}
+                          to={item.url ? item.url+'/project/'+this.state.project.value  : ""}
                           className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
                           activeClassName="active activeNavItem fontBold">
                           {item.icon && <i className={item.icon+ ' sidebarIcon'} />}

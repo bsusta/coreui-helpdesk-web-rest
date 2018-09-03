@@ -47,7 +47,7 @@ export default class Pag extends Component {
                   this.props.setPageNumber(this.props.pageNumber-1);
                   }
                 }
-                href={1>=this.props.pageNumber?null:("/"+this.props.link+"/"+(this.props.pageNumber-1)+","+this.state.pagination)}
+                href={this.props.pageNumber<=1?null:("/"+this.props.link+"/"+(this.props.pageNumber-1)+","+this.state.pagination)}
                 >
                 Prev
               </PaginationLink>
@@ -103,7 +103,6 @@ export default class Pag extends Component {
             </PaginationItem>
             }
 
-
             {
               this.props.pageNumber!=1 && this.props.pageNumber!=this.props.numberOfPages &&
               <PaginationItem active={true} className="paginationItem">
@@ -155,7 +154,7 @@ export default class Pag extends Component {
               </PaginationItem>
             }
             {
-              (this.props.pageNumber!=1||this.props.numberOfPages!=this.props.pageNumber) &&
+              (this.props.pageNumber!=1||(this.props.numberOfPages!=this.props.pageNumber&& this.props.numberOfPages!==0)) &&
               <PaginationItem active={this.props.numberOfPages==this.props.pageNumber} className="paginationItem">
                 <PaginationLink href={"/"+this.props.link+"/"+this.props.numberOfPages+","+this.state.pagination}
                   onClick={(e)=>{
@@ -244,7 +243,7 @@ export default class Pag extends Component {
               value={this.state.pagination}
               onChange={(value)=>{
                 this.setState({pagination:value.target.value});
-                this.props.setPageNumber(this.props.numberOfPages>0?1:0);
+                this.props.setPageNumber(1);
                 this.refetch(value.target.value,1);
                 if(this.props.onPaginationChange){
                   this.props.onPaginationChange(value.target.value);

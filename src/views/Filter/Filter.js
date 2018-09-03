@@ -144,7 +144,7 @@ class Filter extends Component {
 	}
 
 	applyFilter() {
-		this.props.setFilterBody({body:this.state});
+		this.props.setFilterBody({body:this.state, page:1});
 	}
 
 	createState(restore) {

@@ -37,18 +37,21 @@ class Loader extends Component {
     }
     if(urlData.count){
       body.count=urlData.count;
+    }else{
+      body.count=this.props.body.count;      
     }
     if(urlData.page){
       body.page=urlData.page;
+    }else{
+      body.page=1;
     }
-    if(body.filterID!==null){
+    if(body.filterID!==null ){
       if(body.filterID!=='add'){
       this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.history,body,this.props.token);
       }else{
         this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,body,this.props.token);
       }
-    }
-    else{
+    }else{
       this.props.loadUnsavedFilter(body,this.props.taskAttributes,this.props.token);
     }
     this.props.setFilterBody(body);
@@ -67,10 +70,10 @@ class Loader extends Component {
   componentWillReceiveProps(props){
     //ak sa zmeni filter, nacitaj ho
     if(JSON.stringify(this.props.body)!==JSON.stringify(props.body)){
-      console.log('something has changed in body');
-      console.log(props.body.filterID);
-      if(props.body.filterID!==null){
-        console.log('filter has changed');
+      //console.log('something has changed in body');
+      //console.log(props.body.filterID);
+      if(props.body.filterID!==null  && props.body.filterID!==this.props.body.filterID){
+        //console.log('filter has changed');
         if(props.body.filterID!=='add'){
         this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.history,props.body,this.props.token);
         }else{
@@ -78,8 +81,8 @@ class Loader extends Component {
         }
       }
       else{
-        console.log('from change watcher');
-        console.log(props.body);
+        //console.log('from change watcher');
+        //console.log(props.body);
         this.props.loadUnsavedFilter(props.body,this.props.taskAttributes,this.props.token);
       }
     }
@@ -90,8 +93,8 @@ class Loader extends Component {
       this.props.match.params.count!=props.match.params.count||
       this.props.match.params.id!==props.match.params.id
     ){
-      console.log('something has changed in parameters');
-      console.log(props.match);
+      //console.log('something has changed in parameters');
+      //console.log(props.match);
       let urlData=props.match.params;
       let body={body:props.body.body};
       if(urlData.id){
@@ -124,15 +127,18 @@ class Loader extends Component {
       if(urlData.page){
         body.page=urlData.page;
       }
-      console.log(body);
-      console.log('change of params');
+      if(this.props.match.params.projectID!==props.match.params.projectID||
+      this.props.match.params.tagID!==props.match.params.tagID||
+      this.props.match.params.id!==props.match.params.id){
+        body.page=1;
+      }
+      //console.log(body);
+      //console.log('change of params');
       this.props.setFilterBody(body);
     }
   }
 
   render(){
-    console.log('current body');
-    console.log(this.props.body);
       return <Tasks history={this.props.history} match={this.props.match} />
     }
 }
