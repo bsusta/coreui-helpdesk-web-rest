@@ -33,7 +33,7 @@ class UserAdd extends Component {
 			linkdin: '',
 			google: '',
 			image: '',
-			userRole: this.props.userRoles.filter(item => item.order >= this.props.user.user_role.order)[0].id,
+      userRole:this.props.userRoles.sort((item,item2) => item.order < item2.order?1:-1)[0].id,
 			company: this.props.companies[0].id,
 			image: null,
 			imageURL: null,
