@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 
-import Tasks from './Tasks';
+import Tasks from './main';
 import Loading from '../../components/Loading';
 import {createEmptyFilterBody} from '../../helperFunctions';
 
@@ -38,7 +38,7 @@ class Loader extends Component {
     if(urlData.count){
       body.count=urlData.count;
     }else{
-      body.count=this.props.body.count;      
+      body.count=this.props.body.count;
     }
     if(urlData.page){
       body.page=urlData.page;

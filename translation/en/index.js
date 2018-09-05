@@ -1,4 +1,5 @@
 export default {
+  followers:'Followers',
   noRepeat:'No repeat',
   repeat:'Repeat',
   repeatStart:'Start of repeat',

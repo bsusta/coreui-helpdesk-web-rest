@@ -16,25 +16,27 @@ class EditTaskLoader extends Component {
     super(props);
     this.state={
       randomFloat:Math.random(),
-      taskID:this.props.match.params.task?parseInt(this.props.match.params.task, 10):this.props.taskID,
+      taskID:this.props.match.params.taskID?parseInt(this.props.match.params.taskID, 10):this.props.taskID,
     }
   }
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
-    this.props.startTaskLoading();
-    this.props.startTaskProjectsLoading();
-    this.props.startStatusesLoading();
-    this.props.startCompaniesLoading();
-    this.props.startTaskAttributesLoading();
-    this.props.startTagsLoading();
-    this.props.startUnitsLoading();
-    this.props.startUsersLoading();
+    if(!this.props.tripod){
+      this.props.startTaskProjectsLoading();
+      this.props.startStatusesLoading();
+      this.props.startCompaniesLoading();
+      this.props.startTaskAttributesLoading();
+      this.props.startTagsLoading();
+      this.props.startUnitsLoading();
+      this.props.startUsersLoading();
+    }
     this.props.deleteTaskSolvers();
-    this.props.startFollowersLoading();
-    this.props.startCommentsLoading();
     this.props.startSubtasksLoading();
     this.props.startItemsLoading();
+    this.props.startCommentsLoading();
+    this.props.startTaskLoading();
+    this.props.startFollowersLoading();
     this.props.setRepeatLoaded(false);
 
     this.props.setActiveRequests(12);

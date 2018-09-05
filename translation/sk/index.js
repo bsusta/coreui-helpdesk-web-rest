@@ -1,4 +1,5 @@
 export default {
+  followers:'Followeri',
   repeat:'Opakovanie',
   noRepeat:'Žiadne opakovanie',
   repeatStart:'Začiatok opakovania',

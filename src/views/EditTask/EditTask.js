@@ -125,7 +125,6 @@ class EditTask extends Component {
       : Object.values(this.props.task.taskHasAssignedUsers)[0].user.id,
       attachments: [],
       task_data,
-      followers: this.props.followers.map(follower => follower.id),
       submitError,
       openAddUser:false,
       openAddCompany:false,
@@ -678,6 +677,53 @@ class EditTask extends Component {
                               </FormGroup>
 
                               <FormGroup>
+                                <label htmlFor="followers" className="input-label">
+                                  {i18n.t('followers')}
+                                </label>
+                                <InputGroup>
+                                  <InputGroupAddon>
+                                    <i className="fa fa-user-plus" />
+                                  </InputGroupAddon>
+                                <Select
+                                 styles={colourStyles}
+                                 className="fullWidth"
+                                  options={this.props.users.map(user => {
+                                    user.label = user.email;
+                                    user.value = user.id;
+                                    return user;
+                                  })}
+                                  isMulti
+                                  value={this.props.followers.map(user => {
+                                    user.label = user.email;
+                                    user.value = user.id;
+                                    return user;
+                                  })}
+                                  onChange={(e) => {
+                                    let newFollowers = e.map((user)=>user.id);
+                                    let oldFollowers = this.props.followers.map((user)=>user.id);
+                                    let added=newFollowers.filter((id)=>!oldFollowers.includes(id));
+                                    let removed=oldFollowers.filter((id)=>!newFollowers.includes(id));
+                                    added.map((item)=>{
+                                      this.props.addFollower(
+                                        item,
+                                        this.props.task.id,
+                                        this.props.token
+                                      );
+                                    });
+
+                                    removed.map((item)=>{
+                                    this.props.deleteFollower(
+                                      item,
+                                      this.props.task.id,
+                                      this.props.token
+                                    );
+                                  });
+                                  }}
+                                />
+                              </InputGroup>
+                              </FormGroup>
+
+                              <FormGroup>
                                 <label htmlFor="work" className="input-label">{i18n.t("work")}</label>
                                 <InputGroup>
                                   <InputGroupAddon>
@@ -874,75 +920,6 @@ class EditTask extends Component {
                                   </div>
                                 </div>
 
-                                <div className="form-group">
-                                  <MultiSelect
-                                    data={this.props.users}
-                                    displayValue="email"
-                                    selectedIds={this.props.followers.map(
-                                      follower => follower.id
-                                    )}
-                                    limit={true}
-                                    idValue="id"
-                                    filterBy="email"
-                                    display="column"
-                                    colored={false}
-                                    menuItemStyle={{
-                                      marginLeft: 7,
-                                      marginRight: 7,
-                                      marginTop: 2,
-                                      marginBottom: 2,
-                                      paddingTop: 2,
-                                      paddingBottom: 2
-                                    }}
-                                    renderItem={item => (
-                                      <div
-                                        className="badge"
-                                        key={item.id}
-                                        style={{
-                                          borderRadius: "3px",
-                                          paddingLeft: 10,
-                                          paddingRight: 10,
-                                          paddingTop: 5,
-                                          paddingBottom: 5,
-                                          marginLeft: 5,
-                                          width: "100%"
-                                        }}
-                                        >
-                                        {item.email + " (" + item.username + ")"}
-                                      </div>
-                                    )}
-                                    titleStyle={{
-                                      color: "black",
-                                      size: "0.875rem"
-                                    }}
-                                    toggleStyle={{
-
-                                      border: "none",
-                                      padding: 0,
-                                      fontSize: "0.875rem"
-                                    }}
-                                    label={i18n.t("selectFollowers")}
-                                    labelStyle={{ marginLeft: 10 }}
-                                    searchStyle={{ margin: 5 }}
-                                    onChange={(ids, items, item) => {
-                                      if (
-                                        ids.map(id => id.toString()).includes(item.toString())
-                                      ) {
-                                        this.props.addFollower(
-                                          item,
-                                          this.props.task.id,
-                                          this.props.token
-                                        );
-                                      } else {
-                                        this.props.deleteFollower(
-                                          item,
-                                          this.props.task.id,
-                                          this.props.token
-                                        );
-                                      }
-                                    }}
-                                    />
-                                </div>
                                 {this.props.taskAttributes.filter((item)=>item.is_active).map(attribute => {
                                   switch (attribute.type) {
                                     case "input":

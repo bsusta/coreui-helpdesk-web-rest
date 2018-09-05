@@ -151,7 +151,7 @@ class AddTask extends Component {
 			},
 			this.state.subtasks,
 			this.state.materials,
-			this.state.followers,
+			this.state.followers.map((user)=>user.id),
 			state.project,
 			state.status,
 			state.requestedBy.id,
@@ -570,6 +570,32 @@ class AddTask extends Component {
 										</InputGroup>
 									</FormGroup>
 
+	                <FormGroup>
+	                  <label htmlFor="followers" className="input-label">
+	                    {i18n.t('followers')}
+	                  </label>
+	                  <InputGroup>
+	                    <InputGroupAddon>
+	                      <i className="fa fa-user-plus" />
+	                    </InputGroupAddon>
+	                  <Select
+	                   styles={colourStyles}
+	                   className="fullWidth"
+	                    options={this.props.users.map(user => {
+	                      user.label = user.email;
+	                      user.value = user.id;
+	                      return user;
+	                    })}
+	                    isMulti
+	                    value={this.state.followers}
+	                    onChange={(e) => {
+	                      this.setState({followers:e});
+	                    }}
+	                  />
+	                </InputGroup>
+	                </FormGroup>
+
+
 									<FormGroup>
 										<label htmlFor="work" className="input-label">
 											{i18n.t('work')}
@@ -820,59 +846,6 @@ class AddTask extends Component {
 												</span>
 											))}
 										</div>
-									</div>
-
-									<div className="form-group">
-										<MultiSelect
-											data={this.props.users}
-											displayValue="email"
-											selectedIds={this.state.followers}
-											limit={true}
-											idValue="id"
-											filterBy="email"
-											display="column"
-											colored={false}
-											menuItemStyle={{
-												marginLeft: 7,
-												marginRight: 7,
-												marginTop: 2,
-												marginBottom: 2,
-												paddingTop: 2,
-												paddingBottom: 2,
-											}}
-											renderItem={item => (
-												<div
-													className="badge"
-													key={item.id}
-													style={{
-														borderRadius: '3px',
-														paddingLeft: 10,
-														paddingRight: 10,
-														paddingTop: 5,
-														paddingBottom: 5,
-														marginLeft: 5,
-														width: '100%',
-													}}
-												>
-													{item.email + ' (' + item.username + ')'}
-												</div>
-											)}
-											titleStyle={{
-												color: 'black',
-												size: '0.875rem',
-											}}
-											toggleStyle={{
-												border: 'none',
-												padding: 0,
-												fontSize: '0.875rem',
-											}}
-											label={i18n.t('selectFollowers')}
-											labelStyle={{ marginLeft: 10 }}
-											searchStyle={{ margin: 5 }}
-											onChange={ids => {
-												this.setState({ followers: ids });
-											}}
-										/>
 									</div>
 
 									{this.props.taskAttributes.filter(item => item.is_active).map(attribute => {

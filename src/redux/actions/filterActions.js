@@ -36,7 +36,7 @@ export const startFilterLoading = (filterLoaded)=>{
 
 export const loadUnsavedFilter = (body,taskAttributes,token) => {
  return (dispatch) => {
-   console.log(filterBodyFromState(body.body,taskAttributes));
+   //console.log(filterBodyFromState(body.body,taskAttributes));
    fetch(TASKS_LIST+'?limit='+body.count+'&page='+body.page+'&'+body.order+(body.body?('&'+filterBodyFromState(body.body,taskAttributes)):""), {
      method: 'get',
      headers: {
@@ -118,7 +118,7 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
-          console.log('failed');
+          //console.log('failed');
           //processError(response,dispatch);
           return;
         }
@@ -136,7 +136,7 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
         }
         newBody.title=body.search;
         loadUnsavedFilter({...body,body:newBody},taskAttributes,token)(dispatch);
-        console.log('user filter set the body');
+        //console.log('user filter set the body');
         dispatch({ type: SET_FILTER_BODY,body:newBody,page:body.page });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         //save as body and state
@@ -172,9 +172,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
         else{
           body.projects=[];
         }
-        console.log('loading filter');
         loadUnsavedFilter({...body,body:newBody},taskAttributes,token)(dispatch);
-        console.log('loaded filter set the body');
         dispatch({ type: SET_FILTER_BODY,...body,body:newBody,filter:data.data,page:body.page });
         dispatch({ type: SET_FILTER_LOADING, filterLoaded:true });
         return;
