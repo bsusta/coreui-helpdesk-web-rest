@@ -1,4 +1,11 @@
 export default {
+  taskName:'Názov úlohy',
+  requestedBy:'Vyžiadané od',
+  assignedTo:'Priradené používateľovi',
+  workType:'Typ práce',
+  statusDate:'Dátum statusu',
+  workHours:'Odpracovaný čas',
+  totalWorkTime:'Celkový odpracovaný čas: ',
   followers:'Followeri',
   repeat:'Opakovanie',
   noRepeat:'Žiadne opakovanie',

@@ -1,4 +1,11 @@
 export default {
+  taskName:'Task name',
+  requestedBy:'Requested by',
+  assignedTo:'Assigned to',
+  workType:'Work type',
+  statusDate:'Status date',
+  workHours:'Work hours',
+  totalWorkTime:'Total work time: ',
   followers:'Followers',
   noRepeat:'No repeat',
   repeat:'Repeat',

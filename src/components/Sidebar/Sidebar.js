@@ -242,6 +242,43 @@ class Sidebar extends Component {
                     </NavItem>
                   </ul>
                 </li>
+                <li key="reports" className={activeRoute('tag', url) + " fontRegular sidebarSize"}>
+                    <a
+                      className="nav-link nav-dropdown-toggle"
+                      href="#"
+                      onClick={handleClick.bind(this)}
+                      >
+                      <i className="fa fa-filte" />
+                      {i18n.t('reports')}
+                    </a>
+                    <ul className="nav-dropdown-items fontLight sidebarSize">
+                      <NavItem key={'reportFilter'} className={classNames(undefined)}>
+                        <NavLink
+                          onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
+                          to={"/report/filter"}
+                          className={classNames("nav-link","")}
+                          activeClassName="active activeNavItem fontBold">
+                          <i className={'fa fa-plus sidebarIcon'} />
+                          <span className="sidebarItem">
+                          {i18n.t('report')}
+                          </span>
+                        </NavLink>
+                      </NavItem>
+                    </ul>
+                    <ul className="nav-dropdown-items fontLight sidebarSize">
+                      <NavItem key={'someFilter'} className={classNames(undefined)}>
+                        <NavLink
+                          onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
+                          to={"/report/1"}
+                          className={classNames("nav-link","")}
+                          activeClassName="active activeNavItem fontBold">
+                          <span className="sidebarItem">
+                          {"Some report"}
+                          </span>
+                        </NavLink>
+                      </NavItem>
+                    </ul>
+                  </li>
           </Nav>
         }
         </nav>
