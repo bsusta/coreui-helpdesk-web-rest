@@ -343,71 +343,269 @@ class EditTask extends Component {
                       </div>
                       <div>
 
-                        <FormGroup>
-                          <label htmlFor="status" className="input-label">{i18n.t("status")}</label>
-                          {this.state.closedAt &&
-                            <span style={{ float: "right" }}>
-                                {i18n.t("closedAt")}:{" "}
-                                {timestampToString(this.state.closedAt/1000)}
-                              </span>
-                            }
-                            <InputGroup>
-                              <InputGroupAddon>
-                                <i className="fa fa-list" />
-                              </InputGroupAddon>
-                              {this.state.status &&
+                        <div className="row">
+                          <div className="col-4" style={{border:'2px solid red'}}>
+                            <FormGroup>
+                              <label htmlFor="status" className="input-label">{i18n.t("status")}</label>
+                              {this.state.closedAt &&
+                                <span style={{ float: "right" }}>
+                                  {i18n.t("closedAt")}:{" "}
+                                  {timestampToString(this.state.closedAt/1000)}
+                                </span>
+                              }
+                              <InputGroup>
+                                <InputGroupAddon>
+                                  <i className="fa fa-list" />
+                                </InputGroupAddon>
+                                {this.state.status &&
                                   <span className="coloredSelect"
                                     style={{
                                       color:this.props.statuses.find(
-                                      status => status.id == this.state.status
-                                    ).color}}
-                                    ><i className="fa fa-circle" style={{paddingTop:10}}/></span>
-                              }
-                              <select
-                                className="form-control"
-                                style={{
-                                  borderLeft:'none',
-                                  paddingLeft:3,
-                                  color: this.props.statuses.find(
-                                    status => status.id == this.state.status
-                                  ).color
-                                }}
-                                value={this.state.status}
-                                id="status"
-                                onChange={e => {
-                                  this.autoSubmit("status", parseInt(e.target.value));
-                                  this.setState({ status: parseInt(e.target.value)});
-                                }}
-
-                                >
-                                {this.props.statuses.map(status => (
-                                  <option
-                                    key={status.id}
+                                        status => status.id == this.state.status
+                                      ).color}}
+                                      ><i className="fa fa-circle" style={{paddingTop:10}}/></span>
+                                  }
+                                  <select
+                                    className="form-control"
                                     style={{
-                                      color: "white",
-                                      backgroundColor: status.color
+                                      borderLeft:'none',
+                                      paddingLeft:3,
+                                      color: this.props.statuses.find(
+                                        status => status.id == this.state.status
+                                      ).color
                                     }}
-                                    value={status.id}
+                                    value={this.state.status}
+                                    id="status"
+                                    onChange={e => {
+                                      this.autoSubmit("status", parseInt(e.target.value));
+                                      this.setState({ status: parseInt(e.target.value)});
+                                    }}
+
                                     >
-                                    {status.title}
-                                  </option>
-                                ))}
-                              </select>
-                            </InputGroup>
-                          </FormGroup>
+                                    {this.props.statuses.map(status => (
+                                      <option
+                                        key={status.id}
+                                        style={{
+                                          color: "white",
+                                          backgroundColor: status.color
+                                        }}
+                                        value={status.id}
+                                        >
+                                        {status.title}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </InputGroup>
+                              </FormGroup>
+                            <FormGroup>
+                              <label htmlFor="project" className="req input-label">
+                                {i18n.t("project")}
+                              </label>
+                              <InputGroup>
+                                <InputGroupAddon>
+                                  <i className="fa fa-folder-o" />
+                                </InputGroupAddon>
+                                <select
+                                  className="form-control"
+                                  id="project"
+                                  value={this.state.project}
+                                  onChange={e => {
+                                    this.autoSubmit("project", {
+                                      project: e.target.value,
+                                      taskSolver: "null"
+                                    });
+                                    this.setState({
+                                      project: e.target.value,
+                                      taskSolver: "null"
+                                    });
+                                    this.setState({
+                                      project: e.target.value,
+                                      taskSolver: "null"
+                                    });
+                                    this.props.deleteTaskSolvers();
+                                    this.props.getTaskSolvers(
+                                      e.target.value,
+                                      this.props.token
+                                    );
+                                  }}
+                                  >
+                                  {this.props.taskProjects.map(project => (
+                                    <option key={project.id} value={project.id}>
+                                      {project.title}
+                                    </option>
+                                  ))}
+                                </select>
+                              </InputGroup>
+                            </FormGroup>
+                            <Repeat onToogle={()=>this.setState({openRepeat:!this.state.openRepeat})} open={this.state.openRepeat} defaultState={this.props.repeat} taskID={this.props.task.id} />
+                          </div>
+                          <div className="col-4" style={{border:'2px solid red'}}>
+                            <FormGroup>
+                              <label htmlFor="requester" className="req input-label">{i18n.t('requester')}</label>
+                              {this.props.task.loggedUserRoleAcl.includes('user_settings')&&
+                                <span style={{ float: "right" }}>
+                                  <button
+                                    style={{ float: "right", paddingTop:0,paddingBottom:0, paddingLeft:5,paddingRight:5}}
+                                    className="btn btn-sm btn-primary mr-1"
+                                    onClick={()=>this.setState({openAddUser:true})}
+                                    >
+                                    <i className="fa fa-plus " />
+                                  </button>
+                                </span>}
+                                <InputGroup className={this.state.requestedBy.id===undefined?"fieldError":""}>
+                                  <InputGroupAddon>
+                                    <i className="fa fa-user-o" />
+                                  </InputGroupAddon>
+                                  <Select
+                                    styles={colourStyles}
+                                    className="fullWidth"
+                                    options={this.props.users.map(user => {
+                                      user.label =
+                                      (user.name ? user.name : "") +
+                                      " " +
+                                      (user.surname ? user.surname : "");
+                                      if (user.label === " ") {
+                                        user.label = user.email;
+                                      } else {
+                                        user.label = user.label ;
+                                      }
+                                      user.value = user.id;
+                                      return user;
+                                    })}
+                                    value={this.state.requestedBy}
+                                    onChange={e => {
+                                      this.autoSubmit("requestedBy", e);
+                                      this.setState({ requestedBy: e, company:this.props.companies[this.props.companies.findIndex((item)=>item.id===e.company.id)] });
+                                    }}
+                                    />
+                                </InputGroup>
+                                {this.state.requestedBy===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
+                              </FormGroup>
+                            <FormGroup>
+                                <label htmlFor="company" className="req input-label">{i18n.t('company')}</label>
+                                  {this.props.task.loggedUserRoleAcl.includes('company_settings')&&
+                                    <span style={{ float: "right" }}>
+                                      <button
+                                        style={{ float: "right", paddingTop:0,paddingBottom:0, paddingLeft:5,paddingRight:5}}
+                                        className="btn btn-sm btn-primary mr-1"
+                                        onClick={()=>this.setState({openAddCompany:true})}
+                                      >
+                                        <i className="fa fa-plus " />
+                                      </button>
+                                  </span>}
 
-
-
-
-
-
-
-
-
-
-
-
-
+                                <InputGroup className={this.state.company===undefined?"fieldError":""}>
+                                  <InputGroupAddon>
+                                    <i className="fa fa-building-o" />
+                                  </InputGroupAddon>
+                                  <Select
+                                   styles={colourStyles}
+                                    className="fullWidth"
+                                    options={this.props.companies.map(company => {
+                                      company.label = company.title;
+                                      company.value = company.id;
+                                      return company;
+                                    })}
+                                    value={this.state.company}
+                                    onChange={e => {
+                                      this.autoSubmit("company", e);
+                                      this.setState({ company: e });
+                                    }}
+                                    />
+                                </InputGroup>
+                                {this.state.company===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
+                              </FormGroup>
+                            <FormGroup>
+                                <label htmlFor="assigned" className="input-label">{i18n.t("assigned")}</label>
+                                <InputGroup>
+                                  <InputGroupAddon>
+                                    <i className="fa fa-user-plus" />
+                                  </InputGroupAddon>
+                                  <select
+                                    className="form-control"
+                                    id="assigned"
+                                    value={this.state.taskSolver}
+                                    onChange={e => {
+                                      this.autoSubmit("taskSolver", e.target.value);
+                                      this.setState({ taskSolver: e.target.value });
+                                    }}
+                                    >
+                                    {[{ id: "null", username: i18n.t("noone") }]
+                                    .concat(this.props.taskSolvers)
+                                    .map(solver => (
+                                      <option key={solver.id} value={solver.id}>
+                                        {solver.username}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </InputGroup>
+                              </FormGroup>
+                          </div>
+                          <div className="col-4" style={{border:'2px solid red'}}>
+                            <FormGroup>
+                              <label htmlFor="startedAt" className="input-label">{i18n.t("startedAt")}</label>
+                              <InputGroup>
+                                <InputGroupAddon>
+                                  <i className="fa fa-clock-o" />
+                                </InputGroupAddon>
+                                <div style={{ width: "100%" }} className="datepickerWrap">
+                                  <DatePicker
+                                    selected={this.state.startedAt}
+                                    onChange={e => {
+                                      this.autoSubmit("startedAt", e);
+                                      this.setState({ startedAt: e });
+                                    }}
+                                    locale="en-gb"
+                                    placeholderText={i18n.t("startedAt")}
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={30}
+                                    dateFormat="DD.MM.YYYY HH:mm"
+                                    />
+                                </div>
+                              </InputGroup>
+                            </FormGroup>
+                            <FormGroup>
+                              <label htmlFor="deadline" className="input-label">{i18n.t("dueDate")}</label>
+                              <InputGroup>
+                                <InputGroupAddon>
+                                  <i className="fa fa-clock-o" />
+                                </InputGroupAddon>
+                                <div style={{ width: "100%" }} className="datepickerWrap">
+                                  <DatePicker
+                                    selected={this.state.deadline}
+                                    onChange={e => {
+                                      this.autoSubmit("deadline", e);
+                                      this.setState({ deadline: e });
+                                    }}
+                                    locale="en-gb"
+                                    placeholderText="Deadline"
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={30}
+                                    dateFormat="DD.MM.YYYY HH:mm"
+                                    />
+                                </div>
+                              </InputGroup>
+                            </FormGroup>
+                          </div>
+                        </div>
+                        <FormGroup>
+                          <label htmlFor="description" className="input-label">{i18n.t("description")}</label>
+                          <InputGroup>
+                            <textarea
+                              className="form-control"
+                              id="description"
+                              rows={4}
+                              value={this.state.description}
+                              onChange={e => {
+                                this.autoSubmit("description", e.target.value);
+                                this.setState({ description: e.target.value });
+                              }}
+                              placeholder={i18n.t("enterDescription")}
+                              />
+                          </InputGroup>
+                        </FormGroup>
                         <div className="row">
                             <div className="form-group">
                               <MultiSelect
@@ -467,23 +665,191 @@ class EditTask extends Component {
                                 }}
                                 />
                             </div>
+                        <FormGroup>
+                          <label htmlFor="followers" className="input-label">
+                            {i18n.t('followers')}
+                          </label>
+                          <InputGroup>
+                            <InputGroupAddon>
+                              <i className="fa fa-user-plus" />
+                            </InputGroupAddon>
+                          <Select
+                           styles={colourStyles}
+                           className="fullWidth"
+                            options={this.props.users.map(user => {
+                              user.label = user.email;
+                              user.value = user.id;
+                              return user;
+                            })}
+                            isMulti
+                            value={this.props.followers.map(user => {
+                              user.label = user.email;
+                              user.value = user.id;
+                              return user;
+                            })}
+                            onChange={(e) => {
+                              let newFollowers = e.map((user)=>user.id);
+                              let oldFollowers = this.props.followers.map((user)=>user.id);
+                              let added=newFollowers.filter((id)=>!oldFollowers.includes(id));
+                              let removed=oldFollowers.filter((id)=>!newFollowers.includes(id));
+                              added.map((item)=>{
+                                this.props.addFollower(
+                                  item,
+                                  this.props.task.id,
+                                  this.props.token
+                                );
+                              });
 
-                            <FormGroup>
-                              <label htmlFor="description" className="input-label">{i18n.t("description")}</label>
-                              <InputGroup>
-                                <textarea
-                                  className="form-control"
-                                  id="description"
-                                  rows={4}
-                                  value={this.state.description}
-                                  onChange={e => {
-                                    this.autoSubmit("description", e.target.value);
-                                    this.setState({ description: e.target.value });
-                                  }}
-                                  placeholder={i18n.t("enterDescription")}
-                                  />
-                              </InputGroup>
-                            </FormGroup>
+                              removed.map((item)=>{
+                              this.props.deleteFollower(
+                                item,
+                                this.props.task.id,
+                                this.props.token
+                              );
+                            });
+                            }}
+                          />
+                        </InputGroup>
+                        </FormGroup>
+
+                        <div className="form-group" style={{ marginBottom: 0 }}>
+                          <label htmlFor="fileUpload" className="input-label">{i18n.t("attachments")}</label>
+                          <input
+                            type="file"
+                            id="fileUpload"
+                            style={{ display: "none" }}
+                            onChange={e => {
+                              this.setState({showUploadError:false});
+                              let file = e.target.files[0];
+                              if(file===undefined){
+                                return;
+                              }
+                              if(file.size>10000000){
+                                this.setState({showUploadError:true});
+                                return;
+                              }
+                              let self = this;
+                              this.props.uploadFile(file, this.props.token);
+                              setTimeout(function() {
+                                self.autoSubmit();
+                              }, 4000);
+                            }}
+                            />
+                          <div>
+                          <label
+                            htmlFor="fileUpload"
+                            className="btn btn-primary btn-block uploadButton"
+                            >
+                              {i18n.t("addAttachment")}
+                          </label>
+                        </div>
+                        </div>
+                        {this.state.showUploadError &&<span style={{color:'red'}}>This file is too big!</span>}
+
+                        <div className="form-group">
+                          <div style={{ paddingTop: 5, paddingRight: 10 }}>
+                            {this.props.attachments.map(item => (
+                              <span
+                                key={item.url}
+                                className="badge"
+                                style={{
+                                  backgroundColor: "#d3eef6",
+                                  color: "black",
+                                  paddingLeft: 10,
+                                  paddingRight: 10,
+                                  paddingTop: 5,
+                                  paddingBottom: 5,
+                                  marginLeft: 5,
+                                  marginTop: 1,
+                                  width: "100%",
+                                  display: "flex"
+                                }}
+                                >
+                                <div
+                                  style={{ marginTop: "auto", marginBottom: "auto" }}
+                                  >
+                                  {!item.url && item.file.name}
+                                  {item.url && (
+                                    <a href={item.url}>{item.file.name}</a>
+                                  )}
+                                </div>
+                                <div style={{ flex: 1 }} />
+                                {item.file.size && (
+                                  <div
+                                    style={{
+                                      marginTop: "auto",
+                                      marginBottom: "auto"
+                                    }}
+                                    >
+                                    {item.file.size > 10000 &&
+                                      Math.ceil(item.file.size / 1000) + "kb"}
+                                      {item.file.size <= 10000 && item.file.size + "b"}
+                                    </div>
+                                  )}
+
+                                  <button
+                                    type="button"
+                                    className="close"
+                                    aria-label="Close"
+                                    style={{ marginTop: "auto", marginBottom: "auto" }}
+                                    onClick={() => {
+                                      this.props.removeFile(item.id, this.props.token);
+                                      let self = this;
+                                      setTimeout(function() {
+                                        self.autoSubmit();
+                                      }, 3000);
+                                    }}
+                                    >
+                                    <span
+                                      aria-hidden="true"
+                                      style={{
+                                        color: "black",
+                                        padding: 5,
+                                        paddingBottom: 10,
+                                        margin: 0
+                                      }}
+                                      >
+                                      &times;
+                                    </span>
+                                  </button>
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                             <SubtasksLoader
                               taskID={this.props.task.id}
@@ -493,196 +859,15 @@ class EditTask extends Component {
 
 
 
-                              <FormGroup>
-                                <label htmlFor="project" className="req input-label">
-                                  {i18n.t("project")}
-                                </label>
-                                <InputGroup>
-                                  <InputGroupAddon>
-                                    <i className="fa fa-folder-o" />
-                                  </InputGroupAddon>
-                                  <select
-                                    className="form-control"
-                                    id="project"
-                                    value={this.state.project}
-                                    onChange={e => {
-                                      this.autoSubmit("project", {
-                                        project: e.target.value,
-                                        taskSolver: "null"
-                                      });
-                                      this.setState({
-                                        project: e.target.value,
-                                        taskSolver: "null"
-                                      });
-                                      this.setState({
-                                        project: e.target.value,
-                                        taskSolver: "null"
-                                      });
-                                      this.props.deleteTaskSolvers();
-                                      this.props.getTaskSolvers(
-                                        e.target.value,
-                                        this.props.token
-                                      );
-                                    }}
-                                    >
-                                    {this.props.taskProjects.map(project => (
-                                      <option key={project.id} value={project.id}>
-                                        {project.title}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </InputGroup>
-                              </FormGroup>
 
-                              <FormGroup>
-                                <label htmlFor="requester" className="req input-label">{i18n.t('requester')}</label>
-                                {this.props.task.loggedUserRoleAcl.includes('user_settings')&&
-                                  <span style={{ float: "right" }}>
-                                    <button
-                                      style={{ float: "right", paddingTop:0,paddingBottom:0, paddingLeft:5,paddingRight:5}}
-                                      className="btn btn-sm btn-primary mr-1"
-                                      onClick={()=>this.setState({openAddUser:true})}
-                                    >
-                                      <i className="fa fa-plus " />
-                                    </button>
-                                </span>}
-                                <InputGroup className={this.state.requestedBy.id===undefined?"fieldError":""}>
-                                  <InputGroupAddon>
-                                    <i className="fa fa-user-o" />
-                                  </InputGroupAddon>
-                                  <Select
-                                    styles={colourStyles}
-                                    className="fullWidth"
-                                    options={this.props.users.map(user => {
-                                      user.label =
-                                      (user.name ? user.name : "") +
-                                      " " +
-                                      (user.surname ? user.surname : "");
-                                      if (user.label === " ") {
-                                        user.label = user.email;
-                                      } else {
-                                        user.label = user.label ;
-                                      }
-                                      user.value = user.id;
-                                      return user;
-                                    })}
-                                    value={this.state.requestedBy}
-                                    onChange={e => {
-                                      this.autoSubmit("requestedBy", e);
-                                      this.setState({ requestedBy: e, company:this.props.companies[this.props.companies.findIndex((item)=>item.id===e.company.id)] });
-                                    }}
-                                    />
-                                </InputGroup>
-                                {this.state.requestedBy===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
-                              </FormGroup>
 
-                              <FormGroup>
-                                <label htmlFor="company" className="req input-label">{i18n.t('company')}</label>
-                                  {this.props.task.loggedUserRoleAcl.includes('company_settings')&&
-                                    <span style={{ float: "right" }}>
-                                      <button
-                                        style={{ float: "right", paddingTop:0,paddingBottom:0, paddingLeft:5,paddingRight:5}}
-                                        className="btn btn-sm btn-primary mr-1"
-                                        onClick={()=>this.setState({openAddCompany:true})}
-                                      >
-                                        <i className="fa fa-plus " />
-                                      </button>
-                                  </span>}
 
-                                <InputGroup className={this.state.company===undefined?"fieldError":""}>
-                                  <InputGroupAddon>
-                                    <i className="fa fa-building-o" />
-                                  </InputGroupAddon>
-                                  <Select
-                                   styles={colourStyles}
-                                    className="fullWidth"
-                                    options={this.props.companies.map(company => {
-                                      company.label = company.title;
-                                      company.value = company.id;
-                                      return company;
-                                    })}
-                                    value={this.state.company}
-                                    onChange={e => {
-                                      this.autoSubmit("company", e);
-                                      this.setState({ company: e });
-                                    }}
-                                    />
-                                </InputGroup>
-                                {this.state.company===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
-                              </FormGroup>
 
-                              <FormGroup>
-                                <label htmlFor="assigned" className="input-label">{i18n.t("assigned")}</label>
-                                <InputGroup>
-                                  <InputGroupAddon>
-                                    <i className="fa fa-user-plus" />
-                                  </InputGroupAddon>
-                                  <select
-                                    className="form-control"
-                                    id="assigned"
-                                    value={this.state.taskSolver}
-                                    onChange={e => {
-                                      this.autoSubmit("taskSolver", e.target.value);
-                                      this.setState({ taskSolver: e.target.value });
-                                    }}
-                                    >
-                                    {[{ id: "null", username: i18n.t("noone") }]
-                                    .concat(this.props.taskSolvers)
-                                    .map(solver => (
-                                      <option key={solver.id} value={solver.id}>
-                                        {solver.username}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </InputGroup>
-                              </FormGroup>
 
-                              <FormGroup>
-                                <label htmlFor="followers" className="input-label">
-                                  {i18n.t('followers')}
-                                </label>
-                                <InputGroup>
-                                  <InputGroupAddon>
-                                    <i className="fa fa-user-plus" />
-                                  </InputGroupAddon>
-                                <Select
-                                 styles={colourStyles}
-                                 className="fullWidth"
-                                  options={this.props.users.map(user => {
-                                    user.label = user.email;
-                                    user.value = user.id;
-                                    return user;
-                                  })}
-                                  isMulti
-                                  value={this.props.followers.map(user => {
-                                    user.label = user.email;
-                                    user.value = user.id;
-                                    return user;
-                                  })}
-                                  onChange={(e) => {
-                                    let newFollowers = e.map((user)=>user.id);
-                                    let oldFollowers = this.props.followers.map((user)=>user.id);
-                                    let added=newFollowers.filter((id)=>!oldFollowers.includes(id));
-                                    let removed=oldFollowers.filter((id)=>!newFollowers.includes(id));
-                                    added.map((item)=>{
-                                      this.props.addFollower(
-                                        item,
-                                        this.props.task.id,
-                                        this.props.token
-                                      );
-                                    });
 
-                                    removed.map((item)=>{
-                                    this.props.deleteFollower(
-                                      item,
-                                      this.props.task.id,
-                                      this.props.token
-                                    );
-                                  });
-                                  }}
-                                />
-                              </InputGroup>
-                              </FormGroup>
+
+
+
 
                               <FormGroup>
                                 <label htmlFor="work" className="input-label">{i18n.t("work")}</label>
@@ -728,158 +913,10 @@ class EditTask extends Component {
                                 </InputGroup>
                               </FormGroup>
 
-                              <FormGroup>
-                                <label htmlFor="startedAt" className="input-label">{i18n.t("startedAt")}</label>
-                                <InputGroup>
-                                  <InputGroupAddon>
-                                    <i className="fa fa-clock-o" />
-                                  </InputGroupAddon>
-                                  <div style={{ width: "100%" }} className="datepickerWrap">
-                                    <DatePicker
-                                      selected={this.state.startedAt}
-                                      onChange={e => {
-                                        this.autoSubmit("startedAt", e);
-                                        this.setState({ startedAt: e });
-                                      }}
-                                      locale="en-gb"
-                                      placeholderText={i18n.t("startedAt")}
-                                      showTimeSelect
-                                      timeFormat="HH:mm"
-                                      timeIntervals={30}
-                                      dateFormat="DD.MM.YYYY HH:mm"
-                                      />
-                                  </div>
-                                </InputGroup>
-                              </FormGroup>
 
-                              <FormGroup>
-                                <label htmlFor="deadline" className="input-label">{i18n.t("dueDate")}</label>
-                                <InputGroup>
-                                  <InputGroupAddon>
-                                    <i className="fa fa-clock-o" />
-                                  </InputGroupAddon>
-                                  <div style={{ width: "100%" }} className="datepickerWrap">
-                                    <DatePicker
-                                      selected={this.state.deadline}
-                                      onChange={e => {
-                                        this.autoSubmit("deadline", e);
-                                        this.setState({ deadline: e });
-                                      }}
-                                      locale="en-gb"
-                                      placeholderText="Deadline"
-                                      showTimeSelect
-                                      timeFormat="HH:mm"
-                                      timeIntervals={30}
-                                      dateFormat="DD.MM.YYYY HH:mm"
-                                      />
-                                  </div>
-                                </InputGroup>
-                              </FormGroup>
-                              <Repeat onToogle={()=>this.setState({openRepeat:!this.state.openRepeat})} open={this.state.openRepeat} defaultState={this.props.repeat} taskID={this.props.task.id} />
-                              <div className="form-group" style={{ marginBottom: 0 }}>
-                                <label htmlFor="fileUpload" className="input-label">{i18n.t("attachments")}</label>
-                                <input
-                                  type="file"
-                                  id="fileUpload"
-                                  style={{ display: "none" }}
-                                  onChange={e => {
-                                    this.setState({showUploadError:false});
-                                    let file = e.target.files[0];
-                                    if(file===undefined){
-                                      return;
-                                    }
-                                    if(file.size>10000000){
-                                      this.setState({showUploadError:true});
-                                      return;
-                                    }
-                                    let self = this;
-                                    this.props.uploadFile(file, this.props.token);
-                                    setTimeout(function() {
-                                      self.autoSubmit();
-                                    }, 4000);
-                                  }}
-                                  />
-                                <div>
-                                <label
-                                  htmlFor="fileUpload"
-                                  className="btn btn-primary btn-block uploadButton"
-                                  >
-                                    {i18n.t("addAttachment")}
-                                </label>
-                              </div>
-                              </div>
-                              {this.state.showUploadError &&<span style={{color:'red'}}>This file is too big!</span>}
 
-                              <div className="form-group">
-                                <div style={{ paddingTop: 5, paddingRight: 10 }}>
-                                  {this.props.attachments.map(item => (
-                                    <span
-                                      key={item.url}
-                                      className="badge"
-                                      style={{
-                                        backgroundColor: "#d3eef6",
-                                        color: "black",
-                                        paddingLeft: 10,
-                                        paddingRight: 10,
-                                        paddingTop: 5,
-                                        paddingBottom: 5,
-                                        marginLeft: 5,
-                                        marginTop: 1,
-                                        width: "100%",
-                                        display: "flex"
-                                      }}
-                                      >
-                                      <div
-                                        style={{ marginTop: "auto", marginBottom: "auto" }}
-                                        >
-                                        {!item.url && item.file.name}
-                                        {item.url && (
-                                          <a href={item.url}>{item.file.name}</a>
-                                        )}
-                                      </div>
-                                      <div style={{ flex: 1 }} />
-                                      {item.file.size && (
-                                        <div
-                                          style={{
-                                            marginTop: "auto",
-                                            marginBottom: "auto"
-                                          }}
-                                          >
-                                          {item.file.size > 10000 &&
-                                            Math.ceil(item.file.size / 1000) + "kb"}
-                                            {item.file.size <= 10000 && item.file.size + "b"}
-                                          </div>
-                                        )}
 
-                                        <button
-                                          type="button"
-                                          className="close"
-                                          aria-label="Close"
-                                          style={{ marginTop: "auto", marginBottom: "auto" }}
-                                          onClick={() => {
-                                            this.props.removeFile(item.id, this.props.token);
-                                            let self = this;
-                                            setTimeout(function() {
-                                              self.autoSubmit();
-                                            }, 3000);
-                                          }}
-                                          >
-                                          <span
-                                            aria-hidden="true"
-                                            style={{
-                                              color: "black",
-                                              padding: 5,
-                                              paddingBottom: 10,
-                                              margin: 0
-                                            }}
-                                            >
-                                            &times;
-                                          </span>
-                                        </button>
-                                      </span>
-                                    ))}
-                                  </div>
-                                </div>
+
 
                                 {this.props.taskAttributes.filter((item)=>item.is_active).map(attribute => {
                                   switch (attribute.type) {
