@@ -25,7 +25,7 @@ import {
 import Pagination from "../../components/pagination";
 import { timestampToString } from "../../helperFunctions";
 import i18n from 'i18next';
-import EditTask from '../EditTask';
+import EditTask from './EditTask';
 import ViewTask from '../ViewTask';
 
 class Project extends Component {
@@ -44,11 +44,11 @@ class Project extends Component {
           this.props.history.push(this.getURL()+'/task/view/'+task.id);
         }
       }
+      this.props.setTaskID(task.id);
     }
-    this.props.setTaskID(task.id);
     this.state = {
-        taskID:task.id,
-        canEdit:task.canEdit
+        taskID:task?task.id:null,
+        canEdit:task?task.canEdit:true
     };
     this.getURL.bind(this);
   }
