@@ -42,7 +42,6 @@ import i18n from "i18next";
 
 class ViewTask extends Component {
   render() {
-    console.log(this.props);
     return (
       <div className="fontRegular">
         <Card>

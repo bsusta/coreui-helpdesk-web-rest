@@ -117,9 +117,7 @@ class Loader extends Component {
           if(this.props.match.params.projectID!==props.match.params.projectID && urlData.projectID!=='all'){
             this.props.getProject(urlData.projectID,this.props.history,this.props.token);
           }
-          if(urlData.tagID){
-            body.body.projects=[project];
-          }
+          body.body.projects=[project];
       }
       if(urlData.count){
         body.count=urlData.count;

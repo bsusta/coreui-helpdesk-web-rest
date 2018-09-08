@@ -1,4 +1,6 @@
 export default {
+  none2:'None',
+  comments:'Comments',
   taskName:'Task name',
   requestedBy:'Requested by',
   assignedTo:'Assigned to',
@@ -69,6 +71,7 @@ export default {
   addStatus:'Add status',
   addTask:'Add task',
   addTaskAttribute:'Add task extra field',
+  totalPrice:'Total price',
   addUnit:'Add unit',
   addUser:'Add user',
   amount:'Amount',

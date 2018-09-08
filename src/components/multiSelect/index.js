@@ -120,7 +120,7 @@ export default class MultiSelect extends Component {
           >
             <label className="input-label">{this.props.label ? this.props.label : ""}</label>
           </DropdownToggle>
-          <DropdownMenu>
+          <DropdownMenu style={{paddingBottom:15,...(this.props.dropdownStyle?this.props.dropdownStyle:{})}}>
             <div className="list-group">
               {/*
       <div  className="list-group-item" style={this.props.titleStyle?this.props.titleStyle:{}}>
@@ -167,24 +167,23 @@ export default class MultiSelect extends Component {
                         : "white",
                       color: this.state.colored ? "white" : "black",
                       ...this.state.menuItemStyle,
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      borderWidth:3,
+                      borderColor:this.state.colored
+                        ? (item.color.includes("#") ? "" : "#") + item.color
+                        : "white",
+                      ...(this.props.selectedIds.includes(item[this.state.idValue])?{borderColor:'#20a8d8'}:{})
                     }}
                   >
-                    <input
-                      checked={this.props.selectedIds.includes(
-                        item[this.state.idValue]
-                      )}
-                      onChange={()=>{}}
-                      type="checkbox"
-                      value={item[this.state.idValue]}
-                      style={{
-                        marginTop: "auto",
-                        marginBottom: "auto",
-                        paddingLeft: 3
-                      }}
-                    />
+                  <span>
+                      <i
+                        className={this.props.selectedIds.includes(item[this.state.idValue])?'fa fa-check':'fa fa-remove'}
+                        style={{width:18}}
+                        />
+                </span>
                     <div
-                      style={this.props.labelStyle ? this.props.labelStyle : {}}
+                      style={{
+                      ...(this.props.labelStyle ? this.props.labelStyle : {})}}
                     >
                       {item[this.state.displayValue]}
                     </div>

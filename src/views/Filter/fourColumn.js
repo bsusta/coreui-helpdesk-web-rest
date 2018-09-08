@@ -31,7 +31,17 @@ import ViewTask from '../ViewTask';
 class Project extends Component {
   constructor(props) {
     super(props);
-    let task = null;
+    this.getTask.bind(this);
+    let task = this.getTask();
+    this.state = {
+        taskID:task?task.id:null,
+        canEdit:task?task.canEdit:true
+    };
+    this.getURL.bind(this);
+  }
+
+  getTask(){
+    let task=null;
     if(this.props.tasks.length>0){
       if(this.props.match.params.taskID){
         task = this.props.tasks.find((item)=>item.id===parseInt(this.props.match.params.taskID));
@@ -44,14 +54,25 @@ class Project extends Component {
           this.props.history.push(this.getURL()+'/task/view/'+task.id);
         }
       }
-      this.props.setTaskID(task.id);
     }
-    this.state = {
-        taskID:task?task.id:null,
-        canEdit:task?task.canEdit:true
-    };
-    this.getURL.bind(this);
+    return task;
   }
+
+  componentWillReceiveProps(props){
+    if(props.tasks!==this.props.tasks){
+      if(props.tasks.length===0){
+        this.setState({taskID:null,canEdit:true});
+      }else{
+        let task = this.getTask();
+        this.setState({
+          taskID:task?task.id:null,
+          canEdit:task?task.canEdit:true
+        });
+      }
+    }
+
+  }
+
   usersToString(users) {
     if (users.length === 0) {
       return  i18n.t('noone');
@@ -80,17 +101,18 @@ class Project extends Component {
   render() {
     return (
       <div className="row">
-        <div style={{overflowY:'scroll',height:'calc(100vh - 55px)',paddingRight:0, overflowX:'hidden'}} className='col-4'>
+        <div className='col-4' style={{paddingRight:2}}>
           <ul className="list-group" style={{paddingBottom:'1em'}}>
               {this.props.tasks.map(task => (
-                  <li className={"list-group-item"+(task.id===this.props.taskID?" active":"")} style={{cursor:'pointer',borderLeft:'none',borderRight:'none'}} key={task.id} onClick={()=>{
+                  <li className={"list-group-item"+(task.id && this.state.taskID && task.id.toString()===this.state.taskID.toString()?" active":"")} style={{cursor:'pointer',borderLeft:'none',borderRight:'none'}} key={task.id} onClick={()=>{
                       this.setState({taskID:task.id, canEdit:task.canEdit});
-                      if( task.canEdit){
-                        this.props.history.push(this.getURL(false)+'/task/edit/'+task.id);
-                      }else{
-                        this.props.history.push(this.getURL(false)+'/task/view/'+task.id);
-                      }
-                      setTimeout(()=>this.props.setTaskID(task.id), 10);
+                      setTimeout(()=>{
+                        if( task.canEdit){
+                          this.props.history.push(this.getURL(false)+'/task/edit/'+task.id);
+                        }else{
+                          this.props.history.push(this.getURL(false)+'/task/view/'+task.id);
+                        }
+                      }, 1);
                     }}>
                     <div  className="d-flex flex-row justify-content-between">
                       <h5>{task.title}</h5>
@@ -151,11 +173,9 @@ class Project extends Component {
               }
             />
         </div>
-        <div style={{height:'calc(100vh - 55px)', overflowY:'scroll',overflowX:'hidden',margin:0,padding:0}} className='col-8'>
-          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && this.state.canEdit &&
-            <EditTask taskID={this.state.taskID} tripod={true} history={this.props.history} match={this.props.match}/>}
-          {this.props.taskID===this.state.taskID && this.props.numberOfPages>0 && !this.state.canEdit &&
-            <ViewTask taskID={this.state.taskID} tripod={true} history={this.props.history} match={this.props.match}/>}
+        <div style={{margin:0,padding:0}} className='col-8'>
+          {this.state.taskID && this.props.numberOfPages>0 &&
+            <EditTask taskID={this.state.taskID} tripod={true} disabled={!this.state.canEdit} history={this.props.history} match={this.props.match}/>}
         </div>
       </div>
     );

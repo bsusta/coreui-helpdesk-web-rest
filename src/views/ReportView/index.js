@@ -125,7 +125,7 @@ export default class TaskList extends Component {
 					<tr>
 						<th style={{ width: '3%', borderTop: '0px' }}>{i18n.t('taskName')}</th>
 						<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('itemName')}</th>
-						<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('quantity')}</th>
+						<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('amount')}</th>
 						<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('price')}</th>
 						<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('unit')}</th>
 						<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('totalPrice')}</th>

@@ -81,7 +81,7 @@ class Repeat extends Component {
             <i className="fa fa-repeat" />
           </InputGroupAddon>
           <Dropdown
-            isOpen={this.props.open}
+            isOpen={this.props.open &&(!this.props.disabled || (this.state.added&&this.props.disabled))}
             toggle={this.props.onToogle}
             style={{ width: "100%" }}
             >
@@ -94,7 +94,7 @@ class Repeat extends Component {
               >
               {this.state.added&& this.props.defaultState!==null ?i18n.t("every")+' '+this.props.defaultState.intervalLength+' '+i18n.t(this.props.defaultState.interval):i18n.t("noRepeat")}
             </DropdownToggle>
-            <DropdownMenu style={{ width: "100%", borderWidth:4 }}>
+            <DropdownMenu style={{ width: 350, borderWidth:4 }}>
               <div
                 className="form-group"
                 style={{ width: "100%", padding:5 }}
@@ -107,7 +107,8 @@ class Repeat extends Component {
                         onChange={e => {
                           this.setState({ repeatStart: e });
                         }}
-                        selected={this.state.repeatStart}
+                        disabled={this.props.disabled}
+                        selected={(!this.props.disabled||this.state.added)?this.state.repeatStart:null}
                         locale="en-gb"
                         placeholderText={i18n.t("repeatStart")}
                         showTimeSelect
@@ -123,6 +124,7 @@ class Repeat extends Component {
                   <label htmlFor="workTime" className="input-label">{i18n.t("repeatEvery")}</label>
                   <InputGroup>
                     <input
+                      disabled={this.props.disabled}
                       className="form-control"
                       type="number"
                       id="repeatEvery"
@@ -140,6 +142,7 @@ class Repeat extends Component {
                   <InputGroup>
                     <select
                       className="form-control"
+                      disabled={this.props.disabled}
                       id="repeatFrequency"
                       value={this.state.repeatFrequency}
                       onChange={e => {
@@ -158,17 +161,18 @@ class Repeat extends Component {
                 <FormGroup tag="fieldset">
                   <FormGroup check>
                     <Label check>
-                      <Input type="radio" name="repetitionTill" checked={this.state.repeatUntil==='forever'} onChange={()=>this.setState({repeatUntil:'forever'})} />{' '}
+                      <Input type="radio" name="repetitionTill" disabled={this.props.disabled} checked={this.state.repeatUntil==='forever'} onChange={()=>this.setState({repeatUntil:'forever'})} />{' '}
                         {i18n.t('noLimit')}
                       </Label>
                     </FormGroup>
                     <FormGroup check className="d-flex justify-content-between">
                       <Label check>
-                        <Input type="radio" name="repetitionTill" checked={this.state.repeatUntil==='number'} onChange={()=>this.setState({repeatUntil:'number'})}/>{' '}
+                        <Input type="radio" name="repetitionTill" disabled={this.props.disabled} checked={this.state.repeatUntil==='number'} onChange={()=>this.setState({repeatUntil:'number'})}/>{' '}
                           {i18n.t('numberOfRepeatitions')}
                         </Label>
                         <input
                           style={{maxWidth:80}}
+                          disabled={this.props.disabled}
                           className="form-control"
                           type="number"
                           disabled={this.state.repeatUntil!=='number'}
@@ -181,7 +185,7 @@ class Repeat extends Component {
                           />
                       </FormGroup>
                     </FormGroup>
-                    <div className="d-flex flex-row justify-content-between">
+                    {!this.props.disabled && <div className="d-flex flex-row justify-content-between">
                       <button onClick={()=>this.props.onToogle()} className="btn btn-danger">
                         {i18n.t('close')}
                       </button>
@@ -197,7 +201,7 @@ class Repeat extends Component {
                         className="btn btn-primary">
                         {i18n.t('submit')}
                       </button>
-                    </div>
+                    </div>}
                   </div>
                 </DropdownMenu>
               </Dropdown>

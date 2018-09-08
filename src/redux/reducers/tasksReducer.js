@@ -69,7 +69,7 @@ export default function tasksReducer(state = initialState, action) {
     case SET_TAG_LINKS:
       return { ...state, tagLinks:action.tagLinks };
     case SET_TASK:
-      return { ...state, task:action.task };
+      return { ...state, task:action.task, taskLoaded:true };
     case CLEAR_TASK:
       return { ...state, task:null };
     case EDIT_TASK:{

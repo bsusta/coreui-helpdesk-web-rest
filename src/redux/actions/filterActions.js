@@ -36,6 +36,8 @@ export const startFilterLoading = (filterLoaded)=>{
 
 export const loadUnsavedFilter = (body,taskAttributes,token) => {
  return (dispatch) => {
+   //console.log('changed');
+   //console.log(body.body);
    //console.log(filterBodyFromState(body.body,taskAttributes));
    fetch(TASKS_LIST+'?limit='+body.count+'&page='+body.page+'&'+body.order+(body.body?('&'+filterBodyFromState(body.body,taskAttributes)):""), {
      method: 'get',
@@ -187,7 +189,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
 
 export const setFilterBody = (body, partial)=>{
   return (dispatch) => {
-    console.log('function set the body');
+    //console.log('function set the body');
      dispatch({ type: SET_FILTER_BODY,...body,partial });
    }
 }

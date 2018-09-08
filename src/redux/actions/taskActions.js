@@ -187,7 +187,6 @@ export const getTask = (id,token) => {
         }
       response.json().then((data) => {
         dispatch({type: SET_TASK, task:data.data});
-        dispatch({ type: SET_TASK_LOADING, taskLoaded:true });
 
         //zaciatok nacitavania attachmentov
         data.data.taskHasAttachments.map((attachment)=>{
