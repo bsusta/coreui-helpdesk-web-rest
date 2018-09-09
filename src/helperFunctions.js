@@ -6,6 +6,31 @@ export const createEmptyFilterBody = ()=>{
   return filterToFilterState({filter:{}},[],[],[],[],[],[]);
 }
 
+export const fillRequiredCustomAttributes = (attributes, originalAttributes)=>{
+  let result={};
+  for (let key in attributes) {
+    let original = originalAttributes[originalAttributes.findIndex(item => item.id == key)];
+    if (attributes[key] === null && original.is_active && original.required) {
+      switch (original.type) {
+        case "simple_select":
+          result[key] = original.options[2];
+        case "checkbox":
+          result[key] = false;
+        break;
+          case "date":
+            result[key] = moment();
+        break;
+        default: {
+          result[key] = '';
+        }
+      }
+    }{
+      result[key]=attributes[key];
+    }
+  }
+  return result;
+}
+
 
 /**
 * Converts filter from API to state that is acceptable by filter component
@@ -337,9 +362,10 @@ export const initialiseCustomAttributes=(attributes)=>{
       case "text_area":
         value = "";
         break;
-      case "simple_select":
+      case "simple_select":{
         value = attribute.options[0];
         break;
+      }
       case "multi_select":
         value = [];
         break;
@@ -389,8 +415,9 @@ export const importExistingCustomAttributesForTask=(currentAttributes,existingCu
         } else {
           newAttributes[attribute.taskAttribute.id] = moment(attribute.dateValue * 1000);
         }
-      }
-      else if(original.type==="checkbox"){
+      }else if(original.type==="simple_select"){
+        newAttributes[attribute.taskAttribute.id] = typeof(attribute.value)!=='string'?original.options[0]:attribute.value;
+      }else if(original.type==="checkbox"){
         newAttributes[attribute.taskAttribute.id] = attribute.boolValue;
       }else{
         if (original.type === "multi_select") {

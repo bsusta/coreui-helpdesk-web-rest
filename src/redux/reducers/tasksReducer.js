@@ -25,7 +25,7 @@ const initialState = {
   taskAttributesLoaded:false,
   taskSolvers:[],
   taskID:null,
-  tripod:true,
+  tripod:false,
   repeat:null,
   repeatLoaded:false
 };

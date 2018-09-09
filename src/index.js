@@ -13,6 +13,7 @@ import '../scss/style.scss'
 // Temp fix for reactstrap
 import '../scss/core/_dropdown-menu-right.scss'
 
+import 'react-datepicker/dist/react-datepicker.css';
 // Containers
 import Login from './views/Login/'
 

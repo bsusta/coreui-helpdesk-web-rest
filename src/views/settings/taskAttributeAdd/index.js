@@ -66,6 +66,7 @@ class TaskAttributeAdd extends Component {
                 <input
                   type="checkbox"
                   className="form-check-input"
+                  disabled={this.state.type==='simple_select'}
                   checked={this.state.required}
                   onChange={() =>
                     this.setState({ required: !this.state.required })
@@ -108,7 +109,7 @@ class TaskAttributeAdd extends Component {
                 className="form-control"
                 value={this.state.type}
                 onChange={event => {
-                  this.setState({ type: event.target.value });
+                  this.setState({ type: event.target.value,required:event.target.value==='simple_select'?true:this.state.required });
                 }}
               >
                 {options.map(opt => (

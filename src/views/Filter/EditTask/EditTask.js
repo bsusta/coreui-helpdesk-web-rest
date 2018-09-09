@@ -38,7 +38,8 @@ import {
   initialiseCustomAttributes,
   processCustomAttributes,
   importExistingCustomAttributesForTask,
-  containsNullRequiredAttribute
+  containsNullRequiredAttribute,
+  fillRequiredCustomAttributes
 } from "../../../helperFunctions";
 import MultiSelect from "../../../components/multiSelect";
 import i18n from "i18next";
@@ -63,6 +64,7 @@ class EditTask extends Component {
       [...this.props.task.taskData],
       [...this.props.taskAttributes]
     );
+    task_data=fillRequiredCustomAttributes({...task_data},[...this.props.taskAttributes]);
     if(this.props.disabled){
       this.state={openRepeat:false,task_data};
       return;
@@ -103,7 +105,7 @@ class EditTask extends Component {
       ? moment(this.props.task.deadline * 1000)
       : null,
       closedAt: this.props.task.closedAt
-      ? moment(this.props.task.closedAt * 1000)
+      ? this.props.task.closedAt * 1000
       : null,
       startedAt: this.props.task.startedAt
       ? moment(this.props.task.startedAt * 1000)
@@ -139,28 +141,6 @@ class EditTask extends Component {
     this.autoSubmit.bind(this);
   }
 
-  fillCustomAttributesNulls(attributes, originalAttributes) {
-    for (let key in attributes) {
-      if (attributes[key] === null) {
-        switch (
-          originalAttributes[
-            originalAttributes.findIndex(item => item.id == key)
-          ].type
-        ) {
-          case "checkbox":
-          attributes[key] = false;
-          break;
-          case "date":
-          attributes[key] = moment();
-          break;
-          default: {
-            attributes[key] = 10;
-          }
-        }
-      }
-    }
-    return attributes;
-  }
 
   delete(e) {
     e.preventDefault();
@@ -210,8 +190,12 @@ class EditTask extends Component {
       this.setState({closedAt:null});
     }
     else{
-      state['closedAt']=moment();
-      this.setState({closedAt:state['closedAt'].valueOf()});
+      if(this.props.task.status.id===tempStatus.id){
+        state['closedAt']=this.props.task.closedAt*1000;
+      }else{
+        state['closedAt']=new Date().getTime();
+      }
+      this.setState({closedAt:state['closedAt']});
     }
 
     this.props.editTask(
@@ -219,7 +203,7 @@ class EditTask extends Component {
         title: state.title,
         description: state.description === ''?'null':state.description,
         closedAt:
-        state.closedAt !== null ? state.closedAt.valueOf() / 1000 : "null",
+        state.closedAt !== null ? state.closedAt / 1000 : "null",
         deadline:
         state.deadline !== null ? state.deadline.valueOf() / 1000 : "null",
         startedAt:
@@ -358,10 +342,10 @@ class EditTask extends Component {
                           <div className="col-4">
                             <FormGroup>
                               <label htmlFor="status" className="input-label">{i18n.t("status")}</label>
-                              {(!this.props.disabled && this.state.closedAt)||(this.props.disabled && this.props.task.closedAt) &&
+                              {((!this.props.disabled && this.state.closedAt)||(this.props.disabled && this.props.task.closedAt)) &&
                                 <span style={{ float: "right" }}>
                                   {i18n.t("closedAt")}:{" "}
-                                  {timestampToString((!this.props.disabled?this.state.closedAt:this.props.task.closedAt)/1000)}
+                                  {timestampToString(!this.props.disabled?this.state.closedAt/1000:this.props.task.closedAt)}
                                 </span>
                               }
                               <InputGroup>
@@ -489,7 +473,7 @@ class EditTask extends Component {
                                   <Select
                                     styles={colourStyles}
                                     className="fullWidth"
-                                    isDisabled={true}
+                                    isDisabled={this.props.disabled}
                                     options={
                                       this.props.disabled?
                                       (this.props.task.requestedBy===undefined?[]:
@@ -636,6 +620,7 @@ class EditTask extends Component {
                                 </InputGroupAddon>
                                 <div style={{ width: "100%" }} className="datepickerWrap">
                                   <DatePicker
+                                    disabled={this.props.disabled}
                                     selected={this.props.disabled ?(this.props.task.deadline
                                     ? moment(this.props.task.deadline * 1000)
                                     : null):this.state.deadline}
@@ -986,10 +971,10 @@ class EditTask extends Component {
                                 </span>
                               ))}
                             </div>}
-                          {<Subtasks
+                          <Subtasks
                             disabled={this.props.disabled}
                             taskID={this.props.task.id}
-                            />}
+                            />
                           <FormGroup>
                             <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
                             <InputGroup>
@@ -1010,11 +995,11 @@ class EditTask extends Component {
                                 />
                             </InputGroup>
                           </FormGroup>
-                          {<Materials
+                          <Materials
                               disabled={this.props.disabled}
                               taskID={this.props.task.id}
                               units={this.props.units}
-                              />}
+                              />
                             { this.props.taskAttributes.filter((item)=>item.is_active).map(attribute => {
                                   switch (attribute.type) {
                                     case "input":

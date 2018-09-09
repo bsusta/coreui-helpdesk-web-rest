@@ -53,16 +53,26 @@ class Comments extends Component {
     });
     comments = comments.reverse();
 
+    if(comments.length===0&& this.props.disabled){
+      return(
+        <label style={{ fontWeight: 'bold',padding:4.8}}>{i18n.t('comments')+ ' - '+i18n.t('none2')}</label>
+      )
+    }
+
     return (
       <div>
+        {
+          this.props.disabled &&           
+          <label style={{ fontWeight: 'bold',padding:4.8}}>{i18n.t('comments')}</label>
+        }
         <div
         >
-          <AddComment
+          {!this.props.disabled && <AddComment
             taskID={this.props.taskID}
             displayAttachments={true}
             body={this.state.newBody}
             commentParent={this.state.comment}
-          />
+          />}
         </div>
         <div className="animated fadeIn">
           <div className="email-app mb-4" style={{ border: 0 }}>
@@ -119,12 +129,12 @@ class Comments extends Component {
                           </span>{" "}
                         <span>{timestampToString(comment.createdAt)}
                         <div><span style={{float:'right'}}>
-                          <button
+                          {!this.props.disabled && <button
                             onClick={()=>{this.setState({newBody:"\n\n------Original Message------\n" + comment.body, comment:comment.id})}}
                             className="btn btn-sm btn-primary float-right blueButton"
                           >
                             {i18n.t('reply')}
-                          </button>
+                          </button>}
                         </span></div>
                         </span>
                       </span>

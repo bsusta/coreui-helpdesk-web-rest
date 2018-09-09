@@ -6,8 +6,8 @@ import {
   addItem,
   editItem,
   deleteItem
-} from "../../../redux/actions";
-import colors from '../../../../scss/colors';
+} from "../../redux/actions";
+import colors from '../../../scss/colors';
 
 class Subtasks extends Component {
   constructor(props) {

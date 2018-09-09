@@ -36,6 +36,9 @@ class TaskAttributeEdit extends Component {
 
   compareChanges(change,val){
     var newState = {...this.state};
+    if(change==='type'){
+      newState['required']=val==='simple_select'?true:newState.required;
+    }
     newState[change]=val;
     newState.newOption=undefined;
     newState.submitError=undefined;
@@ -97,6 +100,7 @@ class TaskAttributeEdit extends Component {
                 <input
                   type="checkbox"
                   checked={this.state.required}
+                  disabled={this.state.type==='simple_select'}
                   onChange={() =>{
                     this.compareChanges("required",!this.state.required);
                     this.setState({ required: !this.state.required })
@@ -160,7 +164,7 @@ class TaskAttributeEdit extends Component {
           value={this.state.type}
           onChange={(event) => {
             this.compareChanges("type",event.target.value);
-            this.setState({ type: event.target.value });
+            this.setState({ type: event.target.value,required:event.target.value==='simple_select'?true:this.state.required });
           }}
         >
           {options.map(opt => (
