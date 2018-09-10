@@ -283,7 +283,7 @@ class Sidebar extends Component {
         }
         </nav>
         <SidebarFooter />
-        <SidebarMinimizer />
+ 
       </div>
     );
   }

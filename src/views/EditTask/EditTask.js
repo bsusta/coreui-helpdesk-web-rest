@@ -277,7 +277,7 @@ class EditTask extends Component {
                   className="btn btn-link"
                   onClick={this.props.history.goBack}
                   >
-                  <i className="fa fa-close" /> {i18n.t("close")}
+                  <i className="fa fa-arrow-left" /> {i18n.t("Back")}
                   </button>
               }
 
@@ -340,15 +340,14 @@ class EditTask extends Component {
                             className="col-8 task-edit-col-1"
                               >
                               <div
-                                className="row task-header"
+                                className="row"
                                 >
-                                <div className="col-6">
+                                <div className="col-12">
                                   <div className="form-group">
                                     <InputGroup>
                                       <InputGroupAddon
-                                        style={{ backgroundColor: "white" }}
-                                        className="task-header-input"
-                                        >
+                                        style={{ backgroundColor: "white", border: "none !important" }}
+                                                                       >
                                         <span className="float">
                                           <i
                                             className={"fa fa-star icon-star"}
@@ -397,6 +396,8 @@ class EditTask extends Component {
                                       </InputGroup>
                                     </div>
                                 </div>
+                                </div>
+                                {/*
                                   <div className="col-6">
                                     <div style={{textAlign:'right'}}>
                                       Vytvoril: {this.props.task.createdBy.username} ({
@@ -436,7 +437,10 @@ class EditTask extends Component {
                                 ))}
                               </div>
                               }
+     */}
+ 
                               {!disabled &&
+                    
                               <MultiSelect
                                 id="tags"
                                 data={this.props.tags}
@@ -483,20 +487,20 @@ class EditTask extends Component {
                                 )}
                                 titleStyle={{
                                   color: "black",
-                                  size: "0.875rem"
+                                  size: "0.875rem",
+                                  marginLeft:20
                                 }}
                                 toggleStyle={{
                                   border: "none",
                                   padding: 0,
-                                  fontSize: "0.875rem"
-                                }}
+                                    }}
                                 label={i18n.t("selectTags")}
                                 onChange={(ids, items) => {
                                   this.autoSubmit("tags", ids);
                                   this.setState({ tags: ids });
                                 }}
                                 />}
-                            </div>
+                     
 
                             <FormGroup>
                               <label htmlFor="description" className="input-label">{i18n.t("description")}</label>

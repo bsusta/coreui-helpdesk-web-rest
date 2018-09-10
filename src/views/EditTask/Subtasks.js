@@ -205,7 +205,7 @@ class Subtasks extends Component {
             </tr>}
             <tr className="table-info">
               <td colSpan="5"
-                style={{ borderTop: 0, textAlign: "right", paddingRight: 50 }}
+                style={{ borderTop: 0, textAlign: "right" }}
               >
                 {i18n.t('totalWorkTime')}
                 <span style={{ fontWeight: "bold" }}>

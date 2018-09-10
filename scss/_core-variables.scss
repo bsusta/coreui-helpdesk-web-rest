@@ -7,11 +7,11 @@ $navbar-hover-color: #f4f4f4;
 
 //sidebar - background color
 $sidebar-bg-color:white;
-$sidebar-nav-dropdown-bg: #F9F9F9;
+$sidebar-nav-dropdown-bg: white;
 $sidebar-bg: $sidebar-bg-color;
 $sidebar-minimizer-bg: $sidebar-bg-color;
-$sidebar-nav-link-active-bg: #F9F9F9;
-$sidebar-nav-dropdown-toggle-open:#F1F1F1;
+$sidebar-nav-link-active-bg: white;
+$sidebar-nav-dropdown-toggle-open:white;
 
 //sidebar icon and text color
 $sidebar-color: #515151;
@@ -57,3 +57,5 @@ $input-search-button-radius:0px 2.3px 2.3px 0px !important;
 
 //filter background, border, color
 $filter-bg:#F9F9F9;
+
+$edit-task-background: #f4f9fd;
