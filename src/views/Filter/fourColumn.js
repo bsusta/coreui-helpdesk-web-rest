@@ -101,7 +101,7 @@ class Project extends Component {
   render() {
     return (
       <div className="row">
-        <div className='col-4' style={{paddingRight:2}}>
+        <div className='col-4' style={{paddingRight:1, borderRight:'1px solid #EFEFEF'}}>
           <CardHeader>
             <label className="switch switch-text switch-primary">
               <input
@@ -188,7 +188,7 @@ class Project extends Component {
               }
             />
         </div>
-        <div style={{margin:0,padding:0}} className='col-8'>
+        <div style={{margin:0,padding:0,borderLeft:'1px solid #EFEFEF'}} className='col-8'>
           {this.state.taskID && this.props.numberOfPages>0 &&
             <EditTask taskID={this.state.taskID} tripod={true} disabled={!this.state.canEdit} history={this.props.history} match={this.props.match}/>}
         </div>
