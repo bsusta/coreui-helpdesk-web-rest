@@ -278,6 +278,7 @@ class EditTask extends Component {
                     <div
                       className="row task-header"
                       >
+                      <div className="col-12">
                         <div className="form-group">
                           <InputGroup>
                             <InputGroupAddon
@@ -335,8 +336,9 @@ class EditTask extends Component {
                         </div>
                         {/*this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTaskTitle')}</label>*/}
                     </div>
+                    </div>
                     <div>
-
+                   
                         <div className="row">
                           <div className="col-4">
                             <FormGroup>
