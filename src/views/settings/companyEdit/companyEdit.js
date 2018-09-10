@@ -88,7 +88,6 @@ class CompanyEdit extends Component {
   render() {
     return (
       <div className="card">
-        <div className="card-header"></div>
         <div className="card-body" style={{border:this.state.changed?'1px solid red':null}}>
         <h2 className="h2" className="h2-setting-form">{i18n.t('editCompany')}</h2>
           <form

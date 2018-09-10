@@ -58,7 +58,6 @@ class UnitEdit extends Component {
 	render() {
 		return (
 			<div className="card" style={{ border: this.state.changed ? '1px solid red' : null }}>
-				<div className="card-header" />
 				<div className="card-body">
 					<h2 className="h2" className="h2-setting-form">
 						{i18n.t('editUnit')}

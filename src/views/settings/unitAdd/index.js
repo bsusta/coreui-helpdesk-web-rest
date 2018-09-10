@@ -35,7 +35,6 @@ class UnitAdd extends Component {
   render() {
     return (
       <div className="card">
-        <div className="card-header"></div>
         <div className="card-body">
         <h2 className="h2" className="h2-setting-form">{i18n.t('addUnit')}</h2>
           <form

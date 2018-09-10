@@ -57,7 +57,6 @@ class TaskAttributeAdd extends Component {
   render() {
     return (
       <div className="card">
-        <div className="card-header"></div>
         <div className="card-body">
         <h2 className="h2" className="h2-setting-list">{i18n.t('addTaskAttribute')}</h2>
           <div className="list-group">

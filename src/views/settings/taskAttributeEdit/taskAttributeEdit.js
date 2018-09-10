@@ -89,8 +89,6 @@ class TaskAttributeEdit extends Component {
         className="card"
         style={{border:this.state.changed?'1px solid red':null }}
         >
-
-        <div className="card-header"></div>
         <div className="card-body">
         <h2 className="h2" className="h2-setting-form">{i18n.t('addTaskAttribute')}</h2>
           <div className="list-group">

@@ -77,7 +77,6 @@ class UserAdd extends Component {
 	render() {
 		return (
 			<div className="card">
-				<div className="card-header" />
 				<div className="card-body">
 					<h2 className="h2" className="h2-settings-form">
 						{i18n.t('addUser')}

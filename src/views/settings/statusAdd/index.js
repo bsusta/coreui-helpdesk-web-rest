@@ -49,7 +49,6 @@ class StatusAdd extends Component {
 	render() {
 		return (
 			<div className="card">
-				<div className="card-header" />
 				<div className="card-body">
 					<h2 className="h2" className="h2-setting-list">{i18n.t('addStatus')}</h2>
 					<form

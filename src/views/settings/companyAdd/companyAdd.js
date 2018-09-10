@@ -60,8 +60,7 @@ class CompanyAdd extends Component {
   render() {
     return (
       <div className="card">
-       <div className="card-header"/>
-        <div className="card-body">
+         <div className="card-body">
         <h2 className="h2" className="h2-setting-form">{i18n.t('addCompany')}</h2>
           <form
             onSubmit={(event, value) => {

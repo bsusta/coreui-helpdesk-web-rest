@@ -130,7 +130,6 @@ class UserEdit extends Component {
 	render() {
 		return (
 			<div className="card">
-				<div className="card-header" />
 				<div className="card-body" style={{ border: this.state.changed ? '1px solid red' : null }}>
 					<h2 className="h2" className="h2-setting-form">
 						{this.state.disabled ? i18n.t('cantEditUser') : i18n.t('editUser')}
