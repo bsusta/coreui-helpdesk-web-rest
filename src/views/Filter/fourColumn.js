@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setTaskID, setFilterBody } from "../../redux/actions";
+import { setTaskID, setFilterBody, setShowFilter } from "../../redux/actions";
 import {
   Row,
   Col,
@@ -102,6 +102,21 @@ class Project extends Component {
     return (
       <div className="row">
         <div className='col-4' style={{paddingRight:2}}>
+          <CardHeader>
+            <label className="switch switch-text switch-primary">
+              <input
+                type="checkbox"
+                className="switch-input"
+                checked={this.props.showFilter}
+                onChange={() => this.props.setShowFilter(!this.props.showFilter)}
+                />
+              <span className="switch-label" data-on="On" data-off="Off" />
+              <span className="switch-handle" />
+            </label>
+            <label style={{ paddingLeft: 10 }}>
+              {i18n.t('filter')}
+            </label>
+          </CardHeader>
           <ul className="list-group" style={{paddingBottom:'1em'}}>
               {this.props.tasks.map(task => (
                   <li className={"list-group-item"+(task.id && this.state.taskID && task.id.toString()===this.state.taskID.toString()?" active":"")} style={{cursor:'pointer',borderLeft:'none',borderRight:'none'}} key={task.id} onClick={()=>{
@@ -184,7 +199,7 @@ class Project extends Component {
 
 const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer,filtersReducer, login }) => {
   const { taskID } = tasksReducer;
-  const {numberOfPages, tasks, body} = filtersReducer;
+  const {numberOfPages, tasks, body, showFilter} = filtersReducer;
   const { project } = projectsReducer;
   const { sidebar } = sidebarReducer;
   const { token } = login;
@@ -196,9 +211,10 @@ const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer,filtersR
     numberOfPages,
     project,
     body,
+    showFilter,
     projects: (projectsOnly.concat(archived)),
     token
   };
 };
 
-export default connect(mapStateToProps, { setTaskID, setFilterBody })(Project);
+export default connect(mapStateToProps, { setTaskID, setFilterBody, setShowFilter })(Project);

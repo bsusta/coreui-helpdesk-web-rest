@@ -10,10 +10,13 @@ import {
   FormGroup,
   Modal, ModalHeader, ModalBody, ModalFooter
 } from "reactstrap";
-import CommentsLoader from "./Comments";
-import AddComment from "./AddComment";
-import Subtasks from "./Subtasks";
-import Materials from "./Materials";
+
+import CommentsLoader from "../../EditTask/Comments";
+import AddComment from "../../EditTask/AddComment";
+import Subtasks from "../../EditTask/Subtasks";
+import Materials from "../../EditTask/Materials";
+import Repeat from '../../EditTask/repeat';
+
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -43,7 +46,6 @@ import {
 } from "../../../helperFunctions";
 import MultiSelect from "../../../components/multiSelect";
 import i18n from "i18next";
-import Repeat from './repeat';
 
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
 
@@ -257,8 +259,8 @@ class EditTask extends Component {
           </ModalBody>
         </Modal>
       }
-        <Card>
-          <CardHeader className="row justify-content-between" >
+        <Card className="fourColumnTaskEdit">
+          <CardHeader className="row justify-content-between fourColumnTaskHeader" >
             <div>
             <button className="btn btn-link">
               <i className="fa fa-print" /> {i18n.t("print")}
@@ -294,16 +296,13 @@ class EditTask extends Component {
                                     }
                                   }}
                                   />
-                                {(!this.props.disabled && this.state.important)||(this.props.disabled && this.props.task.important) && (
+                                { ((!this.props.disabled && this.state.important)||(this.props.disabled && this.props.task.important)) && (
                                   <i
                                     className={
-                                      "fa fa-star " +
-                                      ((!this.props.disabled && this.state.important)||(this.props.disabled && this.props.task.important)
-                                        ? "icon-star-empty"
-                                        : "icon-star")
+                                      "fa fa-star icon-star-empty"
                                       }
                                       style={{
-                                        color: (!this.props.disabled && this.state.important)||(this.props.disabled && this.props.task.important) ? "black" : "yellow",
+                                        color: "yellow" ,
                                         fontSize: "1.74em",
                                         marginLeft: "-1.02em",
                                         marginTop: "0.115em",
@@ -734,7 +733,7 @@ class EditTask extends Component {
                                   paddingTop: 2,
                                   paddingBottom: 2,
                                   borderRadius:5,
-                                  fontSize:18
+                                  fontSize:15
                                 }}
                                 renderItem={item => (
                                   <span

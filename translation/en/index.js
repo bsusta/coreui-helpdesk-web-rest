@@ -1,4 +1,9 @@
 export default {
+  globalSearch:'Global search',
+  from2:'From',
+  to2:'To',
+  hours2:'Hours',
+  hours:'hours',
   none2:'None',
   comments:'Comments',
   taskName:'Task name',

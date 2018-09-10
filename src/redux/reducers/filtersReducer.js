@@ -6,7 +6,7 @@ const initialState = {
   total:null,
   tasks:[],
   body:{page:1,count:20,projectID:'all',filterID:null,tagID:null,forcedUpdate:null,body:createEmptyFilterBody(),search:'',order:'order=status=>asc'},
-  showFilter:true,
+  showFilter:false,
   filterLoaded:false,
   filter:null,
 };

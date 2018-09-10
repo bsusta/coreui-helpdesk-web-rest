@@ -334,91 +334,80 @@ class EditTask extends Component {
                     {!disabled && this.state.submitError && <span><h5 style={{color:'red'}}> {i18n.t('restrictionTaskWontSave')}</h5></span>}
                   </CardHeader>
                   <CardBody>
-                    <div
-                      className="row task-header"
-                      >
-                      <div className="col-8">
-                        <div className="form-group">
-                          <InputGroup>
-                            <InputGroupAddon
-                              style={{ backgroundColor: "white" }}
-                              className="task-header-input"
-                              >
-                              <span className="float">
-                                <i
-                                  className={"fa fa-star icon-star"}
-                                  style={{ fontSize: "1.97em", float: "left" }}
-                                  onClick={() => {
-                                    if(disabled)return;
-                                    if (!this.state.important) {
-                                      this.autoSubmit("important", true);
-                                      this.setState({ important: true });
-                                    }
-                                  }}
-                                  />
-                                {(!disabled && this.state.important)||(disabled && this.props.task.important) && (
-                                      <i
-                                    className={
-                                      "fa fa-star " +
-                                      ((!disabled && this.state.important)||(disabled && this.props.task.important)
-                                        ? "icon-star-empty"
-                                        : "icon-star")
-                                      }
-                                      style={{
-                                        color: (!disabled && this.state.important)||(disabled && this.props.task.important) ? "black" : "yellow",
-                                        fontSize: "1.74em",
-                                        marginLeft: "-1.02em",
-                                        marginTop: "0.115em",
-                                        float: "left"
-                                      }}
-                                      onClick={() => {
-                                        if(disabled)return;
-                                        this.autoSubmit("important", false);
-                                        this.setState({ important: false });
-                                      }}
-                                      />
-                                  )}
-                                </span>
-                              </InputGroupAddon>
-
-                              {/*<label htmlFor ="title">Task Name</label>*/}
-                              <input
-                                className="form-control task-header-input"
-                                id="title"
-                                placeholder={i18n.t("enterTitle")}
-                                disabled ={disabled}
-                                value={(!disabled && this.state.title)?this.state.title:this.props.task.title}
-                                style={{ fontSize: 24 }}
-                                onChange={e => {
-                                  this.autoSubmit("title", e.target.value);
-                                  this.setState({ title: e.target.value });
-                                }}
-                                />
-                            </InputGroup>
-                          </div>
-                        </div>
-                        <div
-                          className="col-4"
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "flex-end"
-                          }}
-                          >
-                          <label className="float- input-label">
-                            Vytvoril: {this.props.task.createdBy.username} ({
-                              this.props.task.createdBy.email
-                            }) {timestampToString(this.props.task.createdAt)}
-                          </label>
-                        </div>
-                        {/*this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTaskTitle')}</label>*/}
-                      </div>
                       <div>
-
                         <div className="row">
                           <div
                             className="col-8 task-edit-col-1"
                               >
+                              <div
+                                className="row task-header"
+                                >
+                                <div className="col-6">
+                                  <div className="form-group">
+                                    <InputGroup>
+                                      <InputGroupAddon
+                                        style={{ backgroundColor: "white" }}
+                                        className="task-header-input"
+                                        >
+                                        <span className="float">
+                                          <i
+                                            className={"fa fa-star icon-star"}
+                                            style={{ fontSize: "1.97em", float: "left" }}
+                                            onClick={() => {
+                                              if(disabled)return;
+                                              if (!this.state.important) {
+                                                this.autoSubmit("important", true);
+                                                this.setState({ important: true });
+                                              }
+                                            }}
+                                            />
+                                          {((!disabled && this.state.important)||(disabled && this.props.task.important)) && (
+                                                <i
+                                              className={"fa fa-star icon-star-empty"}
+                                                style={{
+                                                  color: "yellow",
+                                                  fontSize: "1.74em",
+                                                  marginLeft: "-1.02em",
+                                                  marginTop: "0.115em",
+                                                  float: "left"
+                                                }}
+                                                onClick={() => {
+                                                  if(disabled)return;
+                                                  this.autoSubmit("important", false);
+                                                  this.setState({ important: false });
+                                                }}
+                                                />
+                                            )}
+                                          </span>
+                                        </InputGroupAddon>
+
+                                        {/*<label htmlFor ="title">Task Name</label>*/}
+                                        <input
+                                          className="form-control task-header-input"
+                                          id="title"
+                                          placeholder={i18n.t("enterTitle")}
+                                          disabled ={disabled}
+                                          value={(!disabled && this.state.title)?this.state.title:this.props.task.title}
+                                          style={{ fontSize: 24 }}
+                                          onChange={e => {
+                                            this.autoSubmit("title", e.target.value);
+                                            this.setState({ title: e.target.value });
+                                          }}
+                                          />
+                                      </InputGroup>
+                                    </div>
+                                </div>
+                                  <div className="col-6">
+                                    <div style={{textAlign:'right'}}>
+                                      Vytvoril: {this.props.task.createdBy.username} ({
+                                        this.props.task.createdBy.email
+                                      })
+                                    </div>
+                                    <div style={{textAlign:'right'}}>
+                                      {timestampToString(this.props.task.createdAt)}
+                                    </div>
+                                  </div>
+                                </div>
                             <div className="form-group">
                               {disabled &&
                                 <div>
@@ -457,6 +446,9 @@ class EditTask extends Component {
                                 filterBy="title"
                                 display="row"
                                 colored={true}
+                                labelStyle={{ marginLeft: 10 }}
+                                searchStyle={{ margin: 5 , borderWidth:0, fontSize:18,textAlign: 'center'}}
+                                dropdownStyle={{borderRadius:5, borderColor:'#187da0'}}
                                 displayBoxStyle={{ overflowX: "auto" }}
                                 menuItemStyle={{
                                   marginLeft: 7,
@@ -464,7 +456,9 @@ class EditTask extends Component {
                                   marginTop: 2,
                                   marginBottom: 2,
                                   paddingTop: 2,
-                                  paddingBottom: 2
+                                  paddingBottom: 2,
+                                  borderRadius:5,
+                                  fontSize:15
                                 }}
                                 renderItem={item => (
                                   <span
@@ -497,8 +491,6 @@ class EditTask extends Component {
                                   fontSize: "0.875rem"
                                 }}
                                 label={i18n.t("selectTags")}
-                                labelStyle={{ marginLeft: 10 }}
-                                searchStyle={{ margin: 5 }}
                                 onChange={(ids, items) => {
                                   this.autoSubmit("tags", ids);
                                   this.setState({ tags: ids });

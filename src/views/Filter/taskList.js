@@ -86,7 +86,23 @@ render(){
   } else {
     header = i18n.t('search');
   }
-  return(<div className="table-div">
+  return(<div>
+	<CardHeader>
+		<label className="switch switch-text switch-primary">
+			<input
+				type="checkbox"
+				className="switch-input"
+				checked={this.props.showFilter}
+				onChange={() => this.props.setShowFilter(!this.props.showFilter)}
+			/>
+			<span className="switch-label" data-on="On" data-off="Off" />
+			<span className="switch-handle" />
+		</label>
+		<label style={{ paddingLeft: 10 }}>
+			{i18n.t('filter')}
+		</label>
+	</CardHeader>
+	<div className="table-div">
     <h2 className="h2">
       <i className={icon} onClick={()=>{
           if(this.props.body.tagID){
@@ -133,7 +149,7 @@ render(){
       </thead>
       <tbody>
         {this.props.tasks.map(task => (
-          <tr style={{ cursor: 'pointer' }} key={task.id}
+          <tr style={{ cursor: 'pointer' }} className="taskTableTag" key={task.id}
             onClick={() => {
               if(this.props.body.filterID){
                 if (task.canEdit) {
@@ -242,6 +258,7 @@ render(){
         parseInt(this.props.body.count)
       }
     />
+	</div>
   </div>)
   }
 }

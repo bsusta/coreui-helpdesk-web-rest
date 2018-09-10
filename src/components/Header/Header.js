@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
 import MessagesDropdown from "./MessagesDropdown";
-import {logoutUser, setFilterBody} from '../../redux/actions';
+import {logoutUser, setFilterBody, setTripod} from '../../redux/actions';
 import { connect } from "react-redux";
 import i18n from "i18next";
 import ErrorMessagesDropdown from "./ErrorMessagesDropdown";
@@ -29,17 +29,19 @@ class Header extends Component {
         <SimpleLoadingBar
           activeRequests={this.props.activeRequests} color="#2A7EC5">
         </SimpleLoadingBar>
-        <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
-          <span className="navbar-toggler-icon" />
-        </NavbarToggler>
-        <NavbarToggler className="headerText">
-          <a
-            className="headerIcons"
-            href="#"
-          >
-            LanHelpdesk
-          </a>
+        <div style={{width:260}}>
+          <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
+            <span className="navbar-toggler-icon" />
           </NavbarToggler>
+          <NavbarToggler className="headerText">
+            <a
+              className="headerIcons"
+              href="#"
+            >
+              LanHelpdesk
+            </a>
+            </NavbarToggler>
+        </div>
         <div className="d-md-down-none">
           <InputGroup>
             <Input
@@ -51,21 +53,31 @@ class Header extends Component {
               className="searchInput"
               onKeyPress={(e)=>{
                 if(e.key==='Enter'){
-                  this.props.setFilterBody({search:this.state.search, projectID:'all', filterID:'add', tagID:null,body:{title:this.state.search}},true);
-                  this.props.history.push('/filter/add/project/all/'+this.props.body.page+','+this.props.body.count);
+                  this.props.setFilterBody({search:this.state.search,body:{title:this.state.search}},true);
                 }
               }}
             />
           <InputGroupAddon
             className="searchButton"
             onClick={()=>{
-              this.props.setFilterBody({search:this.state.search, projectID:'all', filterID:'add', tagID:null,body:{title:this.state.search}},true);
-              this.props.history.push('/filter/add/project/all/'+this.props.body.page+','+this.props.body.count);
+              this.props.setFilterBody({search:this.state.search,body:{title:this.state.search}},true);
             }}>
               <i className="fa fa-search" />
             </InputGroupAddon>
           </InputGroup>
         </div>
+        <button
+          type="button"
+          className="btn btn-link"
+          onClick={() => {
+            this.props.history.push('/filter/add/project/all/'+this.props.body.page+','+this.props.body.count);
+            this.props.setFilterBody({search:this.state.search, projectID:'all', filterID:'add', tagID:null,body:{title:this.state.search}},true);
+          }}
+          style={{}}
+          >
+          {i18n.t("globalSearch")}
+        </button>
+
         {
            this.props.user.user_role.acl.includes('create_tasks') &&
           <button
@@ -88,6 +100,21 @@ class Header extends Component {
         }
 
         <div className="ml-auto row headerCommandBar">
+          <a
+            className="headerIcons"
+          >
+          <i
+            className="fa fa-columns"
+            style={{
+              cursor: 'pointer',
+              border: 'none',
+              paddingLeft:5,
+              paddingRight:5,
+              color: this.props.tripod?'#20a8d8':'white'
+            }}
+            onClick={() => this.props.setTripod(!this.props.tripod)}
+          />
+          </a>
           {/*Settings icon*/}
           {
             this.props.user.user_role.acl.some((item)=>['company_settings','company_attribute_settings','user_settings','user_role_settings','imap_settings','smtp_settings','status_settings','task_attribute_settings','unit_settings'].includes(item))&&
@@ -118,12 +145,13 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ login, loadingReducer, errorsReducer, filtersReducer }) => {
+const mapStateToProps = ({ login, loadingReducer, errorsReducer, filtersReducer,tasksReducer }) => {
   const { user, token } = login;
   const { errorMessages } = errorsReducer;
   const { activeRequests } = loadingReducer;
   const { body } = filtersReducer;
-  return { user, token, activeRequests, errorMessages, body };
+  const {tripod} = tasksReducer;
+  return { user, token, activeRequests, errorMessages, body,tripod };
 };
 
-export default connect(mapStateToProps, { logoutUser, setFilterBody })(Header);
+export default connect(mapStateToProps, { logoutUser, setFilterBody,setTripod })(Header);

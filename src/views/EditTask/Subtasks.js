@@ -20,21 +20,33 @@ class Subtasks extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <table className="table table-hover table-sm table-in-form">
+    if(this.props.disabled && this.props.subtasks.length===0){
+      return(
+        <table className="table table-hover table-sm table-noBorder table-in-form">
           <thead className="thead-inverse">
             <tr>
-              <th style={{ border: "0px" }}>{i18n.t('subtasks')}{this.props.disabled && this.props.subtasks.length===0?' - ' + i18n.t('none2'):''}</th>
-              <th
-                style={{ width: "40px", border: "0px", textAlign: "right" }}
-              />
+              <th style={{ border: "0px" }}>  {i18n.t('subtasks')+' - '+i18n.t('none2')}</th>
+            </tr>
+          </thead>
+        </table>
+        );
+    }
+    return (
+      <div>
+        <table className="table table-hover table-sm table-noBorder table-in-form">
+          <thead className="thead-inverse">
+            <tr>
+              <th style={{ border: "0px" }}>{i18n.t('subtasks')}</th>
+              <th style={{ width: "10%", border: "0px" }}>{i18n.t('from2')}</th>
+              <th style={{ width: "10%", border: "0px" }}>{i18n.t('to2')}</th>
+              <th style={{ width: "10%", border: "0px" }}>{i18n.t('hours2')}</th>
+              {!this.props.disabled && <th style={{ width: "40px", border: "0px", textAlign: "right" }}/>}
             </tr>
           </thead>
           <tbody>
             {this.props.subtasks.map(subtask => (
-              <tr key={subtask.id} className="subtaskRow">
-                <td style={{ border: "0px" }}>
+              <tr key={subtask.id} className="invoiceRow">
+                <td>
                   <div style={{ display: "flex" }}>
                     <span className="subtaskCheckbox"
                       onClick={() =>{
@@ -54,9 +66,11 @@ class Subtasks extends Component {
                       }
                 </span>
                     <input
+                      style={{ border: "none" }}
                       type="text"
-                      id="name"
                       disabled={this.props.disabled}
+                      className="form-control"
+                      placeholder={i18n.t('enterSubtask')}
                       value={
                         subtask.id === this.state.focusedSubtask
                           ? this.state.editedSubtask
@@ -86,12 +100,34 @@ class Subtasks extends Component {
                         if(this.props.disabled)return;
                         this.setState({ editedSubtask: e.target.value })}
                       }
-                      className="form-control subtaskEdit"
-                      placeholder={i18n.t('enterSubtask')}
                     />
                   </div>
                 </td>
-
+                <td><div style={{ display: "flex" }}>
+                  <input
+                    type="text"
+                    className="form-control subtaskEdit"
+                    disabled={this.props.disabled}
+                    placeholder={'Od'}
+                  />
+                </div></td>
+                <td><div style={{ display: "flex" }}>
+                  <input
+                    type="text"
+                    className="form-control subtaskEdit"
+                    disabled={this.props.disabled}
+                    placeholder={'Do'}
+                  />
+                </div></td>
+                <td><div style={{ display: "flex" }}>
+                  <input
+                    type="text"
+                    className="form-control subtaskEdit"
+                    disabled={this.props.disabled}
+                    placeholder={'Hodiny'}
+                    value={Math.ceil(Math.random()*56)}
+                  />
+                </div></td>
                 <td style={{ border: "0px" }}>
                   {!this.props.disabled && <div
                     style={{ float: "right", paddingRight: 20 }}
@@ -115,7 +151,7 @@ class Subtasks extends Component {
             ))}
 
             {!this.props.disabled &&<tr>
-              <td colSpan="3" style={{ border: "0px" }}>
+              <td style={{ border: "0px" }}>
                 <div style={{ display: "flex" }}>
                   <input
                     type="text"
@@ -142,7 +178,41 @@ class Subtasks extends Component {
                   />
                 </div>
               </td>
+              <td><div style={{ display: "flex" }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  disabled={this.props.disabled}
+                  placeholder={'Od'}
+                />
+              </div></td>
+              <td><div style={{ display: "flex" }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  disabled={this.props.disabled}
+                  placeholder={'Do'}
+                />
+              </div></td>
+            <td colSpan="2"><div style={{ display: "flex" }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  disabled={this.props.disabled}
+                  placeholder={'Hodiny'}
+                />
+              </div></td>
             </tr>}
+            <tr className="table-info">
+              <td colSpan="5"
+                style={{ borderTop: 0, textAlign: "right", paddingRight: 50 }}
+              >
+                {i18n.t('totalWorkTime')}
+                <span style={{ fontWeight: "bold" }}>
+                  {75} {i18n.t('hours')}
+                </span>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

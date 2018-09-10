@@ -22,32 +22,6 @@ class Tasks extends Component {
 
 				<div className={this.props.showFilter ? 'col-9' : 'col-12'} style={{ padding: '0' }}>
 					<Card>
-						<CardHeader>
-							<label className="switch switch-text switch-primary">
-								<input
-									type="checkbox"
-									className="switch-input"
-									checked={this.props.showFilter}
-									onChange={() => this.props.setShowFilter(!this.props.showFilter)}
-								/>
-								<span className="switch-label" data-on="On" data-off="Off" />
-								<span className="switch-handle" />
-							</label>
-							<label style={{ paddingLeft: 10 }}>
-								{i18n.t('filter')}
-							</label>
-							<i
-								className="fa fa-columns"
-								style={{
-									cursor: 'pointer',
-									border: 'none',
-									float:'right',
-									color: this.props.tripod?'#20a8d8':'grey',
-									fontSize: '2em',
-								}}
-								onClick={() => this.props.setTripod(!this.props.tripod)}
-							/>
-						</CardHeader>
 						{this.props.tripod &&
 							<FourColumn history={this.props.history} match={this.props.match} />
 						}

@@ -34,6 +34,7 @@
 .app{
 	max-width: 1920px;
 	margin: auto;
+	background-color: $main-bg-color;
 }
 .container-fluid{
 	padding:0 !important;
@@ -106,7 +107,7 @@
 	border-radius: $input-search-radius;
 	background-color: white;
 	width: 250px !important;
- 	margin-left: 90px;
+ 	margin-left: 15px;
 }
 .searchButton{
 	border: $input-search-border;
@@ -126,6 +127,13 @@
 }
 
 //Sidebar
+
+.sidebarProjectSelector{
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-top: 12px;
+}
+
 .sidebar .sidebar-nav {
 	border-right: 1px solid rgb(238, 238, 238);
 }
@@ -472,6 +480,18 @@
 
 
 //Edit/Add task
+
+.fourColumnTaskHeader{
+}
+
+.fourColumnTaskEdit{
+	padding-right: 20px;
+}
+
+.taskTableTag{
+	height: 67px;
+}
+
 .task-header {
 	margin-bottom: 17px;
 	border-bottom:1px solid #D9D9D9;

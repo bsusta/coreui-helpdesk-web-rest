@@ -1,4 +1,9 @@
 export default {
+  globalSearch:'Vyhľadať globálne',
+  from2:'Od',
+  to2:'Do',
+  hours2:'Hodiny',
+  hours:'hodín',
   none2:'Žiadne',
   comments:'Komentáre',
   taskName:'Názov úlohy',

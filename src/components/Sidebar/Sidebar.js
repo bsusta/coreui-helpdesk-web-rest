@@ -77,7 +77,7 @@ class Sidebar extends Component {
         <SidebarHeader />
         <SidebarForm />
         <nav className="sidebar-nav">
-          <div style={{padding:5}}>
+          <div className="sidebarProjectSelector">
           <FormGroup>
             <label htmlFor="project" className="input-label">{i18n.t('project')}</label>
             <InputGroup>
