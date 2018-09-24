@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import { connect } from "react-redux";
+import DatePicker from "react-datepicker";
 import i18n from 'i18next';
+import moment from 'moment';
 import {
   addSubtask,
   editSubtask,
@@ -13,10 +15,21 @@ class Subtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newSubtask: "",
-      editedSubtask: "",
+      task: "",
+      hours:'',
+      from: null,
+      to: null,
+      editedSubtaskTitle: "",
+      editedSubtaskHours: "0",
       focusedSubtask: null,
     };
+    this.sumHours.bind(this);
+  }
+
+  sumHours(){
+    let sum = 0;
+    this.props.subtasks.map((item)=>{if(item.hours){sum+=item.hours}});
+    return sum;
   }
 
   render() {
@@ -37,8 +50,8 @@ class Subtasks extends Component {
           <thead className="thead-inverse">
             <tr>
               <th style={{ border: "0px" }}>{i18n.t('subtasks')}</th>
-              <th style={{ width: "10%", border: "0px" }}>{i18n.t('from2')}</th>
-              <th style={{ width: "10%", border: "0px" }}>{i18n.t('to2')}</th>
+              <th style={{ width: "150px", border: "0px" }}>{i18n.t('from2')}</th>
+              <th style={{ width: "150px", border: "0px" }}>{i18n.t('to2')}</th>
               <th style={{ width: "10%", border: "0px" }}>{i18n.t('hours2')}</th>
               {!this.props.disabled && <th style={{ width: "40px", border: "0px", textAlign: "right" }}/>}
             </tr>
@@ -52,7 +65,7 @@ class Subtasks extends Component {
                       onClick={() =>{
                         if(this.props.disabled)return;
                         this.props.editSubtask(
-                          { done: !subtask.done, title: subtask.title },
+                          { done: !subtask.done, title: subtask.title, from:subtask.from, to:subtask.to, hours:subtask.hours },
                           subtask.id,
                           this.props.taskID,
                           this.props.token
@@ -73,15 +86,15 @@ class Subtasks extends Component {
                       placeholder={i18n.t('enterSubtask')}
                       value={
                         subtask.id === this.state.focusedSubtask
-                          ? this.state.editedSubtask
+                          ? this.state.editedSubtaskTitle
                           : subtask.title
                       }
                       onBlur={() => {
                         if(this.props.disabled)return;
                         this.props.editSubtask(
                           {
-                            done: subtask.done,
-                            title: this.state.editedSubtask
+                            done: subtask.done,from:subtask.from, to:subtask.to, hours:subtask.hours,
+                            title: this.state.editedSubtaskTitle,
                           },
                           subtask.id,
                           this.props.taskID,
@@ -92,40 +105,156 @@ class Subtasks extends Component {
                       onFocus={() => {
                         if(this.props.disabled)return;
                         this.setState({
-                          editedSubtask: subtask.title,
+                          editedSubtaskTitle: subtask.title,
+                          editedSubtaskHours: subtask.hours?subtask.hours:'',
                           focusedSubtask: subtask.id
                         });
                       }}
                       onChange={e =>{
                         if(this.props.disabled)return;
-                        this.setState({ editedSubtask: e.target.value })}
+                        this.setState({ editedSubtaskTitle: e.target.value })}
                       }
                     />
                   </div>
                 </td>
                 <td><div style={{ display: "flex" }}>
-                  <input
-                    type="text"
-                    className="form-control subtaskEdit"
-                    disabled={this.props.disabled}
-                    placeholder={'Od'}
-                  />
+                  <div style={{ width: "100%"}} className="datepickerWrap subtaskDatepickerWrap">
+                    <DatePicker
+                      className="form-control"
+                      selected={subtask.from!==0 && subtask.from!==null
+                      ? moment(subtask.from * 1000)
+                      : null}
+                      disabled={this.props.disabled}
+                      onChange={e => {
+                        if(this.props.disabled)return;
+                        let body= {
+                          done: subtask.done,title:subtask.title, to:subtask.to, hours:subtask.hours,
+                          from: e!==null?e.valueOf() / 1000:null,
+                        };
+
+                        if(body.from!==null){
+                          if(body.to!==0&&body.to!==null){
+                            let difference = moment(body.to*1000).diff(e,'months',true);
+                            body.to=difference>1|| difference < 0?null:body.to;
+                          }
+                          if(body.hours){
+                            body.to=e.add(body.hours,'hours').valueOf()/1000;
+                          }else if(body.to!==0&&body.to!==null){
+                            body.hours=moment(body.to*1000).diff(e,'hours',true);
+                          }
+                        }
+
+                        this.props.editSubtask(
+                          body,
+                          subtask.id,
+                          this.props.taskID,
+                          this.props.token
+                        );
+                      }}
+                      locale="en-gb"
+                      placeholderText={i18n.t("from2")}
+                      showTimeSelect
+                      timeFormat="HH:mm"
+                      timeIntervals={30}
+                      dateFormat="DD.MM.YYYY HH:mm"
+                      selectsEnd
+                      startDate={subtask.from!==null?moment(subtask.from*1000):null}
+                      endDate={subtask.to!==null?moment(subtask.to*1000):null}
+                      />
+                  </div>
+                </div></td>
+                <td><div style={{ display: "flex" }}>
+                  <div style={{ width: "100%"}} className="datepickerWrap subtaskDatepickerWrap">
+                    <DatePicker
+                      className="form-control"
+                      selected={subtask.to!==0&&subtask.to!==null
+                      ? moment(subtask.to * 1000)
+                      : null}
+                      disabled={this.props.disabled}
+                      onChange={e => {
+                        if(this.props.disabled)return;
+                        let body= {
+                          done: subtask.done,title:subtask.title, from:subtask.from, hours:subtask.hours,
+                          to: e!==null?e.valueOf() / 1000:null,
+                        };
+
+                        if(body.to!==null){
+                          if(body.from!==0&&body.from!==null){
+                            let difference = e.diff(moment(body.from*1000),'months',true);
+                            if(difference>1|| difference < 0){
+                              return;
+                            }
+                          }
+                          if(body.from!==0&&body.from!==null){
+                            body.hours=e.diff(moment(body.from*1000),'hours',true);
+                          }
+                          else if(body.hours){
+                            body.from=e.subtract(body.hours,'hours').valueOf()/1000;
+                          }
+                        }
+
+                        this.props.editSubtask(
+                          body,
+                          subtask.id,
+                          this.props.taskID,
+                          this.props.token
+                        );
+                      }}
+                      locale="en-gb"
+                      minDate={subtask.from?moment(subtask.from * 1000):null}
+                      maxDate={subtask.from?moment(subtask.from * 1000).add(1,'months'):null}
+                      placeholderText={i18n.t("to2")}
+                      showTimeSelect
+                      timeFormat="HH:mm"
+                      timeIntervals={30}
+                      dateFormat="DD.MM.YYYY HH:mm"
+                      selectsEnd
+                      startDate={subtask.from!==null?moment(subtask.from*1000):null}
+                      endDate={subtask.to!==null?moment(subtask.to*1000):null}
+                      />
+                  </div>
                 </div></td>
                 <td><div style={{ display: "flex" }}>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control subtaskEdit"
                     disabled={this.props.disabled}
-                    placeholder={'Do'}
-                  />
-                </div></td>
-                <td><div style={{ display: "flex" }}>
-                  <input
-                    type="text"
-                    className="form-control subtaskEdit"
-                    disabled={this.props.disabled}
-                    placeholder={'Hodiny'}
-                    value={Math.ceil(Math.random()*56)}
+                    placeholder={i18n.t('hours2')}
+                    value={
+                      subtask.id === this.state.focusedSubtask
+                        ? this.state.editedSubtaskHours
+                        : (subtask.hours?subtask.hours:'')
+                    }
+                    onBlur={() => {
+                      if(this.props.disabled)return;
+                      let body= {
+                        done: subtask.done,title:subtask.title, from:subtask.from, to:subtask.to,
+                        hours: this.state.editedSubtaskHours,
+                      };
+
+                      if(body.from!==0 && body.from!==null && body.hours!==''){
+                        body.to= moment(body.from*1000).add(body.hours,'hours').valueOf()/1000;
+                      }
+                      this.props.editSubtask(
+                        body,
+                        subtask.id,
+                        this.props.taskID,
+                        this.props.token
+                      );
+                      this.setState({ focusedSubtask: null });
+                    }}
+                    onFocus={() => {
+                      if(this.props.disabled)return;
+                      this.setState({
+                        editedSubtaskTitle: subtask.title,
+                        editedSubtaskHours: subtask.hours?subtask.hours:'',
+                        focusedSubtask: subtask.id
+                      });
+                    }}
+                    onChange={e =>{
+                      if(this.props.disabled)return;
+                      this.setState({ editedSubtaskHours: e.target.value })}
+                    }
                   />
                 </div></td>
                 <td style={{ border: "0px" }}>
@@ -150,6 +279,7 @@ class Subtasks extends Component {
               </tr>
             ))}
 
+{/*ADD SUBTASK*/}
             {!this.props.disabled &&<tr>
               <td style={{ border: "0px" }}>
                 <div style={{ display: "flex" }}>
@@ -161,46 +291,139 @@ class Subtasks extends Component {
                     onKeyPress={(e)=>{
                       if(this.props.disabled)return;
                       if(e.key==='Enter'){
-                        this.props.addSubtask(
-                          { done: false, title: this.state.newSubtask },
+                        let body={
+                          done: false,
+                          title: this.state.task,
+                          hours: this.state.hours!==''?this.state.hours:undefined,
+                          from: this.state.from?this.state.from:null,
+                          to: this.state.to?this.state.to:null
+                        }
+                          this.props.addSubtask(body,
                           this.props.taskID,
                           this.props.token
                         );
-                        this.setState({ newSubtask: "" });
+                        this.setState({ task: "", hours:'', from: null, to:null });
                       }
                     }}
-                    placeholder={'+ '+i18n.t('enterNewSubtask')}
-                    value={this.state.newSubtask}
+                    placeholder={'+ '+i18n.t('enterSubtask')}
+                    value={this.state.task}
                     onChange={e =>{
                       if(this.props.disabled)return;
-                      this.setState({ newSubtask: e.target.value })}
+                      this.setState({ task: e.target.value })}
                     }
                   />
                 </div>
               </td>
               <td><div style={{ display: "flex" }}>
-                <input
-                  type="text"
-                  className="form-control"
-                  disabled={this.props.disabled}
-                  placeholder={'Od'}
-                />
+                <div style={{ width: "100%"}} className="datepickerWrap subtaskDatepickerWrap">
+                  <DatePicker
+                    className="form-control"
+                    selected={this.state.from?moment(this.state.from*1000):null}
+                    disabled={this.props.disabled}
+                    onChange={e => {
+                      if(this.props.disabled)return;
+                      let changes={from: e!==null?e.valueOf()/1000:null};
+
+                      if(changes.from!==null){
+                        if(this.state.to!==0&&this.state.to!==null){
+                          let difference = moment(this.state.to*1000).diff(e,'months',true);
+                          changes.to=difference>1|| difference < 0?null:this.state.to;
+                        }
+                        if(this.state.hours){
+                          changes.to=e.add(this.state.hours,'hours').valueOf()/1000;
+                        }else if(this.state.to!==0&&this.state.to!==null){
+                          changes.hours=moment(this.state.to*1000).diff(e,'hours',true);
+                        }
+                      }
+                      this.setState(changes);
+                    }}
+                    locale="en-gb"
+                    placeholderText={i18n.t("from2")}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={30}
+                    dateFormat="DD.MM.YYYY HH:mm"
+                    selectsStart
+                    startDate={this.state.from?moment(this.state.from*1000):null}
+                    endDate={this.state.to!==null?moment(this.state.to*1000):null}
+                    />
+                </div>
               </div></td>
               <td><div style={{ display: "flex" }}>
-                <input
-                  type="text"
-                  className="form-control"
-                  disabled={this.props.disabled}
-                  placeholder={'Do'}
-                />
+                <div style={{ width: "100%"}} className="datepickerWrap subtaskDatepickerWrap">
+                  <DatePicker
+                    className="form-control"
+                    selected={this.state.to!==null?moment(this.state.to*1000):null}
+                    disabled={this.props.disabled}
+                    onChange={e => {
+                      if(this.props.disabled)return;
+                      let changes={to: e!==null?e.valueOf()/1000:null};
+
+                      if(changes.to!==null){
+                        if(this.state.from!==0&&this.state.from!==null){
+                          let difference = e.diff(moment(this.state.from*1000),'months',true);
+                          if(difference>1|| difference < 0){
+                            return;
+                          }
+                        }
+                        if(this.state.from!==0&&this.state.from!==null){
+                          changes.hours=e.diff(moment(this.state.from*1000),'hours',true);
+                        }
+                        else if(this.state.hours){
+                          changes.from=e.subtract(this.state.hours,'hours').valueOf()/1000;
+                        }
+                      }
+                      this.setState(changes);
+                    }}
+                    locale="en-gb"
+                    placeholderText={i18n.t("to2")}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={30}
+                    minDate={this.state.from?moment(this.state.from * 1000):null}
+                    maxDate={this.state.from?moment(this.state.from * 1000).add(1,'months'):null}
+                    dateFormat="DD.MM.YYYY HH:mm"
+                    selectsEnd
+                    startDate={this.state.from?moment(this.state.from*1000):null}
+                    endDate={this.state.to!==null?moment(this.state.to*1000):null}
+                    />
+                </div>
               </div></td>
             <td colSpan="2"><div style={{ display: "flex" }}>
-                <input
-                  type="text"
-                  className="form-control"
-                  disabled={this.props.disabled}
-                  placeholder={'Hodiny'}
-                />
+              <input
+                type="number"
+                id="name"
+                disabled={this.props.disabled}
+                className="form-control"
+                onKeyPress={(e)=>{
+                  if(this.props.disabled)return;
+                  if(e.key==='Enter'){
+                    let body={
+                      done: false,
+                      title: this.state.task,
+                      hours: this.state.hours!==''?this.state.hours:undefined,
+                      from: this.state.from?this.state.from:null,
+                      to: this.state.to?this.state.to:null
+                    }
+                      this.props.addSubtask(body,
+                      this.props.taskID,
+                      this.props.token
+                    );
+                    this.setState({ task: "", hours:'', from: null, to:null });
+                  }
+                }}
+                placeholder={i18n.t('period')}
+                value={this.state.hours}
+                onChange={e =>{
+                  if(this.props.disabled)return;
+                  let changes={hours: e.target.value};
+                  if(this.state.from!==null && changes.hours!==''){
+                    changes.to= moment(this.state.from*1000).add(changes.hours,'hours').valueOf()/1000;
+                  }
+
+                  this.setState(changes)}
+                }
+              />
               </div></td>
             </tr>}
             <tr className="table-info">
@@ -209,7 +432,7 @@ class Subtasks extends Component {
               >
                 {i18n.t('totalWorkTime')}
                 <span style={{ fontWeight: "bold" }}>
-                  {75} {i18n.t('hours')}
+                  {this.sumHours()} {i18n.t('hours')}
                 </span>
               </td>
             </tr>

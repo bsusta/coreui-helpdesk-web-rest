@@ -175,8 +175,8 @@
 }
 
 .nav-link {
-	overflow:hidden; 
-    white-space:nowrap; 
+	overflow:hidden;
+    white-space:nowrap;
     text-overflow: ellipsis;
 }
 
@@ -330,6 +330,9 @@
 }
 .datepickerWrap div input {
 	width: 100%;
+}
+.subtaskDatepickerWrap div input {
+	border: none;
 }
 .datepickerWrap:active{
 	border:none !important;

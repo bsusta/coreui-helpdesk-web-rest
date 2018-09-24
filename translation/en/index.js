@@ -4,6 +4,7 @@ export default {
   to2:'To',
   hours2:'Hours',
   hours:'hours',
+  period:'Hours',
   none2:'None',
   comments:'Comments',
   taskName:'Task name',

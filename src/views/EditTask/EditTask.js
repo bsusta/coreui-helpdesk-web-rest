@@ -438,9 +438,9 @@ class EditTask extends Component {
                               </div>
                               }
      */}
- 
+
                               {!disabled &&
-                    
+
                               <MultiSelect
                                 id="tags"
                                 data={this.props.tags}
@@ -500,7 +500,7 @@ class EditTask extends Component {
                                   this.setState({ tags: ids });
                                 }}
                                 />}
-                     
+
 
                             <FormGroup>
                               <label htmlFor="description" className="input-label">{i18n.t("description")}</label>
@@ -851,7 +851,7 @@ class EditTask extends Component {
                                 </InputGroup>
                               </FormGroup>
 
-                               <FormGroup>
+                               {false && <FormGroup>
                                 <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
                                 <InputGroup>
                                   <InputGroupAddon>
@@ -870,7 +870,7 @@ class EditTask extends Component {
                                     placeholder={i18n.t("enterWorkTime")}
                                     />
                                 </InputGroup>
-                              </FormGroup>
+                              </FormGroup>}
 
                               <FormGroup>
                                 <label htmlFor="startedAt" className="input-label">{i18n.t("startedAt")}</label>
