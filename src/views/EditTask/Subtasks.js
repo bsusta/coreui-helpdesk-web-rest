@@ -29,7 +29,7 @@ class Subtasks extends Component {
   sumHours(){
     let sum = 0;
     this.props.subtasks.map((item)=>{if(item.hours){sum+=item.hours}});
-    return sum;
+    return parseFloat(sum.toFixed(2));
   }
 
   render() {
@@ -140,7 +140,7 @@ class Subtasks extends Component {
                           if(body.hours){
                             body.to=e.add(body.hours,'hours').valueOf()/1000;
                           }else if(body.to!==0&&body.to!==null){
-                            body.hours=moment(body.to*1000).diff(e,'hours',true);
+                            body.hours=parseFloat(parseFloat(moment(body.to*1000).diff(e,'hours',true)).toFixed(2));
                           }
                         }
 
@@ -157,9 +157,6 @@ class Subtasks extends Component {
                       timeFormat="HH:mm"
                       timeIntervals={30}
                       dateFormat="DD.MM.YYYY HH:mm"
-                      selectsEnd
-                      startDate={subtask.from!==null?moment(subtask.from*1000):null}
-                      endDate={subtask.to!==null?moment(subtask.to*1000):null}
                       />
                   </div>
                 </div></td>
@@ -186,7 +183,7 @@ class Subtasks extends Component {
                             }
                           }
                           if(body.from!==0&&body.from!==null){
-                            body.hours=e.diff(moment(body.from*1000),'hours',true);
+                            body.hours=parseFloat(parseFloat(e.diff(moment(body.from*1000),'hours',true)).toFixed(2));
                           }
                           else if(body.hours){
                             body.from=e.subtract(body.hours,'hours').valueOf()/1000;
@@ -208,9 +205,6 @@ class Subtasks extends Component {
                       timeFormat="HH:mm"
                       timeIntervals={30}
                       dateFormat="DD.MM.YYYY HH:mm"
-                      selectsEnd
-                      startDate={subtask.from!==null?moment(subtask.from*1000):null}
-                      endDate={subtask.to!==null?moment(subtask.to*1000):null}
                       />
                   </div>
                 </div></td>
@@ -252,8 +246,19 @@ class Subtasks extends Component {
                       });
                     }}
                     onChange={e =>{
-                      if(this.props.disabled)return;
-                      this.setState({ editedSubtaskHours: e.target.value })}
+                      let hours=e.target.value;
+                      if(hours!==''){
+                        hours = parseFloat(hours);
+                        if(isNaN(hours)){
+                          return;
+                        }
+                        hours=hours.toFixed(2);
+                        if(hours< 0){
+                          return;
+                        }
+                        hours=parseFloat(hours);
+                      }
+                      this.setState({ editedSubtaskHours: hours })}
                     }
                   />
                 </div></td>
@@ -298,6 +303,7 @@ class Subtasks extends Component {
                           from: this.state.from?this.state.from:null,
                           to: this.state.to?this.state.to:null
                         }
+                        if(body.title==='')return;
                           this.props.addSubtask(body,
                           this.props.taskID,
                           this.props.token
@@ -332,7 +338,7 @@ class Subtasks extends Component {
                         if(this.state.hours){
                           changes.to=e.add(this.state.hours,'hours').valueOf()/1000;
                         }else if(this.state.to!==0&&this.state.to!==null){
-                          changes.hours=moment(this.state.to*1000).diff(e,'hours',true);
+                          changes.hours=parseFloat(parseFloat(moment(this.state.to*1000).diff(e,'hours',true)).toFixed(2));
                         }
                       }
                       this.setState(changes);
@@ -343,9 +349,6 @@ class Subtasks extends Component {
                     timeFormat="HH:mm"
                     timeIntervals={30}
                     dateFormat="DD.MM.YYYY HH:mm"
-                    selectsStart
-                    startDate={this.state.from?moment(this.state.from*1000):null}
-                    endDate={this.state.to!==null?moment(this.state.to*1000):null}
                     />
                 </div>
               </div></td>
@@ -367,7 +370,7 @@ class Subtasks extends Component {
                           }
                         }
                         if(this.state.from!==0&&this.state.from!==null){
-                          changes.hours=e.diff(moment(this.state.from*1000),'hours',true);
+                          changes.hours=parseFloat(parseFloat(e.diff(moment(this.state.from*1000),'hours',true)).toFixed(2));
                         }
                         else if(this.state.hours){
                           changes.from=e.subtract(this.state.hours,'hours').valueOf()/1000;
@@ -383,9 +386,6 @@ class Subtasks extends Component {
                     minDate={this.state.from?moment(this.state.from * 1000):null}
                     maxDate={this.state.from?moment(this.state.from * 1000).add(1,'months'):null}
                     dateFormat="DD.MM.YYYY HH:mm"
-                    selectsEnd
-                    startDate={this.state.from?moment(this.state.from*1000):null}
-                    endDate={this.state.to!==null?moment(this.state.to*1000):null}
                     />
                 </div>
               </div></td>
@@ -405,6 +405,7 @@ class Subtasks extends Component {
                       from: this.state.from?this.state.from:null,
                       to: this.state.to?this.state.to:null
                     }
+                    if(body.title==='')return;
                       this.props.addSubtask(body,
                       this.props.taskID,
                       this.props.token
@@ -415,12 +416,22 @@ class Subtasks extends Component {
                 placeholder={i18n.t('period')}
                 value={this.state.hours}
                 onChange={e =>{
-                  if(this.props.disabled)return;
-                  let changes={hours: e.target.value};
+                  let hours=e.target.value;
+                  if(hours!==''){
+                    hours = parseFloat(hours);
+                    if(isNaN(hours)){
+                      return;
+                    }
+                    hours=hours.toFixed(2);
+                    if(hours< 0){
+                      return;
+                    }
+                    hours=parseFloat(hours);
+                  }
+                  let changes={hours};
                   if(this.state.from!==null && changes.hours!==''){
                     changes.to= moment(this.state.from*1000).add(changes.hours,'hours').valueOf()/1000;
                   }
-
                   this.setState(changes)}
                 }
               />
