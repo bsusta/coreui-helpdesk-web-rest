@@ -5,6 +5,7 @@ export default {
   hours2:'Hodiny',
   hours:'hodín',
   none2:'Žiadne',
+  period:'Počet hodín',
   comments:'Komentáre',
   taskName:'Názov úlohy',
   requestedBy:'Vyžiadané od',
