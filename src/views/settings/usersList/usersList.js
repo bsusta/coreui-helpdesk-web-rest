@@ -26,7 +26,6 @@ class UsersList extends Component {
   }
 
   getFilteredData() {
-    console.log(this.props.users);
     return this.props.users
       .filter(item =>
         (item.name + " " + item.surname)

@@ -16,6 +16,18 @@
 	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff);
 }
 
+.item-in-column{
+	cursor: pointer;
+	border-left: none;
+	border-right: none;
+	padding:5px;
+}
+
+.item-in-column:hover{
+	background-color: #20a8d8;
+	color:white;
+}
+
 //font classes
 .fontLight {
 	font-family: Segoe UI Light;
@@ -188,8 +200,8 @@
 }
 
 .nav-link {
-	overflow:hidden; 
-    white-space:nowrap; 
+	overflow:hidden;
+    white-space:nowrap;
     text-overflow: ellipsis;
 }
 
@@ -759,4 +771,3 @@ task-header-important {
 .card-background {
 	background: $edit-task-background;
 }
-

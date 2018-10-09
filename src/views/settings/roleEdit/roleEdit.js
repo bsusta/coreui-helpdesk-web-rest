@@ -33,8 +33,6 @@ const ACLs = [
 class RoleEdit extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.me);
-    console.log(this.props.user_role);
     this.state = {
       is_active: this.props.userRole.is_active ? true : false,
       title: this.props.userRole.title ? this.props.userRole.title : "",

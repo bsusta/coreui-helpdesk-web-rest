@@ -5,7 +5,7 @@ import { SET_TASKS,SET_TASKS_LOADING, ADD_TASK, SET_TASK, SET_TASK_LOADING,
   SET_TASKS_ATTRIBUTES, SET_TASKS_ATTRIBUTES_LOADING, DELETE_TASK,
   DELETE_TASK_SOLVERS, SET_TASK_SOLVERS,ADD_ATTACHMENT,
   SET_ERROR_MESSAGE,CLEAR_TASK, SET_TASK_ID, SET_TRIPOD, LOWER_ACTIVE_REQUESTS,
-  SET_REPEAT, SET_REPEAT_LOADING } from '../types';
+  SET_REPEAT, SET_REPEAT_LOADING, SET_COLUMNS } from '../types';
 import { TASKS_LIST, PROJECTS_LIST, TASK_ATTRIBUTES_LIST, PROJECT_LIST,GET_LOC, GET_FILE, REPEATS_LIST } from '../urls';
 import {addFollower} from './followerActions';
 import {addItem} from './itemActions';
@@ -26,6 +26,12 @@ import {processError} from '../../helperFunctions';
  export const setTripod = (tripod) => {
    return (dispatch) => {
      dispatch({ type: SET_TRIPOD, tripod });
+   }
+ };
+
+ export const setColumns = (columns) => {
+   return (dispatch) => {
+     dispatch({ type: SET_COLUMNS, columns });
    }
  };
 

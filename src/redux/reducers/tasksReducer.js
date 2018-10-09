@@ -5,7 +5,7 @@ import { SET_TASKS, SET_TASKS_LOADING, ADD_TASK, SET_TASK_LOADING, SET_TASK,
   SET_TASK_PROJECTS, SET_TASK_PROJECTS_LOADING,
   SET_TASKS_ATTRIBUTES,SET_TASKS_ATTRIBUTES_LOADING,
   SET_TASK_SOLVERS, DELETE_TASK_SOLVERS, LOGIN_LOGOUT, CLEAR_TASK,
-  SET_REPEAT,SET_REPEAT_LOADING
+  SET_REPEAT,SET_REPEAT_LOADING, SET_COLUMNS
 } from '../types'
 
 const initialState = {
@@ -26,6 +26,7 @@ const initialState = {
   taskSolvers:[],
   taskID:null,
   tripod:false,
+  columns:false,
   repeat:null,
   repeatLoaded:false
 };
@@ -48,6 +49,8 @@ export default function tasksReducer(state = initialState, action) {
     }
     case SET_TRIPOD:
       return { ...state, tripod:action.tripod };
+    case SET_COLUMNS:
+      return { ...state, columns:action.columns };
     case SET_TASKS:
       return { ...state, tasks:action.tasks };
     case ADD_TASK:

@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import SidebarMinimizer from "./../SidebarMinimizer";
 import MessagesDropdown from "./MessagesDropdown";
-import {logoutUser, setFilterBody, setTripod} from '../../redux/actions';
+import {logoutUser, setFilterBody, setTripod, setColumns} from '../../redux/actions';
 import { connect } from "react-redux";
 import i18n from "i18next";
 import ErrorMessagesDropdown from "./ErrorMessagesDropdown";
@@ -104,6 +104,21 @@ class Header extends Component {
             className="headerIcons"
           >
           <i
+            className="fa fa-map"
+            style={{
+              cursor: 'pointer',
+              border: 'none',
+              paddingLeft:5,
+              paddingRight:5,
+              color: this.props.columns?'#20a8d8':'white'
+            }}
+            onClick={() => {this.props.setTripod(false);this.props.setColumns(!this.props.columns);}}
+          />
+          </a>
+          <a
+            className="headerIcons"
+          >
+          <i
             className="fa fa-columns"
             style={{
               cursor: 'pointer',
@@ -112,7 +127,7 @@ class Header extends Component {
               paddingRight:5,
               color: this.props.tripod?'#20a8d8':'white'
             }}
-            onClick={() => this.props.setTripod(!this.props.tripod)}
+            onClick={() => {this.props.setTripod(!this.props.tripod);this.props.setColumns(false);}}
           />
           </a>
           {/*Settings icon*/}
@@ -150,8 +165,8 @@ const mapStateToProps = ({ login, loadingReducer, errorsReducer, filtersReducer,
   const { errorMessages } = errorsReducer;
   const { activeRequests } = loadingReducer;
   const { body } = filtersReducer;
-  const {tripod} = tasksReducer;
-  return { user, token, activeRequests, errorMessages, body,tripod };
+  const {tripod, columns} = tasksReducer;
+  return { user, token, activeRequests, errorMessages, body,tripod, columns };
 };
 
-export default connect(mapStateToProps, { logoutUser, setFilterBody,setTripod })(Header);
+export default connect(mapStateToProps, { logoutUser, setFilterBody,setTripod, setColumns })(Header);

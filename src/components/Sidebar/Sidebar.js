@@ -95,9 +95,6 @@ class Sidebar extends Component {
                     this.props.history.push('/filter/'+this.state.filterSelected+'/project/'+e.value+'/1,'+this.props.body.count);
                   }else if(this.state.tagSelected){
                     this.props.history.push('/tag/'+this.state.tagSelected+'/project/'+e.value+'/1,'+this.props.body.count);
-                  }else{
-                      console.log('nothing');
-                      console.log(this.state);
                   }
                 }}
                 />
@@ -114,8 +111,6 @@ class Sidebar extends Component {
                     this.props.history.push('/filter/'+this.state.filterSelected+'/project/all'+'/1,'+this.props.body.count);
                   }else if(this.state.tagSelected){
                     this.props.history.push('/tag/'+this.state.tagSelected+'/project/all'+'/1,'+this.props.body.count);
-                  }else{
-                      console.log('nothing');
                   }
                 }}
                 className="form-check-input"
@@ -200,7 +195,7 @@ class Sidebar extends Component {
 
                       <NavItem key={index} className={classNames(item.class)}>
                         <NavLink
-                          onClick={()=>{this.setState({filterSelected:null,tagSelected:item.id});console.log(item);}}
+                          onClick={()=>{this.setState({filterSelected:null,tagSelected:item.id});}}
                           to={item.url ? item.url+'/project/'+this.state.project.value  : ""}
                           className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
                           activeClassName="active activeNavItem fontBold">
@@ -283,7 +278,7 @@ class Sidebar extends Component {
         }
         </nav>
         <SidebarFooter />
- 
+
       </div>
     );
   }

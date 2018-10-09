@@ -11,6 +11,7 @@ import { timestampToString } from '../../helperFunctions';
 import {setTripod,setShowFilter} from '../../redux/actions';
 import i18n from 'i18next';
 import FourColumn from './fourColumn';
+import Columns from './columns';
 
 class Tasks extends Component {
 	render() {
@@ -25,7 +26,10 @@ class Tasks extends Component {
 						{this.props.tripod &&
 							<FourColumn history={this.props.history} match={this.props.match} />
 						}
-						{!this.props.tripod &&
+						{this.props.columns &&
+							<Columns  history={this.props.history} match={this.props.match} />
+						}
+						{!this.props.tripod && !this.props.columns &&
 							<TaskList  history={this.props.history} match={this.props.match} />
 						}
 					</Card>
@@ -37,9 +41,10 @@ class Tasks extends Component {
 
 const mapStateToProps = ({ filtersReducer, tasksReducer }) => {
 	const { showFilter } = filtersReducer;
-	const { tripod } = tasksReducer;
+	const { tripod , columns } = tasksReducer;
 	return {
 		showFilter,
+		columns,
 		tripod
 	};
 };
