@@ -48,12 +48,14 @@ class Filter extends Component {
 	constructor(props) {
 		super(props);
 		this.createState.bind(this);
-		this.state = { ...this.createState(false), ...props.body.body };
+		this.state = { ...this.createState(false), ...props.body.body, lastStatusCount:0 };
 	}
 
 	componentWillReceiveProps(props) {
-		if (JSON.stringify(this.props.body.body) !== JSON.stringify(props.body.body)||this.props.body.search!==props.body.search) {
-			this.setState({ ...this.createState(false), ...props.body.body });
+		if (JSON.stringify(this.props.body.body) !== JSON.stringify(props.body.body)
+		||this.props.body.search!==props.body.search
+		||this.state.lastStatusCount!==props.body.body.statuses.length) {
+			this.setState({ ...this.createState(false), ...props.body.body, lastStatusCount: props.body.body.statuses.length });
 		}
 	}
 
@@ -144,7 +146,7 @@ class Filter extends Component {
 	}
 
 	applyFilter() {
-		this.props.setFilterBody({body:this.state, page:1});
+		this.props.setFilterBody({body:{...this.state, lastStatusCount:undefined }, page:1});
 	}
 
 	createState(restore) {

@@ -10,6 +10,9 @@ class Loader extends Component {
   //before loader page is loaded, we send requests to get all available units
   constructor(props){
     super(props);
+    this.state={
+      lastStatusCount:0
+    }
     let urlData=this.props.match.params;
     let body={body:createEmptyFilterBody(),order:this.props.body.order};
     body.forcedUpdate=this.props.forcedUpdate;
@@ -69,8 +72,13 @@ class Loader extends Component {
 
   componentWillReceiveProps(props){
     //ak sa zmeni filter, nacitaj ho
-    if(JSON.stringify(this.props.body)!==JSON.stringify(props.body)){
-      //console.log('something has changed in body');
+    //console.log('/////');
+    //console.log(this.props.body.body.statuses);
+    //console.log(props.body.body.statuses);
+    if(JSON.stringify(this.props.body)!==JSON.stringify(props.body)|| (props.body.body && props.body.body.statuses.length!==this.state.lastStatusCount)){
+      this.setState({lastStatusCount:props.body.body.statuses.length});
+      //console.log(props.body);
+      console.log('something has changed in body');
       //console.log(props.body.filterID);
       if(props.body.filterID!==null  && props.body.filterID!==this.props.body.filterID){
         //console.log('filter has changed');

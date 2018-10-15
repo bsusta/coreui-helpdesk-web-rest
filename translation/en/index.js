@@ -1,6 +1,7 @@
 export default {
   globalSearch:'Global search',
   from2:'From',
+  all:'All',
   to2:'To',
   hours2:'Hours',
   hours:'hours',

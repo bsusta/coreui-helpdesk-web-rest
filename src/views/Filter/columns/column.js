@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setTaskID, setFilterBody, setShowFilter } from "../../../redux/actions";
 import {TASKS_LIST} from '../../../redux/urls';
 import {
   Row,
@@ -30,30 +29,41 @@ import i18n from 'i18next';
 class Column extends Component {
   constructor(props){
     super(props);
-  this.state={
-    tasks:[],
-    tasksLoaded:false
+    this.state={
+      tasks:[],
+      tasksLoaded:false
+    }
+    this.getTasks.bind(this);
+    this.getTasks(this.props.body);
   }
-  let body = this.props.body;
-  body.body.statuses=[this.props.status];
-   fetch(TASKS_LIST+'?limit=1999&page=1&'+body.order+(body.body?('&'+filterBodyFromState(body.body,this.props.taskAttributes)):""), {
-     method: 'get',
-     headers: {
-       'Authorization': 'Bearer ' + this.props.token,
-       'Content-Type': 'application/json'
-     }
-   }).then((response) =>{
-     if(!response.ok){
-       this.setState({tasksLoaded:true});
-       return;
-     }
-   response.json().then((data) => {
-     this.setState({tasksLoaded:true,tasks:data.data});
-     });
- }).catch(function (error) {
-   console.log(error);
- });
-}
+
+  componentWillReceiveProps(props){
+    if(JSON.stringify(this.props.body)!==JSON.stringify(props.body)){
+      this.getTasks(props.body);
+    }
+  }
+
+  getTasks(body){
+    let loadBody={...body.body};
+    loadBody.statuses=[this.props.status];
+    fetch(TASKS_LIST+'?limit=1999&page=1&'+body.order+(loadBody?('&'+filterBodyFromState(loadBody,this.props.taskAttributes)):""), {
+      method: 'get',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.token,
+        'Content-Type': 'application/json'
+      }
+    }).then((response) =>{
+      if(!response.ok){
+        this.setState({tasksLoaded:true});
+        return;
+      }
+      response.json().then((data) => {
+        this.setState({tasksLoaded:true,tasks:data.data});
+      });
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
 
   usersToString(users) {
     if (users.length === 0) {
@@ -69,12 +79,12 @@ class Column extends Component {
   render() {
     return (
       <div style={{marginLeft:10}}  key={this.props.status.id}>
-          <CardHeader style={{backgroundColor:this.props.status.color, color:'white', width:'270px', fontWeight:'bold'}}>
-            {this.props.status.title.toUpperCase()}
-          </CardHeader>
-          <ul style={{paddingLeft:0, width:'270px'}}>
-            {this.state.tasks.map((task)=>
-              <li className="list-group-item item-in-column" key={task.id}
+        <CardHeader style={{backgroundColor:this.props.status.color, color:'white', width:'270px', fontWeight:'bold'}}>
+          {this.props.status.title.toUpperCase()}
+        </CardHeader>
+        <ul style={{paddingLeft:0, width:'270px'}}>
+          {this.state.tasks.map((task)=>
+            <li className="list-group-item item-in-column" key={task.id}
               onClick={() => {
                 if(this.props.body.filterID){
                   if (task.canEdit) {
@@ -120,39 +130,39 @@ class Column extends Component {
                   console.log('unexpected');
                 }
               }}>
-                <div  className="d-flex flex-row justify-content-between" >
-                  <h5>{task.title}</h5>
-                  <span className="badge badge-success" style={{backgroundColor:task.status.color,padding:2,marginTop:'auto', marginBottom:'auto'}}>{task.status.title}</span>
-                  </div>
-                <p style={{marginBottom:0}}>
-                  {task.tags.map(tag => (
-                    <span
-                      key={tag.id}
-                      className="badge mr-1"
-                      style={{
-                        backgroundColor:
-                          (tag.color.includes("#") ? "" : "#") + tag.color,
-                        color: "white"
-                      }}
+              <div  className="d-flex flex-row justify-content-between" >
+                <h5>{task.title}</h5>
+                <span className="badge badge-success" style={{backgroundColor:task.status.color,padding:2,marginTop:'auto', marginBottom:'auto'}}>{task.status.title}</span>
+              </div>
+              <p style={{marginBottom:0}}>
+                {task.tags.map(tag => (
+                  <span
+                    key={tag.id}
+                    className="badge mr-1"
+                    style={{
+                      backgroundColor:
+                      (tag.color.includes("#") ? "" : "#") + tag.color,
+                      color: "white"
+                    }}
                     >
-                      {tag.title}
-                    </span>
-                  ))}
-                  </p>
-                  <div style={{marginBottom:0}}>
-                      Zadal:{task.requestedBy.username}
-                  </div>
-                  <p style={{marginBottom:0}}>
-                    <span>
-                      Riešil/i:{this.usersToString(task.taskHasAssignedUsers)}
-                    </span>
-                    <span style={{float:'right'}}>
-                      {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
-                    </span>
-                  </p>
-              </li>
-            )}
-          </ul>
+                    {tag.title}
+                  </span>
+                ))}
+              </p>
+              <div style={{marginBottom:0}}>
+                Zadal:{task.requestedBy.username}
+              </div>
+              <p style={{marginBottom:0}}>
+                <span>
+                  Riešil/i:{this.usersToString(task.taskHasAssignedUsers)}
+                </span>
+                <span style={{float:'right'}}>
+                  {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
+                </span>
+              </p>
+            </li>
+          )}
+        </ul>
       </div>
     );
   }
@@ -180,4 +190,4 @@ const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer,filtersR
   };
 };
 
-export default connect(mapStateToProps, { setTaskID, setFilterBody, setShowFilter })(Column);
+export default connect(mapStateToProps, { })(Column);

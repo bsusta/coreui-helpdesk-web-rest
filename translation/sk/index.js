@@ -1,5 +1,6 @@
 export default {
   globalSearch:'Vyhľadať globálne',
+  all:'Všetky',
   from2:'Od',
   to2:'Do',
   hours2:'Hodiny',
