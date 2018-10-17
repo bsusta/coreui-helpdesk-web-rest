@@ -43,6 +43,7 @@
     "moment": "^2.22.0",
     "react": "16.2.0",
     "react-addons-shallow-compare": "15.6.2",
+    "react-beautiful-dnd": "^9.0.2",
     "react-big-calendar": "0.17.0",
     "react-bootstrap-table": "4.2.0",
     "react-chartjs-2": "2.6.4",
