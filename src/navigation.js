@@ -59,6 +59,7 @@ import Messages from "./views/Messages";
 import Filter from "./views/Filter";
 import ReportFilter from "./views/ReportFilter";
 import ReportView from "./views/ReportView";
+import EditTaskNew from './views/EditTaskNew';
 
 class Full extends Component {
   constructor(props){
@@ -83,6 +84,12 @@ class Full extends Component {
           <main className="main">
             <Container fluid>
               <Switch>
+                <Route
+                  exact
+                  path="/taskExperiment1/:taskID"
+                  name="Settings"
+                  component={EditTaskNew}
+                />
                 <Route
                   exact
                   path="/settings"

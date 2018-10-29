@@ -78,9 +78,9 @@ class Column extends Component {
 
   render() {
     return (
-      <div style={{marginLeft:10}}  key={this.props.status.id}>
-        <CardHeader style={{backgroundColor:this.props.status.color, color:'white', width:'270px', fontWeight:'bold'}}>
-          {this.props.status.title.toUpperCase()}
+      <div className="column-container"  key={this.props.status.id}>
+        <CardHeader className="column-header" style={{backgroundColor:this.props.status.color, color:'white', width:'270px', fontWeight:'bold'}}>
+          {this.props.status.title}
         </CardHeader>
         <ul style={{paddingLeft:0, width:'270px'}}>
           {this.state.tasks.map((task)=>

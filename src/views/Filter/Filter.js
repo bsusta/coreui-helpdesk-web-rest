@@ -198,8 +198,7 @@ class Filter extends Component {
 	render() {
 		let ACL = this.props.user.user_role.acl;
 		return (
-			<div className="filterDivInside">
-				<div>
+			<div className="filter">
 					<Modal isOpen={this.state.saveOpen}>
 						<ModalHeader>Creating new filter</ModalHeader>
 						<ModalBody>
@@ -333,18 +332,17 @@ class Filter extends Component {
 						</ModalFooter>
 					</Modal>
 
-					<div className="card-header">
+					<div className="btn-list">
 						<button
 							type="button"
-							className="btn btn-link"
+							className="btn btn-primary waves-effect waves-light btn-sm"
 							onClick={this.applyFilter.bind(this)}
-							style={{ paddingLeft: 0 }}
 						>
 							{i18n.t('apply')}
 						</button>
 						<button
 							type="button"
-							className="btn btn-link"
+							className="btn btn-primary waves-effect waves-light btn-sm"
 							onClick={() => this.setState({ saveOpen: true })}
 						>
 							{i18n.t('save')}
@@ -352,13 +350,13 @@ class Filter extends Component {
 						{this.props.filter &&
 							this.props.match.params.id &&
 							this.props.filter.id === parseInt(this.props.match.params.id) && (
-								<button type="button" className="btn btn-link" onClick={this.deleteFilter.bind(this)}>
-									{i18n.t('delete') + ' ' + i18n.t('filter')}
+								<button type="button" className="btn btn-primary waves-effect waves-light btn-sm" onClick={this.deleteFilter.bind(this)}>
+									{i18n.t('delete')}
 								</button>
 							)}
 						<button
 							type="button"
-							className="btn btn-link"
+							className="btn btn-primary waves-effect waves-light btn-sm"
 							onClick={() => {
 								this.setState(this.createState(true));
 							}}
@@ -367,24 +365,15 @@ class Filter extends Component {
 						</button>
 					</div>
 
-					<div style={{ padding: 20 }}>
-						<div className="row" style={{ marginBottom: 25 }}>
-							<div className="col-6">
-								<h2>Filter</h2>
-							</div>
-							<div className="col-6">
-								{this.props.total !== null && (
-									<span style={{ float: 'right', color: 'red', paddingTop: '12px' }}>
-										tasks: {this.props.total}
-									</span>
-								)}
-							</div>
-						</div>
-
 						<FormGroup>
 							<label htmlFor="title" className="input-label">
 								{i18n.t('filterByName')}
 							</label>
+							{this.props.total !== null && (
+								<span style={{ float: 'right', color: 'red' }} className="center-hor">
+									{i18n.t('taskCount')}: {this.props.total}
+								</span>
+							)}
 							<input
 								className="form-control"
 								id="title"
@@ -527,8 +516,8 @@ class Filter extends Component {
 						/>
 
 						<div className="form-check" style={{ marginTop: 10 }}>
-							<label className="form-check-label input-label">
 								<input
+									id="archived"
 									type="checkbox"
 									checked={this.state.archived}
 									onChange={() => {
@@ -536,19 +525,21 @@ class Filter extends Component {
 									}}
 									className="form-check-input"
 								/>
+							<label className="form-check-label input-label" htmlFor="archived">
 								{i18n.t('archived')}
 							</label>
 						</div>
 						<div className="form-check">
-							<label className="form-check-label input-label">
 								<input
 									type="checkbox"
+									id="important"
 									checked={this.state.important}
 									onChange={() => {
 										this.setState({ important: !this.state.important });
 									}}
 									className="form-check-input"
 								/>
+							<label className="form-check-label input-label" htmlFor="important">
 								{i18n.t('important')}
 							</label>
 						</div>
@@ -582,17 +573,18 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-								<div className="form-group">
-									<label className="form-check-label input-label">
+									<span className="form-check">
 										<input
 											type="checkbox"
+											id="createdToNow"
 											className="form-check-input"
 											checked={this.state.createdToNow}
 											onChange={() => this.setState({ createdToNow: !this.state.createdToNow })}
 										/>
+									<label htmlFor="createdToNow" className="form-check-label input-label">
 										{i18n.t('now')}
 									</label>
-								</div>
+								</span>
 							</div>
 						</div>
 
@@ -628,15 +620,18 @@ class Filter extends Component {
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
 								<div className="form-group">
-									<label className="form-check-label input-label">
+									<span className="form-check">
 										<input
 											type="checkbox"
+											id="startedToNow"
 											className="form-check-input"
 											checked={this.state.startedToNow}
 											onChange={() => this.setState({ startedToNow: !this.state.startedToNow })}
 										/>
+									<label htmlFor="startedToNow" className="form-check-label input-label">
 										{i18n.t('now')}
 									</label>
+								</span>
 								</div>
 							</div>
 						</div>
@@ -672,15 +667,18 @@ class Filter extends Component {
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
 								<div className="form-group">
-									<label className="form-check-label input-label">
+									<span className="form-check">
 										<input
 											type="checkbox"
 											className="form-check-input"
+											id="deadlineToNow"
 											checked={this.state.deadlineToNow}
 											onChange={() => this.setState({ deadlineToNow: !this.state.deadlineToNow })}
 										/>
+									<label htmlFor="deadlineToNow" className="form-check-label input-label">
 										{i18n.t('now')}
 									</label>
+								</span>
 								</div>
 							</div>
 						</div>
@@ -716,15 +714,18 @@ class Filter extends Component {
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
 								<div className="form-group">
-									<label className="form-check-label input-label">
+									<span className="form-check">
 										<input
 											type="checkbox"
+											id="closedToNow"
 											className="form-check-input"
 											checked={this.state.closedToNow}
 											onChange={() => this.setState({ closedToNow: !this.state.closedToNow })}
 										/>
+									<label className="form-check-label input-label" htmlFor="closedToNow">
 										{i18n.t('now')}
 									</label>
+								</span>
 								</div>
 							</div>
 						</div>
@@ -779,7 +780,6 @@ class Filter extends Component {
 											</label>
 											<Select
 												id={attribute.id}
-												className="form-control"
 												options={attribute.options.map(option => {
 													return { label: option, value: option };
 												})}
@@ -803,7 +803,6 @@ class Filter extends Component {
 											</label>
 											<Select
 												id={attribute.id}
-												className="form-control"
 												value={this.state.task_data[attribute.id]}
 												options={attribute.options.map(option => {
 													return { label: option, value: option };
@@ -909,9 +908,7 @@ class Filter extends Component {
 									return <div>{attribute.title}</div>;
 							}
 						})}
-					</div>
 				</div>
-			</div>
 		);
 	}
 }

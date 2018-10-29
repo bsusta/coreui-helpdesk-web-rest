@@ -3,6 +3,8 @@ export default {
   all:'Všetky',
   from2:'Od',
   to2:'Do',
+  myTasks:'Moje úlohy',
+  taskCount:'Počet úloh',
   hours2:'Hodiny',
   hours:'hodín',
   none2:'Žiadne',

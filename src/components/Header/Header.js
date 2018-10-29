@@ -8,7 +8,6 @@ import {
   InputGroupAddon,
   Input
 } from "reactstrap";
-import SidebarMinimizer from "./../SidebarMinimizer";
 import MessagesDropdown from "./MessagesDropdown";
 import {logoutUser, setFilterBody, setTripod, setColumns} from '../../redux/actions';
 import { connect } from "react-redux";
@@ -25,20 +24,17 @@ class Header extends Component {
   }
   render() {
     return (
-      <header className="app-header navbar">
+      <header className="app-header navbar fontFamilyHeader">
         <SimpleLoadingBar
           activeRequests={this.props.activeRequests} color="#2A7EC5">
         </SimpleLoadingBar>
         <div style={{width:260}}>
-          <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
-            <span className="navbar-toggler-icon" />
-          </NavbarToggler>
           <NavbarToggler className="headerText">
             <a
               className="headerIcons"
               href="#"
             >
-              LanHelpdesk
+              Lan Systems
             </a>
             </NavbarToggler>
         </div>
@@ -98,6 +94,14 @@ class Header extends Component {
             {i18n.t("addProject")}
           </button>
         }
+
+        <button
+          type="button"
+          className="btn btn-link"
+          onClick={() => this.props.history.push("/taskExperiment1/2039")}
+          >
+          Test task edit 1
+        </button>
 
         <div className="ml-auto row headerCommandBar">
           <a

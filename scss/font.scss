@@ -1,0 +1,42 @@
+//Loading fonts
+@font-face {
+	font-family: Segoe UI Light;
+	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff);
+}
+@font-face {
+	font-family: Segoe UI;
+	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff);
+}
+@font-face {
+	font-family: Segoe UI Semibold;
+	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff);
+}
+@font-face {
+	font-family: Segoe UI Bold;
+	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff);
+}
+
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans');
+
+//font classes - old ones
+.fontLight {
+	font-family: Segoe UI Light;
+}
+.fontRegular {
+	font-family: Segoe UI;
+}
+.fontSemibold {
+	font-family: Segoe UI Semibold;
+}
+.fontBold {
+	font-family: Segoe UI Bold;
+}
+
+	.fontFamilyHeader, input, textarea, select, button, .fontFamilyMain, h1, h2, h3, h4, h5, h6 {
+ font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.fontFamilySidebar, label, body, .btn{
+ font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}

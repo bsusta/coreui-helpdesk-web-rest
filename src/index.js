@@ -28,7 +28,7 @@ import createStore from './redux/store';
 const store=createStore();
 ReactDOM.render((
   <Provider store={store}>
-    <HashRouter>
+    <HashRouter className="fontFamilyMain">
       <Switch>
         <Route path="/" name="Home" component={Login}/>
       </Switch>

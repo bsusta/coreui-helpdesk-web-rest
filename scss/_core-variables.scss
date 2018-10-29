@@ -14,7 +14,7 @@ $sidebar-nav-link-active-bg: white;
 $sidebar-nav-dropdown-toggle-open:white;
 
 //sidebar icon and text color
-$sidebar-color: #515151;
+$sidebar-color: inherit;
 $sidebar-active-color: #106EBE;
 $sidebar-text-size:16px;
 
@@ -24,7 +24,7 @@ $sidebar-nav-link-color: $sidebar-color;
 $sidebar-nav-dropdown-color: $sidebar-color;
 
 //main+card background
-$main-bg-color:white;
+$main-bg-color:#ebeff2;
 
 //h2 font,color,size
 
@@ -59,4 +59,3 @@ $input-search-button-radius:0px 2.3px 2.3px 0px !important;
 $filter-bg:#F9F9F9;
 
 $edit-task-background: #f4f9fd;
-

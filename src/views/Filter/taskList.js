@@ -55,37 +55,6 @@ class TaskList extends Component {
   }
 
 render(){
-  let header = i18n.t('unknownSearch');
-  let icon = 'fa fa-search';
-  if (this.props.body.filterID) {
-    if(this.props.body.filterID !== 'add'){
-      let index = this.props.filters.findIndex(filter => filter.url.includes(this.props.body.filterID));
-      if (index !== -1) {
-        header = this.props.filters[index].name;
-        icon = this.props.filters[index].icon;
-      }
-    }else{
-      let index = this.props.projects.findIndex(project => project.id && project.id.toString() === this.props.match.params.projectID);
-      if(this.props.body.projectID!=='all' && index !== -1){
-          header = this.props.projects[index].name;
-          icon = 'fa fa-folder-open';
-        }else{
-          header = i18n.t('newFilter'),
-          icon = 'fa fa-filter'
-        }
-      }
-    } else if (this.props.match.params.tagID) {
-    let index = this.props.tags.findIndex(tag => tag.id && tag.id.toString() === this.props.match.params.tagID);
-    if (index !== -1) {
-      header = this.props.tags[index].name
-      icon = this.props.user.user_role.acl.includes('share_tags')||!this.props.tags[index].public ?'fa fa-cog clickableIcon':'fa fa-cog';
-    }
-  }
-  else if (this.props.body.body.search!=='') {
-    header = i18n.t('search') + ': ' + this.props.body.body.search;
-  } else {
-    header = i18n.t('search');
-  }
   return(<div>
 	<CardHeader>
 		<label className="switch switch-text switch-primary">
@@ -104,7 +73,7 @@ render(){
 	</CardHeader>
 	<div className="table-div">
     <h2 className="h2">
-      <i className={icon} onClick={()=>{
+      <i className={this.props.headerIcon} onClick={()=>{
           if(this.props.body.tagID){
             if(this.props.user.user_role.acl.includes('share_tags')||tag.public){
               let tag=this.props.tags.find((item)=>parseInt(item.id)===parseInt(this.props.body.tagID));
@@ -112,9 +81,9 @@ render(){
             }
           }
         }} />
-      <span>{header}</span>
+			<span>{this.props.headerText}</span>
     </h2>
-    <table className="table table-striped table-hover table-sm">
+    <table className="table table-hover table-sm">
       <thead className="thead-inverse">
         <tr>
           <th style={{ width: '3%', borderTop: '0px' }}>
@@ -149,7 +118,7 @@ render(){
       </thead>
       <tbody>
         {this.props.tasks.map(task => (
-          <tr style={{ cursor: 'pointer' }} className="taskTableTag" key={task.id}
+          <tr style={{ cursor: 'pointer' }} className="taskListRowHeight" key={task.id}
             onClick={() => {
               if(this.props.body.filterID){
                 if (task.canEdit) {
@@ -206,8 +175,9 @@ render(){
             </td>
             <td style={{width:'14%'}}>
               {task.title}
+							{false &&
               <p>
-                {task.tags.map(tag => (
+                { task.tags.map(tag => (
                   <span
                     key={tag.id}
                     className="badge mr-1"
@@ -220,7 +190,7 @@ render(){
                     {tag.title}
                   </span>
                 ))}
-              </p>
+              </p>}
             </td>
             <td>{task.requestedBy.username}</td>
             <td>{task.company.title}</td>

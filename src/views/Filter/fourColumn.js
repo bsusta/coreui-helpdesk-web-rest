@@ -101,7 +101,7 @@ class Project extends Component {
   render() {
     return (
       <div className="row">
-        <div className='col-4' style={{paddingRight:1, borderRight:'1px solid #EFEFEF'}}>
+        <div className='col-4 fourColumns'>
           <CardHeader>
             <label className="switch switch-text switch-primary">
               <input
@@ -119,7 +119,8 @@ class Project extends Component {
           </CardHeader>
           <ul className="list-group" style={{paddingBottom:'1em'}}>
               {this.props.tasks.map(task => (
-                  <li className={"list-group-item"+(task.id && this.state.taskID && task.id.toString()===this.state.taskID.toString()?" active":"")} style={{cursor:'pointer',borderLeft:'none',borderRight:'none'}} key={task.id} onClick={()=>{
+                <li className="list-group-item item-in-column" style={{borderColor:status.color, cursor:'pointer'}} key={task.id}
+                  onClick={()=>{
                       this.setState({taskID:task.id, canEdit:task.canEdit});
                       setTimeout(()=>{
                         if( task.canEdit){
@@ -129,37 +130,51 @@ class Project extends Component {
                         }
                       }, 1);
                     }}>
-                    <div  className="d-flex flex-row justify-content-between">
-                      <h5>{task.title}</h5>
-                      <span className="badge badge-success" style={{backgroundColor:task.status.color,padding:2,marginTop:'auto', marginBottom:'auto'}}>{task.status.title}</span>
-                      </div>
-                    <p style={{marginBottom:0}}>
-                      {task.tags.map(tag => (
-                        <span
-                          key={tag.id}
-                          className="badge mr-1"
-                          style={{
-                            backgroundColor:
-                              (tag.color.includes("#") ? "" : "#") + tag.color,
-                            color: "white"
-                          }}
+                  <div  className="d-flex flex-row justify-content-between" >
+                    <span className="form-check">
+                      <input
+                        type="checkbox"
+                        id='statusCheckbox-myTasks'
+                        checked={task.important}
+                        onChange={() =>{
+                        }}
+                        className="form-check-input"
+                        />
+                      <label className="form-check-label" htmlFor='statusCheckbox-myTasks'>
+                        {task.title}
+                      </label>
+                    </span>
+                  </div>
+                  <p style={{marginBottom:5}}>
+                    {task.tags.map(tag => (
+                      <span
+                        key={tag.id}
+                        className="badge mr-1"
+                        style={{
+                          backgroundColor:
+                          (tag.color.includes("#") ? "" : "#") + tag.color,
+                          color: "white"
+                        }}
                         >
-                          {tag.title}
-                        </span>
-                      ))}
-                      </p>
-                      <div style={{marginBottom:0}}>
-                          Zadal:{task.requestedBy.username}
-                      </div>
-                      <p style={{marginBottom:0}}>
-                        <span>
-                          Riešil/i:{this.usersToString(task.taskHasAssignedUsers)}
-                        </span>
-                        <span style={{float:'right'}}>
-                          {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
-                        </span>
-                      </p>
-                  </li>
+                        {tag.title}
+                      </span>
+                    ))}
+                  </p>
+                  <div style={{marginBottom:0}}>
+                    <p className="pull-right">
+                      <i className="fa fa-clock-o" style={{marginRight:5}}/>
+                      <span>
+                        {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
+                      </span>
+                    </p>
+                    <p className="fontBold text-muted">
+                      Zadal:{task.requestedBy.username}
+                    </p>
+                    <p className="fontBold text-muted">
+                      Riešil/i:{this.usersToString(task.taskHasAssignedUsers)}
+                    </p>
+                  </div>
+                </li>
               ))}
             </ul>
             <Pagination

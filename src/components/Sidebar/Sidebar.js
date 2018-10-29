@@ -3,10 +3,6 @@ import { NavLink } from "react-router-dom";
 import { Badge, Nav, NavItem, NavLink as RsNavLink,FormGroup, InputGroup } from "reactstrap";
 import classNames from "classnames";
 import { connect } from "react-redux";
-import SidebarFooter from "./../SidebarFooter";
-import SidebarForm from "./../SidebarForm";
-import SidebarHeader from "./../SidebarHeader";
-import SidebarMinimizer from "./../SidebarMinimizer";
 import { getSidebar } from "../../redux/actions";
 import i18n from 'i18next';
 import Select from "react-select";
@@ -73,9 +69,7 @@ class Sidebar extends Component {
 
     // sidebar-nav root
     return (
-      <div className="sidebar">
-        <SidebarHeader />
-        <SidebarForm />
+      <div className="sidebar fontFamilySidebar">
         <nav className="sidebar-nav">
           <div className="sidebarProjectSelector">
           <FormGroup>
@@ -138,7 +132,7 @@ class Sidebar extends Component {
                     {i18n.t('viewProject')}
                   </NavLink>
                 </NavItem>}
-            <li key={this.props.sidebar.filters.key} className={activeRoute('filter', url) + (this.props.sidebar.filters.open?" open ": "") + " fontRegular sidebarSize"}>
+            <li key={this.props.sidebar.filters.key} className={activeRoute('filter', url) + (this.props.sidebar.filters.open?" open ": "")}>
                 <a
                   className="nav-link nav-dropdown-toggle"
                   href="#"
@@ -148,7 +142,7 @@ class Sidebar extends Component {
 
                   {i18n.t('filters')}
                 </a>
-                <ul className="nav-dropdown-items fontLight sidebarSize">
+                <ul className="nav-dropdown-items">
                   {
                     this.props.sidebar.filters.children.map((item,index)=>
 
@@ -179,7 +173,7 @@ class Sidebar extends Component {
                   )}
                 </ul>
               </li>
-              <li key={this.props.sidebar.tags.key} className={activeRoute('tag', url) + (this.props.sidebar.tags.open?" open ": "") + " fontRegular sidebarSize"}>
+              <li key={this.props.sidebar.tags.key} className={activeRoute('tag', url) + (this.props.sidebar.tags.open?" open ": "")}>
                   <a
                     className="nav-link nav-dropdown-toggle"
                     href="#"
@@ -189,7 +183,7 @@ class Sidebar extends Component {
 
                     {i18n.t('tags')}
                   </a>
-                  <ul className="nav-dropdown-items fontLight sidebarSize">
+                  <ul className="nav-dropdown-items">
                     {
                       this.props.sidebar.tags.children.map((item,index)=>
 
@@ -237,7 +231,7 @@ class Sidebar extends Component {
                     </NavItem>
                   </ul>
                 </li>
-                <li key="reports" className={activeRoute('tag', url) + " fontRegular sidebarSize"}>
+                <li key="reports" className={activeRoute('tag', url)}>
                     <a
                       className="nav-link nav-dropdown-toggle"
                       href="#"
@@ -246,7 +240,7 @@ class Sidebar extends Component {
                       <i className="fa fa-filte" />
                       {i18n.t('reports')}
                     </a>
-                    <ul className="nav-dropdown-items fontLight sidebarSize">
+                    <ul className="nav-dropdown-items">
                       <NavItem key={'reportFilter'} className={classNames(undefined)}>
                         <NavLink
                           onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
@@ -260,7 +254,7 @@ class Sidebar extends Component {
                         </NavLink>
                       </NavItem>
                     </ul>
-                    <ul className="nav-dropdown-items fontLight sidebarSize">
+                    <ul className="nav-dropdown-items">
                       <NavItem key={'someFilter'} className={classNames(undefined)}>
                         <NavLink
                           onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
@@ -277,8 +271,6 @@ class Sidebar extends Component {
           </Nav>
         }
         </nav>
-        <SidebarFooter />
-
       </div>
     );
   }

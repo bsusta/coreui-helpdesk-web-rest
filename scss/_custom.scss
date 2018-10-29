@@ -1,21 +1,3 @@
-//Loading fonts
-@font-face {
-	font-family: Segoe UI Light;
-	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/light/latest.woff);
-}
-@font-face {
-	font-family: Segoe UI;
-	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff);
-}
-@font-face {
-	font-family: Segoe UI Semibold;
-	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/semibold/latest.woff);
-}
-@font-face {
-	font-family: Segoe UI Bold;
-	src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff);
-}
-
 .item-in-column{
 	border-left: none;
 	border-right: none;
@@ -24,21 +6,10 @@
 
 .item-in-column:hover{
 	background-color: #20a8d8;
-	color:white;
-}
-
-//font classes
-.fontLight {
-	font-family: Segoe UI Light;
-}
-.fontRegular {
-	font-family: Segoe UI;
-}
-.fontSemibold {
-	font-family: Segoe UI Semibold;
-}
-.fontBold {
-	font-family: Segoe UI Bold;
+	color:white !important;
+	.text-muted{
+	color: white !important;
+	}
 }
 
 //App
@@ -75,7 +46,7 @@
 	padding-right: 5px;
 	color:white;
 	cursor:pointer;
-	background-color: #173849;
+	background-color: inherit;
 	border:none;
 }
 
@@ -94,7 +65,7 @@
 .headerIcons:hover{
 	text-decoration: none;
 	color:white;
-	background-color: #173849;
+	background-color: inherit;
 	border:none;
 }
 .headerIcons:focus{
@@ -120,7 +91,6 @@
 	border-radius: $input-search-radius;
 	background-color: white;
 	width: 250px !important;
- 	margin-left: 15px;
 }
 .searchButton{
 	border: $input-search-border;
@@ -142,9 +112,7 @@
 //Sidebar
 
 .sidebarProjectSelector{
-	padding-left: 16px;
-	padding-right: 16px;
-	padding-top: 12px;
+	margin: 15px;
 }
 
 .sidebar .sidebar-nav {
@@ -172,15 +140,8 @@
 	border-radius:10px;
 }
 .sidebarIcon{
-	color:$sidebar-color !important;
 	font-size: $sidebar-text-size!important;
 }
-.sidebarItem{
-	color: $sidebar-color;
-	font-size: $sidebar-text-size;
-	padding: 4;
-}
-
 .sidebar .nav-link {
      padding: 0.5rem 1rem;
     }
@@ -192,10 +153,6 @@
 }
 .activeNavItem i {
 	color: $sidebar-active-color !important;
-}
-
-.nav-link:hover {
-	background-color: #d3eef6 !important;
 }
 
 .nav-link {
@@ -248,18 +205,13 @@
 	margin-left: 5px;
 	cursor: pointer;
 }
-
-//Filter
-.filterDivInside {
-	border-right: 1px solid #eeeeee;
-	background-color: $filter-bg;
-}
+/*
 .filterDiv {
 	width: 250px;
 	border-right: 1px solid #c2cfd6;
 	flex-direction: row;
 	min-height: 95%;
-}
+}*/
 //nastavenia card headeru vo filtri
 .filterButtons {
 	button{
@@ -362,28 +314,12 @@
 
 //Card
 .card-header {
-	button{
-		//nastavenia card headeru v inych cards
-		color:$card-header-button-color;
-		font-size: 1em;
-	}
 	border: 0;
 	background-color:$card-header-bg-color;
 	margin: 0;
 	width: 100%;
 	z-index: 100;
 	height: 50px;
-	div{
-		button{
-			//nastavenia card headeru v edite tasku
-			color:$card-header-button-color;
-			font-size: 1em;
-		}
-		button i{
-			color:$card-header-button-icon-color;
-			font-size: 1em;
-		}
-	}
 }
 .card {
 	margin: auto;
@@ -478,7 +414,6 @@
 //label nastavenia
 .input-label{
 	font-size: 1em;
-	color:#0D0D0D;
 }
 
 .form-side-form{
@@ -553,14 +488,15 @@ task-header-important {
 }
 .uploadButton {
 	font-family: Segoe UI Semibold;
-	background-color: white;
 	text-transform: uppercase;
 	border-color: #2a7ec5;
 	border-radius: 7px;
-	color: #2a7ec5;
+	//color: #2a7ec5;
 	width: 100%;
 	font-weight: bolder;
+	cursor:pointer;
 }
+
 .coloredSelect {
 	padding-top: auto;
 	padding-left: 5px;

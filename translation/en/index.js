@@ -3,6 +3,8 @@ export default {
   from2:'From',
   all:'All',
   to2:'To',
+  myTasks:'My tasks',
+  taskCount:'No. of tasks',
   hours2:'Hours',
   hours:'hours',
   period:'Hours',
