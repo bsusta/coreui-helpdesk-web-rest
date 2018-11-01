@@ -85,6 +85,7 @@ const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer }) => {
 		tripod,
 		projectsOnly,
 		archived,
+		projects:[...projectsOnly,...archived],
 		tags,
 		filters
 	};

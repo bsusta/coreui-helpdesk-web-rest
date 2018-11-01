@@ -25,7 +25,7 @@ import {
 import Pagination from "../../components/pagination";
 import { timestampToString } from "../../helperFunctions";
 import i18n from 'i18next';
-import EditTask from './EditTask';
+import EditTask from '../EditTaskNew';
 import ViewTask from '../ViewTask';
 
 class Project extends Component {
@@ -131,19 +131,9 @@ class Project extends Component {
                       }, 1);
                     }}>
                   <div  className="d-flex flex-row justify-content-between" >
-                    <span className="form-check">
-                      <input
-                        type="checkbox"
-                        id='statusCheckbox-myTasks'
-                        checked={task.important}
-                        onChange={() =>{
-                        }}
-                        className="form-check-input"
-                        />
-                      <label className="form-check-label" htmlFor='statusCheckbox-myTasks'>
-                        {task.title}
-                      </label>
-                    </span>
+                    <label htmlFor='statusCheckbox-myTasks'>
+                      {task.title}
+                    </label>
                   </div>
                   <p style={{marginBottom:5}}>
                     {task.tags.map(tag => (

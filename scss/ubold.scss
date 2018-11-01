@@ -87,11 +87,11 @@ body{
   line-height: 18px;
 }
 
-.form-check-input{
+.checkbox .form-check-input{
   margin-left: 0px;
 }
 
-.form-check{
+.checkbox{
   padding-left: 2px;
   padding-right: 2px;
   margin-left: 3px;
@@ -329,14 +329,12 @@ p{
 }
 
 .experimentalTaskEdit{
-  div{
-      background-color: white;
-  }
   .card-body{
     padding-top:0px;
   }
   background-color: white;
   margin: 20px;
+  padding-top: 10px;
   border: 1px solid rgba(54, 64, 74, 0.05);
   border-radius: 5px;
 }
@@ -368,4 +366,19 @@ p{
   padding-left:5px;
   padding-right:5px;
   margin-left: 5px;
+}
+
+.input-group-addon{
+  background-color: white;
+}
+.card-body, .card-block {
+  background-color: white;
+}
+
+.nav-tabs .nav-item{
+  cursor:pointer;
+}
+
+.card{
+  padding:20px;
 }

@@ -62,7 +62,7 @@ class Comments extends Component {
     return (
       <div>
         {
-          this.props.disabled &&           
+          this.props.disabled &&
           <label style={{ fontWeight: 'bold',padding:4.8}}>{i18n.t('comments')}</label>
         }
         <div
@@ -131,7 +131,7 @@ class Comments extends Component {
                         <div><span style={{float:'right'}}>
                           {!this.props.disabled && <button
                             onClick={()=>{this.setState({newBody:"\n\n------Original Message------\n" + comment.body, comment:comment.id})}}
-                            className="btn btn-sm btn-primary float-right blueButton"
+                            className="btn btn-sm btn-primary float-right"
                           >
                             {i18n.t('reply')}
                           </button>}

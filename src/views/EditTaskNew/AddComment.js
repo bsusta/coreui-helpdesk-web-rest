@@ -135,7 +135,8 @@ class AddComment extends Component {
                 placeholder="Write message here"
               />
             </div>
-            <div className="form-group">
+            <div className="form-group row justify-content-between">
+              <span className="row">
               <input
                 type="file"
                 id={
@@ -155,7 +156,7 @@ class AddComment extends Component {
                 }}
               />
               <label
-                className="text-info comment-text"
+                className="text-info comment-text center-hor"
                 size="sm"
                 htmlFor={
                   this.props.commentID
@@ -166,16 +167,8 @@ class AddComment extends Component {
               >
                 <i style={{ color: colors.textBlue }} className="fa fa-paperclip" /><span style={{ color: colors.textBlue }}> {i18n.t('addAttachment')} </span>
               </label>
-              {(this.props.task.loggedUserIsAdmin||this.props.task.loggedUserProjectAcl.includes('edit_internal_note'))&&<Label
-                check
-                htmlFor={
-                  this.props.commentID
-                    ? "internal" + this.props.commentID
-                    : "internal"
-                }
-                style={{ marginLeft: 5 }}
-                className="align-middle comment-text"
-              >
+              {(this.props.task.loggedUserIsAdmin||this.props.task.loggedUserProjectAcl.includes('edit_internal_note'))&&
+                <span className="form-check checkbox center-hor">
                 <Input
                   type="checkbox"
                   id={
@@ -188,10 +181,21 @@ class AddComment extends Component {
                     this.setState({ internal: !this.state.internal })
                   }
                 />
-                {i18n.t('internal')}
-              </Label>}
+              <Label
+                check
+                htmlFor={
+                  this.props.commentID
+                  ? "internal" + this.props.commentID
+                  : "internal"
+                }
+                style={{ marginLeft: 5 }}
+                className="align-middle comment-text form-check-label"
+                >{i18n.t('internal')}</Label>
+              </span>}
+            </span>
+              <span>
               <button
-                className="btn btn-sm btn-success mr-2 ml-2 float-right greenButton"
+                className="btn btn-sm btn-success mr-2 ml-2 float-right"
                 onClick={() => {
                   if (this.props.commentID) {
                     this.props.addCommentsComment(
@@ -233,7 +237,7 @@ class AddComment extends Component {
                 Send
               </button>
               <button
-                className="btn btn-sm btn-danger float-right redButton"
+                className="btn btn-sm btn-danger float-right"
                 onClick={() =>
                   this.setState({
                     message: "",
@@ -250,6 +254,7 @@ class AddComment extends Component {
               >
                 {i18n.t('clear')}
               </button>
+            </span>
             </div>
 
             <div
@@ -259,7 +264,7 @@ class AddComment extends Component {
               }}
             >
             {this.state.displayUploadError && <div style={{color:'red'}}>File is too big!</div>}
-              <div style={{ paddingTop: 5, paddingRight: 10 }}>
+              <div style={{ paddingTop: 5, paddingRight: 10 }} className="row">
                 {this.props.commentAttachments.map(item => (
                   <span
                     className="badge"
@@ -312,12 +317,14 @@ class AddComment extends Component {
               </div>
             </div>
           </TabPane>
+
+
           <TabPane
             tabId="2"
             style={{
               paddingLeft: 0,
               paddingRight: 0,
-            
+
             }}
           >
             <FormGroup row>
@@ -329,7 +336,7 @@ class AddComment extends Component {
                   {this.stringifyArray(this.state.to)}
                   {this.state.to.length !== 0 && (
                     <button
-                      className="btn btn-sm btn-danger mr-1 redButton"
+                      className="btn btn-sm btn-danger mr-1"
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ to: [] })}
                     >
@@ -363,7 +370,7 @@ class AddComment extends Component {
                   {this.stringifyArray(this.state.cc)}
                   {this.state.cc.length !== 0 && (
                     <button
-                      className="btn btn-sm btn-danger mr-1 redButton"
+                      className="btn btn-sm btn-danger mr-1"
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ cc: [] })}
                     >
@@ -399,7 +406,7 @@ class AddComment extends Component {
                   {this.stringifyArray(this.state.bcc)}
                   {this.state.bcc.length !== 0 && (
                     <button
-                      className="btn btn-sm btn-danger mr-1 redButton"
+                      className="btn btn-sm btn-danger mr-1"
                       style={{ padding: 0, marginLeft: 5, marginBottom: 2 }}
                       onClick={() => this.setState({ bcc: [] })}
                     >
@@ -447,9 +454,10 @@ class AddComment extends Component {
                 placeholder={i18n.t('enterMessage')}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group row justify-content-between">
+              <span className="row">
               <label
-                className="text-info comment-text"
+                className="text-info comment-text center-hor"
                 size="sm"
                 htmlFor={
                   this.props.commentID
@@ -460,15 +468,8 @@ class AddComment extends Component {
               >
                 <i style={{ color: colors.textBlue }} className="fa fa-paperclip" /><span style={{ color: colors.textBlue, paddingRight:5 }}> {i18n.t('addAttachment')}</span>
               </label>
-              {(this.props.task.loggedUserIsAdmin||this.props.task.loggedUserProjectAcl.includes('edit_internal_note'))&&<Label
-                check
-                htmlFor={
-                  this.props.commentID
-                    ? "internal" + this.props.commentID
-                    : "internal"
-                }
-                className="align-middle comment-text"
-              >
+              {(this.props.task.loggedUserIsAdmin||this.props.task.loggedUserProjectAcl.includes('edit_internal_note'))&&
+                <span className="form-check center-hor checkbox">
                 <Input
                   type="checkbox"
                   id={
@@ -481,11 +482,23 @@ class AddComment extends Component {
                     this.setState({ internal: !this.state.internal })
                   }
                 />
+              <Label
+                check
+                htmlFor={
+                  this.props.commentID
+                  ? "internal" + this.props.commentID
+                  : "internal"
+                }
+                className="align-middle comment-text center-hor"
+                >
                 {i18n.t('internal')}
-              </Label>}
+              </Label>
+            </span>}
+          </span>}
+            <span>
               <button
                 type="submit"
-                className="btn btn-sm btn-success mr-2 ml-2 float-right greenButton"
+                className="btn btn-sm btn-success mr-2 ml-2 float-right"
                 onClick={() => {
                   if (this.props.commentID) {
                     this.props.addCommentsComment(
@@ -551,10 +564,11 @@ class AddComment extends Component {
                     id: null,
                   })
                 }
-                className="btn btn-sm btn-danger float-right redButton"
+                className="btn btn-sm btn-danger float-right"
               >
                 {i18n.t('clear')}
               </button>
+            </span>
             </div>
           </TabPane>
         </TabContent>

@@ -270,45 +270,48 @@ class Filter extends Component {
 									)}
 							</FormGroup>
 							{ACL.includes('share_filters') && (
-								<div className="form-check">
-									<label className="form-check-label">
+								<div className="form-check checkbox">
 										<input
 											type="checkbox"
+											id="filterPublic"
 											checked={this.state.filterPublic}
 											onChange={() => {
 												this.setState({ filterPublic: !this.state.filterPublic });
 											}}
 											className="form-check-input"
 										/>
+									<label className="form-check-label" htmlFor="filterPublic">
 										{i18n.t('public')}
 									</label>
 								</div>
 							)}
 							{ACL.includes('report_filters') && (
-								<div className="form-check">
-									<label className="form-check-label">
+								<div className="form-check checkbox">
 										<input
 											type="checkbox"
+											id="report"
 											checked={this.state.report}
 											onChange={() => {
 												this.setState({ report: !this.state.report });
 											}}
 											className="form-check-input"
 										/>
+									<label className="form-check-label" htmlFor="report">
 										{i18n.t('report')}
 									</label>
 								</div>
 							)}
-							<div className="form-check">
-								<label className="form-check-label">
+							<div className="form-check checkbox">
 									<input
 										type="checkbox"
+										id="filterDefault"
 										checked={this.state.filterDefault}
 										onChange={() => {
 											this.setState({ filterDefault: !this.state.filterDefault });
 										}}
 										className="form-check-input"
 									/>
+								<label className="form-check-label" htmlFor="filterDefault">
 									{i18n.t('default')}
 								</label>
 							</div>
@@ -515,7 +518,7 @@ class Filter extends Component {
 							value={this.state.tags}
 						/>
 
-						<div className="form-check" style={{ marginTop: 10 }}>
+						<div className="form-check checkbox" style={{ marginTop: 10 }}>
 								<input
 									id="archived"
 									type="checkbox"
@@ -529,7 +532,7 @@ class Filter extends Component {
 								{i18n.t('archived')}
 							</label>
 						</div>
-						<div className="form-check">
+						<div className="form-check checkbox">
 								<input
 									type="checkbox"
 									id="important"
@@ -573,7 +576,7 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-									<span className="form-check">
+									<span className="form-check checkbox">
 										<input
 											type="checkbox"
 											id="createdToNow"
@@ -620,7 +623,7 @@ class Filter extends Component {
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
 								<div className="form-group">
-									<span className="form-check">
+									<span className="form-check checkbox">
 										<input
 											type="checkbox"
 											id="startedToNow"
@@ -667,7 +670,7 @@ class Filter extends Component {
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
 								<div className="form-group">
-									<span className="form-check">
+									<span className="form-check checkbox">
 										<input
 											type="checkbox"
 											className="form-check-input"
@@ -714,7 +717,7 @@ class Filter extends Component {
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
 								<div className="form-group">
-									<span className="form-check">
+									<span className="form-check checkbox">
 										<input
 											type="checkbox"
 											id="closedToNow"
@@ -886,11 +889,11 @@ class Filter extends Component {
 									);
 								case 'checkbox':
 									return (
-										<div className="form-group" key={attribute.id}>
-											<label className="form-check-label input-label">
+										<div className="form-group form-check checkbox" key={attribute.id}>
 												<input
 													type="checkbox"
 													className="form-check-input"
+													id={'cb'+attribute.id}
 													checked={this.state.task_data[attribute.id]}
 													onChange={() => {
 														let newData = { ...this.state.task_data };
@@ -899,6 +902,7 @@ class Filter extends Component {
 														this.setState({ task_data: newData });
 													}}
 												/>
+											<label className="form-check-label input-label" htmlFor={'cb'+attribute.id}>
 												{attribute.title}
 											</label>
 										</div>

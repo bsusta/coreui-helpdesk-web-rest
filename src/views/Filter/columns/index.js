@@ -144,7 +144,7 @@ class Project extends Component {
     <button className="btn btn-success waves-effect waves-light btn-sm" type="button" onClick={() => this.props.setShowFilter(!this.props.showFilter)}>
       {i18n.t('filter')}
     </button>
-    <span className="form-check center-hor">
+    <span className="form-check center-hor checkbox">
       <input
         type="checkbox"
         id='statusCheckbox-myTasks'
@@ -164,7 +164,7 @@ class Project extends Component {
         {i18n.t('myTasks')}
       </label>
     </span>
-    <span className="form-check center-hor">
+    <span className="form-check center-hor checkbox">
       <input
         type="checkbox"
         id="statusCheckbox-all"
@@ -184,7 +184,7 @@ class Project extends Component {
   </span>
   {
     this.props.taskStatuses.map((item)=>
-    <span className="form-check center-hor" key={item.id}>
+    <span className="form-check center-hor checkbox" key={item.id}>
       <input
         type="checkbox"
         id={'statusCheckbox-'+item.id}
@@ -226,7 +226,7 @@ class Project extends Component {
                   <div
                     ref={provided.innerRef}
                     style={{
-                      background: snapshot.isDraggingOver ? 'lightblue' : 'iherit',
+                      background: snapshot.isDraggingOver ? 'lightblue' : 'white',
                       padding:20
                     }}>
                     { Object.keys(this.state.tasks).includes(status.id.toString()) && this.state.tasks[status.id].map((task, index) => (
@@ -288,19 +288,9 @@ class Project extends Component {
                                 }
                               }}>
                               <div  className="d-flex flex-row justify-content-between" >
-                                <span className="form-check">
-                                  <input
-                                    type="checkbox"
-                                    id='statusCheckbox-myTasks'
-                                    checked={task.important}
-                                    onChange={() =>{
-                                    }}
-                                    className="form-check-input"
-                                    />
-                                  <label className="form-check-label" htmlFor='statusCheckbox-myTasks'>
+                                  <label htmlFor='statusCheckbox-myTasks'>
                                     {task.title}
                                   </label>
-                                </span>
                               </div>
                               <p style={{marginBottom:5}}>
                                 {task.tags.map(tag => (

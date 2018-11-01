@@ -120,7 +120,7 @@ class Subtasks extends Component {
                 <td><div style={{ display: "flex" }}>
                   <div style={{ width: "100%"}} className="datepickerWrap subtaskDatepickerWrap">
                     <DatePicker
-                      className="form-control"
+                      className="form-control no-border"
                       selected={subtask.from!==0 && subtask.from!==null
                       ? moment(subtask.from * 1000)
                       : null}
@@ -163,7 +163,7 @@ class Subtasks extends Component {
                 <td><div style={{ display: "flex" }}>
                   <div style={{ width: "100%"}} className="datepickerWrap subtaskDatepickerWrap">
                     <DatePicker
-                      className="form-control"
+                      className="form-control no-border"
                       selected={subtask.to!==0&&subtask.to!==null
                       ? moment(subtask.to * 1000)
                       : null}
@@ -389,7 +389,7 @@ class Subtasks extends Component {
                     />
                 </div>
               </div></td>
-            <td colSpan="2"><div style={{ display: "flex" }}>
+            <td><div style={{ display: "flex" }}>
               <input
                 type="number"
                 id="name"
@@ -436,6 +436,33 @@ class Subtasks extends Component {
                 }
               />
               </div></td>
+            <td>
+              <span className="center-hor">
+                <button
+                  className="btn btn-sm btn-primary mr-1 taskAddButton"
+                  disabled={this.props.disabled}
+                  onClick={()=>{
+                    if(this.props.disabled)return;
+                    let body={
+                      done: false,
+                      title: this.state.task,
+                      hours: this.state.hours!==''?this.state.hours:undefined,
+                      from: this.state.from?this.state.from:null,
+                      to: this.state.to?this.state.to:null
+                    }
+                    if(body.title==='')return;
+                      this.props.addSubtask(body,
+                      this.props.taskID,
+                      this.props.token
+                    );
+                    this.setState({ task: "", hours:'', from: null, to:null });
+                    }
+                  }
+                  >
+                  <i className="fa fa-plus " />
+                </button>
+              </span>
+            </td>
             </tr>}
             <tr className="table-info">
               <td colSpan="5"

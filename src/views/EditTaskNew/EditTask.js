@@ -269,7 +269,7 @@ class EditTask extends Component {
           </Modal>
         }
           <Card className="experimentalTaskEdit">
-                    <CardBody>
+                    <CardBody className="whiteBG">
                       {!this.props.disabled && this.state.submitError && <span><h5 style={{color:'red'}}> {i18n.t('restrictionTaskWontSave')}</h5></span>}
                       <div
                         className="row task-header"
@@ -819,129 +819,72 @@ class EditTask extends Component {
                                 }, 4000);
                               }}
                               />
-                            <div>
+                            <div className="row">
                             <label
                               htmlFor="fileUpload"
-                              className="btn btn-primary btn-block uploadButton"
+                              className="btn btn-primary uploadButton"
                               >
                                 {i18n.t("addAttachment")}
                             </label>
+                            {this.props.attachments.map(item => (
+                              <span
+                                className="badge"
+                                style={{
+                                  backgroundColor: "#d3eef6",
+                                  color: "black",
+                                  paddingLeft: 10,
+                                  paddingRight: 10,
+                                  paddingTop: 5,
+                                  paddingBottom: 5,
+                                  marginLeft: 5,
+                                  marginTop: 1
+                                }}
+                              >
+                                <div className="row center-hor">
+                                  {!item.url && item.file.name}
+                                  {item.url && (
+                                    <a className="center-hor" target="_blank" href={item.url}>{item.file.name}</a>
+                                  )}
+                                  <button
+                                    type="button"
+                                    className="close center-block text-center m-*-auto"
+                                    aria-label="Close"
+                                    onClick={() => {
+                                      this.props.removeFile(
+                                        item.id,
+                                        this.props.token
+                                      );
+                                    }}
+                                  >
+                                    <span
+                                      aria-hidden="true"
+                                      style={{
+                                        color: "black",
+                                        marginRight: "auto",
+                                        marginLeft: "auto",
+                                        padding: 5
+                                      }}
+                                    >
+                                      &times;
+                                    </span>
+                                  </button>
+                                </div>
+                                <div style={{ flex: 1 }} />
+                                { item.file.size &&
+                                <div style={{ marginLeft: "auto", marginRight: "auto" }}>
+                                  {item.file.size}kb
+                                </div>}
+                              </span>
+                            ))}
                           </div>
                           </div>
                           {this.state.showUploadError &&<span style={{color:'red'}}>This file is too big!</span>}
                           <div className="form-group">
-                            <div style={{ paddingTop: 5, paddingRight: 10 }}>
-                              {this.props.attachments.map(item => (
-                                <span
-                                  key={item.url}
-                                  className="badge"
-                                  style={{
-                                    backgroundColor: "#d3eef6",
-                                    color: "black",
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                    paddingTop: 5,
-                                    paddingBottom: 5,
-                                    marginLeft: 5,
-                                    marginTop: 1,
-                                    width: "100%",
-                                    display: "flex"
-                                  }}
-                                  >
-                                  <div
-                                    style={{ marginTop: "auto", marginBottom: "auto" }}
-                                    >
-                                    {!item.url && item.file.name}
-                                    {item.url && (
-                                      <a href={item.url}>{item.file.name}</a>
-                                    )}
-                                  </div>
-                                  <div style={{ flex: 1 }} />
-                                  {item.file.size && (
-                                    <div
-                                      style={{
-                                        marginTop: "auto",
-                                        marginBottom: "auto"
-                                      }}
-                                      >
-                                      {item.file.size > 10000 &&
-                                        Math.ceil(item.file.size / 1000) + "kb"}
-                                        {item.file.size <= 10000 && item.file.size + "b"}
-                                      </div>
-                                    )}
+                            <div style={{ paddingTop: 5, paddingRight: 10 }} className="row">
 
-                                    {<button
-                                      type="button"
-                                      className="close"
-                                      aria-label="Close"
-                                      style={{ marginTop: "auto", marginBottom: "auto" }}
-                                      onClick={() => {
-                                        this.props.removeFile(item.id, this.props.token);
-                                        let self = this;
-                                        setTimeout(function() {
-                                          self.autoSubmit();
-                                        }, 3000);
-                                      }}
-                                      >
-                                      <span
-                                        aria-hidden="true"
-                                        style={{
-                                          color: "black",
-                                          padding: 5,
-                                          paddingBottom: 10,
-                                          margin: 0
-                                        }}
-                                        >
-                                        &times;
-                                      </span>
-                                    </button>}
-                                  </span>
-                                ))}
-                              </div>
+                            </div>
                             </div>
                           </div>}
-                          {this.props.disabled &&
-                            <div style={{ paddingTop: 5, paddingRight: 10 }}>
-                              <label style={{ fontWeight: 'bold',padding:4.8}}>{i18n.t('attachments')+ (this.props.attachments.length===0?' - '+i18n.t('none2'):': ')}</label>
-                              {this.props.attachments.map(item => (
-                                <span
-                                  key={item.url}
-                                  className="badge"
-                                  style={{
-                                    backgroundColor: "#d3eef6",
-                                    color: "black",
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                    paddingTop: 5,
-                                    paddingBottom: 5,
-                                    marginLeft: 5,
-                                    marginTop: 1
-                                  }}
-                                  >
-                                  <div
-                                    style={{ marginTop: "auto", marginBottom: "auto" }}
-                                    >
-                                    {!item.url && item.file.name}
-                                    {item.url && (
-                                      <a href={item.url}>{item.file.name}</a>
-                                    )}
-                                  </div>
-                                  <div style={{ flex: 1 }} />
-                                  {item.file.size && (
-                                    <div
-                                      style={{
-                                        marginTop: "auto",
-                                        marginBottom: "auto"
-                                      }}
-                                      >
-                                      {item.file.size > 10000 &&
-                                        Math.ceil(item.file.size / 1000) + "kb"}
-                                        {item.file.size <= 10000 && item.file.size + "b"}
-                                      </div>
-                                    )}
-                                  </span>
-                                ))}
-                              </div>}
                             <Subtasks
                               disabled={this.props.disabled}
                               taskID={this.props.task.id}
@@ -1080,6 +1023,7 @@ class EditTask extends Component {
                                                       key={item.id}
                                                       style={{
                                                         margin: "auto",
+                                                        color:'black',
                                                         border: "1px solid black",
                                                         borderRadius: "3px",
                                                         paddingLeft: 10,
@@ -1182,10 +1126,10 @@ class EditTask extends Component {
                                           );
                                           case "checkbox":
                                           return (
-                                            <div className="form-group" key={attribute.id}>
-                                              <label className="form-check-label">
+                                            <div className="form-group form-check checkbox" key={attribute.id}>
                                                 <input
                                                   type="checkbox"
+                                                  id={"cb-"+attribute.id}
                                                   className="form-check-input"
                                                   disabled={this.props.disabled}
                                                   checked={this.state.task_data[attribute.id]}
@@ -1198,6 +1142,7 @@ class EditTask extends Component {
                                                     this.setState({ task_data: newData });
                                                   }}
                                                   />
+                                                <label className="form-check-label" htmlFor={"cb-"+attribute.id}>
                                                 {attribute.title}
                                               </label>
                                             </div>

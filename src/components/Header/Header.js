@@ -95,14 +95,6 @@ class Header extends Component {
           </button>
         }
 
-        <button
-          type="button"
-          className="btn btn-link"
-          onClick={() => this.props.history.push("/taskExperiment1/2039")}
-          >
-          Test task edit 1
-        </button>
-
         <div className="ml-auto row headerCommandBar">
           <a
             className="headerIcons"

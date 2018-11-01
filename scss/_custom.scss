@@ -455,6 +455,10 @@
 	padding-right: 20px;
 }
 
+.fourColumns{
+	padding:0px;
+}
+
 .taskTableTag{
 	height: 67px;
 }
@@ -492,9 +496,10 @@ task-header-important {
 	border-color: #2a7ec5;
 	border-radius: 7px;
 	//color: #2a7ec5;
-	width: 100%;
+	//width: 100%;
 	font-weight: bolder;
 	cursor:pointer;
+	margin-bottom: 0px;
 }
 
 .coloredSelect {
@@ -655,7 +660,8 @@ task-header-important {
 //comments background
 
 .card-background {
-	background: $card-body-bg-color;
+	background-color: white;
+	//background: $card-body-bg-color;
 }
 // this css does nothing I think, commented until found
 /*
@@ -687,6 +693,10 @@ task-header-important {
 	border-bottom:0;
 }
 
+.email-app .inbox .message:hover {
+	background-color: white;
+}
+
 .tags-multiselect-button:hover {
 	background: none;
 }
@@ -704,5 +714,5 @@ task-header-important {
 }
 
 .card-background {
-	background: $edit-task-background;
+	//background: $edit-task-background;
 }

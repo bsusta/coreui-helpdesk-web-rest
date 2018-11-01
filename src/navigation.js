@@ -407,7 +407,7 @@ class Full extends Component {
                   exact
                   path="/tag/:y/project/:x/task/edit/:taskID"
                   name="Tag task list"
-                  component={EditTask}
+                  component={EditTaskNew}
                 />
                 <Route
                   exact
@@ -431,7 +431,7 @@ class Full extends Component {
                   exact
                   path="/task/edit/:taskID"
                   name="Task edit"
-                  component={EditTask}
+                  component={EditTaskNew}
                 />
                 <Route
                   exact
@@ -443,7 +443,7 @@ class Full extends Component {
                   exact
                   path="/filter/:y/project/:x/task/edit/:taskID"
                   name="Edit task"
-                  component={EditTask}
+                  component={EditTaskNew}
                 />
                 <Route
                   exact

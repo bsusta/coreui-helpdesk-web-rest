@@ -312,11 +312,11 @@ class Subtasks extends Component {
                   ))}
                 </select>
               </td>
-              <td colSpan="2">
+              <td>
                 <input
                   onKeyPress={(e)=>{
                     if(e.key==='Enter'){
-                      {
+
                         this.props.addItem(
                           {
                             title: this.state.newItem,
@@ -332,7 +332,7 @@ class Subtasks extends Component {
                           newItemCount: 1,
                           newItemPrice: 1
                         });
-                      }
+
                     }}}
                   type="text"
                   value={this.state.newItemPrice}
@@ -342,6 +342,35 @@ class Subtasks extends Component {
                   }
                   className="form-control"
                 />
+              </td>
+              <td>
+                <span className="center-hor">
+                  <button
+                    className="btn btn-sm btn-primary mr-1 taskAddButton"
+                    disabled={this.props.disabled}
+                    onClick={()=>{
+                      if(this.props.disabled)return;
+                      this.props.addItem(
+                        {
+                          title: this.state.newItem,
+                          amount: this.state.newItemCount,
+                          unit_price: this.state.newItemPrice
+                        },
+                        this.state.newItemUnit,
+                        this.props.taskID,
+                        this.props.token
+                      );
+                      this.setState({
+                        newItem: "",
+                        newItemCount: 1,
+                        newItemPrice: 1
+                      });
+                      }
+                    }
+                    >
+                    <i className="fa fa-plus " />
+                  </button>
+                </span>
               </td>
             </tr>}
             <tr className="table-info">
