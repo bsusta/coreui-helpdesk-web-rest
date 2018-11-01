@@ -56,33 +56,7 @@ class TaskList extends Component {
 
 render(){
   return(<div>
-	<CardHeader>
-		<label className="switch switch-text switch-primary">
-			<input
-				type="checkbox"
-				className="switch-input"
-				checked={this.props.showFilter}
-				onChange={() => this.props.setShowFilter(!this.props.showFilter)}
-			/>
-			<span className="switch-label" data-on="On" data-off="Off" />
-			<span className="switch-handle" />
-		</label>
-		<label style={{ paddingLeft: 10 }}>
-			{i18n.t('filter')}
-		</label>
-	</CardHeader>
 	<div className="table-div">
-    <h2 className="h2">
-      <i className={this.props.headerIcon} onClick={()=>{
-          if(this.props.body.tagID){
-            if(this.props.user.user_role.acl.includes('share_tags')||tag.public){
-              let tag=this.props.tags.find((item)=>parseInt(item.id)===parseInt(this.props.body.tagID));
-              this.props.history.push('/tag/edit/' + this.props.body.tagID);
-            }
-          }
-        }} />
-			<span>{this.props.headerText}</span>
-    </h2>
     <table className="table table-hover table-sm">
       <thead className="thead-inverse">
         <tr>

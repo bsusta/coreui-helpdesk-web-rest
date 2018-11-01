@@ -102,21 +102,6 @@ class Project extends Component {
     return (
       <div className="row">
         <div className='col-4 fourColumns'>
-          <CardHeader>
-            <label className="switch switch-text switch-primary">
-              <input
-                type="checkbox"
-                className="switch-input"
-                checked={this.props.showFilter}
-                onChange={() => this.props.setShowFilter(!this.props.showFilter)}
-                />
-              <span className="switch-label" data-on="On" data-off="Off" />
-              <span className="switch-handle" />
-            </label>
-            <label style={{ paddingLeft: 10 }}>
-              {i18n.t('filter')}
-            </label>
-          </CardHeader>
           <ul className="list-group" style={{paddingBottom:'1em'}}>
               {this.props.tasks.map(task => (
                 <li className="list-group-item item-in-column" style={{borderColor:status.color, cursor:'pointer'}} key={task.id}

@@ -28,8 +28,6 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Column from './column';
 import {TASKS_LIST} from '../../../redux/urls';
 
-const currentUser= [{ label: 'Current user', id: 'CURRENT-USER', value: 'CURRENT-USER' }];
-
 class Project extends Component {
   constructor(props){
     super(props);
@@ -133,83 +131,9 @@ class Project extends Component {
   }
 
   render() {
-    let selectedStatusesIDs=this.props.body.body.statuses.map((item2)=>item2.id);
-    let myTasksActive = JSON.stringify(this.props.body.body.requesters)===JSON.stringify(currentUser)&&JSON.stringify(this.props.body.body.assignedTos)===JSON.stringify(currentUser);
+		let selectedStatusesIDs=this.props.body.body.statuses.map((item2)=>item2.id);
     return (
       <div className="row main-container">
-        <CardHeader className="card-header-ubold">
-          <h4 className="page-title">All tasks</h4>
-  </CardHeader>
-  <div className="page-menu row">
-    <button className="btn btn-success waves-effect waves-light btn-sm" type="button" onClick={() => this.props.setShowFilter(!this.props.showFilter)}>
-      {i18n.t('filter')}
-    </button>
-    <span className="form-check center-hor checkbox">
-      <input
-        type="checkbox"
-        id='statusCheckbox-myTasks'
-        checked={myTasksActive}
-        onChange={() =>{
-          if(myTasksActive){
-            let body = {...this.props.body.body,requesters:[],assignedTos:[]};
-            this.props.setFilterBody({body});
-          }else{
-            let body = {...this.props.body.body,requesters:currentUser,assignedTos:currentUser};
-            this.props.setFilterBody({body});
-          }
-        }}
-        className="form-check-input"
-        />
-      <label className="form-check-label" htmlFor='statusCheckbox-myTasks'>
-        {i18n.t('myTasks')}
-      </label>
-    </span>
-    <span className="form-check center-hor checkbox">
-      <input
-        type="checkbox"
-        id="statusCheckbox-all"
-        checked={selectedStatusesIDs.length===0}
-        onChange={() =>{
-          if(selectedStatusesIDs.length!==0){
-            let body = {...this.props.body.body,statuses:[]};
-            this.props.setFilterBody({body});
-          }
-        }
-      }
-      className="form-check-input"
-      />
-    <label className="form-check-label" htmlFor="statusCheckbox-all">
-      {i18n.t('all')}
-    </label>
-  </span>
-  {
-    this.props.taskStatuses.map((item)=>
-    <span className="form-check center-hor checkbox" key={item.id}>
-      <input
-        type="checkbox"
-        id={'statusCheckbox-'+item.id}
-        checked={selectedStatusesIDs.includes(item.id)}
-        onChange={() =>{
-          let newStatuses=this.props.body.body.statuses;
-          if(selectedStatusesIDs.includes(item.id)){
-            newStatuses.splice(newStatuses.findIndex((item2)=>item.id===item2.id),1);
-          }else{
-            newStatuses.push(item);
-          }
-
-          let body = {...this.props.body.body,statuses:[...newStatuses]};
-          this.props.setFilterBody({ body });
-        }
-      }
-      className="form-check-input"
-      />
-    <label className="form-check-label" htmlFor={'statusCheckbox-'+item.id}>
-      {item.title}
-    </label>
-  </span>
-)
-}
-</div>
   <div style={{width:'100%'}} className="main-body">
     <div style={{display:'flex', overflowX:'scroll'}}>
       <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
