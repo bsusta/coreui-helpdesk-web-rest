@@ -103,29 +103,36 @@ class SMTPAdd extends Component {
               />
             </div>
 
-            <div className="form-check">
-              <label className="form-check-label req">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="tls"
                   className="form-check-input"
                   checked={this.state.tls}
-                  onChange={() => this.setState({ tls: !this.state.tls })}
-                />
-              {i18n.t('tsl')}
+                  onChange={() => {
+                    this.setState({ tls: !this.state.tls })
+                  }}
+                  />
+                <label className="form-check-label req" htmlFor="tls">
+                  {i18n.t('tls')}
               </label>
             </div>
 
-            <div className="form-check">
-              <label className="form-check-label req">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="ssl"
                   className="form-check-input"
                   checked={this.state.ssl}
-                  onChange={() => this.setState({ ssl: !this.state.ssl })}
-                />
-              {i18n.t('ssl')}
+                  onChange={() => {
+                    this.setState({ ssl: !this.state.ssl })
+                  }}
+                  />
+                <label className="form-check-label req" htmlFor="ssl">
+                  {i18n.t('ssl')}
               </label>
             </div>
+
             <div className="form-group">
               <button
                 type="submit"

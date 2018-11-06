@@ -78,25 +78,22 @@ class TagEdit extends Component {
 
           <div>
             <form style={{ marginTop: 15 }}>
-              <div className="form-group">
                 {
-                  ACL.includes('share_tags') && <p>
-                  <label className="switch switch-3d switch-primary">
-                    <input
-                      type="checkbox"
-                      className="switch-input"
-                      checked={this.state.public}
-                      onChange={() =>
-                        this.setState({ public: !this.state.public })
-                      }
-                    />
-                    <span className="switch-label" />
-                    <span className="switch-handle" />
-                  </label>
-                  <label style={{ paddingLeft: 10 }}>
-                    {this.state.public ? i18n.t('public') : i18n.t('private')}
-                  </label>
-                </p>
+                  ACL.includes('share_tags') &&
+                  <div className="form-group form-check checkbox">
+                      <input
+                        type="checkbox"
+                        id={"public"}
+                        className="form-check-input"
+                        checked={this.state.public}
+                        onChange={() => {
+                          this.setState({ public: !this.state.public })
+                        }}
+                        />
+                      <label className="form-check-label" htmlFor={"public"}>
+                      {this.state.public ? i18n.t('public') : i18n.t('private')}
+                    </label>
+                  </div>
               }
                 <label htmlFor="title" className="req">{i18n.t('name')}</label>
                 <input
@@ -113,7 +110,6 @@ class TagEdit extends Component {
                       {i18n.t('restrictionMustEnterTitle')}
                     </label>
                   )}
-              </div>
               <div className="form-group">
                 <label htmlFor="color" className="req">{i18n.t('color')}</label>
                 <SketchPicker

@@ -61,17 +61,18 @@ class CompanyAttributeAdd extends Component {
         <div className="card-body">
         <h2 className="h2" className="h2-setting-form">{i18n.t('addCompanyAttribute')}</h2>
           <div className="list-group">
-            <div className="form-check">
-              <label className="form-check-label">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="required"
                   className="form-check-input"
                   checked={this.state.required}
-                  onChange={() =>
+                  onChange={() => {
                     this.setState({ required: !this.state.required })
-                  }
-                />
-              {i18n.t('required')}
+                  }}
+                  />
+                <label className="form-check-label" htmlFor="required">
+                  {i18n.t('required')}
               </label>
             </div>
 

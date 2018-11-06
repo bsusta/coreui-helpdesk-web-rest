@@ -80,14 +80,24 @@ class Messages extends Component {
             paddingRight: 20,
             border: "0"
           }}>
-          <input style={{marginTop:'auto',marginBottom:'auto'}} type="checkbox" checked={this.props.messages.length===this.state.selected.length && this.props.messages.length!==0 } onChange={()=>{
-              if(this.props.messages.length===this.state.selected.length){
-                this.setState({selected:[]});
-              }
-              else{
-                this.setState({selected:this.props.messages.map((item)=>item.id)});
-              }
-            }} />
+          <div className="form-group form-check checkbox" style={{marginTop:'auto',marginBottom:'auto'}}>
+              <input
+                type="checkbox"
+                id="selectAllNone"
+                className="form-check-input"
+                checked={this.props.messages.length===this.state.selected.length && this.props.messages.length!==0 }
+                onChange={()=>{
+                    if(this.props.messages.length===this.state.selected.length){
+                      this.setState({selected:[]});
+                    }
+                    else{
+                      this.setState({selected:this.props.messages.map((item)=>item.id)});
+                    }
+                  }}
+                />
+              <label className="form-check-label" htmlFor="selectAllNone">
+            </label>
+          </div>
           <button
             type="button"
             className="btn btn-danger btn-sm"
@@ -151,17 +161,27 @@ class Messages extends Component {
                   this.setState({selected:[message.id,...this.state.selected]});
                 }
                 }}>
-                <input type="checkbox" checked={this.state.selected.includes(message.id)}
-                  onChange={()=>{
-                    if(this.state.selected.includes(message.id)){
-                      let newSelected = [...this.state.selected];
-                      newSelected.splice(newSelected.findIndex((id)=>id===message.id),1);
-                      this.setState({selected:newSelected});
-                    }
-                  else{
-                    this.setState({selected:[message.id,...this.state.selected]});
-                  }
-                  }}/>
+                <div className="form-group form-check checkbox" style={{marginTop:'auto',marginBottom:'auto'}}>
+                    <input
+                      type="checkbox"
+                      id={"messageSelected"+message.id}
+                      className="form-check-input"
+                      checked={this.state.selected.includes(message.id)}
+                      onChange={()=>{
+                        if(this.state.selected.includes(message.id)){
+                          let newSelected = [...this.state.selected];
+                          newSelected.splice(newSelected.findIndex((id)=>id===message.id),1);
+                          this.setState({selected:newSelected});
+                        }
+                      else{
+                        this.setState({selected:[message.id,...this.state.selected]});
+                      }
+                      }}
+                      />
+                    <label className="form-check-label" style={{fontSize:0}} htmlFor={"messageSelected"+message.id}>
+                      ABC
+                  </label>
+                </div>
                 <i
                   className={
                     message.comment

@@ -50,9 +50,8 @@ import ProjectEdit from "./views/ProjectEdit";
 import ProjectAdd from "./views/ProjectAdd";
 import TagAdd from "./views/TagAdd";
 import TagEdit from "./views/TagEdit";
-import EditTask from "./views/EditTask";
 import ViewTask from "./views/ViewTask";
-import AddTask from "./views/AddTask";
+import AddTask from "./views/AddTaskNew";
 import SecondEditTask from "./components/notUsed/SecondEditTask";
 import TrojStlpec from "./components/notUsed/TrojStlpec";
 import Messages from "./views/Messages";
@@ -82,7 +81,7 @@ class Full extends Component {
           {
             !this.state.error &&
           <main className="main">
-            <Container fluid>
+            <Container fluid style={{overflowX:'scroll'}}>
               <Switch>
                 <Route
                   exact

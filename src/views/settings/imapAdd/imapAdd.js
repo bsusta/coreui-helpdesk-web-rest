@@ -166,31 +166,32 @@ class ImapAdd extends Component {
               ))}
             </select>
 
-            <div className="form-check">
-              <label className="form-check-label req">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="ignore_certificate"
                   className="form-check-input"
                   checked={this.state.ignore_certificate}
-                  onChange={() =>
-                    this.setState({
-                      ignore_certificate: !this.state.ignore_certificate
-                    })
-                  }
+                  onChange={() => {
+                    this.setState({ ignore_certificate: !this.state.ignore_certificate })
+                  }}
                   />
-                {i18n.t('ignoreCertificate')}
+                <label className="form-check-label req" htmlFor="ignore_certificate">
+                  {i18n.t('ignore_certificate')}
               </label>
             </div>
-
-            <div className="form-check">
-              <label className="form-check-label req">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="ssl"
                   className="form-check-input"
                   checked={this.state.ssl}
-                  onChange={() => this.setState({ ssl: !this.state.ssl })}
+                  onChange={() => {
+                    this.setState({ ssl: !this.state.ssl })
+                  }}
                   />
-                {i18n.t('ssl')}
+                <label className="form-check-label req" htmlFor="ssl">
+                  {i18n.t('ssl')}
               </label>
             </div>
             <div className="form-group">

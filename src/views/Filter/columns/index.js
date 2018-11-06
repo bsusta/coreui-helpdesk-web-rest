@@ -135,7 +135,7 @@ class Project extends Component {
     return (
       <div className="row main-container">
   <div style={{width:'100%'}} className="main-body">
-    <div style={{display:'flex', overflowX:'scroll'}}>
+    <div style={{display:'flex'}}>
       <DragDropContext onDragEnd={this.onDragEnd.bind(this)}>
         {
           (selectedStatusesIDs.length!==0?

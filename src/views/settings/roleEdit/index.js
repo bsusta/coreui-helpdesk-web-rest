@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getUserRole, startUserRoleLoading, clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import RoleEdit from './roleEdit';
-import Loading from '../../../components/Loading';
+
 
 class RoleEditLoader extends Component {
   constructor(props){

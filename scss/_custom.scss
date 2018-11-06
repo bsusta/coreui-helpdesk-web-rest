@@ -74,9 +74,6 @@
 .noDots{
 	list-style-type: none;
 }//stops deopdown li element from containing dot list
-.app-header{
-		 max-width: 1920px;
-}
 .app-header button{
 	color:white;
 }
@@ -500,6 +497,11 @@ task-header-important {
 	font-weight: bolder;
 	cursor:pointer;
 	margin-bottom: 0px;
+}
+
+.uploadButton	:hover{
+	text-decoration: none !important;
+
 }
 
 .coloredSelect {

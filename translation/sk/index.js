@@ -335,7 +335,7 @@ export default {
   titleBeforeName:'Titul pred menom',
   to:'Adresát',
   triggers:'Reakcie',
-  tsl:'TSL',
+  tls:'TLS',
   twitter:'Twitter',
   type:'Typ',
   unit:'Jednotka',

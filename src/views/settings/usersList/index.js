@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getAllUsers, startUsersLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import UsersList from './usersList';
-import Loading from '../../../components/Loading';
+
 
 class UsersListLoader extends Component {
   constructor(props){

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getUserRoles, startUserRolesLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import RolesList from './rolesList';
-import Loading from '../../../components/Loading';
+
 
 class RolesListLoader extends Component {
   constructor(props){

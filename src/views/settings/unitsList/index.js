@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getUnits, startUnitsLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import UnitsList from './unitsList';
-import Loading from '../../../components/Loading';
+
 
 class UnitsListLoader extends Component {
   constructor(props){

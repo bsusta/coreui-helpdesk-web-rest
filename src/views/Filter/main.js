@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 import Pagination from '../../components/pagination';
 import { timestampToString } from '../../helperFunctions';
-import {setTripod,setShowFilter} from '../../redux/actions';
+import {setTripod,setShowFilter, setFilterBody} from '../../redux/actions';
 import i18n from 'i18next';
 import FourColumn from './fourColumn';
 import Columns from './columns';
@@ -93,6 +93,7 @@ class Tasks extends Component {
 				id="statusCheckbox-all"
 				checked={selectedStatusesIDs.length===0}
 				onChange={() =>{
+					console.log('aha');
 					if(selectedStatusesIDs.length!==0){
 						let body = {...this.props.body.body,statuses:[]};
 						this.props.setFilterBody({body});
@@ -181,4 +182,4 @@ const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, statuse
 	};
 };
 
-export default connect(mapStateToProps,{setTripod,setShowFilter})(Tasks);
+export default connect(mapStateToProps,{setTripod,setShowFilter,setFilterBody})(Tasks);

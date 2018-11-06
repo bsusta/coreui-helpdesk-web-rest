@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getActiveCompanyAttributes, startCompanyAttributesLoading,clearErrorMessage,setActiveRequests } from '../../../redux/actions';
 import CompanyAdd from './companyAdd';
-import Loading from '../../../components/Loading';
+
 
 class companyAddLoader extends Component {
   constructor(props){

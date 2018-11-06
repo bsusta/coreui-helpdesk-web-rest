@@ -111,20 +111,20 @@ class ImapEdit extends Component {
 							this.props.history.goBack();
 						}}
 					>
-						<div className="form-check">
-							<label className="form-check-label">
-								<input
-									type="checkbox"
-									className="form-check-input"
-									checked={this.state.is_active}
-									onChange={target => {
-										this.compareChanges('is_active', !this.state.is_active);
-										this.setState({ is_active: !this.state.is_active });
-									}}
-								/>
-								{i18n.t('activated')}
-							</label>
-						</div>
+					<div className="form-group form-check checkbox">
+					    <input
+					      type="checkbox"
+					      id="is_active"
+					      className="form-check-input"
+					      checked={this.state.is_active}
+					      onChange={() => {
+					        this.setState({ is_active: !this.state.is_active })
+					      }}
+					      />
+							<label className="form-check-label" htmlFor="is_active">
+					      {i18n.t('activated')}
+					  </label>
+					</div>
 
 						<div className="form-group">
 							<label className= "input-label" htmlFor="inbox_email" className="req input-label">
@@ -308,35 +308,36 @@ class ImapEdit extends Component {
 							))}
 						</select>
 
-						<div className="form-check">
-							<label className="form-check-label">
-								<input
-									type="checkbox"
-									className="form-check-input"
-									checked={this.state.ignore_certificate}
-									onChange={target => {
-										this.compareChanges('ignore_certificate', !this.state.ignore_certificate);
-										this.setState({ ignore_certificate: !this.state.ignore_certificate });
-									}}
-								/>
-								{i18n.t('ignoreCertificate')}
-							</label>
+						<div className="form-group form-check checkbox">
+						    <input
+						      type="checkbox"
+						      id="ignore_certificate"
+						      className="form-check-input"
+						      checked={this.state.ignore_certificate}
+						      onChange={() => {
+						        this.setState({ ignore_certificate: !this.state.ignore_certificate })
+						      }}
+						      />
+								<label className="form-check-label" htmlFor="ignore_certificate">
+						      {i18n.t('ignoreCertificate')}
+						  </label>
 						</div>
 
-						<div className="form-check">
-							<label className="form-check-label">
-								<input
-									type="checkbox"
-									className="form-check-input"
-									checked={this.state.ssl}
-									onChange={target => {
-										this.compareChanges('ssl', !this.state.ssl);
-										this.setState({ ssl: !this.state.ssl });
-									}}
-								/>
-								{i18n.t('ssl')}
-							</label>
+						<div className="form-group form-check checkbox">
+						    <input
+						      type="checkbox"
+						      id="ssl"
+						      className="form-check-input"
+						      checked={this.state.ssl}
+						      onChange={() => {
+						        this.setState({ ssl: !this.state.ssl })
+						      }}
+						      />
+								<label className="form-check-label" htmlFor="ssl">
+						      {i18n.t('ssl')}
+						  </label>
 						</div>
+						
 						<div className="form-group">
 							<button type="submit" disabled={this.state.project === null} className="btn btn-secondary">
 								{i18n.t('testConnection')}

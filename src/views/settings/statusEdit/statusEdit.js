@@ -74,20 +74,20 @@ class StatusEdit extends Component {
 							this.props.history.goBack();
 						}}
 					>
-						<div className="form-check">
-							<label className="form-check-label">
-								<input
-									type="checkbox"
-									className="form-check-input"
-									checked={this.state.is_active}
-									onChange={target => {
-										this.compareChanges('is_active', !this.state.is_active);
-										this.setState({ is_active: !this.state.is_active });
-									}}
-								/>
-								{i18n.t('activated')}
-							</label>
-						</div>
+					<div className="form-group form-check checkbox">
+					    <input
+					      type="checkbox"
+					      id="is_active"
+					      className="form-check-input"
+					      checked={this.state.is_active}
+					      onChange={() => {
+					        this.setState({ is_active: !this.state.is_active })
+					      }}
+					      />
+					    <label className="form-check-label" htmlFor="is_active">
+					      {i18n.t('activated')}
+					  </label>
+					</div>
 
 						<div className="form-group">
 							<label className= "input-label" htmlFor="title" className="req input-label">

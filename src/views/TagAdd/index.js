@@ -63,25 +63,23 @@ class TagAdd extends Component {
         <h2 className="h2">{i18n.t('addNewTag')}</h2>
         <div>
           <form style={{ marginTop: 15 }}>
-            <div className="form-group">
               {
-                ACL.includes('share_tags') && <p>
-                <label className="switch switch-3d switch-primary">
-                  <input
+                ACL.includes('share_tags') &&
+                <div className="form-group form-check checkbox">
+                    <input
                       type="checkbox"
-                      className="switch-input"
+                      id={"public"}
+                      className="form-check-input"
                       checked={this.state.public}
-                      onChange={() =>
+                      onChange={() => {
                         this.setState({ public: !this.state.public })
-                      }
+                      }}
                       />
-                  <span className="switch-label" />
-                  <span className="switch-handle" />
-                </label>
-                <label style={{ paddingLeft: 10 }}>
-                  {this.state.public ? i18n.t('public') : i18n.t('private')}
-                </label>
-              </p>
+                    <label className="form-check-label" htmlFor={"public"}>
+                    {this.state.public ? i18n.t('public') : i18n.t('private')}
+                  </label>
+                </div>
+                }
               }
               <label htmlFor="title" className="req">{i18n.t('name')}</label>
               <input
@@ -98,7 +96,6 @@ class TagAdd extends Component {
                     You must enter title
                   </label>
                 )}
-            </div>
             <div className="form-group">
               <label htmlFor="color" className="req">{i18n.t('color')}</label>
               <SketchPicker
@@ -108,9 +105,7 @@ class TagAdd extends Component {
               />
             </div>
           </form>
-
         </div>
-
       </CardBody>
       </Card>
      );

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import {getProject, startProjectLoading,clearErrorMessage, setActiveRequests } from '../../redux/actions';
 import ProjectInfo from './projectInfo';
-import Loading from '../../components/Loading';
 
 class ProjectInfoLoader extends Component {
   constructor(props){

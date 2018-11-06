@@ -101,10 +101,10 @@ class Project extends Component {
   render() {
     return (
       <div className="row">
-        <div className='col-4 fourColumns'>
+        <div className='fourColumns'>
           <ul className="list-group" style={{paddingBottom:'1em'}}>
               {this.props.tasks.map(task => (
-                <li className="list-group-item item-in-column" style={{borderColor:status.color, cursor:'pointer'}} key={task.id}
+                <li className="list-group-item item-in-column" style={{borderLeftColor:task.status.color, cursor:'pointer'}} key={task.id}
                   onClick={()=>{
                       this.setState({taskID:task.id, canEdit:task.canEdit});
                       setTimeout(()=>{
@@ -178,7 +178,7 @@ class Project extends Component {
               }
             />
         </div>
-        <div style={{margin:0,padding:0,borderLeft:'1px solid #EFEFEF'}} className='col-8'>
+        <div style={{margin:0,padding:0,borderLeft:'1px solid #EFEFEF', flex:1}}>
           {this.state.taskID && this.props.numberOfPages>0 &&
             <EditTask taskID={this.state.taskID} tripod={true} disabled={!this.state.canEdit} history={this.props.history} match={this.props.match}/>}
         </div>

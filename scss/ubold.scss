@@ -9,6 +9,10 @@
   padding-left: 25px !important;
 }
 
+.headerFiller{
+  width:calc( calc(100% - 1920px)/2);
+}
+
 .searchButton{
   background-color: white;
   padding: 3.75px 8.875px  3.75px  8.875px;
@@ -249,12 +253,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 10px;
 }
 
-.main-container{
-  padding-left: 5px;
-}
-
 .column-container{
-  margin-left: 10px;
   margin-right: 10px;
   margin-top: 20px;
   background-color: #fafafa;
@@ -270,12 +269,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .item-in-column{
   border: 1px solid rgba(152, 166, 173, 0.2);
+  border-radius: 5px;
   border-left-width: 3px;
-  margin-top: 3px;
   margin-bottom: 10px;
   padding-bottom: 20px;
   padding-left: 10px;
   background-color: white;
+  width:350px;
 }
 
 .badge{
@@ -333,10 +333,12 @@ p{
     padding-top:0px;
   }
   background-color: white;
-  margin: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   padding-top: 10px;
   border: 1px solid rgba(54, 64, 74, 0.05);
   border-radius: 5px;
+  min-width:1000px;
 }
 
 .no-border{
@@ -349,7 +351,7 @@ p{
   }
   div {
     div label{
-      width:200px;
+      width:140px;
     }
   }
 }
@@ -377,8 +379,4 @@ p{
 
 .nav-tabs .nav-item{
   cursor:pointer;
-}
-
-.card{
-  padding:20px;
 }

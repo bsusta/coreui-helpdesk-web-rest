@@ -119,32 +119,32 @@ class CompanyAttributeEdit extends Component {
         <div className="card-body">
         <h2 className="h2" className="h2-setting-form">{i18n.t('editCompanyAttribute')}</h2>
           <div className="list-group">
-            <div className="form-check">
-              <label className="form-check-label">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="required"
+                  className="form-check-input"
                   checked={this.state.required}
                   onChange={() => {
-                    this.compareChanges("required", !this.state.required);
-                    this.setState({ required: !this.state.required });
+                    this.setState({ required: !this.state.required })
                   }}
-                  className="form-check-input"
-                />
-                {i18n.t('required')}
+                  />
+                <label className="form-check-label" htmlFor="required">
+                  {i18n.t('required')}
               </label>
             </div>
-            <div className="form-check">
-              <label className="form-check-label">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="is_active"
+                  className="form-check-input"
                   checked={this.state.is_active}
                   onChange={() => {
-                    this.compareChanges("is_active", !this.state.is_active);
-                    this.setState({ is_active: !this.state.is_active });
+                    this.setState({ is_active: !this.state.is_active })
                   }}
-                  className="form-check-input"
-                />
-              {i18n.t('activated')}
+                  />
+                <label className="form-check-label" htmlFor="is_active">
+                  {i18n.t('activated')}
               </label>
             </div>
             <div className="form-group">

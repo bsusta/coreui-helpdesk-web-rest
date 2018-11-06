@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import {getProjectTasks, startProjectTasksLoading,clearErrorMessage,startProjectLoading,getProject, setActiveRequests } from '../../redux/actions';
-import Loading from '../../components/Loading';
 import Project from './ProjectContainer';
 
 class ProjectLoader extends Component {

@@ -352,12 +352,12 @@ class CompanyAdd extends Component {
                     );
                     case "checkbox":
                     return (
-                      <div className="form-group row" key={attribute.id}>
-                        <label className="form-check-label col-md-2 col-form-label">
+                      <div className="form-group form-check checkbox" key={attribute.id}>
                           <input
                             type="checkbox"
-                            className="form-check-input col-md-10"
-                            checked={this.state.company_data[attribute.id]}
+                            id={"cb-"+attribute.id}
+                            className="form-check-input"
+                            checked={this.state.company_data[attribute.id]}y
                             onChange={() => {
                               let newData = { ...this.state.company_data };
                               newData[attribute.id] = !newData[
@@ -366,6 +366,7 @@ class CompanyAdd extends Component {
                               this.setState({ company_data: newData });
                             }}
                             />
+                          <label className="form-check-label" htmlFor={"cb-"+attribute.id}>
                           {attribute.title}
                         </label>
                       </div>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getTaskAttributes, startTaskAttributesLoading,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import TaskAttributesList from './taskAttributesList';
-import Loading from '../../../components/Loading';
+
 
 class TaskAttributesListLoader extends Component {
   constructor(props){

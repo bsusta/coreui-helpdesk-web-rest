@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getSMTP, startSMTPLoading, clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import SMTPEdit from './SMTPEdit';
-import Loading from '../../../components/Loading';
+
 
 class SMTPEditLoader extends Component {
   constructor(props){

@@ -9,7 +9,6 @@ import {  startTaskLoading,startTaskProjectsLoading,startStatusesLoading,getTask
   startCommentsLoading, getComments,startSubtasksLoading,getSubtasks,startItemsLoading,getItems,
   setRepeatLoaded,getRepeat} from '../../redux/actions';
 import EditTask from './EditTask';
-import Loading from '../../components/Loading';
 
 class EditTaskLoader extends Component {
   constructor(props){

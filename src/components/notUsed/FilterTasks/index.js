@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import {getFilteredTasks, startFilterTasksLoading,clearErrorMessage, setActiveRequests } from '../../redux/actions';
-import Loading from '../../components/Loading';
 import Filter from './FilterTasks';
 
 class FilterLoader extends Component {

@@ -15,7 +15,7 @@ class SMTPEdit extends Component {
       password: this.props.SMTP.password ? this.props.SMTP.password : "",
       port: this.props.SMTP.port ? this.props.SMTP.port.toString() : "",
       ssl: this.props.SMTP.ssl ? this.props.SMTP.ssl : false,
-      tls: this.props.SMTP.tls ? this.props.SMTP.tls : false,
+      tsl: this.props.SMTP.tls ? this.props.SMTP.tls : false,
       submitError:false,
       changed:false
     };
@@ -155,35 +155,36 @@ class SMTPEdit extends Component {
             {this.state.submitError && this.state.password===''&&<label className= "input-label" htmlFor="password" style={{color:'red'}}>{i18n.t('mustEnterPassword')}</label>}
             </div>
 
-            <div className="form-check">
-              <label className="form-check-label req">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="tsl"
                   className="form-check-input"
-                  checked={this.state.tls}
-                  onChange={target =>{
-                    this.compareChanges('tls', !this.state.tls);
-                    this.setState({ tls: !this.state.tls })}
-                  }
-                />
-                {i18n.t('tsl')}
+                  checked={this.state.tsl}
+                  onChange={() => {
+                    this.setState({ tsl: !this.state.tsl })
+                  }}
+                  />
+                <label className="form-check-label req" htmlFor="tsl">
+                  {i18n.t('tsl')}
               </label>
             </div>
 
-            <div className="form-check">
-              <label className="form-check-label req">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="ssl"
                   className="form-check-input"
                   checked={this.state.ssl}
-                  onChange={target =>{
-                    this.compareChanges('ssl', !this.state.ssl);
-                    this.setState({ ssl: !this.state.ssl })}
-                  }
-                />
-                {i18n.t('ssl')}
+                  onChange={() => {
+                    this.setState({ ssl: !this.state.ssl })
+                  }}
+                  />
+                <label className="form-check-label req" htmlFor="ssl">
+                  {i18n.t('ssl')}
               </label>
             </div>
+
             <div className="form-group">
               <button
                 type="submit"

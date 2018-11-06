@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import Tasks from './main';
-import Loading from '../../components/Loading';
 import {createEmptyFilterBody} from '../../helperFunctions';
 
 class Loader extends Component {

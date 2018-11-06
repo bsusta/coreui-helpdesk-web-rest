@@ -162,18 +162,19 @@ class RoleAdd extends Component {
 
 						<h3>{i18n.t('acls')}</h3>
 						{ACLs.map(acl => (
-							<div className="form-check" key={acl.value}>
-								<label className="form-check-label">
-									<input
-										type="checkbox"
-										className="form-check-input"
-										checked={this.state.acl.includes(acl.value)}
+							<div className="form-group form-check checkbox" key={acl.value}>
+							    <input
+							      type="checkbox"
+							      id={"acl-"+acl.value}
+							      className="form-check-input"
+							      checked={this.state.acl.includes(acl.value)}
 										onChange={() => this.aclChange(acl.value)}
-									/>
+							      />
+									<label className="form-check-label" htmlFor={"acl-"+acl.value}>
 									{i18n.t(acl.title)}
-								</label>
-							</div>
-						))}
+							  </label>
+							</div>))
+						}
 
 						<div className="form-group">
 							<button type="submit" className="btn btn-primary mr-2" onClick={this.submit.bind(this)}>

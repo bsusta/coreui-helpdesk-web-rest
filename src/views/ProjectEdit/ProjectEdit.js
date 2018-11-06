@@ -117,23 +117,20 @@ class ProjectEdit extends Component {
           <div>
             <form style={{ marginTop: 15 }}>
               <div className="form-group">
-                <p>
-                  <label className="switch switch-3d switch-primary">
+                <div className="form-group form-check checkbox">
                     <input
                       type="checkbox"
-                      className="switch-input"
+                      id="is_active"
+                      className="form-check-input"
                       checked={this.state.is_active}
-                      onChange={() =>
+                      onChange={() => {
                         this.setState({ is_active: !this.state.is_active })
-                      }
-                    />
-                    <span className="switch-label" />
-                    <span className="switch-handle" />
+                      }}
+                      />
+                    <label className="form-check-label" htmlFor="is_active">
+                      {i18n.t('activated')}
                   </label>
-                  <label style={{ paddingLeft: 10 }}>
-                    {this.state.is_active ? i18n.t('activated') : i18n.t('archived')}
-                  </label>
-                </p>
+                </div>
                 <label htmlFor="title" className="req input-label">{i18n.t('projectName')}</label>
                 <input
                   className="form-control"
@@ -237,91 +234,159 @@ class ProjectEdit extends Component {
                 <tr key={perm.user.id}>
                   <td>{perm.user.username}</td>
                   <td>
-                    <input
-                      type="checkbox"
-                      disabled={perm.user.id === this.props.user.id}
-                      checked={perm.acl.includes("view_own_tasks")}
-                      onChange={() =>
-                        this.setPermission(perm, "view_own_tasks")
-                      }
-                    />
+                    <span className="form-group form-check checkbox">
+                        <input
+                          type="checkbox"
+                          id={perm.user.id+'view_own_tasks'}
+                          className="form-check-input"
+                          disabled={perm.user.id === this.props.user.id}
+                          checked={perm.acl.includes("view_own_tasks")}
+                          onChange={() => {
+                            this.setPermission(perm, "view_own_tasks")
+                          }}
+                          />
+                        <label style={{fontSize:0}} className="form-check-label" htmlFor={perm.user.id+'view_own_tasks'}>
+                          aaa
+                      </label>
+                    </span>
                   </td>
                   <td>
-                    <input
-                      type="checkbox"
-                      disabled={perm.user.id === this.props.user.id}
-                      checked={perm.acl.includes(
-                        "view_tasks_from_users_company"
-                      )}
-                      onChange={() =>
-                        this.setPermission(
-                          perm,
-                          "view_tasks_from_users_company"
-                        )
-                      }
-                    />
+                    <span className="form-group form-check checkbox">
+                        <input
+                          type="checkbox"
+                          id={perm.user.id+'view_tasks_from_users_company'}
+                          className="form-check-input"
+                          disabled={perm.user.id === this.props.user.id}
+                          checked={perm.acl.includes("view_tasks_from_users_company")}
+                          onChange={() => {
+                            this.setPermission(perm, "view_tasks_from_users_company")
+                          }}
+                          />
+                        <label style={{fontSize:0}} className="form-check-label" htmlFor={perm.user.id+'view_tasks_from_users_company'}>
+                          aaa
+                      </label>
+                    </span>
+                  </td>
+
+                  <td>
+                    <span className="form-group form-check checkbox">
+                        <input
+                          type="checkbox"
+                          id={perm.user.id+'view_all_tasks'}
+                          className="form-check-input"
+                          disabled={perm.user.id === this.props.user.id}
+                          checked={perm.acl.includes("view_all_tasks")}
+                          onChange={() => {
+                            this.setPermission(perm, "view_all_tasks")
+                          }}
+                          />
+                        <label style={{fontSize:0}} className="form-check-label" htmlFor={perm.user.id+'view_all_tasks'}>
+                          aaa
+                      </label>
+                    </span>
                   </td>
                   <td>
-                    <input
-                      type="checkbox"
-                      disabled={perm.user.id === this.props.user.id}
-                      checked={perm.acl.includes("view_all_tasks")}
-                      onChange={() =>
-                        this.setPermission(perm, "view_all_tasks")
-                      }
-                    />
+                    <span className="form-group form-check checkbox">
+                        <input
+                          type="checkbox"
+                          id={perm.user.id+'create_task'}
+                          className="form-check-input"
+                          disabled={perm.user.id === this.props.user.id}
+                          checked={perm.acl.includes("create_task")}
+                          onChange={() => {
+                            this.setPermission(perm, "create_task")
+                          }}
+                          />
+                        <label style={{fontSize:0}} className="form-check-label" htmlFor={perm.user.id+'create_task'}>
+                          aaa
+                      </label>
+                    </span>
+                  </td>
+
+                  <td>
+                    <span className="form-group form-check checkbox">
+                        <input
+                          type="checkbox"
+                          id={perm.user.id+'resolve_task'}
+                          className="form-check-input"
+                          disabled={perm.user.id === this.props.user.id}
+                          checked={perm.acl.includes("resolve_task")}
+                          onChange={() => {
+                            this.setPermission(perm, "resolve_task")
+                          }}
+                          />
+                        <label style={{fontSize:0}} className="form-check-label" htmlFor={perm.user.id+'resolve_task'}>
+                          aaa
+                      </label>
+                    </span>
                   </td>
                   <td>
-                    <input
-                      type="checkbox"
-                      disabled={perm.user.id === this.props.user.id}
-                      checked={perm.acl.includes("create_task")}
-                      onChange={() => this.setPermission(perm, "create_task")}
-                    />
+                    <span className="form-group form-check checkbox">
+                        <input
+                          type="checkbox"
+                          id={perm.user.id+'delete_task'}
+                          className="form-check-input"
+                          disabled={perm.user.id === this.props.user.id}
+                          checked={perm.acl.includes("delete_task")}
+                          onChange={() => {
+                            this.setPermission(perm, "delete_task")
+                          }}
+                          />
+                        <label style={{fontSize:0}} className="form-check-label" htmlFor={perm.user.id+'delete_task'}>
+                          aaa
+                      </label>
+                    </span>
                   </td>
                   <td>
-                    <input
-                      type="checkbox"
-                      disabled={perm.user.id === this.props.user.id}
-                      checked={perm.acl.includes("resolve_task")}
-                      onChange={() => this.setPermission(perm, "resolve_task")}
-                    />
+                    <span className="form-group form-check checkbox">
+                        <input
+                          type="checkbox"
+                          id={perm.user.id+'view_internal_note'}
+                          className="form-check-input"
+                          disabled={perm.user.id === this.props.user.id}
+                          checked={perm.acl.includes("view_internal_note")}
+                          onChange={() => {
+                            this.setPermission(perm, "view_internal_note")
+                          }}
+                          />
+                        <label style={{fontSize:0}} className="form-check-label" htmlFor={perm.user.id+'view_internal_note'}>
+                          aaa
+                      </label>
+                    </span>
                   </td>
                   <td>
-                    <input
-                      type="checkbox"
-                      disabled={perm.user.id === this.props.user.id}
-                      checked={perm.acl.includes("delete_task")}
-                      onChange={() => this.setPermission(perm, "delete_task")}
-                    />
+                    <span className="form-group form-check checkbox">
+                        <input
+                          type="checkbox"
+                          id={perm.user.id+'edit_internal_note'}
+                          className="form-check-input"
+                          disabled={perm.user.id === this.props.user.id}
+                          checked={perm.acl.includes("edit_internal_note")}
+                          onChange={() => {
+                            this.setPermission(perm, "edit_internal_note")
+                          }}
+                          />
+                        <label style={{fontSize:0}} className="form-check-label" htmlFor={perm.user.id+'edit_internal_note'}>
+                          aaa
+                      </label>
+                    </span>
                   </td>
                   <td>
-                    <input
-                      type="checkbox"
-                      disabled={perm.user.id === this.props.user.id}
-                      checked={perm.acl.includes("view_internal_note")}
-                      onChange={() =>
-                        this.setPermission(perm, "view_internal_note")
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      disabled={perm.user.id === this.props.user.id}
-                      checked={perm.acl.includes("edit_internal_note")}
-                      onChange={() =>
-                        this.setPermission(perm, "edit_internal_note")
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      disabled={perm.user.id === this.props.user.id}
-                      checked={perm.acl.includes("edit_project")}
-                      onChange={() => this.setPermission(perm, "edit_project")}
-                    />
+                    <span className="form-group form-check checkbox">
+                        <input
+                          type="checkbox"
+                          id={perm.user.id+'edit_project'}
+                          className="form-check-input"
+                          disabled={perm.user.id === this.props.user.id}
+                          checked={perm.acl.includes("edit_project")}
+                          onChange={() => {
+                            this.setPermission(perm, "edit_project")
+                          }}
+                          />
+                        <label style={{fontSize:0}} className="form-check-label" htmlFor={perm.user.id+'edit_project'}>
+                          aaa
+                      </label>
+                    </span>
                   </td>
                   <td>
                     {perm.user.id !== this.props.user.id && (

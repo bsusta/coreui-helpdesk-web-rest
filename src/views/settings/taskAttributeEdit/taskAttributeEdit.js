@@ -93,37 +93,37 @@ class TaskAttributeEdit extends Component {
         <h2 className="h2" className="h2-setting-form">{i18n.t('addTaskAttribute')}</h2>
           <div className="list-group">
 
-            <div className="form-check">
-              <label className="form-check-label">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
-                  checked={this.state.required}
+                  id="required"
+                  className="form-check-input"
                   disabled={this.state.type==='simple_select'}
-                  onChange={() =>{
+                  checked={this.state.required}
+                  onChange={() => {
                     this.compareChanges("required",!this.state.required);
                     this.setState({ required: !this.state.required })
-                  }
-                }
-                className="form-check-input"
-                />
-                {i18n.t('required')}
-            </label>
-          </div>
-            <div className="form-check">
-              <label className="form-check-label">
+                  }}
+                  />
+                <label className="form-check-label" htmlFor="required">
+                  {i18n.t('required')}
+              </label>
+            </div>
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="is_active"
+                  className="form-check-input"
                   checked={this.state.is_active}
-                  onChange={() =>{
+                  onChange={() => {
                     this.compareChanges("is_active",!this.state.is_active);
                     this.setState({ is_active: !this.state.is_active })
-                  }
-                }
-                className="form-check-input"
-                />
-              {i18n.t('activated')}
-            </label>
-          </div>
+                  }}
+                  />
+                <label className="form-check-label" htmlFor="is_active">
+                  {i18n.t('activated')}
+              </label>
+            </div>
           <div className="form-group">
             <label className= "input-label" htmlFor="title" className="req input-label">{i18n.t('title')}</label>
             <input

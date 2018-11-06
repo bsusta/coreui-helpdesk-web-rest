@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getUnit, startUnitLoading, clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import UnitEdit from './unitEdit';
-import Loading from '../../../components/Loading';
+
 
 class UnitEditLoader extends Component {
   constructor(props){

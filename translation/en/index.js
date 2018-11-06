@@ -334,7 +334,7 @@ export default {
   titleBeforeName:'Title before name',
   to:'To',
   triggers:'Triggers',
-  tsl:'TSL',
+  tls:'TLS',
   twitter:'Twitter',
   type:'Type',
   unit:'Unit',

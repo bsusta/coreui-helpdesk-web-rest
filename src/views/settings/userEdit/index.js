@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getCompanies, startCompaniesLoading, getUserRoles, startUserRolesLoading, startUserLoading,getUser,clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import UserEdit from './userEdit';
-import Loading from '../../../components/Loading';
+
 
 class UserAddLoader extends Component {
   constructor(props){

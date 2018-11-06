@@ -7,7 +7,6 @@ startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,
 startUnitsLoading, getUnits, deleteTaskSolvers, startUsersLoading, getUsers,
 clearErrorMessage, clearFilterTasks, getFilter, setFilterPage } from '../../redux/actions';
 import FilterLoader from './FilterLoader';
-import Loading from '../../components/Loading';
 
 class Loader extends Component {
   constructor(props){

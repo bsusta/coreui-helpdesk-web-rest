@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import {getTagTasks, startTagTasksLoading, clearErrorMessage, setActiveRequests } from '../../redux/actions';
 import TagTasks from './TagTasks';
-import Loading from '../../components/Loading';
 
 class TagTasksLoader extends Component {
   constructor(props){

@@ -140,21 +140,20 @@ class UserEdit extends Component {
 							this.props.history.goBack();
 						}}
 					>
-						<div className="form-group form-check">
-							<label className="form-check-label">
-								<input
-									type="checkbox"
-									disabled={this.state.disabled}
-									className="form-check-input"
-									checked={this.state.is_active}
-									onChange={() => {
-										this.compareChanges('is_active', !this.state.is_active);
-										this.setState({ is_active: !this.state.is_active });
-									}}
-								/>
-								{i18n.t('activated')}
-							</label>
-						</div>
+					<div className="form-group form-check checkbox">
+					    <input
+					      type="checkbox"
+					      id="is_active"
+					      className="form-check-input"
+					      checked={this.state.is_active}
+					      onChange={() => {
+					        this.setState({ is_active: !this.state.is_active })
+					      }}
+					      />
+					    <label className="form-check-label" htmlFor="is_active">
+					      {i18n.t('activated')}
+					  </label>
+					</div>
 
 						<div className="row form-group">
 							<div className="col-md-4">
@@ -647,7 +646,7 @@ class UserEdit extends Component {
 								{i18n.t('cancel')}
 							</button>
             </div>
-       
+
 					</form>
 				</div>
 			</div>

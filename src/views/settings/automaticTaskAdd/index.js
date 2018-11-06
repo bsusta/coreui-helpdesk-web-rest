@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Loading from "../../../components/Loading";
 var mockOptions = ["Options 1", "Options 2", "Options 3", "Options 4"];
 
 export default class AutomaticTaskAdd extends Component {

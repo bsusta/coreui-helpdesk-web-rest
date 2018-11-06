@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getTag, startTagLoading,clearErrorMessage, setActiveRequests } from '../../redux/actions';
 import TagEdit from './TagEdit';
-import Loading from '../../components/Loading';
+
 
 class TagEditLoader extends Component {
   constructor(props){

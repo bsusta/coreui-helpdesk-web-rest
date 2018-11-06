@@ -125,21 +125,22 @@ class RoleEdit extends Component {
               this.props.history.goBack();
             }}
           >
-            <div className="form-check">
-              <label className="form-check-label">
-                <input
-                  type="checkbox"
-                  disabled={this.state.disabled}
-                  checked={this.state.is_active}
-                  onChange={target =>{
-                    this.compareChanges('is_active', !this.state.is_active);
-                    this.setState({ is_active: !this.state.is_active })
-                  }}
-                  className="form-check-input"
+          <div className="form-group form-check checkbox">
+              <input
+                type="checkbox"
+                id="is_active"
+                className="form-check-input"
+                disabled={this.state.disabled}
+                checked={this.state.is_active}
+                onChange={() => {
+                  this.compareChanges('is_active', !this.state.is_active);
+                  this.setState({ is_active: !this.state.is_active })
+                }}
                 />
-              {i18n.t('activated')}
-              </label>
-            </div>
+              <label className="form-check-label" htmlFor="is_active">
+                {i18n.t('activated')}
+            </label>
+          </div>
 
             <div className="form-group">
               <label className= "input-label" htmlFor="title" className="req input-label">{i18n.t('roleName')}</label>
@@ -208,21 +209,21 @@ class RoleEdit extends Component {
             { this.state.submitError && this.state.order===''&&<label className= "input-label" htmlFor="order" style={{color:'red'}}>{i18n.t('restrictionMustEnterOrderNumber')}</label>}
 
             <h3>{i18n.t('acls')}</h3>
-            {ACLs.map(acl => (
-              <div className="form-check" key={acl.value}>
-                <label className="form-check-label">
-                  <input
-                    type="checkbox"
-                    disabled={this.state.disabled}
-                    className="form-check-input"
-                    checked={this.state.acl.includes(acl.value)}
-                    onChange={() => this.aclChange(acl.value)}
-                  />
-                  {i18n.t(acl.title)}
-                </label>
-              </div>
-            ))}
-
+              {ACLs.map(acl => (
+  							<div className="form-group form-check checkbox" key={acl.value}>
+  							    <input
+  							      type="checkbox"
+  							      id={"acl-"+acl.value}
+  							      className="form-check-input"
+  							      checked={this.state.acl.includes(acl.value)}
+  										onChange={() => this.aclChange(acl.value)}
+  							      />
+  									<label className="form-check-label" htmlFor={"acl-"+acl.value}>
+  									{i18n.t(acl.title)}
+  							  </label>
+  							</div>))
+  						}
+              
             <div className="form-group">
               <button
                 type="submit"

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 
 import {getMessages, startMessagesLoading,clearErrorMessage ,setActiveRequests } from '../../redux/actions';
-import Loading from '../../components/Loading';
+
 import Messages from './Messages';
 
 class MessagesLoader extends Component {

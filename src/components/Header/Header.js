@@ -28,6 +28,7 @@ class Header extends Component {
         <SimpleLoadingBar
           activeRequests={this.props.activeRequests} color="#2A7EC5">
         </SimpleLoadingBar>
+        <div className="headerFiller"/>
         <div style={{width:260}}>
           <NavbarToggler className="headerText">
             <a
@@ -100,6 +101,21 @@ class Header extends Component {
             className="headerIcons"
           >
           <i
+            className="fa fa-list"
+            style={{
+              cursor: 'pointer',
+              border: 'none',
+              paddingLeft:5,
+              paddingRight:5,
+              color: (!this.props.columns&&!this.props.tripod)?'#20a8d8':'white'
+            }}
+            onClick={() => {this.props.setTripod(false);this.props.setColumns(false);}}
+          />
+          </a>
+          <a
+            className="headerIcons"
+          >
+          <i
             className="fa fa-map"
             style={{
               cursor: 'pointer',
@@ -151,6 +167,7 @@ class Header extends Component {
           />
       </i>
       </div>
+      <div className="headerFiller"/>
       </header>
     );
   }

@@ -96,19 +96,19 @@ class CompanyEdit extends Component {
               this.props.history.goBack();
             }}
             >
-            <div className="form-check">
-              <label className="form-check-label">
+            <div className="form-group form-check checkbox">
                 <input
                   type="checkbox"
+                  id="is_active"
                   className="form-check-input"
                   checked={this.state.is_active}
-                  onChange={() =>{
+                  onChange={() => {
                     this.compareChanges('is_active',!this.state.is_active);
-                    this.setState({ is_active: !this.state.is_active });
-                  }
-                  }
+                    this.setState({ is_active: !this.state.is_active })
+                  }}
                   />
-                Active
+                <label className="form-check-label" htmlFor="is_active">
+                  {i18n.t('activated')}
               </label>
             </div>
 
@@ -427,30 +427,30 @@ class CompanyEdit extends Component {
                     );
                     case "checkbox":
                     return (
-                      <div className="form-group row" key={attribute.id}>
-                        <label className="form-check-label col-md-2 col-form-label">
+                      <div className="form-group form-check checkbox" key={attribute.id}>
                           <input
                             type="checkbox"
-                            className="form-check-input col-md-10"
-                            checked={this.state.company_data[attribute.id]}
+                            id={"cb-"+attribute.id}
+                            className="form-check-input"
+                            checked={this.state.company_data[attribute.id]}y
                             onChange={() => {
                               let newData = { ...this.state.company_data };
                               newData[attribute.id] = !newData[
                                 attribute.id
                               ];
-                              this.compareChanges('company_data',newData);
                               this.setState({ company_data: newData });
                             }}
                             />
+                          <label className="form-check-label" htmlFor={"cb-"+attribute.id}>
                           {attribute.title}
                         </label>
                       </div>
                     );
-
                     default:
-                    return <div>{attribute.title}</div>;
-                    }
-                  })}
+                      return <div>{attribute.title}</div>;
+                      }
+                      })}
+
                   <div className="form-group">
                     <button
                       type="submit"

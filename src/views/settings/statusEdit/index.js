@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getStatus, startStatusLoading, clearErrorMessage, setActiveRequests } from '../../../redux/actions';
 import StatusEdit from './statusEdit';
-import Loading from '../../../components/Loading';
+
 
 class StatusEditLoader extends Component {
   constructor(props){

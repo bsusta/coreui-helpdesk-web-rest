@@ -62,27 +62,28 @@ class UnitEdit extends Component {
 					<h2 className="h2" className="h2-setting-form">
 						{i18n.t('editUnit')}
 					</h2>
-	
+
 						<form
 							onSubmit={(event, value) => {
 								event.preventDefault();
 								this.props.history.goBack();
 							}}
 						>
-							<div className="form-check">
-								<label className="form-check-label">
-									<input
-										type="checkbox"
-										checked={this.state.active}
-										onChange={() => {
-											this.compareChanges('active', !this.state.active);
-											this.setState({ active: !this.state.active });
-										}}
-										className="form-check-input"
-									/>
-									{i18n.t('activated')}
-								</label>
-							</div>
+						<div className="form-group form-check checkbox">
+						    <input
+						      type="checkbox"
+						      id="active"
+						      className="form-check-input"
+						      checked={this.state.active}
+						      onChange={() => {
+						        this.setState({ active: !this.state.active })
+						      }}
+						      />
+						    <label className="form-check-label" htmlFor="active">
+						      {i18n.t('activated')}
+						  </label>
+						</div>
+						
 							<div className="form-group">
 								<label className="input-label" htmlFor="title" className="req input-label">
 									{i18n.t('title')}
@@ -139,7 +140,7 @@ class UnitEdit extends Component {
 								</button>
 							</div>
 						</form>
-				
+
 				</div>
 			</div>
 		);

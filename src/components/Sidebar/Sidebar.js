@@ -16,7 +16,7 @@ class Sidebar extends Component {
     let url = this.props.history.location.pathname;
     let projectID;
     let secondID;
-    if(url.includes('/project/')){
+    if(url.includes('/project/' && !url.includes('/project/edit'))){
       projectID = url.substring(url.indexOf('/project/')+9,url.length);
       projectID = projectID.substring(0,projectID.indexOf('/'));
       secondID = url.substring(0,url.indexOf('/project/'));
@@ -94,10 +94,11 @@ class Sidebar extends Component {
                 />
             </InputGroup>
           </FormGroup>
-          <div className="form-check">
-            <label className="form-check-label">
+          <div className="form-group form-check checkbox">
               <input
                 type="checkbox"
+                id="archived"
+                className="form-check-input"
                 checked={this.state.archived}
                 onChange={() => {
                   this.setState({ archived: !this.state.archived,project:{value:'all',label:'All'} });
@@ -107,9 +108,9 @@ class Sidebar extends Component {
                     this.props.history.push('/tag/'+this.state.tagSelected+'/project/all'+'/1,'+this.props.body.count);
                   }
                 }}
-                className="form-check-input"
-              />
-            {i18n.t('archived')}
+                />
+              <label className="form-check-label" htmlFor="archived">
+                {i18n.t('archived')}
             </label>
           </div>
         </div>

@@ -900,7 +900,7 @@ class EditTask extends Component {
                               </FormGroup>
 
                               <FormGroup>
-                                <label htmlFor="deadline" className="input-label">{i18n.t("dueDate")}</label>
+                                <label htmlFor="deadline" className="input-label">{i18n.t("deadline")}</label>
                                 <InputGroup>
                                   <InputGroupAddon>
                                     <i className="fa fa-clock-o" />

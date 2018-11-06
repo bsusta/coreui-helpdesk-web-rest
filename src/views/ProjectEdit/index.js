@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getProject, startProjectLoading , getUsers, startUsersLoading,clearErrorMessage, setActiveRequests} from '../../redux/actions';
 import ProjectEdit from './ProjectEdit';
-import Loading from '../../components/Loading';
+
 
 class ProjectEditLoader extends Component {
   constructor(props){
