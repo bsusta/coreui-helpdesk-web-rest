@@ -4,14 +4,9 @@ import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import i18n from 'i18next';
 import moment from 'moment';
-import {
-  addSubtask,
-  editSubtask,
-  deleteSubtask
-} from "../../redux/actions";
 import colors from '../../../scss/colors';
 
-class Subtasks extends Component {
+export default class Subtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,6 +19,16 @@ class Subtasks extends Component {
       focusedSubtask: null,
     };
     this.sumHours.bind(this);
+    this.getID.bind(this);
+  }
+
+  getID(){
+    if(this.props.subtasks.length===0){
+      return 0;
+    }
+    else{
+      return this.props.subtasks.sort((item1,item2)=>item1.id < item2.id?1:-1)[0].id+1;
+    }
   }
 
   sumHours(){
@@ -61,23 +66,25 @@ class Subtasks extends Component {
               <tr key={subtask.id} className="invoiceRow">
                 <td>
                   <div style={{ display: "flex" }}>
-                    <span className="subtaskCheckbox"
-                      onClick={() =>{
-                        if(this.props.disabled)return;
-                        this.props.editSubtask(
-                          { done: !subtask.done, title: subtask.title, from:subtask.from, to:subtask.to, hours:subtask.hours },
-                          subtask.id,
-                          this.props.taskID,
-                          this.props.token
-                        )}
-                      }>
-                      {
-                        subtask.done &&
-                        <i
-                          className="fa fa-check"
-                          />
-                      }
-                </span>
+                    <span className="form-check center-hor checkbox" style={{paddingBottom:5}}>
+                      <input
+                        type="checkbox"
+                        id={'subtaskCheckbox'+subtask.id}
+                        checked={subtask.done}
+                        onChange={() =>{
+                          let newItems = [...this.props.subtasks];
+                          newItems.splice(this.props.subtasks.findIndex(item2=>subtask.id===item2.id),1,
+                          {
+                            id:subtask.id, done: !subtask.done, title: subtask.title, from:subtask.from, to:subtask.to, hours:subtask.hours
+                          });
+                          this.props.onSave(newItems);
+                        }}
+                        className="form-check-input"
+                        />
+                      <label style={{fontSize:0}} className="form-check-label" htmlFor='statusCheckbox-myTasks'>
+                        Nothing
+                      </label>
+                    </span>
                     <input
                       style={{ border: "none" }}
                       type="text"
@@ -91,15 +98,13 @@ class Subtasks extends Component {
                       }
                       onBlur={() => {
                         if(this.props.disabled)return;
-                        this.props.editSubtask(
-                          {
-                            done: subtask.done,from:subtask.from, to:subtask.to, hours:subtask.hours,
-                            title: this.state.editedSubtaskTitle,
-                          },
-                          subtask.id,
-                          this.props.taskID,
-                          this.props.token
-                        );
+                        let newItems = [...this.props.subtasks];
+                        newItems.splice(this.props.subtasks.findIndex(item2=>subtask.id===item2.id),1,
+                        {
+                          done: subtask.done,from:subtask.from, to:subtask.to, hours:subtask.hours,
+                          title: this.state.editedSubtaskTitle,id: subtask.id,
+                        });
+                          this.props.onSave(newItems);
                         this.setState({ focusedSubtask: null });
                       }}
                       onFocus={() => {
@@ -144,12 +149,12 @@ class Subtasks extends Component {
                           }
                         }
 
-                        this.props.editSubtask(
-                          body,
-                          subtask.id,
-                          this.props.taskID,
-                          this.props.token
-                        );
+                        let newItems = [...this.props.subtasks];
+                        newItems.splice(this.props.subtasks.findIndex(item2=>subtask.id===item2.id),1,
+                        {
+                          id:subtask.id, ...body
+                        });
+                        this.props.onSave(newItems);
                       }}
                       locale="en-gb"
                       placeholderText={i18n.t("from2")}
@@ -189,13 +194,12 @@ class Subtasks extends Component {
                             body.from=e.subtract(body.hours,'hours').valueOf()/1000;
                           }
                         }
-
-                        this.props.editSubtask(
-                          body,
-                          subtask.id,
-                          this.props.taskID,
-                          this.props.token
-                        );
+                        let newItems = [...this.props.subtasks];
+                        newItems.splice(this.props.subtasks.findIndex(item2=>subtask.id===item2.id),1,
+                        {
+                          id:subtask.id, ...body
+                        });
+                        this.props.onSave(newItems);
                       }}
                       locale="en-gb"
                       minDate={subtask.from?moment(subtask.from * 1000):null}
@@ -229,12 +233,12 @@ class Subtasks extends Component {
                       if(body.from!==0 && body.from!==null && body.hours!==''){
                         body.to= moment(body.from*1000).add(body.hours,'hours').valueOf()/1000;
                       }
-                      this.props.editSubtask(
-                        body,
-                        subtask.id,
-                        this.props.taskID,
-                        this.props.token
-                      );
+                      let newItems = [...this.props.subtasks];
+                      newItems.splice(this.props.subtasks.findIndex(item2=>subtask.id===item2.id),1,
+                      {
+                        id:subtask.id, ...body
+                      });
+                      this.props.onSave(newItems);
                       this.setState({ focusedSubtask: null });
                     }}
                     onFocus={() => {
@@ -270,11 +274,9 @@ class Subtasks extends Component {
                     <button
                       className="btn btn-sm btn-link"
                       onClick={() => {
-                        this.props.deleteSubtask(
-                          subtask.id,
-                          this.props.taskID,
-                          this.props.token
-                        );
+                        let newSubtasks=[...this.props.subtasks];
+                        newSubtasks.splice(this.props.subtasks.findIndex((item2)=>item2.id===subtask.id),1);
+                        this.props.onSave(newSubtasks);
                       }}
                     >
                       <i className="fa fa-remove" />
@@ -304,10 +306,11 @@ class Subtasks extends Component {
                           to: this.state.to?this.state.to:null
                         }
                         if(body.title==='')return;
-                          this.props.addSubtask(body,
-                          this.props.taskID,
-                          this.props.token
-                        );
+                          this.props.onSave(
+                            [...this.props.subtasks,{
+                              ...body,
+                              id:this.getID()
+                          }]);
                         this.setState({ task: "", hours:'', from: null, to:null });
                       }
                     }}
@@ -406,10 +409,11 @@ class Subtasks extends Component {
                       to: this.state.to?this.state.to:null
                     }
                     if(body.title==='')return;
-                      this.props.addSubtask(body,
-                      this.props.taskID,
-                      this.props.token
-                    );
+                    this.props.onSave(
+                      [...this.props.subtasks,{
+                        ...body,
+                        id:this.getID()
+                    }]);
                     this.setState({ task: "", hours:'', from: null, to:null });
                   }
                 }}
@@ -451,10 +455,11 @@ class Subtasks extends Component {
                       to: this.state.to?this.state.to:null
                     }
                     if(body.title==='')return;
-                      this.props.addSubtask(body,
-                      this.props.taskID,
-                      this.props.token
-                    );
+                    this.props.onSave(
+                      [...this.props.subtasks,{
+                        ...body,
+                        id:this.getID()
+                    }]);
                     this.setState({ task: "", hours:'', from: null, to:null });
                     }
                   }
@@ -480,16 +485,3 @@ class Subtasks extends Component {
     );
   }
 }
-
-const mapStateToProps = ({ subtasksReducer, login, itemsReducer }) => {
-  const { subtasks } = subtasksReducer;
-  const { items } = itemsReducer;
-  const { token } = login;
-  return { subtasks, items, token };
-};
-
-export default connect(mapStateToProps, {
-  addSubtask,
-  editSubtask,
-  deleteSubtask
-})(Subtasks);

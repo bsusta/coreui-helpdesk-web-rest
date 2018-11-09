@@ -245,7 +245,7 @@ export const getTask = (id,token) => {
 * @param {string} token universal token for API comunication
 */
 
-export const addTask = (body,subtasks,materials,followers,projectID,statusID,requesterID,companyID,token) => {
+export const addTask = (body,repeat,subtasks,materials,followers,projectID,statusID,requesterID,companyID,token) => {
   return (dispatch) => {
     //getTask(10,token)(dispatch);
     fetch(TASKS_LIST+'/project/'+projectID+'/status/'+statusID+'/requester/'+requesterID+'/company/'+companyID,{
@@ -263,6 +263,9 @@ export const addTask = (body,subtasks,materials,followers,projectID,statusID,req
       }
       response.json().then((response)=>{
         dispatch({type: ADD_TASK, task:response.data});
+        if(repeat){
+          addRepeat( repeat , response.data.id ,token)(dispatch);
+        }
         followers.map((follower)=>{
           addFollower(follower,response.data.id,token)(dispatch);
         });
@@ -273,7 +276,7 @@ export const addTask = (body,subtasks,materials,followers,projectID,statusID,req
             unit_price: material.unit_price},material.unit,response.data.id,token)(dispatch);
         });
         subtasks.map((subtask)=>{
-          addSubtask({done:subtask.done, title:subtask.title},response.data.id,token)(dispatch);
+          addSubtask({done:subtask.done, title:subtask.title,from:subtask.from,to:subtask.to},response.data.id,token)(dispatch);
         });
       })})
       .catch(function (error) {

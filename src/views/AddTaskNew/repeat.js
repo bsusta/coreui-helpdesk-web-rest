@@ -38,7 +38,7 @@ class Repeat extends Component {
 
   delete() {
     if (confirm(i18n.t('deleteRepeatMessage'))) {
-      this.props.deleteRepeat(this.props.defaultState.id, this.props.token);
+      this.props.onSave(null);
       this.setState({
         repeatStart:moment(),
         repeatEvery:0,
@@ -63,11 +63,7 @@ class Repeat extends Component {
     if(this.state.repeatUntil==='number'){
       body.repeatsNumber=parseInt(this.state.numberOfRepeats);
     }
-    if(!this.state.added){
-      this.props.addRepeat(body,this.props.taskID,this.props.token);
-    }else{
-      this.props.editRepeat(body,this.props.defaultState.id,this.props.token);
-    }
+      this.props.onSave(body);
     this.setState({added:true});
     this.props.onToogle();
   }

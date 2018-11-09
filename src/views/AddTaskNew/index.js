@@ -5,7 +5,7 @@ import {startTaskProjectsLoading,startStatusesLoading,
   getTaskStatuses,getTaskProjects,startCompaniesLoading,getTaskCompanies,
 startTaskAttributesLoading, getTaskAttributes,getTags, startTagsLoading,
  startUnitsLoading, getTaskUnits, deleteTaskSolvers,setActiveRequests,
-startUsersLoading, getUsers,clearErrorMessage, clearTask } from '../../redux/actions';
+startUsersLoading, getUsers,clearErrorMessage, clearTask, clearAttachments } from '../../redux/actions';
 import AddTask from './AddTask';
 
 class AddTaskLoader extends Component {
@@ -19,6 +19,7 @@ class AddTaskLoader extends Component {
   componentWillMount(){
     this.props.clearErrorMessage(this.state.randomFloat);
     this.props.clearTask();
+    this.props.clearAttachments();
     this.props.startTaskProjectsLoading();
     this.props.startStatusesLoading();
     this.props.startCompaniesLoading();
@@ -70,4 +71,4 @@ export default connect(mapStateToProps, {
   getTaskStatuses,getTaskProjects, startCompaniesLoading,getTaskCompanies,
   startTaskAttributesLoading,getTaskAttributes,getTags,startTagsLoading,setActiveRequests,
   startUnitsLoading, getTaskUnits, deleteTaskSolvers, startUsersLoading, getUsers,
-  clearErrorMessage, clearTask})(AddTaskLoader);
+  clearErrorMessage, clearTask, clearAttachments})(AddTaskLoader);

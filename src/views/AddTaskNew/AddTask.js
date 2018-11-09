@@ -10,8 +10,6 @@ import {
   FormGroup,
   Modal, ModalHeader, ModalBody, ModalFooter
 } from "reactstrap";
-import Subtasks from "./Subtasks";
-import Materials from "./Materials";
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -22,12 +20,9 @@ import UserAdd from '../settings/userAdd';
 import {
   getTaskSolvers,
   deleteTaskSolvers,
-  editTask,
-  deleteTask,
+  addTask,
   uploadFile,
   removeFile,
-  addFollower,
-  deleteFollower,
   getTaskCompanies,
   getUsers
 } from "../../redux/actions";
@@ -42,6 +37,8 @@ import {
 import MultiSelect from "../../components/multiSelect";
 import i18n from "i18next";
 import Repeat from './repeat';
+import Materials from './materials';
+import Subtasks from './subtasks';
 
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
 
@@ -52,6 +49,7 @@ const colourStyles = {
                            border: '1px solid #c2cfd6',
                       }),
 }
+
 
 class AddTask extends Component {
 	constructor(props) {
@@ -77,7 +75,7 @@ class AddTask extends Component {
 			tags: [],
 			title: '',
 			workTime: '',
-			work: 'vzdialena podpora',
+			work_type: 'vzdialena podpora',
 			newTags: [],
 			newTag: '',
 			submitError: false,
@@ -88,77 +86,80 @@ class AddTask extends Component {
 			followers: [],
 			openAddUser: false,
 			openAddCompany: false,
-		};
+      openRepeat:false,
+      repeat:null,
+		 };
 		this.submit.bind(this);
 	}
 
+	/**
+	 * Adds new task
+	 * @return {null}
+	 */
+	submit() {
+		this.setState({ submitError: true });
+		//we create copy of the state so we can transform data
+		let state = { ...this.state };
+		let task_data = processCustomAttributes({ ...state.task_data }, [...this.props.taskAttributes]);
+		//checks if all requirements for creating were met
+		if (
+			containsNullRequiredAttribute(task_data, [...this.props.taskAttributes]) ||
+			this.state.title === '' ||
+			this.state.requestedBy === undefined ||
+			this.state.project === 'null' ||
+			this.state.company === undefined
+		) {
+			return;
+		}
 
-  	/**
-  	 * Adds new task
-  	 * @return {null}
-  	 */
-  	submit() {
-  		this.setState({ submitError: true });
-  		//we create copy of the state so we can transform data
-  		let state = { ...this.state };
-  		let task_data = processCustomAttributes({ ...state.task_data }, [...this.props.taskAttributes]);
-  		//checks if all requirements for creating were met
-  		if (
-  			containsNullRequiredAttribute(task_data, [...this.props.taskAttributes]) ||
-  			this.state.title === '' ||
-  			this.state.requestedBy === undefined ||
-  			this.state.project === 'null' ||
-  			this.state.company === undefined
-  		) {
-  			return;
-  		}
+		//as a tags we send titles not ids
+		let tags = [];
+		state.tags.map(addTag => tags.push(this.props.tags.concat(state.newTags).find(tag => tag.id == addTag).title));
 
-  		//as a tags we send titles not ids
-  		let tags = [];
-  		state.tags.map(addTag => tags.push(this.props.tags.concat(state.newTags).find(tag => tag.id == addTag).title));
+		//ak je task uzvrety nastavi mu closedAt, ak nema startedAt tak ten tiez
+		let closedAt = this.state.closedAt ? this.state.closedAt : 'null';
+		if (state.status.toString() === '4') {
+			closedAt = Math.ceil(moment().valueOf() / 1000);
+			if (state.startedAt === null) {
+				state.startedAt = closedAt * 1000;
+			}
+		}
 
-  		//ak je task uzvrety nastavi mu closedAt, ak nema startedAt tak ten tiez
-  		let closedAt = this.state.closedAt ? this.state.closedAt : 'null';
-  		if (state.status.toString() === '4') {
-  			closedAt = Math.ceil(moment().valueOf() / 1000);
-  			if (state.startedAt === null) {
-  				state.startedAt = closedAt * 1000;
-  			}
-  		}
-
-  		this.props.addTask(
-  			{
-  				title: state.title,
-  				closedAt,
-  				description: state.description === '' ? 'null' : state.description,
-  				deadline: state.deadline !== null ? state.deadline.valueOf() / 1000 : 'null',
-  				startedAt: state.startedAt !== null ? state.startedAt.valueOf() / 1000 : 'null',
-  				important: state.important,
-  				workType: state.work,
-  				workTime: state.workTime.length == 0 ? undefined : state.workTime,
-  				tag: JSON.stringify(tags),
-  				assigned: state.taskSolver != 'null' ? JSON.stringify([{ userId: parseInt(state.taskSolver) }]) : null,
-  				attachment:
-  					this.props.attachments.length === 0
-  						? undefined
-  						: JSON.stringify(this.props.attachments.map(attachment => attachment.id)),
-  				taskData: JSON.stringify(task_data),
-  			},
-  			this.state.subtasks,
-  			this.state.materials,
-  			this.state.followers.map((user)=>user.id),
-  			state.project,
-  			state.status,
-  			state.requestedBy.id,
-  			state.company.id,
-  			this.props.token
-  		);
-  		this.props.history.goBack();
-  	}
+		this.props.addTask(
+			{
+				title: state.title,
+				closedAt,
+				description: state.description === '' ? 'null' : state.description,
+				deadline: state.deadline !== null ? state.deadline.valueOf() / 1000 : 'null',
+				startedAt: state.startedAt !== null ? state.startedAt.valueOf() / 1000 : 'null',
+				important: state.important,
+				workType: state.work_type,
+				workTime: state.workTime.length == 0 ? undefined : state.workTime,
+				tag: JSON.stringify(tags),
+				assigned: state.taskSolver != 'null' ? JSON.stringify([{ userId: parseInt(state.taskSolver) }]) : null,
+				attachment:
+					this.props.attachments.length === 0
+						? undefined
+						: JSON.stringify(this.props.attachments.map(attachment => attachment.id)),
+				taskData: JSON.stringify(task_data),
+			},
+      this.state.repeat,
+			this.state.subtasks,
+			this.state.materials,
+			this.state.followers.map((user)=>user.id),
+			state.project,
+			state.status,
+			state.requestedBy.id,
+			state.company.id,
+			this.props.token
+		);
+		this.props.history.goBack();
+	}
 
     render() {
       return (
         <div className="fontRegular">
+          { !this.props.disabled &&
             <Modal isOpen={this.state.openAddCompany} className="lg">
               <ModalBody style={{padding:0}}>
                 <CompanyAdd history={this.props.history} modal={()=>{
@@ -167,6 +168,9 @@ class AddTask extends Component {
                   }}/>
                 </ModalBody>
               </Modal>
+          }
+
+          { !this.props.disabled &&
           <Modal isOpen={this.state.openAddUser} className="lg">
             <ModalBody style={{padding:0}}>
               <UserAdd history={this.props.history} modal={()=>{
@@ -175,29 +179,30 @@ class AddTask extends Component {
               }} />
             </ModalBody>
           </Modal>
+        }
           <Card className="experimentalTaskEdit">
                     <CardBody className="whiteBG">
                       <div
                         className="row task-header"
                         >
-                        <div className="col-12">
-                          <div className="form-group">
+                          <div className="form-group" style={{flex: '0 0 100%',maxWidth: '100%'}}>
                             <InputGroup>
                               <InputGroupAddon
-                                style={{ backgroundColor: "white"}}
+                                style={{ backgroundColor: "white",paddingLeft:0}}
                                 className="task-header-input no-border"
                                 >
                                 <span className="float">
                                   <i
                                     className={"fa fa-star icon-star"}
-                                    style={{ fontSize: "1.97em", float: "left" }}
+                                    style={{ fontSize: "1.97em", float: "left"}}
                                     onClick={() => {
+                                      if(this.props.disabled){return;}
                                       if (!this.state.important) {
                                         this.setState({ important: true });
                                       }
                                     }}
                                     />
-                                  { this.state.important && (
+                                  {this.state.important && (
                                     <i
                                       className={
                                         "fa fa-star icon-star-empty"
@@ -210,6 +215,7 @@ class AddTask extends Component {
                                           float: "left"
                                         }}
                                         onClick={() => {
+                                          if(this.props.disabled){return;}
                                           this.setState({ important: false });
                                         }}
                                         />
@@ -224,24 +230,28 @@ class AddTask extends Component {
                                 placeholder={i18n.t("enterTitle")}
                                 value={this.state.title}
                                 style={{ fontSize: 24, border:'none' }}
+                                disabled={this.props.disabled}
                                 onChange={e => {
                                   this.setState({ title: e.target.value });
                                 }}
                                 />
                               <InputGroupAddon className="no-border">
-                                <button className="btn btn-link">
-                                  <i className="fa fa-print" /> {i18n.t("print")}
-                                  </button>
-                                  </InputGroupAddon>
+                                <button className="btn btn-link" onClick={this.submit.bind(this)}>
+                                  <i className="fa fa-save" /> {i18n.t('create')}
+                                </button>
+
+                                <button className="btn btn-link" onClick={()=>this.props.history.goBack()}>
+                                  <i className="fa fa-times" /> {i18n.t("close")}
+                                </button>
+                              </InputGroupAddon>
                             </InputGroup>
                               </div>
                           {/*this.state.submitError && this.state.title===''&&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustEnterTaskTitle')}</label>*/}
                       </div>
-                      </div>
+                      {!this.props.disabled && this.state.submitError && <span><h5 style={{color:'red'}}> {i18n.t('restrictionTaskWontSave')}</h5></span>}
+
                       <div>
                         <div className="form-group">
-
-
                           <MultiSelect
                             id="tags"
                             data={this.props.tags}
@@ -315,6 +325,7 @@ class AddTask extends Component {
                                         ><i className="fa fa-circle" style={{paddingTop:10}}/></span>
                                     }
                                     <select
+                                      disabled={this.props.disabled}
                                       className="form-control"
                                       style={{
                                         borderLeft:'none',
@@ -330,7 +341,7 @@ class AddTask extends Component {
                                       }}
 
                                       >
-                                      { this.props.statuses.map(status => (
+                                      {!this.props.disabled && this.props.statuses.map(status => (
                                         <option
                                           key={status.id}
                                           style={{
@@ -342,16 +353,6 @@ class AddTask extends Component {
                                           {status.title}
                                         </option>
                                       ))}
-                                      <option
-                                        key={this.props.task.status.id}
-                                        style={{
-                                          color: "white",
-                                          backgroundColor: this.props.task.status.color
-                                        }}
-                                        value={this.props.task.status.id}
-                                        >
-                                        {this.props.task.status.title}
-                                      </option>
                                     </select>
                                   </InputGroup>
                                 </div>
@@ -361,14 +362,11 @@ class AddTask extends Component {
                                 </label>
                                 <InputGroup>
                                   <select
+                                    disabled={this.props.disabled}
                                     className="form-control"
                                     id="project"
                                     value={this.state.project}
                                     onChange={e => {
-                                      this.setState({
-                                        project: e.target.value,
-                                        taskSolver: "null"
-                                      });
                                       this.setState({
                                         project: e.target.value,
                                         taskSolver: "null"
@@ -380,29 +378,31 @@ class AddTask extends Component {
                                       );
                                     }}
                                     >
-                                    {this.props.taskProjects.map(project => (
+                                    {!this.props.disabled && this.props.taskProjects.map(project => (
                                       <option key={project.id} value={project.id}>
                                         {project.title}
                                       </option>
                                     ))}
-                                      <option key={this.props.task.project.id} value={this.props.task.project.id}>
-                                        {this.props.task.project.title}
-                                      </option>
                                   </select>
                                 </InputGroup>
                               </div>
                               {
-                                <Repeat onToogle={()=>this.setState({openRepeat:!this.state.openRepeat})} open={this.state.openRepeat} defaultState={this.props.repeat} taskID={this.props.task.id} />
+                                <Repeat disabled={false}
+                                  onToogle={()=>this.setState({openRepeat:!this.state.openRepeat})}
+                                  open={this.state.openRepeat}
+                                  defaultState={this.state.repeat}
+                                  onSave={(repeat)=>this.setState({repeat})} />
                               }
                             </div>
                             <div className="col-4">
                               <div className="row experimentalRowWrapper">
                                 <label htmlFor="requester" className="req input-label center-hor">{i18n.t('requester')}</label>
-                                  <InputGroup className={this.state.requestedBy.id===undefined?"fieldError":""}>
+                                  <InputGroup className={!this.props.disabled&&this.state.requestedBy.id===undefined?"fieldError":""}>
                                     <Select
                                       styles={colourStyles}
                                       className="fullWidth"
-                                      options={(this.props.users.map(user => {
+                                      isDisabled={this.props.disabled}
+                                      options={this.props.users.map(user => {
                                         user.label =
                                         (user.name ? user.name : "") +
                                         " " +
@@ -414,28 +414,28 @@ class AddTask extends Component {
                                         }
                                         user.value = user.id;
                                         return user;
-                                      }))}
+                                      })}
                                       value={this.state.requestedBy}
                                       onChange={e => {
                                         this.setState({ requestedBy: e, company:this.props.companies[this.props.companies.findIndex((item)=>item.id===e.company.id)] });
                                       }}
                                       />
-                                    {this.props.task.loggedUserRoleAcl.includes('user_settings')&&
+                                    {this.props.user.user_role.acl.includes('user_settings') &&
                                       <span className="center-hor">
                                         <button
-                                          className="btn btn-sm btn-primary mr-1 taskAddButton"
+                                          className="btn btn-sm btn-link mr-1 taskAddButton"
                                           onClick={()=>this.setState({openAddUser:true})}
                                           >
                                           <i className="fa fa-plus " />
                                         </button>
                                       </span>}
                                   </InputGroup>
-                                  {this.state.requestedBy===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
+                                  {!this.props.disabled && this.state.requestedBy===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
                                 </div>
                               <div className="row experimentalRowWrapper">
                                   <label htmlFor="company" className="req input-label center-hor">{i18n.t('company')}</label>
 
-                                  <InputGroup className={this.state.company===undefined?"fieldError":""}>
+                                  <InputGroup className={!this.props.disabled && this.state.company===undefined?"fieldError":""}>
                                     <Select
                                      styles={colourStyles}
                                       className="fullWidth"
@@ -450,32 +450,31 @@ class AddTask extends Component {
                                         this.setState({ company: e });
                                       }}
                                       />
-                                    { this.props.task.loggedUserRoleAcl.includes('company_settings')&&
+                                    {this.props.user.user_role.acl.includes('company_settings')&&
                                       <span style={{ float: "right" }} className="center-hor">
                                         <button
-                                          className="btn btn-sm btn-primary mr-1 taskAddButton"
+                                          className="btn btn-sm btn-link mr-1 taskAddButton"
                                           onClick={()=>this.setState({openAddCompany:true})}
                                           >
                                           <i className="fa fa-plus " />
                                         </button>
                                       </span>}
                                   </InputGroup>
-                                  { this.state.company===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
+                                  {!this.props.disabled&&this.state.company===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
                                 </div>
                               <div className="row experimentalRowWrapper">
                                   <label htmlFor="assigned" className="input-label center-hor">{i18n.t("assigned")}</label>
                                   <InputGroup>
                                     <select
                                       className="form-control"
+                                      disabled={this.props.disabled}
                                       id="assigned"
                                       value={this.state.taskSolver}
                                       onChange={e => {
                                         this.setState({ taskSolver: e.target.value });
                                       }}
                                       >
-                                      {
-
-                                        [{ id: "null", username: i18n.t("noone") }]
+                                      {[{ id: "null", username: i18n.t("noone") }]
                                       .concat(this.props.taskSolvers)
                                       .map(solver => (
                                         <option key={solver.id} value={solver.id}>
@@ -502,15 +501,17 @@ class AddTask extends Component {
                                       timeFormat="HH:mm"
                                       timeIntervals={30}
                                       dateFormat="DD.MM.YYYY HH:mm"
+                                      disabled={this.props.disabled}
                                       />
                                   </div>
                                 </InputGroup>
                               </div>
                               <div className="row experimentalRowWrapper">
-                                <label htmlFor="deadline" className="input-label center-hor">{i18n.t("dueDate")}</label>
+                                <label htmlFor="deadline" className="input-label center-hor">{i18n.t("deadline")}</label>
                                 <InputGroup>
                                   <div style={{ width: "100%" }} className="datepickerWrap">
                                     <DatePicker
+                                      disabled={this.props.disabled}
                                       selected={this.state.deadline}
                                       onChange={e => {
                                         this.setState({ deadline: e });
@@ -530,6 +531,7 @@ class AddTask extends Component {
                                 <InputGroup>
                                   <select
                                     className="form-control"
+                                    disabled={this.props.disabled}
                                     id="work"
                                     value={this.state.work_type}
                                     onChange={e => {
@@ -554,6 +556,7 @@ class AddTask extends Component {
                             <InputGroup>
                               <textarea
                                 className="form-control"
+                                disabled={this.props.disabled}
                                 id="description"
                                 rows={4}
                                 value={this.state.description}
@@ -572,6 +575,7 @@ class AddTask extends Component {
                             <InputGroup>
                             <Select
                              styles={colourStyles}
+                             isDisabled={this.props.disabled}
                              className="fullWidth"
                               options={this.props.users.map(user => {
                                 user.label = user.email;
@@ -579,36 +583,15 @@ class AddTask extends Component {
                                 return user;
                               })}
                               isMulti
-                              value={this.props.followers.map(user => {
-                                user.label = user.email;
-                                user.value = user.id;
-                                return user;
-                              })}
+                              value={this.state.followers}
                               onChange={(e) => {
-                                let newFollowers = e.map((user)=>user.id);
-                                let oldFollowers = this.props.followers.map((user)=>user.id);
-                                let added=newFollowers.filter((id)=>!oldFollowers.includes(id));
-                                let removed=oldFollowers.filter((id)=>!newFollowers.includes(id));
-                                added.map((item)=>{
-                                  this.props.addFollower(
-                                    item,
-                                    this.props.task.id,
-                                    this.props.token
-                                  );
-                                });
-
-                                removed.map((item)=>{
-                                this.props.deleteFollower(
-                                  item,
-                                  this.props.task.id,
-                                  this.props.token
-                                );
-                              });
+                                this.setState({followers:e});
                               }}
                             />
                           </InputGroup>
                           </FormGroup>
 
+                          {!this.props.disabled &&
                             <div>
                             <div className="form-group" style={{ marginBottom: 0 }}>
                             <label htmlFor="fileUpload" className="input-label">{i18n.t("attachments")}</label>
@@ -633,13 +616,14 @@ class AddTask extends Component {
                             <div className="row">
                             <label
                               htmlFor="fileUpload"
-                              className="btn btn-primary uploadButton"
+                              className="btn-link btn uploadButton"
                               >
                                 {i18n.t("addAttachment")}
                             </label>
-                            {this.props.attachments.map(item => (
+                            {this.props.attachments.map((item, index) => (
                               <span
                                 className="badge"
+                                key={index}
                                 style={{
                                   backgroundColor: "#d3eef6",
                                   color: "black",
@@ -654,7 +638,8 @@ class AddTask extends Component {
                                 <div className="row center-hor">
                                   {!item.url && item.file.name}
                                   {item.url && (
-                                    <a className="center-hor" target="_blank" href={item.url}>{item.file.name}</a>
+                                    <a className="center-hor" target="_blank" href={item.url}>{item.file.name} { item.file.size? item.file.size+' kb':''}
+                                    </a>
                                   )}
                                   <button
                                     type="button"
@@ -680,11 +665,7 @@ class AddTask extends Component {
                                     </span>
                                   </button>
                                 </div>
-                                <div style={{ flex: 1 }} />
-                                { item.file.size &&
-                                <div style={{ marginLeft: "auto", marginRight: "auto" }}>
-                                  {item.file.size}kb
-                                </div>}
+
                               </span>
                             ))}
                           </div>
@@ -695,14 +676,19 @@ class AddTask extends Component {
 
                             </div>
                             </div>
-                          </div>
-                            {/*<Subtasks
-                              />*/}
+                          </div>}
+
+                            <Subtasks
+                              disabled={false}
+                              onSave={(subtasks)=>this.setState({subtasks})}
+                              subtasks={this.state.subtasks}
+                              />
+
                             <FormGroup>
                               <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
                               <InputGroup>
                                 <input
-                                  disabled={false}
+                                  disabled={this.props.disabled}
                                   className="form-control"
                                   type="number"
                                   id="workTime"
@@ -714,18 +700,23 @@ class AddTask extends Component {
                                   />
                               </InputGroup>
                             </FormGroup>
-                            {/*<Materials
+
+                            <Materials
+                                disabled={this.props.disabled}
+                                onSave={(materials)=>this.setState({materials})}
                                 units={this.props.units}
-                                />*/}
+                                materials={this.state.materials}
+                                />
                               { this.props.taskAttributes.filter((item)=>item.is_active).map(attribute => {
                                     switch (attribute.type) {
                                       case "input":
                                       return (
-                                        <div className={"form-group"+(attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')} key={attribute.id} >
+                                        <div className={"form-group"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')} key={attribute.id} >
                                           <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                           <input
                                             className="form-control"
                                             id={attribute.id}
+                                            disabled={this.props.disabled}
                                             value={this.state.task_data[attribute.id]}
                                             onChange={e => {
                                               let newData = { ...this.state.task_data };
@@ -734,16 +725,17 @@ class AddTask extends Component {
                                             }}
                                             placeholder={i18n.t('enter')+" " + attribute.title}
                                             />
-                                          {attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
+                                          {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                                         </div>
                                       );
                                       case "text_area":
                                       return (
-                                        <div className={"form-group"+(attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')} key={attribute.id}>
+                                        <div className={"form-group"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')} key={attribute.id}>
                                           <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                           <textarea
                                             className="form-control"
                                             id={attribute.id}
+                                            disabled={this.props.disabled}
                                             value={this.state.task_data[attribute.id]}
                                             onChange={e => {
                                               let newData = { ...this.state.task_data };
@@ -752,7 +744,7 @@ class AddTask extends Component {
                                             }}
                                             placeholder={i18n.t('enter')+" " + attribute.title}
                                             />
-                                          { attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
+                                          {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                                         </div>
                                       );
                                       case "simple_select":
@@ -767,6 +759,7 @@ class AddTask extends Component {
                                           <select
                                             className="form-control"
                                             id={attribute.id}
+                                            disabled={this.props.disabled}
                                             value={this.state.task_data[attribute.id]}
                                             onChange={e => {
                                               let newData = { ...this.state.task_data };
@@ -860,10 +853,11 @@ class AddTask extends Component {
                                           }
                                           case "date":
                                           return (
-                                            <div className={"form-group"+( attribute.required && this.state.task_data[attribute.id] ===null ?' fieldError':'')} key={attribute.id}>
-                                              <label htmlFor={attribute.id} className={ attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                            <div className={"form-group"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===null ?' fieldError':'')} key={attribute.id}>
+                                              <label htmlFor={attribute.id} className={!this.props.disabled && attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                               <DatePicker
                                                 selected={this.state.task_data[attribute.id]}
+                                                disabled={this.props.disabled}
                                                 onChange={e => {
                                                   let newData = { ...this.state.task_data };
                                                   newData[attribute.id] = e;
@@ -876,17 +870,18 @@ class AddTask extends Component {
                                                 timeIntervals={30}
                                                 dateFormat="DD.MM.YYYY HH:mm"
                                                 />
-                                              {attribute.required && this.state.task_data[attribute.id] ===null&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
+                                              {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===null&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                                             </div>
                                           );
                                           case "decimal_number":
                                           return (
-                                            <div className={"form-group"+(attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')} key={attribute.id}>
-                                              <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                            <div className={"form-group"+(!this.props.disabled && attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')} key={attribute.id}>
+                                              <label htmlFor={attribute.id} className={!this.props.disabled && attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                               <input
                                                 className="form-control"
                                                 type="number"
                                                 id={attribute.id}
+                                                disabled={this.props.disabled}
                                                 value={this.state.task_data[attribute.id]}
                                                 onChange={e => {
                                                   let newData = { ...this.state.task_data };
@@ -895,27 +890,27 @@ class AddTask extends Component {
                                                 }}
                                                 placeholder={i18n.t('enter')+" " + attribute.title}
                                                 />
-                                              {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
+                                              {!this.props.disabled &&attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
                                             </div>
                                           );
                                           case "integer_number":
                                           return (
-                                            <div className={"form-group"+(attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')} key={attribute.id}>
-                                              <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                            <div className={"form-group"+(!this.props.disabled &&attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')} key={attribute.id}>
+                                              <label htmlFor={attribute.id} className={!this.props.disabled &&attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
                                               <input
                                                 className="form-control"
                                                 type="number"
                                                 id={attribute.id}
+                                                disabled={this.props.disabled}
                                                 value={this.state.task_data[attribute.id]}
                                                 onChange={e => {
                                                   let newData = { ...this.state.task_data };
                                                   newData[attribute.id] = e.target.value;
-                                                  this.AddTaskNew("task_data", newData);
                                                   this.setState({ task_data: newData });
                                                 }}
                                                 placeholder={i18n.t('enter')+" " + attribute.title}
                                                 />
-                                              {attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
+                                              {!this.props.disabled && attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
                                             </div>
                                           );
                                           case "checkbox":
@@ -925,6 +920,7 @@ class AddTask extends Component {
                                                   type="checkbox"
                                                   id={"cb-"+attribute.id}
                                                   className="form-check-input"
+                                                  disabled={this.props.disabled}
                                                   checked={this.state.task_data[attribute.id]}
                                                   onChange={() => {
                                                     let newData = { ...this.state.task_data };
@@ -964,7 +960,7 @@ class AddTask extends Component {
                       followersReducer,
                       taskAttributesReducer
                     }) => {
-                      const { task, taskProjects, taskSolvers } = tasksReducer;
+                      const { task, taskProjects, taskSolvers, repeat } = tasksReducer;
                       const { taskAttributes } = taskAttributesReducer;
                       const { taskStatuses } = statusesReducer;
                       const { taskCompanies } = companiesReducer;
@@ -995,12 +991,9 @@ class AddTask extends Component {
                     export default connect(mapStateToProps, {
                       getTaskSolvers,
                       deleteTaskSolvers,
-                      editTask,
-                      deleteTask,
+                      addTask,
                       uploadFile,
                       removeFile,
-                      addFollower,
-                      deleteFollower,
                       getTaskCompanies,
                       getUsers
                     })(AddTask);

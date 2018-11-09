@@ -2,20 +2,12 @@ import React, { Component } from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import { connect } from "react-redux";
 import i18n from 'i18next';
-import {
-  addItem,
-  editItem,
-  deleteItem
-} from "../../redux/actions";
 import colors from '../../../scss/colors';
 
-class Subtasks extends Component {
+export default class Subtasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newSubtask: "",
-      editedSubtask: "",
-      focusedSubtask: null,
       newItem: "",
       newItemCount: 1,
       newItemUnit:
@@ -23,7 +15,18 @@ class Subtasks extends Component {
       newItemPrice: 1,
       editedItem: null
     };
+    this.getID.bind(this);
   }
+
+  getID(){
+    if(this.props.materials.length===0){
+      return 0;
+    }
+    else{
+      return this.props.materials.sort((item1,item2)=>item1.id < item2.id?1:-1)[0].id+1;
+    }
+  }
+
   sumItems(items) {
     let count = 0;
     items.map(item => (count = count + item.amount * item.unit_price));
@@ -31,7 +34,7 @@ class Subtasks extends Component {
   }
 
   render() {
-    if(this.props.disabled && this.props.items.length===0){
+    if(this.props.disabled && this.props.materials.length===0){
       return(
         <table className="table table-hover table-sm table-noBorder table-in-form">
           <thead className="thead-inverse">
@@ -55,7 +58,7 @@ class Subtasks extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.items.map(item => (
+            {this.props.materials.map(item => (
               <tr key={item.id} className="invoiceRow">
                 <td>
                   <input
@@ -70,17 +73,16 @@ class Subtasks extends Component {
                     }
                     onBlur={() => {
                       if(this.props.disabled)return;
-                      this.props.editItem(
+                      let newItems = [...this.props.materials];
+                      newItems.splice(this.props.materials.findIndex(item2=>item.id===item2.id),1,
                         {
                           title: this.state.editedItem.title,
-                          amount: this.state.editedItem.amount,
-                          unit_price: this.state.editedItem.unit_price
-                        },
-                        item.id,
-                        this.state.editedItem.unit.id,
-                        this.props.taskID,
-                        this.props.token
-                      );
+                        amount: this.state.editedItem.amount,
+                        unit_price: this.state.editedItem.unit_price,
+                        unit: this.state.editedItem.unit,
+                        id: item.id
+                        });
+                        this.props.onSave(newItems);
                       this.setState({ editedItem: null });
                     }}
                     onFocus={() =>{
@@ -112,17 +114,16 @@ class Subtasks extends Component {
                     }
                     onBlur={() => {
                       if(this.props.disabled)return;
-                      this.props.editItem(
+                      let newItems = [...this.props.materials];
+                      newItems.splice(this.props.materials.findIndex(item2=>item.id===item2.id),1,
                         {
                           title: this.state.editedItem.title,
-                          amount: this.state.editedItem.amount,
-                          unit_price: this.state.editedItem.unit_price
-                        },
-                        item.id,
-                        this.state.editedItem.unit.id,
-                        this.props.taskID,
-                        this.props.token
-                      );
+                        amount: this.state.editedItem.amount,
+                        unit_price: this.state.editedItem.unit_price,
+                        unit: this.state.editedItem.unit,
+                        id: item.id
+                        });
+                        this.props.onSave(newItems);
                       this.setState({ editedItem: null });
                     }}
                     onFocus={() => {
@@ -150,17 +151,16 @@ class Subtasks extends Component {
                     disabled={this.props.disabled}
                     onChange={e => {
                       if(this.props.disabled)return;
-                      this.props.editItem(
+                      let newItems = [...this.props.materials];
+                      newItems.splice(this.props.materials.findIndex(item2=>item.id===item2.id),1,
                         {
                           title: item.title,
-                          amount: item.amount,
-                          unit_price: item.unit_price
-                        },
-                        item.id,
-                        e.target.value,
-                        this.props.taskID,
-                        this.props.token
-                      );
+                        amount: item.amount,
+                        unit_price: item.unit_price,
+                        unit: e.target.value,
+                        id: item.id
+                        });
+                        this.props.onSave(newItems);
                     }}
                   >
                   {!this.props.disabled && this.props.units.map(unit => (
@@ -187,17 +187,16 @@ class Subtasks extends Component {
                     }
                     onBlur={() => {
                       if(this.props.disabled)return;
-                      this.props.editItem(
+                      let newItems = [...this.props.materials];
+                      newItems.splice(this.props.materials.findIndex(item2=>item.id===item2.id),1,
                         {
                           title: this.state.editedItem.title,
-                          amount: this.state.editedItem.amount,
-                          unit_price: this.state.editedItem.unit_price
-                        },
-                        item.id,
-                        this.state.editedItem.unit.id,
-                        this.props.taskID,
-                        this.props.token
-                      );
+                        amount: this.state.editedItem.amount,
+                        unit_price: this.state.editedItem.unit_price,
+                        unit: this.state.editedItem.unit,
+                        id: item.id
+                        });
+                        this.props.onSave(newItems);
                       this.setState({ editedItem: null });
                     }}
                     onFocus={() =>{
@@ -222,11 +221,9 @@ class Subtasks extends Component {
                     style={{ float: "right" }}
                     className="btn  btn-sm btn-link mr-1"
                     onClick={() => {
-                      this.props.deleteItem(
-                        item.id,
-                        this.props.taskID,
-                        this.props.token
-                      );
+                      let newMaterials=[...this.props.materials];
+                      newMaterials.splice(this.props.materials.findIndex((item2)=>item2.id===item.id),1);
+                      this.props.onSave(newMaterials);
                     }}
                   >
                     <i className="fa fa-remove" />
@@ -243,16 +240,14 @@ class Subtasks extends Component {
                   onKeyPress={(e)=>{
                     if(e.key==='Enter'){
                       {
-                        this.props.addItem(
-                          {
+                        this.props.onSave(
+                          [...this.props.materials,{
                             title: this.state.newItem,
                             amount: this.state.newItemCount,
-                            unit_price: this.state.newItemPrice
-                          },
-                          this.state.newItemUnit,
-                          this.props.taskID,
-                          this.props.token
-                        );
+                            unit_price: this.state.newItemPrice,
+                            unit:this.state.newItemUnit,
+                            id:this.getID()
+                          }]);
                         this.setState({
                           newItem: "",
                           newItemCount: 1,
@@ -270,16 +265,14 @@ class Subtasks extends Component {
                   onKeyPress={(e)=>{
                     if(e.key==='Enter'){
                       {
-                        this.props.addItem(
-                          {
+                        this.props.onSave(
+                          [...this.props.materials,{
                             title: this.state.newItem,
                             amount: this.state.newItemCount,
-                            unit_price: this.state.newItemPrice
-                          },
-                          this.state.newItemUnit,
-                          this.props.taskID,
-                          this.props.token
-                        );
+                            unit_price: this.state.newItemPrice,
+                            unit:this.state.newItemUnit,
+                            id:this.getID()
+                          }]);
                         this.setState({
                           newItem: "",
                           newItemCount: 1,
@@ -316,17 +309,14 @@ class Subtasks extends Component {
                 <input
                   onKeyPress={(e)=>{
                     if(e.key==='Enter'){
-
-                        this.props.addItem(
-                          {
-                            title: this.state.newItem,
-                            amount: this.state.newItemCount,
-                            unit_price: this.state.newItemPrice
-                          },
-                          this.state.newItemUnit,
-                          this.props.taskID,
-                          this.props.token
-                        );
+                      this.props.onSave(
+                        [...this.props.materials,{
+                          title: this.state.newItem,
+                          amount: this.state.newItemCount,
+                          unit_price: this.state.newItemPrice,
+                          unit:this.state.newItemUnit,
+                          id:this.getID()
+                        }]);
                         this.setState({
                           newItem: "",
                           newItemCount: 1,
@@ -350,16 +340,14 @@ class Subtasks extends Component {
                     disabled={this.props.disabled}
                     onClick={()=>{
                       if(this.props.disabled)return;
-                      this.props.addItem(
-                        {
+                      this.props.onSave(
+                        [...this.props.materials,{
                           title: this.state.newItem,
                           amount: this.state.newItemCount,
-                          unit_price: this.state.newItemPrice
-                        },
-                        this.state.newItemUnit,
-                        this.props.taskID,
-                        this.props.token
-                      );
+                          unit_price: this.state.newItemPrice,
+                          unit:this.state.newItemUnit,
+                          id:this.getID()
+                        }]);
                       this.setState({
                         newItem: "",
                         newItemCount: 1,
@@ -377,7 +365,7 @@ class Subtasks extends Component {
               <td style={{ textAlign: "right" }} colSpan="5">
                 {i18n.t('priceWithoutVAT')}
                 <span style={{ fontWeight: "bold" }}>
-                  {(this.sumItems(this.props.items) * 0.8).toFixed(2)}
+                  {(this.sumItems(this.props.materials) * 0.8).toFixed(2)}
                 </span>
               </td>
             </tr>
@@ -388,7 +376,7 @@ class Subtasks extends Component {
               >
                 {i18n.t('priceWithVAT')}
                 <span style={{ fontWeight: "bold" }}>
-                  {this.sumItems(this.props.items).toFixed(2)}
+                  {this.sumItems(this.props.materials).toFixed(2)}
                 </span>
               </td>
             </tr>
@@ -398,16 +386,3 @@ class Subtasks extends Component {
     );
   }
 }
-
-const mapStateToProps = ({ subtasksReducer, login, itemsReducer }) => {
-  const { subtasks } = subtasksReducer;
-  const { items } = itemsReducer;
-  const { token } = login;
-  return { subtasks, items, token };
-};
-
-export default connect(mapStateToProps, {
-  addItem,
-  editItem,
-  deleteItem
-})(Subtasks);
