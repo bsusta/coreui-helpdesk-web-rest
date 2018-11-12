@@ -305,7 +305,7 @@ export const processCustomAttributes = (savedAttributes,originalAttributes) => {
       case "multi_select": {
         let newMulti = [];
         savedAttributes[key].map(item =>
-          newMulti.push(attribute.options[parseInt(item)])
+          newMulti.push(item.id)
         );
         savedAttributes[key] = newMulti;
         break;
@@ -426,8 +426,9 @@ export const importExistingCustomAttributesForTask=(currentAttributes,existingCu
           }
           else{
             let selected = [];
-            attribute.value.map(val =>
-              selected.push(original.options.indexOf(val))
+            attribute.value.map(val =>{
+              selected.push({id:val,label:val,value:val});
+            }
             );
             newAttributes[attribute.taskAttribute.id] = selected;
           }

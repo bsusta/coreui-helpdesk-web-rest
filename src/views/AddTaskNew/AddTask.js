@@ -241,7 +241,7 @@ class AddTask extends Component {
                                 </button>
 
                                 <button className="btn btn-link" onClick={()=>this.props.history.goBack()}>
-                                  <i className="fa fa-times" /> {i18n.t("close")}
+                                  <i className="fa fa-times" /> {i18n.t("cancel")}
                                 </button>
                               </InputGroupAddon>
                             </InputGroup>

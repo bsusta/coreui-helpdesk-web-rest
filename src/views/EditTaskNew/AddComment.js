@@ -156,7 +156,7 @@ class AddComment extends Component {
                 }}
               />
               <label
-                className="text-info comment-text center-hor"
+                className="center-hor btn-link"
                 size="sm"
                 htmlFor={
                   this.props.commentID
@@ -165,7 +165,7 @@ class AddComment extends Component {
                 }
                 style={{ cursor: "pointer", color: colors.textBlue}}
               >
-                <i style={{ color: colors.textBlue }} className="fa fa-paperclip" /><span style={{ color: colors.textBlue }}> {i18n.t('addAttachment')} </span>
+                <i style={{ color: colors.textBlue }} className="fa fa-paperclip" /><span style={{ color: colors.textBlue, fontWeight:'normal' }}> {i18n.t('addAttachment')} </span>
               </label>
               {(this.props.task.loggedUserIsAdmin||this.props.task.loggedUserProjectAcl.includes('edit_internal_note'))&&
                 <span className="form-check checkbox center-hor">
