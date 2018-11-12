@@ -41,7 +41,7 @@ import Materials from './materials';
 import Subtasks from './subtasks';
 
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
-
+const indexOfNoPadding=2;
 const colourStyles = {
   control: styles => ({ ...styles,
                            backgroundColor: 'white',
@@ -549,6 +549,238 @@ class AddTask extends Component {
                             </div>
                           </div>
 
+                            <div className="row experimentalRowTask">
+                              <div className="col-4" style={{paddingLeft:0}}>
+                                <div className="row experimentalRowWrapper">
+                                  <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
+                                  <InputGroup>
+                                    <input
+                                      disabled={this.props.disabled}
+                                      className="form-control"
+                                      type="number"
+                                      id="workTime"
+                                      value={this.state.workTime}
+                                      onChange={e => {
+                                        this.setState({ workTime: e.target.value });
+                                      }}
+                                      placeholder={i18n.t("enterWorkTime")}
+                                      />
+                                  </InputGroup>
+                                </div>
+                              </div>
+                              { this.props.taskAttributes.filter((item)=>item.is_active).map((attribute,index) => {
+                                    switch (attribute.type) {
+                                      case "input":
+                                      return (
+                                        <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                          <div className={"row experimentalRowWrapper"+(attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')}>
+                                            <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                            <input
+                                              className="form-control"
+                                              id={attribute.id}
+                                              disabled={this.props.disabled}
+                                              value={this.state.task_data[attribute.id]}
+                                              onChange={e => {
+                                                let newData = { ...this.state.task_data };
+                                                newData[attribute.id] = e.target.value;
+                                                this.setState({ task_data: newData });
+                                              }}
+                                              placeholder={i18n.t('enter')+" " + attribute.title}
+                                              />
+                                            {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
+                                          </div>
+                                        </div>
+                                      );
+                                      case "text_area":
+                                      return (
+                                        <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                        <div className={"row experimentalRowWrapper"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')}>
+                                          <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                          <textarea
+                                            className="form-control"
+                                            id={attribute.id}
+                                            disabled={this.props.disabled}
+                                            value={this.state.task_data[attribute.id]}
+                                            onChange={e => {
+                                              let newData = { ...this.state.task_data };
+                                              newData[attribute.id] = e.target.value;
+                                              this.setState({ task_data: newData });
+                                            }}
+                                            placeholder={i18n.t('enter')+" " + attribute.title}
+                                            />
+                                          {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
+                                        </div>
+                                      </div>
+                                      );
+                                      case "simple_select":
+                                      return (
+                                        <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                          <div className="row experimentalRowWrapper">
+                                          <label
+                                            htmlFor={attribute.id}
+                                            className={attribute.required ? "req" : ""}
+                                            >
+                                            {attribute.title}
+                                          </label>
+                                          <Select
+                                            styles={colourStyles}
+                                            id={attribute.id}
+                                            className="fullWidth"
+                                            isDisabled={this.props.disabled}
+                                            options={Array.isArray(attribute.options)?(
+                                              attribute.options.map((item)=>{return {label:item, value:item}})
+                                            ):(
+                                              Object.keys(attribute.options).map((item)=>{return {label:item, value:item}})
+                                            )}
+                                            value={{label:this.state.task_data[attribute.id],value:this.state.task_data[attribute.id]}}
+                                            onChange={e => {
+                                              let newData = { ...this.state.task_data };
+                                              newData[attribute.id] = e.value;
+                                              this.setState({ task_data: newData });
+                                            }}
+                                            />
+                                            </div>
+                                          </div>
+                                          );
+                                          case "multi_select": {
+                                            let opt = [];
+                                            attribute.options.map(att =>
+                                              opt.push({
+                                                value: att,
+                                                label: att,
+                                                id: att
+                                              })
+                                            );
+                                            return (
+                                              <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                                <div className="row experimentalRowWrapper">
+                                                  <label
+                                                    htmlFor={attribute.id}
+                                                    className={attribute.required ? "req" : ""}
+                                                    >
+                                                    {attribute.title}
+                                                  </label>
+                                                  <Select
+                                                    styles={colourStyles}
+                                                    id={attribute.id}
+                                                    className="fullWidth"
+                                                    isDisabled={this.props.disabled}
+                                                    isMulti
+                                                    options={opt}
+                                                    value={this.state.task_data[attribute.id]}
+                                                    onChange={e => {
+                                                      let newData = { ...this.state.task_data };
+                                                      newData[attribute.id] = e;
+                                                      this.setState({ task_data: newData });
+                                                    }}
+                                                    />
+                                                </div>
+                                              </div>
+                                            );
+                                          }
+                                          case "date":
+                                          return (
+                                            <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                              <div className={"row experimentalRowWrapper"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===null ?' fieldError':'')}>
+                                              <label htmlFor={attribute.id} className={!this.props.disabled && attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                              <DatePicker
+                                                selected={this.state.task_data[attribute.id]}
+                                                disabled={this.props.disabled}
+                                                onChange={e => {
+                                                  let newData = { ...this.state.task_data };
+                                                  newData[attribute.id] = e;
+                                                  this.setState({ task_data: newData });
+                                                }}
+                                                locale="en-gb"
+                                                placeholderText={attribute.title}
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={30}
+                                                dateFormat="DD.MM.YYYY HH:mm"
+                                                />
+                                              {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===null&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
+                                            </div>
+                                          </div>
+                                          );
+                                          case "decimal_number":
+                                          return (
+                                            <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                              <div className={"row experimentalRowWrapper"+
+                                                (!this.props.disabled && attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')}
+                                                >
+                                              <label htmlFor={attribute.id} className={!this.props.disabled && attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                              <input
+                                                className="form-control"
+                                                type="number"
+                                                id={attribute.id}
+                                                disabled={this.props.disabled}
+                                                value={this.state.task_data[attribute.id]}
+                                                onChange={e => {
+                                                  let newData = { ...this.state.task_data };
+                                                  newData[attribute.id] = e.target.value;
+                                                  this.setState({ task_data: newData });
+                                                }}
+                                                placeholder={i18n.t('enter')+" " + attribute.title}
+                                                />
+                                              {!this.props.disabled &&attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
+                                            </div>
+                                          </div>
+                                          );
+                                          case "integer_number":
+                                          return (
+                                            <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                              <div className={"row experimentalRowWrapper" +(!this.props.disabled &&attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')}>
+                                              <label htmlFor={attribute.id} className={!this.props.disabled &&attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                              <input
+                                                className="form-control"
+                                                type="number"
+                                                id={attribute.id}
+                                                disabled={this.props.disabled}
+                                                value={this.state.task_data[attribute.id]}
+                                                onChange={e => {
+                                                  let newData = { ...this.state.task_data };
+                                                  newData[attribute.id] = e.target.value;
+                                                  this.setState({ task_data: newData });
+                                                }}
+                                                placeholder={i18n.t('enter')+" " + attribute.title}
+                                                />
+                                              {!this.props.disabled && attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
+                                            </div>
+                                          </div>
+                                          );
+                                          case "checkbox":
+                                          return (
+                                            <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                              <div className="row experimentalRowWrapper">
+                                            <div className="form-group form-check checkbox">
+                                                <input
+                                                  type="checkbox"
+                                                  id={"cb-"+attribute.id}
+                                                  className="form-check-input"
+                                                  disabled={this.props.disabled}
+                                                  checked={this.state.task_data[attribute.id]}
+                                                  onChange={() => {
+                                                    let newData = { ...this.state.task_data };
+                                                    newData[attribute.id] = !newData[
+                                                      attribute.id
+                                                    ];
+                                                    this.setState({ task_data: newData });
+                                                  }}
+                                                  />
+                                                <label className="form-check-label" htmlFor={"cb-"+attribute.id}>
+                                                {attribute.title}
+                                              </label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                          );
+
+                                          default:
+                                          return <div key={attribute.id}>{attribute.title}</div>;
+                                          }
+                                        })}
+                            </div>
+
                           {/*END OF TABLE 1*/}
 
                           <FormGroup>
@@ -617,6 +849,7 @@ class AddTask extends Component {
                             <label
                               htmlFor="fileUpload"
                               className="btn-link btn uploadButton"
+                              style={{paddingLeft:0}}
                               >
                                 {i18n.t("addAttachment")}
                             </label>
@@ -684,269 +917,19 @@ class AddTask extends Component {
                               subtasks={this.state.subtasks}
                               />
 
-                            <FormGroup>
-                              <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
-                              <InputGroup>
-                                <input
-                                  disabled={this.props.disabled}
-                                  className="form-control"
-                                  type="number"
-                                  id="workTime"
-                                  value={this.state.workTime}
-                                  onChange={e => {
-                                    this.setState({ workTime: e.target.value });
-                                  }}
-                                  placeholder={i18n.t("enterWorkTime")}
-                                  />
-                              </InputGroup>
-                            </FormGroup>
-
                             <Materials
-                                disabled={this.props.disabled}
-                                onSave={(materials)=>this.setState({materials})}
-                                units={this.props.units}
-                                materials={this.state.materials}
-                                />
-                              { this.props.taskAttributes.filter((item)=>item.is_active).map(attribute => {
-                                    switch (attribute.type) {
-                                      case "input":
-                                      return (
-                                        <div className={"form-group"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')} key={attribute.id} >
-                                          <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
-                                          <input
-                                            className="form-control"
-                                            id={attribute.id}
-                                            disabled={this.props.disabled}
-                                            value={this.state.task_data[attribute.id]}
-                                            onChange={e => {
-                                              let newData = { ...this.state.task_data };
-                                              newData[attribute.id] = e.target.value;
-                                              this.setState({ task_data: newData });
-                                            }}
-                                            placeholder={i18n.t('enter')+" " + attribute.title}
-                                            />
-                                          {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
-                                        </div>
-                                      );
-                                      case "text_area":
-                                      return (
-                                        <div className={"form-group"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')} key={attribute.id}>
-                                          <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
-                                          <textarea
-                                            className="form-control"
-                                            id={attribute.id}
-                                            disabled={this.props.disabled}
-                                            value={this.state.task_data[attribute.id]}
-                                            onChange={e => {
-                                              let newData = { ...this.state.task_data };
-                                              newData[attribute.id] = e.target.value;
-                                              this.setState({ task_data: newData });
-                                            }}
-                                            placeholder={i18n.t('enter')+" " + attribute.title}
-                                            />
-                                          {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
-                                        </div>
-                                      );
-                                      case "simple_select":
-                                      return (
-                                        <div className="form-group" key={attribute.id}>
-                                          <label
-                                            htmlFor={attribute.id}
-                                            className={attribute.required ? "req" : ""}
-                                            >
-                                            {attribute.title}
-                                          </label>
-                                          <select
-                                            className="form-control"
-                                            id={attribute.id}
-                                            disabled={this.props.disabled}
-                                            value={this.state.task_data[attribute.id]}
-                                            onChange={e => {
-                                              let newData = { ...this.state.task_data };
-                                              newData[attribute.id] = e.target.value;
-                                              this.setState({ task_data: newData });
-                                            }}
-                                            >
-                                            {Array.isArray(attribute.options) &&
-                                              attribute.options.map(opt => (
-                                                <option key={opt} value={opt}>
-                                                  {opt}
-                                                </option>
-                                              ))}
-                                              {!Array.isArray(attribute.options) &&
-                                                Object.keys(attribute.options).map(key => (
-                                                  <option key={key} value={key}>
-                                                    {key}
-                                                  </option>
-                                                ))}
-                                              </select>
-                                            </div>
-                                          );
-                                          case "multi_select": {
-                                            let opt = [];
-                                            attribute.options.map(att =>
-                                              opt.push({
-                                                id: attribute.options.indexOf(att),
-                                                title: att
-                                              })
-                                            );
-                                            return (
-                                              <div className="form-group" key={attribute.id}>
-                                                <MultiSelect
-                                                  id={attribute.id}
-                                                  data={opt}
-                                                  displayValue="title"
-                                                  selectedIds={this.state.task_data[attribute.id]}
-                                                  idValue="id"
-                                                  filterBy="title"
-                                                  title={attribute.title}
-                                                  display="row"
-                                                  displayBoxStyle={{ width: 100 }}
-                                                  menuItemStyle={{
-                                                    marginLeft: 7,
-                                                    marginRight: 7,
-                                                    marginTop: 2,
-                                                    marginBottom: 2,
-                                                    paddingTop: 2,
-                                                    paddingBottom: 2
-                                                  }}
-                                                  renderItem={item => (
-                                                    <span
-                                                      className="badge"
-                                                      key={item.id}
-                                                      style={{
-                                                        margin: "auto",
-                                                        color:'black',
-                                                        border: "1px solid black",
-                                                        borderRadius: "3px",
-                                                        paddingLeft: 10,
-                                                        paddingRight: 10,
-                                                        paddingTop: 5,
-                                                        paddingBottom: 5,
-                                                        marginLeft: 5
-                                                      }}
-                                                      >
-                                                      {item.title}
-                                                    </span>
-                                                  )}
-                                                  titleStyle={{
-                                                    backgroundColor: "white",
-                                                    color: "black",
-                                                    size: 15
-                                                  }}
-                                                  toggleStyle={{
-                                                    backgroundColor: "white",
-                                                    border: "none",
-                                                    padding: 0
-                                                  }}
-                                                  label={attribute.title}
-                                                  labelStyle={{ marginLeft: 10 }}
-                                                  searchStyle={{ margin: 5 }}
-                                                  onChange={(ids, items) => {
-                                                    let newData = { ...this.state.task_data };
-                                                    newData[attribute.id] = ids;
-                                                    this.setState({ task_data: newData });
-                                                  }}
-                                                  />
-                                              </div>
-                                            );
-                                          }
-                                          case "date":
-                                          return (
-                                            <div className={"form-group"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===null ?' fieldError':'')} key={attribute.id}>
-                                              <label htmlFor={attribute.id} className={!this.props.disabled && attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
-                                              <DatePicker
-                                                selected={this.state.task_data[attribute.id]}
-                                                disabled={this.props.disabled}
-                                                onChange={e => {
-                                                  let newData = { ...this.state.task_data };
-                                                  newData[attribute.id] = e;
-                                                  this.setState({ task_data: newData });
-                                                }}
-                                                locale="en-gb"
-                                                placeholderText={attribute.title}
-                                                showTimeSelect
-                                                timeFormat="HH:mm"
-                                                timeIntervals={30}
-                                                dateFormat="DD.MM.YYYY HH:mm"
-                                                />
-                                              {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===null&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
-                                            </div>
-                                          );
-                                          case "decimal_number":
-                                          return (
-                                            <div className={"form-group"+(!this.props.disabled && attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')} key={attribute.id}>
-                                              <label htmlFor={attribute.id} className={!this.props.disabled && attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
-                                              <input
-                                                className="form-control"
-                                                type="number"
-                                                id={attribute.id}
-                                                disabled={this.props.disabled}
-                                                value={this.state.task_data[attribute.id]}
-                                                onChange={e => {
-                                                  let newData = { ...this.state.task_data };
-                                                  newData[attribute.id] = e.target.value;
-                                                  this.setState({ task_data: newData });
-                                                }}
-                                                placeholder={i18n.t('enter')+" " + attribute.title}
-                                                />
-                                              {!this.props.disabled &&attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
-                                            </div>
-                                          );
-                                          case "integer_number":
-                                          return (
-                                            <div className={"form-group"+(!this.props.disabled &&attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')} key={attribute.id}>
-                                              <label htmlFor={attribute.id} className={!this.props.disabled &&attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
-                                              <input
-                                                className="form-control"
-                                                type="number"
-                                                id={attribute.id}
-                                                disabled={this.props.disabled}
-                                                value={this.state.task_data[attribute.id]}
-                                                onChange={e => {
-                                                  let newData = { ...this.state.task_data };
-                                                  newData[attribute.id] = e.target.value;
-                                                  this.setState({ task_data: newData });
-                                                }}
-                                                placeholder={i18n.t('enter')+" " + attribute.title}
-                                                />
-                                              {!this.props.disabled && attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
-                                            </div>
-                                          );
-                                          case "checkbox":
-                                          return (
-                                            <div className="form-group form-check checkbox" key={attribute.id}>
-                                                <input
-                                                  type="checkbox"
-                                                  id={"cb-"+attribute.id}
-                                                  className="form-check-input"
-                                                  disabled={this.props.disabled}
-                                                  checked={this.state.task_data[attribute.id]}
-                                                  onChange={() => {
-                                                    let newData = { ...this.state.task_data };
-                                                    newData[attribute.id] = !newData[
-                                                      attribute.id
-                                                    ];
-                                                    this.setState({ task_data: newData });
-                                                  }}
-                                                  />
-                                                <label className="form-check-label" htmlFor={"cb-"+attribute.id}>
-                                                {attribute.title}
-                                              </label>
-                                            </div>
-                                          );
-
-                                          default:
-                                          return <div>{attribute.title}</div>;
-                                          }
-                                        })}
-                                  </div>
-                                </CardBody>
-                              </Card>
+                              disabled={this.props.disabled}
+                              onSave={(materials)=>this.setState({materials})}
+                              units={this.props.units}
+                              materials={this.state.materials}
+                            />
                             </div>
-                          );
-                        }
+                          </CardBody>
+                        </Card>
+                      </div>
+                        );
                     }
+                  }
 
                     const mapStateToProps = ({
                       tasksReducer,

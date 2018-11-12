@@ -748,7 +748,6 @@ class EditTask extends Component {
                           </div>
                         </div>
                             { this.props.taskAttributes.filter((item)=>item.is_active).map((attribute,index) => {
-                              console.log(index%3);
                                   switch (attribute.type) {
                                     case "input":
                                     return (
