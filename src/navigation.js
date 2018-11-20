@@ -81,7 +81,7 @@ class Full extends Component {
           {
             !this.state.error &&
           <main className="main">
-            <Container fluid style={{overflowX:'scroll'}}>
+            <Container fluid style={{overflowX:'scroll', minHeight:'calc(100vh - 50px)'}}>
               <Switch>
                 <Route
                   exact

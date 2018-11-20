@@ -78,7 +78,8 @@ class Loader extends Component {
     //console.log('/////');
     //console.log(this.props.body.body.statuses);
     //console.log(props.body.body.statuses);
-    if(JSON.stringify(this.props.body)!==JSON.stringify(props.body)|| (props.body.body && props.body.body.statuses.length!==this.state.lastStatusCount)){
+    if(JSON.stringify(this.props.body)!==JSON.stringify(props.body)|| (props.body.body && props.body.body.statuses.length!==this.state.lastStatusCount)||props.forceUpdate){
+      this.props.setFilterForceUpdate(false);
       this.setState({lastStatusCount:props.body.body.statuses.length});
       //console.log(props.body);
       console.log('something has changed in body');
@@ -162,19 +163,22 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
   const { taskStatuses } = statusesReducer;
   const { taskCompanies } = companiesReducer;
   const { taskAttributes} = taskAttributesReducer;
-  const { users} = usersReducer;
-  const { body, filter } = filtersReducer;
+  const { users } = usersReducer;
+  const { body, filter, forceUpdate } = filtersReducer;
   const { sidebar } = sidebarReducer;
   const {token} = login;
   let projectsOnly = sidebar?sidebar.projects.children:[];
   let archived = sidebar?sidebar.archived.children:[];
   let tags = sidebar?sidebar.tags.children:[];
-    return {statuses:taskStatuses,companies:taskCompanies,
+    return {
+      statuses:taskStatuses,
+      companies:taskCompanies,
+      forceUpdate,
       projects: (projectsOnly.concat(archived)),
       taskAttributes,tags, users, body, filter,sidebar, token};
   };
-import {loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests } from '../../redux/actions';
+import {loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests, setFilterForceUpdate } from '../../redux/actions';
 
 export default connect(mapStateToProps, {
-  loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests
+  loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests, setFilterForceUpdate
 })(Loader);

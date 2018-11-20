@@ -62,7 +62,7 @@ class EditTaskLoader extends Component {
     ){
       return null;
     }
-    return <EditTask history={this.props.history} match={this.props.match} disabled={this.props.disabled?true:false} taskID={this.state.taskID} tripod={this.props.tripod}/>
+    return <EditTask history={this.props.history} match={this.props.match} disabled={this.props.disabled?true:false} taskID={this.state.taskID} tripod={this.props.tripod===true}/>
   }
     componentWillReceiveProps(props){
       let oldTaskID=this.props.match.params.taskID?parseInt(this.props.match.params.taskID, 10):this.props.taskID;

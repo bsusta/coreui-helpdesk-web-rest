@@ -1,5 +1,5 @@
 import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER, SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, SET_ERROR_MESSAGE, LOWER_ACTIVE_REQUESTS, SET_FILTER_ORDER, SET_UPDATE_AT,
-  SET_FILTER_BODY, ADD_TO_FILTER_BODY } from '../types';
+  SET_FILTER_BODY, ADD_TO_FILTER_BODY, SET_FILTER_FORCE_UPDATE } from '../types';
 import { TASKS_LIST, FILTERS_LIST } from '../urls';
 import {processError,processRESTinput,filterToFilterState ,filterBodyFromState,createEmptyFilterBody} from '../../helperFunctions';
 import {getSidebar} from './sidebarActions';
@@ -28,6 +28,12 @@ export const setShowFilter = (showFilter) => {
  }
 };
 
+export const setFilterForceUpdate = (forceUpdate) => {
+ return (dispatch) => {
+   dispatch({ type: SET_FILTER_FORCE_UPDATE,forceUpdate });
+ }
+};
+
 export const startFilterLoading = (filterLoaded)=>{
   return (dispatch) => {
      dispatch({ type: SET_FILTER_LOADING, filterLoaded });
@@ -36,9 +42,6 @@ export const startFilterLoading = (filterLoaded)=>{
 
 export const loadUnsavedFilter = (body,taskAttributes,token) => {
  return (dispatch) => {
-   //console.log('changed');
-   //console.log(body.body);
-   //console.log(filterBodyFromState(body.body,taskAttributes));
    fetch(TASKS_LIST+'?limit='+body.count+'&page='+body.page+'&'+body.order+(body.body?('&'+filterBodyFromState(body.body,taskAttributes)):""), {
      method: 'get',
      headers: {
@@ -47,7 +50,6 @@ export const loadUnsavedFilter = (body,taskAttributes,token) => {
      }
    }).then((response) =>{
    dispatch({type: LOWER_ACTIVE_REQUESTS});
-   console.log('lower unsaved filter loader');
      if(!response.ok){
        processError(response,dispatch);
        return;
@@ -120,7 +122,6 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
         }
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
-      console.log('lower get user filter loader');
         if(!response.ok){
           //console.log('failed');
           //processError(response,dispatch);
@@ -162,7 +163,6 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
-        console.log('lower get filter Loader');
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           processError(response,dispatch,history);

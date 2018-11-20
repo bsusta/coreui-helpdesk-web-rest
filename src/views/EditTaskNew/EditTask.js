@@ -268,7 +268,7 @@ class EditTask extends Component {
             </ModalBody>
           </Modal>
         }
-          <Card className="experimentalTaskEdit">
+          <Card className="experimentalTaskEdit" style={this.props.tripod?{minWidth:0}:{}}>
                     <CardBody className="whiteBG">
                       {!this.props.disabled && this.state.submitError && <span><h5 style={{color:'red'}}> {i18n.t('restrictionTaskWontSave')}</h5></span>}
                       <div
@@ -312,6 +312,14 @@ class EditTask extends Component {
                                         />
                                     )}
                                   </span>
+                              </InputGroupAddon>
+                              <InputGroupAddon
+                                style={{ backgroundColor: "white",borderWidth:0}}
+                                className="task-header-input no-border"
+                                >
+                                <h3>
+                                  {this.props.task.id}
+                                </h3>
                               </InputGroupAddon>
 
                               {/*<label htmlFor ="title">Task Name</label>*/}
@@ -1065,8 +1073,9 @@ class EditTask extends Component {
                               >
                                 {i18n.t("addAttachment")}
                             </label>
-                            {this.props.attachments.map(item => (
+                            {this.props.attachments.map((item,index) => (
                               <span
+                                key={index}
                                 className="badge"
                                 style={{
                                   backgroundColor: "#d3eef6",

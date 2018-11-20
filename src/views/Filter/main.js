@@ -139,7 +139,7 @@ class Tasks extends Component {
 					<Filter history={this.props.history} match={this.props.match} />
 				</div>
 
-				<div className={this.props.showFilter ? 'col-9' : 'col-12'} style={{ padding: '0' }}>
+				<div className={this.props.showFilter ? 'col-9' : 'col-12'} style={{ padding: 0, paddingTop:10 }}>
 
 					<Card>
 						{this.props.tripod &&

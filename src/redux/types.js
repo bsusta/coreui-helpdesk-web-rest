@@ -196,6 +196,7 @@ export const SET_SHOW_FILTER = 'SET_SHOW_FILTER';
 export const SET_FILTER_LOADING = 'SET_FILTER_LOADING';
 export const SET_FILTER_ORDER = 'SET_FILTER_ORDER';
 export const SET_UPDATE_AT = 'SET_UPDATE_AT';
+export const SET_FILTER_FORCE_UPDATE = 'SET_FILTER_FORCE_UPDATE';
 
 //all constants for MESSAGES actions
 export const SET_MESSAGES = 'SET_MESSAGES';

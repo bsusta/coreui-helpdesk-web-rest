@@ -25,7 +25,6 @@ class Header extends Component {
 
   componentWillReceiveProps(props){
     if(JSON.stringify(props.activeRequests)!==JSON.stringify(this.props.activeRequests)){
-      console.log(props.activeRequests);
       if(props.activeRequests < 0){
         this.props.setActiveRequests(0);
       }

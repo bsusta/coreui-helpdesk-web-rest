@@ -1,5 +1,5 @@
 import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER,SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, LOGIN_LOGOUT, SET_FILTER_ORDER, SET_UPDATE_AT, EDIT_TASK,
-  SET_FILTER_BODY, ADD_TO_FILTER_BODY } from '../types';
+  SET_FILTER_BODY, ADD_TO_FILTER_BODY, SET_FILTER_FORCE_UPDATE } from '../types';
 import {createEmptyFilterBody} from '../../helperFunctions';
 const initialState = {
   numberOfPages:0,
@@ -9,6 +9,7 @@ const initialState = {
   showFilter:false,
   filterLoaded:false,
   filter:null,
+  forceUpdate:false
 };
 
 
@@ -64,6 +65,9 @@ export default function filtersReducer(state = initialState, action) {
         newBody.body=action.body;
       }
       return {...state, body:newBody};
+    }
+    case SET_FILTER_FORCE_UPDATE:{
+      return {...state, forceUpdate:action.forceUpdate};
     }
 
     case EDIT_TASK:{

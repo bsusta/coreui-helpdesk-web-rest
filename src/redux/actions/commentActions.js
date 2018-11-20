@@ -67,6 +67,9 @@ export const getComments= (taskID,token) => {
             console.log(error);
           });
         }
+        if(!comment){
+          return;
+        }
         comment.commentHasAttachments.map(attachment=>{
           fetch(GET_LOC+attachment.slug+'/download-location', {
             method: 'get',

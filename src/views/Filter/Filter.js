@@ -32,7 +32,7 @@ import {
 	filterBodyFromState,
 	parseFilterDateToString,
 } from '../../helperFunctions';
-import { createFilter, editFilter, deleteFilter, setFilterBody, changeUpdateAt } from '../../redux/actions';
+import { createFilter, editFilter, deleteFilter, setFilterBody, changeUpdateAt, setFilterForceUpdate } from '../../redux/actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const colourStyles = {
@@ -147,6 +147,7 @@ class Filter extends Component {
 
 	applyFilter() {
 		this.props.setFilterBody({body:{...this.state, lastStatusCount:undefined }, page:1});
+		this.props.setFilterForceUpdate(true);
 	}
 
 	createState(restore) {
@@ -957,5 +958,5 @@ const mapStateToProps = ({
 
 export default connect(
 	mapStateToProps,
-	{ setFilterBody, createFilter, deleteFilter, editFilter, changeUpdateAt }
+	{ setFilterBody, createFilter, deleteFilter, editFilter, changeUpdateAt, setFilterForceUpdate }
 )(Filter);
