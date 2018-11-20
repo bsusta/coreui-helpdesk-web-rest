@@ -32,6 +32,7 @@ class Loader extends Component {
       let project = this.getFilterItem(urlData.projectID,this.props.projects);
       body.body.projects=project?[project]:[];
       if(project){
+        this.props.addActiveRequests(1);
         this.props.getProject(urlData.projectID,this.props.history,this.props.token);
       }else{
         body.body.title=this.props.body.search;
@@ -49,11 +50,14 @@ class Loader extends Component {
     }
     if(body.filterID!==null ){
       if(body.filterID!=='add'){
+        this.props.addActiveRequests(2);
       this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.history,body,this.props.token);
       }else{
+        this.props.addActiveRequests(2);
         this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,body,this.props.token);
       }
     }else{
+      this.props.addActiveRequests(1);
       this.props.loadUnsavedFilter(body,this.props.taskAttributes,this.props.token);
     }
     this.props.setFilterBody(body);
@@ -82,14 +86,17 @@ class Loader extends Component {
       if(props.body.filterID!==null  && props.body.filterID!==this.props.body.filterID){
         //console.log('filter has changed');
         if(props.body.filterID!=='add'){
+          this.props.addActiveRequests(2);
         this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.history,props.body,this.props.token);
         }else{
+          this.props.addActiveRequests(2);
           this.props.getUsersFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,props.body,this.props.token);
         }
       }
       else{
         //console.log('from change watcher');
         //console.log(props.body);
+        this.props.addActiveRequests(1);
         this.props.loadUnsavedFilter(props.body,this.props.taskAttributes,this.props.token);
       }
     }
@@ -122,6 +129,7 @@ class Loader extends Component {
         body.projectID=urlData.projectID;
         let project = this.getFilterItem(urlData.projectID,props.projects);
           if(this.props.match.params.projectID!==props.match.params.projectID && urlData.projectID!=='all'){
+            this.props.addActiveRequests(1);
             this.props.getProject(urlData.projectID,this.props.history,this.props.token);
           }
           body.body.projects=[project];
@@ -165,8 +173,8 @@ const mapStateToProps = ({tasksReducer, statusesReducer, companiesReducer,tagsRe
       projects: (projectsOnly.concat(archived)),
       taskAttributes,tags, users, body, filter,sidebar, token};
   };
-import {loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody} from '../../redux/actions';
+import {loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests } from '../../redux/actions';
 
 export default connect(mapStateToProps, {
-  loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody
+  loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests
 })(Loader);

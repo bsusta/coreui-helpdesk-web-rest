@@ -9,7 +9,7 @@ import {
   Input
 } from "reactstrap";
 import MessagesDropdown from "./MessagesDropdown";
-import {logoutUser, setFilterBody, setTripod, setColumns} from '../../redux/actions';
+import {logoutUser, setFilterBody, setTripod, setColumns,setActiveRequests} from '../../redux/actions';
 import { connect } from "react-redux";
 import i18n from "i18next";
 import ErrorMessagesDropdown from "./ErrorMessagesDropdown";
@@ -22,6 +22,16 @@ class Header extends Component {
       search: ""
     };
   }
+
+  componentWillReceiveProps(props){
+    if(JSON.stringify(props.activeRequests)!==JSON.stringify(this.props.activeRequests)){
+      console.log(props.activeRequests);
+      if(props.activeRequests < 0){
+        this.props.setActiveRequests(0);
+      }
+    }
+  }
+
   render() {
     return (
       <header className="app-header navbar fontFamilyHeader">
@@ -182,4 +192,4 @@ const mapStateToProps = ({ login, loadingReducer, errorsReducer, filtersReducer,
   return { user, token, activeRequests, errorMessages, body,tripod, columns };
 };
 
-export default connect(mapStateToProps, { logoutUser, setFilterBody,setTripod, setColumns })(Header);
+export default connect(mapStateToProps, { logoutUser, setFilterBody,setTripod, setColumns, setActiveRequests })(Header);

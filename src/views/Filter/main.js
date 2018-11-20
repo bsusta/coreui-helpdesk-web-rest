@@ -159,10 +159,11 @@ class Tasks extends Component {
 	}
 }
 
-const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, statusesReducer }) => {
+const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, statusesReducer, login }) => {
 	const { showFilter, body } = filtersReducer;
 	const { tripod , columns } = tasksReducer;
 	const { taskStatuses } = statusesReducer;
+	const { user } = login;
 	const { sidebar } = sidebarReducer;
 	let projectsOnly = sidebar?sidebar.projects.children:[];
 	let archived = sidebar?sidebar.archived.children:[];
@@ -178,7 +179,8 @@ const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, statuse
 		archived,
 		projects:[...projectsOnly,...archived],
 		tags,
-		filters
+		filters,
+		user
 	};
 };
 

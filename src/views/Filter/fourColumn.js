@@ -32,7 +32,7 @@ class Project extends Component {
   constructor(props) {
     super(props);
     this.getTask.bind(this);
-    let task = this.getTask();
+    let task = this.getTask(this.props.tasks);
     this.state = {
         taskID:task?task.id:null,
         canEdit:task?task.canEdit:true
@@ -40,14 +40,14 @@ class Project extends Component {
     this.getURL.bind(this);
   }
 
-  getTask(){
+  getTask(tasks){
     let task=null;
-    if(this.props.tasks.length>0){
+    if(tasks.length>0){
       if(this.props.match.params.taskID){
-        task = this.props.tasks.find((item)=>item.id===parseInt(this.props.match.params.taskID));
+        task = tasks.find((item)=>item.id===parseInt(this.props.match.params.taskID));
       }
       if(!task){
-        task = this.props.tasks[0];
+        task = tasks[0];
         if(task.canEdit){
           this.props.history.push(this.getURL()+'/task/edit/'+task.id);
         }else{
@@ -59,11 +59,11 @@ class Project extends Component {
   }
 
   componentWillReceiveProps(props){
-    if(props.tasks!==this.props.tasks){
+    if(JSON.stringify(props.tasks)!==JSON.stringify(this.props.tasks)){
       if(props.tasks.length===0){
         this.setState({taskID:null,canEdit:true});
       }else{
-        let task = this.getTask();
+        let task = this.getTask(props.tasks);
         this.setState({
           taskID:task?task.id:null,
           canEdit:task?task.canEdit:true
@@ -104,37 +104,36 @@ class Project extends Component {
         <div className='fourColumns'>
           <ul className="list-group" style={{paddingBottom:'1em'}}>
               {this.props.tasks.map(task => (
-                <li className="list-group-item item-in-column" style={{borderLeftColor:task.status.color, cursor:'pointer'}} key={task.id}
+                <li className={task.id===this.state.taskID?"list-group-item item-in-column highlighted-item-in-column":"list-group-item item-in-column"} style={{borderLeftColor:task.status.color, cursor:'pointer'}} key={task.id}
                   onClick={()=>{
                       this.setState({taskID:task.id, canEdit:task.canEdit});
-                      setTimeout(()=>{
                         if( task.canEdit){
                           this.props.history.push(this.getURL(false)+'/task/edit/'+task.id);
                         }else{
                           this.props.history.push(this.getURL(false)+'/task/view/'+task.id);
                         }
-                      }, 1);
                     }}>
                   <div  className="d-flex flex-row justify-content-between" >
                     <label htmlFor='statusCheckbox-myTasks'>
                       {task.title}
                     </label>
                   </div>
-                  <p style={{marginBottom:5}}>
+                  <div style={{marginBottom:5, width:'100%'}} className="row">
                     {task.tags.map(tag => (
-                      <span
+                      <div
                         key={tag.id}
                         className="badge mr-1"
                         style={{
                           backgroundColor:
                           (tag.color.includes("#") ? "" : "#") + tag.color,
+                          marginTop:5,
                           color: "white"
                         }}
                         >
                         {tag.title}
-                      </span>
+                      </div>
                     ))}
-                  </p>
+                  </div>
                   <div style={{marginBottom:0}}>
                     <p className="pull-right">
                       <i className="fa fa-clock-o" style={{marginRight:5}}/>
@@ -180,7 +179,10 @@ class Project extends Component {
         </div>
         <div style={{margin:0,padding:0,borderLeft:'1px solid #EFEFEF', flex:1}}>
           {this.state.taskID && this.props.numberOfPages>0 &&
-            <EditTask taskID={this.state.taskID} tripod={true} disabled={!this.state.canEdit} history={this.props.history} match={this.props.match}/>}
+            <div>
+              <EditTask taskID={this.state.taskID} tripod={true} disabled={!this.state.canEdit} history={this.props.history} match={this.props.match}/>
+            </div>
+          }
         </div>
       </div>
     );

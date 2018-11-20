@@ -2,7 +2,7 @@ import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGIN_LOGOUT, TOKEN_CHECKED, LOW
 import { LOGIN_URL, USERS_LIST } from '../urls';
 import jwt_decode from 'jwt-decode';
 import i18n from 'i18next';
-
+import {setActiveRequests} from './loadingActions';
 export const loginUser = (username, password) => {
    return (dispatch) => {
      dispatch({ type: LOGIN_START });
@@ -53,7 +53,7 @@ export const logoutUser = () => {
             'Authorization': 'Bearer ' + token
           }
         }).then((response)=>{
-          dispatch({type: LOWER_ACTIVE_REQUESTS});
+          setActiveRequests(0);
           if(!response.ok){
             dispatch({ type: TOKEN_CHECKED });
             localStorage.removeItem("lansystems");

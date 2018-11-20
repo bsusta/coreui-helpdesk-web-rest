@@ -47,6 +47,7 @@ export const loadUnsavedFilter = (body,taskAttributes,token) => {
      }
    }).then((response) =>{
    dispatch({type: LOWER_ACTIVE_REQUESTS});
+   console.log('lower unsaved filter loader');
      if(!response.ok){
        processError(response,dispatch);
        return;
@@ -119,6 +120,7 @@ export const getUsersFilter = (taskAttributes,statuses,projects,users,tags,compa
         }
       }).then((response) =>{
       dispatch({type: LOWER_ACTIVE_REQUESTS});
+      console.log('lower get user filter loader');
         if(!response.ok){
           //console.log('failed');
           //processError(response,dispatch);
@@ -160,6 +162,7 @@ export const getFilter = (taskAttributes,statuses,projects,users,tags,companies,
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
+        console.log('lower get filter Loader');
       dispatch({type: LOWER_ACTIVE_REQUESTS});
         if(!response.ok){
           processError(response,dispatch,history);

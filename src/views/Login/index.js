@@ -10,7 +10,6 @@ class TokenChecker extends Component {
   }
 
   componentWillMount(){
-    this.props.setActiveRequests(1);
     this.props.checkToken();
   }
 

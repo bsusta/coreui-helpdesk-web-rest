@@ -15,14 +15,16 @@ class EditTaskLoader extends Component {
     super(props);
     this.state={
       randomFloat:Math.random(),
-      taskID:this.props.match.params.taskID?parseInt(this.props.match.params.taskID, 10):this.props.taskID,
+      taskID:this.props.taskID?this.props.taskID:parseInt(this.props.match.params.taskID, 10),
     }
+    console.log(this.state.taskID);
   }
   //before loader page is loaded, we send requests to get all available units
   componentWillMount(){
     if(!this.props.disabled){
       this.props.deleteTaskSolvers();
     }
+    return;
 
     this.props.setRepeatLoaded(false);
     this.props.startTaskLoading();
@@ -30,6 +32,11 @@ class EditTaskLoader extends Component {
     this.props.startSubtasksLoading();
     this.props.startItemsLoading();
     this.props.startFollowersLoading();
+
+    if(!this.state.taskID){
+      console.log('fail');
+      return;
+    }
 
     if(!this.props.disabled){
       this.props.setActiveRequests(12);
@@ -42,6 +49,7 @@ class EditTaskLoader extends Component {
     }else{
       this.props.setActiveRequests(7);
     }
+    console.log(this.state.taskID);
     this.props.getTaskAttributes(this.props.token);
     this.props.getSubtasks(this.state.taskID,this.props.token);
     this.props.getItems(this.state.taskID,this.props.token);
@@ -77,20 +85,22 @@ class EditTaskLoader extends Component {
         props.startFollowersLoading();
         props.setRepeatLoaded(false);
 
-        props.setActiveRequests(12);
-        props.getSubtasks(props.match.params.taskID,props.token);
-        props.getItems(props.match.params.taskID,props.token);
-        props.getComments(props.match.params.taskID,props.token);
-        props.getTask(props.match.params.taskID,props.token);
-        props.getTaskStatuses(props.statusesUpdateDate,props.token);
-        props.getTaskProjects(props.token);
-        props.getTaskCompanies(props.companiesUpdateDate,props.token);
-        props.getTaskAttributes(props.token);
-        props.getTags(props.token);
-        props.getTaskUnits(props.token);
-        props.getUsers("",props.token);
-        props.getFollowers(props.match.params.taskID,props.token);
-        props.getRepeat(props.match.params.taskID,props.token);
+        if(props.match.params.taskID){
+          props.setActiveRequests(12);
+          props.getSubtasks(props.match.params.taskID,props.token);
+          props.getItems(props.match.params.taskID,props.token);
+          props.getComments(props.match.params.taskID,props.token);
+          props.getTask(props.match.params.taskID,props.token);
+          props.getTaskStatuses(props.statusesUpdateDate,props.token);
+          props.getTaskProjects(props.token);
+          props.getTaskCompanies(props.companiesUpdateDate,props.token);
+          props.getTaskAttributes(props.token);
+          props.getTags(props.token);
+          props.getTaskUnits(props.token);
+          props.getUsers("",props.token);
+          props.getFollowers(props.match.params.taskID,props.token);
+          props.getRepeat(props.match.params.taskID,props.token);
+        }
       }
     }
 }

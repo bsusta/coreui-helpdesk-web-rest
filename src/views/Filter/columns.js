@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setTaskID, setFilterBody, setShowFilter, editTask } from "../../../redux/actions";
+import { setTaskID, setFilterBody, setShowFilter, editTask } from "../../redux/actions";
 import {
   Row,
   Col,
@@ -21,12 +21,11 @@ import {
   InputGroupAddon,
   InputGroupButton
 } from "reactstrap";
-import Pagination from "../../../components/pagination";
-import { timestampToString, filterBodyFromState } from "../../../helperFunctions";
+import Pagination from "../../components/pagination";
+import { timestampToString, filterBodyFromState } from "../../helperFunctions";
 import i18n from 'i18next';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import Column from './column';
-import {TASKS_LIST} from '../../../redux/urls';
+import {TASKS_LIST} from '../../redux/urls';
 
 class Project extends Component {
   constructor(props){
@@ -145,12 +144,12 @@ class Project extends Component {
               <CardHeader className="column-header" style={{backgroundColor:status.color}}>
                 {status.title.toUpperCase()}
               </CardHeader>
-              <Droppable droppableId={status.id.toString()}>
+              <Droppable droppableId={status.id.toString()} style={{backgroundColor:'#fafafa'}}>
                 {(provided, snapshot) => (
                   <div
                     ref={provided.innerRef}
                     style={{
-                      background: snapshot.isDraggingOver ? 'lightblue' : 'white',
+                      background: snapshot.isDraggingOver ? 'lightblue' : '#fafafa',
                       padding:20
                     }}>
                     { Object.keys(this.state.tasks).includes(status.id.toString()) && this.state.tasks[status.id].map((task, index) => (
@@ -216,7 +215,7 @@ class Project extends Component {
                                     {task.title}
                                   </label>
                               </div>
-                              <p style={{marginBottom:5}}>
+                              <div style={{marginBottom:5, width:'100%'}} className="row">
                                 {task.tags.map(tag => (
                                   <span
                                     key={tag.id}
@@ -224,13 +223,14 @@ class Project extends Component {
                                     style={{
                                       backgroundColor:
                                       (tag.color.includes("#") ? "" : "#") + tag.color,
+                                      marginTop:5,
                                       color: "white"
                                     }}
                                     >
                                     {tag.title}
                                   </span>
                                 ))}
-                              </p>
+                              </div>
                               <div style={{marginBottom:0}}>
                                 <p className="pull-right">
                                   <i className="fa fa-clock-o" style={{marginRight:5}}/>

@@ -8,12 +8,14 @@ export const clearErrorMessage = (errorID) => {
 
 export const setActiveRequests = (activeRequests) => {
  return (dispatch) => {
+   console.log('setting requests ' + activeRequests);
    dispatch({ type: SET_ACTIVE_REQUESTS, activeRequests });
  }
 };
 
 export const addActiveRequests = (activeRequests) => {
  return (dispatch) => {
+   console.log('adding requests ' + activeRequests);
    dispatch({ type: ADD_ACTIVE_REQUESTS, activeRequests });
  }
 };

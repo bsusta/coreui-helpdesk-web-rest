@@ -271,11 +271,15 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgba(152, 166, 173, 0.2);
   border-radius: 5px;
   border-left-width: 3px;
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
   padding-bottom: 20px;
   padding-left: 10px;
   background-color: white;
   width:350px;
+}
+
+.highlighted-item-in-column{
+  background-color: rgb(211, 238, 246);
 }
 
 .badge{

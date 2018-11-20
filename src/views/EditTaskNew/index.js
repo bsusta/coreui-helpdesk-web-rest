@@ -23,16 +23,14 @@ class EditTaskLoader extends Component {
     if(!this.props.disabled){
       this.props.deleteTaskSolvers();
     }
-
     this.props.setRepeatLoaded(false);
     this.props.startTaskLoading();
     this.props.startCommentsLoading();
     this.props.startSubtasksLoading();
     this.props.startItemsLoading();
     this.props.startFollowersLoading();
-
     if(!this.props.disabled){
-      this.props.setActiveRequests(12);
+      this.props.setActiveRequests(13);
       this.props.getTaskStatuses(this.props.statusesUpdateDate,this.props.token);
       this.props.getTaskProjects(this.props.token);
       this.props.getTaskCompanies(this.props.companiesUpdateDate,this.props.token);
@@ -67,8 +65,10 @@ class EditTaskLoader extends Component {
     return <EditTask history={this.props.history} match={this.props.match} disabled={this.props.disabled?true:false} taskID={this.state.taskID} tripod={this.props.tripod}/>
   }
     componentWillReceiveProps(props){
-      if(props.match.params.taskID!==this.props.match.params.taskID){
-        this.setState({taskID:props.match.params.taskID?parseInt(props.match.params.taskID, 10):props.taskID});
+      let oldTaskID=this.props.match.params.taskID?parseInt(this.props.match.params.taskID, 10):this.props.taskID;
+      let newTaskID=props.match.params.taskID?parseInt(props.match.params.taskID, 10):props.taskID;
+      if(oldTaskID!==newTaskID){
+        this.setState({taskID:newTaskID?parseInt(newTaskID, 10):props.taskID});
         props.deleteTaskSolvers();
         props.startSubtasksLoading();
         props.startItemsLoading();
@@ -76,21 +76,22 @@ class EditTaskLoader extends Component {
         props.startTaskLoading();
         props.startFollowersLoading();
         props.setRepeatLoaded(false);
-
-        props.setActiveRequests(12);
-        props.getSubtasks(props.match.params.taskID,props.token);
-        props.getItems(props.match.params.taskID,props.token);
-        props.getComments(props.match.params.taskID,props.token);
-        props.getTask(props.match.params.taskID,props.token);
-        props.getTaskStatuses(props.statusesUpdateDate,props.token);
-        props.getTaskProjects(props.token);
-        props.getTaskCompanies(props.companiesUpdateDate,props.token);
-        props.getTaskAttributes(props.token);
-        props.getTags(props.token);
-        props.getTaskUnits(props.token);
-        props.getUsers("",props.token);
-        props.getFollowers(props.match.params.taskID,props.token);
-        props.getRepeat(props.match.params.taskID,props.token);
+        if(newTaskID){
+          props.setActiveRequests(13);
+          props.getSubtasks(newTaskID,props.token);
+          props.getItems(newTaskID,props.token);
+          props.getComments(newTaskID,props.token);
+          props.getTask(newTaskID,props.token);
+          props.getTaskStatuses(props.statusesUpdateDate,props.token);
+          props.getTaskProjects(props.token);
+          props.getTaskCompanies(props.companiesUpdateDate,props.token);
+          props.getTaskAttributes(props.token);
+          props.getTags(props.token);
+          props.getTaskUnits(props.token);
+          props.getUsers("",props.token);
+          props.getFollowers(newTaskID,props.token);
+          props.getRepeat(newTaskID,props.token);
+        }
       }
     }
 }
