@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 import Pagination from '../../components/pagination';
 import { timestampToString } from '../../helperFunctions';
-import {setTripod,setShowFilter, setFilterBody} from '../../redux/actions';
+import {setTripod,setShowFilter, setFilterBody, setFilterForceUpdate} from '../../redux/actions';
 import i18n from 'i18next';
 import FourColumn from './fourColumn';
 import Columns from './columns';
@@ -80,6 +80,7 @@ class Tasks extends Component {
 						let body = {...this.props.body.body,requesters:currentUser,assignedTos:currentUser};
 						this.props.setFilterBody({body});
 					}
+					this.props.setFilterForceUpdate(true);
 				}}
 				className="form-check-input"
 				/>
@@ -93,10 +94,10 @@ class Tasks extends Component {
 				id="statusCheckbox-all"
 				checked={selectedStatusesIDs.length===0}
 				onChange={() =>{
-					console.log('aha');
 					if(selectedStatusesIDs.length!==0){
 						let body = {...this.props.body.body,statuses:[]};
 						this.props.setFilterBody({body});
+						this.props.setFilterForceUpdate(true);
 					}
 				}
 			}
@@ -123,6 +124,7 @@ class Tasks extends Component {
 
 					let body = {...this.props.body.body,statuses:[...newStatuses]};
 					this.props.setFilterBody({ body });
+					this.props.setFilterForceUpdate(true);
 				}
 			}
 			className="form-check-input"
@@ -184,4 +186,4 @@ const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, statuse
 	};
 };
 
-export default connect(mapStateToProps,{setTripod,setShowFilter,setFilterBody})(Tasks);
+export default connect(mapStateToProps,{setTripod,setShowFilter,setFilterBody, setFilterForceUpdate})(Tasks);

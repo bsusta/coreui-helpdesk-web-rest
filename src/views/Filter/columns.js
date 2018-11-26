@@ -30,19 +30,6 @@ import {TASKS_LIST} from '../../redux/urls';
 class Project extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      tasks:{},
-      tasksLoaded:false,
-      lastStatusCount:0
-    };
-    this.getTasks.bind(this);
-    this.getTasks(this.props.body);
-  }
-
-  componentWillReceiveProps(props){
-    if(JSON.stringify(this.props.body)!==JSON.stringify(props.body)|| (props.body.body && props.body.body.statuses.length!==this.state.lastStatusCount)){
-      this.getTasks(props.body);
-    }
   }
 
   usersToString(users) {
@@ -56,27 +43,6 @@ class Project extends Component {
     return text;
   }
 
-  getTasks(body){
-    fetch(TASKS_LIST+'?limit=1999&page=1&'+body.order+(body.body?('&'+filterBodyFromState(body.body,this.props.taskAttributes)):""), {
-      method: 'get',
-      headers: {
-        'Authorization': 'Bearer ' + this.props.token,
-        'Content-Type': 'application/json'
-      }
-    }).then((response) =>{
-      if(!response.ok){
-        this.setState({tasksLoaded:true});
-        return;
-      }
-      response.json().then((data) => {
-        let tasks ={};
-        this.props.taskStatuses.map((status)=>tasks[status.id]=data.data.filter((task)=>task.status.id===status.id));
-        this.setState({tasksLoaded:true,tasks:tasks, lastStatusCount:body.body.statuses.length});
-      });
-    }).catch(function (error) {
-      console.log(error);
-    });
-  }
 
   onDragEnd (result){
     const { source, destination } = result;
@@ -87,15 +53,15 @@ class Project extends Component {
     }
 
     if (source.droppableId === destination.droppableId) {
-      let items = [...this.state.tasks[source.droppableId]];
+      let items = [...this.props.tasks[source.droppableId]];
       const [removed] = items.splice(source.index, 1);
       items.splice(destination.index, 0, removed);
-      let tasks = { ...this.state.tasks };
+      let tasks = { ...this.props.tasks };
       tasks[source.droppableId] = items;
       this.setState({tasks});
     } else {
-      let sourceTasks = [...this.state.tasks[source.droppableId]];
-      let destinationTasks = [...this.state.tasks[destination.droppableId]];
+      let sourceTasks = [...this.props.tasks[source.droppableId]];
+      let destinationTasks = [...this.props.tasks[destination.droppableId]];
       let [removed] = sourceTasks.splice(source.index, 1);
 
       let body={title:removed.title};
@@ -122,7 +88,7 @@ class Project extends Component {
 
       removed.status.id = parseInt(destination.droppableId);
       destinationTasks.splice(destination.index, 0, removed);
-      let tasks = {...this.state.tasks};
+      let tasks = {...this.props.tasks};
       tasks[source.droppableId] = sourceTasks;
       tasks[destination.droppableId] = destinationTasks;
       this.setState({tasks});
@@ -152,7 +118,7 @@ class Project extends Component {
                       background: snapshot.isDraggingOver ? 'lightblue' : '#fafafa',
                       padding:20
                     }}>
-                    { Object.keys(this.state.tasks).includes(status.id.toString()) && this.state.tasks[status.id].map((task, index) => (
+                    { Object.keys(this.props.tasks).includes(status.id.toString()) && this.props.tasks[status.id].map((task, index) => (
                       <Draggable
                         key={task.id}
                         style={{border:'none'}}
@@ -275,8 +241,12 @@ const mapStateToProps = ({ tasksReducer,projectsReducer,statusesReducer, sidebar
   const { token } = login;
   let projectsOnly = sidebar?sidebar.projects.children:[];
   let archived = sidebar?sidebar.archived.children:[];
+  let modifiedTasks ={};
+  taskStatuses.map((status)=>modifiedTasks[status.id]=[...tasks].filter((task)=>task.status.id===status.id));
+  console.log(tasks);
+  console.log(modifiedTasks);
   return {
-    tasks,
+    tasks:modifiedTasks,
     taskID,
     numberOfPages,
     project,
