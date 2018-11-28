@@ -70,32 +70,11 @@ class Tasks extends Component {
 		<span className="form-check center-hor checkbox">
 			<input
 				type="checkbox"
-				id='statusCheckbox-myTasks'
-				checked={myTasksActive}
-				onChange={() =>{
-					if(myTasksActive){
-						let body = {...this.props.body.body,requesters:[],assignedTos:[]};
-						this.props.setFilterBody({body});
-					}else{
-						let body = {...this.props.body.body,requesters:currentUser,assignedTos:currentUser};
-						this.props.setFilterBody({body});
-					}
-					this.props.setFilterForceUpdate(true);
-				}}
-				className="form-check-input"
-				/>
-			<label className="form-check-label" htmlFor='statusCheckbox-myTasks'>
-				{i18n.t('myTasks')}
-			</label>
-		</span>
-		<span className="form-check center-hor checkbox">
-			<input
-				type="checkbox"
 				id="statusCheckbox-all"
-				checked={selectedStatusesIDs.length===0}
+				checked={selectedStatusesIDs.length===this.props.taskStatuses.length}
 				onChange={() =>{
 					if(selectedStatusesIDs.length!==0){
-						let body = {...this.props.body.body,statuses:[]};
+						let body = {...this.props.body.body,statuses:[...this.props.taskStatuses]};
 						this.props.setFilterBody({body});
 						this.props.setFilterForceUpdate(true);
 					}

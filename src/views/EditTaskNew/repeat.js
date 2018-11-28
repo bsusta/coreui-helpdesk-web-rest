@@ -75,7 +75,10 @@ class Repeat extends Component {
   render() {
     return (
       <div className="row experimentalRowWrapper">
+        <div className="col-3" style={{paddingLeft:0}}>
         <label htmlFor="assigned" className="input-label center-hor">{i18n.t("repeat")}</label>
+      </div>
+      <div className="col-9">
         <InputGroup>
           <Dropdown
             isOpen={this.props.open &&(!this.props.disabled || (this.state.added&&this.props.disabled))}
@@ -205,7 +208,7 @@ class Repeat extends Component {
                   </div>
                 </DropdownMenu>
               </Dropdown>
-            </InputGroup>
+            </InputGroup></div>
           </div>
         );
       }

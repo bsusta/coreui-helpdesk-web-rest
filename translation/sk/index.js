@@ -1,5 +1,13 @@
 export default {
   globalSearch:'Vyhľadať globálne',
+  creatingNewReport:'Vytvorenie nového reportu',
+  creatingNewFilter:'Vytvorenie nového filtra',
+  reportName:'Meno výkazu',
+  enterReportName:'Zadajte meno výkazu',
+  orderReport:'Poradie výkazu',
+  enterOrderReport:'Zadajte poradie výkazu',
+  enterReportIcon:'Zadajte ikonu výkazu',
+  restrictionMustEnterReportIcon:'Každý výkaz musí mať svoju ikonu',
   all:'Všetky',
   from2:'Od',
   to2:'Do',

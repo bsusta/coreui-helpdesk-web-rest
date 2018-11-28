@@ -47,9 +47,9 @@ export const getSidebar = (date,ACL,token) => {
           let nav = [];
           let reports = {
             name: "reports",
-            open: false,
+            open: true,
             url: "",
-            icon: "fa fa-filter",
+            icon: "fa fa-file",
             children: []
           };
           if(ACL.includes('report_filters')&&data.reports){
@@ -57,7 +57,8 @@ export const getSidebar = (date,ACL,token) => {
               reports.children.push({
                 name: report.title,
                 id: report.id,
-                url: "/reports/" + report.id.toString()
+                url: "/reports/" + report.id.toString(),
+                icon: report.icon_class?report.icon_class:undefined
                 //icon: "fa fa-play"
               })
             );
@@ -84,7 +85,7 @@ export const getSidebar = (date,ACL,token) => {
 
           let filters = {
             name: "filters",
-            open: true,
+            open: false,
             url: "",
             icon: "fa fa-filter",
             children: []

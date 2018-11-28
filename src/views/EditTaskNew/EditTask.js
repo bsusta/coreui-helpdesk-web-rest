@@ -44,7 +44,7 @@ import {
 import MultiSelect from "../../components/multiSelect";
 import i18n from "i18next";
 import Repeat from './repeat';
-const indexOfNoPadding=2;
+const indexOfNoPadding=0;
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
 
 const colourStyles = {
@@ -444,9 +444,12 @@ class EditTask extends Component {
                         }
                         </div>
                           <div className="row experimentalRowTask">
-                            <div className="col-4" style={{paddingLeft:0}}>
+                            <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
-                                <label htmlFor="status" className="input-label center-hor">{i18n.t("status")}</label>
+                                <div className="col-3" style={{paddingLeft:0}}>
+                                  <label htmlFor="status" className="input-label center-hor">{i18n.t("status")}</label>
+                                </div>
+                                <div className="col-9">
                                 <InputGroup>
                                   {((!this.props.disabled && this.state.status)|| (this.props.disabled &&this.props.task.status)) &&
                                     <span className="coloredSelect"
@@ -499,10 +502,16 @@ class EditTask extends Component {
                                     </select>
                                   </InputGroup>
                                 </div>
+                                </div>
+                              </div>
+                              <div className="col-6">
                               <div className="row experimentalRowWrapper">
+                                <div className="col-3" style={{paddingLeft:0}}>
                                 <label htmlFor="project" className="req input-label center-hor">
                                   {i18n.t("project")}
                                 </label>
+                              </div>
+                              <div className="col-9">
                                 <InputGroup>
                                   <select
                                     disabled={this.props.disabled}
@@ -542,13 +551,19 @@ class EditTask extends Component {
                                   </select>
                                 </InputGroup>
                               </div>
+                              </div>
+                            </div>
+                            <div className="col-6" style={{paddingLeft:0}}>
                               {
                                 <Repeat disabled={this.props.disabled} onToogle={()=>this.setState({openRepeat:!this.state.openRepeat})} open={this.state.openRepeat} defaultState={this.props.repeat} taskID={this.props.task.id} />
                               }
                             </div>
-                            <div className="col-4">
+                            <div className="col-6">
                               <div className="row experimentalRowWrapper">
+                                <div className="col-3" style={{paddingLeft:0}}>
                                 <label htmlFor="requester" className="req input-label center-hor">{i18n.t('requester')}</label>
+                              </div>
+                              <div className="col-9">
                                   <InputGroup className={!this.props.disabled&&this.state.requestedBy.id===undefined?"fieldError":""}>
                                     <Select
                                       styles={colourStyles}
@@ -598,8 +613,14 @@ class EditTask extends Component {
                                   </InputGroup>
                                   {!this.props.disabled && this.state.requestedBy===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectRequester')}</label>}
                                 </div>
+                                </div>
+                              </div>
+                              <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
+                                <div className="col-3" style={{paddingLeft:0}}>
                                   <label htmlFor="company" className="req input-label center-hor">{i18n.t('company')}</label>
+                                </div>
+                                <div className="col-9">
 
                                   <InputGroup className={!this.props.disabled && this.state.company===undefined?"fieldError":""}>
                                     <Select
@@ -637,8 +658,14 @@ class EditTask extends Component {
                                   </InputGroup>
                                   {!this.props.disabled&&this.state.company===undefined &&<label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionMustSelectCompany')}</label>}
                                 </div>
+                                </div>
+                              </div>
+                              <div className="col-6">
                               <div className="row experimentalRowWrapper">
+                                <div className="col-3" style={{paddingLeft:0}}>
                                   <label htmlFor="assigned" className="input-label center-hor">{i18n.t("assigned")}</label>
+                                </div>
+                                <div className="col-9">
                                   <InputGroup>
                                     <select
                                       className="form-control"
@@ -666,10 +693,14 @@ class EditTask extends Component {
                                     </select>
                                   </InputGroup>
                                 </div>
+                                </div>
                             </div>
-                            <div className="col-4">
+                            <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
+                                <div className="col-3" style={{paddingLeft:0}}>
                                 <label htmlFor="startedAt" className="input-label center-hor">{i18n.t("startedAt")}</label>
+                              </div>
+                              <div className="col-9">
                                 <InputGroup>
                                   <div style={{ width: "100%" }} className="datepickerWrap">
                                     <DatePicker
@@ -691,8 +722,14 @@ class EditTask extends Component {
                                   </div>
                                 </InputGroup>
                               </div>
+                              </div>
+                            </div>
+                            <div className="col-6">
                               <div className="row experimentalRowWrapper">
+                                <div className="col-3" style={{paddingLeft:0}}>
                                 <label htmlFor="deadline" className="input-label center-hor">{i18n.t("deadline")}</label>
+                              </div>
+                              <div className="col-9">
                                 <InputGroup>
                                   <div style={{ width: "100%" }} className="datepickerWrap">
                                     <DatePicker
@@ -714,8 +751,14 @@ class EditTask extends Component {
                                   </div>
                                 </InputGroup>
                               </div>
+                              </div>
+                            </div>
+                            <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
+                                <div className="col-3" style={{paddingLeft:0}}>
                                 <label htmlFor="work" className="input-label center-hor">{i18n.t("work")}</label>
+                              </div>
+                              <div className="col-9">
                                 <InputGroup>
                                   <select
                                     className="form-control"
@@ -735,12 +778,14 @@ class EditTask extends Component {
                                   </select>
                                 </InputGroup>
                               </div>
+                              </div>
                             </div>
-                          </div>
-                          <div className="row experimentalRowTask">
-                            <div className="col-4" style={{paddingLeft:0}}>
+                            <div className="col-6">
                               <div className="row experimentalRowWrapper">
-                              <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
+                                <div className="col-3" style={{paddingLeft:0}}>
+                                <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
+                              </div>
+                              <div className="col-9">
                                 <input
                                   disabled={this.props.disabled}
                                   className="form-control"
@@ -753,15 +798,19 @@ class EditTask extends Component {
                                   }}
                                   placeholder={i18n.t("enterWorkTime")}
                                   />
+                                </div>
                           </div>
                         </div>
                             { this.props.taskAttributes.filter((item)=>item.is_active).map((attribute,index) => {
                                   switch (attribute.type) {
                                     case "input":
                                     return (
-                                      <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                      <div className="col-6" key={attribute.id} style={index%2===indexOfNoPadding?{paddingLeft:0}:{}}>
                                         <div className={"row experimentalRowWrapper"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')}>
+                                          <div className="col-3" style={{paddingLeft:0}}>
                                           <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                        </div>
+                                        <div className="col-9">
                                           <input
                                             className="form-control"
                                             id={attribute.id}
@@ -777,13 +826,17 @@ class EditTask extends Component {
                                             />
                                           {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                                         </div>
+                                        </div>
                                       </div>
                                     );
                                     case "text_area":
                                     return (
-                                      <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                      <div className="col-6" key={attribute.id} style={index%2===indexOfNoPadding?{paddingLeft:0}:{}}>
                                       <div className={"row experimentalRowWrapper"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ==='' ?' fieldError':'')}>
+                                        <div className="col-3" style={{paddingLeft:0}}>
                                         <label htmlFor={attribute.id} className={attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                      </div>
+                                      <div className="col-9">
                                         <textarea
                                           className="form-control"
                                           id={attribute.id}
@@ -799,18 +852,22 @@ class EditTask extends Component {
                                           />
                                         {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===''&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                                       </div>
+                                      </div>
                                     </div>
                                     );
                                     case "simple_select":
                                     return (
-                                      <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                      <div className="col-6" key={attribute.id} style={index%2===indexOfNoPadding?{paddingLeft:0}:{}}>
                                         <div className="row experimentalRowWrapper">
+                                          <div className="col-3" style={{paddingLeft:0}}>
                                         <label
                                           htmlFor={attribute.id}
                                           className={attribute.required ? "req" : ""}
                                           >
                                           {attribute.title}
                                         </label>
+                                      </div>
+                                      <div className="col-9">
                                         <Select
                                           styles={colourStyles}
                                           id={attribute.id}
@@ -829,6 +886,7 @@ class EditTask extends Component {
                                             this.setState({ task_data: newData });
                                           }}
                                           />
+                                        </div>
                                           </div>
                                         </div>
                                         );
@@ -842,14 +900,17 @@ class EditTask extends Component {
                                             })
                                           );
                                           return (
-                                            <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                            <div className="col-6" key={attribute.id} style={index%2===indexOfNoPadding?{paddingLeft:0}:{}}>
                                               <div className="row experimentalRowWrapper">
+                                                <div className="col-3" style={{paddingLeft:0}}>
                                                 <label
                                                   htmlFor={attribute.id}
                                                   className={attribute.required ? "req" : ""}
                                                   >
                                                   {attribute.title}
                                                 </label>
+                                              </div>
+                                              <div className="col-9">
                                                 <Select
                                                   styles={colourStyles}
                                                   id={attribute.id}
@@ -865,15 +926,19 @@ class EditTask extends Component {
                                                     this.setState({ task_data: newData });
                                                   }}
                                                   />
+                                                </div>
                                               </div>
                                             </div>
                                           );
                                         }
                                         case "date":
                                         return (
-                                          <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                          <div className="col-6" key={attribute.id} style={index%2===indexOfNoPadding?{paddingLeft:0}:{}}>
                                             <div className={"row experimentalRowWrapper"+(!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===null ?' fieldError':'')}>
+                                              <div className="col-3" style={{paddingLeft:0}}>
                                             <label htmlFor={attribute.id} className={!this.props.disabled && attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                          </div>
+                                          <div className="col-9">
                                             <DatePicker
                                               selected={this.state.task_data[attribute.id]}
                                               disabled={this.props.disabled}
@@ -892,15 +957,19 @@ class EditTask extends Component {
                                               />
                                             {!this.props.disabled && attribute.required && this.state.task_data[attribute.id] ===null&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequired')}</label></span>}
                                           </div>
+                                          </div>
                                         </div>
                                         );
                                         case "decimal_number":
                                         return (
-                                          <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                          <div className="col-6" key={attribute.id} style={index%2===indexOfNoPadding?{paddingLeft:0}:{}}>
                                             <div className={"row experimentalRowWrapper"+
                                               (!this.props.disabled && attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')}
                                               >
+                                                <div className="col-3" style={{paddingLeft:0}}>
                                             <label htmlFor={attribute.id} className={!this.props.disabled && attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                          </div>
+                                          <div className="col-9">
                                             <input
                                               className="form-control"
                                               type="number"
@@ -917,13 +986,17 @@ class EditTask extends Component {
                                               />
                                             {!this.props.disabled &&attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
                                           </div>
+                                          </div>
                                         </div>
                                         );
                                         case "integer_number":
                                         return (
-                                          <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                          <div className="col-6" key={attribute.id} style={index%2===indexOfNoPadding?{paddingLeft:0}:{}}>
                                             <div className={"row experimentalRowWrapper" +(!this.props.disabled &&attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id])) ?' fieldError':'')}>
+                                              <div className="col-3" style={{paddingLeft:0}}>
                                             <label htmlFor={attribute.id} className={!this.props.disabled &&attribute.required?"req input-label":"input-label"}>{attribute.title}</label>
+                                          </div>
+                                          <div className="col-9">
                                             <input
                                               className="form-control"
                                               type="number"
@@ -940,11 +1013,12 @@ class EditTask extends Component {
                                               />
                                             {!this.props.disabled && attribute.required && isNaN(parseFloat(this.state.task_data[attribute.id]))&&<span><i className={"fa fa-exclamation-circle"} style={{color:'red',paddingRight:3}}/><label htmlFor="title" style={{color:'red'}}>{i18n.t('restrictionFieldRequiredAndNotValid')}</label></span>}
                                           </div>
+                                          </div>
                                         </div>
                                         );
                                         case "checkbox":
                                         return (
-                                          <div className="col-4" key={attribute.id} style={index%3===indexOfNoPadding?{paddingLeft:0}:{}}>
+                                          <div className="col-6" key={attribute.id} style={index%2===indexOfNoPadding?{paddingLeft:0}:{}}>
                                             <div className="row experimentalRowWrapper">
                                           <div className="form-group form-check checkbox">
                                               <input

@@ -56,9 +56,11 @@ import SecondEditTask from "./components/notUsed/SecondEditTask";
 import TrojStlpec from "./components/notUsed/TrojStlpec";
 import Messages from "./views/Messages";
 import Filter from "./views/Filter";
-import ReportFilter from "./views/ReportFilter";
-import ReportView from "./views/ReportView";
 import EditTaskNew from './views/EditTaskNew';
+
+import ReportTestFilter from "./views/ReportTestFilter";
+import ReportTestView from "./views/ReportTestView";
+import ReportFilter from "./views/ReportFilter";
 
 class Full extends Component {
   constructor(props){
@@ -474,18 +476,30 @@ class Full extends Component {
                   name="Filter"
                   component={Filter}
                 />
-
                 <Route
                   exact
-                  path="/report/filter"
-                  name="Report Filter"
+                  path="/report/:id"
+                  name="Report filter"
                   component={ReportFilter}
                 />
                 <Route
                   exact
-                  path="/report/:id"
+                  path="/report/:id/:page,:count"
+                  name="Report filter"
+                  component={ReportFilter}
+                />
+
+                <Route
+                  exact
+                  path="/reportTest/filter"
+                  name="Report Filter"
+                  component={ReportTestFilter}
+                />
+                <Route
+                  exact
+                  path="/reportTest/:id"
                   name="Report View"
-                  component={ReportView}
+                  component={ReportTestView}
                 />
 
               </Switch>

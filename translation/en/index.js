@@ -1,4 +1,12 @@
 export default {
+  creatingNewReport:'Creating new report',
+  creatingNewFilter:'Creating new filter',
+  reportName:'Report name',
+  enterReportName:'Enter reports name',
+  orderReport:'Order of this report',
+  enterOrderReport:'Enter order number',
+  enterReportIcon:'Enter reports icon',
+  restrictionMustEnterReportIcon:'Every report has to have an icon',
   globalSearch:'Global search',
   from2:'From',
   all:'All',

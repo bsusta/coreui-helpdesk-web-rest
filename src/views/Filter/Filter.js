@@ -201,7 +201,7 @@ class Filter extends Component {
 		return (
 			<div className="filter">
 					<Modal isOpen={this.state.saveOpen}>
-						<ModalHeader>Creating new filter</ModalHeader>
+						<ModalHeader>{i18n.t('creatingNewFilter')}</ModalHeader>
 						<ModalBody>
 							<FormGroup>
 								<label htmlFor="filterName" className="input-label">
@@ -283,22 +283,6 @@ class Filter extends Component {
 										/>
 									<label className="form-check-label" htmlFor="filterPublic">
 										{i18n.t('public')}
-									</label>
-								</div>
-							)}
-							{ACL.includes('report_filters') && (
-								<div className="form-check checkbox">
-										<input
-											type="checkbox"
-											id="report"
-											checked={this.state.report}
-											onChange={() => {
-												this.setState({ report: !this.state.report });
-											}}
-											className="form-check-input"
-										/>
-									<label className="form-check-label" htmlFor="report">
-										{i18n.t('report')}
 									</label>
 								</div>
 							)}
@@ -386,23 +370,6 @@ class Filter extends Component {
 									this.setState({ title: e.target.value });
 								}}
 								placeholder={i18n.t('filterByName')}
-							/>
-						</FormGroup>
-
-						<FormGroup>
-							<label htmlFor="status" className="input-label">
-								{i18n.t('status')}
-							</label>
-							<Select
-								options={this.props.statuses.map(status => {
-									status.label = status.title;
-									status.value = status.id;
-									return status;
-								})}
-								isMulti
-								value={this.state.statuses}
-								onChange={e => this.setState({ statuses: e })}
-								styles={colourStyles}
 							/>
 						</FormGroup>
 

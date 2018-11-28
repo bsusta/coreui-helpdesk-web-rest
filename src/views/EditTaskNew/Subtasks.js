@@ -439,7 +439,7 @@ class Subtasks extends Component {
             <td>
               <span className="center-hor">
                 <button
-                  className="btn btn-sm btn-primary mr-1 taskAddButton"
+                  className="btn btn-sm btn-link mr-1 taskAddButton"
                   disabled={this.props.disabled}
                   onClick={()=>{
                     if(this.props.disabled)return;

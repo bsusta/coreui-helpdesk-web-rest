@@ -198,6 +198,18 @@ export const SET_FILTER_ORDER = 'SET_FILTER_ORDER';
 export const SET_UPDATE_AT = 'SET_UPDATE_AT';
 export const SET_FILTER_FORCE_UPDATE = 'SET_FILTER_FORCE_UPDATE';
 
+//all constants for REPORTS actions
+export const CLEAR_REPORT_TASKS = 'CLEAR_REPORT_TASKS';
+export const SET_REPORT_TASKS = 'SET_REPORT_TASKS';
+export const SET_REPORT = 'SET_REPORT';
+export const SET_REPORT_PAGE = 'SET_REPORT_PAGE';
+export const SET_SHOW_REPORT = 'SET_SHOW_REPORT';
+export const SET_REPORT_LOADING = 'SET_REPORT_LOADING';
+export const SET_REPORT_ORDER = 'SET_REPORT_ORDER';
+export const SET_REPORT_BODY = 'SET_REPORT_BODY';
+export const SET_REPORT_FORCE_UPDATE = 'SET_REPORT_FORCE_UPDATE';
+
+
 //all constants for MESSAGES actions
 export const SET_MESSAGES = 'SET_MESSAGES';
 export const SET_MESSAGES_READ = 'SET_MESSAGES_READ';

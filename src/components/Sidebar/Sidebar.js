@@ -124,7 +124,8 @@ class Sidebar extends Component {
                   className={classNames("nav-link", "")} style={{color:'black'}}>
                   {i18n.t('editProject')}
                 </NavLink>
-              </NavItem>}
+              </NavItem>
+            }
               {this.state.project.value!=='all'&& !this.props.projects.concat(this.props.archived).find((item)=>item.id===this.state.project.value).canEdit &&
                 <NavItem key={'edit'+this.state.project.value} className={classNames(undefined)}>
                   <NavLink to={'/project/info/'+this.state.project.value}
@@ -132,59 +133,61 @@ class Sidebar extends Component {
                     className={classNames("nav-link", "")} style={{color:'black'}}>
                     {i18n.t('viewProject')}
                   </NavLink>
-                </NavItem>}
+                </NavItem>
+              }
             <li key={this.props.sidebar.filters.key} className={activeRoute('filter', url) + (this.props.sidebar.filters.open?" open ": "")}>
+              <a
+                className="nav-link nav-dropdown-toggle"
+                href="#"
+                onClick={handleClick.bind(this)}
+                >
+                {this.props.sidebar.filters.icon && <i className={this.props.sidebar.filters.icon} />}
+
+                {i18n.t('filters')}
+              </a>
+              <ul className="nav-dropdown-items">
+                {
+                  this.props.sidebar.filters.children.map((item,index)=>
+
+                  <NavItem key={index} className={classNames(item.class)}>
+                    <NavLink
+                      onClick={()=>this.setState({filterSelected:item.id,tagSelected:null})}
+                      to={item.url ? item.url+'/project/'+this.state.project.value : ""}
+                      className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
+                      activeClassName="active activeNavItem fontBold">
+                      {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
+                      <span
+                        className="sidebarItem"
+                        style={
+                          item.color
+                            ? {
+                                backgroundColor: item.color.includes("#")
+                                  ? item.color
+                                  : "#" + item.color
+                              }
+                            : {}
+                        }
+                      >
+                      {item.name}
+                      </span>
+                      {badge(item.badge)}
+                    </NavLink>
+                  </NavItem>
+                )}
+              </ul>
+            </li>
+
+              <li key={this.props.sidebar.tags.key} className={activeRoute('tag', url) + (this.props.sidebar.tags.open?" open ": "")}>
                 <a
                   className="nav-link nav-dropdown-toggle"
                   href="#"
                   onClick={handleClick.bind(this)}
                   >
-                  {this.props.sidebar.filters.icon && <i className={this.props.sidebar.filters.icon} />}
+                  {this.props.sidebar.tags.icon && <i className={this.props.sidebar.tags.icon} />}
 
-                  {i18n.t('filters')}
+                  {i18n.t('tags')}
                 </a>
                 <ul className="nav-dropdown-items">
-                  {
-                    this.props.sidebar.filters.children.map((item,index)=>
-
-                    <NavItem key={index} className={classNames(item.class)}>
-                      <NavLink
-                        onClick={()=>this.setState({filterSelected:item.id,tagSelected:null})}
-                        to={item.url ? item.url+'/project/'+this.state.project.value : ""}
-                        className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
-                        activeClassName="active activeNavItem fontBold">
-                        {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
-                        <span
-                          className="sidebarItem"
-                          style={
-                            item.color
-                              ? {
-                                  backgroundColor: item.color.includes("#")
-                                    ? item.color
-                                    : "#" + item.color
-                                }
-                              : {}
-                          }
-                        >
-                        {item.name}
-                        </span>
-                        {badge(item.badge)}
-                      </NavLink>
-                    </NavItem>
-                  )}
-                </ul>
-              </li>
-              <li key={this.props.sidebar.tags.key} className={activeRoute('tag', url) + (this.props.sidebar.tags.open?" open ": "")}>
-                  <a
-                    className="nav-link nav-dropdown-toggle"
-                    href="#"
-                    onClick={handleClick.bind(this)}
-                    >
-                    {this.props.sidebar.tags.icon && <i className={this.props.sidebar.tags.icon} />}
-
-                    {i18n.t('tags')}
-                  </a>
-                  <ul className="nav-dropdown-items">
                     {
                       this.props.sidebar.tags.children.map((item,index)=>
 
@@ -230,22 +233,77 @@ class Sidebar extends Component {
                         </span>
                       </NavLink>
                     </NavItem>
-                  </ul>
-                </li>
+                </ul>
+              </li>
+
+                {this.props.user.user_role.acl.includes('report_filters') && <li key={this.props.sidebar.reports.key} className={activeRoute('report', url) + (this.props.sidebar.reports.open ? " open ": "")}>
+                    <a
+                      className="nav-link nav-dropdown-toggle"
+                      href="#"
+                      onClick={handleClick.bind(this)}
+                      >
+                      {this.props.sidebar.reports.icon && <i className={this.props.sidebar.reports.icon} />}
+
+                      {i18n.t('reports')}
+                    </a>
+                    <ul className="nav-dropdown-items">
+                      {
+                        this.props.sidebar.reports.children.map((item,index)=>
+
+                        <NavItem key={index} className={classNames(item.class)}>
+                          <NavLink
+                            onClick={()=>{}}
+                            to={'/report/'+item.id}
+                            className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
+                            activeClassName="active activeNavItem fontBold">
+                            {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
+                            <span
+                              className="sidebarItem"
+                              style={
+                                item.color
+                                  ? {
+                                      backgroundColor: item.color.includes("#")
+                                        ? item.color
+                                        : "#" + item.color
+                                    }
+                                  : {}
+                              }
+                            >
+                            {item.name}
+                            </span>
+                            {badge(item.badge)}
+                          </NavLink>
+                        </NavItem>
+                      )}
+                      <NavItem key={'addReport'} className={classNames(undefined)}>
+                        <NavLink
+                          onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
+                          to={"/report/add"}
+                          className={classNames("nav-link","")}
+                          activeClassName="active activeNavItem fontBold">
+                          <i className={'fa fa-plus sidebarIcon'} />
+                          <span className="sidebarItem">
+                          {i18n.t('report')}
+                          </span>
+                        </NavLink>
+                      </NavItem>
+                    </ul>
+                  </li>}
+                  {/*FAKE FILTER*/}
                 <li key="reports" className={activeRoute('tag', url)}>
                     <a
                       className="nav-link nav-dropdown-toggle"
                       href="#"
                       onClick={handleClick.bind(this)}
                       >
-                      <i className="fa fa-filte" />
+                      <i className="fa fa-filter" />
                       {i18n.t('reports')}
                     </a>
                     <ul className="nav-dropdown-items">
                       <NavItem key={'reportFilter'} className={classNames(undefined)}>
                         <NavLink
                           onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
-                          to={"/report/filter"}
+                          to={"/reportTest/filter"}
                           className={classNames("nav-link","")}
                           activeClassName="active activeNavItem fontBold">
                           <i className={'fa fa-plus sidebarIcon'} />
@@ -259,7 +317,7 @@ class Sidebar extends Component {
                       <NavItem key={'someFilter'} className={classNames(undefined)}>
                         <NavLink
                           onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
-                          to={"/report/1"}
+                          to={"/reportTest/1"}
                           className={classNames("nav-link","")}
                           activeClassName="active activeNavItem fontBold">
                           <span className="sidebarItem">

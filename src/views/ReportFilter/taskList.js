@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setFilterPage, setShowFilter, loadUnsavedFilter, setFilterOrder, setFilterBody } from '../../redux/actions';
+import { setReportPage, loadUnsavedReport, setReportOrder, setReportBody } from '../../redux/actions';
 import {
 	Row,
 	Col,
@@ -26,46 +26,165 @@ import Pagination from '../../components/pagination';
 import { timestampToString } from '../../helperFunctions';
 import i18n from 'i18next';
 
-const fakeData=[{id:1,company:'Aston Esquire',workHours:Math.ceil(Math.random()*100)},{id:2,company:'Aston Esquire',workHours:Math.ceil(Math.random()*100)},
-{id:3,company:'Aston Esquire',workHours:Math.ceil(Math.random()*100)},
-{id:4,company:'LanSystems',workHours:Math.ceil(Math.random()*100)},{id:5,company:'Aston Esquire',workHours:Math.ceil(Math.random()*100)},
-{id:6,company:'LanSystems',workHours:Math.ceil(Math.random()*100)},{id:7,company:'LanSystems',workHours:Math.ceil(Math.random()*100)},
-{id:8,company:'Aston Esquire',workHours:Math.ceil(Math.random()*100)},{id:9,company:'Aston Esquire',workHours:Math.ceil(Math.random()*100)}];
-export default class TaskList extends Component {
-	sumItems(){
-		let val=0;
-		fakeData.map((item)=>val+=item.workHours);
-		return val;
+class TaskList extends Component {
+	constructor(props){
+		super(props);
+		this.createArrow.bind(this);
 	}
-	render(){
-		return(<div className="table-div">
-			<h2>
-				<span>{i18n.t('report')}</span>
-			</h2>
-			<table className="table table-striped table-hover table-sm">
-				<thead className="thead-inverse">
-					<tr>
-						<th style={{ width: '3%', borderTop: '0px' }}>{i18n.t('company')}</th>
-						<th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('workHours')}</th>
-					</tr>
-				</thead>
-				<tbody>
-					{fakeData.map(item => (
-						<tr style={{ cursor: 'pointer' }} key={item.id}>
-							<td style={{ verticalAlign: 'center' }}>{item.company}</td>
-							<td style={{ verticalAlign: 'center' }}>{item.workHours}</td>
-						</tr>
-					))}
-					<tr className="table-info">
-						<td style={{ textAlign: "right", paddingRight: 50 }} colSpan="5">
-							{i18n.t('totalWorkTime')}
-							<span style={{ fontWeight: "bold" }}>
-								{this.sumItems()}
-							</span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>)
+	usersToString(users) {
+		if (users.length === 0) {
+			return i18n.t('none');
+		}
+		let text = '';
+		Object.values(users).map(solver => (text = text + (solver.user.username + ' ')));
+		return text;
 	}
+
+	createArrow(type){
+		if(this.props.body.order==='order='+type+'=>asc'){
+			return (
+      <span className="tableArrow">
+				<i className="fa fa-arrow-up colorLightBlue" onClick={()=>this.props.setReportOrder('order='+type+'=>desc')}/>
+			</span>)
+    }
+		return (
+    <span className="tableArrow">
+  		<i className={this.props.body.order==='order='+type+'=>desc'?"fa fa-arrow-down colorLightBlue":"fa fa-arrow-down"}
+  		onClick={()=>this.props.setReportOrder((this.props.body.order===('order='+type+'=>desc'))?('order='+type+'=>asc'):('order='+type+'=>desc'))}/>
+  	</span>)
+  }
+
+render(){
+  return(<div>
+	<div className="table-div">
+    <table className="table table-hover table-sm">
+      <thead className="thead-inverse">
+        <tr>
+          <th style={{ width: '3%', borderTop: '0px' }}>
+            {i18n.t('id')}
+            {this.createArrow('id')}
+          </th>
+          <th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('status')}
+            {this.createArrow('status')}
+          </th>
+          <th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('title')}
+            {this.createArrow('title')}
+          </th>
+          <th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('requester')}
+            {this.createArrow('requester')}
+          </th>
+          <th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('company')}
+            {this.createArrow('taskCompany')}
+          </th>
+          <th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('assigned')}
+            {this.createArrow('assigned')}
+          </th>
+          <th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('project')}
+            {this.createArrow('project')}
+          </th>
+          <th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('createdAt')}
+            {this.createArrow('createdTime')}
+          </th>
+          <th style={{ width: '5%', borderTop: '0px' }}>{i18n.t('deadline')}
+            {this.createArrow('deadlineTime')}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {this.props.tasks.map(task => (
+          <tr style={{ cursor: 'pointer' }} className="taskListRowHeight" key={task.id}>
+            <td style={{ verticalAlign: 'center' }}>{task.id}</td>
+            <td>
+              <span
+                className="badge badge-success"
+                style={{ backgroundColor: task.status.color }}
+              >
+                {task.status.title}
+              </span>
+            </td>
+            <td style={{width:'14%'}}>
+              {task.title}
+							{false &&
+              <p>
+                { task.tags.map(tag => (
+                  <span
+                    key={tag.id}
+                    className="badge mr-1"
+                    style={{
+                      backgroundColor:
+                        (tag.color.includes('#') ? '' : '#') + tag.color,
+                      color: 'white',
+                    }}
+                  >
+                    {tag.title}
+                  </span>
+                ))}
+              </p>}
+            </td>
+            <td>{task.requestedBy.username}</td>
+            <td>{task.company.title}</td>
+            <td>{this.usersToString(task.taskHasAssignedUsers)}</td>
+            <td>{task.project.title}</td>
+            <td>{timestampToString(task.createdAt)}</td>
+            <td>{task.deadline ? timestampToString(task.deadline) : i18n.t('none')}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <Pagination
+      link={'report/' + this.props.body.reportID}
+      history={this.props.history}
+      numberOfPages={this.props.numberOfPages}
+      refetchData={() => {}}
+      token={this.props.token}
+      disabled={this.props.body === null}
+      refetchParameters={[]}
+      pageNumber={parseInt(this.props.body.page)}
+      setPageNumber={page => {
+        this.props.setReportBody({page});
+      }}
+      paginationOptions={[
+        { title: 20, value: 20 },
+        { title: 50, value: 50 },
+        { title: 100, value: 100 },
+      ]}
+      onPaginationChange={count => {
+        this.props.setReportBody({count});
+      }}
+      pagination={
+        parseInt(this.props.body.count)
+      }
+    />
+	</div>
+  </div>)
+  }
 }
+
+const mapStateToProps = ({ reportsReducer,tasksReducer, sidebarReducer, projectsReducer, login }) => {
+	const { tasks, numberOfPages, body } = reportsReducer;
+	const { taskProjects } = tasksReducer;
+	const { sidebar } = sidebarReducer;
+	const { project } = projectsReducer;
+	const { token,user } = login;
+	let projectsOnly = sidebar?sidebar.projects.children:[];
+	let archived = sidebar?sidebar.archived.children:[];
+	let tags = sidebar?sidebar.tags.children:[];
+	let filters = sidebar?sidebar.filters.children:[];
+
+	return {
+		tasks,
+		projects:projectsOnly.concat(archived),
+		tags,
+		numberOfPages,
+		body,
+		user,
+		project,
+		filters,
+		token,
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	{ setReportPage, loadUnsavedReport, setReportOrder,setReportBody }
+)(TaskList);

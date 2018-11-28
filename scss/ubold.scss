@@ -350,13 +350,9 @@ p{
 }
 
 .experimentalRowTask{
+  max-width:1300px;
   .row{
     flex-wrap: nowrap;
-  }
-  div {
-    div label{
-      width:140px;
-    }
   }
 }
 

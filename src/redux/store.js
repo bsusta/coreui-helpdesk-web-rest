@@ -25,6 +25,7 @@ import loadingReducer from './reducers/loadingReducer';
 import filtersReducer from './reducers/filtersReducer';
 import errorsReducer from './reducers/errorsReducer';
 import messagesReducer from './reducers/messagesReducer';
+import reportsReducer from './reducers/reportsReducer';
 
 const reducers = combineReducers({
     login:loginReducer,
@@ -50,7 +51,8 @@ const reducers = combineReducers({
     loadingReducer,
     filtersReducer,
     errorsReducer,
-    messagesReducer
+    messagesReducer,
+    reportsReducer
   });
 
 const enhancers = compose(
