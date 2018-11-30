@@ -167,6 +167,7 @@ export const editStatus = (body,id,isActive,token) => {
             return;
           }
           Promise.all([response1.json(),response2.json()]).then(([response1,response2])=>{
+            console.log({...response1.data,is_active:isActive});
           dispatch({type: EDIT_STATUS, status:{...response1.data,is_active:isActive}});
         })})
         .catch(function (error) {

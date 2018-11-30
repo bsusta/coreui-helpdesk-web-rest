@@ -47,12 +47,7 @@ export default function statusesReducer(state = initialState, action) {
       case EDIT_STATUS:{
         //finds location of the current status and replaces it with newer version
         let newStatuses=[...state.statuses];
-        if(action.status.is_active){
-          newStatuses[newStatuses.findIndex((status)=>status.id==action.status.id)]=action.status;
-        }
-        else{
-          newStatuses.splice(newStatuses.findIndex((status)=>status.id==action.status.id),1);
-        }
+        newStatuses[newStatuses.findIndex((status)=>status.id==action.status.id)]=action.status;
         return { ...state, statuses:newStatuses };
       }
       case LOGIN_LOGOUT:
