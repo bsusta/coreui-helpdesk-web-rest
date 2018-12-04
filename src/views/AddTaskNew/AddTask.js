@@ -56,11 +56,7 @@ class AddTask extends Component {
 		super(props);
 		//we initialize all tasks aditional attributes
 		let task_data = initialiseCustomAttributes([...this.props.taskAttributes]);
-		let id =this.props.filterState&&this.props.filterState.projects&&this.props.filterState.projects.length>0?this.props.filterState.projects[0].id:null;
-		let project = "null";
-		if(id!==null && this.props.taskProjects.some((item)=>item.id===id)){
-			project = id;
-		}
+		let project =this.props.body.projectID && this.props.taskProjects.some((item)=>item.id===parseInt(this.props.body.projectID))?parseInt(this.props.body.projectID): this.props.taskProjects[0].id;
 		this.state = {
 			company: this.props.companies[
 				this.props.companies.findIndex(company => company.id === this.props.user.company.id)
@@ -941,10 +937,12 @@ class AddTask extends Component {
                       usersReducer,
                       attachmentsReducer,
                       followersReducer,
-                      taskAttributesReducer
+                      taskAttributesReducer,
+                      filtersReducer
                     }) => {
                       const { task, taskProjects, taskSolvers, repeat } = tasksReducer;
                       const { taskAttributes } = taskAttributesReducer;
+                      const { body } = filtersReducer;
                       const { taskStatuses } = statusesReducer;
                       const { taskCompanies } = companiesReducer;
                       const { tags } = tagsReducer;
@@ -967,6 +965,7 @@ class AddTask extends Component {
                         attachments,
                         followers,
                         token,
+                        body,
                         companiesUpdateDate:companiesReducer.updateDate
                       };
                     };

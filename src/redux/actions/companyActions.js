@@ -75,7 +75,7 @@ export const startCompaniesLoading = () => {
  * @param {object} body  All parameters in an object of the new company
  * @param {string} token universal token for API comunication
  */
-export const addCompany = (body,token) => {
+export const addCompany = (body,afterSubmit,token) => {
   return (dispatch) => {
       fetch(COMPANIES_LIST,{
         headers: {
@@ -92,6 +92,7 @@ export const addCompany = (body,token) => {
       }
     response.json().then((response)=>{
       dispatch({type: ADD_COMPANY, company:response.data});
+      afterSubmit();
     })})
     .catch(function (error) {
       dispatch({ type: SET_ERROR_MESSAGE, errorMessage:error });

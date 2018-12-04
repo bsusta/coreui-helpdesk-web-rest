@@ -85,7 +85,7 @@ export const getSidebar = (date,ACL,token) => {
 
           let filters = {
             name: "filters",
-            open: false,
+            open: true,
             url: "",
             icon: "fa fa-filter",
             children: []

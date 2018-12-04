@@ -47,14 +47,9 @@ class CompanyAdd extends Component {
         zip: this.state.zip === "" ? "null" : this.state.zip,
         company_data: JSON.stringify(processCustomAttributes({...this.state.company_data},[...this.props.companyAttributes]))
       },
+      this.props.modal?this.props.modal:this.props.history.goBack,
       this.props.token
     );
-    if(this.props.modal){
-      this.props.modal();
-    }
-    else{
-      this.props.history.goBack();
-    }
   }
 
   render() {

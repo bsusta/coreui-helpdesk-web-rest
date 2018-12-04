@@ -21,8 +21,8 @@ class Login extends Component {
     super(props);
     this.state = {
       login: true,
-      loginName: "admin@admin.sk",
-      loginPassword: "12345678",
+      loginName: "admin",
+      loginPassword: "admin",
       resetName: ""
     };
   }
@@ -60,6 +60,17 @@ class Login extends Component {
                             ? this.state.loginName
                             : this.state.resetName
                         }
+                        onKeyPress={(e)=>{
+                          if(e.key==='Enter'){
+                            if (this.state.login) {
+                              this.props.loginUser(
+                                this.state.loginName,
+                                this.state.loginPassword
+                              );
+                            } else {
+                              this.setState({ login: true });
+                            }
+                          }}}
                         onChange={value => {
                           if (this.state.login) {
                             this.setState({ loginName: value.target.value });
@@ -78,6 +89,17 @@ class Login extends Component {
                           type="password"
                           placeholder={i18n.t('password')}
                           value={this.state.loginPassword}
+                          onKeyPress={(e)=>{
+                            if(e.key==='Enter'){
+                              if (this.state.login) {
+                                this.props.loginUser(
+                                  this.state.loginName,
+                                  this.state.loginPassword
+                                );
+                              } else {
+                                this.setState({ login: true });
+                              }
+                            }}}
                           onChange={value =>
                             this.setState({ loginPassword: value.target.value })
                           }
