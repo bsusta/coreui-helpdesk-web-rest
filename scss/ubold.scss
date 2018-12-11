@@ -384,3 +384,14 @@ p{
 .uploadButton{
   font-weight: normal !important;
 }
+
+.btn-group {
+  .active {
+    background-color: #545b62 !important;
+    border-color: #4e555b !important;
+    box-shadow: none !important;
+  }
+  .btn{
+    background-color: #6c757d;
+  }
+}

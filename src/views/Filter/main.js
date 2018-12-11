@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 import Pagination from '../../components/pagination';
 import { timestampToString } from '../../helperFunctions';
-import {setTripod,setShowFilter, setFilterBody, setFilterForceUpdate} from '../../redux/actions';
+import {setTripod,setShowFilter, setFilterBody, setFilterForceUpdate, setColumns} from '../../redux/actions';
 import i18n from 'i18next';
 import FourColumn from './fourColumn';
 import Columns from './columns';
@@ -53,15 +53,58 @@ class Tasks extends Component {
 		return (
 			<div className="row" style={{margin:10}}>
 			<CardHeader className="card-header-ubold">
-				<i className={icon} onClick={()=>{
-						if(this.props.body.tagID){
-							if(this.props.user.user_role.acl.includes('share_tags')||tag.public){
-								let tag=this.props.tags.find((item)=>parseInt(item.id)===parseInt(this.props.body.tagID));
-								this.props.history.push('/tag/edit/' + this.props.body.tagID);
+				<div className="row d-flex flex-row justify-content-between" style={{width:'100%'}}>
+					<span>
+					<i className={icon} onClick={()=>{
+							if(this.props.body.tagID){
+								if(this.props.user.user_role.acl.includes('share_tags')||tag.public){
+									let tag=this.props.tags.find((item)=>parseInt(item.id)===parseInt(this.props.body.tagID));
+									this.props.history.push('/tag/edit/' + this.props.body.tagID);
+								}
 							}
-						}
-					}} />
-				<span>{header}</span>
+						}} />
+					<span>{header}</span>
+				</span>
+
+					<div class="btn-group" role="group" aria-label="Basic example">
+						<button onClick={() => {this.props.setTripod(false);this.props.setColumns(false);}} type="button" className={"btn btn-secondary"+((!this.props.columns&&!this.props.tripod)?' active':'')}>
+							<i
+								className="fa fa-list"
+								style={{
+									cursor: 'pointer',
+									border: 'none',
+									paddingLeft:5,
+									paddingRight:5,
+									color:'white'
+								}}
+								/>
+						</button>
+					  <button onClick={() => {this.props.setTripod(false);this.props.setColumns(!this.props.columns);}} type="button" className={"btn btn-secondary"+(this.props.columns?' active':'')}>
+							<i
+								className="fa fa-map"
+								style={{
+									cursor: 'pointer',
+									border: 'none',
+									paddingLeft:5,
+									paddingRight:5,
+									color:'white'
+								}}
+							/>
+					</button>
+					  <button onClick={() => {this.props.setTripod(!this.props.tripod);this.props.setColumns(false);}} type="button" className={"btn btn-secondary"+(this.props.tripod?' active':'')}>
+							<i
+								className="fa fa-columns"
+								style={{
+									cursor: 'pointer',
+									border: 'none',
+									paddingLeft:5,
+									paddingRight:5,
+									color:'white'
+								}}
+							/>
+						</button>
+					</div>
+				</div>
 		</CardHeader>
 	<div className="page-menu row">
 		<button className="btn btn-success waves-effect waves-light btn-sm" type="button" onClick={() => this.props.setShowFilter(!this.props.showFilter)}>
@@ -112,8 +155,7 @@ class Tasks extends Component {
 			{item.title}
 		</label>
 	</span>
-)
-}
+	)}
 </div>
 		<div style={{width:'100%'}} className="row">
 				<div className="col-3" style={{ display: this.props.showFilter ? 'block' : 'none', padding: '0' }}>
@@ -165,4 +207,4 @@ const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, statuse
 	};
 };
 
-export default connect(mapStateToProps,{setTripod,setShowFilter,setFilterBody, setFilterForceUpdate})(Tasks);
+export default connect(mapStateToProps,{setTripod,setShowFilter,setFilterBody, setFilterForceUpdate, setColumns})(Tasks);

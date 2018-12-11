@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input, Pagination,PaginationItem, PaginationLink } from "reactstrap";
+import i18n from 'i18next';
+
 
 export default class Pag extends Component {
   constructor(props){
@@ -27,9 +29,14 @@ export default class Pag extends Component {
         { !this.props.small && (
         <div className="col">
              <Pagination>
-              <PaginationItem style={{ margin: 5 }}>
-                Page {this.props.pageNumber} of {this.props.numberOfPages}
-              </PaginationItem>
+               <PaginationItem style={{ margin: 5 }}>
+                 Page {this.props.pageNumber} of {this.props.numberOfPages}
+               </PaginationItem>
+               {!isNaN(parseInt(this.props.totalCount)) &&
+                 <PaginationItem style={{ margin: 5 }}>
+                   {i18n.t('taskCount')}: {this.props.totalCount}
+                 </PaginationItem>
+               }
             </Pagination>
         </div>
       )}

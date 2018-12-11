@@ -3,11 +3,8 @@ import { Link, Switch, Route, Redirect } from "react-router-dom";
 import { Container } from "reactstrap";
 import Header from "./components/Header/";
 import Sidebar from "./components/Sidebar";
-import Aside from "./components/notUsed/Aside/";
 
-import Dashboard from "./components/notUsed/Dashboard/";
 import Settings from "./views/Settings/";
-import NewTask from "./components/notUsed/newTask/";
 import UnitsList from "./views/settings/unitsList";
 import UnitAdd from "./views/settings/unitAdd";
 import UnitEdit from "./views/settings/unitEdit";
@@ -42,7 +39,6 @@ import StatusEdit from "./views/settings/statusEdit";
 import TriggersList from "./views/settings/triggersList";
 import TriggerAdd from "./views/settings/triggerAdd";
 import TriggerEdit from "./views/settings/triggerEdit";
-import MyTasks from "./components/notUsed/MyTasks";
 import Page404 from "./components/404";
 import Project from "./views/Project";
 import ProjectInfo from "./views/ProjectInfo";
@@ -52,8 +48,6 @@ import TagAdd from "./views/TagAdd";
 import TagEdit from "./views/TagEdit";
 import ViewTask from "./views/ViewTask";
 import AddTask from "./views/AddTaskNew";
-import SecondEditTask from "./components/notUsed/SecondEditTask";
-import TrojStlpec from "./components/notUsed/TrojStlpec";
 import Messages from "./views/Messages";
 import Filter from "./views/Filter";
 import EditTaskNew from './views/EditTaskNew';
@@ -96,12 +90,6 @@ class Full extends Component {
                   path="/settings"
                   name="Settings"
                   component={Settings}
-                />
-                <Route
-                  exact
-                  path="/newTask"
-                  name="New task"
-                  component={NewTask}
                 />
                 <Route
                   exact
@@ -340,12 +328,6 @@ class Full extends Component {
                 />
                 <Route
                   exact
-                  path="/mytasks"
-                  name="MyTasks"
-                  component={MyTasks}
-                />
-                <Route
-                  exact
                   path="/project/add"
                   name="Project add"
                   component={ProjectAdd}
@@ -506,7 +488,6 @@ class Full extends Component {
             </Container>
           </main>
         }
-          <Aside />
         </div>
       </div>
     );

@@ -1,4 +1,5 @@
 export default {
+  noTasksFound:'No tasks were found',
   creatingNewReport:'Creating new report',
   creatingNewFilter:'Creating new filter',
   reportName:'Report name',

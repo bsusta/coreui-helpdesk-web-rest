@@ -9,7 +9,7 @@ import {
   Input
 } from "reactstrap";
 import MessagesDropdown from "./MessagesDropdown";
-import {logoutUser, setFilterBody, setTripod, setColumns,setActiveRequests} from '../../redux/actions';
+import {logoutUser, setFilterBody, setTripod, setColumns,setActiveRequests, setFilterForceUpdate} from '../../redux/actions';
 import { connect } from "react-redux";
 import i18n from "i18next";
 import ErrorMessagesDropdown from "./ErrorMessagesDropdown";
@@ -60,6 +60,7 @@ class Header extends Component {
               onKeyPress={(e)=>{
                 if(e.key==='Enter'){
                   this.props.setFilterBody({search:this.state.search,body:{title:this.state.search}},true);
+                  this.props.setFilterForceUpdate(true);
                 }
               }}
             />
@@ -67,6 +68,7 @@ class Header extends Component {
             className="searchButton"
             onClick={()=>{
               this.props.setFilterBody({search:this.state.search,body:{title:this.state.search}},true);
+              this.props.setFilterForceUpdate(true);
             }}>
               <i className="fa fa-search" />
             </InputGroupAddon>
@@ -78,6 +80,7 @@ class Header extends Component {
           onClick={() => {
             this.props.history.push('/filter/add/project/all/'+this.props.body.page+','+this.props.body.count);
             this.props.setFilterBody({search:this.state.search, projectID:'all', filterID:'add', tagID:null,body:{title:this.state.search}},true);
+            this.props.setFilterForceUpdate(true);
           }}
           style={{}}
           >
@@ -106,51 +109,6 @@ class Header extends Component {
         }
 
         <div className="ml-auto row headerCommandBar">
-          <a
-            className="headerIcons"
-          >
-          <i
-            className="fa fa-list"
-            style={{
-              cursor: 'pointer',
-              border: 'none',
-              paddingLeft:5,
-              paddingRight:5,
-              color: (!this.props.columns&&!this.props.tripod)?'#20a8d8':'white'
-            }}
-            onClick={() => {this.props.setTripod(false);this.props.setColumns(false);}}
-          />
-          </a>
-          <a
-            className="headerIcons"
-          >
-          <i
-            className="fa fa-map"
-            style={{
-              cursor: 'pointer',
-              border: 'none',
-              paddingLeft:5,
-              paddingRight:5,
-              color: this.props.columns?'#20a8d8':'white'
-            }}
-            onClick={() => {this.props.setTripod(false);this.props.setColumns(!this.props.columns);}}
-          />
-          </a>
-          <a
-            className="headerIcons"
-          >
-          <i
-            className="fa fa-columns"
-            style={{
-              cursor: 'pointer',
-              border: 'none',
-              paddingLeft:5,
-              paddingRight:5,
-              color: this.props.tripod?'#20a8d8':'white'
-            }}
-            onClick={() => {this.props.setTripod(!this.props.tripod);this.props.setColumns(false);}}
-          />
-          </a>
           {/*Settings icon*/}
           {
             this.props.user.user_role.acl.some((item)=>['company_settings','company_attribute_settings','user_settings','user_role_settings','imap_settings','smtp_settings','status_settings','task_attribute_settings','unit_settings'].includes(item))&&
@@ -191,4 +149,4 @@ const mapStateToProps = ({ login, loadingReducer, errorsReducer, filtersReducer,
   return { user, token, activeRequests, errorMessages, body,tripod, columns };
 };
 
-export default connect(mapStateToProps, { logoutUser, setFilterBody,setTripod, setColumns, setActiveRequests })(Header);
+export default connect(mapStateToProps, { logoutUser, setFilterBody,setTripod, setColumns, setActiveRequests, setFilterForceUpdate })(Header);

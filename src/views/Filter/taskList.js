@@ -174,6 +174,9 @@ render(){
             <td>{task.deadline ? timestampToString(task.deadline) : i18n.t('none')}</td>
           </tr>
         ))}
+				{this.props.total===0 && <tr style={{color:'red'}}>
+					<td colSpan={9} style={{textAlign:'center'}}>{i18n.t('noTasksFound')}</td>
+				</tr>}
       </tbody>
     </table>
     <Pagination
@@ -182,6 +185,7 @@ render(){
         'tag/'+this.props.body.tagID+'/project/'+this.props.body.projectID}
       history={this.props.history}
       numberOfPages={this.props.numberOfPages}
+			totalCount={this.props.total}
       refetchData={() => {}}
       token={this.props.token}
       disabled={this.props.body === null}
@@ -208,7 +212,7 @@ render(){
 }
 
 const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projectsReducer, login }) => {
-	const { tasks, numberOfPages, body, showFilter } = filtersReducer;
+	const { tasks, numberOfPages, body, showFilter,total } = filtersReducer;
 	const { taskProjects } = tasksReducer;
 	const { sidebar } = sidebarReducer;
 	const { project } = projectsReducer;
@@ -220,6 +224,7 @@ const mapStateToProps = ({ filtersReducer,tasksReducer, sidebarReducer, projects
 
 	return {
 		tasks,
+		total,
 		projects:projectsOnly.concat(archived),
 		tags,
 		numberOfPages,

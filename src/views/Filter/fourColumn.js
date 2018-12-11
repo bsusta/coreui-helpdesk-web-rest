@@ -103,6 +103,15 @@ class Project extends Component {
       <div className="row">
         <div className='fourColumns'>
           <ul className="list-group" style={{paddingBottom:'1em'}}>
+            {this.props.total===0 &&
+              <li className="list-group-item item-in-column highlighted-item-in-column">
+                <div className="d-flex flex-row justify-content-between">
+                  <span style={{margin:'auto'}}>
+                    {i18n.t('noTasksFound')}
+                  </span>
+                </div>
+              </li>
+            }
               {this.props.tasks.map(task => (
                 <li className={task.id===this.state.taskID?"list-group-item item-in-column highlighted-item-in-column":"list-group-item item-in-column"} style={{borderLeftColor:task.status.color, cursor:'pointer'}} key={task.id}
                   onClick={()=>{
@@ -191,7 +200,7 @@ class Project extends Component {
 
 const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer,filtersReducer, login }) => {
   const { taskID } = tasksReducer;
-  const {numberOfPages, tasks, body, showFilter} = filtersReducer;
+  const {numberOfPages, tasks, body, showFilter, total} = filtersReducer;
   const { project } = projectsReducer;
   const { sidebar } = sidebarReducer;
   const { token } = login;
@@ -200,6 +209,7 @@ const mapStateToProps = ({ tasksReducer,projectsReducer, sidebarReducer,filtersR
   return {
     tasks,
     taskID,
+    total,
     numberOfPages,
     project,
     body,

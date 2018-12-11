@@ -1,5 +1,6 @@
 export default {
   globalSearch:'Vyhľadať globálne',
+  noTasksFound:'Nenašli sa žiadne úlohy',
   creatingNewReport:'Vytvorenie nového reportu',
   creatingNewFilter:'Vytvorenie nového filtra',
   reportName:'Meno výkazu',

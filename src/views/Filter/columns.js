@@ -220,6 +220,9 @@ class Project extends Component {
                   </div>
                 )}
               </Droppable>
+              <div style={{position:'absolute',bottom:5}}>
+                <span style={{padding:5}}>{i18n.t('taskCount')}: {this.props.tasks[status.id].length}</span>
+              </div>
             </div>
           )
         }
