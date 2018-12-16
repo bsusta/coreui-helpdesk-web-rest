@@ -41,20 +41,12 @@ import {
   containsNullRequiredAttribute,
   fillRequiredCustomAttributes
 } from "../../helperFunctions";
+import { selectStyle } from "../../generalAttributes";
 import MultiSelect from "../../components/multiSelect";
 import i18n from "i18next";
 import Repeat from './repeat';
 const indexOfNoPadding=0;
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
-
-const colourStyles = {
-  control: styles => ({ ...styles,
-                           backgroundColor: 'white',
-                           borderRadius:"0",
-                           border: '1px solid #c2cfd6',
-                      }),
-}
-
 
 class EditTask extends Component {
   constructor(props) {
@@ -147,7 +139,8 @@ class EditTask extends Component {
       openAddUser:false,
       openAddCompany:false,
       showUploadError:false,
-      openRepeat:false
+      openRepeat:false,
+      openEditTitle:false,
     };
     this.autoSubmit.bind(this);
   }
@@ -318,24 +311,31 @@ class EditTask extends Component {
                                 className="task-header-input no-border"
                                 >
                                 <h3>
-                                  {this.props.task.id}
+                                  {'# '+this.props.task.id+' '}
                                 </h3>
                               </InputGroupAddon>
+                              {!this.state.openEditTitle &&
+                                <label htmlFor="title" className="form-control task-header-input" style={{margin:0, paddingLeft:5, borderWidth:0}}>
+                                  <h3>{this.state.title}</h3>
+                                </label>
+                              }
 
                               {/*<label htmlFor ="title">Task Name</label>*/}
                               <input
-                                className="form-control task-header-input"
+                                className="form-control"
                                 id="title"
                                 placeholder={i18n.t("enterTitle")}
                                 value={(!this.props.disabled && this.state.title)?this.state.title:this.props.task.title}
-                                style={{ fontSize: 24, border:'none' }}
+                                style={{ fontSize: 24, border:'none',...(!this.state.openEditTitle?{position:'absolute', top:-300}:{}) }}
                                 disabled={this.props.disabled}
+                                onFocus={()=>this.setState({openEditTitle:!this.state.openEditTitle})}
+                                onBlur={()=>this.setState({openEditTitle:!this.state.openEditTitle})}
                                 onChange={e => {
                                   this.autoSubmit("title", e.target.value);
                                   this.setState({ title: e.target.value });
                                 }}
                                 />
-                              <InputGroupAddon className="no-border">
+                              <InputGroupAddon className="no-border task-header-input">
                                 <button className="btn btn-link">
                                   <i className="fa fa-print" /> {i18n.t("print")}
                                   </button>
@@ -432,10 +432,12 @@ class EditTask extends Component {
                             toggleStyle={{
                               border: "none",
                               padding: 0,
-                              fontSize:'75%'
+                              fontSize:'14px',
+                              marginBottom:'0px',
+                              color:'#797979'
 
                             }}
-                            label={i18n.t("selectTags")}
+                            label={i18n.t("tags")+":"}
                             onChange={(ids, items) => {
                               this.autoSubmit("tags", ids);
                               this.setState({ tags: ids });
@@ -566,7 +568,7 @@ class EditTask extends Component {
                               <div className="col-9">
                                   <InputGroup className={!this.props.disabled&&this.state.requestedBy.id===undefined?"fieldError":""}>
                                     <Select
-                                      styles={colourStyles}
+                                      styles={selectStyle}
                                       className="fullWidth"
                                       isDisabled={this.props.disabled}
                                       options={
@@ -624,7 +626,7 @@ class EditTask extends Component {
 
                                   <InputGroup className={!this.props.disabled && this.state.company===undefined?"fieldError":""}>
                                     <Select
-                                     styles={colourStyles}
+                                     styles={selectStyle}
                                      isDisabled={this.props.disabled}
                                       className="fullWidth"
                                       options={this.props.disabled?
@@ -869,7 +871,7 @@ class EditTask extends Component {
                                       </div>
                                       <div className="col-9">
                                         <Select
-                                          styles={colourStyles}
+                                          styles={selectStyle}
                                           id={attribute.id}
                                           className="fullWidth"
                                           isDisabled={this.props.disabled}
@@ -912,7 +914,7 @@ class EditTask extends Component {
                                               </div>
                                               <div className="col-9">
                                                 <Select
-                                                  styles={colourStyles}
+                                                  styles={selectStyle}
                                                   id={attribute.id}
                                                   className="fullWidth"
                                                   isDisabled={this.props.disabled}
@@ -1069,13 +1071,13 @@ class EditTask extends Component {
                             </InputGroup>
                           </FormGroup>
 
-                          <FormGroup>
+                          {false && <FormGroup>
                             <label htmlFor="followers" className="input-label">
                               {i18n.t('followers')}
                             </label>
                             <InputGroup>
                             <Select
-                             styles={colourStyles}
+                             styles={selectStyle}
                              isDisabled={this.props.disabled}
                              className="fullWidth"
                               options={(this.props.disabled?this.props.followers:this.props.users).map(user => {
@@ -1112,7 +1114,7 @@ class EditTask extends Component {
                               }}
                             />
                           </InputGroup>
-                          </FormGroup>
+                          </FormGroup>}
 
                           {!this.props.disabled &&
                             <div>

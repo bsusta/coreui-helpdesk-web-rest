@@ -93,6 +93,7 @@ class Repeat extends Component {
                 border: '1px solid #D9D9D9',
                 marginTop:'5px',
                 marginBottom:'5px',
+                maxHeight:'30px',
               }}
               >
               {this.state.added&& this.props.defaultState!==null ?i18n.t("every")+' '+this.props.defaultState.intervalLength+' '+i18n.t(this.props.defaultState.interval):i18n.t("noRepeat")}

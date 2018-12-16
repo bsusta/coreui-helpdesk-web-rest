@@ -339,13 +339,14 @@ p{
   .card-body{
     padding-top:0px;
   }
-  background-color: white;
-  margin-left: 10px;
-  margin-right: 10px;
+  background-color: rgb(249, 249, 249);
+  margin-left: auto;
+  margin-right: auto;
   padding-top: 10px;
   border: 1px solid rgba(54, 64, 74, 0.05);
   border-radius: 5px;
   min-width:1000px;
+  max-width: 1284px;
 }
 
 .no-border{
@@ -377,7 +378,7 @@ p{
   background-color: white;
 }
 .card-body, .card-block {
-  background-color: white;
+  background-color: rgb(249, 249, 249);
 }
 
 .nav-tabs .nav-item{
@@ -426,4 +427,11 @@ p{
 .table-div{
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: .25rem;
+}
+
+input{
+  max-height: 30px;
+}
+select{
+  max-height: 30px;
 }

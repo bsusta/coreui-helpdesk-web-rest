@@ -219,6 +219,7 @@
 }
 
 //React select nastavenia
+/*
 .react-select__container {
 	width: 100%;
 	box-shadow: none !important;
@@ -237,7 +238,7 @@
 .react-select__control:focus{
 	border: 1px solid blue !important;
 	box-shadow: none !important;
-}
+}*/
 
 //nastavenia color atd textu
 .react-select__single-value {
@@ -462,7 +463,7 @@
 }
 
 .task-header-input {
-	background: $card-body-bg-color;
+	background: rgb(249, 249, 249) !important;
 }
 
 task-header-important {
@@ -712,5 +713,5 @@ task-header-important {
 }
 
 .card-background {
-	//background: $edit-task-background;
+	background: rgb(249, 249, 249);
 }

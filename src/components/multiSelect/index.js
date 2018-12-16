@@ -114,11 +114,10 @@ export default class MultiSelect extends Component {
           }}
         >
           <DropdownToggle
-            caret
             className="card-background tags-multiselect-button"
             style={this.props.toggleStyle ? this.props.toggleStyle : {}}
           >
-            <label className="input-label">{this.props.label ? this.props.label : ""}</label>
+            <label className="input-label" style={{margin:0}}>{this.props.label ? this.props.label : ""}</label>
           </DropdownToggle>
           <DropdownMenu style={{paddingBottom:15,...(this.props.dropdownStyle?this.props.dropdownStyle:{})}}>
             <div className="list-group">
