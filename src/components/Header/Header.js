@@ -94,17 +94,8 @@ class Header extends Component {
             className="btn btn-link"
             onClick={() => this.props.history.push("/task/add")}
             >
-            {i18n.t("addTask")}
-          </button>
-        }
-        {
-          this.props.user.user_role.acl.includes('create_projects') &&
-          <button
-            type="button"
-            className="btn btn-link"
-            onClick={() => this.props.history.push("/project/add")}
-            >
-            {i18n.t("addProject")}
+            <i className={'fa fa-plus'} style={{paddingRight:5 }} />
+            {i18n.t("task")}
           </button>
         }
 

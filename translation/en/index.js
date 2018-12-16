@@ -1,4 +1,6 @@
 export default {
+  task:'Task',
+  filterActive:'Filter active',
   noTasksFound:'No tasks were found',
   creatingNewReport:'Creating new report',
   creatingNewFilter:'Creating new filter',

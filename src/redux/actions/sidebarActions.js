@@ -47,7 +47,7 @@ export const getSidebar = (date,ACL,token) => {
           let nav = [];
           let reports = {
             name: "reports",
-            open: true,
+            open: false,
             url: "",
             icon: "fa fa-file",
             children: []
@@ -100,12 +100,12 @@ export const getSidebar = (date,ACL,token) => {
             })
           );
 
-          filters.children.push({
+          /*filters.children.push({
              name: i18n.t('filter'),
              url: "/filter/add",
              icon: "fa fa-plus",
              id:'add'
-           });
+           });*/
 
           let projects = {
             name: "projects",

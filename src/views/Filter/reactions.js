@@ -78,6 +78,7 @@ class Loader extends Component {
       this.props.setFilterForceUpdate(false);
       this.setState({lastStatusCount:props.body.body.statuses.length});
       if(props.body.filterID!==null  && props.body.filterID!==this.props.body.filterID){
+        this.props.setResetableFilter(false);
         if(props.body.filterID!=='add'){
           this.props.addActiveRequests(2);
           this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.history,props.body,this.props.token);
@@ -108,6 +109,7 @@ class Loader extends Component {
         body.filterID=null;
       }
       if(urlData.tagID && this.props.match.params.tagID!==props.match.params.tagID){
+        this.props.setResetableFilter(false);
         body.body=createEmptyFilterBody();
         body.tagID=urlData.tagID;
         let tag = this.getFilterItem(urlData.tagID,props.tags);
@@ -168,8 +170,8 @@ class Loader extends Component {
       projects: (projectsOnly.concat(archived)),
       taskAttributes,tags, users, body, filter,sidebar, token};
     };
-    import {loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests, setFilterForceUpdate } from '../../redux/actions';
+    import {loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests, setFilterForceUpdate, setResetableFilter } from '../../redux/actions';
 
     export default connect(mapStateToProps, {
-      loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests, setFilterForceUpdate
+      loadUnsavedFilter,getProject, getFilter, getUsersFilter,setFilterBody, addActiveRequests, setFilterForceUpdate, setResetableFilter
     })(Loader);

@@ -4,11 +4,14 @@ import Filter from './Filter';
 import TaskList from './taskList';
 import {
 	Card,
-	CardHeader
+	CardHeader,
+	InputGroup,
+InputGroupAddon
 } from 'reactstrap';
 import Pagination from '../../components/pagination';
-import { timestampToString } from '../../helperFunctions';
-import {setTripod,setShowFilter, setFilterBody, setFilterForceUpdate, setColumns} from '../../redux/actions';
+import { timestampToString, createEmptyFilterBody } from '../../helperFunctions';
+import {setTripod,setShowFilter, setFilterBody, setFilterForceUpdate, setColumns,
+	addActiveRequests, getProject,	getFilter, setResetableFilter} from '../../redux/actions';
 import i18n from 'i18next';
 import FourColumn from './fourColumn';
 import Columns from './columns';
@@ -16,6 +19,64 @@ import Columns from './columns';
 const currentUser= [{ label: 'Current user', id: 'CURRENT-USER', value: 'CURRENT-USER' }];
 
 class Tasks extends Component {
+
+	constructor(props){
+		super(props);
+		this.resetFilter.bind();
+	}
+
+	getFilterItem(ID,items){
+		let res=items.find((item)=>item.id&&item.id.toString()===ID);
+		if(res===undefined){
+			return false;
+		}
+		res.label=res.name;
+		res.value=res.id;
+		return res;
+	}
+
+	resetFilter(){
+		let urlData=this.props.match.params;
+		let body={...this.props.body};
+		body.body=createEmptyFilterBody();
+		if(urlData.id){
+			body.filterID=urlData.id;
+		}else{
+			body.filterID=null;
+		}
+		if(urlData.tagID){
+			body.tagID=urlData.tagID;
+			let tag = this.getFilterItem(urlData.tagID,this.props.tags);
+			body.body.tags=tag?[tag]:[];
+		}
+		if(!urlData.tagID){
+			body.tagID=null;
+		}
+		if(urlData.projectID){
+			body.projectID=urlData.projectID;
+			let project = this.getFilterItem(urlData.projectID,this.props.projects);
+			if(urlData.projectID!=='all'){
+				this.props.addActiveRequests(1);
+				this.props.getProject(urlData.projectID,this.props.history,this.props.token);
+			}
+			if(project){
+				body.body.projects=[project];
+			}
+		}
+		if(urlData.count){
+			body.count=urlData.count;
+		}
+		this.props.setResetableFilter(false);
+			body.page=1;
+			if(urlData.id&& urlData.id!=='add'){
+        this.props.addActiveRequests(2);
+				this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.history,body,this.props.token);
+			}else{
+				this.props.setFilterBody(body);
+				this.props.setFilterForceUpdate(true);
+			}
+	}
+
 	render() {
 		let selectedStatusesIDs=this.props.body.body.statuses.map((item2)=>item2.id);
 		let myTasksActive = JSON.stringify(this.props.body.body.requesters)===JSON.stringify(currentUser)&&JSON.stringify(this.props.body.body.assignedTos)===JSON.stringify(currentUser);
@@ -52,9 +113,9 @@ class Tasks extends Component {
 		}
 		return (
 			<div className="row" style={{margin:10}}>
-			<CardHeader className="card-header-ubold">
+			<CardHeader className="card-header-ubold" style={{padding:0}}>
 				<div className="row d-flex flex-row justify-content-between" style={{width:'100%'}}>
-					<span>
+					<h4 style={{fontSize:24}}>
 					<i className={icon} onClick={()=>{
 							if(this.props.body.tagID){
 								if(this.props.user.user_role.acl.includes('share_tags')||tag.public){
@@ -63,52 +124,14 @@ class Tasks extends Component {
 								}
 							}
 						}} />
-					<span>{header}</span>
-				</span>
-
-					<div class="btn-group" role="group" aria-label="Basic example">
-						<button onClick={() => {this.props.setTripod(false);this.props.setColumns(false);}} type="button" className={"btn btn-secondary"+((!this.props.columns&&!this.props.tripod)?' active':'')}>
-							<i
-								className="fa fa-list"
-								style={{
-									cursor: 'pointer',
-									border: 'none',
-									paddingLeft:5,
-									paddingRight:5,
-									color:'white'
-								}}
-								/>
-						</button>
-					  <button onClick={() => {this.props.setTripod(false);this.props.setColumns(!this.props.columns);}} type="button" className={"btn btn-secondary"+(this.props.columns?' active':'')}>
-							<i
-								className="fa fa-map"
-								style={{
-									cursor: 'pointer',
-									border: 'none',
-									paddingLeft:5,
-									paddingRight:5,
-									color:'white'
-								}}
-							/>
-					</button>
-					  <button onClick={() => {this.props.setTripod(!this.props.tripod);this.props.setColumns(false);}} type="button" className={"btn btn-secondary"+(this.props.tripod?' active':'')}>
-							<i
-								className="fa fa-columns"
-								style={{
-									cursor: 'pointer',
-									border: 'none',
-									paddingLeft:5,
-									paddingRight:5,
-									color:'white'
-								}}
-							/>
-						</button>
-					</div>
+					<span style={{paddingLeft:5}}>{" "+header}</span>
+				</h4>
 				</div>
 		</CardHeader>
-	<div className="page-menu row">
-		<button className="btn btn-success waves-effect waves-light btn-sm" type="button" onClick={() => this.props.setShowFilter(!this.props.showFilter)}>
-			{i18n.t('filter')}
+		<div className="row d-flex flex-row justify-content-between" style={{width:'100%', ...(this.props.showFilter?{paddingLeft:334}:{})}}>
+			<div className="page-menu row">
+		<button className="btn btn-primary waves-effect waves-light btn-sm" type="button" onClick={() => this.props.setShowFilter(!this.props.showFilter)}>
+			<i style={{fontSize:18}} className="fa fa-filter"/>
 		</button>
 		<span className="form-check center-hor checkbox">
 			<input
@@ -156,7 +179,33 @@ class Tasks extends Component {
 		</label>
 	</span>
 	)}
-</div>
+
+	{this.props.resetableFilter && <button className="btn btn-primary waves-effect waves-light btn-sm" type="button"
+		onClick={this.resetFilter.bind(this)}
+		>
+			<i className="fa fa-remove" style={{paddingRight:5}}/>
+			{i18n.t('filterActive')}
+	</button>}
+
+		</div>
+	<div className="btn-group" role="group" aria-label="Basic example" style={{float:'right'}}>
+			<button onClick={() => {this.props.setTripod(false);this.props.setColumns(false);}} type="button" className={"btn btn-secondary"+((!this.props.columns&&!this.props.tripod)?' active':'')}>
+				<i
+					className="fa fa-list listSelectButton"
+					/>
+			</button>
+			<button onClick={() => {this.props.setTripod(false);this.props.setColumns(!this.props.columns);}} type="button" className={"btn btn-secondary"+(this.props.columns?' active':'')}>
+				<i
+					className="fa fa-map listSelectButton"
+				/>
+		</button>
+			<button onClick={() => {this.props.setTripod(!this.props.tripod);this.props.setColumns(false);}} type="button" className={"btn btn-secondary"+(this.props.tripod?' active':'')}>
+				<i
+					className="fa fa-columns listSelectButton"
+				/>
+			</button>
+		</div>
+	</div>
 		<div style={{width:'100%'}} className="row">
 				<div className="col-3" style={{ display: this.props.showFilter ? 'block' : 'none', padding: '0' }}>
 					<Filter history={this.props.history} match={this.props.match} />
@@ -182,11 +231,14 @@ class Tasks extends Component {
 	}
 }
 
-const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, statusesReducer, login }) => {
-	const { showFilter, body } = filtersReducer;
+const mapStateToProps = ({  filtersReducer, tasksReducer,taskAttributesReducer,companiesReducer,  sidebarReducer, statusesReducer,usersReducer,  login }) => {
+	const { showFilter, body, resetableFilter } = filtersReducer;
 	const { tripod , columns } = tasksReducer;
+	const { taskAttributes} = taskAttributesReducer;
+	const { taskCompanies } = companiesReducer;
 	const { taskStatuses } = statusesReducer;
-	const { user } = login;
+	const { users } = usersReducer;
+	const { user, token } = login;
 	const { sidebar } = sidebarReducer;
 	let projectsOnly = sidebar?sidebar.projects.children:[];
 	let archived = sidebar?sidebar.archived.children:[];
@@ -194,7 +246,12 @@ const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, statuse
 	let filters = sidebar?sidebar.filters.children:[];
 	return {
 		showFilter,
+		resetableFilter,
 		taskStatuses,
+		companies: taskCompanies,
+		statuses:taskStatuses,
+		users,
+		taskAttributes,
 		body,
 		columns,
 		tripod,
@@ -203,8 +260,9 @@ const mapStateToProps = ({ filtersReducer, tasksReducer, sidebarReducer, statuse
 		projects:[...projectsOnly,...archived],
 		tags,
 		filters,
-		user
+		user,
+		token
 	};
 };
 
-export default connect(mapStateToProps,{setTripod,setShowFilter,setFilterBody, setFilterForceUpdate, setColumns})(Tasks);
+export default connect(mapStateToProps,{setTripod,setShowFilter,setFilterBody, setFilterForceUpdate, setColumns, addActiveRequests, getProject,	getFilter, setResetableFilter})(Tasks);

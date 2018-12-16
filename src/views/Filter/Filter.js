@@ -31,8 +31,10 @@ import {
 	processRESTinput,
 	filterBodyFromState,
 	parseFilterDateToString,
+	createEmptyFilterBody
 } from '../../helperFunctions';
-import { createFilter, editFilter, deleteFilter, setFilterBody, changeUpdateAt, setFilterForceUpdate } from '../../redux/actions';
+import { createFilter, editFilter, deleteFilter, setFilterBody, changeUpdateAt, setFilterForceUpdate,
+	addActiveRequests,	getProject, getFilter,setResetableFilter } from '../../redux/actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const colourStyles = {
@@ -49,6 +51,7 @@ class Filter extends Component {
 		super(props);
 		this.createState.bind(this);
 		this.state = { ...this.createState(false), ...props.body.body, lastStatusCount:0 };
+		this.resetFilter.bind(this);
 	}
 
 	componentWillReceiveProps(props) {
@@ -68,6 +71,59 @@ class Filter extends Component {
 		} else {
 			return;
 		}
+	}
+
+	getFilterItem(ID,items){
+    let res=items.find((item)=>item.id&&item.id.toString()===ID);
+    if(res===undefined){
+      return false;
+    }
+    res.label=res.name;
+    res.value=res.id;
+    return res;
+  }
+
+	resetFilter(){
+		let urlData=this.props.match.params;
+		let body={...this.props.body};
+		body.body=createEmptyFilterBody();
+		if(urlData.id){
+			body.filterID=urlData.id;
+		}else{
+			body.filterID=null;
+		}
+		if(urlData.tagID){
+			body.tagID=urlData.tagID;
+			let tag = this.getFilterItem(urlData.tagID,this.props.tags);
+			body.body.tags=tag?[tag]:[];
+		}
+		if(!urlData.tagID){
+			body.tagID=null;
+		}
+		if(urlData.projectID){
+			body.projectID=urlData.projectID;
+			let project = this.getFilterItem(urlData.projectID,this.props.projects);
+			if(urlData.projectID!=='all'){
+				this.props.addActiveRequests(1);
+				this.props.getProject(urlData.projectID,this.props.history,this.props.token);
+			}
+			if(project){
+				body.body.projects=[project];
+			}
+		}
+		if(urlData.count){
+			body.count=urlData.count;
+		}
+			body.page=1;
+
+		this.props.setResetableFilter(false);
+			if(urlData.id&& urlData.id!=='add'){
+        this.props.addActiveRequests(2);
+				this.props.getFilter(this.props.taskAttributes,this.props.statuses,this.props.projects,this.props.users,this.props.tags,this.props.companies,this.props.history,body,this.props.token);
+			}else{
+				this.props.setFilterBody(body);
+				this.props.setFilterForceUpdate(true);
+			}
 	}
 
 	submit(savingChanges) {
@@ -147,6 +203,7 @@ class Filter extends Component {
 
 	applyFilter() {
 		this.props.setFilterBody({body:{...this.state, lastStatusCount:undefined }, page:1});
+		this.props.setResetableFilter(true);
 		this.props.setFilterForceUpdate(true);
 	}
 
@@ -320,7 +377,7 @@ class Filter extends Component {
 						</ModalFooter>
 					</Modal>
 
-					<div className="btn-list">
+					<div className="btn-list" style={{position:'relative', top:-72, left:-18, width:'100vh'}}>
 						<button
 							type="button"
 							className="btn btn-primary waves-effect waves-light btn-sm"
@@ -345,14 +402,13 @@ class Filter extends Component {
 						<button
 							type="button"
 							className="btn btn-primary waves-effect waves-light btn-sm"
-							onClick={() => {
-								this.setState(this.createState(true));
-							}}
+							onClick={this.resetFilter.bind(this)}
 						>
 							{i18n.t('reset')}
 						</button>
 					</div>
 
+					<div style={{position:'relative', top:-60}}>
 						<FormGroup>
 							<label htmlFor="title" className="input-label">
 								{i18n.t('filterByName')}
@@ -514,7 +570,25 @@ class Filter extends Component {
 								{i18n.t('important')}
 							</label>
 						</div>
-						<label className="mt-2 input-label">{i18n.t('createdDate')}</label>
+						<div className="row">
+							<div className="col-6" style={{padding:0}}>
+								<label className="mt-2 input-label">{i18n.t('createdDate')}</label>
+							</div>
+							<div className="col-6" style={{padding:0}}>
+								<span className="form-check checkbox" style={{marginBottom:0}}>
+									<input
+										type="checkbox"
+										id="createdToNow"
+										className="form-check-input"
+										checked={this.state.createdToNow}
+										onChange={() => this.setState({ createdToNow: !this.state.createdToNow })}
+									/>
+								<label htmlFor="createdToNow" className="form-check-label input-label" style={{marginTop:15}}>
+										{i18n.t('now')}
+									</label>
+								</span>
+							</div>
+					</div>
 						<div className="d-flex flex-row justify-content-between fromToDates">
 							<div>
 								<DatePicker
@@ -544,22 +618,28 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-									<span className="form-check checkbox">
-										<input
-											type="checkbox"
-											id="createdToNow"
-											className="form-check-input"
-											checked={this.state.createdToNow}
-											onChange={() => this.setState({ createdToNow: !this.state.createdToNow })}
-										/>
-									<label htmlFor="createdToNow" className="form-check-label input-label">
+							</div>
+						</div>
+
+						<div className="row">
+							<div className="col-6" style={{padding:0}}>
+								<label className="mt-2 input-label">{i18n.t('startedAt')}</label>
+							</div>
+							<div className="col-6" style={{padding:0}}>
+								<span className="form-check checkbox" style={{marginBottom:0}}>
+									<input
+										type="checkbox"
+										id="startedToNow"
+										className="form-check-input"
+										checked={this.state.startedToNow}
+										onChange={() => this.setState({ startedToNow: !this.state.startedToNow })}
+									/>
+								<label htmlFor="startedToNow" className="form-check-label input-label" style={{marginTop:15}}>
 										{i18n.t('now')}
 									</label>
 								</span>
 							</div>
 						</div>
-
-						<label className="mt-2 input-label">{i18n.t('startedAt')}</label>
 
 						<div className="d-flex flex-row justify-content-between fromToDates">
 							<div>
@@ -590,24 +670,28 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-								<div className="form-group">
-									<span className="form-check checkbox">
-										<input
-											type="checkbox"
-											id="startedToNow"
-											className="form-check-input"
-											checked={this.state.startedToNow}
-											onChange={() => this.setState({ startedToNow: !this.state.startedToNow })}
-										/>
-									<label htmlFor="startedToNow" className="form-check-label input-label">
+							</div>
+						</div>
+						<div className="row">
+							<div className="col-6" style={{padding:0}}>
+								<label className="mt-2 input-label">{i18n.t('deadline')}</label>
+							</div>
+							<div className="col-6" style={{padding:0}}>
+								<span className="form-check checkbox" style={{marginBottom:0}}>
+									<input
+										type="checkbox"
+										id="deadlineToNow"
+										className="form-check-input"
+										checked={this.state.deadlineToNow}
+										onChange={() => this.setState({ deadlineToNow: !this.state.deadlineToNow })}
+									/>
+								<label htmlFor="deadlineToNow" className="form-check-label input-label" style={{marginTop:15}}>
 										{i18n.t('now')}
 									</label>
 								</span>
-								</div>
 							</div>
 						</div>
 
-						<label className="mt-2 input-label">{i18n.t('deadline')}</label>
 						<div className="d-flex flex-row justify-content-between fromToDates">
 							<div>
 								<DatePicker
@@ -637,24 +721,29 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-								<div className="form-group">
-									<span className="form-check checkbox">
-										<input
-											type="checkbox"
-											className="form-check-input"
-											id="deadlineToNow"
-											checked={this.state.deadlineToNow}
-											onChange={() => this.setState({ deadlineToNow: !this.state.deadlineToNow })}
-										/>
-									<label htmlFor="deadlineToNow" className="form-check-label input-label">
-										{i18n.t('now')}
-									</label>
-								</span>
-								</div>
 							</div>
 						</div>
 
-						<label className="mt-2 input-label">{i18n.t('closedAt')}</label>
+						<div className="row">
+							<div className="col-6" style={{padding:0}}>
+								<label className="mt-2 input-label">{i18n.t('closedAt')}</label>
+							</div>
+							<div className="col-6" style={{padding:0}}>
+								<span className="form-check checkbox" style={{marginBottom:0}}>
+									<input
+										type="checkbox"
+										id="closedToNow"
+										className="form-check-input"
+										checked={this.state.closedToNow}
+										onChange={() => this.setState({ closedToNow: !this.state.closedToNow })}
+									/>
+								<label htmlFor="closedToNow" className="form-check-label input-label" style={{marginTop:15}}>
+										{i18n.t('now')}
+									</label>
+								</span>
+							</div>
+						</div>
+
 						<div className="d-flex flex-row justify-content-between fromToDates">
 							<div>
 								<DatePicker
@@ -684,20 +773,6 @@ class Filter extends Component {
 									timeIntervals={30}
 									dateFormat="DD.MM.YYYY HH:mm"
 								/>
-								<div className="form-group">
-									<span className="form-check checkbox">
-										<input
-											type="checkbox"
-											id="closedToNow"
-											className="form-check-input"
-											checked={this.state.closedToNow}
-											onChange={() => this.setState({ closedToNow: !this.state.closedToNow })}
-										/>
-									<label className="form-check-label input-label" htmlFor="closedToNow">
-										{i18n.t('now')}
-									</label>
-								</span>
-								</div>
 							</div>
 						</div>
 
@@ -880,6 +955,7 @@ class Filter extends Component {
 									return <div>{attribute.title}</div>;
 							}
 						})}
+					</div>
 				</div>
 		);
 	}
@@ -889,7 +965,6 @@ const mapStateToProps = ({
 	statusesReducer,
 	usersReducer,
 	companiesReducer,
-	tagsReducer,
 	taskAttributesReducer,
 	login,
 	filtersReducer,
@@ -900,12 +975,12 @@ const mapStateToProps = ({
 	const { filter, total, body } = filtersReducer;
 	const { users } = usersReducer;
 	const { taskCompanies } = companiesReducer;
-	const { tags } = tagsReducer;
 	const { taskAttributes } = taskAttributesReducer;
 	const { sidebar } = sidebarReducer;
 	const { token, user } = login;
 	let projectsOnly = sidebar?sidebar.projects.children:[];
 	let archived = sidebar?sidebar.archived.children:[];
+	let tags = sidebar?sidebar.tags.children:[];
 
 
 	return {
@@ -919,11 +994,11 @@ const mapStateToProps = ({
 		user,
 		filter,
 		body,
-		total,
+		total
 	};
 };
 
 export default connect(
 	mapStateToProps,
-	{ setFilterBody, createFilter, deleteFilter, editFilter, changeUpdateAt, setFilterForceUpdate }
+	{ setFilterBody, createFilter, deleteFilter, editFilter, changeUpdateAt, setFilterForceUpdate, addActiveRequests,	getProject, getFilter, setResetableFilter }
 )(Filter);

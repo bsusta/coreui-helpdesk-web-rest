@@ -80,7 +80,7 @@ class TagAdd extends Component {
                   </label>
                 </div>
                 }
-              }
+              
               <label htmlFor="title" className="req">{i18n.t('name')}</label>
               <input
                 className="form-control"

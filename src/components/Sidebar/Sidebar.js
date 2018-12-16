@@ -16,13 +16,13 @@ class Sidebar extends Component {
     let url = this.props.history.location.pathname;
     let projectID;
     let secondID;
-    if(url.includes('/project/' && !url.includes('/project/edit'))){
+    if(url.includes('/project/') && !url.includes('/project/edit')) {
       projectID = url.substring(url.indexOf('/project/')+9,url.length);
       projectID = projectID.substring(0,projectID.indexOf('/'));
       secondID = url.substring(0,url.indexOf('/project/'));
       secondID = secondID.substring(secondID.lastIndexOf('/')+1,secondID.length);
     }
-    let allProjects = [{value:'all',label:'All',name:'All',id:'all'}].concat(this.props.archived).concat(this.props.projects).map(proj => {
+    let allProjects = [{value:'all',label:'Dashboard',name:'Dashboard',id:'all'}].concat(this.props.projects).concat(this.props.archived).map(proj => {
       proj.label = proj.name;
       proj.value = proj.id;
       return proj;
@@ -30,9 +30,13 @@ class Sidebar extends Component {
     this.state={
       intervalID,
       project:projectID?allProjects.find((item)=>item.value.toString()===projectID):allProjects[0],
-      archived:false,
       filterSelected:url.includes('/filter/')?secondID:null,
       tagSelected:url.includes('/tag/')?secondID:null,
+      filtersOpened:this.props.sidebar.filters.open,
+      archivedOpened:this.props.sidebar.archived.open,
+      tagsOpened:this.props.sidebar.tags.open,
+      reportsOpened:this.props.user.user_role.acl.includes('report_filters')?this.props.sidebar.reports.open:false,
+
     }
   }
 
@@ -42,18 +46,7 @@ class Sidebar extends Component {
     clearInterval(this.state.intervalID);
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    e.target.parentElement.classList.toggle("open");
-  }
-
-  activeRoute(routeName, url) {
-    return url.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
-  }
-
   render() {
-    const activeRoute = this.activeRoute;
-    const handleClick = this.handleClick;
     const url = this.props.history.location.pathname;
     // badge addon to NavItem
     const badge = badge => {
@@ -67,22 +60,41 @@ class Sidebar extends Component {
       }
     };
 
+    const customStyles = {
+      singleValue: (provided, state) => {
+        return { ...provided, marginLeft:30 };
+      },
+      indicatorSeparator:(provided, state) => {
+        return { ...provided, width:0 };
+      },
+      control:(provided, state) => {
+        return { ...provided, borderRadius:50, borderColor:'#6c757d' };
+      },
+      input:(provided, state) => {
+        return { ...provided, marginLeft:30 };
+      },
+    }
+
     // sidebar-nav root
     return (
       <div className="sidebar fontFamilySidebar">
         <nav className="sidebar-nav">
           <div className="sidebarProjectSelector">
           <FormGroup>
-            <label htmlFor="project" className="input-label">{i18n.t('project')}</label>
+            <label htmlFor="project" className="input-label menu-title">{i18n.t('project')}</label>
+            <span style={{float:'right',cursor:'pointer'}} onClick={()=>this.props.history.push("/project/add")}>
+              <i className={'fa fa-plus sidebarIcon'} style={{paddingRight:10}} />
+            </span>
             <InputGroup>
               <Select
                 className="fullWidth"
-                options={[{value:'all',label:'All'}].concat((this.state.archived?this.props.archived:this.props.projects).map(proj => {
+                options={(this.props.archived.some(item=>item.id===this.state.project.id)?[{value:'all',label:'Dashboard'},this.state.project]:[{value:'all',label:'Dashboard'}]).concat((this.props.projects).map(proj => {
                   proj.label = proj.name;
                   proj.value = proj.id;
                   return proj;
                 }))}
                 value={this.state.project}
+                styles={customStyles}
                 onChange={e => {
                   this.setState({project:e});
                   if(this.state.filterSelected){
@@ -91,28 +103,10 @@ class Sidebar extends Component {
                     this.props.history.push('/tag/'+this.state.tagSelected+'/project/'+e.value+'/1,'+this.props.body.count);
                   }
                 }}
+                components={{DropdownIndicator: ({ innerProps, isDisabled }) =>  <i className={'fa fa-file'} style={{position:'absolute', left:15}} /> }}
                 />
             </InputGroup>
           </FormGroup>
-          <div className="form-group form-check checkbox">
-              <input
-                type="checkbox"
-                id="archived"
-                className="form-check-input"
-                checked={this.state.archived}
-                onChange={() => {
-                  this.setState({ archived: !this.state.archived,project:{value:'all',label:'All'} });
-                  if(this.state.filterSelected){
-                    this.props.history.push('/filter/'+this.state.filterSelected+'/project/all'+'/1,'+this.props.body.count);
-                  }else if(this.state.tagSelected){
-                    this.props.history.push('/tag/'+this.state.tagSelected+'/project/all'+'/1,'+this.props.body.count);
-                  }
-                }}
-                />
-              <label className="form-check-label" htmlFor="archived">
-                {i18n.t('archived')}
-            </label>
-          </div>
         </div>
         {
           this.props.sidebar &&
@@ -135,16 +129,20 @@ class Sidebar extends Component {
                   </NavLink>
                 </NavItem>
               }
-            <li key={this.props.sidebar.filters.key} className={activeRoute('filter', url) + (this.props.sidebar.filters.open?" open ": "")}>
-              <a
-                className="nav-link nav-dropdown-toggle"
-                href="#"
-                onClick={handleClick.bind(this)}
-                >
-                {this.props.sidebar.filters.icon && <i className={this.props.sidebar.filters.icon} />}
-
-                {i18n.t('filters')}
-              </a>
+            <li key={this.props.sidebar.filters.key} className={"nav-item nav-dropdown" + (this.state.filtersOpened?" open ": "")}>
+                <a
+                  className="nav-link nav-dropdown-toggle"
+                  href="#"
+                  onClick={(e)=>{e.preventDefault();}}
+                  >
+                  {this.props.sidebar.filters.icon && <i className={this.props.sidebar.filters.icon} />}
+                  <span onClick={(e)=>{this.setState({filtersOpened:!this.state.filtersOpened})}}>
+                    {i18n.t('filters')}
+                  </span>
+                  <span style={{float:'right',cursor:'pointer'}} onClick={()=>this.props.history.push("/filter/add"+'/project/'+this.state.project.value)}>
+                    <i className={'fa fa-plus sidebarIcon'} />
+                  </span>
+                </a>
               <ul className="nav-dropdown-items">
                 {
                   this.props.sidebar.filters.children.map((item,index)=>
@@ -177,15 +175,19 @@ class Sidebar extends Component {
               </ul>
             </li>
 
-              <li key={this.props.sidebar.tags.key} className={activeRoute('tag', url) + (this.props.sidebar.tags.open?" open ": "")}>
+              <li key={this.props.sidebar.tags.key} className={"nav-item nav-dropdown" + (this.state.tagsOpened?" open ": "")}>
                 <a
                   className="nav-link nav-dropdown-toggle"
                   href="#"
-                  onClick={handleClick.bind(this)}
+                  onClick={(e)=>{e.preventDefault();}}
                   >
                   {this.props.sidebar.tags.icon && <i className={this.props.sidebar.tags.icon} />}
-
-                  {i18n.t('tags')}
+                  <span onClick={(e)=>{e.preventDefault();this.setState({tagsOpened:!this.state.tagsOpened})}}>
+                    {i18n.t('tags')}
+                  </span>
+                  <span style={{float:'right',cursor:'pointer'}} onClick={()=>this.props.history.push("/tag/add")}>
+                    <i className={'fa fa-plus sidebarIcon'} />
+                  </span>
                 </a>
                 <ul className="nav-dropdown-items">
                     {
@@ -221,30 +223,69 @@ class Sidebar extends Component {
                         </NavLink>
                       </NavItem>
                     )}
-                    <NavItem key={'addTag'} className={classNames(undefined)}>
-                      <NavLink
-                        onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
-                        to={"/tag/add"}
-                        className={classNames("nav-link","")}
-                        activeClassName="active activeNavItem fontBold">
-                        <i className={'fa fa-plus sidebarIcon'} />
-                        <span className="sidebarItem">
-                        {i18n.t('tag')}
-                        </span>
-                      </NavLink>
-                    </NavItem>
                 </ul>
               </li>
 
-                {this.props.user.user_role.acl.includes('report_filters') && <li key={this.props.sidebar.reports.key} className={activeRoute('report', url) + (this.props.sidebar.reports.open ? " open ": "")}>
+              {(this.state.project.value==='all'|| this.props.archived.some((item)=>item.id===this.state.project.value)) && <li key={this.props.sidebar.archived.key} className={"nav-item nav-dropdown" + (this.state.archivedOpened?" open ": "")}>
+                  <a
+                    className="nav-link nav-dropdown-toggle"
+                    href="#"
+                    onClick={(e)=>{e.preventDefault();}}
+                    >
+                    {this.props.sidebar.archived.icon && <i className={this.props.sidebar.archived.icon} />}
+                    <span onClick={(e)=>{this.setState({archivedOpened:!this.state.archivedOpened})}}>
+                      {i18n.t('archived')}
+                    </span>
+                  </a>
+                <ul className="nav-dropdown-items">
+                  {
+                    this.props.archived.map((item,index)=>
+
+                    <NavItem key={index} className={classNames(item.class)}>
+                      <NavLink
+                        onClick={()=>this.setState({project:{value:item.id,label:item.name}})}
+                        to={
+                          this.state.filterSelected?'/filter/'+this.state.filterSelected+'/project/'+item.id:(
+                            this.state.tagSelected?'/tag/'+this.state.tagSelected+'/project/'+item.id:url
+                          )
+                        }
+                        className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
+                        activeClassName="active activeNavItem fontBold">
+                        {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
+                        <span
+                          className="sidebarItem"
+                          style={
+                            item.color
+                              ? {
+                                  backgroundColor: item.color.includes("#")
+                                    ? item.color
+                                    : "#" + item.color
+                                }
+                              : {}
+                          }
+                        >
+                        {item.name}
+                        </span>
+                        {badge(item.badge)}
+                        </NavLink>
+                    </NavItem>
+                  )}
+                </ul>
+              </li>}
+
+                {this.props.user.user_role.acl.includes('report_filters') && this.state.project.value==='all' && <li key={this.props.sidebar.reports.key} className={"nav-item nav-dropdown" + (this.state.reportsOpened ? " open ": "")}>
                     <a
                       className="nav-link nav-dropdown-toggle"
                       href="#"
-                      onClick={handleClick.bind(this)}
+                      onClick={(e)=>{e.preventDefault();}}
                       >
                       {this.props.sidebar.reports.icon && <i className={this.props.sidebar.reports.icon} />}
-
-                      {i18n.t('reports')}
+                      <span onClick={(e)=>{this.setState({reportsOpened:!this.state.reportsOpened})}}>
+                        {i18n.t('reports')}
+                      </span>
+                      <span style={{float:'right',cursor:'pointer'}} onClick={()=>this.props.history.push("/report/add")}>
+                        <i className={'fa fa-plus sidebarIcon'} />
+                      </span>
                     </a>
                     <ul className="nav-dropdown-items">
                       {
@@ -275,45 +316,17 @@ class Sidebar extends Component {
                           </NavLink>
                         </NavItem>
                       )}
-                      <NavItem key={'addReport'} className={classNames(undefined)}>
-                        <NavLink
-                          onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
-                          to={"/report/add"}
-                          className={classNames("nav-link","")}
-                          activeClassName="active activeNavItem fontBold">
-                          <i className={'fa fa-plus sidebarIcon'} />
-                          <span className="sidebarItem">
-                          {i18n.t('report')}
-                          </span>
-                        </NavLink>
-                      </NavItem>
-                    </ul>
-                  </li>}
-                  {/*FAKE FILTER*/}
-                <li key="reports" className={activeRoute('tag', url)}>
-                    <a
-                      className="nav-link nav-dropdown-toggle"
-                      href="#"
-                      onClick={handleClick.bind(this)}
-                      >
-                      <i className="fa fa-filter" />
-                      {i18n.t('reports')}
-                    </a>
-                    <ul className="nav-dropdown-items">
                       <NavItem key={'reportFilter'} className={classNames(undefined)}>
                         <NavLink
                           onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
                           to={"/reportTest/filter"}
                           className={classNames("nav-link","")}
                           activeClassName="active activeNavItem fontBold">
-                          <i className={'fa fa-plus sidebarIcon'} />
                           <span className="sidebarItem">
-                          {i18n.t('report')}
+                          {"Test create report"}
                           </span>
                         </NavLink>
                       </NavItem>
-                    </ul>
-                    <ul className="nav-dropdown-items">
                       <NavItem key={'someFilter'} className={classNames(undefined)}>
                         <NavLink
                           onClick={()=>this.setState({filterSelected:null,tagSelected:null})}
@@ -321,12 +334,12 @@ class Sidebar extends Component {
                           className={classNames("nav-link","")}
                           activeClassName="active activeNavItem fontBold">
                           <span className="sidebarItem">
-                          {"Some report"}
+                          {"Test report"}
                           </span>
                         </NavLink>
                       </NavItem>
                     </ul>
-                  </li>
+                  </li>}
           </Nav>
         }
         </nav>

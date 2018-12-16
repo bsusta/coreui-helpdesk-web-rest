@@ -1,4 +1,6 @@
 export default {
+  task:'Úloha',
+  filterActive:'Filter aktívny',
   globalSearch:'Vyhľadať globálne',
   noTasksFound:'Nenašli sa žiadne úlohy',
   creatingNewReport:'Vytvorenie nového reportu',

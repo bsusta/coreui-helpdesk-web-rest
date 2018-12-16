@@ -1,12 +1,12 @@
 .app-header.navbar{
-  background-color: #36404a;
+  background-color: rgb(25, 118, 210);
   left:0px;
-  height: 50px;
+  height: 54px;
 }
 
 .navbar-toggler{
-  font-size: 14px;
-  padding-left: 25px !important;
+  font-size: 24px;
+  padding-left: 15px !important;
 }
 
 .headerFiller{
@@ -24,10 +24,10 @@
 
 .nav-dropdown-toggle{
   i{
-    color: #98a6ad !important;
+    color: #797979 !important;
   }
-  color: #98a6ad !important;
-  font-size: 14px;
+  color: #797979 !important;
+  font-size: 13px;
 }
 .nav-dropdown-toggle::before{
   display:none !important;
@@ -62,6 +62,7 @@ body{
 
 .sidebarIcon{
   color:inherit;
+  font-size: 15px !important;
 }
 
 .nav-dropdown-items .nav-item:hover{
@@ -217,6 +218,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 10px 0;
     font-weight: 600;
     text-transform: none;
+    color:#343a40;
 }
 
 
@@ -234,6 +236,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .page-title{
+  margin:0px;
 }
 
 .card-header-ubold {
@@ -387,11 +390,40 @@ p{
 
 .btn-group {
   .active {
-    background-color: #545b62 !important;
-    border-color: #4e555b !important;
+    background-color: #4a81d4 !important;
+    border-color: #4a81d4 !important;
+    color:white !important;
     box-shadow: none !important;
   }
   .btn{
-    background-color: #6c757d;
+    background-color: inherit;
+    border: 1px solid #4a81d4;
+    color:#4a81d4;
+    height:32px;
+    width:32px;
+    padding:1px;
   }
+}
+
+.sidebarProjectSelect{
+  div{
+    border-radius: 50px;
+  }
+}
+.menu-title{
+  letter-spacing: .035em;
+  pointer-events: none;
+  cursor: default;
+  font-size: 13px;
+}
+
+.listSelectButton{
+  cursor: pointer;
+  border: none;
+  padding:0px;
+}
+
+.table-div{
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: .25rem;
 }

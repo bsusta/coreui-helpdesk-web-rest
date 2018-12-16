@@ -27,7 +27,7 @@
 //Header
 .headerIcons{
 	i{
-		font-size: 1.2em;
+		font-size: 22px;
 	}
 	a{
 		margin-bottom: auto;
@@ -109,7 +109,7 @@
 //Sidebar
 
 .sidebarProjectSelector{
-	margin: 15px;
+	margin: 16px;
 }
 
 .sidebar .sidebar-nav {
@@ -134,9 +134,6 @@
 .sidebarBadges{
 	border:1px solid #a3a3a3;
 	border-radius:10px;
-}
-.sidebarIcon{
-	font-size: $sidebar-text-size!important;
 }
 .sidebar .nav-link {
      padding: 0.5rem 1rem;
