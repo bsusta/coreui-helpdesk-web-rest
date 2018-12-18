@@ -128,7 +128,7 @@ class Tasks extends Component {
 								}
 							}
 						}} />
-					<span style={{paddingLeft:5}}>{" "+header}</span>
+					<span style={{paddingLeft:0}}>{" "+header}</span>
 				</h4>
 				</div>
 		</CardHeader>

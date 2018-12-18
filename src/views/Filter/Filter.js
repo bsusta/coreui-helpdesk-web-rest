@@ -248,7 +248,7 @@ class Filter extends Component {
 	render() {
 		let ACL = this.props.user.user_role.acl;
 		return (
-			<div className="filter">
+			<div className="filter" style={{marginLeft:0}}>
 					<Modal isOpen={this.state.saveOpen}>
 						<ModalHeader>{i18n.t('creatingNewFilter')}</ModalHeader>
 						<ModalBody>
@@ -567,7 +567,7 @@ class Filter extends Component {
 								<label className="mt-2 input-label">{i18n.t('createdDate')}</label>
 							</div>
 							<div className="col-6" style={{padding:0}}>
-								<span className="form-check checkbox" style={{marginBottom:0}}>
+								<span className="form-check checkbox" style={{marginBottom:0, float:"right"}}>
 									<input
 										type="checkbox"
 										id="createdToNow"
@@ -618,7 +618,7 @@ class Filter extends Component {
 								<label className="mt-2 input-label">{i18n.t('startedAt')}</label>
 							</div>
 							<div className="col-6" style={{padding:0}}>
-								<span className="form-check checkbox" style={{marginBottom:0}}>
+								<span className="form-check checkbox" style={{marginBottom:0,float:"right"}}>
 									<input
 										type="checkbox"
 										id="startedToNow"
@@ -669,7 +669,7 @@ class Filter extends Component {
 								<label className="mt-2 input-label">{i18n.t('deadline')}</label>
 							</div>
 							<div className="col-6" style={{padding:0}}>
-								<span className="form-check checkbox" style={{marginBottom:0}}>
+								<span className="form-check checkbox" style={{marginBottom:0,float:"right"}}>
 									<input
 										type="checkbox"
 										id="deadlineToNow"
@@ -721,7 +721,7 @@ class Filter extends Component {
 								<label className="mt-2 input-label">{i18n.t('closedAt')}</label>
 							</div>
 							<div className="col-6" style={{padding:0}}>
-								<span className="form-check checkbox" style={{marginBottom:0}}>
+								<span className="form-check checkbox" style={{marginBottom:0,float:"right"}}>
 									<input
 										type="checkbox"
 										id="closedToNow"
