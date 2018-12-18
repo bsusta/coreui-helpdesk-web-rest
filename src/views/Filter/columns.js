@@ -177,9 +177,23 @@ class Project extends Component {
                                 }
                               }}>
                               <div  className="d-flex flex-row justify-content-between" >
-                                  <label htmlFor='statusCheckbox-myTasks'>
+                                  <label className="mb-0">
                                     {task.title}
                                   </label>
+                              </div>
+                              <div style={{marginBottom:0}}>
+                                <p className="pull-right">
+                                  <i className="fa fa-clock-o" style={{marginRight:5}}/>
+                                  <span>
+                                    {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
+                                  </span>
+                                </p>
+                                <p className="text-muted">
+                                  Zadal:{task.requestedBy.username}
+                                </p>
+                                <p className="text-muted">
+                                  Riešil/i:{this.usersToString(task.taskHasAssignedUsers)}
+                                </p>
                               </div>
                               <div style={{marginBottom:5, width:'100%'}} className="row">
                                 {task.tags.map(tag => (
@@ -196,20 +210,6 @@ class Project extends Component {
                                     {tag.title}
                                   </span>
                                 ))}
-                              </div>
-                              <div style={{marginBottom:0}}>
-                                <p className="pull-right">
-                                  <i className="fa fa-clock-o" style={{marginRight:5}}/>
-                                  <span>
-                                    {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
-                                  </span>
-                                </p>
-                                <p className="fontBold text-muted">
-                                  Zadal:{task.requestedBy.username}
-                                </p>
-                                <p className="fontBold text-muted">
-                                  Riešil/i:{this.usersToString(task.taskHasAssignedUsers)}
-                                </p>
                               </div>
                             </li>
                           </div>
