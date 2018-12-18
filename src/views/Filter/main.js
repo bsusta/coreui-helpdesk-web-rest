@@ -132,9 +132,9 @@ class Tasks extends Component {
 				</h4>
 				</div>
 		</CardHeader>
-		<div className="row d-flex flex-row justify-content-between" style={{width:'100%', ...(this.props.showFilter?{paddingLeft:334}:{})}}>
+		<div className="row d-flex flex-row justify-content-between" style={{width:'100%', ...(this.props.showFilter?{paddingLeft:324}:{})}}>
 			<div className="page-menu row">
-		<button className="btn btn-primary waves-effect waves-light btn-sm" type="button" onClick={() => this.props.setShowFilter(!this.props.showFilter)}>
+		<button className="btn btn-primary waves-effect waves-light btn-sm mr-1" type="button" onClick={() => this.props.setShowFilter(!this.props.showFilter)}>
 			<i style={{fontSize:18}} className="fa fa-filter"/>
 		</button>
 		<span className="form-check center-hor checkbox">

@@ -736,7 +736,7 @@ class Filter extends Component {
 							</div>
 						</div>
 
-						<div className="d-flex flex-row justify-content-between fromToDates">
+						<div className="d-flex flex-row justify-content-between fromToDates mb-2">
 							<div>
 								<DatePicker
 									onChange={e => {
