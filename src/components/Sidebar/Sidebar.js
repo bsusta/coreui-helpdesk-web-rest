@@ -108,6 +108,7 @@ class Sidebar extends Component {
             </InputGroup>
           </FormGroup>
         </div>
+        <hr/>
         {
           this.props.sidebar &&
           <Nav>
@@ -174,6 +175,7 @@ class Sidebar extends Component {
                 )}
               </ul>
             </li>
+            <hr/>
 
               <li key={this.props.sidebar.tags.key} className={"nav-item nav-dropdown" + (this.state.tagsOpened?" open ": "")}>
                 <a
@@ -225,6 +227,7 @@ class Sidebar extends Component {
                     )}
                 </ul>
               </li>
+              <hr/>
 
               {(this.state.project.value==='all'|| this.props.archived.some((item)=>item.id===this.state.project.value)) && <li key={this.props.sidebar.archived.key} className={"nav-item nav-dropdown" + (this.state.archivedOpened?" open ": "")}>
                   <a
@@ -266,12 +269,12 @@ class Sidebar extends Component {
                         >
                         {item.name}
                         </span>
-                        {badge(item.badge)}
                         </NavLink>
                     </NavItem>
                   )}
                 </ul>
               </li>}
+              { (this.state.project.value==='all'|| this.props.archived.some((item)=>item.id===this.state.project.value)) && <hr/>}
 
                 {this.props.user.user_role.acl.includes('report_filters') && this.state.project.value==='all' && <li key={this.props.sidebar.reports.key} className={"nav-item nav-dropdown" + (this.state.reportsOpened ? " open ": "")}>
                     <a
@@ -297,7 +300,6 @@ class Sidebar extends Component {
                             to={'/report/'+item.id}
                             className={classNames("nav-link",item.variant ? `nav-link-${item.variant}` : "")}
                             activeClassName="active activeNavItem fontBold">
-                            {item.icon && <i className={item.icon+ ' sidebarIcon'} />}
                             <span
                               className="sidebarItem"
                               style={
@@ -340,6 +342,7 @@ class Sidebar extends Component {
                       </NavItem>
                     </ul>
                   </li>}
+                  {this.props.user.user_role.acl.includes('report_filters') && this.state.project.value==='all' && <hr/>}
           </Nav>
         }
         </nav>

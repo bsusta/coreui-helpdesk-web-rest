@@ -113,7 +113,7 @@ class Project extends Component {
               </li>
             }
               {this.props.tasks.map(task => (
-                <li className={task.id===this.state.taskID?"list-group-item item-in-column highlighted-item-in-column":"list-group-item item-in-column"} style={{borderLeftColor:task.status.color, cursor:'pointer'}} key={task.id}
+                <li className="list-group-item item-in-column" style={{borderLeftColor:status.color}} key={task.id}
                   onClick={()=>{
                       this.setState({taskID:task.id, canEdit:task.canEdit});
                         if( task.canEdit){
@@ -123,13 +123,27 @@ class Project extends Component {
                         }
                     }}>
                   <div  className="d-flex flex-row justify-content-between" >
-                    <label htmlFor='statusCheckbox-myTasks'>
-                      {task.title}
-                    </label>
+                      <label className="mb-0">
+                        {task.title}
+                      </label>
+                  </div>
+                  <div style={{marginBottom:0}}>
+                    <p className="pull-right">
+                      <i className="fa fa-clock-o" style={{marginRight:5}}/>
+                      <span>
+                        {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
+                      </span>
+                    </p>
+                    <p className="text-muted">
+                      Zadal:{task.requestedBy.username}
+                    </p>
+                    <p className="text-muted">
+                      Riešil/i:{this.usersToString(task.taskHasAssignedUsers)}
+                    </p>
                   </div>
                   <div style={{marginBottom:5, width:'100%'}} className="row">
                     {task.tags.map(tag => (
-                      <div
+                      <span
                         key={tag.id}
                         className="badge mr-1"
                         style={{
@@ -140,22 +154,8 @@ class Project extends Component {
                         }}
                         >
                         {tag.title}
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{marginBottom:0}}>
-                    <p className="pull-right">
-                      <i className="fa fa-clock-o" style={{marginRight:5}}/>
-                      <span>
-                        {task.deadline ? timestampToString(task.deadline) :  i18n.t('none')}
                       </span>
-                    </p>
-                    <p className="fontBold text-muted">
-                      Zadal:{task.requestedBy.username}
-                    </p>
-                    <p className="fontBold text-muted">
-                      Riešil/i:{this.usersToString(task.taskHasAssignedUsers)}
-                    </p>
+                    ))}
                   </div>
                 </li>
               ))}

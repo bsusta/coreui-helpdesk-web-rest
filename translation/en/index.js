@@ -1,5 +1,6 @@
 export default {
   task:'Task',
+  attachment:'Attachment',
   filterActive:'Filter active',
   noTasksFound:'No tasks were found',
   creatingNewReport:'Creating new report',

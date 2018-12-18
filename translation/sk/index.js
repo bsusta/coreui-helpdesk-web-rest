@@ -1,5 +1,6 @@
 export default {
   task:'Úloha',
+  attachment:'Príloha',
   filterActive:'Filter aktívny',
   globalSearch:'Vyhľadať globálne',
   noTasksFound:'Nenašli sa žiadne úlohy',

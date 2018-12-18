@@ -382,6 +382,8 @@ class EditTask extends Component {
                           </div>
                           }
                           {!this.props.disabled &&
+                          <div className="row">
+                          <label htmlFor="status" className="input-label center-hor mr-2">{i18n.t("tags")+":"}</label>
                           <MultiSelect
                             id="tags"
                             data={this.props.tags}
@@ -434,15 +436,16 @@ class EditTask extends Component {
                               padding: 0,
                               fontSize:'14px',
                               marginBottom:'0px',
-                              color:'#797979'
-
+                              color:'red'
                             }}
-                            label={i18n.t("tags")+":"}
+                            toggleClassName="btn-link btn uploadButton"
+                            label={'+ '+i18n.t("tag")}
                             onChange={(ids, items) => {
                               this.autoSubmit("tags", ids);
                               this.setState({ tags: ids });
                             }}
                             />
+                          </div>
                         }
                         </div>
                           <div className="row experimentalRowTask">
@@ -1113,7 +1116,8 @@ class EditTask extends Component {
                           {!this.props.disabled &&
                             <div>
                             <div className="form-group" style={{ marginBottom: 0 }}>
-                            <label htmlFor="fileUpload" className="input-label">{i18n.t("attachments")}</label>
+                              <div className="row">
+                            <label className="input-label center-hor mr-2">{i18n.t("attachments")+":"}</label>
                             <input
                               type="file"
                               id="fileUpload"
@@ -1135,13 +1139,13 @@ class EditTask extends Component {
                                 }, 4000);
                               }}
                               />
-                            <div className="row">
+
                             <label
                               htmlFor="fileUpload"
                               className="btn-link btn uploadButton"
                               style={{paddingLeft:0}}
                               >
-                                {i18n.t("addAttachment")}
+                                {'+ '+i18n.t("attachment")}
                             </label>
                             {this.props.attachments.map((item,index) => (
                               <span
