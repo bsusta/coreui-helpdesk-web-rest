@@ -35,14 +35,7 @@ import {
 import { createReport, editReport, deleteReport, setReportBody, changeUpdateAt, setReportForceUpdate } from '../../redux/actions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-const colourStyles = {
-	control: styles => ({
-		...styles,
-		backgroundColor: 'white',
-		borderRadius: '0',
-		border: '1px solid #c2cfd6',
-	}),
-};
+import { selectStyle } from "../../generalAttributes";
 
 class Report extends Component {
 	constructor(props) {
@@ -374,7 +367,7 @@ class Report extends Component {
 
 						<label className="mt-1 input-label">{i18n.t('requester')}</label>
 						<Select
-							styles={colourStyles}
+							styles={selectStyle}
 							isMulti
 							value={this.state.requesters}
 							options={[{ label: 'Current user', id: 'CURRENT-USER', value: 'CURRENT-USER' }].concat(
@@ -402,14 +395,14 @@ class Report extends Component {
 								return company;
 							}))}
 							isMulti
-							styles={colourStyles}
+							styles={selectStyle}
 							onChange={e => this.setState({ companies: e })}
 							value={this.state.companies}
 						/>
 
 						<label className="mt-2 input-label">{i18n.t('assigned')}</label>
 						<Select
-							styles={colourStyles}
+							styles={selectStyle}
 							isMulti
 							options={[
 								{ label: 'NOT', id: 'NOT', value: 'NOT' },
@@ -433,7 +426,7 @@ class Report extends Component {
 
 						<label className="mt-2 input-label">{i18n.t('createdBy')}</label>
 						<Select
-							styles={colourStyles}
+							styles={selectStyle}
 							isMulti
 							options={[{ label: 'Current user', id: 'CURRENT-USER', value: 'CURRENT-USER' }].concat(
 								this.props.users.map(user => {
@@ -454,7 +447,7 @@ class Report extends Component {
 						<label className="mt-1">{i18n.t('follower')}</label>
 						<Select
 							isMulti
-							styles={colourStyles}
+							styles={selectStyle}
 							options={[{ label: 'Current user', id: 'CURRENT-USER', value: 'CURRENT-USER' }].concat(
 								this.props.users.map(user => {
 									user.label =
@@ -479,7 +472,7 @@ class Report extends Component {
 								return tag;
 							})}
 							isMulti
-							styles={colourStyles}
+							styles={selectStyle}
 							style={{ width: '100%' }}
 							onChange={e => this.setState({ tags: e })}
 							value={this.state.tags}

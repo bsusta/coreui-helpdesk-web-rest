@@ -9,7 +9,7 @@ import {
   Input
 } from "reactstrap";
 import MessagesDropdown from "./MessagesDropdown";
-import {logoutUser, setFilterBody, setTripod, setColumns,setActiveRequests, setFilterForceUpdate} from '../../redux/actions';
+import {logoutUser, setFilterBody, setTripod, setColumns,setActiveRequests, setFilterForceUpdate, setGlobalSearch} from '../../redux/actions';
 import { connect } from "react-redux";
 import i18n from "i18next";
 import ErrorMessagesDropdown from "./ErrorMessagesDropdown";
@@ -80,6 +80,7 @@ class Header extends Component {
           onClick={() => {
             this.props.history.push('/filter/add/project/all/'+this.props.body.page+','+this.props.body.count);
             this.props.setFilterBody({search:this.state.search, projectID:'all', filterID:'add', tagID:null,body:{title:this.state.search}},true);
+            this.props.setGlobalSearch(true);
             this.props.setFilterForceUpdate(true);
           }}
           style={{}}
@@ -140,4 +141,4 @@ const mapStateToProps = ({ login, loadingReducer, errorsReducer, filtersReducer,
   return { user, token, activeRequests, errorMessages, body,tripod, columns };
 };
 
-export default connect(mapStateToProps, { logoutUser, setFilterBody,setTripod, setColumns, setActiveRequests, setFilterForceUpdate })(Header);
+export default connect(mapStateToProps, { logoutUser, setFilterBody,setTripod, setColumns, setActiveRequests, setFilterForceUpdate, setGlobalSearch })(Header);

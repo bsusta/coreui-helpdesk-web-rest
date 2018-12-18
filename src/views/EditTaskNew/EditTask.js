@@ -453,21 +453,14 @@ class EditTask extends Component {
                                 </div>
                                 <div className="col-9">
                                 <InputGroup>
-                                  {((!this.props.disabled && this.state.status)|| (this.props.disabled &&this.props.task.status)) &&
-                                    <span className="coloredSelect"
-                                      style={{
-                                        color:this.props.disabled?this.props.task.status.color:this.props.statuses.find(
-                                          status => status.id === this.state.status
-                                        ).color}}
-                                        ><i className="fa fa-circle" style={{paddingTop:10}}/></span>
-                                    }
                                     <select
                                       disabled={this.props.disabled}
                                       className="form-control"
                                       style={{
                                         borderLeft:'none',
                                         paddingLeft:3,
-                                        color: this.props.disabled?this.props.task.status.color:this.props.statuses.find(
+                                        color:'white',
+                                        backgroundColor: this.props.disabled?this.props.task.status.color:this.props.statuses.find(
                                           status => status.id == this.state.status
                                         ).color
                                       }}
@@ -507,6 +500,35 @@ class EditTask extends Component {
                                 </div>
                               </div>
                               <div className="col-6">
+                                <div className="row experimentalRowWrapper">
+                                  <div className="col-3" style={{paddingLeft:0}}>
+                                  <label htmlFor="deadline" className="input-label center-hor">{i18n.t("deadline")}</label>
+                                </div>
+                                <div className="col-9">
+                                  <InputGroup>
+                                    <div style={{ width: "100%" }} className="datepickerWrap">
+                                      <DatePicker
+                                        disabled={this.props.disabled}
+                                        selected={this.props.disabled ?(this.props.task.deadline
+                                        ? moment(this.props.task.deadline * 1000)
+                                        : null):this.state.deadline}
+                                        onChange={e => {
+                                          this.autoSubmit("deadline", e);
+                                          this.setState({ deadline: e });
+                                        }}
+                                        locale="en-gb"
+                                        placeholderText="Deadline"
+                                        showTimeSelect
+                                        timeFormat="HH:mm"
+                                        timeIntervals={30}
+                                        dateFormat="DD.MM.YYYY HH:mm"
+                                        />
+                                    </div>
+                                  </InputGroup>
+                                </div>
+                                </div>
+                              </div>
+                              <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
                                 <div className="col-3" style={{paddingLeft:0}}>
                                 <label htmlFor="project" className="req input-label center-hor">
@@ -555,12 +577,12 @@ class EditTask extends Component {
                               </div>
                               </div>
                             </div>
-                            <div className="col-6" style={{paddingLeft:0}}>
+                            <div className="col-6">
                               {
                                 <Repeat disabled={this.props.disabled} onToogle={()=>this.setState({openRepeat:!this.state.openRepeat})} open={this.state.openRepeat} defaultState={this.props.repeat} taskID={this.props.task.id} />
                               }
                             </div>
-                            <div className="col-6">
+                            <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
                                 <div className="col-3" style={{paddingLeft:0}}>
                                 <label htmlFor="requester" className="req input-label center-hor">{i18n.t('requester')}</label>
@@ -617,6 +639,27 @@ class EditTask extends Component {
                                 </div>
                                 </div>
                               </div>
+                              <div className="col-6">
+                                <div className="row experimentalRowWrapper">
+                                  <div className="col-3" style={{paddingLeft:0}}>
+                                  <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
+                                </div>
+                                <div className="col-9">
+                                  <input
+                                    disabled={this.props.disabled}
+                                    className="form-control"
+                                    type="number"
+                                    id="workTime"
+                                    value={this.props.disabled?this.props.task.work_time:this.state.workTime}
+                                    onChange={e => {
+                                      this.autoSubmit("workTime", e.target.value);
+                                      this.setState({ workTime: e.target.value });
+                                    }}
+                                    placeholder={i18n.t("enterWorkTime")}
+                                    />
+                                  </div>
+                            </div>
+                          </div>
                               <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
                                 <div className="col-3" style={{paddingLeft:0}}>
@@ -663,6 +706,35 @@ class EditTask extends Component {
                                 </div>
                               </div>
                               <div className="col-6">
+                                <div className="row experimentalRowWrapper">
+                                  <div className="col-3" style={{paddingLeft:0}}>
+                                  <label htmlFor="startedAt" className="input-label center-hor">{i18n.t("startedAt")}</label>
+                                </div>
+                                <div className="col-9">
+                                  <InputGroup>
+                                    <div style={{ width: "100%" }} className="datepickerWrap">
+                                      <DatePicker
+                                        selected={this.props.disabled?(this.props.task.startedAt
+                                        ? moment(this.props.task.startedAt * 1000)
+                                        : null):this.state.startedAt}
+                                        onChange={e => {
+                                          this.autoSubmit("startedAt", e);
+                                          this.setState({ startedAt: e });
+                                        }}
+                                        locale="en-gb"
+                                        placeholderText={i18n.t("startedAt")}
+                                        showTimeSelect
+                                        timeFormat="HH:mm"
+                                        timeIntervals={30}
+                                        dateFormat="DD.MM.YYYY HH:mm"
+                                        disabled={this.props.disabled}
+                                        />
+                                    </div>
+                                  </InputGroup>
+                                </div>
+                                </div>
+                              </div>
+                              <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
                                 <div className="col-3" style={{paddingLeft:0}}>
                                   <label htmlFor="assigned" className="input-label center-hor">{i18n.t("assigned")}</label>
@@ -697,63 +769,7 @@ class EditTask extends Component {
                                 </div>
                                 </div>
                             </div>
-                            <div className="col-6" style={{paddingLeft:0}}>
-                              <div className="row experimentalRowWrapper">
-                                <div className="col-3" style={{paddingLeft:0}}>
-                                <label htmlFor="startedAt" className="input-label center-hor">{i18n.t("startedAt")}</label>
-                              </div>
-                              <div className="col-9">
-                                <InputGroup>
-                                  <div style={{ width: "100%" }} className="datepickerWrap">
-                                    <DatePicker
-                                      selected={this.props.disabled?(this.props.task.startedAt
-                                      ? moment(this.props.task.startedAt * 1000)
-                                      : null):this.state.startedAt}
-                                      onChange={e => {
-                                        this.autoSubmit("startedAt", e);
-                                        this.setState({ startedAt: e });
-                                      }}
-                                      locale="en-gb"
-                                      placeholderText={i18n.t("startedAt")}
-                                      showTimeSelect
-                                      timeFormat="HH:mm"
-                                      timeIntervals={30}
-                                      dateFormat="DD.MM.YYYY HH:mm"
-                                      disabled={this.props.disabled}
-                                      />
-                                  </div>
-                                </InputGroup>
-                              </div>
-                              </div>
-                            </div>
                             <div className="col-6">
-                              <div className="row experimentalRowWrapper">
-                                <div className="col-3" style={{paddingLeft:0}}>
-                                <label htmlFor="deadline" className="input-label center-hor">{i18n.t("deadline")}</label>
-                              </div>
-                              <div className="col-9">
-                                <InputGroup>
-                                  <div style={{ width: "100%" }} className="datepickerWrap">
-                                    <DatePicker
-                                      disabled={this.props.disabled}
-                                      selected={this.props.disabled ?(this.props.task.deadline
-                                      ? moment(this.props.task.deadline * 1000)
-                                      : null):this.state.deadline}
-                                      onChange={e => {
-                                        this.autoSubmit("deadline", e);
-                                        this.setState({ deadline: e });
-                                      }}
-                                      locale="en-gb"
-                                      placeholderText="Deadline"
-                                      showTimeSelect
-                                      timeFormat="HH:mm"
-                                      timeIntervals={30}
-                                      dateFormat="DD.MM.YYYY HH:mm"
-                                      />
-                                  </div>
-                                </InputGroup>
-                              </div>
-                              </div>
                             </div>
                             <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
@@ -782,27 +798,7 @@ class EditTask extends Component {
                               </div>
                               </div>
                             </div>
-                            <div className="col-6">
-                              <div className="row experimentalRowWrapper">
-                                <div className="col-3" style={{paddingLeft:0}}>
-                                <label htmlFor="workTime" className="input-label">{i18n.t("workTime")}</label>
-                              </div>
-                              <div className="col-9">
-                                <input
-                                  disabled={this.props.disabled}
-                                  className="form-control"
-                                  type="number"
-                                  id="workTime"
-                                  value={this.props.disabled?this.props.task.work_time:this.state.workTime}
-                                  onChange={e => {
-                                    this.autoSubmit("workTime", e.target.value);
-                                    this.setState({ workTime: e.target.value });
-                                  }}
-                                  placeholder={i18n.t("enterWorkTime")}
-                                  />
-                                </div>
-                          </div>
-                        </div>
+
                             { this.props.taskAttributes.filter((item)=>item.is_active).map((attribute,index) => {
                                   switch (attribute.type) {
                                     case "input":

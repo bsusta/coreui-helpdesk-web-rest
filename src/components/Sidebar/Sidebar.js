@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Badge, Nav, NavItem, NavLink as RsNavLink,FormGroup, InputGroup } from "reactstrap";
 import classNames from "classnames";
 import { connect } from "react-redux";
-import { getSidebar } from "../../redux/actions";
+import { getSidebar, setGlobalSearch } from "../../redux/actions";
 import i18n from 'i18next';
 import Select from "react-select";
 import colors from '../../../scss/colors';
@@ -139,7 +139,7 @@ class Sidebar extends Component {
                   <span onClick={(e)=>{this.setState({filtersOpened:!this.state.filtersOpened})}}>
                     {i18n.t('filters')}
                   </span>
-                  <span style={{float:'right',cursor:'pointer'}} onClick={()=>this.props.history.push("/filter/add"+'/project/'+this.state.project.value)}>
+                  <span style={{float:'right',cursor:'pointer'}} onClick={()=>{this.props.setGlobalSearch(false); this.props.history.push("/filter/add"+'/project/'+this.state.project.value);}}>
                     <i className={'fa fa-plus sidebarIcon'} />
                   </span>
                 </a>
@@ -357,4 +357,4 @@ const mapStateToProps = ({ sidebarReducer, login, filtersReducer }) => {
   return { sidebar,date, token, user, projects,archived, body };
 };
 
-export default connect(mapStateToProps, { getSidebar })(Sidebar);
+export default connect(mapStateToProps, { getSidebar, setGlobalSearch })(Sidebar);

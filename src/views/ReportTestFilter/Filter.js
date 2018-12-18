@@ -25,6 +25,7 @@ import moment from 'moment';
 import i18n from 'i18next';
 import Select from 'react-select';
 import { connect } from 'react-redux';
+import { selectStyle } from "../../generalAttributes";
 import {
 	initialiseCustomAttributes,
 	processCustomFilterAttributes,
@@ -34,15 +35,6 @@ import {
 } from '../../helperFunctions';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 const fakeData=[{value:'opt1',label:'opt1'},{value:'opt2',label:'opt2'},{value:'opt3',label:'opt3'},{value:'opt4',label:'opt4'},{value:'opt5',label:'opt5'},{value:'opt6',label:'opt6'},{value:'opt7',label:'opt7'},{value:'opt8',label:'opt8'},{value:'opt9',label:'opt9'},{value:'opt10',label:'opt10'},{value:'opt11',label:'opt11'}];
-
-const colourStyles = {
-	control: styles => ({
-		...styles,
-		backgroundColor: 'white',
-		borderRadius: '0',
-		border: '1px solid #c2cfd6',
-	}),
-};
 
 export default class Filter extends Component {
 	constructor(props) {
@@ -246,13 +238,13 @@ export default class Filter extends Component {
 								isMulti
 								value={this.state.statuses}
 								onChange={e => this.setState({ statuses: e })}
-								styles={colourStyles}
+								styles={selectStyle}
 							/>
 						</FormGroup>
 
 						<label className="mt-1 input-label">{i18n.t('requester')}</label>
 						<Select
-							styles={colourStyles}
+							styles={selectStyle}
 							isMulti
 							value={this.state.requesters}
 							options={fakeData}
@@ -263,14 +255,14 @@ export default class Filter extends Component {
 						<Select
 							options={fakeData}
 							isMulti
-							styles={colourStyles}
+							styles={selectStyle}
 							onChange={e => this.setState({ companies: e })}
 							value={this.state.companies}
 						/>
 
 						<label className="mt-2 input-label">{i18n.t('assigned')}</label>
 						<Select
-							styles={colourStyles}
+							styles={selectStyle}
 							isMulti
 							options={fakeData}
 							onChange={e => this.setState({ assignedTos: e })}
@@ -279,7 +271,7 @@ export default class Filter extends Component {
 
 						<label className="mt-2 input-label">{i18n.t('createdBy')}</label>
 						<Select
-							styles={colourStyles}
+							styles={selectStyle}
 							isMulti
 							options={fakeData}
 							onChange={e => this.setState({ creators: e })}
@@ -288,7 +280,7 @@ export default class Filter extends Component {
 						<label className="mt-1">{i18n.t('follower')}</label>
 						<Select
 							isMulti
-							styles={colourStyles}
+							styles={selectStyle}
 							options={fakeData}
 							onChange={e => this.setState({ followers: e })}
 							value={this.state.followers}
@@ -297,7 +289,7 @@ export default class Filter extends Component {
 						<Select
 							options={fakeData}
 							isMulti
-							styles={colourStyles}
+							styles={selectStyle}
 							style={{ width: '100%' }}
 							onChange={e => this.setState({ tags: e })}
 							value={this.state.tags}

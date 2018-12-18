@@ -50,9 +50,9 @@ class Subtasks extends Component {
           <thead className="thead-inverse">
             <tr>
               <th style={{ border: "0px" }}>{i18n.t('subtasks')}</th>
-              <th style={{ width: "150px", border: "0px" }}>{i18n.t('from2')}</th>
+              {/*<th style={{ width: "150px", border: "0px" }}>{i18n.t('from2')}</th>
               <th style={{ width: "150px", border: "0px" }}>{i18n.t('to2')}</th>
-              <th style={{ width: "10%", border: "0px" }}>{i18n.t('hours2')}</th>
+              <th style={{ width: "10%", border: "0px" }}>{i18n.t('hours2')}</th>*/}
               {!this.props.disabled && <th style={{ width: "40px", border: "0px", textAlign: "right" }}/>}
             </tr>
           </thead>
@@ -117,6 +117,7 @@ class Subtasks extends Component {
                     />
                   </div>
                 </td>
+                {/*
                 <td><div style={{ display: "flex" }}>
                   <div style={{ width: "100%"}} className="datepickerWrap subtaskDatepickerWrap">
                     <DatePicker
@@ -261,14 +262,13 @@ class Subtasks extends Component {
                       this.setState({ editedSubtaskHours: hours })}
                     }
                   />
-                </div></td>
+              </div></td>*/}
                 <td style={{ border: "0px" }}>
                   {!this.props.disabled && <div
-                    style={{ float: "right", paddingRight: 20 }}
                     className="row"
                   >
                     <button
-                      className="btn btn-sm btn-link"
+                      className="btn btn-sm btn-link taskAddButton"
                       onClick={() => {
                         this.props.deleteSubtask(
                           subtask.id,
@@ -320,6 +320,7 @@ class Subtasks extends Component {
                   />
                 </div>
               </td>
+              {/*
               <td><div style={{ display: "flex" }}>
                 <div style={{ width: "100%"}} className="datepickerWrap subtaskDatepickerWrap">
                   <DatePicker
@@ -435,11 +436,11 @@ class Subtasks extends Component {
                   this.setState(changes)}
                 }
               />
-              </div></td>
+          </div></td>*/}
             <td>
               <span className="center-hor">
                 <button
-                  className="btn btn-sm btn-link mr-1 taskAddButton"
+                  className="btn btn-sm btn-link taskAddButton"
                   disabled={this.props.disabled}
                   onClick={()=>{
                     if(this.props.disabled)return;
@@ -464,7 +465,7 @@ class Subtasks extends Component {
               </span>
             </td>
             </tr>}
-            <tr className="table-info">
+            {false && <tr className="table-info">
               <td colSpan="5"
                 style={{ borderTop: 0, textAlign: "right" }}
               >
@@ -473,7 +474,7 @@ class Subtasks extends Component {
                   {this.sumHours()} {i18n.t('hours')}
                 </span>
               </td>
-            </tr>
+            </tr>}
           </tbody>
         </table>
       </div>

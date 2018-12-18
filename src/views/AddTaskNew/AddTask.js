@@ -39,17 +39,10 @@ import i18n from "i18next";
 import Repeat from './repeat';
 import Materials from './materials';
 import Subtasks from './subtasks';
+import { selectStyle } from "../../generalAttributes";
 
 const workTypes=['vzdialena podpora','servis IT','servis serverov','programovanie www','instalacie klientskeho os','bug reklamacia','navrh','material','cenova ponuka','administrativa','konzultacia','refakturacia','testovanie'];
 const indexOfNoPadding=2;
-const colourStyles = {
-  control: styles => ({ ...styles,
-                           backgroundColor: 'white',
-                           borderRadius:"0",
-                           border: '1px solid #c2cfd6',
-                      }),
-}
-
 
 class AddTask extends Component {
 	constructor(props) {
@@ -395,7 +388,7 @@ class AddTask extends Component {
                                 <label htmlFor="requester" className="req input-label center-hor">{i18n.t('requester')}</label>
                                   <InputGroup className={!this.props.disabled&&this.state.requestedBy.id===undefined?"fieldError":""}>
                                     <Select
-                                      styles={colourStyles}
+                                      styles={selectStyle}
                                       className="fullWidth"
                                       isDisabled={this.props.disabled}
                                       options={this.props.users.map(user => {
@@ -433,7 +426,7 @@ class AddTask extends Component {
 
                                   <InputGroup className={!this.props.disabled && this.state.company===undefined?"fieldError":""}>
                                     <Select
-                                     styles={colourStyles}
+                                     styles={selectStyle}
                                       className="fullWidth"
                                       options={
                                         (this.props.companies.map(company => {
@@ -619,7 +612,7 @@ class AddTask extends Component {
                                             {attribute.title}
                                           </label>
                                           <Select
-                                            styles={colourStyles}
+                                            styles={selectStyle}
                                             id={attribute.id}
                                             className="fullWidth"
                                             isDisabled={this.props.disabled}
@@ -657,7 +650,7 @@ class AddTask extends Component {
                                                     {attribute.title}
                                                   </label>
                                                   <Select
-                                                    styles={colourStyles}
+                                                    styles={selectStyle}
                                                     id={attribute.id}
                                                     className="fullWidth"
                                                     isDisabled={this.props.disabled}
@@ -802,7 +795,7 @@ class AddTask extends Component {
                             </label>
                             <InputGroup>
                             <Select
-                             styles={colourStyles}
+                             styles={selectStyle}
                              isDisabled={this.props.disabled}
                              className="fullWidth"
                               options={this.props.users.map(user => {

@@ -1,5 +1,5 @@
 import { CLEAR_FILTER_TASKS, SET_FILTERED_TASKS, SET_FILTER,SET_FILTER_PAGE,SET_SHOW_FILTER,SET_FILTER_LOADING, LOGIN_LOGOUT, SET_FILTER_ORDER, SET_UPDATE_AT, EDIT_TASK,
-  SET_FILTER_BODY, ADD_TO_FILTER_BODY, SET_FILTER_FORCE_UPDATE, SET_RESETABLE_FILTER } from '../types';
+  SET_FILTER_BODY, ADD_TO_FILTER_BODY, SET_FILTER_FORCE_UPDATE, SET_RESETABLE_FILTER, SET_GLOBAL_SEARCH } from '../types';
 import {createEmptyFilterBody} from '../../helperFunctions';
 const initialState = {
   numberOfPages:0,
@@ -11,11 +11,15 @@ const initialState = {
   filter:null,
   forceUpdate:false,
   resetableFilter:false,
+  globalSearch:false,
 };
 
 
 export default function filtersReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_GLOBAL_SEARCH:{
+      return {...state, globalSearch:action.globalSearch};
+    }
     case SET_RESETABLE_FILTER:{
       return {...state, resetableFilter:action.resetableFilter};
     }

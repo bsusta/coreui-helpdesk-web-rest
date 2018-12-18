@@ -95,8 +95,12 @@ class Tasks extends Component {
 					header = this.props.projects[index].name;
 					icon = 'fa fa-folder-open';
 				}else{
-					header = i18n.t('newFilter'),
-					icon = 'fa fa-filter'
+					if(this.props.globalSearch){
+						header = i18n.t('globalSearch');						
+					}else{
+						header = i18n.t('newFilter');
+						icon = 'fa fa-filter';
+					}
 				}
 			}
 		} else if (this.props.match.params.tagID) {
@@ -232,7 +236,7 @@ class Tasks extends Component {
 }
 
 const mapStateToProps = ({  filtersReducer, tasksReducer,taskAttributesReducer,companiesReducer,  sidebarReducer, statusesReducer,usersReducer,  login }) => {
-	const { showFilter, body, resetableFilter } = filtersReducer;
+	const { showFilter, body, resetableFilter, globalSearch } = filtersReducer;
 	const { tripod , columns } = tasksReducer;
 	const { taskAttributes} = taskAttributesReducer;
 	const { taskCompanies } = companiesReducer;
@@ -256,6 +260,7 @@ const mapStateToProps = ({  filtersReducer, tasksReducer,taskAttributesReducer,c
 		columns,
 		tripod,
 		projectsOnly,
+		globalSearch,
 		archived,
 		projects:[...projectsOnly,...archived],
 		tags,
