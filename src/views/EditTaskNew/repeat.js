@@ -76,7 +76,7 @@ class Repeat extends Component {
     return (
       <div className="row experimentalRowWrapper">
         <div className="col-3" style={{paddingLeft:0}}>
-        <label htmlFor="assigned" className="input-label center-hor">{i18n.t("repeat")}</label>
+        <label htmlFor="assigned" className="input-label">{i18n.t("repeat")}</label>
       </div>
       <div className="col-9">
         <InputGroup>
@@ -91,8 +91,6 @@ class Repeat extends Component {
                 textAlign: "left",
                 backgroundColor: "white",
                 border: '1px solid #D9D9D9',
-                marginTop:'5px',
-                marginBottom:'5px',
                 maxHeight:'30px',
               }}
               >

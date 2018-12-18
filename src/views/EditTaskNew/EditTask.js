@@ -326,7 +326,7 @@ class EditTask extends Component {
                                 id="title"
                                 placeholder={i18n.t("enterTitle")}
                                 value={(!this.props.disabled && this.state.title)?this.state.title:this.props.task.title}
-                                style={{ fontSize: 24, border:'none',...(!this.state.openEditTitle?{position:'absolute', top:-300}:{}) }}
+                                style={{ fontSize: 24, border:'none',maxHeight:'none',...(!this.state.openEditTitle?{position:'absolute', top:-300}:{}) }}
                                 disabled={this.props.disabled}
                                 onFocus={()=>this.setState({openEditTitle:!this.state.openEditTitle})}
                                 onBlur={()=>this.setState({openEditTitle:!this.state.openEditTitle})}
@@ -770,8 +770,6 @@ class EditTask extends Component {
                                 </div>
                             </div>
                             <div className="col-6">
-                            </div>
-                            <div className="col-6" style={{paddingLeft:0}}>
                               <div className="row experimentalRowWrapper">
                                 <div className="col-3" style={{paddingLeft:0}}>
                                 <label htmlFor="work" className="input-label center-hor">{i18n.t("work")}</label>
