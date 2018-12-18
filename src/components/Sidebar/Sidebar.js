@@ -175,7 +175,9 @@ class Sidebar extends Component {
                 )}
               </ul>
             </li>
+            </Nav>}
             <hr/>
+              {this.props.sidebar && <Nav>
 
               <li key={this.props.sidebar.tags.key} className={"nav-item nav-dropdown" + (this.state.tagsOpened?" open ": "")}>
                 <a
@@ -227,8 +229,10 @@ class Sidebar extends Component {
                     )}
                 </ul>
               </li>
-              <hr/>
+            </Nav>}
 
+            { (this.state.project.value==='all'|| this.props.archived.some((item)=>item.id===this.state.project.value)) && <hr/>}
+            {this.props.sidebar && <Nav>
               {(this.state.project.value==='all'|| this.props.archived.some((item)=>item.id===this.state.project.value)) && <li key={this.props.sidebar.archived.key} className={"nav-item nav-dropdown" + (this.state.archivedOpened?" open ": "")}>
                   <a
                     className="nav-link nav-dropdown-toggle"
@@ -274,8 +278,12 @@ class Sidebar extends Component {
                   )}
                 </ul>
               </li>}
-              { (this.state.project.value==='all'|| this.props.archived.some((item)=>item.id===this.state.project.value)) && <hr/>}
+            </Nav>}
 
+
+
+            {this.props.user.user_role.acl.includes('report_filters') && this.state.project.value==='all' && <hr/>}
+            {this.props.sidebar && <Nav>
                 {this.props.user.user_role.acl.includes('report_filters') && this.state.project.value==='all' && <li key={this.props.sidebar.reports.key} className={"nav-item nav-dropdown" + (this.state.reportsOpened ? " open ": "")}>
                     <a
                       className="nav-link nav-dropdown-toggle"
@@ -342,7 +350,6 @@ class Sidebar extends Component {
                       </NavItem>
                     </ul>
                   </li>}
-                  {this.props.user.user_role.acl.includes('report_filters') && this.state.project.value==='all' && <hr/>}
           </Nav>
         }
         </nav>

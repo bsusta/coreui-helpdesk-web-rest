@@ -154,10 +154,12 @@
     text-overflow: ellipsis;
 }
 
-.sidebar .nav-dropdown.open .nav-dropdown-toggle {
-	background: $sidebar-nav-dropdown-toggle-open !important;
+.sidebar .nav-dropdown.open{
+	background-color: inherit;
 }
-
+.sidebar .nav-link.active{
+	background-color: inherit;	
+}
 //Main
 .main {
 	background-color: $main-bg-color;

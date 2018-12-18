@@ -1145,12 +1145,7 @@ class EditTask extends Component {
                               className="btn-link btn uploadButton"
                               style={{paddingLeft:0}}
                               >
-<<<<<<< HEAD
                                 {'+ '+i18n.t("attachment")}
-=======
-                              <i class="fa fa-plus mr-2 "></i>
-                                {i18n.t("addAttachment")}
->>>>>>> 706af5b7bf061773124dd39dcd158f5eb6028698
                             </label>
                             {this.props.attachments.map((item,index) => (
                               <span
